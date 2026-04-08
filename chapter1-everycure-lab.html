@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 1: EveryCure Knowledge Graph — MIS 432</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; color: #333; }
+
+  nav { background: #1a1a2e; padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+  .nav-brand { color: #fff; font-size: 15px; font-weight: 700; text-decoration: none; }
+  .nav-links { display: flex; gap: 1.25rem; align-items: center; }
+  .nav-links a { color: #a0aec0; font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: #fff; }
+  .nav-badge { background: #533483; color: #e9d8fd; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+
+  .hero { background: linear-gradient(135deg, #2d1b69 0%, #0f3460 100%); padding: 3rem 2rem 2.5rem; }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+  .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #a78bfa; margin-bottom: 0.75rem; }
+  .hero h1 { font-size: 30px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 0.75rem; }
+  .hero-sub { font-size: 15px; color: #c4b5fd; max-width: 640px; line-height: 1.65; margin-bottom: 1.25rem; }
+  .hero-tools { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .tool-badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+
+  .doc { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin: 1.5rem 0; }
+  .overview-card { background: #fff; border-radius: 8px; padding: 1rem; border: 1px solid #e2e8f0; text-align: center; }
+  .overview-icon { font-size: 20px; margin-bottom: 0.4rem; }
+  .overview-label { font-size: 12px; color: #718096; margin-bottom: 0.25rem; }
+  .overview-val { font-size: 14px; font-weight: 700; color: #1a1a2e; }
+
+  h2 { font-size: 20px; font-weight: 700; color: #1a1a2e; margin: 2rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 2px solid #7c3aed; }
+  h3 { font-size: 16px; font-weight: 700; color: #1a1a2e; margin: 1.5rem 0 0.5rem; }
+  p { font-size: 15px; line-height: 1.75; color: #444; margin-bottom: 0.9rem; }
+  ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+  li { font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 0.4rem; }
+  strong { color: #111; font-weight: 700; }
+
+  .step-card { background: #fff; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 1.5rem; overflow: hidden; }
+  .step-header { background: linear-gradient(90deg, #2d1b69, #533483); padding: 1rem 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+  .step-num { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.15); color: #fff; font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-title { font-size: 15px; font-weight: 700; color: #fff; }
+  .step-body { padding: 1.25rem; }
+
+  .prompt-box { background: #1e1b4b; border-radius: 8px; padding: 1rem 1.25rem; margin: 1rem 0; }
+  .prompt-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #a78bfa; margin-bottom: 0.5rem; }
+  .prompt-text { font-size: 13px; color: #e0e7ff; line-height: 1.7; font-family: monospace; white-space: pre-wrap; }
+
+  .reflect-box { background: #faf5ff; border-left: 4px solid #7c3aed; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1rem 0; }
+  .reflect-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #7c3aed; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .reflect-text { font-size: 14px; color: #444; line-height: 1.6; }
+
+  .insight-box { background: #fffbeb; border-left: 4px solid #d97706; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1rem 0; }
+  .insight-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #d97706; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .insight-text { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+
+  .factory-row { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin: 1rem 0; }
+  .factory-step { background: #ede9fe; border: 1px solid #c4b5fd; border-radius: 6px; padding: 0.45rem 0.85rem; font-size: 13px; font-weight: 700; color: #5b21b6; }
+  .factory-arrow { font-size: 14px; color: #a0aec0; }
+
+  .submit-box { background: #f0fdf4; border: 2px solid #16a34a; border-radius: 10px; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+  .submit-label { font-size: 13px; font-weight: 700; color: #16a34a; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.75rem; }
+  .submit-box ul { margin-left: 1.25rem; }
+  .submit-box li { font-size: 14px; color: #444; margin-bottom: 0.3rem; }
+
+  .chapter-nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-top: 1px solid #e2e8f0; margin-top: 2rem; flex-wrap: wrap; gap: 0.75rem; }
+  .chapter-nav a { font-size: 14px; color: #7c3aed; text-decoration: none; font-weight: 700; }
+
+  footer { background: #1a1a2e; padding: 1.5rem 2rem; text-align: center; }
+  footer p { font-size: 13px; color: #4a5568; }
+  footer a { color: #a78bfa; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 432 · AI in Business</a>
+  <div class="nav-links">
+    <span class="nav-badge">Lab 1</span>
+    <a href="chapter1-everycure.html">← Case Study</a>
+    <a href="chapter2-netflix.html">Chapter 2</a>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Lab 1 · EveryCure · Knowledge Graphs</div>
+    <h1>Build a Knowledge Graph &amp;<br>Drug Repurposing System</h1>
+    <p class="hero-sub">In this lab you will build a simplified version of EveryCure's AI system — storing drug-disease-target relationships, finding connections, and scoring potential repurposing opportunities. No prior coding experience required.</p>
+    <div class="hero-tools">
+      <span class="tool-badge">Claude AI</span>
+      <span class="tool-badge">Google Colab</span>
+      <span class="tool-badge">Python</span>
+      <span class="tool-badge">GitHub Pages</span>
+    </div>
+  </div>
+</div>
+
+<div class="doc">
+
+  <div class="overview-grid">
+    <div class="overview-card"><div class="overview-icon">🔬</div><div class="overview-label">What you build</div><div class="overview-val">A drug repurposing AI</div></div>
+    <div class="overview-card"><div class="overview-icon">🤖</div><div class="overview-label">Coding tool</div><div class="overview-val">Claude + Colab</div></div>
+    <div class="overview-card"><div class="overview-icon">🌐</div><div class="overview-label">You publish</div><div class="overview-val">GitHub Pages site</div></div>
+    <div class="overview-card"><div class="overview-icon">📚</div><div class="overview-label">Prior coding needed</div><div class="overview-val">None</div></div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-label">How to use Claude in this lab</div>
+    <div class="insight-text">Use Claude as a tutor, not a contractor. When you ask for code, also ask for an explanation. If something doesn't make sense, ask Claude to explain it differently. The goal is understanding, not just working code.</div>
+  </div>
+
+  <h2>Overview</h2>
+  <p>In the EveryCure case, we saw how AI can help discover new uses for existing drugs by connecting information about drugs, diseases, and biological targets in a large knowledge graph. In this lab, you will build a very small version of that idea.</p>
+  <p>You will use Claude to generate beginner-friendly Python code and Google Colab to run it. Your system will store relationships between drugs, diseases, and biological targets, find shared connections, and suggest possible repurposing opportunities.</p>
+
+  <p>This lab follows the AI Factory:</p>
+  <div class="factory-row">
+    <div class="factory-step">Data</div>
+    <div class="factory-arrow">→</div>
+    <div class="factory-step">Model</div>
+    <div class="factory-arrow">→</div>
+    <div class="factory-step">Prediction</div>
+    <div class="factory-arrow">→</div>
+    <div class="factory-step">Decision</div>
+    <div class="factory-arrow">→</div>
+    <div class="factory-step">Value</div>
+  </div>
+
+  <h2>Tools</h2>
+  <ul>
+    <li><strong>Claude (free or paid):</strong> <a href="https://claude.ai" target="_blank" style="color:#7c3aed;">claude.ai</a></li>
+    <li><strong>Google Colab:</strong> <a href="https://colab.research.google.com" target="_blank" style="color:#7c3aed;">colab.research.google.com</a></li>
+    <li><strong>GitHub:</strong> <a href="https://github.com" target="_blank" style="color:#7c3aed;">github.com</a></li>
+  </ul>
+  <p>Create a new notebook in Colab before starting.</p>
+
+  <h2>What You Will Build</h2>
+  <p>A tiny system that:</p>
+  <ul>
+    <li>Stores drugs and what diseases they already treat</li>
+    <li>Stores biological targets linked to drugs and diseases</li>
+    <li>Finds shared targets between drugs and new diseases</li>
+    <li>Suggests possible repurposed uses with a score</li>
+    <li>Shows results in a user-friendly way</li>
+  </ul>
+
+  <!-- STEP 1 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div class="step-title">Generate a Tiny EveryCure System</div>
+    </div>
+    <div class="step-body">
+      <p>Go to Claude and paste this prompt:</p>
+      <div class="prompt-box">
+        <div class="prompt-label">Claude prompt</div>
+        <div class="prompt-text">Write beginner-friendly Python code for a tiny EveryCure-style system.
+
+Include:
+- a small list of drugs
+- the disease each drug already treats
+- biological targets affected by each drug
+- biological targets linked to diseases
+
+Use dictionaries. Do not use emojis.
+
+Write code that finds possible drug-disease matches when they share a biological target.
+
+Keep the code simple and explain it step by step.</div>
+      </div>
+      <p>Copy the code into Google Colab and run it. You should see possible matches printed.</p>
+      <div class="reflect-box">
+        <div class="reflect-label">What this represents</div>
+        <div class="reflect-text">This is the beginning of your knowledge graph: <strong>Drug → Target → Disease</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div class="step-title">Understand the Knowledge Graph</div>
+    </div>
+    <div class="step-body">
+      <p>Ask Claude to explain the structure of what you just built:</p>
+      <div class="prompt-box">
+        <div class="prompt-label">Claude prompt</div>
+        <div class="prompt-text">Explain how this program acts like a tiny knowledge graph. Explain in simple terms for a beginner.</div>
+      </div>
+      <p>Write a few sentences answering:</p>
+      <ul>
+        <li>What are the nodes?</li>
+        <li>What are the connections (edges)?</li>
+        <li>Why do the connections matter for finding drug repurposing opportunities?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div class="step-title">Add a Simple Scoring Model</div>
+    </div>
+    <div class="step-body">
+      <p>Real EveryCure doesn't just show matches — it scores them. Ask Claude to add scoring:</p>
+      <div class="prompt-box">
+        <div class="prompt-label">Claude prompt</div>
+        <div class="prompt-text">Modify the code so each drug-disease pair gets a score based on how many biological targets they share. Print the score for each match. Keep the code simple and explain the changes.</div>
+      </div>
+      <p>Run the updated code.</p>
+      <div class="reflect-box">
+        <div class="reflect-label">What this represents in the AI Factory</div>
+        <div class="reflect-text">
+          Data → connections between drugs and targets<br>
+          Model → the scoring rule<br>
+          Prediction → the score<br>
+          Decision → which match looks most promising
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div class="step-title">Show Drug Repurposing Clearly</div>
+    </div>
+    <div class="step-body">
+      <p>Now make the output look like a real decision tool. Ask Claude:</p>
+      <div class="prompt-box">
+        <div class="prompt-label">Claude prompt</div>
+        <div class="prompt-text">Modify the code so the output is user friendly.
+
+For each match, print:
+- Drug name
+- Disease the drug already treats
+- New disease it may treat
+- Shared biological target
+- Score
+- A short explanation sentence
+
+Example:
+Drug: DrugA
+Currently used for: Disease1
+May be repurposed for: Disease2
+Shared target: TargetX
+Score: 1
+Explanation: DrugA may help treat Disease2 because both are connected to TargetX.
+
+Keep the code beginner friendly and explain what changed.</div>
+      </div>
+      <p>Run the code. Your system should now clearly show repurposing candidates.</p>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">5</div>
+      <div class="step-title">Expand the System</div>
+    </div>
+    <div class="step-body">
+      <p>Add more data to your knowledge graph:</p>
+      <div class="prompt-box">
+        <div class="prompt-label">Claude prompt</div>
+        <div class="prompt-text">Help me add one more drug, one more disease, and one more biological target to this system. Keep the code simple. Explain the changes as if I were a 9th grader.</div>
+      </div>
+      <p>Run again. You should see new matches appear based on the expanded data.</p>
+    </div>
+  </div>
+
+  <!-- STEP 6 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">6</div>
+      <div class="step-title">Publish Your System on GitHub Pages</div>
+    </div>
+    <div class="step-body">
+      <p>In this course, you will sometimes create small systems using generative AI. Publishing them on GitHub lets you show your work to employers and classmates.</p>
+
+      <h3>Step 6.1 — Create a GitHub Account</h3>
+      <p>Go to <a href="https://github.com" target="_blank" style="color:#7c3aed;">github.com</a> and create a free account if you don't already have one.</p>
+
+      <h3>Step 6.2 — Ask Claude to Create Your Website</h3>
+      <div class="prompt-box">
+        <div class="prompt-label">Claude prompt</div>
+        <div class="prompt-text">Please make a user-friendly website for my EveryCure-style system.
+
+The page should include:
+- Title
+- Description of the system
+- Example output
+- Explanation of how the system finds drug repurposing matches
+
+Keep it simple and beginner-friendly.</div>
+      </div>
+
+      <h3>Step 6.3 — Add the Website to GitHub</h3>
+      <ol>
+        <li>Open GitHub and create a new repository</li>
+        <li>Name it something like <strong>everycure-drug-repurposing-system</strong></li>
+        <li>Turn on README, then create the repository</li>
+        <li>Click <strong>Add File → Create new file</strong></li>
+        <li>Name the file <strong>index.html</strong></li>
+        <li>Copy and paste the code from Claude and click <strong>Commit Changes</strong></li>
+        <li>Go to <strong>Settings → Pages</strong></li>
+        <li>Under Branch, click <strong>main</strong>, make sure /root is enabled, and click <strong>Save</strong></li>
+        <li>Wait a minute — your URL will appear under Pages. Save it.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- STEP 7 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">7</div>
+      <div class="step-title">Connect Back to the EveryCure Business Case</div>
+    </div>
+    <div class="step-body">
+      <p>Answer these questions in writing:</p>
+      <ul>
+        <li>How is your system similar to EveryCure?</li>
+        <li>How is it simpler? What is missing?</li>
+        <li>Why is a knowledge graph useful for this kind of problem?</li>
+        <li>Why is this hard for humans to do manually?</li>
+        <li>What real data would EveryCure need that your system doesn't have?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- STEP 8 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">8</div>
+      <div class="step-title">Map to the AI Factory</div>
+    </div>
+    <div class="step-body">
+      <p>Fill in the AI Factory for your system and explain each step in 1–2 sentences:</p>
+      <div class="factory-row">
+        <div class="factory-step">Data →</div>
+        <div class="factory-step">Model →</div>
+        <div class="factory-step">Prediction →</div>
+        <div class="factory-step">Decision →</div>
+        <div class="factory-step">Value</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 9 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">9</div>
+      <div class="step-title">Reflection on Using Generative AI</div>
+    </div>
+    <div class="step-body">
+      <p>Answer these questions about your experience using Claude as a coding partner:</p>
+      <ul>
+        <li>How did Claude help you in this lab?</li>
+        <li>What did you understand well by the end?</li>
+        <li>What was still confusing?</li>
+        <li>Did Claude ever give you code that didn't work or was hard to understand? What did you do?</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="submit-box">
+    <div class="submit-label">What to Submit</div>
+    <ul>
+      <li>Your GitHub Pages URL (the live website)</li>
+      <li>Answers to the questions in Steps 7, 8, and 9</li>
+    </ul>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="chapter1-everycure.html">← Back to Case Study</a>
+    <a href="chapter2-netflix.html">Chapter 2: Netflix →</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>MIS 432 · AI in Business · Western Washington University · <a href="index.html">Back to Course Home</a></p>
+</footer>
+
+</body>
+</html>

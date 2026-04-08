@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 1: Knowledge Graphs & AI Prediction — EveryCure | MIS 432</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; color: #333; }
+
+  nav { background: #1a1a2e; padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+  .nav-brand { color: #fff; font-size: 15px; font-weight: 700; text-decoration: none; }
+  .nav-links { display: flex; gap: 1.25rem; align-items: center; }
+  .nav-links a { color: #a0aec0; font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: #fff; }
+  .nav-badge { background: #533483; color: #e9d8fd; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+
+  .hero { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); padding: 3.5rem 2rem 3rem; }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+  .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #a78bfa; margin-bottom: 0.75rem; }
+  .hero h1 { font-size: 34px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 0.75rem; }
+  .hero-sub { font-size: 16px; color: #c4b5fd; max-width: 640px; line-height: 1.65; margin-bottom: 1.5rem; }
+  .hero-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .hero-meta span { font-size: 13px; color: #a78bfa; }
+  .hero-meta strong { color: #fff; }
+  .hero-nav { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+  .btn { display: inline-block; padding: 0.55rem 1.2rem; border-radius: 6px; font-size: 13px; font-weight: 700; text-decoration: none; }
+  .btn-purple { background: #7c3aed; color: #fff; }
+  .btn-outline { background: transparent; border: 1.5px solid rgba(255,255,255,0.4); color: #fff; }
+  .btn:hover { opacity: 0.85; }
+
+  .doc { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin: 1.5rem 0; }
+  .stat-card { background: #fff; border-radius: 8px; padding: 1rem; text-align: center; border: 1px solid #e2e8f0; }
+  .stat-num { font-size: 22px; font-weight: 800; color: #533483; }
+  .stat-label { font-size: 12px; color: #718096; margin-top: 3px; }
+
+  h2 { font-size: 20px; font-weight: 700; color: #1a1a2e; margin: 2rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 2px solid #533483; }
+  h3 { font-size: 16px; font-weight: 700; color: #1a1a2e; margin: 1.5rem 0 0.5rem; }
+  p { font-size: 15px; line-height: 1.75; color: #444; margin-bottom: 0.9rem; }
+  ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+  li { font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 0.3rem; }
+  strong { color: #111; font-weight: 700; }
+
+  .section-num { display: inline-block; background: #533483; color: #fff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-right: 6px; vertical-align: middle; }
+
+  .concept-box { background: #f5f3ff; border-left: 4px solid #7c3aed; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .concept-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #7c3aed; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .concept-term { font-size: 15px; font-weight: 700; color: #1a1a2e; margin-bottom: 0.3rem; }
+  .concept-def { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+
+  .insight-box { background: #fffbeb; border-left: 4px solid #d97706; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .insight-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #d97706; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .insight-text { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+
+  .danger-box { background: #fff5f5; border-left: 4px solid #c53030; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .danger-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #c53030; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .danger-text { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+
+  .pipeline-row { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin: 1rem 0 1.5rem; }
+  .pipe-step { background: #f5f3ff; border: 1px solid #c4b5fd; border-radius: 6px; padding: 0.5rem 0.9rem; font-size: 13px; font-weight: 700; color: #5b21b6; }
+  .pipe-arrow { font-size: 14px; color: #a0aec0; }
+  .pipe-loop { background: #ede9fe; border: 1px solid #7c3aed; border-radius: 6px; padding: 0.5rem 0.9rem; font-size: 13px; font-weight: 700; color: #7c3aed; }
+
+  .factory-table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 13px; }
+  .factory-table th { background: #2d1b69; color: #fff; font-weight: 700; padding: 10px 12px; text-align: left; }
+  .factory-table td { padding: 9px 12px; border-bottom: 1px solid #e2e8f0; vertical-align: top; color: #444; line-height: 1.5; }
+  .factory-table tr:nth-child(even) td { background: #faf5ff; }
+  .step-badge { display: inline-block; background: #7c3aed; color: #fff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.75rem; margin: 1rem 0 1.5rem; }
+  .vocab-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.8rem 1rem; }
+  .vocab-term { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 0.25rem; }
+  .vocab-def { font-size: 13px; color: #555; line-height: 1.55; }
+
+  .discussion-list { counter-reset: dq; list-style: none; margin: 0 0 1rem; padding: 0; }
+  .discussion-list li { counter-increment: dq; padding: 0.7rem 0.7rem 0.7rem 2.5rem; position: relative; border-bottom: 1px solid #e2e8f0; font-size: 15px; color: #444; line-height: 1.65; }
+  .discussion-list li::before { content: counter(dq); position: absolute; left: 0.5rem; top: 0.75rem; background: #7c3aed; color: #fff; font-size: 11px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+  .toc { background: #f5f3ff; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 2rem; border: 1px solid #ddd6fe; }
+  .toc-title { font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #7c3aed; margin-bottom: 0.6rem; }
+  .toc a { display: block; font-size: 14px; color: #444; text-decoration: none; padding: 3px 0; }
+  .toc a:hover { color: #7c3aed; }
+
+  .chapter-nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-top: 1px solid #e2e8f0; margin-top: 2rem; flex-wrap: wrap; gap: 0.75rem; }
+  .chapter-nav a { font-size: 14px; color: #7c3aed; text-decoration: none; font-weight: 700; }
+  .chapter-nav a:hover { text-decoration: underline; }
+
+  hr { border: none; border-top: 1px solid #e2e8f0; margin: 2rem 0; }
+  footer { background: #1a1a2e; padding: 1.5rem 2rem; text-align: center; }
+  footer p { font-size: 13px; color: #4a5568; }
+  footer a { color: #a78bfa; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 432 · AI in Business</a>
+  <div class="nav-links">
+    <span class="nav-badge">Chapter 1</span>
+    <a href="chapter1-everycure-lab.html">Lab 1 →</a>
+    <a href="chapter2-netflix.html">Chapter 2</a>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Chapter 1 · Healthcare AI · Knowledge Graphs</div>
+    <h1>Knowledge Graphs &amp; AI Prediction:<br>How EveryCure Finds Hidden Treatments</h1>
+    <p class="hero-sub">There may already be a drug that cures your disease. Nobody has found it yet. EveryCure is using AI to change that — and their approach reveals one of the most important patterns in all of machine learning.</p>
+    <div class="hero-meta">
+      <span><strong>Company:</strong> EveryCure</span>
+      <span><strong>Industry:</strong> Healthcare / Biotech</span>
+      <span><strong>Core concept:</strong> Knowledge graphs &amp; AI prediction</span>
+    </div>
+    <div class="hero-nav">
+      <a href="chapter1-everycure-lab.html" class="btn btn-purple">Go to Lab 1 →</a>
+      <a href="index.html" class="btn btn-outline">← All Chapters</a>
+    </div>
+  </div>
+</div>
+
+<div style="background:#fff; padding: 1rem 2rem; border-bottom: 1px solid #e2e8f0;">
+  <div style="max-width:860px; margin:0 auto; display:flex; gap:1rem; flex-wrap:wrap; align-items:center;">
+    <span style="font-size:13px; color:#718096;">Also in this chapter:</span>
+    <a href="chapter1-everycure-lab.html" style="font-size:13px; color:#7c3aed; text-decoration:none; font-weight:700;">Lab 1: Build a Knowledge Graph in Python →</a>
+  </div>
+</div>
+
+<div class="doc">
+
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <a href="#s1">1. Company Background</a>
+    <a href="#s2">2. The Challenge: Too Many Possibilities</a>
+    <a href="#s3">3. The EveryCure Approach</a>
+    <a href="#s4">4. The Knowledge Graph</a>
+    <a href="#s5">5. The AI Factory: Data to Value</a>
+    <a href="#s6">6. Why This Problem Requires AI</a>
+    <a href="#s7">7. Risks and Limitations</a>
+    <a href="#s8">8. Summary Table &amp; Discussion Questions</a>
+  </div>
+
+  <h2 id="s1"><span class="section-num">1</span> Company Background</h2>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">7,000+</div><div class="stat-label">Rare diseases with no treatment</div></div>
+    <div class="stat-card"><div class="stat-num">20,000+</div><div class="stat-label">Approved drugs worldwide</div></div>
+    <div class="stat-card"><div class="stat-num">$2.6B</div><div class="stat-label">Average cost to develop a new drug</div></div>
+    <div class="stat-card"><div class="stat-num">10–15 yrs</div><div class="stat-label">Average drug development timeline</div></div>
+    <div class="stat-card"><div class="stat-num">Nonprofit</div><div class="stat-label">Organization type</div></div>
+  </div>
+
+  <p>EveryCure is a nonprofit organization founded on a deceptively simple premise: many patients suffer from diseases that could already be treated with existing drugs — but nobody has discovered the connection yet. The problem is not that medicine lacks the tools. The problem is that the space of possible drug-disease combinations is so large that humans cannot search it systematically.</p>
+
+  <p>There are more than 20,000 approved drugs in the world and thousands of known diseases. The number of possible combinations between them runs into the tens of millions. Traditional drug discovery addresses this by starting with one disease, identifying its biological mechanisms, and searching for a compound that might interfere with those mechanisms. This process typically takes 10 to 15 years and costs billions of dollars — and it focuses on new molecular entities, not existing drugs.</p>
+
+  <p>EveryCure takes a different approach entirely. Rather than developing new drugs from scratch, the organization searches for new uses for drugs that already exist. This is called <strong>drug repurposing</strong> — and it has a powerful economic logic: repurposed drugs already have known safety profiles, manufacturing processes, and regulatory histories. If a match can be found, the path to patient treatment is dramatically shorter and cheaper than developing a new compound.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">Why this matters</div>
+    <div class="insight-text">EveryCure's founders believe that many patients suffer not because treatments do not exist, but because no one has systematically searched for them. AI makes that systematic search possible for the first time.</div>
+  </div>
+
+  <h2 id="s2"><span class="section-num">2</span> The Challenge: Too Many Possibilities</h2>
+
+  <p>The core problem EveryCure faces is one of scale. There are thousands of approved drugs and thousands of diseases. The number of possible drug-disease pairs is enormous. Evaluating each possibility one at a time — even with a large team of researchers — would take centuries. And that assumes researchers know which combinations are worth investigating in the first place.</p>
+
+  <p>Traditional research is not designed for this kind of search. A scientist studying Parkinson's disease becomes deeply expert in the biology of Parkinson's. They are unlikely to notice that a drug approved for a gastrointestinal condition also affects a protein implicated in neurodegeneration — unless they happen to read the right paper at the right time. The knowledge exists. The connection is just invisible without a system designed to find it.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">The "needle in a haystack" problem in AI</div>
+    <div class="concept-def">Many of the most valuable applications of AI involve searching through a very large space of possibilities to find the few that matter. This is called a combinatorial search problem. The number of possible drug-disease combinations in EveryCure's system is far too large for humans to evaluate manually — but machine learning models can score all of them simultaneously, identifying the most promising candidates for human researchers to investigate. Recognizing when a problem has this structure — large possibility space, complex relationships, need for repeated evaluation — is one of the core skills in AI strategy.</div>
+  </div>
+
+  <p>The data EveryCure needs to solve this problem is not missing. It exists scattered across scientific research articles, clinical trial databases, drug registries, genetic databases, protein interaction data, and electronic health records. The challenge is connecting it — and then reasoning across those connections at scale.</p>
+
+  <h2 id="s3"><span class="section-num">3</span> The EveryCure Approach</h2>
+
+  <p>EveryCure built an AI platform designed to search for possible connections between drugs and diseases. Rather than guessing randomly or relying on a researcher's intuition, the system analyzes large datasets and produces a score for each possible drug-disease pair — an estimate of how likely that drug is to help treat that condition.</p>
+
+  <p>Researchers can then focus their experimental work on the most promising possibilities: the pairs with the highest scores, the most supporting biological evidence, and the strongest structural logic. The AI does not replace the scientist. It tells the scientist where to look.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Drug repurposing</div>
+    <div class="concept-def">Drug repurposing (also called drug repositioning) is the process of identifying new therapeutic uses for drugs that are already approved for other conditions. Because repurposed drugs have already passed safety trials, the path from discovery to patient treatment is much shorter than developing a new drug from scratch. Famous examples include aspirin (originally for pain, now used for cardiovascular prevention) and thalidomide (notorious for birth defects, now used to treat certain cancers under strict controls). AI makes repurposing vastly more systematic by allowing researchers to search the entire space of drug-disease combinations simultaneously.</div>
+  </div>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Human-in-the-loop AI</div>
+    <div class="concept-def">In many AI systems, particularly in high-stakes domains like healthcare, the model generates predictions but humans make the final decisions. This is called a human-in-the-loop design. EveryCure's system suggests which drug-disease combinations are worth investigating, but researchers decide what to actually test. This design reflects a fundamental principle: AI systems are most trustworthy when their outputs are treated as inputs to human judgment rather than final answers. The higher the stakes of a wrong decision, the more important it is to keep humans in the loop.</div>
+  </div>
+
+  <h2 id="s4"><span class="section-num">4</span> The Knowledge Graph</h2>
+
+  <p>To organize the vast amount of biomedical information it uses, EveryCure represents data as a network of connected concepts called a <strong>knowledge graph</strong>. In this graph, different types of information are linked together: drugs, diseases, genes, proteins, symptoms, and biological pathways. Rather than storing these as separate tables of data, the knowledge graph stores the <em>relationships</em> between them.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Knowledge graph</div>
+    <div class="concept-def">A knowledge graph is a data structure that stores information as a network of nodes (entities) and edges (relationships between them). Nodes might represent drugs, diseases, genes, or proteins. Edges represent relationships: "Drug A affects Protein B," "Protein B is associated with Disease C," "Disease C shares a biological pathway with Disease D." Knowledge graphs are powerful for AI because they allow a model to reason across many types of information simultaneously — finding indirect connections that would be invisible if each dataset were stored separately. Google's search engine, Meta's social network, and medical AI systems like EveryCure all rely on knowledge graph structures.</div>
+  </div>
+
+  <p>For example, a drug may affect a protein, that protein may be associated with a disease, and two diseases may share similar biological mechanisms. By connecting these pieces of information, the system can identify relationships that are not obvious when looking at each dataset separately. A drug approved to treat diabetes might, through a chain of biological connections, be relevant to a rare neurological condition — a connection no human researcher would be likely to discover through traditional literature review.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Graph-based machine learning</div>
+    <div class="concept-def">Traditional machine learning models work on tabular data — rows and columns. Graph-based ML models work on network data, learning patterns from the structure of connections between nodes rather than from individual data points in isolation. In EveryCure's system, a graph neural network can learn that "drugs connected to proteins that are connected to diseases via pathway X tend to be therapeutic candidates." These patterns are invisible to a tabular model but naturally captured by a graph model. Graph ML is increasingly important in drug discovery, fraud detection, social network analysis, and supply chain optimization.</div>
+  </div>
+
+  <h2 id="s5"><span class="section-num">5</span> The AI Factory: Data to Value</h2>
+
+  <p>EveryCure's approach follows the same underlying pattern that appears in nearly every powerful AI application. Understanding this pattern — the AI Factory — is the central skill this course is designed to build.</p>
+
+  <div class="pipeline-row">
+    <div class="pipe-step">Data</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Model</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Prediction</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Decision</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Value</div>
+  </div>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">The AI Factory model</div>
+    <div class="concept-def">The AI Factory is a framework for understanding how organizations convert raw data into business value using machine learning. It describes a five-step loop: Data (collect and structure relevant information), Model (train a system to learn patterns from that data), Prediction (use the trained model to generate outputs for new cases), Decision (translate those predictions into actions), and Value (measure the business or social outcome). The loop is continuous — every decision generates new data that improves the next model. Organizations that build this loop well develop compounding advantages over time.</div>
+  </div>
+
+  <p>In EveryCure's system, the loop works as follows:</p>
+  <ul>
+    <li><strong>Data:</strong> EveryCure collects biomedical data from many sources — research articles, clinical trials, drug databases, genetic data, protein interaction networks — and organizes it in a knowledge graph.</li>
+    <li><strong>Model:</strong> Machine learning models analyze the graph, looking for patterns that link drugs, diseases, and biological mechanisms in ways that suggest therapeutic potential.</li>
+    <li><strong>Prediction:</strong> The system produces a score for each drug-disease pair — an estimate of how likely that drug is to have therapeutic value for that condition.</li>
+    <li><strong>Decision:</strong> Researchers review the highest-scoring predictions and decide which combinations to pursue in laboratory and clinical testing.</li>
+    <li><strong>Value:</strong> If a new treatment is validated, patients benefit directly. Research costs decrease. And the results of testing feed back into the model, improving future predictions.</li>
+  </ul>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Supervised learning in prediction systems</div>
+    <div class="concept-def">EveryCure's scoring model is an example of supervised learning: the system is trained on known drug-disease relationships (cases where a drug is already known to treat a disease) and learns to predict which unknown pairs are likely to have a similar relationship. The model learns from labeled examples — "this combination works, this one doesn't" — and generalizes that learning to combinations that have never been tested. The quality of the predictions depends directly on the quality and completeness of the labeled training data.</div>
+  </div>
+
+  <h2 id="s6"><span class="section-num">6</span> Why This Problem Requires AI</h2>
+
+  <p>Not every business problem needs machine learning. But EveryCure's problem has several characteristics that make it exceptionally well-suited for AI:</p>
+
+  <ul>
+    <li><strong>Very large amounts of data</strong> — millions of research papers, clinical records, and biological databases</li>
+    <li><strong>Many possible decisions</strong> — tens of millions of drug-disease combinations to evaluate</li>
+    <li><strong>Complex relationships between variables</strong> — indirect biological connections spanning multiple data types</li>
+    <li><strong>Patterns that are difficult for humans to see</strong> — connections visible only at the level of the whole network</li>
+    <li><strong>Decisions that must be repeated many times</strong> — every new drug or disease discovery creates new combinations to evaluate</li>
+  </ul>
+
+  <div class="insight-box">
+    <div class="insight-label">Business lesson</div>
+    <div class="insight-text">AI systems are most valuable in situations where the number of possibilities is too large for people to evaluate manually, where patterns exist across multiple data sources, and where the same type of decision needs to be made repeatedly at scale. EveryCure checks every one of these boxes. Learning to recognize this pattern in other industries is one of the most transferable skills in this course.</div>
+  </div>
+
+  <h2 id="s7"><span class="section-num">7</span> Risks and Limitations</h2>
+
+  <p>Although AI can help identify possible treatments, it does not guarantee correct answers. Predictions depend on the quality of the data and the assumptions built into the model. A knowledge graph built from published research inherits all the biases of published research — diseases that have received more funding and attention will have more data, making the model more accurate for those conditions and potentially less accurate for rare or understudied diseases.</p>
+
+  <div class="danger-box">
+    <div class="danger-label">Important limitation</div>
+    <div class="danger-text">In healthcare, mistakes can have serious consequences. A false positive — a drug incorrectly predicted to treat a disease — could waste years of research funding and, in the worst case, harm patients if it advances to clinical testing. This is why EveryCure's human-in-the-loop design is not just a technical choice — it is an ethical requirement. The model suggests. Humans decide. The higher the stakes, the more important that distinction becomes.</div>
+  </div>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Data bias in AI systems</div>
+    <div class="concept-def">An AI model is only as good as the data it was trained on. If the training data over-represents certain diseases, populations, or research traditions, the model will perform better in those areas and worse in others. In biomedical AI, this means conditions that affect wealthy populations or have received significant research funding tend to have richer data and produce more accurate models. Rare diseases, conditions affecting developing-world populations, and historically underfunded research areas may produce weaker predictions — even though these are often the areas where AI assistance is most needed. Recognizing data bias is a core responsibility of anyone deploying AI in a real-world setting.</div>
+  </div>
+
+  <h2 id="s8"><span class="section-num">8</span> Summary Table &amp; Discussion Questions</h2>
+
+  <h3>AI Factory model: EveryCure mapped</h3>
+  <table class="factory-table">
+    <thead>
+      <tr><th>Step</th><th>EveryCure example</th><th>Business purpose</th><th>Key ML concept</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="step-badge">Data</span></td><td>Research articles, clinical trials, drug databases, protein networks organized in a knowledge graph</td><td>Create a unified view of biomedical knowledge that no single dataset provides</td><td>Knowledge graphs; data integration</td></tr>
+      <tr><td><span class="step-badge">Model</span></td><td>Graph neural network trained on known drug-disease relationships</td><td>Learn patterns linking drugs, targets, and diseases</td><td>Graph-based ML; supervised learning</td></tr>
+      <tr><td><span class="step-badge">Prediction</span></td><td>Score for each drug-disease pair indicating therapeutic likelihood</td><td>Prioritize which combinations are worth investigating</td><td>Scoring models; combinatorial search</td></tr>
+      <tr><td><span class="step-badge">Decision</span></td><td>Researchers select top-scored pairs for laboratory and clinical testing</td><td>Focus expensive human research on highest-probability candidates</td><td>Human-in-the-loop AI</td></tr>
+      <tr><td><span class="step-badge">Value</span></td><td>New treatments discovered faster and cheaper than traditional drug development</td><td>Patient benefit; reduced research cost; scientific progress</td><td>AI governance; feedback loops</td></tr>
+    </tbody>
+  </table>
+
+  <h3>ML vocabulary introduced in this chapter</h3>
+  <div class="vocab-grid">
+    <div class="vocab-card"><div class="vocab-term">Drug repurposing</div><div class="vocab-def">Finding new uses for already-approved drugs</div></div>
+    <div class="vocab-card"><div class="vocab-term">Knowledge graph</div><div class="vocab-def">A network of nodes (entities) and edges (relationships)</div></div>
+    <div class="vocab-card"><div class="vocab-term">Graph-based ML</div><div class="vocab-def">Learning patterns from network structure, not just tabular data</div></div>
+    <div class="vocab-card"><div class="vocab-term">Supervised learning</div><div class="vocab-def">Training on labeled examples to predict outcomes</div></div>
+    <div class="vocab-card"><div class="vocab-term">Human-in-the-loop AI</div><div class="vocab-def">AI suggests, humans make the final decision</div></div>
+    <div class="vocab-card"><div class="vocab-term">Combinatorial search</div><div class="vocab-def">Searching a very large space of possible combinations</div></div>
+    <div class="vocab-card"><div class="vocab-term">Data bias</div><div class="vocab-def">Model performance skewed by unrepresentative training data</div></div>
+    <div class="vocab-card"><div class="vocab-term">The AI Factory</div><div class="vocab-def">Data → Model → Prediction → Decision → Value loop</div></div>
+  </div>
+
+  <h3>Discussion questions</h3>
+  <ol class="discussion-list">
+    <li><strong>What problem is EveryCure trying to solve?</strong> Why is this problem difficult for humans to solve without AI? What specific characteristics make it well-suited for machine learning?</li>
+    <li><strong>What is a knowledge graph?</strong> In your own words, explain why organizing biomedical data as a graph is more powerful than storing it as separate spreadsheets or databases.</li>
+    <li><strong>Map the AI Factory:</strong> Walk through each step — Data, Model, Prediction, Decision, Value — using EveryCure as your example. Which step do you think creates the most business value, and why?</li>
+    <li><strong>Human-in-the-loop design:</strong> EveryCure's AI suggests treatments but humans decide what to test. Is this the right design? At what point, if ever, should AI be allowed to make the final call in a healthcare context?</li>
+    <li><strong>Data bias in healthcare AI:</strong> EveryCure's model is trained on published research. What diseases or populations might be underrepresented in that data? What are the consequences of that bias for the model's predictions?</li>
+    <li><strong>How is this similar to AI in business?</strong> EveryCure uses the same AI Factory pattern as Netflix, Spotify, and Amazon. Pick one of those companies and explain how their system mirrors EveryCure's — and where they differ.</li>
+    <li><strong>The AI Factory in your industry:</strong> Choose an industry you are interested in and describe what a knowledge graph might look like in that space. What would the nodes be? What would the edges represent? What could the model predict?</li>
+  </ol>
+
+  <div class="chapter-nav">
+    <a href="index.html">← Back to All Chapters</a>
+    <a href="chapter1-everycure-lab.html">Lab 1: Build a Knowledge Graph in Python →</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>MIS 432 · AI in Business · Western Washington University · <a href="index.html">Back to Course Home</a></p>
+</footer>
+
+</body>
+</html>

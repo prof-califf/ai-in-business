@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 2: A/B Testing & Experimentation — Netflix | MIS 432</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; color: #333; }
+
+  nav { background: #141414; padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+  .nav-brand { color: #fff; font-size: 15px; font-weight: 700; text-decoration: none; }
+  .nav-links { display: flex; gap: 1.25rem; align-items: center; }
+  .nav-links a { color: #a0a0a0; font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: #fff; }
+  .nav-badge { background: #e50914; color: #fff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+
+  .hero { background: linear-gradient(135deg, #141414 0%, #2d0000 60%, #e50914 100%); padding: 3.5rem 2rem 3rem; }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+  .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #fc8181; margin-bottom: 0.75rem; }
+  .hero h1 { font-size: 34px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 0.75rem; }
+  .hero-sub { font-size: 16px; color: #fca5a5; max-width: 640px; line-height: 1.65; margin-bottom: 1.5rem; }
+  .hero-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .hero-meta span { font-size: 13px; color: #fc8181; }
+  .hero-meta strong { color: #fff; }
+  .hero-nav { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+  .btn { display: inline-block; padding: 0.55rem 1.2rem; border-radius: 6px; font-size: 13px; font-weight: 700; text-decoration: none; }
+  .btn-red { background: #e50914; color: #fff; }
+  .btn-outline { background: transparent; border: 1.5px solid rgba(255,255,255,0.4); color: #fff; }
+  .btn:hover { opacity: 0.85; }
+
+  .doc { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin: 1.5rem 0; }
+  .stat-card { background: #fff; border-radius: 8px; padding: 1rem; text-align: center; border: 1px solid #e2e8f0; }
+  .stat-num { font-size: 22px; font-weight: 800; color: #e50914; }
+  .stat-label { font-size: 12px; color: #718096; margin-top: 3px; }
+
+  h2 { font-size: 20px; font-weight: 700; color: #141414; margin: 2rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 2px solid #e50914; }
+  h3 { font-size: 16px; font-weight: 700; color: #1a1a2e; margin: 1.5rem 0 0.5rem; }
+  p { font-size: 15px; line-height: 1.75; color: #444; margin-bottom: 0.9rem; }
+  ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+  li { font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 0.3rem; }
+  strong { color: #111; font-weight: 700; }
+  em { font-style: italic; }
+
+  .section-num { display: inline-block; background: #e50914; color: #fff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-right: 6px; vertical-align: middle; }
+
+  .concept-box { background: #fff5f5; border-left: 4px solid #e50914; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .concept-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #c53030; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .concept-term { font-size: 15px; font-weight: 700; color: #1a1a1a; margin-bottom: 0.3rem; }
+  .concept-def { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+
+  .insight-box { background: #fffbeb; border-left: 4px solid #d97706; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .insight-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #d97706; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .insight-text { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+
+  .pipeline-row { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin: 1rem 0 1.5rem; }
+  .pipe-step { background: #fff5f5; border: 1px solid #fc8181; border-radius: 6px; padding: 0.5rem 0.9rem; font-size: 13px; font-weight: 700; color: #c53030; }
+  .pipe-arrow { font-size: 14px; color: #a0aec0; }
+
+  .factory-table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 13px; }
+  .factory-table th { background: #141414; color: #fff; font-weight: 700; padding: 10px 12px; text-align: left; }
+  .factory-table td { padding: 9px 12px; border-bottom: 1px solid #e2e8f0; vertical-align: top; color: #444; line-height: 1.5; }
+  .factory-table tr:nth-child(even) td { background: #fff5f5; }
+  .step-badge { display: inline-block; background: #e50914; color: #fff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.75rem; margin: 1rem 0 1.5rem; }
+  .vocab-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.8rem 1rem; }
+  .vocab-term { font-size: 13px; font-weight: 700; color: #1a1a1a; margin-bottom: 0.25rem; }
+  .vocab-def { font-size: 13px; color: #555; line-height: 1.55; }
+
+  .discussion-list { counter-reset: dq; list-style: none; margin: 0 0 1rem; padding: 0; }
+  .discussion-list li { counter-increment: dq; padding: 0.7rem 0.7rem 0.7rem 2.5rem; position: relative; border-bottom: 1px solid #e2e8f0; font-size: 15px; color: #444; line-height: 1.65; }
+  .discussion-list li::before { content: counter(dq); position: absolute; left: 0.5rem; top: 0.75rem; background: #e50914; color: #fff; font-size: 11px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+  .toc { background: #fff5f5; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 2rem; border: 1px solid #fca5a5; }
+  .toc-title { font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #e50914; margin-bottom: 0.6rem; }
+  .toc a { display: block; font-size: 14px; color: #444; text-decoration: none; padding: 3px 0; }
+  .toc a:hover { color: #e50914; }
+
+  .chapter-nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-top: 1px solid #e2e8f0; margin-top: 2rem; flex-wrap: wrap; gap: 0.75rem; }
+  .chapter-nav a { font-size: 14px; color: #e50914; text-decoration: none; font-weight: 700; }
+
+  hr { border: none; border-top: 1px solid #e2e8f0; margin: 2rem 0; }
+  footer { background: #141414; padding: 1.5rem 2rem; text-align: center; }
+  footer p { font-size: 13px; color: #4a4a4a; }
+  footer a { color: #fc8181; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 432 · AI in Business</a>
+  <div class="nav-links">
+    <span class="nav-badge">Chapter 2</span>
+    <a href="chapter2-netflix-lab.html">Lab 2 →</a>
+    <a href="chapter3-spotify.html">Chapter 3</a>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Chapter 2 · Experimentation &amp; A/B Testing</div>
+    <h1>A/B Testing &amp; Experimentation:<br>How Netflix Decides What You See</h1>
+    <p class="hero-sub">Netflix has 300 million subscribers and 90 seconds to hook each one. The image you see for a show might be completely different from what your roommate sees — and that difference is the product of a machine learning system running thousands of experiments simultaneously.</p>
+    <div class="hero-meta">
+      <span><strong>Company:</strong> Netflix</span>
+      <span><strong>Industry:</strong> Streaming / Entertainment</span>
+      <span><strong>Core concept:</strong> A/B testing &amp; the prediction-decision gap</span>
+    </div>
+    <div class="hero-nav">
+      <a href="chapter2-netflix-lab.html" class="btn btn-red">Go to Lab 2 →</a>
+      <a href="index.html" class="btn btn-outline">← All Chapters</a>
+    </div>
+  </div>
+</div>
+
+<div style="background:#fff; padding: 1rem 2rem; border-bottom: 1px solid #e2e8f0;">
+  <div style="max-width:860px; margin:0 auto; display:flex; gap:1rem; flex-wrap:wrap; align-items:center;">
+    <span style="font-size:13px; color:#718096;">Also in this chapter:</span>
+    <a href="chapter2-netflix-lab.html" style="font-size:13px; color:#e50914; text-decoration:none; font-weight:700;">Lab 2: Build a Netflix-Style A/B Test in Python →</a>
+  </div>
+</div>
+
+<div class="doc">
+
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <a href="#s1">1. Company Background</a>
+    <a href="#s2">2. Experimentation in AI Systems</a>
+    <a href="#s3">3. The Netflix Artwork Problem</a>
+    <a href="#s4">4. The Role of Artwork in User Decision-Making</a>
+    <a href="#s5">5. From Intuition to Data-Driven Decision-Making</a>
+    <a href="#s6">6. The Prediction-Decision Gap</a>
+    <a href="#s7">7. Experimentation as a Decision System</a>
+    <a href="#s8">8. The Short Game: A Proof of Concept</a>
+    <a href="#s9">9. Scaling Experimentation: Explore and Exploit</a>
+    <a href="#s10">10. The AI Factory: From Data to Value</a>
+    <a href="#s11">11. Summary Table &amp; Discussion Questions</a>
+  </div>
+
+  <h2 id="s1"><span class="section-num">1</span> Company Background</h2>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">1997</div><div class="stat-label">Founded (DVD-by-mail)</div></div>
+    <div class="stat-card"><div class="stat-num">300M+</div><div class="stat-label">Subscribers worldwide</div></div>
+    <div class="stat-card"><div class="stat-num">190+</div><div class="stat-label">Countries</div></div>
+    <div class="stat-card"><div class="stat-num">90 sec</div><div class="stat-label">Window to capture user attention</div></div>
+    <div class="stat-card"><div class="stat-num">~80%</div><div class="stat-label">Content watched via recommendation</div></div>
+  </div>
+
+  <p>Founded in 1997 as a DVD-by-mail rental service, Netflix has grown into one of the world's largest entertainment companies with over 300 million subscribers across more than 190 countries. The company made a pivotal shift to online streaming in 2007 and has since expanded into original content production, releasing thousands of films and series under its own banner.</p>
+
+  <p>What sets Netflix apart from traditional media companies is its deep commitment to using data to drive decisions. Rather than relying on intuition or industry convention, Netflix has built a culture where nearly every major business decision is informed by what the data says — from what content to recommend to individual users, to what original shows to invest in, to how content is visually presented on screen.</p>
+
+  <p>Central to this approach is personalization. No two Netflix users have quite the same experience. The platform continuously learns from user behavior — what people watch, skip, or abandon — and uses those insights to tailor each user's experience. It is estimated that the majority of content people watch on Netflix comes not from searching, but from the platform's recommendations.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">Strategic context</div>
+    <div class="insight-text">Supporting Netflix's personalization strategy is a strong culture of experimentation. Netflix rarely assumes something works — it tests it. By constantly running experiments and measuring real user behavior, the company makes confident, evidence-based decisions rather than educated guesses. This is the context for the artwork case that follows.</div>
+  </div>
+
+  <h2 id="s2"><span class="section-num">2</span> Experimentation in AI Systems</h2>
+
+  <p>In many AI applications, organizations face a fundamental challenge: they do not know in advance which decision, design, or intervention will produce the best outcome. While AI models can generate predictions — such as what a user might click or prefer — those predictions do not automatically translate into effective decisions.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">A/B testing</div>
+    <div class="concept-def">A/B testing is a form of controlled experimentation in which users are randomly assigned to two or more groups, each of which sees a different version of a product, feature, or design. By measuring outcomes across groups, organizations can isolate the causal effect of a specific change. A/B testing transforms decision-making from intuition-driven to evidence-based. It is used at massive scale across digital products — Netflix, Google, Amazon, and Spotify all run thousands of simultaneous A/B tests. The key word is causal: random assignment ensures that any difference in outcomes is due to the thing being tested, not to differences between the users.</div>
+  </div>
+
+  <p>Experimentation can be understood as a core component of the AI development process. It connects data and models to actual business outcomes. Predictions suggest what might happen, but experimentation reveals what does happen when those predictions are acted upon. In this sense, experimentation is not separate from AI — it is a key mechanism through which organizations learn how to create value from AI capabilities.</p>
+
+  <h2 id="s3"><span class="section-num">3</span> The Netflix Artwork Problem</h2>
+
+  <p>When a user opens Netflix, they are immediately presented with a grid of content options — movies, shows, and recommendations tailored to their preferences. But this moment is fleeting. Internal analysis at Netflix suggests that if a user does not find something engaging within roughly 90 seconds, they are likely to abandon the session entirely.</p>
+
+  <p>This creates a fundamental challenge: how can Netflix help users quickly identify content they want to watch? From an AI and business perspective, this is a <strong>decision problem under uncertainty</strong>: Netflix must decide what to show users without knowing in advance what they will choose.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Narrow AI</div>
+    <div class="concept-def">Netflix's artwork system is a useful example of narrow AI — also called weak AI or task-specific AI. It is purpose-built to solve one problem: which image will make a user most likely to click on a title. It does not reason broadly or generalize across domains. It does one thing, and it does it at massive scale across hundreds of millions of users. Most commercial AI systems are narrow in this sense. The term "general AI" refers to a system that can reason across any domain — this does not yet exist at human level. Understanding this distinction helps you evaluate AI claims realistically: when a company says they "use AI," they almost always mean narrow AI applied to specific decisions.</div>
+  </div>
+
+  <h2 id="s4"><span class="section-num">4</span> The Role of Artwork in User Decision-Making</h2>
+
+  <p>When users browse Netflix, they rarely begin by reading descriptions or ratings. Instead, they rely on visual cues. Users tend to look at the artwork first and then decide whether to explore further. This insight reframes the role of artwork entirely:</p>
+
+  <ul>
+    <li>It is not simply decorative or promotional</li>
+    <li>It directly influences whether a user clicks on a title</li>
+    <li>It serves as a visual signal that helps users rapidly evaluate whether content is relevant to them</li>
+  </ul>
+
+  <p>In AI terms, the artwork is part of the <strong>user interface layer of a decision system</strong> — it shapes how information is presented and interpreted, which in turn shapes user behavior and therefore the data the system learns from.</p>
+
+  <h2 id="s5"><span class="section-num">5</span> From Intuition to Data-Driven Decision-Making</h2>
+
+  <p>Historically, Netflix relied on images provided by studios — posters or DVD cover art. These images were not optimized for Netflix's interface, where users quickly scan many options across many devices. As Netflix shifted toward data-driven decision-making, it also shifted toward <strong>automation</strong>: rather than asking a human designer to choose the best image for each title, Netflix built a system that tests options at scale and deploys the best performer without human intervention.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Automation vs. augmentation in AI</div>
+    <div class="concept-def">AI systems can either automate decisions (the machine makes the final call without human review) or augment human decisions (the machine provides information or recommendations that a human uses to decide). Netflix's artwork system is largely automated — it runs experiments, measures outcomes, and deploys winning images without a designer approving each decision. EveryCure's system, by contrast, is augmenting: the model suggests drug-disease matches, but researchers decide what to test. The right design depends on the stakes of errors, the speed required, and the availability of human expertise. Neither approach is universally better.</div>
+  </div>
+
+  <h2 id="s6"><span class="section-num">6</span> The Prediction-Decision Gap</h2>
+
+  <p>A machine learning model can tell you that a user is likely to click on a certain type of image — but that prediction alone does not tell you which specific image to show. There is always a gap between what a model predicts and what an organization should actually do.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">The prediction-decision gap</div>
+    <div class="concept-def">Machine learning models generate predictions — estimates of probability or expected outcomes. But predictions are not decisions. A model might predict that 35% of users will click on Image A and 40% will click on Image B — but should you show everyone Image B? What if Image B performs better on average but Image A resonates more strongly with certain user segments? What if the difference is within the margin of statistical noise? The gap between "the model predicts X" and "we should do Y" is the prediction-decision gap, and closing it is one of the most important — and most underappreciated — challenges in applied AI. Experimentation is Netflix's primary tool for closing that gap.</div>
+  </div>
+
+  <p>Experimentation is how Netflix closes the prediction-decision gap. Rather than acting directly on model predictions, Netflix tests those predictions in the real world and uses the results to make confident, evidence-based decisions at scale.</p>
+
+  <h2 id="s7"><span class="section-num">7</span> Experimentation as a Decision System</h2>
+
+  <p>To determine which artwork leads to better user outcomes, Netflix implemented A/B testing. In a typical experiment:</p>
+  <ul>
+    <li>Users are randomly assigned to different groups (e.g., Artwork A vs. Artwork B)</li>
+    <li>Each group sees a different version of the same title</li>
+    <li>Netflix measures outcomes such as click-through rate, viewing duration, and completion rates</li>
+  </ul>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Randomization and causal inference</div>
+    <div class="concept-def">The power of A/B testing comes from random assignment. If users are not randomly assigned to groups, any difference in outcomes might reflect differences between the users themselves rather than the effect of the artwork. For example, if Image B were shown to users who already tend to watch more, it would appear to perform better — but that would be a measurement artifact, not a real effect. Random assignment ensures that the two groups are statistically equivalent in all other ways, so any measured difference in outcomes can be causally attributed to the artwork itself. This is causal inference — determining not just correlation but actual cause and effect.</div>
+  </div>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Statistical significance</div>
+    <div class="concept-def">When you observe that Image B has a higher click-through rate than Image A in an experiment, there are two possible explanations: Image B is genuinely better, or the difference is just random noise — it would disappear if you ran the experiment again. Statistical significance is a measure of how likely the observed difference is to be real rather than due to chance. A result is typically called statistically significant when there is less than a 5% probability that the difference occurred randomly. Without statistical significance testing, organizations risk making large-scale changes based on meaningless noise in their data.</div>
+  </div>
+
+  <h2 id="s8"><span class="section-num">8</span> The Short Game: A Proof of Concept</h2>
+
+  <p>To test whether artwork meaningfully affects user behavior, Netflix conducted a focused experiment on a single title: <em>The Short Game</em>, a documentary about young children competing in golf tournaments.</p>
+
+  <p>The original artwork did not clearly communicate that the film was about children. Netflix developed several alternative versions that more clearly highlighted the central theme, then conducted a controlled experiment — different users were randomly shown different versions, and Netflix measured click-through rate, viewing duration, and completion behavior.</p>
+
+  <p>The results showed that certain versions of the artwork significantly increased engagement. Images that made the subject of the film more immediately recognizable broadened the audience for the title. This experiment served as an early proof of concept — demonstrating that artwork is not just aesthetic, it is a lever for influencing behavior — and justified scaling the approach across the entire platform.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Feature representation in ML</div>
+    <div class="concept-def">In the context of Netflix's artwork system, the artwork acts as a representation of the content. Changing it changes how users perceive and evaluate the title. In ML terms, the artwork is a feature — an input variable that influences a predicted outcome (click probability). When Netflix tests different images, it is essentially testing different feature representations of the same underlying content object. The insight that "which image you show" is a feature that can be optimized is what turned artwork selection from a creative decision into a machine learning problem.</div>
+  </div>
+
+  <h2 id="s9"><span class="section-num">9</span> Scaling Experimentation: Explore and Exploit</h2>
+
+  <p>As Netflix expanded its artwork optimization approach, it introduced a structured experimentation strategy built around a fundamental tradeoff that appears in nearly every AI recommendation system:</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">The explore/exploit tradeoff</div>
+    <div class="concept-def">The explore/exploit tradeoff describes the tension between two competing objectives in any learning system. Exploration means trying new options to gather information — showing users different artwork to learn which performs best. Exploitation means using what you already know works — showing the proven best-performing artwork to maximize immediate engagement. Pure exploration wastes engagement on options you already know are worse. Pure exploitation prevents you from ever discovering something better. Netflix manages this tradeoff by running structured experiments (explore phase) and then deploying winning variants at scale (exploit phase). The same tradeoff appears in Spotify's recommendation system, Google's ad auctions, and virtually every other AI system that must balance learning with performance.</div>
+  </div>
+
+  <h2 id="s10"><span class="section-num">10</span> The AI Factory: From Data to Value</h2>
+
+  <p>The Netflix artwork case can be understood through the same AI Factory framework that structures every chapter in this course:</p>
+
+  <div class="pipeline-row">
+    <div class="pipe-step">Data</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Model</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Prediction</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Decision</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Value</div>
+  </div>
+
+  <ul>
+    <li><strong>Data:</strong> Netflix collects impressions (when an image appears on screen), clicks, and viewing behavior — duration, completion, abandonment — for each artwork variant shown to each user.</li>
+    <li><strong>Model:</strong> Statistical comparisons of performance across variants, metrics such as click-through rate, and experimental design logic. More advanced versions use ML models to predict which images will perform well before running full experiments.</li>
+    <li><strong>Prediction:</strong> The system estimates which artwork is likely to generate higher engagement — which version will lead to more clicks, longer viewing, or more completed content.</li>
+    <li><strong>Decision:</strong> Based on these predictions and experimental results, Netflix decides which artwork to show to future users, when to replace existing images, and when enough evidence has been collected to act.</li>
+    <li><strong>Value:</strong> Increased user engagement, faster content discovery, and higher total viewing time. Netflix found that optimizing artwork did not simply shift viewing from one title to another — it increased <em>overall</em> engagement across the platform.</li>
+  </ul>
+
+  <div class="insight-box">
+    <div class="insight-label">Key insight</div>
+    <div class="insight-text">Competitive advantage often comes not from a single model, but from a system that continuously learns and improves decisions. Data is constantly collected, experiments continuously generate new insights, and decisions are updated based on evidence. This is the AI Factory in action — and it is why Netflix's artwork system gets better over time while a single static algorithm would not.</div>
+  </div>
+
+  <h2 id="s11"><span class="section-num">11</span> Summary Table &amp; Discussion Questions</h2>
+
+  <h3>AI Factory model: Netflix mapped</h3>
+  <table class="factory-table">
+    <thead>
+      <tr><th>Step</th><th>Netflix example</th><th>Business purpose</th><th>Key ML concept</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="step-badge">Data</span></td><td>Impressions, clicks, viewing duration, completion rates per artwork variant</td><td>Build a behavioral dataset that captures user response to different visual signals</td><td>Implicit signals; behavioral data</td></tr>
+      <tr><td><span class="step-badge">Model</span></td><td>Statistical comparison of CTR across variants; ML models predicting image performance</td><td>Identify which artwork features predict engagement</td><td>A/B testing; feature representation</td></tr>
+      <tr><td><span class="step-badge">Prediction</span></td><td>Expected CTR and viewing behavior for each artwork option</td><td>Estimate which image will perform best before full deployment</td><td>Causal inference; statistical significance</td></tr>
+      <tr><td><span class="step-badge">Decision</span></td><td>Deploy winning artwork at scale; replace underperforming images</td><td>Close the prediction-decision gap with evidence-based action</td><td>Prediction-decision gap; automation</td></tr>
+      <tr><td><span class="step-badge">Value</span></td><td>Higher engagement, better content discovery, increased overall viewing time</td><td>Improve subscriber retention and platform stickiness</td><td>Explore/exploit tradeoff; feedback loop</td></tr>
+    </tbody>
+  </table>
+
+  <h3>ML vocabulary introduced in this chapter</h3>
+  <div class="vocab-grid">
+    <div class="vocab-card"><div class="vocab-term">A/B testing</div><div class="vocab-def">Controlled experiment comparing two variants with random assignment</div></div>
+    <div class="vocab-card"><div class="vocab-term">Narrow AI</div><div class="vocab-def">AI purpose-built for one specific task</div></div>
+    <div class="vocab-card"><div class="vocab-term">Prediction-decision gap</div><div class="vocab-def">The gap between what a model predicts and what to actually do</div></div>
+    <div class="vocab-card"><div class="vocab-term">Randomization</div><div class="vocab-def">Random group assignment enabling causal inference</div></div>
+    <div class="vocab-card"><div class="vocab-term">Statistical significance</div><div class="vocab-def">Confidence that observed differences are real, not noise</div></div>
+    <div class="vocab-card"><div class="vocab-term">Click-through rate (CTR)</div><div class="vocab-def">Proportion of users who click after seeing a stimulus</div></div>
+    <div class="vocab-card"><div class="vocab-term">Explore/exploit tradeoff</div><div class="vocab-def">Balancing learning new options vs. using what works</div></div>
+    <div class="vocab-card"><div class="vocab-term">Automation vs. augmentation</div><div class="vocab-def">Machine decides vs. machine assists human decision</div></div>
+    <div class="vocab-card"><div class="vocab-term">Feature representation</div><div class="vocab-def">How an input variable encodes information for a model</div></div>
+    <div class="vocab-card"><div class="vocab-term">Causal inference</div><div class="vocab-def">Determining cause-and-effect, not just correlation</div></div>
+  </div>
+
+  <h3>Discussion questions</h3>
+  <ol class="discussion-list">
+    <li><strong>Narrow vs. general AI:</strong> Netflix's artwork system is narrow AI — it does one thing very well. What are the limits of this? What decisions adjacent to artwork selection would require a different type of system?</li>
+    <li><strong>The prediction-decision gap:</strong> A model predicts that Image B will get more clicks than Image A. Walk through all the reasons you might still not switch to Image B. What additional information would you want?</li>
+    <li><strong>Automation vs. augmentation:</strong> Netflix automated artwork selection — humans no longer approve each image. Is this appropriate? What could go wrong, and how would you design a safeguard?</li>
+    <li><strong>Experimentation ethics:</strong> Netflix experiments on users continuously without their explicit awareness. Given what we know about AI ethics and decision-making, is this acceptable? Where do you draw the line between acceptable testing and manipulation?</li>
+    <li><strong>Walk the AI Factory:</strong> Using Netflix's artwork system, identify which step in the AI Factory you think creates the most value. Defend your answer with specific evidence from the case.</li>
+    <li><strong>Explore vs. exploit:</strong> Netflix must balance showing proven artwork (exploit) vs. testing new options (explore). How would you design the policy for when to explore vs. exploit? What variables would inform that decision?</li>
+    <li><strong>Connection to EveryCure:</strong> Both EveryCure and Netflix use the AI Factory pattern. What is fundamentally different about the human-in-the-loop design in each case? Why do you think Netflix automates but EveryCure does not?</li>
+  </ol>
+
+  <div class="chapter-nav">
+    <a href="chapter1-everycure.html">← Chapter 1: EveryCure</a>
+    <a href="chapter2-netflix-lab.html">Lab 2: Build a Netflix A/B Test →</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>MIS 432 · AI in Business · Western Washington University · <a href="index.html">Back to Course Home</a></p>
+</footer>
+
+</body>
+</html>

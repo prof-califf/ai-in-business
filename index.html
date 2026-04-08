@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI in Business — MIS 432 | Western Washington University</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; color: #333; }
+
+  /* NAV */
+  nav { background: #1a1a2e; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+  .nav-brand { color: #fff; font-size: 16px; font-weight: 700; letter-spacing: 0.03em; }
+  .nav-brand span { color: #63b3ed; }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a { color: #a0aec0; font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: #fff; }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); padding: 5rem 2rem 4rem; text-align: center; }
+  .hero-tag { display: inline-block; background: rgba(99,179,237,0.15); border: 1px solid rgba(99,179,237,0.4); color: #63b3ed; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 1rem; border-radius: 20px; margin-bottom: 1.5rem; }
+  .hero h1 { font-size: 48px; font-weight: 800; color: #fff; line-height: 1.15; margin-bottom: 1rem; }
+  .hero h1 span { color: #63b3ed; }
+  .hero-sub { font-size: 20px; color: #a0aec0; max-width: 620px; margin: 0 auto 1.5rem; line-height: 1.6; }
+  .hero-tagline { font-size: 15px; color: #63b3ed; font-style: italic; margin-bottom: 2.5rem; }
+  .hero-meta { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; }
+  .hero-meta-item { text-align: center; }
+  .hero-meta-num { font-size: 28px; font-weight: 800; color: #fff; }
+  .hero-meta-label { font-size: 12px; color: #718096; margin-top: 2px; }
+
+  /* ABOUT */
+  .about { background: #fff; padding: 3rem 2rem; }
+  .about-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  .about h2 { font-size: 26px; font-weight: 700; color: #1a1a2e; margin-bottom: 1rem; }
+  .about p { font-size: 15px; color: #555; line-height: 1.75; margin-bottom: 0.9rem; }
+  .about-features { display: flex; flex-direction: column; gap: 0.75rem; }
+  .feature-item { display: flex; align-items: flex-start; gap: 0.75rem; background: #f7fafc; border-radius: 8px; padding: 0.85rem 1rem; }
+  .feature-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+  .feature-icon.blue { background: #ebf8ff; color: #2b6cb0; }
+  .feature-icon.green { background: #f0fff4; color: #276749; }
+  .feature-icon.purple { background: #faf5ff; color: #6b46c1; }
+  .feature-text strong { font-size: 14px; color: #1a1a2e; display: block; margin-bottom: 2px; }
+  .feature-text span { font-size: 13px; color: #718096; }
+
+  /* HOW IT WORKS */
+  .how { background: #f7fafc; padding: 3rem 2rem; }
+  .how-inner { max-width: 900px; margin: 0 auto; }
+  .section-label { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #63b3ed; margin-bottom: 0.5rem; }
+  .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin-bottom: 0.5rem; }
+  .section-sub { font-size: 15px; color: #718096; margin-bottom: 2rem; }
+  .how-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .how-step { background: #fff; border-radius: 10px; padding: 1.5rem; border: 1px solid #e2e8f0; text-align: center; }
+  .how-step-num { width: 40px; height: 40px; border-radius: 50%; background: #1a1a2e; color: #fff; font-size: 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem; }
+  .how-step h4 { font-size: 15px; font-weight: 700; color: #1a1a2e; margin-bottom: 0.4rem; }
+  .how-step p { font-size: 13px; color: #718096; line-height: 1.6; }
+
+  /* CHAPTERS */
+  .chapters { background: #fff; padding: 3rem 2rem; }
+  .chapters-inner { max-width: 900px; margin: 0 auto; }
+  .chapter-card { border-radius: 12px; overflow: hidden; margin-bottom: 2rem; border: 1px solid #e2e8f0; }
+  .chapter-header { padding: 1.75rem 2rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .chapter-header-left { flex: 1; }
+  .chapter-num { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; opacity: 0.85; }
+  .chapter-header h3 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 0.3rem; line-height: 1.3; }
+  .chapter-company { font-size: 13px; opacity: 0.75; color: #fff; }
+  .chapter-links { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: flex-start; padding-top: 0.2rem; }
+  .btn { display: inline-block; padding: 0.5rem 1.1rem; border-radius: 6px; font-size: 13px; font-weight: 700; text-decoration: none; transition: opacity 0.15s; }
+  .btn:hover { opacity: 0.85; }
+  .btn-white { background: #fff; }
+  .btn-outline { background: transparent; border: 1.5px solid rgba(255,255,255,0.6); color: #fff; }
+  .chapter-body { background: #fff; padding: 1.25rem 2rem; display: flex; gap: 2rem; flex-wrap: wrap; border-top: 1px solid #e2e8f0; }
+  .chapter-body-col { flex: 1; min-width: 200px; }
+  .chapter-body-col h4 { font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #a0aec0; margin-bottom: 0.5rem; }
+  .chapter-body-col ul { list-style: none; padding: 0; }
+  .chapter-body-col li { font-size: 13px; color: #555; padding: 3px 0; padding-left: 1rem; position: relative; }
+  .chapter-body-col li::before { content: "→"; position: absolute; left: 0; color: #a0aec0; }
+
+  /* EveryCure colors */
+  .ec-header { background: linear-gradient(135deg, #0f3460, #533483); }
+  .ec-num { color: #a78bfa; }
+  /* Netflix colors */
+  .nf-header { background: linear-gradient(135deg, #141414, #e50914); }
+  .nf-num { color: #fc8181; }
+  /* Spotify colors */
+  .sp-header { background: linear-gradient(135deg, #191414, #1DB954); }
+  .sp-num { color: #6ee7b7; }
+
+  /* AI FACTORY */
+  .factory { background: #1a1a2e; padding: 3rem 2rem; }
+  .factory-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+  .factory h2 { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+  .factory-sub { font-size: 15px; color: #718096; margin-bottom: 2rem; }
+  .factory-steps { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+  .factory-step { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 0.85rem 1.25rem; text-align: center; min-width: 110px; }
+  .factory-step-name { font-size: 14px; font-weight: 700; color: #fff; }
+  .factory-step-desc { font-size: 11px; color: #718096; margin-top: 3px; }
+  .factory-arrow { color: #4a5568; font-size: 18px; }
+  .factory-note { font-size: 14px; color: #63b3ed; font-style: italic; }
+
+  /* FOOTER */
+  footer { background: #111827; padding: 2rem; text-align: center; }
+  footer p { font-size: 13px; color: #4a5568; }
+  footer a { color: #63b3ed; text-decoration: none; }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 32px; }
+    .about-inner { grid-template-columns: 1fr; }
+    .how-steps { grid-template-columns: 1fr; }
+    .chapter-header { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">MIS 432 <span>·</span> AI in Business</div>
+  <div class="nav-links">
+    <a href="#chapters">Chapters</a>
+    <a href="#about">About</a>
+    <a href="https://wwu.edu" target="_blank">WWU</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">MIS 432 · Western Washington University</div>
+  <h1>AI in Business:<br><span>Real Companies. Real Data. Real AI.</span></h1>
+  <p class="hero-sub">A free, case-based textbook that teaches machine learning and AI strategy through the companies that are actually doing it.</p>
+  <p class="hero-tagline">"Every chapter is a real company. Every concept is something you'll use."</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><div class="hero-meta-num">3</div><div class="hero-meta-label">Chapters</div></div>
+    <div class="hero-meta-item"><div class="hero-meta-num">3</div><div class="hero-meta-label">Hands-on Labs</div></div>
+    <div class="hero-meta-item"><div class="hero-meta-num">14+</div><div class="hero-meta-label">Key ML Concepts</div></div>
+    <div class="hero-meta-item"><div class="hero-meta-num">Free</div><div class="hero-meta-label">Always</div></div>
+  </div>
+</div>
+
+<div class="about" id="about">
+  <div class="about-inner">
+    <div>
+      <h2>What This Course Is About</h2>
+      <p>Most AI textbooks teach theory first and hope the business applications follow. This one does the opposite. Every chapter starts with a real company facing a real problem — and uses that story to teach the machine learning concepts that made their solution possible.</p>
+      <p>You will not just learn what a recommendation system is. You will understand why Spotify built one, how it works, what went wrong, and what the business consequences were. Then you will build a version of it yourself.</p>
+      <p>No prior programming experience is required. Each lab uses Claude to help you write and understand code step by step.</p>
+    </div>
+    <div class="about-features">
+      <div class="feature-item">
+        <div class="feature-icon blue">📖</div>
+        <div class="feature-text">
+          <strong>Case-first learning</strong>
+          <span>Every ML concept is introduced through a real company story</span>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon green">🔬</div>
+        <div class="feature-text">
+          <strong>Build it yourself</strong>
+          <span>Each chapter has a lab where you recreate the system in Python</span>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon purple">🤖</div>
+        <div class="feature-text">
+          <strong>AI-assisted coding</strong>
+          <span>Use Claude as a tutor and coding partner throughout every lab</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="how">
+  <div class="how-inner">
+    <div class="section-label">How Each Chapter Works</div>
+    <div class="section-title">Three parts. One big idea.</div>
+    <p class="section-sub">Every chapter follows the same structure so you always know what to expect.</p>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="how-step-num">1</div>
+        <h4>The Business Case</h4>
+        <p>Read about a real company solving a real problem with AI. Learn the ML concepts as they come up in the story.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">2</div>
+        <h4>The Concepts</h4>
+        <p>Key ML and AI vocabulary is introduced inline — right when you need it, not in a separate glossary.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">3</div>
+        <h4>The Lab</h4>
+        <p>Build a simplified version of the system in Python using Claude and Google Colab. Publish it on GitHub.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="factory">
+  <div class="factory-inner">
+    <div class="section-label" style="color:#63b3ed;">The Thread That Connects Every Chapter</div>
+    <h2>The AI Factory Model</h2>
+    <p class="factory-sub">Every company in this textbook follows the same underlying pattern. Learning to see it is the core skill of the course.</p>
+    <div class="factory-steps">
+      <div class="factory-step"><div class="factory-step-name">Data</div><div class="factory-step-desc">Collect &amp; structure</div></div>
+      <div class="factory-arrow">→</div>
+      <div class="factory-step"><div class="factory-step-name">Model</div><div class="factory-step-desc">Learn patterns</div></div>
+      <div class="factory-arrow">→</div>
+      <div class="factory-step"><div class="factory-step-name">Prediction</div><div class="factory-step-desc">Generate output</div></div>
+      <div class="factory-arrow">→</div>
+      <div class="factory-step"><div class="factory-step-name">Decision</div><div class="factory-step-desc">Take action</div></div>
+      <div class="factory-arrow">→</div>
+      <div class="factory-step"><div class="factory-step-name">Value</div><div class="factory-step-desc">Business outcome</div></div>
+      <div class="factory-arrow">→</div>
+      <div class="factory-step" style="border-color:rgba(99,179,237,0.4);"><div class="factory-step-name" style="color:#63b3ed;">↩ Loop</div><div class="factory-step-desc">Back to data</div></div>
+    </div>
+    <p class="factory-note">EveryCure uses it to find drug treatments. Netflix uses it to test artwork. Spotify uses it to personalize music. Same loop. Different industries.</p>
+  </div>
+</div>
+
+<div class="chapters" id="chapters">
+  <div class="chapters-inner">
+    <div class="section-label">Course Chapters</div>
+    <div class="section-title">Start Reading</div>
+    <p class="section-sub" style="margin-bottom:2rem;">Each chapter includes a business case, key ML concepts, and a hands-on lab.</p>
+
+    <!-- Chapter 1: EveryCure -->
+    <div class="chapter-card">
+      <div class="chapter-header ec-header">
+        <div class="chapter-header-left">
+          <div class="chapter-num ec-num">Chapter 1 · Healthcare AI</div>
+          <h3>Knowledge Graphs &amp; AI Prediction:<br>How EveryCure Finds Hidden Treatments</h3>
+          <div class="chapter-company">EveryCure · Drug repurposing · Knowledge graphs · The AI Factory</div>
+        </div>
+        <div class="chapter-links">
+          <a href="chapter1-everycure.html" class="btn btn-white" style="color:#0f3460;">Read Case →</a>
+          <a href="chapter1-everycure-lab.html" class="btn btn-outline">Lab 1</a>
+        </div>
+      </div>
+      <div class="chapter-body">
+        <div class="chapter-body-col">
+          <h4>ML Concepts</h4>
+          <ul>
+            <li>Knowledge graphs</li>
+            <li>The AI Factory model</li>
+            <li>Supervised learning</li>
+            <li>Graph-based prediction</li>
+            <li>Human-in-the-loop AI</li>
+          </ul>
+        </div>
+        <div class="chapter-body-col">
+          <h4>Business Topics</h4>
+          <ul>
+            <li>Drug repurposing</li>
+            <li>AI in healthcare</li>
+            <li>Data as infrastructure</li>
+            <li>Scaling research with AI</li>
+          </ul>
+        </div>
+        <div class="chapter-body-col">
+          <h4>In the Lab</h4>
+          <ul>
+            <li>Build a knowledge graph in Python</li>
+            <li>Score drug-disease matches</li>
+            <li>Publish results on GitHub Pages</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter 2: Netflix -->
+    <div class="chapter-card">
+      <div class="chapter-header nf-header">
+        <div class="chapter-header-left">
+          <div class="chapter-num nf-num">Chapter 2 · Experimentation &amp; Testing</div>
+          <h3>A/B Testing &amp; Experimentation:<br>How Netflix Decides What You See</h3>
+          <div class="chapter-company">Netflix · A/B testing · Experimentation · The prediction-decision gap</div>
+        </div>
+        <div class="chapter-links">
+          <a href="chapter2-netflix.html" class="btn btn-white" style="color:#141414;">Read Case →</a>
+          <a href="chapter2-netflix-lab.html" class="btn btn-outline">Lab 2</a>
+        </div>
+      </div>
+      <div class="chapter-body">
+        <div class="chapter-body-col">
+          <h4>ML Concepts</h4>
+          <ul>
+            <li>A/B testing</li>
+            <li>Randomization &amp; causal inference</li>
+            <li>Statistical significance</li>
+            <li>Explore vs. exploit</li>
+            <li>Prediction-decision gap</li>
+          </ul>
+        </div>
+        <div class="chapter-body-col">
+          <h4>Business Topics</h4>
+          <ul>
+            <li>Data-driven decision making</li>
+            <li>Automation vs. augmentation</li>
+            <li>Content discovery</li>
+            <li>Narrow AI in practice</li>
+          </ul>
+        </div>
+        <div class="chapter-body-col">
+          <h4>In the Lab</h4>
+          <ul>
+            <li>Simulate a Netflix-style A/B test</li>
+            <li>Calculate click-through rates</li>
+            <li>Run a statistical significance test</li>
+            <li>Publish case study on GitHub</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter 3: Spotify -->
+    <div class="chapter-card">
+      <div class="chapter-header sp-header">
+        <div class="chapter-header-left">
+          <div class="chapter-num sp-num">Chapter 3 · Recommendation Systems</div>
+          <h3>Recommendation Systems &amp; Personalization:<br>How Spotify Learns What You Love</h3>
+          <div class="chapter-company">Spotify · Collaborative filtering · Embeddings · AI governance</div>
+        </div>
+        <div class="chapter-links">
+          <a href="chapter3-spotify.html" class="btn btn-white" style="color:#191414;">Read Case →</a>
+          <a href="chapter3-spotify-lab.html" class="btn btn-outline">Lab 3</a>
+        </div>
+      </div>
+      <div class="chapter-body">
+        <div class="chapter-body-col">
+          <h4>ML Concepts</h4>
+          <ul>
+            <li>Recommendation engines</li>
+            <li>Collaborative filtering</li>
+            <li>Embeddings &amp; two-tower models</li>
+            <li>Training-serving skew</li>
+            <li>AI governance &amp; monitoring</li>
+          </ul>
+        </div>
+        <div class="chapter-body-col">
+          <h4>Business Topics</h4>
+          <ul>
+            <li>Personalization as strategy</li>
+            <li>Data moats</li>
+            <li>Silent AI failures</li>
+            <li>Compounding competitive advantage</li>
+          </ul>
+        </div>
+        <div class="chapter-body-col">
+          <h4>In the Lab</h4>
+          <ul>
+            <li>Build a recommendation system</li>
+            <li>Implement collaborative filtering</li>
+            <li>Generate a Wrapped-style summary</li>
+            <li>Recreate the training-serving gap</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>MIS 432 · AI in Business · Western Washington University · College of Business and Economics</p>
+  <p style="margin-top:0.5rem;"><a href="mailto:">Contact</a> · Free to use for educational purposes</p>
+</footer>
+
+</body>
+</html>

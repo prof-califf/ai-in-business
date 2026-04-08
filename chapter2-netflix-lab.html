@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 2: Netflix A/B Testing — MIS 432</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; color: #333; }
+
+  nav { background: #141414; padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+  .nav-brand { color: #fff; font-size: 15px; font-weight: 700; text-decoration: none; }
+  .nav-links { display: flex; gap: 1.25rem; align-items: center; }
+  .nav-links a { color: #a0a0a0; font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: #fff; }
+  .nav-badge { background: #e50914; color: #fff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+
+  .hero { background: linear-gradient(135deg, #141414 0%, #1a0000 100%); padding: 3rem 2rem 2.5rem; }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+  .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #fc8181; margin-bottom: 0.75rem; }
+  .hero h1 { font-size: 30px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 0.75rem; }
+  .hero-sub { font-size: 15px; color: #fca5a5; max-width: 640px; line-height: 1.65; margin-bottom: 1.25rem; }
+  .hero-tools { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .tool-badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+
+  .doc { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin: 1.5rem 0; }
+  .overview-card { background: #fff; border-radius: 8px; padding: 1rem; border: 1px solid #e2e8f0; text-align: center; }
+  .overview-icon { font-size: 20px; margin-bottom: 0.4rem; }
+  .overview-label { font-size: 12px; color: #718096; margin-bottom: 0.25rem; }
+  .overview-val { font-size: 14px; font-weight: 700; color: #1a1a1a; }
+
+  h2 { font-size: 20px; font-weight: 700; color: #141414; margin: 2rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 2px solid #e50914; }
+  h3 { font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 1.5rem 0 0.5rem; }
+  p { font-size: 15px; line-height: 1.75; color: #444; margin-bottom: 0.9rem; }
+  ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+  li { font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 0.4rem; }
+  strong { color: #111; font-weight: 700; }
+
+  .step-card { background: #fff; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 1.5rem; overflow: hidden; }
+  .step-header { background: linear-gradient(90deg, #1a0000, #e50914); padding: 1rem 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+  .step-num { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.15); color: #fff; font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-title { font-size: 15px; font-weight: 700; color: #fff; }
+  .step-body { padding: 1.25rem; }
+
+  .prompt-box { background: #1a0a0a; border-radius: 8px; padding: 1rem 1.25rem; margin: 1rem 0; }
+  .prompt-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #fc8181; margin-bottom: 0.5rem; }
+  .prompt-text { font-size: 13px; color: #fde8e8; line-height: 1.7; font-family: monospace; white-space: pre-wrap; }
+
+  .reflect-box { background: #fff5f5; border-left: 4px solid #e50914; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1rem 0; }
+  .reflect-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #c53030; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .reflect-text { font-size: 14px; color: #444; line-height: 1.6; }
+
+  .insight-box { background: #fffbeb; border-left: 4px solid #d97706; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1rem 0; }
+  .insight-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #d97706; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .insight-text { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+
+  .factory-row { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin: 1rem 0; }
+  .factory-step { background: #fff5f5; border: 1px solid #fc8181; border-radius: 6px; padding: 0.45rem 0.85rem; font-size: 13px; font-weight: 700; color: #c53030; }
+  .factory-arrow { font-size: 14px; color: #a0aec0; }
+
+  .weak-strong { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+  .weak-box { background: #fff5f5; border: 1px solid #fc8181; border-radius: 8px; padding: 0.9rem; }
+  .strong-box { background: #f0fff4; border: 1px solid #68d391; border-radius: 8px; padding: 0.9rem; }
+  .ws-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .ws-label.weak { color: #c53030; }
+  .ws-label.strong { color: #276749; }
+  .ws-text { font-size: 13px; color: #444; line-height: 1.6; font-family: monospace; }
+
+  .submit-box { background: #f0fdf4; border: 2px solid #16a34a; border-radius: 10px; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+  .submit-label { font-size: 13px; font-weight: 700; color: #16a34a; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.75rem; }
+  .submit-box ul { margin-left: 1.25rem; }
+  .submit-box li { font-size: 14px; color: #444; margin-bottom: 0.3rem; }
+
+  .chapter-nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-top: 1px solid #e2e8f0; margin-top: 2rem; flex-wrap: wrap; gap: 0.75rem; }
+  .chapter-nav a { font-size: 14px; color: #e50914; text-decoration: none; font-weight: 700; }
+
+  footer { background: #141414; padding: 1.5rem 2rem; text-align: center; }
+  footer p { font-size: 13px; color: #4a4a4a; }
+  footer a { color: #fc8181; text-decoration: none; }
+
+  @media (max-width: 580px) { .weak-strong { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 432 · AI in Business</a>
+  <div class="nav-links">
+    <span class="nav-badge">Lab 2</span>
+    <a href="chapter2-netflix.html">← Case Study</a>
+    <a href="chapter3-spotify.html">Chapter 3</a>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Lab 2 · Netflix · A/B Testing</div>
+    <h1>Build a Netflix-Style<br>A/B Experimentation System</h1>
+    <p class="hero-sub">Simulate Netflix's artwork experiment in Python — randomly assign users, measure click-through rates, test for statistical significance, and make a data-driven business recommendation.</p>
+    <div class="hero-tools">
+      <span class="tool-badge">Claude AI</span>
+      <span class="tool-badge">Google Colab</span>
+      <span class="tool-badge">Python + pandas</span>
+      <span class="tool-badge">GitHub Pages</span>
+    </div>
+  </div>
+</div>
+
+<div class="doc">
+
+  <div class="overview-grid">
+    <div class="overview-card"><div class="overview-icon">🎬</div><div class="overview-label">What you build</div><div class="overview-val">A/B testing system</div></div>
+    <div class="overview-card"><div class="overview-icon">👥</div><div class="overview-label">Simulated users</div><div class="overview-val">1,000</div></div>
+    <div class="overview-card"><div class="overview-icon">📊</div><div class="overview-label">You measure</div><div class="overview-val">CTR + significance</div></div>
+    <div class="overview-card"><div class="overview-icon">🌐</div><div class="overview-label">You publish</div><div class="overview-val">GitHub Pages site</div></div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-label">How to use Claude in this lab</div>
+    <div class="insight-text">Use Claude as both a coding assistant and a thinking partner. Do not just ask for code — ask for explanations, push back on answers you do not understand, and use Claude to help you think through the business logic. This is closer to how AI tools are actually used in professional settings.</div>
+  </div>
+
+  <h2>What Makes a Good Prompt?</h2>
+  <p>A good prompt to Claude includes three things: context (what you are doing and why), the task (what you want Claude to produce), and the output format (how you want it explained or presented).</p>
+
+  <div class="weak-strong">
+    <div class="weak-box">
+      <div class="ws-label weak">Weak prompt</div>
+      <div class="ws-text">"Write Python code for an A/B test."</div>
+    </div>
+    <div class="strong-box">
+      <div class="ws-label strong">Stronger prompt</div>
+      <div class="ws-text">"I am simulating a marketing experiment where two groups of customers see different versions of an ad. I want to randomly assign 500 customers to each group, simulate whether they click based on different probabilities, and store the results in a table. Can you write Python code that does this and explain each step in plain English?"</div>
+    </div>
+  </div>
+
+  <h2>Connection to the Netflix Case</h2>
+  <p>Your lab mirrors Netflix's real system:</p>
+  <ul>
+    <li>Netflix has real users; you will simulate users</li>
+    <li>Netflix shows different artwork variants; you will compare Version A and Version B</li>
+    <li>Netflix measures click behavior; you will calculate click-through rates</li>
+    <li>Netflix decides which image performs better; you will make that decision using data and statistical testing</li>
+  </ul>
+
+  <div class="factory-row">
+    <div class="factory-step">Data: impressions &amp; clicks</div>
+    <div class="factory-arrow">→</div>
+    <div class="factory-step">Model: compare variants</div>
+    <div class="factory-arrow">→</div>
+    <div class="factory-step">Prediction: which artwork wins</div>
+    <div class="factory-arrow">→</div>
+    <div class="factory-step">Decision: deploy at scale</div>
+    <div class="factory-arrow">→</div>
+    <div class="factory-step">Value: more engagement</div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div class="step-title">Understand the Business Problem</div>
+    </div>
+    <div class="step-body">
+      <p>Before writing any code, build a clear mental model of the business problem. This step has no coding — it is entirely about understanding. Use Claude as a thinking partner to deepen your understanding of the key concepts. Tell Claude what course you are in and ask for explanations in plain business terms, not technical jargon.</p>
+
+      <p>Write and reflect — answer these in your own words:</p>
+      <ul>
+        <li>What problem is Netflix trying to solve with artwork testing, and why does it matter for the business?</li>
+        <li>Why might different images lead to different user behavior?</li>
+        <li>Why is guessing not sufficient — what does experimentation give you that intuition cannot?</li>
+        <li>Is Netflix's artwork system an example of AI automating a decision or augmenting a human decision? What is the difference?</li>
+        <li>Netflix shifted artwork selection from human designers to a data-driven system. What do you think that shift changed — and was it entirely a good thing?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div class="step-title">Design the A/B Experiment</div>
+    </div>
+    <div class="step-body">
+      <p>Before writing a single line of code, think through the logic of a well-designed experiment. In a real organization, data analysts, data scientists, product managers, and business stakeholders would all weigh in on experimental design. Do not use Claude for this step — work through the thinking yourself first.</p>
+
+      <p>Write and reflect:</p>
+      <ul>
+        <li>What does random assignment mean in this context, and why does it matter?</li>
+        <li>What would go wrong if users were not randomly assigned?</li>
+        <li>Why does the size of your experiment matter — what is the risk of testing on too few users?</li>
+        <li>Before you build anything: what will you need to measure to determine which artwork performed better?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div class="step-title">Simulate the Experiment in Python</div>
+    </div>
+    <div class="step-body">
+      <p>Before opening Claude, talk with a partner about what your dataset should look like — what columns it needs, what each row represents, and what you are measuring. Then use this prompt:</p>
+
+      <div class="prompt-box">
+        <div class="prompt-label">Claude prompt</div>
+        <div class="prompt-text">I am simulating a Netflix-style experiment where 1,000 users are randomly assigned to see one of two artwork versions — Artwork A with a click probability of 0.24 and Artwork B with a click probability of 0.30. I want to simulate whether each user clicks based on those probabilities and store the results in a pandas DataFrame with three columns: a user ID, the artwork version they were assigned to, and whether they clicked (1 for yes, 0 for no).
+
+Please do two things:
+First, give me the complete Python code in a single code block that I can copy and paste directly into Google Colab.
+
+Second, below the code block, explain each step in plain English and connect each step to what Netflix actually does in its real experimentation system.</div>
+      </div>
+
+      <div class="reflect-box">
+        <div class="reflect-label">Prompt reflection</div>
+        <div class="reflect-text">Look at the prompt you used and the code Claude produced. What specifically in the prompt led to that output — and if you ran the same experiment with a weaker prompt, what do you think would have been missing or wrong?</div>
+      </div>
+
+      <p>Write and reflect:</p>
+      <ul>
+        <li>What does each row in your dataset represent?</li>
+        <li>Netflix runs experiments on millions of users simultaneously. You just ran one on 1,000 simulated users. What does that difference in scale mean — for the results, for the decisions, and for the organization?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div class="step-title">Measure and Visualize Performance</div>
+    </div>
+    <div class="step-body">
+      <p>Add a measurement layer. Think of this as Netflix asking: now that we have the data, what does it tell us?</p>
+
+      <div class="prompt-box">
+        <div class="prompt-label">Claude prompt</div>
+        <div class="prompt-text">Can you give me the complete Python code from the previous step again in a single code block, and then add code that calculates the total number of users in each group, the total number of clicks in each group, and the click-through rate for each group? Please also add a clean bar chart that visually compares the click-through rates for Artwork A and Artwork B. Keep it all in one code block so I can copy and paste it into Google Colab, and then below the code explain what the results and the chart mean in a business context.</div>
+      </div>
+
+      <div class="reflect-box">
+        <div class="reflect-label">Prompt reflection</div>
+        <div class="reflect-text">Look at the bar chart Claude produced. Does the visual tell a clearer story than the numbers alone — and what does that suggest about how data should be communicated in a business setting?</div>
+      </div>
+
+      <p>Write and reflect:</p>
+      <ul>
+        <li>Which artwork performed better? By how much (difference in CTR)?</li>
+        <li>You now have a number — a difference in click-through rate. But a number alone is not a decision. What additional information would you want before recommending that Netflix switch to Artwork B across the entire platform? What could go wrong if you acted on this result too quickly?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">5</div>
+      <div class="step-title">Evaluate the Decision: Statistical Testing</div>
+    </div>
+    <div class="step-body">
+      <p>Move from results to a decision. This is the prediction-decision gap in action — is the result trustworthy enough to act on?</p>
+
+      <div class="prompt-box">
+        <div class="prompt-label">Claude prompt</div>
+        <div class="prompt-text">Can you give me the complete Python code from all of my previous steps in a single code block — including the simulation, the click-through rate calculations, and the bar chart — and then add code that runs a simple statistical test to determine whether the difference in click-through rates between Artwork A and Artwork B is likely real or due to chance? Keep everything in one code block so I can copy and paste it into Google Colab. Then below the code, explain the statistical test you chose, why you chose it, and what the result means in plain English without assuming I have a statistics background.</div>
+      </div>
+
+      <div class="reflect-box">
+        <div class="reflect-label">Prompt reflection</div>
+        <div class="reflect-text">This prompt asked Claude to choose a statistical test rather than naming one. Did that produce a better or worse result than if you had named a specific test — and what does that tell you about when to give Claude more direction versus less?</div>
+      </div>
+
+      <p>Write and reflect:</p>
+      <ul>
+        <li>What does it mean for a result to be statistically meaningful?</li>
+        <li>Based on your results, would you switch to Artwork B? Why or why not?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- STEP 6 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">6</div>
+      <div class="step-title">Build and Publish Your A/B Testing Case Study Website</div>
+    </div>
+    <div class="step-body">
+      <p>In industry, it is not enough to run an analysis — you need to communicate your results clearly. A hiring manager or client is unlikely to open a Jupyter notebook, but they will click a link.</p>
+
+      <h3>Part 1: Ask Claude to Create Your Website</h3>
+      <div class="prompt-box">
+        <div class="prompt-label">Claude prompt</div>
+        <div class="prompt-text">I am a student in MIS 432: AI in Business at Western Washington University's College of Business and Economics. For class this week, we discussed a Netflix business case and spotlighted experimentation through A/B testing. I have just completed a Netflix-style A/B test in Python across three steps. Here is what my code does:
+
+Step 1: Simulates 1,000 users randomly assigned to two artwork versions (A and B) with click probabilities of 0.24 and 0.30 and stores the results in a pandas DataFrame with a user ID, artwork version, and clicked variable.
+Step 2: Calculates the total users, total clicks, and click-through rate for each group and displays the results in a bar chart comparing the two versions.
+Step 3: Runs a statistical test to determine whether the difference in click-through rates between the two groups is likely real or due to chance.
+
+Can you take the complete Python code from all of my previous steps and turn it into a single clean HTML file that I can publish on GitHub Pages? The website should:
+
+- Include all of the Python code from my previous steps in one place
+- Explain the Netflix case, the business problem, the role of experimentation in machine learning and A/B testing, what I did with the code, what I found, and what Netflix should do about it in plain English
+- Display the bar chart comparing click-through rates
+- End with a clear business recommendation
+- Look professional using Netflix style colors and be easy to read on any device
+- Make clear that this project was completed as part of MIS 432: AI in Business at Western Washington University's College of Business and Economics
+
+The audience is a potential employer or client who has never seen my code and has no technical background.</div>
+      </div>
+
+      <div class="reflect-box">
+        <div class="reflect-label">Prompt reflection</div>
+        <div class="reflect-text">You gave Claude an audience — a potential employer with no technical background. Look at the website it produced and ask yourself: did it actually write for that audience? What would you change, and how would you modify the prompt to get a better result?</div>
+      </div>
+
+      <h3>Part 2: Publish on GitHub</h3>
+      <ol>
+        <li>Copy the HTML Claude gives you</li>
+        <li>Open GitHub and create a new repository named <strong>netflix-ab-testing</strong></li>
+        <li>Turn on README and create the repository</li>
+        <li>Click <strong>Add File → Create new file</strong></li>
+        <li>Name it <strong>index.html</strong> and paste the code</li>
+        <li>Click <strong>Commit Changes</strong></li>
+        <li>Go to <strong>Settings → Pages</strong>, select <strong>main</strong> branch, click <strong>Save</strong></li>
+        <li>Wait a minute — your URL will appear under Pages. Save it.</li>
+      </ol>
+
+      <p style="margin-top:1rem;">Write and reflect: You just turned a Python analysis into a public-facing website. What does the ability to communicate your analysis clearly — not just run it — tell an employer about your skills?</p>
+    </div>
+  </div>
+
+  <!-- STEP 7 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">7</div>
+      <div class="step-title">Connect Back to the Netflix Business Case</div>
+    </div>
+    <div class="step-body">
+      <p>Step back and interpret the system as a whole:</p>
+      <ul>
+        <li>How does your simulation mirror Netflix's real system? What parts of the real system are missing from your lab?</li>
+        <li>Could you improve the experiment by adding user segments — for example, documentary lovers vs. romance lovers seeing different artwork for the same horror movie? How might Netflix use machine learning to enable that kind of personalization?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- STEP 8 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">8</div>
+      <div class="step-title">AI Factory Reflection</div>
+    </div>
+    <div class="step-body">
+      <p>Map each component of the AI Factory to what you actually built — be specific about what each component looked like in your simulation:</p>
+      <div class="factory-row">
+        <div class="factory-step">Data →</div>
+        <div class="factory-step">Model →</div>
+        <div class="factory-step">Prediction →</div>
+        <div class="factory-step">Decision →</div>
+        <div class="factory-step">Value</div>
+      </div>
+      <p style="margin-top:0.75rem;">Then answer: What did you just build? What does it do, and what does it not do?</p>
+    </div>
+  </div>
+
+  <div class="submit-box">
+    <div class="submit-label">What to Submit</div>
+    <ul>
+      <li>Your GitHub Pages URL (the live website)</li>
+      <li>Responses to all written questions and reflections from each step</li>
+    </ul>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="chapter2-netflix.html">← Back to Case Study</a>
+    <a href="chapter3-spotify.html">Chapter 3: Spotify →</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>MIS 432 · AI in Business · Western Washington University · <a href="index.html">Back to Course Home</a></p>
+</footer>
+
+</body>
+</html>

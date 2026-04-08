@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 3: Spotify Recommendation System — MIS 432</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; color: #333; }
+
+  nav { background: #191414; padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+  .nav-brand { color: #fff; font-size: 15px; font-weight: 700; text-decoration: none; }
+  .nav-links { display: flex; gap: 1.25rem; align-items: center; }
+  .nav-links a { color: #a0a0a0; font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: #1DB954; }
+  .nav-badge { background: #1DB954; color: #191414; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+
+  .hero { background: linear-gradient(135deg, #191414 0%, #0d3320 60%, #1DB954 100%); padding: 3rem 2rem 2.5rem; }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+  .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #6ee7b7; margin-bottom: 0.75rem; }
+  .hero h1 { font-size: 30px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 0.75rem; }
+  .hero-sub { font-size: 15px; color: #a7f3d0; max-width: 640px; line-height: 1.65; margin-bottom: 1.25rem; }
+  .hero-tools { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .tool-badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+
+  .doc { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin: 1.5rem 0; }
+  .overview-card { background: #fff; border-radius: 8px; padding: 1rem; border: 1px solid #e2e8f0; text-align: center; }
+  .overview-icon { font-size: 20px; margin-bottom: 0.4rem; }
+  .overview-label { font-size: 12px; color: #718096; margin-bottom: 0.25rem; }
+  .overview-val { font-size: 14px; font-weight: 700; color: #1a1a1a; }
+
+  h2 { font-size: 20px; font-weight: 700; color: #191414; margin: 2rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 2px solid #1DB954; }
+  h3 { font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 1.5rem 0 0.5rem; }
+  p { font-size: 15px; line-height: 1.75; color: #444; margin-bottom: 0.9rem; }
+  ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+  li { font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 0.4rem; }
+  strong { color: #111; font-weight: 700; }
+
+  .step-card { background: #fff; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 1.5rem; overflow: hidden; }
+  .step-header { background: linear-gradient(90deg, #191414, #1DB954); padding: 1rem 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+  .step-num { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.15); color: #fff; font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-title { font-size: 15px; font-weight: 700; color: #fff; }
+  .step-body { padding: 1.25rem; }
+
+  .prompt-box { background: #0d1a0d; border-radius: 8px; padding: 1rem 1.25rem; margin: 1rem 0; }
+  .prompt-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #6ee7b7; margin-bottom: 0.5rem; }
+  .prompt-text { font-size: 13px; color: #d1fae5; line-height: 1.7; font-family: monospace; white-space: pre-wrap; }
+
+  .reflect-box { background: #f0fdf4; border-left: 4px solid #1DB954; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1rem 0; }
+  .reflect-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #166534; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .reflect-text { font-size: 14px; color: #444; line-height: 1.6; }
+
+  .insight-box { background: #fffbeb; border-left: 4px solid #d97706; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1rem 0; }
+  .insight-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #d97706; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .insight-text { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+
+  .factory-row { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin: 1rem 0; }
+  .factory-step { background: #f0fdf4; border: 1px solid #86efac; border-radius: 6px; padding: 0.45rem 0.85rem; font-size: 13px; font-weight: 700; color: #166534; }
+  .factory-arrow { font-size: 14px; color: #a0aec0; }
+
+  .submit-box { background: #f0fdf4; border: 2px solid #16a34a; border-radius: 10px; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+  .submit-label { font-size: 13px; font-weight: 700; color: #16a34a; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.75rem; }
+  .submit-box ul { margin-left: 1.25rem; }
+  .submit-box li { font-size: 14px; color: #444; margin-bottom: 0.3rem; }
+
+  .chapter-nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-top: 1px solid #e2e8f0; margin-top: 2rem; flex-wrap: wrap; gap: 0.75rem; }
+  .chapter-nav a { font-size: 14px; color: #1DB954; text-decoration: none; font-weight: 700; }
+
+  footer { background: #191414; padding: 1.5rem 2rem; text-align: center; }
+  footer p { font-size: 13px; color: #4a4a4a; }
+  footer a { color: #1DB954; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 432 · AI in Business</a>
+  <div class="nav-links">
+    <span class="nav-badge">Lab 3</span>
+    <a href="chapter3-spotify.html">← Case Study</a>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Lab 3 · Spotify · Recommendation Systems</div>
+    <h1>Build a Spotify-Style<br>Recommendation System</h1>
+    <p class="hero-sub">Use collaborative filtering to recommend songs based on listening history, recreate the training-serving gap that caused Spotify's real-world failure, and generate a Wrapped-style year-in-review for a simulated user.</p>
+    <div class="hero-tools">
+      <span class="tool-badge">Claude AI</span>
+      <span class="tool-badge">Google Colab</span>
+      <span class="tool-badge">Python</span>
+      <span class="tool-badge">GitHub Pages</span>
+    </div>
+  </div>
+</div>
+
+<div class="doc">
+
+  <div class="overview-grid">
+    <div class="overview-card"><div class="overview-icon">🎵</div><div class="overview-label">What you build</div><div class="overview-val">Recommendation engine</div></div>
+    <div class="overview-card"><div class="overview-icon">👥</div><div class="overview-label">Technique</div><div class="overview-val">Collaborative filtering</div></div>
+    <div class="overview-card"><div class="overview-icon">📋</div><div class="overview-label">You also recreate</div><div class="overview-val">Training-serving gap</div></div>
+    <div class="overview-card"><div class="overview-icon">🎁</div><div class="overview-label">Bonus</div><div class="overview-val">Wrapped summary</div></div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-label">The central connection</div>
+    <div class="insight-text">As you work through each step, pay attention to how the same dataset powers both the recommendation model and the Wrapped-style summary. That connection is the central business lesson of the Spotify case — and the goal of this lab is to experience it firsthand.</div>
+  </div>
+
+  <h2>What You Will Build</h2>
+  <p>A simplified Spotify-style system that:</p>
+  <ul>
+    <li>Stores simulated user listening history (streams, skips, replays)</li>
+    <li>Uses collaborative filtering to recommend songs based on similar users' behavior</li>
+    <li>Demonstrates the training-serving gap — and what happens when it occurs</li>
+    <li>Generates a Wrapped-style year-in-review summary for a single user</li>
+    <li>Is published as a case study website on GitHub Pages</li>
+  </ul>
+
+  <div class="factory-row">
+    <div class="factory-step">Data: listening history</div>
+    <div class="factory-arrow">→</div>
+    <div class="factory-step">Model: collaborative filter</div>
+    <div class="factory-arrow">→</div>
+    <div class="factory-step">Prediction: song scores</div>
+    <div class="factory-arrow">→</div>
+    <div class="factory-step">Decision: recommendations</div>
+    <div class="factory-arrow">→</div>
+    <div class="factory-step">Value: Wrapped</div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div class="step-title">Understand the Business Problem</div>
+    </div>
+    <div class="step-body">
+      <p>Before writing any code, use Claude to deepen your understanding of recommendation systems. Tell Claude you are in MIS 432 at Western Washington University and ask for plain-language explanations.</p>
+      <p>Write and reflect:</p>
+      <ul>
+        <li>What problem is Spotify solving with its recommendation system? Why does it matter for the business?</li>
+        <li>What is collaborative filtering, in your own words? How is it different from simply recommending the most popular songs to everyone?</li>
+        <li>Spotify collects implicit signals (skips, replays, session time). Why are these more useful than asking users to rate songs explicitly?</li>
+        <li>What is the training-serving gap? Why is it dangerous specifically because it fails silently?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div class="step-title">Build a Listening History Dataset</div>
+    </div>
+    <div class="step-body">
+      <p>Start by creating simulated behavioral data — the raw material that powers the entire system.</p>
+      <div class="prompt-box">
+        <div class="prompt-label">Claude prompt</div>
+        <div class="prompt-text">I am building a simplified Spotify-style recommendation system in Python for a class project. 
+
+Please write beginner-friendly Python code that creates a simulated listening history dataset for 10 users and 15 songs. Each row should represent one listening event and include: a user ID, a song name, an artist name, a genre, and an implicit engagement score (a number from 0 to 1, where 0 means skipped and 1 means replayed multiple times).
+
+Make sure some users share similar listening patterns so collaborative filtering will actually work. Store this in a pandas DataFrame.
+
+Give me the complete code in one block I can paste into Google Colab, then explain what the data represents and why implicit signals matter in a real recommendation system like Spotify's.</div>
+      </div>
+      <div class="reflect-box">
+        <div class="reflect-label">Write and reflect</div>
+        <div class="reflect-text">What does each row in your dataset represent? What would the equivalent row look like in Spotify's real system — what additional data would it contain?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div class="step-title">Build a Collaborative Filtering Recommender</div>
+    </div>
+    <div class="step-body">
+      <p>Now build the recommendation model using collaborative filtering.</p>
+      <div class="prompt-box">
+        <div class="prompt-label">Claude prompt</div>
+        <div class="prompt-text">Using the listening history dataset from the previous step, please add code that:
+
+1. Creates a user-song matrix where each cell contains a user's engagement score for a song (0 if they haven't listened)
+2. Calculates similarity between users based on their listening patterns using cosine similarity
+3. For a target user (User 1), finds the most similar users
+4. Recommends songs that similar users enjoyed but User 1 hasn't heard yet
+5. Prints the top 5 recommendations with the song name, artist, genre, and predicted score
+
+Give me all code from the previous step plus this new code in one block. Explain each step in plain English, and specifically explain what cosine similarity measures and why it works for finding users with similar taste.</div>
+      </div>
+      <div class="reflect-box">
+        <div class="reflect-label">Write and reflect</div>
+        <div class="reflect-text">Look at the recommendations your system produced. Do they make sense given the listening data? What is the system actually doing when it finds "similar users" — and why does that work as a proxy for good recommendations?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div class="step-title">Recreate the Training-Serving Gap</div>
+    </div>
+    <div class="step-body">
+      <p>This is the most important step in the lab. You are going to deliberately break your system in the same way Spotify's system broke — and observe the silent degradation.</p>
+      <div class="prompt-box">
+        <div class="prompt-label">Claude prompt</div>
+        <div class="prompt-text">I want to demonstrate the training-serving gap that caused Spotify's podcast recommendation system to silently degrade for four months.
+
+Using all the code from my previous steps, please add a demonstration that:
+
+1. Shows the "correct" recommendations when training and serving data are processed identically
+2. Introduces a subtle preprocessing difference — for example, normalizing engagement scores differently at serving time than at training time
+3. Shows how the recommendations change (subtly, not dramatically) when this gap exists
+4. Adds a data validation check that would catch this problem — comparing the statistical distribution of features at training time vs. serving time
+
+Give me everything in one code block. Then explain: why is this type of failure more dangerous than a system crash? What should an ML engineer monitor to catch this before it affects users for four months?</div>
+      </div>
+      <div class="reflect-box">
+        <div class="reflect-label">Write and reflect</div>
+        <div class="reflect-text">Did the recommendations change dramatically or subtly? Why does the subtlety make this failure mode so dangerous from a business perspective? Connect your answer to the Spotify case specifically.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">5</div>
+      <div class="step-title">Generate a Wrapped-Style Summary</div>
+    </div>
+    <div class="step-body">
+      <p>Use the same behavioral dataset to generate a personalized year-in-review — demonstrating that Wrapped and the recommendation engine are powered by the same data.</p>
+      <div class="prompt-box">
+        <div class="prompt-label">Claude prompt</div>
+        <div class="prompt-text">Using the same listening history dataset from my previous steps, please add code that generates a Spotify Wrapped-style summary for User 1.
+
+The summary should include:
+- Top 3 most-played songs (highest engagement scores)
+- Top artist (most songs with high engagement)
+- Top genre
+- Total listening sessions
+- A fun personalized sentence like "You were in the top X% of listeners for [artist]"
+
+Print this as a clean, readable summary. Then explain: this summary uses the exact same data as the recommendation engine. What does that tell us about Spotify's infrastructure — and why does it matter for business strategy?</div>
+      </div>
+      <div class="reflect-box">
+        <div class="reflect-label">Write and reflect</div>
+        <div class="reflect-text">Spotify Wrapped generates 600 million social media posts for free. It costs Spotify nothing extra to produce because it runs on the same data pipeline as everything else. What does this tell you about the relationship between AI infrastructure investment and marketing strategy?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 6 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">6</div>
+      <div class="step-title">Publish Your System on GitHub Pages</div>
+    </div>
+    <div class="step-body">
+      <div class="prompt-box">
+        <div class="prompt-label">Claude prompt</div>
+        <div class="prompt-text">I am a student in MIS 432: AI in Business at Western Washington University's College of Business and Economics. I have built a simplified Spotify-style recommendation system in Python. My system does the following:
+
+1. Creates a simulated listening history dataset with implicit engagement signals for 10 users and 15 songs
+2. Builds a collaborative filtering recommendation engine using cosine similarity to find similar users and recommend unheard songs
+3. Demonstrates the training-serving gap — the same type of failure that silently degraded Spotify's podcast recommendations for four months
+4. Generates a Wrapped-style year-in-review summary for a single user using the same dataset that powers the recommendations
+
+Please turn my complete Python code into a single clean HTML file for GitHub Pages. The website should:
+- Explain the Spotify case, what recommendation systems are, and what collaborative filtering does — in plain English
+- Walk through what my code does and what it found
+- Explain the training-serving gap and why it matters for businesses deploying AI
+- Show the Wrapped summary output and connect it back to the infrastructure
+- End with key business lessons
+- Use Spotify-style colors (dark background, green accents)
+- Be written for a potential employer who has no technical background
+
+Make clear this was completed as part of MIS 432: AI in Business at Western Washington University.</div>
+      </div>
+
+      <h3>Publish on GitHub</h3>
+      <ol>
+        <li>Create a new repository named <strong>spotify-recommendation-system</strong></li>
+        <li>Add <strong>index.html</strong> with the code from Claude</li>
+        <li>Enable GitHub Pages under <strong>Settings → Pages → main branch</strong></li>
+        <li>Save your live URL</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- STEP 7 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">7</div>
+      <div class="step-title">Connect Back to the Spotify Business Case</div>
+    </div>
+    <div class="step-body">
+      <p>Write and reflect:</p>
+      <ul>
+        <li>How does your system mirror Spotify's real recommendation engine? What is missing?</li>
+        <li>Your system uses 10 users. Spotify uses 600 million. What changes at that scale — technically, organizationally, and in terms of governance?</li>
+        <li>Wrapped is built on the same data as the recommendation engine. Walk through one other company where you think a similar "turn the infrastructure into a product" opportunity exists.</li>
+        <li>The training-serving gap failed silently for four months. Design a monitoring system — in plain English, not code — that would catch this within 48 hours. What would you measure? What would trigger an alert?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- STEP 8 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">8</div>
+      <div class="step-title">AI Factory Reflection</div>
+    </div>
+    <div class="step-body">
+      <p>Map each component of the AI Factory to what you actually built:</p>
+      <div class="factory-row">
+        <div class="factory-step">Data →</div>
+        <div class="factory-step">Model →</div>
+        <div class="factory-step">Prediction →</div>
+        <div class="factory-step">Decision →</div>
+        <div class="factory-step">Value</div>
+      </div>
+      <p style="margin-top:0.75rem;">Also reflect on using Claude: What did it help you understand? Where did it fall short? Did it ever produce code that was wrong or unclear — and what did you do?</p>
+    </div>
+  </div>
+
+  <div class="submit-box">
+    <div class="submit-label">What to Submit</div>
+    <ul>
+      <li>Your GitHub Pages URL (the live website)</li>
+      <li>Responses to all written questions and reflections from each step</li>
+    </ul>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="chapter3-spotify.html">← Back to Case Study</a>
+    <a href="index.html">← Back to Course Home</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>MIS 432 · AI in Business · Western Washington University · <a href="index.html">Back to Course Home</a></p>
+</footer>
+
+</body>
+</html>
