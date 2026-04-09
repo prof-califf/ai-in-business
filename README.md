@@ -1,7 +1,7 @@
 # MIS 432: AI in Business
 ### A free, case-based textbook teaching machine learning strategy through real companies.
  
-> **Live site:** [your GitHub Pages URL here]
+> **Live site:** https://prof-califf.github.io/ai-in-business
  
 ---
  
