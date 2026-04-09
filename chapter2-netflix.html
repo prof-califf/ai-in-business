@@ -79,6 +79,9 @@
   .toc a { display: block; font-size: 14px; color: #444; text-decoration: none; padding: 3px 0; }
   .toc a:hover { color: #e50914; }
 
+  .case-img { width: 100%; max-width: 700px; border-radius: 8px; border: 1px solid #e2e8f0; display: block; margin: 1rem auto 0; }
+  .img-caption { font-size: 13px; color: #718096; text-align: center; margin: 0.5rem auto 1.5rem; max-width: 700px; font-style: italic; }
+
   .chapter-nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-top: 1px solid #e2e8f0; margin-top: 2rem; flex-wrap: wrap; gap: 0.75rem; }
   .chapter-nav a { font-size: 14px; color: #e50914; text-decoration: none; font-weight: 700; }
 
@@ -178,6 +181,9 @@
 
   <p>When a user opens Netflix, they are immediately presented with a grid of content options — movies, shows, and recommendations tailored to their preferences. But this moment is fleeting. Internal analysis at Netflix suggests that if a user does not find something engaging within roughly 90 seconds, they are likely to abandon the session entirely.</p>
 
+  <img src="Netflix_Home_Screen_with_Artwork.png" alt="Netflix home screen showing artwork grids for multiple titles" class="case-img">
+  <p class="img-caption">The Netflix homepage — users scan rows of artwork in under 90 seconds before deciding whether to stay or leave. Every thumbnail is a decision the system made.</p>
+
   <p>This creates a fundamental challenge: how can Netflix help users quickly identify content they want to watch? From an AI and business perspective, this is a <strong>decision problem under uncertainty</strong>: Netflix must decide what to show users without knowing in advance what they will choose.</p>
 
   <div class="concept-box">
@@ -201,6 +207,9 @@
   <h2 id="s5"><span class="section-num">5</span> From Intuition to Data-Driven Decision-Making</h2>
 
   <p>Historically, Netflix relied on images provided by studios — posters or DVD cover art. These images were not optimized for Netflix's interface, where users quickly scan many options across many devices. As Netflix shifted toward data-driven decision-making, it also shifted toward <strong>automation</strong>: rather than asking a human designer to choose the best image for each title, Netflix built a system that tests options at scale and deploys the best performer without human intervention.</p>
+
+  <img src="Breaking_Bad_Bilboard.png" alt="Breaking Bad billboard advertisement" class="case-img">
+  <p class="img-caption">Traditional studio marketing — a Breaking Bad billboard designed for passive viewing. This kind of artwork was never optimized for a streaming interface where users are actively scanning dozens of thumbnails at once.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
@@ -249,6 +258,9 @@
 
   <p>The results showed that certain versions of the artwork significantly increased engagement. Images that made the subject of the film more immediately recognizable broadened the audience for the title. This experiment served as an early proof of concept — demonstrating that artwork is not just aesthetic, it is a lever for influencing behavior — and justified scaling the approach across the entire platform.</p>
 
+  <img src="The_Short_Game_Experiment.png" alt="The Short Game A/B test showing three artwork variants and their take rates" class="case-img">
+  <p class="img-caption">The Short Game A/B test: the default artwork (Cell 1) was the control. Cell 2, which more clearly showed children playing competitive golf, drove a 14% better take rate. Cell 3 drove 6% better. A small image change produced a measurable business outcome.</p>
+
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
     <div class="concept-term">Feature representation in ML</div>
@@ -264,6 +276,12 @@
     <div class="concept-term">The explore/exploit tradeoff</div>
     <div class="concept-def">The explore/exploit tradeoff describes the tension between two competing objectives in any learning system. Exploration means trying new options to gather information — showing users different artwork to learn which performs best. Exploitation means using what you already know works — showing the proven best-performing artwork to maximize immediate engagement. Pure exploration wastes engagement on options you already know are worse. Pure exploitation prevents you from ever discovering something better. Netflix manages this tradeoff by running structured experiments (explore phase) and then deploying winning variants at scale (exploit phase). The same tradeoff appears in Spotify's recommendation system, Google's ad auctions, and virtually every other AI system that must balance learning with performance.</div>
   </div>
+
+  <img src="Dragons_Race_to_the_Edge_Artwork_Experiment.png" alt="Dragons: Race to the Edge artwork A/B test results" class="case-img">
+  <p class="img-caption">Dragons: Race to the Edge — six artwork variants were tested. The two marked with green arrows significantly outperformed the others and were deployed at scale. The winning images lead with dramatic character close-ups rather than wide action scenes.</p>
+
+  <img src="Unbreakable_Kimmy_Schmidt_Artwork_Experiment.png" alt="Unbreakable Kimmy Schmidt artwork A/B test results" class="case-img">
+  <p class="img-caption">Unbreakable Kimmy Schmidt — six variants tested. The image marked with a green arrow significantly outperformed all others. Netflix's system identified this winner automatically and deployed it to the full user base without human approval.</p>
 
   <h2 id="s10"><span class="section-num">10</span> The AI Factory: From Data to Value</h2>
 
