@@ -291,10 +291,6 @@ df = pd.<span class="cf">DataFrame</span>(listening_history)
 <span class="cf">print</span>(df.<span class="cf">head</span>(<span class="cn">20</span>))</pre>
         </div>
       </div>
-      <div class="insight-box">
-        <div class="insight-label">If the code ever throws an error</div>
-        <div class="insight-text">This will happen. Don't panic &mdash; it's part of working with code. Copy the full error message from Colab, go back to Claude, paste it in, and say "this error appeared when I ran your code &mdash; can you fix it?" Claude will diagnose and correct it. This is exactly how real developers work.</div>
-      </div>
       <div class="reflect-box">
         <div class="reflect-label">Reflection &mdash; write 2&ndash;3 sentences</div>
         <div class="reflect-text">Look at your dataset. Each row represents one person's reaction to one song &mdash; captured as a number between 0 and 1. Spotify collects this same kind of data for 751 million users across 100 million songs. What does that scale tell you about why this behavioral data is so valuable, and why a new competitor would struggle to replicate it?</div>
@@ -547,7 +543,7 @@ recommendations = <span class="cf">get_recommendations</span>(
       <div><div class="step-title">Build the Live System &mdash; Then Try the Demo</div><div class="step-subtitle">AI Factory stage: Decision</div></div>
     </div>
     <div class="step-body">
-      <p>You have built the algorithm in Python. Now you are going to build a live interactive version of it &mdash; a web app with Skip, Play, and Replay buttons, real-time recommendations, and a Wrapped button. You will do this by prompting Claude to build it for you. Once you have your version working, compare it against the demo below to see how it stacks up.</p>
+      <p>You have built the algorithm in Python. Now you are going to build a live interactive version of it &mdash; a web app with Skip, Play, and Replay buttons and real-time recommendations. You will do this by prompting Claude to build it for you. Once you have your version working, compare it against the demo below to see how it stacks up.</p>
 
       <div class="insight-box">
         <div class="insight-label">Why build it yourself first?</div>
@@ -599,12 +595,12 @@ Give me the complete HTML in one block. Add plain-English comments explaining ea
 
       <div class="insight-box">
         <div class="insight-label">Step 2 &mdash; open your HTML file and test it</div>
-        <div class="insight-text">Save the HTML file Claude generates to your desktop. Open it in your browser. Interact with at least 8 songs and watch the recommendations update. Then hit Generate my Wrapped. Does it work? If anything breaks, paste the error back to Claude and say "fix this."</div>
+        <div class="insight-text">Save the HTML file Claude generates to your desktop. Open it in your browser. Interact with at least 8 songs and watch the recommendations update in real time. Does it work? If anything breaks, paste the error back to Claude and say "fix this."</div>
       </div>
 
       <div class="insight-box">
         <div class="insight-label">Step 3 &mdash; now compare against the demo below</div>
-        <div class="insight-text">Use the live demo below and interact with the same songs in the same order. Do you get the same recommendations? The same Wrapped? If not &mdash; why not? What did you do differently in your prompt that changed the behavior?</div>
+        <div class="insight-text">Use the live demo below and interact with the same songs in the same order. Do you get the same recommendations? If not &mdash; why not? What did you do differently in your prompt that changed the behavior?</div>
       </div>
 
       <!-- LIVE SYSTEM -->
