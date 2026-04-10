@@ -321,10 +321,67 @@
     <div class="concept-def">Collaborative filtering is one of the most widely used techniques in recommendation systems. Rather than analyzing the items themselves, it looks for patterns in who interacts with what. If two users have historically listened to many of the same songs, they are considered &ldquo;similar&rdquo; in taste &mdash; and content that one enjoyed becomes a candidate recommendation for the other. At Spotify&rsquo;s scale, with hundreds of millions of users, these patterns become extraordinarily rich. A brand-new listener who plays three songs that millions of other users also played in their first week gives Spotify enough signal to start making useful recommendations almost immediately &mdash; because the system can find thousands of existing users who started the same way and trace what they went on to enjoy.</div>
   </div>
 
-  <figure style="margin: 1.5rem 0; text-align: center;">
-    <img src="images/collab-filtering-matrix.png" alt="A grid showing users as rows and songs as columns with engagement scores. User 1's row is highlighted in blue, similar users in teal, and a recommended song is circled in green." style="max-width: 640px; width: 100%; border-radius: 8px; border: 1px solid #e2e8f0;">
+  <figure style="margin: 1.5rem 0;">
+    <div style="overflow-x:auto;">
+    <svg width="100%" viewBox="0 0 680 420" role="img" style="max-width:680px;display:block;margin:0 auto;">
+    <title>Collaborative filtering user-song matrix</title>
+    <desc>A grid showing users as rows and songs as columns with engagement scores. User 1 highlighted in blue, similar users in teal, recommended song circled in green.</desc>
+    <defs><marker id="arr1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+    <text font-family="Arial,sans-serif" font-size="12" fill="#667986" x="340" y="22" text-anchor="middle">Each cell = how much a user engaged with a song</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="215" y="52" text-anchor="middle">Blinding Lights</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="295" y="52" text-anchor="middle">HUMBLE.</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="375" y="52" text-anchor="middle">Levitating</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="455" y="52" text-anchor="middle">bad guy</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="535" y="52" text-anchor="middle">Heat Waves</text>
+    <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#185FA5" x="130" y="97" text-anchor="end">User 1 (you)</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="130" y="147" text-anchor="end">User 2</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="130" y="197" text-anchor="end">User 3</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="130" y="247" text-anchor="end">User 4</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="130" y="297" text-anchor="end">User 5</text>
+    <rect x="145" y="68" width="410" height="50" rx="6" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/>
+    <rect x="145" y="168" width="410" height="50" rx="6" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1" stroke-dasharray="4 2"/>
+    <rect x="145" y="268" width="410" height="50" rx="6" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1" stroke-dasharray="4 2"/>
+    <rect x="180" y="72" width="70" height="42" rx="4" fill="#B5D4F4"/><text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#0C447C" x="215" y="97" text-anchor="middle">0.9</text>
+    <rect x="260" y="72" width="70" height="42" rx="4" fill="#E6F1FB"/><text font-family="Arial,sans-serif" font-size="12" fill="#185FA5" x="295" y="97" text-anchor="middle">0.1</text>
+    <rect x="340" y="72" width="70" height="42" rx="4" fill="#B5D4F4"/><text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#0C447C" x="375" y="97" text-anchor="middle">0.9</text>
+    <rect x="420" y="72" width="70" height="42" rx="4" fill="#E6F1FB"/><text font-family="Arial,sans-serif" font-size="12" fill="#185FA5" x="455" y="97" text-anchor="middle">0.5</text>
+    <rect x="500" y="72" width="70" height="42" rx="4" fill="#f0f0f0"/><text font-family="Arial,sans-serif" font-size="12" fill="#aaa" x="535" y="97" text-anchor="middle">0</text>
+    <rect x="180" y="122" width="70" height="42" rx="4" fill="#f0f0f0"/><text font-family="Arial,sans-serif" font-size="12" fill="#aaa" x="215" y="147" text-anchor="middle">0</text>
+    <rect x="260" y="122" width="70" height="42" rx="4" fill="#f0f0f0"/><text font-family="Arial,sans-serif" font-size="12" fill="#aaa" x="295" y="147" text-anchor="middle">0.1</text>
+    <rect x="340" y="122" width="70" height="42" rx="4" fill="#f0f0f0"/><text font-family="Arial,sans-serif" font-size="12" fill="#aaa" x="375" y="147" text-anchor="middle">0.1</text>
+    <rect x="420" y="122" width="70" height="42" rx="4" fill="#f0f0f0"/><text font-family="Arial,sans-serif" font-size="12" fill="#aaa" x="455" y="147" text-anchor="middle">0</text>
+    <rect x="500" y="122" width="70" height="42" rx="4" fill="#f0f0f0"/><text font-family="Arial,sans-serif" font-size="12" fill="#aaa" x="535" y="147" text-anchor="middle">0</text>
+    <rect x="180" y="172" width="70" height="42" rx="4" fill="#9FE1CB"/><text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#085041" x="215" y="197" text-anchor="middle">0.9</text>
+    <rect x="260" y="172" width="70" height="42" rx="4" fill="#E1F5EE"/><text font-family="Arial,sans-serif" font-size="12" fill="#0F6E56" x="295" y="197" text-anchor="middle">0.1</text>
+    <rect x="340" y="172" width="70" height="42" rx="4" fill="#9FE1CB"/><text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#085041" x="375" y="197" text-anchor="middle">0.9</text>
+    <rect x="420" y="172" width="70" height="42" rx="4" fill="#9FE1CB"/><text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#085041" x="455" y="197" text-anchor="middle">0.9</text>
+    <rect x="500" y="172" width="70" height="42" rx="4" fill="#9FE1CB"/><text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#085041" x="535" y="197" text-anchor="middle">0.9</text>
+    <rect x="180" y="222" width="70" height="42" rx="4" fill="#f0f0f0"/><text font-family="Arial,sans-serif" font-size="12" fill="#aaa" x="215" y="247" text-anchor="middle">0.5</text>
+    <rect x="260" y="222" width="70" height="42" rx="4" fill="#f0f0f0"/><text font-family="Arial,sans-serif" font-size="12" fill="#aaa" x="295" y="247" text-anchor="middle">0.9</text>
+    <rect x="340" y="222" width="70" height="42" rx="4" fill="#f0f0f0"/><text font-family="Arial,sans-serif" font-size="12" fill="#aaa" x="375" y="247" text-anchor="middle">0.1</text>
+    <rect x="420" y="222" width="70" height="42" rx="4" fill="#f0f0f0"/><text font-family="Arial,sans-serif" font-size="12" fill="#aaa" x="455" y="247" text-anchor="middle">0</text>
+    <rect x="500" y="222" width="70" height="42" rx="4" fill="#f0f0f0"/><text font-family="Arial,sans-serif" font-size="12" fill="#aaa" x="535" y="247" text-anchor="middle">0.1</text>
+    <rect x="180" y="272" width="70" height="42" rx="4" fill="#9FE1CB"/><text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#085041" x="215" y="297" text-anchor="middle">0.9</text>
+    <rect x="260" y="272" width="70" height="42" rx="4" fill="#E1F5EE"/><text font-family="Arial,sans-serif" font-size="12" fill="#0F6E56" x="295" y="297" text-anchor="middle">0.1</text>
+    <rect x="340" y="272" width="70" height="42" rx="4" fill="#9FE1CB"/><text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#085041" x="375" y="297" text-anchor="middle">0.9</text>
+    <rect x="420" y="272" width="70" height="42" rx="4" fill="#E1F5EE"/><text font-family="Arial,sans-serif" font-size="12" fill="#0F6E56" x="455" y="297" text-anchor="middle">0.5</text>
+    <rect x="500" y="272" width="70" height="42" rx="4" fill="#9FE1CB"/><text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#085041" x="535" y="297" text-anchor="middle">0.9</text>
+    <rect x="498" y="70" width="74" height="46" rx="8" fill="none" stroke="#1DB954" stroke-width="2.5" stroke-dasharray="5 3"/>
+    <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#1DB954" x="535" y="330" text-anchor="middle">Recommend!</text>
+    <line x1="535" y1="316" x2="535" y2="322" stroke="#1DB954" stroke-width="1.5" marker-end="url(#arr1)"/>
+    <rect x="148" y="355" width="14" height="14" rx="3" fill="#B5D4F4" stroke="#378ADD" stroke-width="0.5"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="168" y="366">User 1 (you)</text>
+    <rect x="248" y="355" width="14" height="14" rx="3" fill="#9FE1CB" stroke="#1D9E75" stroke-width="0.5"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="268" y="366">Similar users</text>
+    <rect x="358" y="355" width="14" height="14" rx="3" fill="#f0f0f0" stroke="#ccc" stroke-width="0.5"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="378" y="366">Other users</text>
+    <rect x="456" y="353" width="14" height="14" rx="6" fill="none" stroke="#1DB954" stroke-width="2"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="476" y="366">Recommendation</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#aaa" x="340" y="400" text-anchor="middle">0.9 = replayed &middot; 0.5 = played &middot; 0.1 = skipped &middot; 0 = not heard</text>
+    </svg>
+    </div>
     <figcaption style="margin-top: 0.75rem; font-size: 13px; color: #667986; line-height: 1.65; max-width: 580px; margin-left: auto; margin-right: auto;">
-      <strong>Figure 3: Collaborative filtering in four steps.</strong> Each row is a user, each column is a song, and each cell is an engagement score — 0.9 means replayed, 0.5 means played once, 0.1 means skipped, 0 means never heard. User 1's row (blue) is compared against every other user's row. Users 3 and 5 (teal) have similar patterns — they also loved Blinding Lights and Levitating. Heat Waves is circled in green: Users 3 and 5 gave it a 0.9, but User 1 has never heard it. That makes it a strong recommendation. The algorithm never listened to the songs — it only looked at who listened to what.
+      <strong>Figure 3: Collaborative filtering in four steps.</strong> Each row is a user, each column is a song, and each cell is an engagement score &mdash; 0.9 means replayed, 0.5 means played once, 0.1 means skipped, 0 means never heard. User 1&rsquo;s row (blue) is compared against every other user&rsquo;s row. Users 3 and 5 (teal) have similar patterns. Heat Waves is circled in green: Users 3 and 5 gave it a 0.9, but User 1 has never heard it &mdash; making it a strong recommendation. The algorithm never listened to the songs. It only looked at who listened to what.
     </figcaption>
   </figure>
 
@@ -336,10 +393,66 @@
     <div class="concept-def">An embedding is a compact list of numbers that represents everything the system has learned about a user or a song. Every user gets one based on their listening history. Every song gets one based on who listens to it and when. Each dot in the diagram below is an embedding &mdash; its position in space is determined by its list of numbers. Songs with similar numbers land close together. Songs with very different numbers land far apart. This allows the model to discover that a jazz piano solo and a certain ambient electronic track appeal to the same listener &mdash; not because they sound alike, but because the same kinds of people listen to both.</div>
   </div>
 
-  <figure style="margin: 1.5rem 0; text-align: center;">
-    <img src="images/embeddings-space.png" alt="A scatter plot showing songs and a user plotted as dots in taste space, with similar songs clustering together into groups labeled late-night chill, high-energy hip-hop, pop anthems, and alt/indie" style="max-width: 640px; width: 100%; border-radius: 8px; border: 1px solid #e2e8f0;">
+  <figure style="margin: 1.5rem 0;">
+    <div style="overflow-x:auto;">
+    <svg width="100%" viewBox="0 0 680 420" role="img" style="max-width:680px;display:block;margin:0 auto;">
+    <title>Embeddings space diagram</title>
+    <desc>Songs and a user plotted as dots in taste space with similar songs clustering together.</desc>
+    <defs><marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+    <text font-family="Arial,sans-serif" font-size="12" fill="#667986" x="340" y="18" text-anchor="middle">Each dot is a song or user &mdash; closeness = similarity in taste</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#aaa" x="340" y="405" text-anchor="middle">&larr; more mellow &middot; &middot; &middot; more energetic &rarr;</text>
+    <rect x="40" y="28" width="600" height="360" rx="6" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+    <ellipse cx="180" cy="140" rx="80" ry="60" fill="#E1F5EE" stroke="#1D9E75" stroke-width="0.5" stroke-dasharray="4 3"/>
+    <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#0F6E56" x="180" y="76" text-anchor="middle">late-night chill</text>
+    <circle cx="155" cy="125" r="7" fill="#1D9E75" opacity="0.85"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="155" y="108" text-anchor="middle">Heat Waves</text>
+    <circle cx="205" cy="150" r="7" fill="#1D9E75" opacity="0.85"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="235" y="148" text-anchor="start">Jazz Piano Solo</text>
+    <circle cx="165" cy="170" r="7" fill="#1D9E75" opacity="0.85"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="130" y="185" text-anchor="middle">Ambient Track</text>
+    <circle cx="190" cy="130" r="11" fill="#1DB954" stroke="#fff" stroke-width="2"/>
+    <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#1DB954" x="190" y="113" text-anchor="middle">You</text>
+    <line x1="190" y1="130" x2="162" y2="125" stroke="#1DB954" stroke-width="1" stroke-dasharray="3 2" opacity="0.6"/>
+    <line x1="190" y1="130" x2="205" y2="150" stroke="#1DB954" stroke-width="1" stroke-dasharray="3 2" opacity="0.6"/>
+    <line x1="190" y1="130" x2="165" y2="168" stroke="#1DB954" stroke-width="1" stroke-dasharray="3 2" opacity="0.6"/>
+    <ellipse cx="490" cy="290" rx="85" ry="55" fill="#EBF3FB" stroke="#378ADD" stroke-width="0.5" stroke-dasharray="4 3"/>
+    <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#185FA5" x="490" y="230" text-anchor="middle">high-energy hip-hop</text>
+    <circle cx="460" cy="280" r="7" fill="#378ADD" opacity="0.85"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="440" y="268" text-anchor="middle">HUMBLE.</text>
+    <circle cx="510" cy="295" r="7" fill="#378ADD" opacity="0.85"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="540" y="293" text-anchor="start">God&apos;s Plan</text>
+    <circle cx="480" cy="310" r="7" fill="#378ADD" opacity="0.85"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="455" y="325" text-anchor="middle">Industry Baby</text>
+    <ellipse cx="490" cy="110" rx="80" ry="55" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5" stroke-dasharray="4 3"/>
+    <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#854F0B" x="490" y="50" text-anchor="middle">pop anthems</text>
+    <circle cx="465" cy="100" r="7" fill="#BA7517" opacity="0.85"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="443" y="88" text-anchor="middle">Blinding Lights</text>
+    <circle cx="510" cy="115" r="7" fill="#BA7517" opacity="0.85"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="548" y="113" text-anchor="start">Levitating</text>
+    <circle cx="480" cy="130" r="7" fill="#BA7517" opacity="0.85"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="458" y="145" text-anchor="middle">As It Was</text>
+    <ellipse cx="190" cy="300" rx="75" ry="50" fill="#FBEAF0" stroke="#993556" stroke-width="0.5" stroke-dasharray="4 3"/>
+    <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#72243E" x="190" y="245" text-anchor="middle">alt / indie</text>
+    <circle cx="165" cy="295" r="7" fill="#D4537E" opacity="0.85"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="143" y="283" text-anchor="middle">bad guy</text>
+    <circle cx="210" cy="310" r="7" fill="#D4537E" opacity="0.85"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="238" y="308" text-anchor="start">good 4 u</text>
+    <line x1="210" y1="132" x2="290" y2="145" stroke="#1DB954" stroke-width="1.5" marker-end="url(#arr2)" stroke-dasharray="5 3"/>
+    <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#1DB954" x="295" y="140" text-anchor="start">songs close to you</text>
+    <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#1DB954" x="295" y="155" text-anchor="start">= recommendations</text>
+    <line x1="210" y1="148" x2="420" y2="260" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3 3"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#aaa" x="320" y="230" text-anchor="middle">far away = unlikely</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#aaa" x="320" y="244" text-anchor="middle">to recommend</text>
+    <circle cx="55" cy="370" r="7" fill="#1DB954"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="68" y="374">You (user)</text>
+    <circle cx="140" cy="370" r="6" fill="#1D9E75" opacity="0.85"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="153" y="374">Songs near you &rarr; recommended</text>
+    <circle cx="390" cy="370" r="6" fill="#378ADD" opacity="0.85"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#667986" x="403" y="374">Songs far away &rarr; not recommended</text>
+    </svg>
+    </div>
     <figcaption style="margin-top: 0.75rem; font-size: 13px; color: #667986; line-height: 1.65; max-width: 580px; margin-left: auto; margin-right: auto;">
-      <strong>Figure 4: Embeddings and clustering in taste space.</strong> Each dot is an embedding — a song or user represented as a list of numbers, plotted by position. Songs that attract similar listeners cluster together even if they sound completely different. Heat Waves, a Jazz Piano Solo, and an Ambient Track all end up in the same &ldquo;late-night chill&rdquo; cluster because the same kinds of people listen to all three. The green &ldquo;You&rdquo; dot sits right inside that cluster — those songs are your recommendations. Songs in distant clusters are unlikely to be surfaced. Crucially, Spotify never told the system which songs belong together — the clusters <strong>emerged on their own from the data</strong>. That is unsupervised learning in action: hidden patterns discovered without a correct answer provided.
+      <strong>Figure 4: Embeddings and clustering in taste space.</strong> Each dot is an embedding &mdash; a song or user represented as a list of numbers, plotted by position. Songs that attract similar listeners cluster together even if they sound completely different. The green &ldquo;You&rdquo; dot sits inside the &ldquo;late-night chill&rdquo; cluster &mdash; those songs are your recommendations. Crucially, Spotify never told the system which songs belong together. The clusters <strong>emerged on their own from the data</strong> &mdash; that is unsupervised learning in action.
     </figcaption>
   </figure>
 
@@ -442,10 +555,74 @@
 
   <p>Spotify&rsquo;s decision to centralize is not just a technical choice. It is a strategic one. Every new product or insight draws from the same increasingly rich dataset. The more data flows in, the more valuable every use of it becomes.</p>
 
-  <figure style="margin: 1.5rem 0; text-align: center;">
-    <img src="images/centralized-vs-decentralized.png" alt="Two side-by-side diagrams comparing decentralized data architecture with siloed team data stores on the left, and centralized architecture with one shared pipeline feeding all products on the right" style="max-width: 640px; width: 100%; border-radius: 8px; border: 1px solid #e2e8f0;">
+  <figure style="margin: 1.5rem 0;">
+    <div style="overflow-x:auto;">
+    <svg width="100%" viewBox="0 0 680 420" role="img" style="max-width:680px;display:block;margin:0 auto;">
+    <title>Centralized vs decentralized data architecture</title>
+    <desc>Two diagrams side by side. Left shows siloed team data. Right shows one central pipeline feeding all products.</desc>
+    <defs><marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+    <line x1="340" y1="30" x2="340" y2="400" stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="4 4"/>
+    <rect x="50" y="28" width="260" height="28" rx="4" fill="#FDECEA"/>
+    <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#7B241C" x="180" y="47" text-anchor="middle">Decentralized &mdash; siloed data</text>
+    <rect x="370" y="28" width="260" height="28" rx="4" fill="#E1F5EE"/>
+    <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#085041" x="500" y="47" text-anchor="middle">Centralized &mdash; one pipeline</text>
+    <rect x="130" y="72" width="100" height="36" rx="6" fill="#f0f0f0" stroke="#ccc" stroke-width="0.5"/>
+    <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#555" x="180" y="94" text-anchor="middle">User behavior</text>
+    <rect x="55" y="155" width="88" height="44" rx="6" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+    <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#712B13" x="99" y="172" text-anchor="middle">Recs</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#712B13" x="99" y="188" text-anchor="middle">team data</text>
+    <rect x="136" y="155" width="88" height="44" rx="6" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+    <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#712B13" x="180" y="172" text-anchor="middle">Marketing</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#712B13" x="180" y="188" text-anchor="middle">team data</text>
+    <rect x="217" y="155" width="88" height="44" rx="6" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+    <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#712B13" x="261" y="172" text-anchor="middle">Artists</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#712B13" x="261" y="188" text-anchor="middle">team data</text>
+    <line x1="165" y1="108" x2="110" y2="153" stroke="#D85A30" stroke-width="1.5" marker-end="url(#arr3)"/>
+    <line x1="180" y1="108" x2="180" y2="153" stroke="#D85A30" stroke-width="1.5" marker-end="url(#arr3)"/>
+    <line x1="195" y1="108" x2="250" y2="153" stroke="#D85A30" stroke-width="1.5" marker-end="url(#arr3)"/>
+    <rect x="55" y="240" width="88" height="36" rx="6" fill="#f0f0f0" stroke="#ccc" stroke-width="0.5"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#555" x="99" y="262" text-anchor="middle">Home page</text>
+    <rect x="136" y="240" width="88" height="36" rx="6" fill="#f0f0f0" stroke="#ccc" stroke-width="0.5"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#555" x="180" y="262" text-anchor="middle">Wrapped ???</text>
+    <rect x="217" y="240" width="88" height="36" rx="6" fill="#f0f0f0" stroke="#ccc" stroke-width="0.5"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#555" x="261" y="262" text-anchor="middle">Artist tools</text>
+    <line x1="99" y1="199" x2="99" y2="238" stroke="#ccc" stroke-width="1" marker-end="url(#arr3)"/>
+    <line x1="180" y1="199" x2="180" y2="238" stroke="#ccc" stroke-width="1" marker-end="url(#arr3)"/>
+    <line x1="261" y1="199" x2="261" y2="238" stroke="#ccc" stroke-width="1" marker-end="url(#arr3)"/>
+    <rect x="55" y="295" width="250" height="52" rx="6" fill="#FDECEA" stroke="#C0392B" stroke-width="0.5"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#7B241C" x="180" y="314" text-anchor="middle">Wrapped needs data from all three silos</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#7B241C" x="180" y="330" text-anchor="middle">&mdash; expensive, slow, error-prone</text>
+    <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#7B241C" x="180" y="346" text-anchor="middle">Each team owns its own data</text>
+    <rect x="450" y="72" width="100" height="36" rx="6" fill="#f0f0f0" stroke="#ccc" stroke-width="0.5"/>
+    <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#555" x="500" y="94" text-anchor="middle">User behavior</text>
+    <line x1="500" y1="108" x2="500" y2="138" stroke="#1D9E75" stroke-width="2" marker-end="url(#arr3)"/>
+    <rect x="416" y="140" width="168" height="44" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+    <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#085041" x="500" y="158" text-anchor="middle">Central data pipeline</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#0F6E56" x="500" y="174" text-anchor="middle">one source of truth</text>
+    <line x1="460" y1="184" x2="395" y2="228" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr3)"/>
+    <line x1="480" y1="184" x2="460" y2="228" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr3)"/>
+    <line x1="500" y1="184" x2="500" y2="228" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr3)"/>
+    <line x1="530" y1="184" x2="548" y2="228" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr3)"/>
+    <line x1="550" y1="184" x2="600" y2="228" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr3)"/>
+    <rect x="362" y="230" width="60" height="36" rx="6" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#27500A" x="392" y="252" text-anchor="middle">Home</text>
+    <rect x="428" y="230" width="60" height="36" rx="6" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#27500A" x="458" y="252" text-anchor="middle">Wrapped</text>
+    <rect x="474" y="230" width="60" height="36" rx="6" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#27500A" x="504" y="252" text-anchor="middle">Artists</text>
+    <rect x="520" y="230" width="60" height="36" rx="6" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#27500A" x="550" y="252" text-anchor="middle">Monitor</text>
+    <rect x="566" y="230" width="68" height="36" rx="6" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#27500A" x="600" y="252" text-anchor="middle">Future...</text>
+    <rect x="362" y="295" width="272" height="52" rx="6" fill="#E1F5EE" stroke="#1D9E75" stroke-width="0.5"/>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#085041" x="498" y="314" text-anchor="middle">Every product draws from the same source</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#085041" x="498" y="330" text-anchor="middle">&mdash; Wrapped costs almost nothing extra</text>
+    <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#085041" x="498" y="346" text-anchor="middle">One pipeline. Many products.</text>
+    <text font-family="Arial,sans-serif" font-size="11" fill="#aaa" x="340" y="390" text-anchor="middle">Spotify chose centralized &mdash; that decision made Wrapped, monitoring, and artist tools nearly free to build</text>
+    </svg>
+    </div>
     <figcaption style="margin-top: 0.75rem; font-size: 13px; color: #667986; line-height: 1.65; max-width: 580px; margin-left: auto; margin-right: auto;">
-      <strong>Figure 5: Centralized vs. decentralized data architecture.</strong> In a decentralized organization (left), each team maintains its own data silo. Building Wrapped requires stitching together data from the recommendations team, the marketing team, and the artist tools team &mdash; expensive and slow. In Spotify&rsquo;s centralized architecture (right), one pipeline feeds everything: the Home page, Wrapped, artist dashboards, governance monitoring, and future products not yet built. The result is that Wrapped &mdash; one of Spotify&rsquo;s most powerful marketing tools &mdash; costs almost nothing extra to produce.
+      <strong>Figure 5: Centralized vs. decentralized data architecture.</strong> In a decentralized organization (left), each team maintains its own data silo. Building Wrapped requires stitching together data from three separate sources &mdash; expensive and slow. In Spotify&rsquo;s centralized architecture (right), one pipeline feeds everything: the Home page, Wrapped, artist dashboards, governance monitoring, and future products not yet built. Wrapped &mdash; one of Spotify&rsquo;s most powerful marketing tools &mdash; costs almost nothing extra to produce.
     </figcaption>
   </figure>
 
