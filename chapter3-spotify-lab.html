@@ -215,7 +215,7 @@ Keep each answer to 3-4 sentences.</div>
         <div class="prompt-text">Now quiz me on those four concepts. Ask me one question at a time, wait for my answer, tell me if I got it right and what I missed, then move on to the next question. Don't move on until I can explain each concept correctly in my own words.</div>
       </div>
       <div class="reflect-box">
-        <div class="reflect-label">Reflection &mdash; write 2&ndash;3 sentences</div>
+        <div class="reflect-label">Step 01 Reflection &mdash; write 2&ndash;3 sentences</div>
         <div class="reflect-text">After completing the quiz with Claude, report your score: how many questions did you get right on the first try, and which concept was hardest to explain in your own words? Then answer this: Spotify has 751 million users &mdash; why can't they just hire enough humans to personally recommend music to everyone, and what does that tell you about why AI exists in this business context?</div>
       </div>
     </div>
@@ -292,74 +292,10 @@ df = pd.<span class="cf">DataFrame</span>(listening_history)
         </div>
       </div>
       <div class="reflect-box">
-        <div class="reflect-label">Reflection &mdash; write 2&ndash;3 sentences</div>
+        <div class="reflect-label">Step 02 Reflection &mdash; write 2&ndash;3 sentences</div>
         <div class="reflect-text">Look at your dataset. Each row represents one person's reaction to one song &mdash; captured as a number between 0 and 1. Spotify collects this same kind of data for 751 million users across 100 million songs. What does that scale tell you about why this behavioral data is so valuable, and why a new competitor would struggle to replicate it?</div>
       </div>
 
-      <div class="insight-box">
-        <div class="insight-label">What your dataset looks like as a matrix</div>
-        <div class="insight-text">Here is what your dataset looks like when pivoted into a user-song matrix &mdash; the exact format the recommendation engine will use in Step 3. Each row is a user, each column is a song, and each cell is their engagement score. Notice how some users have similar patterns &mdash; those are the users the algorithm will identify as having similar taste.</div>
-      </div>
-
-      <div style="overflow-x:auto;margin:1rem 0;">
-        <table style="border-collapse:collapse;font-size:11px;width:100%;background:#0d1a0d;border-radius:8px;overflow:hidden;">
-          <thead>
-            <tr style="background:#1a2e1a;">
-              <th style="padding:8px 10px;text-align:left;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">User</th>
-              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">As It Was</th>
-              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">Blinding Lights</th>
-              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">God's Plan</th>
-              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">HUMBLE.</th>
-              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">Heat Waves</th>
-              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">Industry Baby</th>
-              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">Leave The Door Open</th>
-              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">Levitating</th>
-              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">MONTERO</th>
-              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">Peaches</th>
-              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">STAY</th>
-              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">Watermelon Sugar</th>
-              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">bad guy</th>
-              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">drivers license</th>
-              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">good 4 u</th>
-            </tr>
-          </thead>
-          <tbody id="matrix-body">
-          </tbody>
-        </table>
-      </div>
-      <script>
-      (function(){
-        var data = [
-          {u:'user_01', scores:[0.9,0.9,0.1,0.1,0.5,0.1,0.1,0.9,0.5,0.1,0.9,0.9,0.1,0.9,0.5]},
-          {u:'user_02', scores:[0.5,0.9,0.1,0.1,0.5,0.1,0.1,0.9,0.1,0.9,0.5,0.9,0.5,0.9,0.1]},
-          {u:'user_03', scores:[0.1,0.1,0.9,0.9,0.1,0.9,0.1,0.1,0.5,0.5,0.1,0.5,0.9,0.1,0.1]},
-          {u:'user_04', scores:[0.5,0.1,0.9,0.9,0.5,0.9,0.1,0.1,0.9,0.1,0.1,0.9,0.5,0.1,0.1]},
-          {u:'user_05', scores:[0.9,0.9,0.9,0.5,0.5,0.1,0.5,0.5,0.1,0.9,0.5,0.5,0.5,0.1,0.5]},
-          {u:'user_06', scores:[0.9,0.9,0.1,0.5,0.1,0.1,0.9,0.9,0.1,0.9,0.9,0.5,0.1,0.9,0.9]},
-          {u:'user_07', scores:[0.5,0.1,0.1,0.5,0.9,0.1,0.1,0.9,0.9,0.5,0.5,0.9,0.9,0.5,0.5]},
-          {u:'user_08', scores:[0.5,0.9,0.9,0.1,0.1,0.9,0.5,0.9,0.1,0.9,0.9,0.9,0.5,0.9,0.9]},
-          {u:'user_09', scores:[0.5,0.9,0.9,0.9,0.1,0.9,0.5,0.9,0.9,0.5,0.9,0.9,0.1,0.9,0.1]},
-          {u:'user_10', scores:[0.9,0.9,0.1,0.1,0.5,0.1,0.5,0.9,0.1,0.5,0.9,0.5,0.9,0.9,0.9]}
-        ];
-        function cellColor(v) {
-          if (v === 0.9) return 'background:#1a4a1a;color:#6ee7b7;font-weight:700;';
-          if (v === 0.5) return 'background:#1a2a2a;color:#7dd3d0;';
-          return 'background:#2a1a1a;color:#7a4a4a;';
-        }
-        var tbody = document.getElementById('matrix-body');
-        if (tbody) {
-          data.forEach(function(row) {
-            var tr = '<tr>';
-            tr += '<td style="padding:6px 10px;color:#a0b4a0;font-weight:700;border-bottom:1px solid #1a2a1a;white-space:nowrap;">' + row.u + '</td>';
-            row.scores.forEach(function(s) {
-              tr += '<td style="padding:6px;text-align:center;border-bottom:1px solid #1a2a1a;' + cellColor(s) + '">' + s.toFixed(1) + '</td>';
-            });
-            tr += '</tr>';
-            tbody.innerHTML += tr;
-          });
-        }
-      })();
-      </script>
     </div>
   </div>
 
@@ -378,112 +314,161 @@ df = pd.<span class="cf">DataFrame</span>(listening_history)
       </div>
 
       <div style="background:#0d1a0d;border-radius:8px;padding:1.25rem 1.5rem;margin:1rem 0;">
-        <div style="font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#6ee7b7;margin-bottom:1rem;">How Collaborative Filtering works &mdash; four steps</div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
-          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:0.85rem;">
-            <div style="font-size:22px;font-weight:800;color:#1DB954;opacity:0.5;line-height:1;margin-bottom:0.5rem;">01</div>
-            <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.3rem;">Build a matrix</div>
-            <div style="font-size:12px;color:#667788;line-height:1.6;">Users on one axis, songs on the other. Each cell is an engagement score — 0.9 = replayed, 0.5 = played, 0.1 = skipped, 0 = not heard.</div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#6ee7b7;margin-bottom:1.25rem;">How Collaborative Filtering works &mdash; four steps</div>
+
+        <!-- Step 01 -->
+        <div style="margin-bottom:1.75rem;">
+          <div style="display:flex;align-items:flex-start;gap:0.85rem;margin-bottom:0.75rem;">
+            <div style="font-size:11px;font-weight:800;color:#1DB954;letter-spacing:0.1em;text-transform:uppercase;flex-shrink:0;background:rgba(29,185,84,0.12);border:1px solid rgba(29,185,84,0.3);border-radius:4px;padding:4px 8px;line-height:1.2;">STEP 01</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.25rem;">Build a matrix</div>
+              <div style="font-size:12px;color:#667788;line-height:1.6;">Users on one axis, songs on the other. Each cell is an engagement score — 0.9 = replayed, 0.5 = played, 0.1 = skipped, 0 = not heard. This is your Step 2 dataset, pivoted into a grid.</div>
+            </div>
           </div>
-          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:0.85rem;">
-            <div style="font-size:22px;font-weight:800;color:#1DB954;opacity:0.5;line-height:1;margin-bottom:0.5rem;">02</div>
-            <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.3rem;">Find similar users</div>
-            <div style="font-size:12px;color:#667788;line-height:1.6;">Compare User 1's row of scores to every other user's row. Users whose rows look similar have similar taste. We measure this with cosine similarity.</div>
+          <div style="overflow-x:auto;border-radius:6px;border:1px solid rgba(255,255,255,0.06);">
+            <table style="border-collapse:collapse;font-size:10px;width:100%;background:#0a120a;">
+              <thead>
+                <tr style="background:#111f11;">
+                  <th style="padding:5px 8px;text-align:left;color:#6ee7b7;white-space:nowrap;border-bottom:1px solid #1a2a1a;">User</th>
+                  <th style="padding:5px 5px;text-align:center;color:#6ee7b7;white-space:nowrap;border-bottom:1px solid #1a2a1a;">Blinding Lights</th>
+                  <th style="padding:5px 5px;text-align:center;color:#6ee7b7;white-space:nowrap;border-bottom:1px solid #1a2a1a;">Levitating</th>
+                  <th style="padding:5px 5px;text-align:center;color:#6ee7b7;white-space:nowrap;border-bottom:1px solid #1a2a1a;">As It Was</th>
+                  <th style="padding:5px 5px;text-align:center;color:#6ee7b7;white-space:nowrap;border-bottom:1px solid #1a2a1a;">STAY</th>
+                  <th style="padding:5px 5px;text-align:center;color:#6ee7b7;white-space:nowrap;border-bottom:1px solid #1a2a1a;">Peaches</th>
+                  <th style="padding:5px 5px;text-align:center;color:#6ee7b7;white-space:nowrap;border-bottom:1px solid #1a2a1a;">Heat Waves</th>
+                  <th style="padding:5px 5px;text-align:center;color:#6ee7b7;white-space:nowrap;border-bottom:1px solid #1a2a1a;">HUMBLE.</th>
+                  <th style="padding:5px 5px;text-align:center;color:#6ee7b7;white-space:nowrap;border-bottom:1px solid #1a2a1a;">God's Plan</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background:rgba(29,185,84,0.06);border:1px solid rgba(29,185,84,0.2);">
+                  <td style="padding:5px 8px;color:#1DB954;font-weight:700;white-space:nowrap;border-bottom:1px solid #1a2a1a;">user_01 ←you</td>
+                  <td style="padding:5px;text-align:center;background:#1a4a1a;color:#6ee7b7;font-weight:700;border-bottom:1px solid #1a2a1a;">0.9</td>
+                  <td style="padding:5px;text-align:center;background:#1a4a1a;color:#6ee7b7;font-weight:700;border-bottom:1px solid #1a2a1a;">0.9</td>
+                  <td style="padding:5px;text-align:center;background:#1a4a1a;color:#6ee7b7;font-weight:700;border-bottom:1px solid #1a2a1a;">0.9</td>
+                  <td style="padding:5px;text-align:center;background:#1a4a1a;color:#6ee7b7;font-weight:700;border-bottom:1px solid #1a2a1a;">0.9</td>
+                  <td style="padding:5px;text-align:center;background:#2a1a1a;color:#7a4a4a;border-bottom:1px solid #1a2a1a;">0.1</td>
+                  <td style="padding:5px;text-align:center;background:#1a2a2a;color:#7dd3d0;border-bottom:1px solid #1a2a1a;">0.5</td>
+                  <td style="padding:5px;text-align:center;background:#2a1a1a;color:#7a4a4a;border-bottom:1px solid #1a2a1a;">0.1</td>
+                  <td style="padding:5px;text-align:center;background:#2a1a1a;color:#7a4a4a;border-bottom:1px solid #1a2a1a;">0.1</td>
+                </tr>
+                <tr><td style="padding:5px 8px;color:#667788;white-space:nowrap;border-bottom:1px solid #1a2a1a;">user_02</td><td style="padding:5px;text-align:center;background:#1a4a1a;color:#6ee7b7;font-weight:700;border-bottom:1px solid #1a2a1a;">0.9</td><td style="padding:5px;text-align:center;background:#1a4a1a;color:#6ee7b7;font-weight:700;border-bottom:1px solid #1a2a1a;">0.9</td><td style="padding:5px;text-align:center;background:#1a2a2a;color:#7dd3d0;border-bottom:1px solid #1a2a1a;">0.5</td><td style="padding:5px;text-align:center;background:#1a2a2a;color:#7dd3d0;border-bottom:1px solid #1a2a1a;">0.5</td><td style="padding:5px;text-align:center;background:#1a4a1a;color:#6ee7b7;font-weight:700;border-bottom:1px solid #1a2a1a;">0.9</td><td style="padding:5px;text-align:center;background:#1a2a2a;color:#7dd3d0;border-bottom:1px solid #1a2a1a;">0.5</td><td style="padding:5px;text-align:center;background:#2a1a1a;color:#7a4a4a;border-bottom:1px solid #1a2a1a;">0.1</td><td style="padding:5px;text-align:center;background:#2a1a1a;color:#7a4a4a;border-bottom:1px solid #1a2a1a;">0.1</td></tr>
+                <tr><td style="padding:5px 8px;color:#667788;white-space:nowrap;border-bottom:1px solid #1a2a1a;">user_03</td><td style="padding:5px;text-align:center;background:#2a1a1a;color:#7a4a4a;border-bottom:1px solid #1a2a1a;">0.1</td><td style="padding:5px;text-align:center;background:#2a1a1a;color:#7a4a4a;border-bottom:1px solid #1a2a1a;">0.1</td><td style="padding:5px;text-align:center;background:#2a1a1a;color:#7a4a4a;border-bottom:1px solid #1a2a1a;">0.1</td><td style="padding:5px;text-align:center;background:#2a1a1a;color:#7a4a4a;border-bottom:1px solid #1a2a1a;">0.1</td><td style="padding:5px;text-align:center;background:#1a2a2a;color:#7dd3d0;border-bottom:1px solid #1a2a1a;">0.5</td><td style="padding:5px;text-align:center;background:#2a1a1a;color:#7a4a4a;border-bottom:1px solid #1a2a1a;">0.1</td><td style="padding:5px;text-align:center;background:#1a4a1a;color:#6ee7b7;font-weight:700;border-bottom:1px solid #1a2a1a;">0.9</td><td style="padding:5px;text-align:center;background:#1a4a1a;color:#6ee7b7;font-weight:700;border-bottom:1px solid #1a2a1a;">0.9</td></tr>
+                <tr><td style="padding:5px 8px;color:#667788;white-space:nowrap;">user_04</td><td style="padding:5px;text-align:center;background:#2a1a1a;color:#7a4a4a;">0.1</td><td style="padding:5px;text-align:center;background:#2a1a1a;color:#7a4a4a;">0.1</td><td style="padding:5px;text-align:center;background:#1a2a2a;color:#7dd3d0;">0.5</td><td style="padding:5px;text-align:center;background:#2a1a1a;color:#7a4a4a;">0.1</td><td style="padding:5px;text-align:center;background:#2a1a1a;color:#7a4a4a;">0.1</td><td style="padding:5px;text-align:center;background:#1a2a2a;color:#7dd3d0;">0.5</td><td style="padding:5px;text-align:center;background:#1a4a1a;color:#6ee7b7;font-weight:700;">0.9</td><td style="padding:5px;text-align:center;background:#1a4a1a;color:#6ee7b7;font-weight:700;">0.9</td></tr>
+              </tbody>
+            </table>
           </div>
-          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:0.85rem;">
-            <div style="font-size:22px;font-weight:800;color:#1DB954;opacity:0.5;line-height:1;margin-bottom:0.5rem;">03</div>
-            <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.3rem;">Identify gaps</div>
-            <div style="font-size:12px;color:#667788;line-height:1.6;">Look at songs those similar users loved that User 1 hasn't heard yet. Those are the candidates.</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:0.85rem;">
-            <div style="font-size:22px;font-weight:800;color:#1DB954;opacity:0.5;line-height:1;margin-bottom:0.5rem;">04</div>
-            <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.3rem;">Rank &amp; surface</div>
-            <div style="font-size:12px;color:#667788;line-height:1.6;">Score each candidate based on how similar the users who loved it are to User 1. Return the top results.</div>
-          </div>
+          <div style="font-size:10px;color:#445566;margin-top:0.4rem;">Showing 4 of 10 users · 8 of 15 songs for clarity</div>
         </div>
-        <div style="font-size:12px;color:#445566;margin-top:1rem;padding-top:0.75rem;border-top:1px solid rgba(255,255,255,0.06);font-style:italic;">Notice what the algorithm never does: it never listens to the songs or analyzes their genre. It only looks at human behavior — which is exactly what makes it dependent on having lots of users.</div>
-      </div>
 
-      <div class="insight-box">
-        <div class="insight-label">What your output will look like</div>
-        <div class="insight-text">Here is exactly what your code will produce for user_01 — based on the dataset from Step 2. Walk through each stage below to see how the algorithm gets from raw scores to a recommendation.</div>
-      </div>
-
-      <div style="background:#0d1a0d;border-radius:8px;padding:1.25rem 1.5rem;margin:1rem 0;">
-        <div style="font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#6ee7b7;margin-bottom:1rem;">Step-by-step: how user_01 gets their recommendations</div>
-
-        <div style="margin-bottom:1.25rem;">
-          <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.5rem;">① Top 3 most similar users to user_01</div>
+        <!-- Step 02 -->
+        <div style="margin-bottom:1.75rem;">
+          <div style="display:flex;align-items:flex-start;gap:0.85rem;margin-bottom:0.75rem;">
+            <div style="font-size:11px;font-weight:800;color:#1DB954;letter-spacing:0.1em;text-transform:uppercase;flex-shrink:0;background:rgba(29,185,84,0.12);border:1px solid rgba(29,185,84,0.3);border-radius:4px;padding:4px 8px;line-height:1.2;">STEP 02</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.25rem;">Find similar users</div>
+              <div style="font-size:12px;color:#667788;line-height:1.6;">Compare user_01's row against every other user. Users whose rows look most similar have similar taste — measured with cosine similarity. Score closer to 1.0 = more similar.</div>
+            </div>
+          </div>
           <div style="display:flex;flex-direction:column;gap:0.4rem;">
             <div style="display:flex;align-items:center;gap:0.75rem;">
-              <div style="font-size:12px;color:#6ee7b7;font-weight:700;min-width:70px;">user_10</div>
-              <div style="flex:1;background:#1a2a1a;border-radius:4px;height:18px;position:relative;">
-                <div style="width:89%;background:#1DB954;height:100%;border-radius:4px;"></div>
-              </div>
-              <div style="font-size:12px;color:#6ee7b7;min-width:36px;text-align:right;">0.89</div>
+              <div style="font-size:11px;color:#6ee7b7;font-weight:700;min-width:65px;">user_10</div>
+              <div style="flex:1;background:#1a2a1a;border-radius:4px;height:16px;"><div style="width:89%;background:#1DB954;height:100%;border-radius:4px;"></div></div>
+              <div style="font-size:11px;color:#6ee7b7;min-width:32px;text-align:right;">0.89 ✓</div>
             </div>
             <div style="display:flex;align-items:center;gap:0.75rem;">
-              <div style="font-size:12px;color:#6ee7b7;font-weight:700;min-width:70px;">user_02</div>
-              <div style="flex:1;background:#1a2a1a;border-radius:4px;height:18px;position:relative;">
-                <div style="width:87%;background:#1DB954;height:100%;border-radius:4px;"></div>
-              </div>
-              <div style="font-size:12px;color:#6ee7b7;min-width:36px;text-align:right;">0.87</div>
+              <div style="font-size:11px;color:#6ee7b7;font-weight:700;min-width:65px;">user_02</div>
+              <div style="flex:1;background:#1a2a1a;border-radius:4px;height:16px;"><div style="width:87%;background:#1DB954;height:100%;border-radius:4px;"></div></div>
+              <div style="font-size:11px;color:#6ee7b7;min-width:32px;text-align:right;">0.87 ✓</div>
             </div>
             <div style="display:flex;align-items:center;gap:0.75rem;">
-              <div style="font-size:12px;color:#6ee7b7;font-weight:700;min-width:70px;">user_06</div>
-              <div style="flex:1;background:#1a2a1a;border-radius:4px;height:18px;position:relative;">
-                <div style="width:84%;background:#1DB954;height:100%;border-radius:4px;"></div>
-              </div>
-              <div style="font-size:12px;color:#6ee7b7;min-width:36px;text-align:right;">0.84</div>
+              <div style="font-size:11px;color:#6ee7b7;font-weight:700;min-width:65px;">user_06</div>
+              <div style="flex:1;background:#1a2a1a;border-radius:4px;height:16px;"><div style="width:84%;background:#1DB954;height:100%;border-radius:4px;"></div></div>
+              <div style="font-size:11px;color:#6ee7b7;min-width:32px;text-align:right;">0.84 ✓</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <div style="font-size:11px;color:#445566;min-width:65px;">user_03</div>
+              <div style="flex:1;background:#1a2a1a;border-radius:4px;height:16px;"><div style="width:35%;background:#445566;height:100%;border-radius:4px;"></div></div>
+              <div style="font-size:11px;color:#445566;min-width:32px;text-align:right;">0.35</div>
             </div>
           </div>
-          <div style="font-size:11px;color:#445566;margin-top:0.5rem;">Cosine similarity — 1.0 = identical taste, 0 = completely different</div>
+          <div style="font-size:10px;color:#445566;margin-top:0.4rem;">Top 3 similar users selected (✓) · user_03 is too different to be useful</div>
         </div>
 
-        <div style="margin-bottom:1.25rem;">
-          <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.5rem;">② Songs user_01 has NOT heard yet (score &le; 0.1)</div>
-          <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
-            <span style="background:#2a1a1a;color:#ef9999;font-size:11px;padding:3px 8px;border-radius:4px;">God's Plan</span>
-            <span style="background:#2a1a1a;color:#ef9999;font-size:11px;padding:3px 8px;border-radius:4px;">HUMBLE.</span>
-            <span style="background:#2a1a1a;color:#ef9999;font-size:11px;padding:3px 8px;border-radius:4px;">Industry Baby</span>
-            <span style="background:#2a1a1a;color:#ef9999;font-size:11px;padding:3px 8px;border-radius:4px;">Leave The Door Open</span>
-            <span style="background:#2a1a1a;color:#ef9999;font-size:11px;padding:3px 8px;border-radius:4px;">Peaches</span>
-            <span style="background:#2a1a1a;color:#ef9999;font-size:11px;padding:3px 8px;border-radius:4px;">bad guy</span>
+        <!-- Step 03 -->
+        <div style="margin-bottom:1.75rem;">
+          <div style="display:flex;align-items:flex-start;gap:0.85rem;margin-bottom:0.75rem;">
+            <div style="font-size:11px;font-weight:800;color:#1DB954;letter-spacing:0.1em;text-transform:uppercase;flex-shrink:0;background:rgba(29,185,84,0.12);border:1px solid rgba(29,185,84,0.3);border-radius:4px;padding:4px 8px;line-height:1.2;">STEP 03</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.25rem;">Identify gaps</div>
+              <div style="font-size:12px;color:#667788;line-height:1.6;">Look at what those similar users loved that user_01 hasn't heard yet. Those unheard songs are the candidates for recommendation.</div>
+            </div>
           </div>
-          <div style="font-size:11px;color:#445566;margin-top:0.5rem;">These are the candidates — songs similar users loved that user_01 hasn't heard yet</div>
+          <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:flex-start;">
+            <div style="flex:1;min-width:140px;">
+              <div style="font-size:10px;color:#445566;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.4rem;">user_01 has heard</div>
+              <div style="display:flex;flex-wrap:wrap;gap:0.3rem;">
+                <span style="background:#1a4a1a;color:#6ee7b7;font-size:10px;padding:2px 7px;border-radius:3px;">Blinding Lights</span>
+                <span style="background:#1a4a1a;color:#6ee7b7;font-size:10px;padding:2px 7px;border-radius:3px;">Levitating</span>
+                <span style="background:#1a4a1a;color:#6ee7b7;font-size:10px;padding:2px 7px;border-radius:3px;">As It Was</span>
+                <span style="background:#1a4a1a;color:#6ee7b7;font-size:10px;padding:2px 7px;border-radius:3px;">STAY</span>
+                <span style="background:#1a4a1a;color:#6ee7b7;font-size:10px;padding:2px 7px;border-radius:3px;">drivers license</span>
+              </div>
+            </div>
+            <div style="font-size:18px;color:#445566;align-self:center;">→</div>
+            <div style="flex:1;min-width:140px;">
+              <div style="font-size:10px;color:#445566;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.4rem;">gaps — not yet heard</div>
+              <div style="display:flex;flex-wrap:wrap;gap:0.3rem;">
+                <span style="background:#2a1a1a;color:#ef9999;font-size:10px;padding:2px 7px;border-radius:3px;">Peaches</span>
+                <span style="background:#2a1a1a;color:#ef9999;font-size:10px;padding:2px 7px;border-radius:3px;">bad guy</span>
+                <span style="background:#2a1a1a;color:#ef9999;font-size:10px;padding:2px 7px;border-radius:3px;">Leave The Door Open</span>
+                <span style="background:#2a1a1a;color:#ef9999;font-size:10px;padding:2px 7px;border-radius:3px;">HUMBLE.</span>
+                <span style="background:#2a1a1a;color:#ef9999;font-size:10px;padding:2px 7px;border-radius:3px;">God's Plan</span>
+              </div>
+            </div>
+          </div>
         </div>
 
+        <!-- Step 04 -->
         <div>
-          <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.5rem;">③ Top 5 recommendations for user_01</div>
-          <div style="display:flex;flex-direction:column;gap:0.4rem;">
-            <div style="display:flex;align-items:center;gap:0.75rem;background:rgba(29,185,84,0.08);border-radius:6px;padding:0.5rem 0.75rem;">
-              <div style="font-size:13px;font-weight:700;color:#1DB954;min-width:20px;">1</div>
-              <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:#e0e0e0;">Peaches</div><div style="font-size:11px;color:#667788;">Justin Bieber &middot; R&B</div></div>
-              <div style="font-size:12px;color:#1DB954;font-weight:700;">0.763</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:0.75rem;background:rgba(255,255,255,0.03);border-radius:6px;padding:0.5rem 0.75rem;">
-              <div style="font-size:13px;font-weight:700;color:#667788;min-width:20px;">2</div>
-              <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:#e0e0e0;">bad guy</div><div style="font-size:11px;color:#667788;">Billie Eilish &middot; Indie Pop</div></div>
-              <div style="font-size:12px;color:#a0b4a0;">0.507</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:0.75rem;background:rgba(255,255,255,0.03);border-radius:6px;padding:0.5rem 0.75rem;">
-              <div style="font-size:13px;font-weight:700;color:#667788;min-width:20px;">3</div>
-              <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:#e0e0e0;">Leave The Door Open</div><div style="font-size:11px;color:#667788;">Bruno Mars &middot; R&B</div></div>
-              <div style="font-size:12px;color:#a0b4a0;">0.496</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:0.75rem;background:rgba(255,255,255,0.03);border-radius:6px;padding:0.5rem 0.75rem;">
-              <div style="font-size:13px;font-weight:700;color:#667788;min-width:20px;">4</div>
-              <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:#e0e0e0;">HUMBLE.</div><div style="font-size:11px;color:#667788;">Kendrick Lamar &middot; Hip-Hop</div></div>
-              <div style="font-size:12px;color:#a0b4a0;">0.230</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:0.75rem;background:rgba(255,255,255,0.03);border-radius:6px;padding:0.5rem 0.75rem;">
-              <div style="font-size:13px;font-weight:700;color:#667788;min-width:20px;">5</div>
-              <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:#e0e0e0;">God's Plan</div><div style="font-size:11px;color:#667788;">Drake &middot; Hip-Hop</div></div>
-              <div style="font-size:12px;color:#a0b4a0;">0.100</div>
+          <div style="display:flex;align-items:flex-start;gap:0.85rem;margin-bottom:0.75rem;">
+            <div style="font-size:11px;font-weight:800;color:#1DB954;letter-spacing:0.1em;text-transform:uppercase;flex-shrink:0;background:rgba(29,185,84,0.12);border:1px solid rgba(29,185,84,0.3);border-radius:4px;padding:4px 8px;line-height:1.2;">STEP 04</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.25rem;">Rank &amp; surface</div>
+              <div style="font-size:12px;color:#667788;line-height:1.6;">Score each candidate based on how much the similar users loved it. The higher the score, the stronger the recommendation.</div>
             </div>
           </div>
-          <div style="font-size:11px;color:#445566;margin-top:0.5rem;">Predicted score: closer to 0.9 means similar users replayed it. Closer to 0.1 means they only skipped it.</div>
+          <div style="display:flex;flex-direction:column;gap:0.35rem;">
+            <div style="display:flex;align-items:center;gap:0.75rem;background:rgba(29,185,84,0.08);border-radius:5px;padding:0.45rem 0.75rem;">
+              <div style="font-size:12px;font-weight:700;color:#1DB954;min-width:16px;">1</div>
+              <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:#e0e0e0;">Peaches</div><div style="font-size:10px;color:#667788;">Justin Bieber · R&B</div></div>
+              <div style="font-size:11px;color:#1DB954;font-weight:700;">0.763</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.75rem;background:rgba(255,255,255,0.02);border-radius:5px;padding:0.45rem 0.75rem;">
+              <div style="font-size:12px;font-weight:700;color:#667788;min-width:16px;">2</div>
+              <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:#e0e0e0;">bad guy</div><div style="font-size:10px;color:#667788;">Billie Eilish · Indie Pop</div></div>
+              <div style="font-size:11px;color:#a0b4a0;">0.507</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.75rem;background:rgba(255,255,255,0.02);border-radius:5px;padding:0.45rem 0.75rem;">
+              <div style="font-size:12px;font-weight:700;color:#667788;min-width:16px;">3</div>
+              <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:#e0e0e0;">Leave The Door Open</div><div style="font-size:10px;color:#667788;">Bruno Mars · R&B</div></div>
+              <div style="font-size:11px;color:#a0b4a0;">0.496</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.75rem;background:rgba(255,255,255,0.02);border-radius:5px;padding:0.45rem 0.75rem;">
+              <div style="font-size:12px;font-weight:700;color:#667788;min-width:16px;">4</div>
+              <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:#e0e0e0;">HUMBLE.</div><div style="font-size:10px;color:#667788;">Kendrick Lamar · Hip-Hop</div></div>
+              <div style="font-size:11px;color:#a0b4a0;">0.230</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.75rem;background:rgba(255,255,255,0.02);border-radius:5px;padding:0.45rem 0.75rem;">
+              <div style="font-size:12px;font-weight:700;color:#667788;min-width:16px;">5</div>
+              <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:#e0e0e0;">God's Plan</div><div style="font-size:10px;color:#667788;">Drake · Hip-Hop</div></div>
+              <div style="font-size:11px;color:#a0b4a0;">0.100</div>
+            </div>
+          </div>
+          <div style="font-size:10px;color:#445566;margin-top:0.5rem;">Score closer to 0.9 = similar users replayed it · closer to 0.1 = they only skipped it</div>
         </div>
+
+        <div style="font-size:12px;color:#445566;margin-top:1.25rem;padding-top:0.75rem;border-top:1px solid rgba(255,255,255,0.06);font-style:italic;">Notice what the algorithm never does: it never listens to the songs or analyzes their genre. It only looks at human behavior — which is exactly what makes it dependent on having lots of users.</div>
       </div>
       <div class="prompt-box">
         <div class="prompt-label">Paste this into Claude &mdash; then copy the code into Colab and run it</div>
@@ -530,7 +515,7 @@ recommendations = <span class="cf">get_recommendations</span>(
         </div>
       </div>
       <div class="reflect-box">
-        <div class="reflect-label">Reflection &mdash; write 2&ndash;3 sentences</div>
+        <div class="reflect-label">Step 03 Reflection &mdash; write 2&ndash;3 sentences</div>
         <div class="reflect-text">Your system just recommended songs to User 1 without knowing anything about what those songs actually sound like &mdash; it only looked at who else listened to them. Why does that work as a way to find good recommendations, and what does it tell you about why Spotify needs hundreds of millions of users for its system to be accurate?</div>
       </div>
     </div>
@@ -665,7 +650,7 @@ Give me the complete HTML in one block. Add plain-English comments explaining ea
       </div>
 
       <div class="reflect-box">
-        <div class="reflect-label">Reflection &mdash; write 2&ndash;3 sentences</div>
+        <div class="reflect-label">Step 04 Reflection &mdash; write 2&ndash;3 sentences</div>
         <div class="reflect-text">Watch the live data log as you interact. Every click &mdash; skip, play, replay &mdash; is being recorded as a number and fed into the algorithm. Spotify calls these implicit signals. Why is this type of behavioral data more valuable than simply asking users to rate songs on a scale of 1 to 5?</div>
       </div>
     </div>
@@ -686,7 +671,7 @@ Give me the complete HTML in one block. Add plain-English comments explaining ea
       </div>
 
       <div class="reflect-box">
-        <div class="reflect-label">Reflection &mdash; write a paragraph</div>
+        <div class="reflect-label">Step 05 Reflection &mdash; write a paragraph</div>
         <div class="reflect-text">Based on what you read in the case study and what you just built: why is AI governance fundamentally a management problem, not a technical one? What would a manager &mdash; not an engineer &mdash; need to do to make sure a system like the one you built keeps working correctly after it is deployed? Be specific about what organizational decisions, roles, or processes would need to exist.</div>
       </div>
     </div>
@@ -718,7 +703,7 @@ The summary should include:
 Print it as a clean, readable summary. Then write 2-3 sentences explaining: this Wrapped summary uses the exact same data as the recommendation engine. What does that tell us about how Spotify thinks about its data infrastructure as a business asset?</div>
       </div>
       <div class="reflect-box">
-        <div class="reflect-label">Reflection &mdash; write 2&ndash;3 sentences</div>
+        <div class="reflect-label">Step 06 Reflection &mdash; write 2&ndash;3 sentences</div>
         <div class="reflect-text">Spotify Wrapped is essentially a marketing campaign that costs almost nothing extra to produce because it runs on a data pipeline that already exists. Can you think of another company in any industry that could do something similar &mdash; turning data they already collect into a product or experience their customers would want to share?</div>
       </div>
     </div>
@@ -822,7 +807,7 @@ Give me the complete HTML in one block that I can paste directly into GitHub as 
       </div>
 
       <div class="reflect-box">
-        <div class="reflect-label">Reflection &mdash; write 2&ndash;3 sentences</div>
+        <div class="reflect-label">Step 07 Reflection &mdash; write 2&ndash;3 sentences</div>
         <div class="reflect-text">Look at the website Claude generated. You described what you built in plain English and Claude turned it into a polished, employer-facing site. What does that tell you about how AI changes what non-technical business students can produce &mdash; and what skills become more valuable as a result?</div>
       </div>
     </div>
@@ -845,7 +830,7 @@ Give me the complete HTML in one block that I can paste directly into GitHub as 
       </div>
       <p style="margin-top:0.75rem">For each step above, write one sentence describing: (a) what you built in this lab that corresponds to it, and (b) what Spotify does at that step at real scale.</p>
       <div class="reflect-box">
-        <div class="reflect-label">Final reflection &mdash; write a paragraph</div>
+        <div class="reflect-label">Step 08 Final Reflection &mdash; write a paragraph</div>
         <div class="reflect-text">Your system used 10 simulated users. Spotify uses 751 million real ones. Identify one thing that works fine at your scale that would break or become dangerous at Spotify's scale &mdash; and explain how Spotify would need to address it. Think about the data, the algorithm, the training-serving gap, or governance. Use specific concepts from the case study in your answer.</div>
       </div>
     </div>
