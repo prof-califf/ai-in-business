@@ -150,7 +150,7 @@
     <div class="cover-meta">
       <span><strong>Level:</strong> Upper-division undergraduate</span>
       <span><strong>Topics:</strong> Recommendation engines, collaborative filtering, ML pipelines, AI governance</span>
-      <span><strong>Concepts introduced:</strong> 14 key ML vocabulary terms</span>
+      <span><strong>Concepts introduced:</strong> 15 key ML vocabulary terms</span>
     </div>
     <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
       <p style="font-size: 13px; color: #888; margin: 0;">
@@ -218,7 +218,7 @@
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
     <div class="concept-term">Personalization</div>
-    <div class="concept-def">In machine learning, personalization refers to the process of tailoring content, rankings, or experiences to an individual user based on their unique behavioral history and inferred preferences. Personalization systems stand in contrast to one-size-fits-all approaches (everyone sees the same &ldquo;Top 40&rdquo; chart) and to simple rule-based systems (show the user what they last listened to). True ML-powered personalization learns continuously from each user&rsquo;s interactions and updates its understanding of their preferences over time.</div>
+    <div class="concept-def">Personalization means giving each user a different, tailored experience rather than showing everyone the same &ldquo;Top 40&rdquo; chart. Think of it like a knowledgeable music store employee who remembers every album you&rsquo;ve ever bought and steers you toward something you&rsquo;ll love &mdash; rather than just pointing at the bestsellers rack. In Spotify&rsquo;s case, the &ldquo;employee&rdquo; is software that continuously learns from everything you do on the platform and updates its understanding of your taste over time.</div>
   </div>
 
   <p>This case examines how Spotify built that personalization capability, what it cost them to get it right, and what the lessons from their experience reveal about AI as a source of sustainable competitive advantage. The framework we will use throughout is the <strong>AI Factory model</strong>: the idea that the most powerful AI-driven businesses are not companies that simply use AI tools, but companies that have built systems in which data, models, predictions, and decisions continuously reinforce each other to create value.</p>
@@ -281,7 +281,7 @@
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
     <div class="concept-term">Feature engineering</div>
-    <div class="concept-def">Raw data (e.g., &ldquo;user X streamed track Y at timestamp Z&rdquo;) is not directly usable by most ML models. Feature engineering is the process of transforming raw data into structured numerical inputs &mdash; called features &mdash; that a model can learn from. Examples of features Spotify might engineer: &ldquo;number of times user played this artist in the past 30 days,&rdquo; &ldquo;ratio of skips to full listens for this genre,&rdquo; &ldquo;time since last app session,&rdquo; or &ldquo;hour of day of current session.&rdquo; The quality of features often matters as much as the sophistication of the model itself.</div>
+    <div class="concept-def">Raw data on its own &mdash; &ldquo;user played a track at 7:12am on Tuesday&rdquo; &mdash; is not something a model can directly learn from. Feature engineering is the process of transforming that raw data into structured, meaningful inputs a model can actually use. For example: &ldquo;number of times this user played this artist in the past 30 days,&rdquo; &ldquo;percentage of songs in this genre this user listened to all the way through,&rdquo; or &ldquo;time of day when this user most often opens the app.&rdquo; Think of it like preparing ingredients before cooking &mdash; the raw data is the vegetable, and feature engineering chops and seasons it into something the model can use. The quality of these inputs often matters just as much as the sophistication of the model itself.</div>
   </div>
 
   <p>This is what makes data a strategic moat. A new competitor entering the streaming market might be able to license the same song catalog. <strong>They cannot license Spotify&rsquo;s 751-million-user behavioral dataset.</strong></p>
@@ -456,6 +456,12 @@
     </figcaption>
   </figure>
 
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Clustering (unsupervised learning in action)</div>
+    <div class="concept-def">When embeddings are plotted in space, songs that attract similar listeners naturally group together &mdash; even if those songs sound completely different. These groups are called clusters. The remarkable thing is that Spotify never told the system which songs belong together. The system discovered those groupings on its own, purely from behavioral patterns. This is unsupervised learning in action: finding hidden structure in data without being given a correct answer. The &ldquo;late-night chill&rdquo; cluster in Figure 4 was not labeled by a human &mdash; it emerged because the same kinds of people kept listening to those songs at the same times. That is a relationship no human labeling system would have thought to create.</div>
+  </div>
+
   <h3>Stage 2: Ranking</h3>
 
   <p>Once the candidate set has been generated, a second model ranks those options in the best order for this specific listener at this specific moment. The ranking stage considers contextual signals &mdash; time of day, recent listening activity, session length &mdash; to determine not just what is relevant, but what is <em>most</em> relevant right now.</p>
@@ -554,6 +560,12 @@
   <p>The alternative &mdash; <strong>decentralized data architecture</strong> &mdash; is what most organizations end up with by default. Each team or product builds and owns its own data store. The recommendations team has their data, the marketing team has theirs, the artist tools team has theirs. Building something like Wrapped in a decentralized organization would require stitching together three separate data sources &mdash; expensive, slow, and error-prone.</p>
 
   <p>Spotify&rsquo;s decision to centralize is not just a technical choice. It is a strategic one. Every new product or insight draws from the same increasingly rich dataset. The more data flows in, the more valuable every use of it becomes.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Centralized vs. decentralized data architecture</div>
+    <div class="concept-def">Centralized data architecture means all behavioral data flows into one shared pipeline that every team and every product draws from. Decentralized data architecture means each team or product maintains its own separate data store. Centralization is a strategic choice: it costs more to build upfront but makes every future product cheaper, since the infrastructure already exists. Decentralization is often what organizations end up with by default, as teams build what they need independently &mdash; but it creates silos that make cross-team products like Wrapped expensive and slow to produce. Spotify&rsquo;s centralized architecture is a key reason why Wrapped &mdash; one of its most powerful marketing tools &mdash; costs almost nothing extra to produce each year.</div>
+  </div>
 
   <figure style="margin: 1.5rem 0;">
     <div style="overflow-x:auto;">
@@ -693,7 +705,8 @@
     <div class="vocab-card"><div class="vocab-term">Implicit signals</div><div class="vocab-def">Behavioral data (skips, replays) captured without user effort</div></div>
     <div class="vocab-card"><div class="vocab-term">Feature engineering</div><div class="vocab-def">Transforming raw data into structured model inputs</div></div>
     <div class="vocab-card"><div class="vocab-term">Collaborative filtering</div><div class="vocab-def">Recommending based on what similar users have liked — the "people like you also enjoyed..." logic</div></div>
-    <div class="vocab-card"><div class="vocab-term">Embeddings</div><div class="vocab-def">A compact numerical fingerprint for a user or song — similar items end up with similar fingerprints</div></div>
+    <div class="vocab-card"><div class="vocab-term">Embeddings</div><div class="vocab-def">A compact list of numbers representing a user or song — similar items end up with similar numbers and cluster close together in space</div></div>
+    <div class="vocab-card"><div class="vocab-term">Clustering</div><div class="vocab-def">Groups that emerge when similar embeddings are plotted together — discovered by the system without human labels (unsupervised learning)</div></div>
     <div class="vocab-card"><div class="vocab-term">Supervised learning</div><div class="vocab-def">Training on labeled examples to predict outcomes</div></div>
     <div class="vocab-card"><div class="vocab-term">Batch vs. online inference</div><div class="vocab-def">Scheduled vs. real-time prediction generation</div></div>
     <div class="vocab-card"><div class="vocab-term">Training-serving skew</div><div class="vocab-def">Mismatch between training data and production data</div></div>
@@ -701,6 +714,7 @@
     <div class="vocab-card"><div class="vocab-term">AI governance</div><div class="vocab-def">Processes ensuring AI systems behave as intended post-deployment</div></div>
     <div class="vocab-card"><div class="vocab-term">Explore/exploit tradeoff</div><div class="vocab-def">Balancing familiar recommendations vs. new discovery</div></div>
     <div class="vocab-card"><div class="vocab-term">Data moat</div><div class="vocab-def">Proprietary behavioral dataset competitors cannot replicate</div></div>
+    <div class="vocab-card"><div class="vocab-term">Centralized data architecture</div><div class="vocab-def">One shared pipeline feeding all products — makes each new use case cheaper to build</div></div>
   </div>
 
   <h3>Discussion questions</h3>
