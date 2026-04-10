@@ -233,6 +233,10 @@ Keep each answer to 3-4 sentences.</div>
         <div class="insight-label">What you are building</div>
         <div class="insight-text">A table where each row is one listening event: a user, a song, and an implicit engagement score between 0 (skipped immediately) and 1 (replayed multiple times). This is the same type of data Spotify collects every time you interact with the app &mdash; except Spotify's table has billions of rows.</div>
       </div>
+      <div class="insight-box">
+        <div class="insight-label">Feature engineering — you are already doing it</div>
+        <div class="insight-text">Notice that the raw event &ldquo;user skipped this song&rdquo; has already been transformed into a number: 0.1. The raw event &ldquo;user replayed this song three times&rdquo; becomes 0.9. That transformation &mdash; turning a messy real-world action into a clean, structured number a model can learn from &mdash; is called <strong>feature engineering</strong>. It happens before any algorithm runs, and its quality determines how well the whole system works.</div>
+      </div>
       <div class="prompt-box">
         <div class="prompt-label">Paste this into Claude &mdash; then copy the code Claude generates into Colab and run it</div>
         <div class="prompt-text">I am building a simplified Spotify-style recommendation system in Python for MIS 432: AI in Business at Western Washington University.
