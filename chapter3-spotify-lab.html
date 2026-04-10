@@ -216,7 +216,7 @@ Keep each answer to 3-4 sentences.</div>
       </div>
       <div class="reflect-box">
         <div class="reflect-label">Reflection &mdash; write 2&ndash;3 sentences</div>
-        <div class="reflect-text">Spotify has 751 million users. In your own words, why can't they just hire enough humans to personally recommend music to everyone &mdash; and what does that tell you about why AI exists in this business context?</div>
+        <div class="reflect-text">After completing the quiz with Claude, report your score: how many questions did you get right on the first try, and which concept was hardest to explain in your own words? Then answer this: Spotify has 751 million users &mdash; why can't they just hire enough humans to personally recommend music to everyone, and what does that tell you about why AI exists in this business context?</div>
       </div>
     </div>
   </div>
@@ -292,13 +292,78 @@ df = pd.<span class="cf">DataFrame</span>(listening_history)
         </div>
       </div>
       <div class="insight-box">
-        <div class="insight-label">When the code throws an error</div>
+        <div class="insight-label">If the code ever throws an error</div>
         <div class="insight-text">This will happen. Don't panic &mdash; it's part of working with code. Copy the full error message from Colab, go back to Claude, paste it in, and say "this error appeared when I ran your code &mdash; can you fix it?" Claude will diagnose and correct it. This is exactly how real developers work.</div>
       </div>
       <div class="reflect-box">
         <div class="reflect-label">Reflection &mdash; write 2&ndash;3 sentences</div>
         <div class="reflect-text">Look at your dataset. Each row represents one person's reaction to one song &mdash; captured as a number between 0 and 1. Spotify collects this same kind of data for 751 million users across 100 million songs. What does that scale tell you about why this behavioral data is so valuable, and why a new competitor would struggle to replicate it?</div>
       </div>
+
+      <div class="insight-box">
+        <div class="insight-label">What your dataset looks like as a matrix</div>
+        <div class="insight-text">Here is what your dataset looks like when pivoted into a user-song matrix &mdash; the exact format the recommendation engine will use in Step 3. Each row is a user, each column is a song, and each cell is their engagement score. Notice how some users have similar patterns &mdash; those are the users the algorithm will identify as having similar taste.</div>
+      </div>
+
+      <div style="overflow-x:auto;margin:1rem 0;">
+        <table style="border-collapse:collapse;font-size:11px;width:100%;background:#0d1a0d;border-radius:8px;overflow:hidden;">
+          <thead>
+            <tr style="background:#1a2e1a;">
+              <th style="padding:8px 10px;text-align:left;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">User</th>
+              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">As It Was</th>
+              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">Blinding Lights</th>
+              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">God's Plan</th>
+              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">HUMBLE.</th>
+              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">Heat Waves</th>
+              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">Industry Baby</th>
+              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">Leave The Door Open</th>
+              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">Levitating</th>
+              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">MONTERO</th>
+              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">Peaches</th>
+              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">STAY</th>
+              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">Watermelon Sugar</th>
+              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">bad guy</th>
+              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">drivers license</th>
+              <th style="padding:8px 6px;text-align:center;color:#6ee7b7;font-weight:700;border-bottom:1px solid #2a3a2a;white-space:nowrap;">good 4 u</th>
+            </tr>
+          </thead>
+          <tbody id="matrix-body">
+          </tbody>
+        </table>
+      </div>
+      <script>
+      (function(){
+        var data = [
+          {u:'user_01', scores:[0.9,0.9,0.1,0.1,0.5,0.1,0.1,0.9,0.5,0.1,0.9,0.9,0.1,0.9,0.5]},
+          {u:'user_02', scores:[0.5,0.9,0.1,0.1,0.5,0.1,0.1,0.9,0.1,0.9,0.5,0.9,0.5,0.9,0.1]},
+          {u:'user_03', scores:[0.1,0.1,0.9,0.9,0.1,0.9,0.1,0.1,0.5,0.5,0.1,0.5,0.9,0.1,0.1]},
+          {u:'user_04', scores:[0.5,0.1,0.9,0.9,0.5,0.9,0.1,0.1,0.9,0.1,0.1,0.9,0.5,0.1,0.1]},
+          {u:'user_05', scores:[0.9,0.9,0.9,0.5,0.5,0.1,0.5,0.5,0.1,0.9,0.5,0.5,0.5,0.1,0.5]},
+          {u:'user_06', scores:[0.9,0.9,0.1,0.5,0.1,0.1,0.9,0.9,0.1,0.9,0.9,0.5,0.1,0.9,0.9]},
+          {u:'user_07', scores:[0.5,0.1,0.1,0.5,0.9,0.1,0.1,0.9,0.9,0.5,0.5,0.9,0.9,0.5,0.5]},
+          {u:'user_08', scores:[0.5,0.9,0.9,0.1,0.1,0.9,0.5,0.9,0.1,0.9,0.9,0.9,0.5,0.9,0.9]},
+          {u:'user_09', scores:[0.5,0.9,0.9,0.9,0.1,0.9,0.5,0.9,0.9,0.5,0.9,0.9,0.1,0.9,0.1]},
+          {u:'user_10', scores:[0.9,0.9,0.1,0.1,0.5,0.1,0.5,0.9,0.1,0.5,0.9,0.5,0.9,0.9,0.9]}
+        ];
+        function cellColor(v) {
+          if (v === 0.9) return 'background:#1a4a1a;color:#6ee7b7;font-weight:700;';
+          if (v === 0.5) return 'background:#1a2a2a;color:#7dd3d0;';
+          return 'background:#2a1a1a;color:#7a4a4a;';
+        }
+        var tbody = document.getElementById('matrix-body');
+        if (tbody) {
+          data.forEach(function(row) {
+            var tr = '<tr>';
+            tr += '<td style="padding:6px 10px;color:#a0b4a0;font-weight:700;border-bottom:1px solid #1a2a1a;white-space:nowrap;">' + row.u + '</td>';
+            row.scores.forEach(function(s) {
+              tr += '<td style="padding:6px;text-align:center;border-bottom:1px solid #1a2a1a;' + cellColor(s) + '">' + s.toFixed(1) + '</td>';
+            });
+            tr += '</tr>';
+            tbody.innerHTML += tr;
+          });
+        }
+      })();
+      </script>
     </div>
   </div>
 
@@ -317,7 +382,7 @@ df = pd.<span class="cf">DataFrame</span>(listening_history)
       </div>
 
       <div style="background:#0d1a0d;border-radius:8px;padding:1.25rem 1.5rem;margin:1rem 0;">
-        <div style="font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#6ee7b7;margin-bottom:1rem;">How it works — four steps</div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#6ee7b7;margin-bottom:1rem;">How Collaborative Filtering works &mdash; four steps</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
           <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:0.85rem;">
             <div style="font-size:22px;font-weight:800;color:#1DB954;opacity:0.5;line-height:1;margin-bottom:0.5rem;">01</div>
@@ -341,6 +406,88 @@ df = pd.<span class="cf">DataFrame</span>(listening_history)
           </div>
         </div>
         <div style="font-size:12px;color:#445566;margin-top:1rem;padding-top:0.75rem;border-top:1px solid rgba(255,255,255,0.06);font-style:italic;">Notice what the algorithm never does: it never listens to the songs or analyzes their genre. It only looks at human behavior — which is exactly what makes it dependent on having lots of users.</div>
+      </div>
+
+      <div class="insight-box">
+        <div class="insight-label">What your output will look like</div>
+        <div class="insight-text">Here is exactly what your code will produce for user_01 — based on the dataset from Step 2. Walk through each stage below to see how the algorithm gets from raw scores to a recommendation.</div>
+      </div>
+
+      <div style="background:#0d1a0d;border-radius:8px;padding:1.25rem 1.5rem;margin:1rem 0;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#6ee7b7;margin-bottom:1rem;">Step-by-step: how user_01 gets their recommendations</div>
+
+        <div style="margin-bottom:1.25rem;">
+          <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.5rem;">① Top 3 most similar users to user_01</div>
+          <div style="display:flex;flex-direction:column;gap:0.4rem;">
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <div style="font-size:12px;color:#6ee7b7;font-weight:700;min-width:70px;">user_10</div>
+              <div style="flex:1;background:#1a2a1a;border-radius:4px;height:18px;position:relative;">
+                <div style="width:89%;background:#1DB954;height:100%;border-radius:4px;"></div>
+              </div>
+              <div style="font-size:12px;color:#6ee7b7;min-width:36px;text-align:right;">0.89</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <div style="font-size:12px;color:#6ee7b7;font-weight:700;min-width:70px;">user_02</div>
+              <div style="flex:1;background:#1a2a1a;border-radius:4px;height:18px;position:relative;">
+                <div style="width:87%;background:#1DB954;height:100%;border-radius:4px;"></div>
+              </div>
+              <div style="font-size:12px;color:#6ee7b7;min-width:36px;text-align:right;">0.87</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <div style="font-size:12px;color:#6ee7b7;font-weight:700;min-width:70px;">user_06</div>
+              <div style="flex:1;background:#1a2a1a;border-radius:4px;height:18px;position:relative;">
+                <div style="width:84%;background:#1DB954;height:100%;border-radius:4px;"></div>
+              </div>
+              <div style="font-size:12px;color:#6ee7b7;min-width:36px;text-align:right;">0.84</div>
+            </div>
+          </div>
+          <div style="font-size:11px;color:#445566;margin-top:0.5rem;">Cosine similarity — 1.0 = identical taste, 0 = completely different</div>
+        </div>
+
+        <div style="margin-bottom:1.25rem;">
+          <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.5rem;">② Songs user_01 has NOT heard yet (score &le; 0.1)</div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
+            <span style="background:#2a1a1a;color:#ef9999;font-size:11px;padding:3px 8px;border-radius:4px;">God's Plan</span>
+            <span style="background:#2a1a1a;color:#ef9999;font-size:11px;padding:3px 8px;border-radius:4px;">HUMBLE.</span>
+            <span style="background:#2a1a1a;color:#ef9999;font-size:11px;padding:3px 8px;border-radius:4px;">Industry Baby</span>
+            <span style="background:#2a1a1a;color:#ef9999;font-size:11px;padding:3px 8px;border-radius:4px;">Leave The Door Open</span>
+            <span style="background:#2a1a1a;color:#ef9999;font-size:11px;padding:3px 8px;border-radius:4px;">Peaches</span>
+            <span style="background:#2a1a1a;color:#ef9999;font-size:11px;padding:3px 8px;border-radius:4px;">bad guy</span>
+          </div>
+          <div style="font-size:11px;color:#445566;margin-top:0.5rem;">These are the candidates — songs similar users loved that user_01 hasn't heard yet</div>
+        </div>
+
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.5rem;">③ Top 5 recommendations for user_01</div>
+          <div style="display:flex;flex-direction:column;gap:0.4rem;">
+            <div style="display:flex;align-items:center;gap:0.75rem;background:rgba(29,185,84,0.08);border-radius:6px;padding:0.5rem 0.75rem;">
+              <div style="font-size:13px;font-weight:700;color:#1DB954;min-width:20px;">1</div>
+              <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:#e0e0e0;">Peaches</div><div style="font-size:11px;color:#667788;">Justin Bieber &middot; R&B</div></div>
+              <div style="font-size:12px;color:#1DB954;font-weight:700;">0.763</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.75rem;background:rgba(255,255,255,0.03);border-radius:6px;padding:0.5rem 0.75rem;">
+              <div style="font-size:13px;font-weight:700;color:#667788;min-width:20px;">2</div>
+              <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:#e0e0e0;">bad guy</div><div style="font-size:11px;color:#667788;">Billie Eilish &middot; Indie Pop</div></div>
+              <div style="font-size:12px;color:#a0b4a0;">0.507</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.75rem;background:rgba(255,255,255,0.03);border-radius:6px;padding:0.5rem 0.75rem;">
+              <div style="font-size:13px;font-weight:700;color:#667788;min-width:20px;">3</div>
+              <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:#e0e0e0;">Leave The Door Open</div><div style="font-size:11px;color:#667788;">Bruno Mars &middot; R&B</div></div>
+              <div style="font-size:12px;color:#a0b4a0;">0.496</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.75rem;background:rgba(255,255,255,0.03);border-radius:6px;padding:0.5rem 0.75rem;">
+              <div style="font-size:13px;font-weight:700;color:#667788;min-width:20px;">4</div>
+              <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:#e0e0e0;">HUMBLE.</div><div style="font-size:11px;color:#667788;">Kendrick Lamar &middot; Hip-Hop</div></div>
+              <div style="font-size:12px;color:#a0b4a0;">0.230</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.75rem;background:rgba(255,255,255,0.03);border-radius:6px;padding:0.5rem 0.75rem;">
+              <div style="font-size:13px;font-weight:700;color:#667788;min-width:20px;">5</div>
+              <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:#e0e0e0;">God's Plan</div><div style="font-size:11px;color:#667788;">Drake &middot; Hip-Hop</div></div>
+              <div style="font-size:12px;color:#a0b4a0;">0.100</div>
+            </div>
+          </div>
+          <div style="font-size:11px;color:#445566;margin-top:0.5rem;">Predicted score: closer to 0.9 means similar users replayed it. Closer to 0.1 means they only skipped it.</div>
+        </div>
       </div>
       <div class="prompt-box">
         <div class="prompt-label">Paste this into Claude &mdash; then copy the code into Colab and run it</div>
@@ -397,10 +544,70 @@ recommendations = <span class="cf">get_recommendations</span>(
   <div class="step-card">
     <div class="step-header">
       <div class="step-num">4</div>
-      <div><div class="step-title">Experience It &mdash; Use the Live System</div><div class="step-subtitle">AI Factory stage: Decision</div></div>
+      <div><div class="step-title">Build the Live System &mdash; Then Try the Demo</div><div class="step-subtitle">AI Factory stage: Decision</div></div>
     </div>
     <div class="step-body">
-      <p>You have built the algorithm in code. Below is a working version of the same system &mdash; using the same 15 songs and the same collaborative filtering logic &mdash; that you can actually use. Interact with at least 8 songs, then watch the recommendations update in real time. If you have Spotify Premium you can connect your account for real audio playback.</p>
+      <p>You have built the algorithm in Python. Now you are going to build a live interactive version of it &mdash; a web app with Skip, Play, and Replay buttons, real-time recommendations, and a Wrapped button. You will do this by prompting Claude to build it for you. Once you have your version working, compare it against the demo below to see how it stacks up.</p>
+
+      <div class="insight-box">
+        <div class="insight-label">Why build it yourself first?</div>
+        <div class="insight-text">If you see the demo first, building your own version just feels like copying. If you build first, the demo becomes a benchmark &mdash; and the moment you compare the two is where the real learning happens. What does your version do the same? What does it do differently? Why?</div>
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-label">Step 1 &mdash; paste this into Claude to build your own interactive system</div>
+        <div class="prompt-text">I am a student in MIS 432: AI in Business at Western Washington University. I have just built a collaborative filtering recommendation engine in Python. Now I want to build an interactive web version of it.
+
+Please build me a complete, single HTML file that:
+
+1. Shows a catalog of these 15 songs with Skip, Play, and Replay buttons for each:
+- "Blinding Lights" by The Weeknd (Pop)
+- "HUMBLE." by Kendrick Lamar (Hip-Hop)
+- "Levitating" by Dua Lipa (Pop)
+- "bad guy" by Billie Eilish (Indie Pop)
+- "God's Plan" by Drake (Hip-Hop)
+- "As It Was" by Harry Styles (Pop)
+- "MONTERO" by Lil Nas X (Hip-Hop)
+- "drivers license" by Olivia Rodrigo (Pop)
+- "Watermelon Sugar" by Harry Styles (Pop)
+- "Peaches" by Justin Bieber (R&B)
+- "Industry Baby" by Lil Nas X (Hip-Hop)
+- "good 4 u" by Olivia Rodrigo (Pop Rock)
+- "Leave The Door Open" by Bruno Mars (R&B)
+- "STAY" by The Kid LAROI and Justin Bieber (Pop)
+- "Heat Waves" by Glass Animals (Indie)
+
+2. Records implicit engagement scores as the user interacts: 0.9 for replay, 0.5 for play, 0.1 for skip
+
+3. Uses collaborative filtering and cosine similarity to generate real-time recommendations based on these 9 pre-defined users and their engagement scores:
+user_01: As It Was=0.9, Blinding Lights=0.9, God's Plan=0.1, HUMBLE.=0.1, Heat Waves=0.5, Industry Baby=0.1, Leave The Door Open=0.1, Levitating=0.9, MONTERO=0.5, Peaches=0.1, STAY=0.9, Watermelon Sugar=0.9, bad guy=0.1, drivers license=0.9, good 4 u=0.5
+user_02: As It Was=0.5, Blinding Lights=0.9, God's Plan=0.1, HUMBLE.=0.1, Heat Waves=0.5, Industry Baby=0.1, Leave The Door Open=0.1, Levitating=0.9, MONTERO=0.1, Peaches=0.9, STAY=0.5, Watermelon Sugar=0.9, bad guy=0.5, drivers license=0.9, good 4 u=0.1
+user_03: As It Was=0.1, Blinding Lights=0.1, God's Plan=0.9, HUMBLE.=0.9, Heat Waves=0.1, Industry Baby=0.9, Leave The Door Open=0.1, Levitating=0.1, MONTERO=0.5, Peaches=0.5, STAY=0.1, Watermelon Sugar=0.5, bad guy=0.9, drivers license=0.1, good 4 u=0.1
+user_04: As It Was=0.5, Blinding Lights=0.1, God's Plan=0.9, HUMBLE.=0.9, Heat Waves=0.5, Industry Baby=0.9, Leave The Door Open=0.1, Levitating=0.1, MONTERO=0.9, Peaches=0.1, STAY=0.1, Watermelon Sugar=0.9, bad guy=0.5, drivers license=0.1, good 4 u=0.1
+user_05: As It Was=0.9, Blinding Lights=0.9, God's Plan=0.9, HUMBLE.=0.5, Heat Waves=0.5, Industry Baby=0.1, Leave The Door Open=0.5, Levitating=0.5, MONTERO=0.1, Peaches=0.9, STAY=0.5, Watermelon Sugar=0.5, bad guy=0.5, drivers license=0.1, good 4 u=0.5
+user_06: As It Was=0.9, Blinding Lights=0.9, God's Plan=0.1, HUMBLE.=0.5, Heat Waves=0.1, Industry Baby=0.1, Leave The Door Open=0.9, Levitating=0.9, MONTERO=0.1, Peaches=0.9, STAY=0.9, Watermelon Sugar=0.5, bad guy=0.1, drivers license=0.9, good 4 u=0.9
+user_07: As It Was=0.5, Blinding Lights=0.1, God's Plan=0.1, HUMBLE.=0.5, Heat Waves=0.9, Industry Baby=0.1, Leave The Door Open=0.1, Levitating=0.9, MONTERO=0.9, Peaches=0.5, STAY=0.5, Watermelon Sugar=0.9, bad guy=0.9, drivers license=0.5, good 4 u=0.5
+user_08: As It Was=0.5, Blinding Lights=0.9, God's Plan=0.9, HUMBLE.=0.1, Heat Waves=0.1, Industry Baby=0.9, Leave The Door Open=0.5, Levitating=0.9, MONTERO=0.1, Peaches=0.9, STAY=0.9, Watermelon Sugar=0.9, bad guy=0.5, drivers license=0.9, good 4 u=0.9
+user_09: As It Was=0.5, Blinding Lights=0.9, God's Plan=0.9, HUMBLE.=0.9, Heat Waves=0.1, Industry Baby=0.9, Leave The Door Open=0.5, Levitating=0.9, MONTERO=0.9, Peaches=0.5, STAY=0.9, Watermelon Sugar=0.9, bad guy=0.1, drivers license=0.9, good 4 u=0.1
+
+4. Shows a live data log of signals being collected as the user interacts
+
+5. Has a "Generate my Wrapped" button that produces a personalized year-in-review from the same engagement data
+
+6. Uses Spotify-style design: dark background (#191414), green accents (#1DB954)
+
+Give me the complete HTML in one block. Add plain-English comments explaining each section.</div>
+      </div>
+
+      <div class="insight-box">
+        <div class="insight-label">Step 2 &mdash; open your HTML file and test it</div>
+        <div class="insight-text">Save the HTML file Claude generates to your desktop. Open it in your browser. Interact with at least 8 songs and watch the recommendations update. Then hit Generate my Wrapped. Does it work? If anything breaks, paste the error back to Claude and say "fix this."</div>
+      </div>
+
+      <div class="insight-box">
+        <div class="insight-label">Step 3 &mdash; now compare against the demo below</div>
+        <div class="insight-text">Use the live demo below and interact with the same songs in the same order. Do you get the same recommendations? The same Wrapped? If not &mdash; why not? What did you do differently in your prompt that changed the behavior?</div>
+      </div>
 
       <!-- LIVE SYSTEM -->
       <div class="lab-system">
@@ -433,7 +640,10 @@ recommendations = <span class="cf">get_recommendations</span>(
             <div id="playbar" class="playbar">
               <div class="pb-art" id="pb-art"></div>
               <div class="pb-info"><div class="pb-name" id="pb-name"></div><div class="pb-artist" id="pb-artist"></div></div>
-              <div class="pb-status" id="pb-status">&#9654; Playing</div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div class="pb-status" id="pb-status">&#9654; Playing</div>
+                <button id="btn-stop" onclick="stopPlayback()" style="background:#2a2a2a;border:1px solid #3a3a3a;color:#ccc;border-radius:4px;padding:3px 10px;font-size:12px;cursor:pointer;display:none;">&#9632; Stop</button>
+              </div>
             </div>
           </div>
           <div style="display:flex;flex-direction:column;gap:10px">
@@ -471,29 +681,19 @@ recommendations = <span class="cf">get_recommendations</span>(
   <div class="step-card">
     <div class="step-header">
       <div class="step-num">5</div>
-      <div><div class="step-title">Break It &mdash; The Training-Serving Gap</div><div class="step-subtitle">AI Factory stage: when things go wrong</div></div>
+      <div><div class="step-title">AI Governance: The Management Problem</div><div class="step-subtitle">AI Factory stage: keeping the system working</div></div>
     </div>
     <div class="step-body">
-      <p>This is the most important step in the lab. You are going to deliberately break your system in exactly the same way Spotify's podcast model broke &mdash; and watch the silent degradation happen. Paste the prompt below into Claude, then copy the new code into your Colab notebook and run it.</p>
+      <p>You just built a working recommendation system. Spotify built one too &mdash; and then watched it quietly fail for four months without anyone noticing. No crash. No error message. Just subtly worse recommendations, invisible on any dashboard.</p>
+
       <div class="danger-box">
-        <div class="danger-label">What you are about to demonstrate</div>
-        <div class="danger-text">Spotify's podcast recommendations quietly got worse for four months before anyone noticed. No error message. No crash. The system kept running and producing recommendations &mdash; they were just subtly wrong. You are going to recreate that exact failure mode and observe it firsthand.</div>
+        <div class="danger-label">What happened at Spotify</div>
+        <div class="danger-text">When Spotify moved the Podcast Model to real-time serving, a small discrepancy crept in between how training data and live data were being processed. The model kept running. Podcast recommendations kept appearing. They were just subtly worse than they should have been &mdash; and nobody noticed for four months. Spotify&rsquo;s real fix wasn&rsquo;t just technical. They built monitoring systems, unified their data pipeline, and assigned people to own it. That&rsquo;s AI governance.</div>
       </div>
-      <div class="prompt-box">
-        <div class="prompt-label">Paste this into Claude &mdash; then copy the code into Colab and run it to see the gap in action</div>
-        <div class="prompt-text">Using all the code from my previous steps, please add a demonstration of the training-serving gap — the same failure that silently degraded Spotify's podcast recommendations for four months.
 
-The demonstration should:
-1. Show the correct recommendations when training and serving data are processed identically — call this the "baseline"
-2. Introduce one subtle preprocessing difference: normalize engagement scores differently at serving time than at training time (for example, min-max scaling at training but z-score normalization at serving)
-3. Show how the recommendations change — they should shift subtly, not dramatically
-4. Add a simple data validation check that compares the mean and standard deviation of scores at training versus serving time, and prints a warning if they diverge by more than 10%
-
-Give me all previous code plus this new section in one complete block. Add a plain-English comment above each new section. After the code, write 2-3 sentences explaining: why is a subtle degradation more dangerous for a business than an outright crash?</div>
-      </div>
       <div class="reflect-box">
-        <div class="reflect-label">Reflection &mdash; write 2&ndash;3 sentences</div>
-        <div class="reflect-text">You just fixed the training-serving gap by changing the code. But Spotify&rsquo;s real fix was organizational &mdash; they built monitoring systems, unified their data pipeline, and assigned people to own it. What does that tell you about why AI governance is a management problem, not just a technical one &mdash; and what would it look like for a business to get this right from day one?</div>
+        <div class="reflect-label">Reflection &mdash; write a paragraph</div>
+        <div class="reflect-text">Based on what you read in the case study and what you just built: why is AI governance fundamentally a management problem, not a technical one? What would a manager &mdash; not an engineer &mdash; need to do to make sure a system like the one you built keeps working correctly after it is deployed? Be specific about what organizational decisions, roles, or processes would need to exist.</div>
       </div>
     </div>
   </div>
@@ -505,7 +705,7 @@ Give me all previous code plus this new section in one complete block. Add a pla
       <div><div class="step-title">Generate Your Wrapped</div><div class="step-subtitle">AI Factory stage: Value</div></div>
     </div>
     <div class="step-body">
-      <p>First, go back to the live system in Step 4 and interact with at least 10 songs, then hit <strong>Generate my Wrapped</strong>. Then paste the prompt below into Claude, copy the code it generates into your Colab notebook, and run it to generate a Wrapped from the simulated dataset.</p>
+      <p>You are going to generate a Wrapped-style year-in-review using the exact same dataset you built in Step 2 &mdash; no new data, no new pipeline. Paste the prompt below into Claude, copy the code into your Colab notebook, and run it. If you want to see what the output should look like, use the demo in Step 4 as a reference.</p>
       <div class="insight-box">
         <div class="insight-label">The central insight of this step</div>
         <div class="insight-text">The Wrapped you are about to generate uses the exact same dataset &mdash; the same rows, the same engagement scores &mdash; that powered your recommendation engine in Steps 2 and 3. Spotify does not build a separate system for Wrapped. It is the same infrastructure, repurposed. That is why it costs Spotify almost nothing to produce, and why it generated 600 million social media posts in 2023.</div>
@@ -555,7 +755,7 @@ Here is what I built and learned:
 
 2. I built a collaborative filtering recommendation engine that creates a user-song matrix, calculates cosine similarity between users, and recommends songs that similar users loved but the target user hasn't heard yet
 
-3. I deliberately broke my system by recreating the training-serving gap — the same failure that silently degraded Spotify's podcast recommendations for four months without anyone noticing. I introduced a subtle preprocessing difference and watched the recommendations shift without any error message appearing
+3. I explored what happens when AI systems fail silently — and why AI governance is a management problem, not just a technical one
 
 4. I generated a Wrapped-style year-in-review summary for a user using the exact same dataset that powered the recommendations — demonstrating that Spotify Wrapped costs almost nothing to produce because it runs on the same infrastructure
 
@@ -701,6 +901,7 @@ function interact(id,val,act){
     document.getElementById('pb-name').textContent=s.name;
     document.getElementById('pb-artist').textContent=s.artist;
     document.getElementById('pb-status').textContent=act==='replay'?'🔁 Replaying':'▶ Playing';
+    document.getElementById('btn-stop').style.display='inline-block';
     if(spToken&&deviceId) playTrack(s.sid);
   }
   const log=document.getElementById('dlog');
@@ -715,6 +916,16 @@ function interact(id,val,act){
   document.getElementById('ct-r').textContent=r;
   updateRecs();
   document.getElementById('wbtn').disabled=seen.size<6;
+}
+
+function stopPlayback(){
+  const pb=document.getElementById('playbar');
+  pb.className='playbar';
+  document.getElementById('pb-status').textContent='▶ Playing';
+  document.getElementById('btn-stop').style.display='none';
+  if(spToken&&deviceId){
+    fetch('https://api.spotify.com/v1/me/player/pause',{method:'PUT',headers:{Authorization:'Bearer '+spToken}});
+  }
 }
 
 function cosim(a,b){
