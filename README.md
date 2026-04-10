@@ -58,7 +58,9 @@ This textbook is free to use, adapt, and share for educational purposes. If you 
  
 ## Author
  
-**[Your Name]**  
-MIS 432: AI in Business  
+Christopher B. Califf  
+MIS 432: AI in Business
+Department of Decision Sciences
 College of Business and Economics  
 Western Washington University
+https://cbe.wwu.edu/people/califfc
