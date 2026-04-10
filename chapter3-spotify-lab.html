@@ -305,10 +305,38 @@ df = pd.<span class="cf">DataFrame</span>(listening_history)
       <div><div class="step-title">Build the Recommendation Engine</div><div class="step-subtitle">AI Factory stage: Model + Prediction</div></div>
     </div>
     <div class="step-body">
-      <p>Now you add the algorithm. Paste the prompt below into Claude &mdash; it will generate the next block of code and walk you through what each part does. Copy that code into your Colab notebook, replacing what's already there, and run it to see the recommendations appear.</p>
+      <p>Now you add the algorithm. Before you paste the prompt, take a minute to understand what collaborative filtering is actually doing — the code will make a lot more sense once you see the logic.</p>
+
       <div class="insight-box">
-        <div class="insight-label">What collaborative filtering actually does</div>
-        <div class="insight-text">It builds a matrix &mdash; users on one axis, songs on the other, engagement scores in the cells. Then it measures how similar each pair of users is based on their listening patterns. To recommend songs for User 1, it finds users whose patterns look most like User 1's, and surfaces songs those users loved that User 1 hasn't heard yet.</div>
+        <div class="insight-label">Quick reminder: what is collaborative filtering?</div>
+        <div class="insight-text">Collaborative filtering is the idea that <strong>people with similar taste in the past will have similar taste in the future</strong>. The system never listens to a song or reads its lyrics — it only looks at human behavior. Who listened to what, and how much did they engage? That pattern of behavior is enough to make surprisingly good recommendations.</div>
+      </div>
+
+      <div style="background:#0d1a0d;border-radius:8px;padding:1.25rem 1.5rem;margin:1rem 0;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#6ee7b7;margin-bottom:1rem;">How it works — four steps</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:0.85rem;">
+            <div style="font-size:22px;font-weight:800;color:#1DB954;opacity:0.5;line-height:1;margin-bottom:0.5rem;">01</div>
+            <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.3rem;">Build a matrix</div>
+            <div style="font-size:12px;color:#667788;line-height:1.6;">Users on one axis, songs on the other. Each cell is an engagement score — 0.9 = replayed, 0.5 = played, 0.1 = skipped, 0 = not heard.</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:0.85rem;">
+            <div style="font-size:22px;font-weight:800;color:#1DB954;opacity:0.5;line-height:1;margin-bottom:0.5rem;">02</div>
+            <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.3rem;">Find similar users</div>
+            <div style="font-size:12px;color:#667788;line-height:1.6;">Compare User 1's row of scores to every other user's row. Users whose rows look similar have similar taste. We measure this with cosine similarity.</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:0.85rem;">
+            <div style="font-size:22px;font-weight:800;color:#1DB954;opacity:0.5;line-height:1;margin-bottom:0.5rem;">03</div>
+            <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.3rem;">Identify gaps</div>
+            <div style="font-size:12px;color:#667788;line-height:1.6;">Look at songs those similar users loved that User 1 hasn't heard yet. Those are the candidates.</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:0.85rem;">
+            <div style="font-size:22px;font-weight:800;color:#1DB954;opacity:0.5;line-height:1;margin-bottom:0.5rem;">04</div>
+            <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:0.3rem;">Rank &amp; surface</div>
+            <div style="font-size:12px;color:#667788;line-height:1.6;">Score each candidate based on how similar the users who loved it are to User 1. Return the top results.</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:#445566;margin-top:1rem;padding-top:0.75rem;border-top:1px solid rgba(255,255,255,0.06);font-style:italic;">Notice what the algorithm never does: it never listens to the songs or analyzes their genre. It only looks at human behavior — which is exactly what makes it dependent on having lots of users.</div>
       </div>
       <div class="prompt-box">
         <div class="prompt-label">Paste this into Claude &mdash; then copy the code into Colab and run it</div>
