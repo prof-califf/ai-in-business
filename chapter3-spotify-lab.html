@@ -592,9 +592,7 @@ user_09: As It Was=0.5, Blinding Lights=0.9, God's Plan=0.9, HUMBLE.=0.9, Heat W
 
 4. Shows a live data log of signals being collected as the user interacts
 
-5. Has a "Generate my Wrapped" button that produces a personalized year-in-review from the same engagement data
-
-6. Uses Spotify-style design: dark background (#191414), green accents (#1DB954)
+5. Uses Spotify-style design: dark background (#191414), green accents (#1DB954)
 
 Give me the complete HTML in one block. Add plain-English comments explaining each section.</div>
       </div>
@@ -769,15 +767,38 @@ PART 1 — THE BUSINESS STORY
 - End with 3 key business lessons from this project
 
 PART 2 — THE LIVE RECOMMENDATION SYSTEM
-- Build a fully working interactive recommendation system using these exact 15 songs: "Blinding Lights" by The Weeknd (Pop), "HUMBLE." by Kendrick Lamar (Hip-Hop), "Levitating" by Dua Lipa (Pop), "bad guy" by Billie Eilish (Indie Pop), "God's Plan" by Drake (Hip-Hop), "As It Was" by Harry Styles (Pop), "MONTERO" by Lil Nas X (Hip-Hop), "drivers license" by Olivia Rodrigo (Pop), "Watermelon Sugar" by Harry Styles (Pop), "Peaches" by Justin Bieber (R&B), "Industry Baby" by Lil Nas X (Hip-Hop), "good 4 u" by Olivia Rodrigo (Pop Rock), "Leave The Door Open" by Bruno Mars (R&B), "STAY" by The Kid LAROI & Justin Bieber (Pop), "Heat Waves" by Glass Animals (Indie)
-- Visitors should be able to click Skip, Play, or Replay on each song
-- After a few interactions, recommendations should appear in real time using collaborative filtering and cosine similarity — the same algorithm I built in Python
-- Include a live data log showing the implicit signals being collected as visitors interact
-- Include a "Generate my Wrapped" button that produces a personalized summary from the same behavioral data
+This section must feel like a real, polished Spotify-quality product. Build it to this exact specification:
+
+- A song catalog with these exact 15 songs, each with Skip, Play, and Replay buttons:
+"Blinding Lights" by The Weeknd (Pop), "HUMBLE." by Kendrick Lamar (Hip-Hop), "Levitating" by Dua Lipa (Pop), "bad guy" by Billie Eilish (Indie Pop), "God's Plan" by Drake (Hip-Hop), "As It Was" by Harry Styles (Pop), "MONTERO" by Lil Nas X (Hip-Hop), "drivers license" by Olivia Rodrigo (Pop), "Watermelon Sugar" by Harry Styles (Pop), "Peaches" by Justin Bieber (R&B), "Industry Baby" by Lil Nas X (Hip-Hop), "good 4 u" by Olivia Rodrigo (Pop Rock), "Leave The Door Open" by Bruno Mars (R&B), "STAY" by The Kid LAROI & Justin Bieber (Pop), "Heat Waves" by Glass Animals (Indie)
+
+- Engagement scores: 0.9 for replay, 0.5 for play, 0.1 for skip
+
+- Collaborative filtering using cosine similarity against these 9 pre-defined users:
+user_01: As It Was=0.9, Blinding Lights=0.9, God's Plan=0.1, HUMBLE.=0.1, Heat Waves=0.5, Industry Baby=0.1, Leave The Door Open=0.1, Levitating=0.9, MONTERO=0.5, Peaches=0.1, STAY=0.9, Watermelon Sugar=0.9, bad guy=0.1, drivers license=0.9, good 4 u=0.5
+user_02: As It Was=0.5, Blinding Lights=0.9, God's Plan=0.1, HUMBLE.=0.1, Heat Waves=0.5, Industry Baby=0.1, Leave The Door Open=0.1, Levitating=0.9, MONTERO=0.1, Peaches=0.9, STAY=0.5, Watermelon Sugar=0.9, bad guy=0.5, drivers license=0.9, good 4 u=0.1
+user_03: As It Was=0.1, Blinding Lights=0.1, God's Plan=0.9, HUMBLE.=0.9, Heat Waves=0.1, Industry Baby=0.9, Leave The Door Open=0.1, Levitating=0.1, MONTERO=0.5, Peaches=0.5, STAY=0.1, Watermelon Sugar=0.5, bad guy=0.9, drivers license=0.1, good 4 u=0.1
+user_04: As It Was=0.5, Blinding Lights=0.1, God's Plan=0.9, HUMBLE.=0.9, Heat Waves=0.5, Industry Baby=0.9, Leave The Door Open=0.1, Levitating=0.1, MONTERO=0.9, Peaches=0.1, STAY=0.1, Watermelon Sugar=0.9, bad guy=0.5, drivers license=0.1, good 4 u=0.1
+user_05: As It Was=0.9, Blinding Lights=0.9, God's Plan=0.9, HUMBLE.=0.5, Heat Waves=0.5, Industry Baby=0.1, Leave The Door Open=0.5, Levitating=0.5, MONTERO=0.1, Peaches=0.9, STAY=0.5, Watermelon Sugar=0.5, bad guy=0.5, drivers license=0.1, good 4 u=0.5
+user_06: As It Was=0.9, Blinding Lights=0.9, God's Plan=0.1, HUMBLE.=0.5, Heat Waves=0.1, Industry Baby=0.1, Leave The Door Open=0.9, Levitating=0.9, MONTERO=0.1, Peaches=0.9, STAY=0.9, Watermelon Sugar=0.5, bad guy=0.1, drivers license=0.9, good 4 u=0.9
+user_07: As It Was=0.5, Blinding Lights=0.1, God's Plan=0.1, HUMBLE.=0.5, Heat Waves=0.9, Industry Baby=0.1, Leave The Door Open=0.1, Levitating=0.9, MONTERO=0.9, Peaches=0.5, STAY=0.5, Watermelon Sugar=0.9, bad guy=0.9, drivers license=0.5, good 4 u=0.5
+user_08: As It Was=0.5, Blinding Lights=0.9, God's Plan=0.9, HUMBLE.=0.1, Heat Waves=0.1, Industry Baby=0.9, Leave The Door Open=0.5, Levitating=0.9, MONTERO=0.1, Peaches=0.9, STAY=0.9, Watermelon Sugar=0.9, bad guy=0.5, drivers license=0.9, good 4 u=0.9
+user_09: As It Was=0.5, Blinding Lights=0.9, God's Plan=0.9, HUMBLE.=0.9, Heat Waves=0.1, Industry Baby=0.9, Leave The Door Open=0.5, Levitating=0.9, MONTERO=0.9, Peaches=0.5, STAY=0.9, Watermelon Sugar=0.9, bad guy=0.1, drivers license=0.9, good 4 u=0.1
+
+- A Spotify Connect button that lets users with Spotify Premium log in using OAuth PKCE flow with this client ID: b586d81f528c4bc29c12141188543ec1 — when connected, clicking Play or Replay should stream the actual song through Spotify's Web Playback SDK. Users without Premium use demo mode automatically.
+
+- A playbar at the bottom showing the currently playing song with Play, Pause, and Stop controls
+
+- A live data log showing implicit signals being collected as visitors interact
+
+- A "Generate my Wrapped" button that produces a personalized summary from the same behavioral data
+
+- A signal counter showing total plays, skips, and replays
 
 PART 3 — DESIGN
 - Use Spotify-style design: dark background (#191414), green accents (#1DB954), clean and professional
-- The recommendation system should feel like a real product, not a class project
+- The recommendation system must feel like a real product — polished, not a class project
+- Two-column layout for the system: song catalog on the left, recommendations and data log on the right
 - Be written for a potential employer who has no technical background — focus on business insight, not code
 - Include a note that this was completed as part of MIS 432: AI in Business at Western Washington University
 
