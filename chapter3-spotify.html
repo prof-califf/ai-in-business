@@ -163,7 +163,7 @@
     <a href="#s5">5. Step 1 &mdash; Data: Every Action Is an Asset</a>
     <a href="#s6">6. Step 2 &mdash; Model: Teaching Machines to Know You</a>
     <a href="#s7">7. Step 3 &mdash; Prediction: Real Time, Every Time</a>
-    <a href="#s8">8. What Went Wrong: A Lesson in Data Consistency</a>
+    <a href="#s8">8. Things Can Go Wrong</a>
     <a href="#s9">9. Step 4 &mdash; Decision: Predictions into Product</a>
     <a href="#s10">10. Step 5 &mdash; Value: Wrapped Is the Proof</a>
     <a href="#s11">11. Competitive Advantage</a>
@@ -175,17 +175,26 @@
 
   <div class="stats-row">
     <div class="stat-card"><div class="stat-num">2006</div><div class="stat-label">Founded in Stockholm</div></div>
-    <div class="stat-card"><div class="stat-num">602M</div><div class="stat-label">Monthly active users (2024)</div></div>
-    <div class="stat-card"><div class="stat-num">236M</div><div class="stat-label">Paying subscribers</div></div>
+    <div class="stat-card"><div class="stat-num">751M</div><div class="stat-label">Monthly active users</div></div>
+    <div class="stat-card"><div class="stat-num">290M</div><div class="stat-label">Paying subscribers</div></div>
     <div class="stat-card"><div class="stat-num">100M+</div><div class="stat-label">Tracks in catalog</div></div>
-    <div class="stat-card"><div class="stat-num">180+</div><div class="stat-label">Countries</div></div>
+    <div class="stat-card"><div class="stat-num">7M</div><div class="stat-label">Podcast titles</div></div>
+    <div class="stat-card"><div class="stat-num">500K</div><div class="stat-label">Audiobooks (select markets)</div></div>
+    <div class="stat-card"><div class="stat-num">184</div><div class="stat-label">Markets</div></div>
   </div>
 
   <p>Spotify was founded in Stockholm, Sweden in 2006 by Daniel Ek and Martin Lorentzon, launching publicly in 2008. The company was born in direct response to rampant music piracy &mdash; particularly the peer-to-peer file-sharing platform Pirate Bay &mdash; and was built on a simple but powerful premise: make legal music streaming so frictionless, affordable, and enjoyable that piracy becomes less attractive than paying.</p>
 
-  <p>Spotify went public on the New York Stock Exchange in April 2018 via an unconventional direct listing, and today operates as one of the world&rsquo;s most valuable media companies. Its business model relies primarily on a freemium structure: a free, ad-supported tier that drives user acquisition, and a premium subscription tier that generates the majority of revenue. The company also generates revenue from podcast advertising and its creator marketplace.</p>
+  <p>Since its launch, Spotify has continuously expanded what it means to be an audio platform. Its move into podcasting brought a new generation of listeners to the medium, and in 2022 it entered the fast-growing audiobook market. Today, listeners can discover, manage, and enjoy over 100 million tracks, 7 million podcast titles, and 500,000 audiobooks in select markets &mdash; all in one place.</p>
 
-  <p>Spotify&rsquo;s catalog spans music, podcasts, and audiobooks across more than 180 countries. In the music space, it competes directly with Apple Music, Amazon Music, YouTube Music, and Tidal &mdash; all of which offer access to essentially the same licensed catalog. This matters enormously for understanding Spotify&rsquo;s strategy: <strong>when the product (music) is commoditized, the experience of finding and discovering that music becomes the differentiator.</strong> That experience is powered almost entirely by machine learning.</p>
+  <p>Spotify went public on the New York Stock Exchange in April 2018 via an unconventional direct listing, and today operates as one of the world&rsquo;s most valuable media companies. Its business model relies primarily on a freemium structure: a free, ad-supported tier that drives user acquisition, and a premium subscription tier that generates the majority of revenue. The company also generates revenue from podcast advertising and its creator marketplace. With 751 million users and 290 million subscribers across 184 markets, it is the world&rsquo;s most popular audio streaming service.</p>
+
+  <p>In the music space, Spotify competes directly with Apple Music, Amazon Music, YouTube Music, and Tidal &mdash; all of which offer access to essentially the same licensed catalog. This matters enormously for understanding Spotify&rsquo;s strategy: <strong>when the product (music) is the same everywhere, the experience of finding and discovering that music becomes the differentiator.</strong> That experience is powered almost entirely by machine learning.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">Mission</div>
+    <div class="insight-text">Our mission is to deliver creativity to the world &mdash; one note, one voice, one idea at a time. At Spotify, we focus relentlessly on building the best and most valuable experience available anywhere, enhancing every moment by connecting the world to the art and the creatives who shape it.</div>
+  </div>
 
   <div class="insight-box">
     <div class="insight-label">Strategic context</div>
@@ -268,7 +277,7 @@
     <div class="concept-def">Raw data (e.g., &ldquo;user X streamed track Y at timestamp Z&rdquo;) is not directly usable by most ML models. Feature engineering is the process of transforming raw data into structured numerical inputs &mdash; called features &mdash; that a model can learn from. Examples of features Spotify might engineer: &ldquo;number of times user played this artist in the past 30 days,&rdquo; &ldquo;ratio of skips to full listens for this genre,&rdquo; &ldquo;time since last app session,&rdquo; or &ldquo;hour of day of current session.&rdquo; The quality of features often matters as much as the sophistication of the model itself.</div>
   </div>
 
-  <p>This is what makes data a strategic moat. A new competitor entering the streaming market might be able to license the same song catalog. <strong>They cannot license Spotify&rsquo;s 600-million-user behavioral dataset.</strong></p>
+  <p>This is what makes data a strategic moat. A new competitor entering the streaming market might be able to license the same song catalog. <strong>They cannot license Spotify&rsquo;s 751-million-user behavioral dataset.</strong></p>
 
   <!-- SECTION 6 -->
   <h2 id="s6"><span class="section-num">6</span> Step 2 &mdash; Model: Teaching Machines to Know You</h2>
@@ -291,16 +300,12 @@
     <div class="concept-def">Collaborative filtering is one of the most widely used techniques in recommendation systems. Rather than analyzing the items themselves, it looks for patterns in who interacts with what. If two users have historically listened to many of the same songs, they are considered &ldquo;similar&rdquo; in taste &mdash; and content that one enjoyed becomes a candidate recommendation for the other. At Spotify&rsquo;s scale, with hundreds of millions of users, these patterns become extraordinarily rich. A brand-new listener who plays three songs that millions of other users also played in their first week gives Spotify enough signal to start making useful recommendations almost immediately &mdash; because the system can find thousands of existing users who started the same way and trace what they went on to enjoy.</div>
   </div>
 
-  <div class="concept-box">
-    <div class="concept-label">Key concept</div>
-    <div class="concept-term">Two-tower (dual encoder) architecture</div>
-    <div class="concept-def">Spotify&rsquo;s candidate generation relies on a neural network design called a two-tower model. One &ldquo;tower&rdquo; learns a mathematical representation &mdash; called an embedding &mdash; of each user based on their behavioral history. A second tower learns an embedding for each item (song, podcast, playlist). The model is trained so that users and items they are likely to engage with end up &ldquo;close together&rdquo; in embedding space. At inference time, finding relevant candidates for a user becomes a fast geometric nearest-neighbor search rather than a full catalog scan &mdash; which is why this architecture is scalable to 100 million tracks.</div>
-  </div>
+  <p>To make this work at scale, Spotify&rsquo;s recommendation system is built in two parallel parts: one side continuously builds a profile of each user based on their listening history, while the other side builds a profile for each piece of content based on who engages with it and when. The system is trained so that a user and the content they are likely to enjoy end up with very similar profiles &mdash; making it fast to find good matches even across a catalog of 100 million tracks.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
     <div class="concept-term">Embeddings</div>
-    <div class="concept-def">An embedding is a dense, low-dimensional numerical representation of a complex object &mdash; a user, a song, a word, or a playlist. Instead of describing a song with hundreds of hand-crafted features, an embedding condenses everything the model has learned about that song into a compact vector of numbers. Songs that tend to be listened to in similar contexts by similar users end up with similar embeddings. This allows the model to capture subtle relationships that explicit feature engineering would miss &mdash; for example, that a jazz piano solo and a certain ambient electronic track appeal to similar late-night listening moods.</div>
+    <div class="concept-def">An embedding is a compact numerical fingerprint that represents something complex &mdash; a user, a song, or a playlist &mdash; as a short list of numbers. Rather than describing a song with hundreds of hand-crafted labels (&ldquo;upbeat,&rdquo; &ldquo;guitar-driven,&rdquo; &ldquo;1980s&rdquo;), an embedding condenses everything the model has learned about that song into a short code. Songs that tend to attract similar listeners end up with similar codes, even if those songs sound quite different on the surface. This allows the model to discover relationships that human labeling would miss &mdash; for example, that a jazz piano solo and a certain ambient electronic track both tend to appeal to the same late-night, low-energy listening mood.</div>
   </div>
 
   <h3>Stage 2: Ranking</h3>
@@ -327,38 +332,27 @@
   <p>In Spotify&rsquo;s early days, predictions were generated in batches overnight and served the next day. This was simple and cheap, but fundamentally limited: if a listener discovered a new artist on Monday night, their Tuesday morning Home page would not yet reflect that discovery. As competition intensified, Spotify moved to <strong>real-time prediction</strong> &mdash; generating recommendations the moment a listener opens the app. The system feels responsive. It feels like it knows you.</p>
 
   <!-- SECTION 8 -->
-  <h2 id="s8"><span class="section-num">8</span> What Went Wrong: A Lesson in Data Consistency</h2>
+  <h2 id="s8"><span class="section-num">8</span> Things Can Go Wrong</h2>
 
-  <p>When Spotify moved the Podcast Model from batch predictions to real-time serving, they encountered a problem that was small in technical terms but significant in business impact. The model had been trained using data processed in a specific way. When deployed, the incoming data was being processed slightly differently &mdash; a small discrepancy in how a single variable was being transformed.</p>
+  <p>When Spotify moved the Podcast Model from overnight predictions to real-time serving, they ran into a problem that was small in technical terms but significant in business impact. The model had been trained using data processed in a specific way. When it went live, the incoming data was being processed slightly differently &mdash; a small discrepancy in how a single variable was being calculated.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
     <div class="concept-term">Training-serving skew (training-serving gap)</div>
-    <div class="concept-def">Training-serving skew occurs when the data a model was trained on differs &mdash; in format, distribution, or preprocessing logic &mdash; from the data the model receives when deployed in production. This mismatch causes the model to make predictions based on inputs that don&rsquo;t quite match what it learned from, silently degrading performance. It is one of the most common and most dangerous failure modes in production ML systems because it produces no error message &mdash; the system keeps running and outputting plausible-looking results. Detecting it requires active monitoring of the statistical properties of data at both training and serving time.</div>
+    <div class="concept-def">A machine learning model learns from historical data &mdash; it studies millions of past examples to figure out the patterns that predict good outcomes. Then it gets deployed and starts receiving new, live data from real users. Training-serving skew is what happens when those two sets of data don&rsquo;t quite match &mdash; when the live data has been formatted or calculated slightly differently from the training data. The model applies patterns it learned from one kind of input to a slightly different kind of input, and the predictions quietly get worse. The dangerous part is that nothing breaks. No error message appears. The app keeps working. The recommendations keep showing up. They are just subtly worse than they should be &mdash; and that is almost impossible to notice without actively looking for it.</div>
   </div>
 
   <div class="danger-box">
     <div class="danger-label">Business risk: silent degradation</div>
-    <div class="danger-text">At Spotify, the training-serving gap quietly degraded podcast recommendation quality for four months without detection. There was no error message. The app kept working. Podcast recommendations kept appearing. But the recommendations were subtly worse than they should have been &mdash; and nobody noticed because slightly worse recommendations look a lot like normal variation in user behavior. A system outage is visible. Silent quality degradation is not.</div>
+    <div class="danger-text">At Spotify, the training-serving gap quietly degraded podcast recommendation quality for four months without detection. There was no error message. The app kept working. Podcast recommendations kept appearing. But the recommendations were subtly worse than they should have been &mdash; and nobody noticed because slightly worse recommendations look a lot like normal variation in user behavior. A system outage is visible and triggers an immediate response. Silent quality degradation is invisible, and can persist for months before anyone realizes something is wrong.</div>
   </div>
 
-  <div class="concept-box">
-    <div class="concept-label">Key concept</div>
-    <div class="concept-term">ML monitoring and data validation</div>
-    <div class="concept-def">Because ML systems can degrade silently, production deployments require ongoing monitoring. Data validation checks that the statistical properties of incoming data (distributions, ranges, missing value rates) match what the model was trained on. Model performance monitoring tracks whether prediction quality remains stable over time. Distribution shift monitoring detects when the underlying population of users or items has changed enough that the model&rsquo;s learned patterns no longer apply. Spotify&rsquo;s post-incident solution included automated daily comparison of training and serving data distributions, designed to catch training-serving skew within hours rather than months.</div>
-  </div>
-
-  <p>Spotify&rsquo;s response established a model for managing this risk:</p>
-  <ul>
-    <li><strong>Short term:</strong> Fix the specific data processing inconsistency that caused the problem.</li>
-    <li><strong>Long term &mdash; Solution 1:</strong> Unify the data pipeline so the same code handles both training and serving data, eliminating the structural conditions that allowed the gap to develop.</li>
-    <li><strong>Long term &mdash; Solution 2:</strong> Implement automated data validation that compares training and serving data distributions daily and alerts engineers if they begin to diverge.</li>
-  </ul>
+  <p>Spotify&rsquo;s response was straightforward in principle, even if the execution required significant work. In the short term, they fixed the specific mismatch that caused the problem. In the longer term, they made sure it couldn&rsquo;t happen again &mdash; by ensuring the same process was used to prepare data for both training and live use, and by building automated daily checks that would catch any future divergence early, before it affected users for months.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
     <div class="concept-term">AI governance</div>
-    <div class="concept-def">AI governance refers to the organizational processes, policies, and technical safeguards that ensure an AI system continues to behave as intended after it is deployed. It encompasses model versioning and rollback procedures, performance monitoring, data quality checks, human review thresholds, and documentation of model behavior. Governance is distinct from model development &mdash; it is the organizational infrastructure that surrounds a model and keeps it trustworthy over time. The Spotify incident illustrates that governance failures can be as costly as model failures, even when the model itself is technically sound.</div>
+    <div class="concept-def">Building a working AI model is only half the job. AI governance is everything an organization does to make sure that model keeps working correctly after it has been deployed &mdash; the ongoing oversight, not the one-time build. It includes things like: regularly checking that the model&rsquo;s outputs are still accurate (monitoring), having a process for reverting to a previous version if something goes wrong, setting rules for when a human needs to review the model&rsquo;s decisions, and keeping records of how the model behaves over time. The Spotify incident is a perfect illustration of why governance matters: the model itself was technically sound, but the absence of monitoring infrastructure allowed a fixable problem to go undetected for four months.</div>
   </div>
 
   <!-- SECTION 9 -->
@@ -437,7 +431,7 @@
         <td><span class="step-badge">Model</span></td>
         <td>Podcast, Shortcuts, and Playlists models trained on behavioral data</td>
         <td>Learn individual preferences at scale</td>
-        <td>Collaborative filtering; two-tower architecture; embeddings</td>
+        <td>Collaborative filtering; embeddings</td>
       </tr>
       <tr>
         <td><span class="step-badge">Prediction</span></td>
@@ -466,9 +460,8 @@
     <div class="vocab-card"><div class="vocab-term">Recommendation engine</div><div class="vocab-def">ML system that predicts and ranks items by user relevance</div></div>
     <div class="vocab-card"><div class="vocab-term">Implicit signals</div><div class="vocab-def">Behavioral data (skips, replays) captured without user effort</div></div>
     <div class="vocab-card"><div class="vocab-term">Feature engineering</div><div class="vocab-def">Transforming raw data into structured model inputs</div></div>
-    <div class="vocab-card"><div class="vocab-term">Collaborative filtering</div><div class="vocab-def">Recommending based on patterns across similar users</div></div>
-    <div class="vocab-card"><div class="vocab-term">Two-tower architecture</div><div class="vocab-def">Neural network design for scalable candidate retrieval</div></div>
-    <div class="vocab-card"><div class="vocab-term">Embeddings</div><div class="vocab-def">Compact numerical representations of users or items</div></div>
+    <div class="vocab-card"><div class="vocab-term">Collaborative filtering</div><div class="vocab-def">Recommending based on what similar users have liked — the "people like you also enjoyed..." logic</div></div>
+    <div class="vocab-card"><div class="vocab-term">Embeddings</div><div class="vocab-def">A compact numerical fingerprint for a user or song — similar items end up with similar fingerprints</div></div>
     <div class="vocab-card"><div class="vocab-term">Supervised learning</div><div class="vocab-def">Training on labeled examples to predict outcomes</div></div>
     <div class="vocab-card"><div class="vocab-term">Batch vs. online inference</div><div class="vocab-def">Scheduled vs. real-time prediction generation</div></div>
     <div class="vocab-card"><div class="vocab-term">Training-serving skew</div><div class="vocab-def">Mismatch between training data and production data</div></div>
@@ -483,7 +476,7 @@
     <li><strong>Narrow vs. general AI:</strong> Spotify runs several specialized models rather than one general recommendation system. What are the business tradeoffs of this approach? Under what circumstances might a company prefer a single general model instead?</li>
     <li><strong>The prediction-decision gap:</strong> Spotify&rsquo;s models generate predictions, but a separate layer translates those into actual product decisions. Why is it important to keep these two steps distinct? Can you think of a situation where blindly executing a prediction would produce a bad business outcome?</li>
     <li><strong>Collaborative filtering limits:</strong> Collaborative filtering depends on having many users with similar behavior. What happens to recommendation quality for a brand-new user with no listening history? What about a user with extremely niche tastes? How might Spotify address each of these cases?</li>
-    <li><strong>Silent failures and AI governance:</strong> The training-serving gap degraded recommendation quality for four months without detection. How does this type of failure differ from a traditional system outage in terms of business risk? What governance practices would you recommend to a company deploying AI in a customer-facing product?</li>
+    <li><strong>AI governance:</strong> Spotify&rsquo;s recommendation quality quietly got worse for four months before anyone noticed. How is this kind of invisible failure more dangerous than a system outage that everyone can see? What steps should a company take to make sure its AI keeps working as intended after launch?</li>
     <li><strong>Explore/exploit in practice:</strong> Spotify must decide how much to recommend familiar content vs. new discoveries. How might this tradeoff differ for a 22-year-old user vs. a 55-year-old user? For a premium subscriber vs. a free-tier user? What data would you want to inform that decision?</li>
     <li><strong>Wrapped as business strategy:</strong> Spotify Wrapped is built entirely on the same infrastructure that powers everyday recommendations. What does this suggest about the relationship between AI infrastructure investment and brand strategy? Can you identify another company that has turned its data capabilities into a visible, emotionally resonant customer experience?</li>
     <li><strong>The AI Factory in your industry:</strong> Choose an industry you are interested in and map out what each step &mdash; Data, Model, Prediction, Decision, Value &mdash; would look like for a company in that space. Where do you think the biggest risks and the biggest opportunities lie?</li>
