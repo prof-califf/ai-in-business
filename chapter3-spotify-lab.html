@@ -200,9 +200,9 @@
       <div><div class="step-title">Understand the Problem</div><div class="step-subtitle">AI Factory stage: framing the business challenge</div></div>
     </div>
     <div class="step-body">
-      <p>Before touching any code, use Claude to build your intuition. Open <a href="https://claude.ai" target="_blank">claude.ai</a> in a new tab and paste the prompt below. Read Claude's response carefully &mdash; the concepts it explains here will show up in every step that follows.</p>
+      <p>Before touching any code, use Claude to build your intuition. Open <a href="https://claude.ai" target="_blank">claude.ai</a> in a new tab and paste the first prompt below. Read Claude's response carefully &mdash; the concepts it explains here will show up in every step that follows. Then paste the second prompt to test yourself.</p>
       <div class="prompt-box">
-        <div class="prompt-label">Paste this into Claude</div>
+        <div class="prompt-label">Prompt 1 of 2 &mdash; paste this into Claude first</div>
         <div class="prompt-text">I am a student in MIS 432: AI in Business at Western Washington University. We are studying how Spotify built its recommendation system.
 
 Please explain the following in plain English — no jargon, no code:
@@ -212,6 +212,10 @@ Please explain the following in plain English — no jargon, no code:
 4. What is the training-serving gap, and why is it dangerous specifically because it fails silently rather than crashing?
 
 Keep each answer to 3-4 sentences.</div>
+      </div>
+      <div class="prompt-box">
+        <div class="prompt-label">Prompt 2 of 2 &mdash; paste this into the same Claude conversation after reading the response</div>
+        <div class="prompt-text">Now quiz me on those four concepts. Ask me one question at a time, wait for my answer, tell me if I got it right and what I missed, then move on to the next question. Don't move on until I can explain each concept correctly in my own words.</div>
       </div>
       <div class="reflect-box">
         <div class="reflect-label">Reflection &mdash; write 2&ndash;3 sentences</div>
@@ -285,6 +289,10 @@ listening_history = []
 df = pd.<span class="cf">DataFrame</span>(listening_history)
 <span class="cf">print</span>(df.<span class="cf">head</span>(<span class="cn">20</span>))</pre>
         </div>
+      </div>
+      <div class="insight-box">
+        <div class="insight-label">When the code throws an error</div>
+        <div class="insight-text">This will happen. Don't panic &mdash; it's part of working with code. Copy the full error message from Colab, go back to Claude, paste it in, and say "this error appeared when I ran your code &mdash; can you fix it?" Claude will diagnose and correct it. This is exactly how real developers work.</div>
       </div>
       <div class="reflect-box">
         <div class="reflect-label">Reflection &mdash; write 2&ndash;3 sentences</div>
@@ -544,6 +552,11 @@ Give me the complete HTML in one block that I can paste directly into GitHub as 
         <li>Go to <strong>Settings &rarr; Pages &rarr; Deploy from branch &rarr; main</strong> and save</li>
         <li>Wait 1&ndash;2 minutes, then your site will be live at <strong>https://yourusername.github.io/spotify-recommendation-lab</strong></li>
       </ol>
+
+      <div class="insight-box">
+        <div class="insight-label">Want to change something on your site?</div>
+        <div class="insight-text">Don't regenerate the whole thing. Go back to Claude and ask it to change specific sections &mdash; for example "can you make the header darker" or "can you add a section about what I found most surprising." Claude can edit targeted parts of the HTML without touching the rest. This is a much more efficient way to work.</div>
+      </div>
 
       <div class="reflect-box">
         <div class="reflect-label">Reflection &mdash; write 2&ndash;3 sentences</div>
