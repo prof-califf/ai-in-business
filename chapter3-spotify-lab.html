@@ -455,6 +455,11 @@ recommendations = <span class="cf">get_recommendations</span>(
       </div>
       <!-- END LIVE SYSTEM -->
 
+      <div class="insight-box">
+        <div class="insight-label">Notice the explore/exploit tradeoff</div>
+        <div class="insight-text">As you interact, notice how your recommendations change. If you only replay the same type of song, the system <strong>exploits</strong> what it knows about you &mdash; narrowing in on familiar territory. If you skip around and try different things, it <strong>explores</strong> &mdash; broadening your recommendations. This tension between familiarity and discovery is one of the most important design decisions in any recommendation system. Spotify's ranking layer manages it deliberately for 751 million people simultaneously.</div>
+      </div>
+
       <div class="reflect-box">
         <div class="reflect-label">Reflection &mdash; write 2&ndash;3 sentences</div>
         <div class="reflect-text">Watch the live data log as you interact. Every click &mdash; skip, play, replay &mdash; is being recorded as a number and fed into the algorithm. Spotify calls these implicit signals. Why is this type of behavioral data more valuable than simply asking users to rate songs on a scale of 1 to 5?</div>
@@ -488,7 +493,7 @@ Give me all previous code plus this new section in one complete block. Add a pla
       </div>
       <div class="reflect-box">
         <div class="reflect-label">Reflection &mdash; write 2&ndash;3 sentences</div>
-        <div class="reflect-text">Did the recommendations change dramatically or just slightly? Think about this from a business perspective: a system crash is immediately visible and gets fixed within hours. A silent degradation can run for months. What kind of financial or reputational damage could four months of subtly worse recommendations cause for a company like Spotify?</div>
+        <div class="reflect-text">You just fixed the training-serving gap by changing the code. But Spotify&rsquo;s real fix was organizational &mdash; they built monitoring systems, unified their data pipeline, and assigned people to own it. What does that tell you about why AI governance is a management problem, not just a technical one &mdash; and what would it look like for a business to get this right from day one?</div>
       </div>
     </div>
   </div>
@@ -532,12 +537,12 @@ Print it as a clean, readable summary. Then write 2-3 sentences explaining: this
       <div><div class="step-title">Publish Your Work on GitHub Pages</div><div class="step-subtitle">Turn what you built into a live portfolio piece</div></div>
     </div>
     <div class="step-body">
-      <p>You have built a working recommendation system, demonstrated a real AI failure mode, and generated a Wrapped. Now you are going to use Claude to turn the whole thing into a polished website that tells that story — written for a potential employer who has no technical background.</p>
+      <p>You have built a working recommendation system, demonstrated a real AI failure mode, and generated a Wrapped. Now use Claude to turn all of that into a polished live website. The site should do three things: tell the story of what you built and why it matters, showcase a working version of your recommendation system that visitors can actually use, and present your Wrapped output.</p>
       <p>Claude will generate a complete HTML file. You copy it, paste it into GitHub as <code>index.html</code>, and you have a live site.</p>
 
       <div class="insight-box">
         <div class="insight-label">Why this matters</div>
-        <div class="insight-text">Most business students can say they "learned about AI" in a class. A live website that shows you built a working recommendation system, broke it on purpose to understand failure modes, and connected it back to real business strategy is something very different. This is your deliverable.</div>
+        <div class="insight-text">Most business students can say they &ldquo;learned about AI&rdquo; in a class. A live website where visitors can actually interact with a recommendation system you built — and see a Wrapped summary generated from real behavioral data — is something completely different. This is your deliverable and something you can be genuinely proud of.</div>
       </div>
 
       <div class="prompt-box">
@@ -554,13 +559,25 @@ Here is what I built and learned:
 
 4. I generated a Wrapped-style year-in-review summary for a user using the exact same dataset that powered the recommendations — demonstrating that Spotify Wrapped costs almost nothing to produce because it runs on the same infrastructure
 
-Please create a single, complete HTML file for GitHub Pages that tells this story. The website should:
-- Explain what recommendation systems are and why they matter for businesses, in plain English
-- Walk through each of the four things I built above, explaining what I did and what I learned
-- Explain the training-serving gap and why silent failures are more dangerous than crashes for a business
-- Show how Wrapped connects back to the same data infrastructure
+Please create a single, complete HTML file for GitHub Pages that does ALL THREE of the following:
+
+PART 1 — THE BUSINESS STORY
+- Explain what Spotify's business problem was: 100 million songs, 751 million users, and the need to make personalization the core strategy
+- Explain what a recommendation engine is and why it matters for businesses, in plain English
+- Walk through the key concepts I learned: implicit signals, collaborative filtering, embeddings, the training-serving gap, AI governance, and the data moat
+- Explain why Wrapped costs almost nothing to produce and what that tells us about data infrastructure as a business asset
 - End with 3 key business lessons from this project
+
+PART 2 — THE LIVE RECOMMENDATION SYSTEM
+- Build a fully working interactive recommendation system using these exact 15 songs: "Blinding Lights" by The Weeknd (Pop), "HUMBLE." by Kendrick Lamar (Hip-Hop), "Levitating" by Dua Lipa (Pop), "bad guy" by Billie Eilish (Indie Pop), "God's Plan" by Drake (Hip-Hop), "As It Was" by Harry Styles (Pop), "MONTERO" by Lil Nas X (Hip-Hop), "drivers license" by Olivia Rodrigo (Pop), "Watermelon Sugar" by Harry Styles (Pop), "Peaches" by Justin Bieber (R&B), "Industry Baby" by Lil Nas X (Hip-Hop), "good 4 u" by Olivia Rodrigo (Pop Rock), "Leave The Door Open" by Bruno Mars (R&B), "STAY" by The Kid LAROI & Justin Bieber (Pop), "Heat Waves" by Glass Animals (Indie)
+- Visitors should be able to click Skip, Play, or Replay on each song
+- After a few interactions, recommendations should appear in real time using collaborative filtering and cosine similarity — the same algorithm I built in Python
+- Include a live data log showing the implicit signals being collected as visitors interact
+- Include a "Generate my Wrapped" button that produces a personalized summary from the same behavioral data
+
+PART 3 — DESIGN
 - Use Spotify-style design: dark background (#191414), green accents (#1DB954), clean and professional
+- The recommendation system should feel like a real product, not a class project
 - Be written for a potential employer who has no technical background — focus on business insight, not code
 - Include a note that this was completed as part of MIS 432: AI in Business at Western Washington University
 
