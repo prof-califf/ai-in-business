@@ -152,6 +152,13 @@
       <span><strong>Topics:</strong> Recommendation engines, collaborative filtering, ML pipelines, AI governance</span>
       <span><strong>Concepts introduced:</strong> 14 key ML vocabulary terms</span>
     </div>
+    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+      <p style="font-size: 13px; color: #888; margin: 0;">
+        <strong style="color: #555;">Primary source:</strong> This case study is based on Spotify&rsquo;s engineering blog post 
+        <a href="https://engineering.atspotify.com/2021/11/the-rise-and-lessons-learned-of-ml-models-to-personalize-content-on-home-part-i" target="_blank" style="color: #1DB954; text-decoration: none; font-style: italic;">The Rise and Lessons Learned of ML Models to Personalize Content on Home (Part I)</a>, 
+        published by Spotify Engineering, November 2021. Additional context drawn from Spotify&rsquo;s public investor materials and product documentation.
+      </p>
+    </div>
   </div>
 
   <div class="toc">
@@ -282,17 +289,31 @@
   <!-- SECTION 6 -->
   <h2 id="s6"><span class="section-num">6</span> Step 2 &mdash; Model: Teaching Machines to Know You</h2>
 
-  <p>The second step in the AI Factory is building models &mdash; the mathematical systems that learn patterns from data and use those patterns to make predictions about future behavior. Spotify&rsquo;s Home page recommendation system uses a <strong>two-stage model architecture</strong>.</p>
+  <p>The second step in the AI Factory is building models &mdash; the mathematical systems that learn patterns from data and use those patterns to make predictions about future behavior. Spotify&rsquo;s Home page recommendation system uses a <strong>two-stage model architecture</strong>. The result of this system is what you see every time you open the app: a series of horizontal rows of content called <strong>shelves</strong>, each one generated fresh for you by a different specialized model.</p>
 
   <h3>Stage 1: Candidate generation</h3>
 
-  <p>With 100 million tracks in the catalog, evaluating every option for every user every time someone opens the app would be computationally impractical. Candidate generation models solve this by quickly identifying a smaller shortlist of plausibly relevant content. Spotify runs several specialized models at this stage:</p>
+  <p>With 100 million tracks in the catalog, evaluating every option for every user every time someone opens the app would be computationally impractical. Candidate generation models solve this by quickly identifying a smaller shortlist of plausibly relevant content. Spotify runs several specialized models at this stage, each powering a different shelf on your Home page:</p>
 
   <ul>
     <li><strong>The Podcast Model</strong> &mdash; predicts which podcasts a listener is likely to engage with, powering the &ldquo;Shows You Might Like&rdquo; shelf.</li>
-    <li><strong>The Shortcuts Model</strong> &mdash; predicts which familiar content a listener is most likely to return to.</li>
+    <li><strong>The Shortcuts Model</strong> &mdash; predicts which familiar content a listener is most likely to return to, powering shelves like &ldquo;Recently Played&rdquo; and &ldquo;Jump Back In.&rdquo;</li>
     <li><strong>The Playlists Model</strong> &mdash; designed for newer listeners without a long history, using patterns from similar users to predict relevant editorial playlists.</li>
   </ul>
+
+  <figure style="margin: 1.5rem 0; text-align: center;">
+    <img src="images/spotify-home-screen.png" alt="Spotify Home page showing three content shelves: familiar playlists at the top, a Shows You Might Like podcast shelf in the middle, and a Jump Back In shelf at the bottom" style="max-width: 320px; width: 100%; border-radius: 12px; border: 1px solid #e2e8f0;">
+    <figcaption style="margin-top: 0.75rem; font-size: 13px; color: #667986; line-height: 1.65; max-width: 520px; margin-left: auto; margin-right: auto;">
+      <strong>Figure 1: Spotify's Home page in action.</strong> Each shelf on this screen is powered by a different specialized model. The top section (&ldquo;Good morning&rdquo;) is the <strong>Shortcuts Model</strong> — surfacing familiar playlists the listener is likely to return to. The middle shelf (&ldquo;Shows you might like&rdquo;) is the <strong>Podcast Model</strong> — predicting new podcast content based on listening patterns. The bottom shelf (&ldquo;Jump back in&rdquo;) is another Shortcuts prediction — resuming recently played content. None of this is curated by a human. Every shelf is generated fresh, for this specific listener, the moment they open the app.
+    </figcaption>
+  </figure>
+
+  <figure style="margin: 1.5rem 0; text-align: center;">
+    <img src="images/spotify-similar-shelf.png" alt="Spotify Home page showing a Recently Played shelf highlighted in red, with an arrow pointing to a Similar To shelf below it — demonstrating collaborative filtering in action" style="max-width: 320px; width: 100%; border-radius: 12px; border: 1px solid #e2e8f0;">
+    <figcaption style="margin-top: 0.75rem; font-size: 13px; color: #667986; line-height: 1.65; max-width: 520px; margin-left: auto; margin-right: auto;">
+      <strong>Figure 2: Collaborative filtering made visible.</strong> The &ldquo;Recently Played&rdquo; shelf (highlighted) shows content the listener has returned to before &mdash; powered by the Shortcuts Model. The &ldquo;Similar to Dancehall Official&rdquo; shelf below it is collaborative filtering in action: because this listener played Dancehall Official, the system found other users with the same behavior and surfaced what they listened to next. The algorithm never analyzed the music itself &mdash; it only looked at the pattern of who listened to what.
+    </figcaption>
+  </figure>
 
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
@@ -300,13 +321,27 @@
     <div class="concept-def">Collaborative filtering is one of the most widely used techniques in recommendation systems. Rather than analyzing the items themselves, it looks for patterns in who interacts with what. If two users have historically listened to many of the same songs, they are considered &ldquo;similar&rdquo; in taste &mdash; and content that one enjoyed becomes a candidate recommendation for the other. At Spotify&rsquo;s scale, with hundreds of millions of users, these patterns become extraordinarily rich. A brand-new listener who plays three songs that millions of other users also played in their first week gives Spotify enough signal to start making useful recommendations almost immediately &mdash; because the system can find thousands of existing users who started the same way and trace what they went on to enjoy.</div>
   </div>
 
+  <figure style="margin: 1.5rem 0; text-align: center;">
+    <img src="images/collab-filtering-matrix.png" alt="A grid showing users as rows and songs as columns with engagement scores. User 1's row is highlighted in blue, similar users in teal, and a recommended song is circled in green." style="max-width: 640px; width: 100%; border-radius: 8px; border: 1px solid #e2e8f0;">
+    <figcaption style="margin-top: 0.75rem; font-size: 13px; color: #667986; line-height: 1.65; max-width: 580px; margin-left: auto; margin-right: auto;">
+      <strong>Figure 3: Collaborative filtering in four steps.</strong> Each row is a user, each column is a song, and each cell is an engagement score — 0.9 means replayed, 0.5 means played once, 0.1 means skipped, 0 means never heard. User 1's row (blue) is compared against every other user's row. Users 3 and 5 (teal) have similar patterns — they also loved Blinding Lights and Levitating. Heat Waves is circled in green: Users 3 and 5 gave it a 0.9, but User 1 has never heard it. That makes it a strong recommendation. The algorithm never listened to the songs — it only looked at who listened to what.
+    </figcaption>
+  </figure>
+
   <p>To make this work at scale, Spotify&rsquo;s recommendation system is built in two parallel parts: one side continuously builds a profile of each user based on their listening history, while the other side builds a profile for each piece of content based on who engages with it and when. The system is trained so that a user and the content they are likely to enjoy end up with very similar profiles &mdash; making it fast to find good matches even across a catalog of 100 million tracks.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
     <div class="concept-term">Embeddings</div>
-    <div class="concept-def">An embedding is a compact numerical fingerprint that represents something complex &mdash; a user, a song, or a playlist &mdash; as a short list of numbers. Rather than describing a song with hundreds of hand-crafted labels (&ldquo;upbeat,&rdquo; &ldquo;guitar-driven,&rdquo; &ldquo;1980s&rdquo;), an embedding condenses everything the model has learned about that song into a short code. Songs that tend to attract similar listeners end up with similar codes, even if those songs sound quite different on the surface. This allows the model to discover relationships that human labeling would miss &mdash; for example, that a jazz piano solo and a certain ambient electronic track both tend to appeal to the same late-night, low-energy listening mood.</div>
+    <div class="concept-def">An embedding is a compact list of numbers that represents everything the system has learned about a user or a song. Every user gets one based on their listening history. Every song gets one based on who listens to it and when. Each dot in the diagram below is an embedding &mdash; its position in space is determined by its list of numbers. Songs with similar numbers land close together. Songs with very different numbers land far apart. This allows the model to discover that a jazz piano solo and a certain ambient electronic track appeal to the same listener &mdash; not because they sound alike, but because the same kinds of people listen to both.</div>
   </div>
+
+  <figure style="margin: 1.5rem 0; text-align: center;">
+    <img src="images/embeddings-space.png" alt="A scatter plot showing songs and a user plotted as dots in taste space, with similar songs clustering together into groups labeled late-night chill, high-energy hip-hop, pop anthems, and alt/indie" style="max-width: 640px; width: 100%; border-radius: 8px; border: 1px solid #e2e8f0;">
+    <figcaption style="margin-top: 0.75rem; font-size: 13px; color: #667986; line-height: 1.65; max-width: 580px; margin-left: auto; margin-right: auto;">
+      <strong>Figure 4: Embeddings and clustering in taste space.</strong> Each dot is an embedding — a song or user represented as a list of numbers, plotted by position. Songs that attract similar listeners cluster together even if they sound completely different. Heat Waves, a Jazz Piano Solo, and an Ambient Track all end up in the same &ldquo;late-night chill&rdquo; cluster because the same kinds of people listen to all three. The green &ldquo;You&rdquo; dot sits right inside that cluster — those songs are your recommendations. Songs in distant clusters are unlikely to be surfaced. Crucially, Spotify never told the system which songs belong together — the clusters <strong>emerged on their own from the data</strong>. That is unsupervised learning in action: hidden patterns discovered without a correct answer provided.
+    </figcaption>
+  </figure>
 
   <h3>Stage 2: Ranking</h3>
 
@@ -358,7 +393,7 @@
   <!-- SECTION 9 -->
   <h2 id="s9"><span class="section-num">9</span> Step 4 &mdash; Decision: Predictions into Product</h2>
 
-  <p>The fourth step in the AI Factory is decision-making &mdash; using predictions to take a specific action that affects the user experience. At Spotify, this is the Home page itself: predictions generated by the candidate generation and ranking models are translated into content shelves that appear when you open the app.</p>
+  <p>The fourth step in the AI Factory is decision-making &mdash; using predictions to take a specific action that affects the user experience. At Spotify, this is the Home page itself: predictions generated by the candidate generation and ranking models are translated into <strong>shelves</strong> &mdash; the horizontal rows of content that appear when you open the app. Each shelf has a label (&ldquo;Recently Played,&rdquo; &ldquo;Shows You Might Like,&rdquo; &ldquo;Similar to [Artist]&rdquo;) and is populated entirely by a different specialized model running in the background.</p>
 
   <p>It is worth pausing on the distinction between a <strong>prediction</strong> and a <strong>decision</strong>, because conflating them leads to poor AI design.</p>
 
@@ -396,8 +431,23 @@
 
   <div class="insight-box" style="background:#f0fdf4; border-left-color:#1DB954;">
     <div class="insight-label" style="color:#166534;">In the lab</div>
-    <div class="insight-text" style="color:#166534;">In Lab 3 you will experience this connection firsthand &mdash; the same dataset that powers your recommendation engine will generate your own Wrapped at the end. <a href="chapter3-spotify-lab.html" style="color:#166534; font-weight:700;">Go to Lab 3 &rarr;</a></div>
+    <div class="insight-text" style="color:#166534;">In Lab 3 you will experience this connection firsthand &mdash; the same dataset that powers your recommendation engine will generate your own Wrapped at the end. <a href="chapter3-spotify-lab.html" style="color:#166634; font-weight:700;">Go to Lab 3 &rarr;</a></div>
   </div>
+
+  <h3>Why Wrapped costs almost nothing to produce: centralized data architecture</h3>
+
+  <p>Wrapped is cheap to produce because of a fundamental architectural decision Spotify made: <strong>centralize all behavioral data in one place</strong>. The same pipeline that feeds the recommendation engine also feeds Wrapped, artist analytics dashboards, governance and monitoring systems, and any future product not yet built. This is centralized data architecture &mdash; one dataset, many uses. Each new use case costs almost nothing because the infrastructure already exists.</p>
+
+  <p>The alternative &mdash; <strong>decentralized data architecture</strong> &mdash; is what most organizations end up with by default. Each team or product builds and owns its own data store. The recommendations team has their data, the marketing team has theirs, the artist tools team has theirs. Building something like Wrapped in a decentralized organization would require stitching together three separate data sources &mdash; expensive, slow, and error-prone.</p>
+
+  <p>Spotify&rsquo;s decision to centralize is not just a technical choice. It is a strategic one. Every new product or insight draws from the same increasingly rich dataset. The more data flows in, the more valuable every use of it becomes.</p>
+
+  <figure style="margin: 1.5rem 0; text-align: center;">
+    <img src="images/centralized-vs-decentralized.png" alt="Two side-by-side diagrams comparing decentralized data architecture with siloed team data stores on the left, and centralized architecture with one shared pipeline feeding all products on the right" style="max-width: 640px; width: 100%; border-radius: 8px; border: 1px solid #e2e8f0;">
+    <figcaption style="margin-top: 0.75rem; font-size: 13px; color: #667986; line-height: 1.65; max-width: 580px; margin-left: auto; margin-right: auto;">
+      <strong>Figure 5: Centralized vs. decentralized data architecture.</strong> In a decentralized organization (left), each team maintains its own data silo. Building Wrapped requires stitching together data from the recommendations team, the marketing team, and the artist tools team &mdash; expensive and slow. In Spotify&rsquo;s centralized architecture (right), one pipeline feeds everything: the Home page, Wrapped, artist dashboards, governance monitoring, and future products not yet built. The result is that Wrapped &mdash; one of Spotify&rsquo;s most powerful marketing tools &mdash; costs almost nothing extra to produce.
+    </figcaption>
+  </figure>
 
   <!-- SECTION 11 -->
   <h2 id="s11"><span class="section-num">11</span> Competitive Advantage: Why This Is Hard to Copy</h2>
@@ -477,15 +527,14 @@
   </div>
 
   <h3>Discussion questions</h3>
-  <p style="font-size:13px; color:#666; margin-bottom:0.75rem;">These questions work equally well as written assignments or in-class discussion prompts. For in-class use, questions 2, 4, and 6 tend to generate the most debate.</p>
+  <p style="font-size:13px; color:#666; margin-bottom:0.75rem;">These questions work equally well as written assignments or in-class discussion prompts. For in-class use, questions 2, 4, and 5 tend to generate the most debate.</p>
   <ol class="discussion-list">
-    <li><strong>Narrow vs. general AI:</strong> Spotify runs several specialized models rather than one general recommendation system. What are the business tradeoffs of this approach? Under what circumstances might a company prefer a single general model instead?</li>
-    <li><strong>The prediction-decision gap:</strong> Spotify&rsquo;s models generate predictions, but a separate layer translates those into actual product decisions. Why is it important to keep these two steps distinct? Can you think of a situation where blindly executing a prediction would produce a bad business outcome?</li>
-    <li><strong>Collaborative filtering limits:</strong> Collaborative filtering depends on having many users with similar behavior. What happens to recommendation quality for a brand-new user with no listening history? What about a user with extremely niche tastes? How might Spotify address each of these cases?</li>
-    <li><strong>AI governance:</strong> Spotify&rsquo;s recommendation quality quietly got worse for four months before anyone noticed. How is this kind of invisible failure more dangerous than a system outage that everyone can see? What steps should a company take to make sure its AI keeps working as intended after launch?</li>
-    <li><strong>Explore/exploit in practice:</strong> Spotify must decide how much to recommend familiar content vs. new discoveries. How might this tradeoff differ for a 22-year-old user vs. a 55-year-old user? For a premium subscriber vs. a free-tier user? What data would you want to inform that decision?</li>
-    <li><strong>Wrapped as business strategy:</strong> Spotify Wrapped is built entirely on the same infrastructure that powers everyday recommendations. What does this suggest about the relationship between AI infrastructure investment and brand strategy? Can you identify another company that has turned its data capabilities into a visible, emotionally resonant customer experience?</li>
-    <li><strong>The AI Factory in your industry:</strong> Choose an industry you are interested in and map out what each step &mdash; Data, Model, Prediction, Decision, Value &mdash; would look like for a company in that space. Where do you think the biggest risks and the biggest opportunities lie?</li>
+    <li><strong>Data is the asset, not the algorithm:</strong> Apple Music has the same songs and could build the same algorithm. Why can't they replicate Spotify's recommendation system &mdash; and what does that tell you about where competitive advantage actually comes from in AI-driven businesses?</li>
+    <li><strong>AI systems need human judgment:</strong> Spotify's model predicts you want to hear the same ten songs on repeat. But Spotify doesn't just show you those songs. Why not &mdash; and what does that tell you about the relationship between what AI can predict and what a business should actually do?</li>
+    <li><strong>AI can fail without breaking:</strong> Spotify's podcast recommendations quietly got worse for four months and nobody noticed. What kind of organizational infrastructure would have caught that &mdash; and why do most companies not have it?</li>
+    <li><strong>Building AI is only half the job:</strong> The Spotify incident was not a model failure &mdash; the model was technically sound. It was a governance failure. What does that tell you about what organizations need to invest in beyond just building the AI system itself?</li>
+    <li><strong>Data centralization as strategy:</strong> Wrapped costs almost nothing to produce because all of Spotify's data flows through one pipeline. Think of a company in any industry &mdash; what would it look like to turn their existing data infrastructure into a product or experience their customers would want to share?</li>
+    <li><strong>The AI Factory compounds:</strong> Every decision Spotify's system makes generates new data, which improves the next prediction, which creates more value, which attracts more users, which generates more data. Where does this loop break down &mdash; and what would you do to protect it if you were running Spotify?</li>
   </ol>
 
   <hr>
