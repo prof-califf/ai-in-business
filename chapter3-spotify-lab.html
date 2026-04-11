@@ -182,6 +182,11 @@
     <div class="insight-text">Every step in this lab maps to a step in Spotify's real AI Factory: Data &rarr; Model &rarr; Prediction &rarr; Decision &rarr; Value. Pay attention to how the same dataset powers both the recommendation engine and the Wrapped summary at the end &mdash; that connection is the central business lesson of this case.</div>
   </div>
 
+  <div class="insight-box">
+    <div class="insight-label">You will also be doing what Spotify's engineers did</div>
+    <div class="insight-text">Every prompt you paste into Claude in this lab is an act of <strong>prompt engineering</strong> &mdash; the same discipline Spotify used to generate 1.4 billion personalized Wrapped reports in 2025. They spent three months iterating on prompts, running evaluations, and layering in human review to get reliable, on-brand outputs at scale. You will go through the same loop: write a prompt, see the output, refine it, and run it again. The difference is scale. The practice is identical.</div>
+  </div>
+
   <div class="factory-row">
     <div class="factory-step">Data</div><div class="factory-arrow">&rarr;</div>
     <div class="factory-step">Model</div><div class="factory-arrow">&rarr;</div>
@@ -688,6 +693,11 @@ Give me the complete HTML in one block. Add plain-English comments explaining ea
       <div class="insight-box">
         <div class="insight-label">The central insight of this step</div>
         <div class="insight-text">The Wrapped you are about to generate uses the exact same dataset &mdash; the same rows, the same engagement scores &mdash; that powered your recommendation engine in Steps 2 and 3. Spotify does not build a separate system for Wrapped. It is the same infrastructure, repurposed. That is why it costs Spotify almost nothing to produce, and why it generated 600 million social media posts in 2023.</div>
+      </div>
+
+      <div class="insight-box" style="background:#1a1a2a;border-left-color:#818cf8;">
+        <div class="insight-label" style="color:#6366f1;">You are doing what Spotify&rsquo;s engineers did</div>
+        <div class="insight-text" style="color:#4f46e5;">In 2025, Spotify used prompt engineering to generate 1.4 billion personalized Wrapped reports. Their team spent three months iterating on prompts &mdash; designing a system prompt to define the creative contract (tone, safety rules, data-driven storytelling) and a user prompt to supply each listener&rsquo;s specific context. The prompt you are about to paste into Claude is your version of that system. Think carefully about what you ask for &mdash; the quality of your output depends entirely on the quality of your instructions.</div>
       </div>
       <div class="prompt-box">
         <div class="prompt-label">Paste this into Claude &mdash; then copy the code into Colab and run it</div>
