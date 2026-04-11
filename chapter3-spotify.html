@@ -150,7 +150,7 @@
     <div class="cover-meta">
       <span><strong>Level:</strong> Upper-division undergraduate</span>
       <span><strong>Topics:</strong> Recommendation engines, collaborative filtering, ML pipelines, AI governance</span>
-      <span><strong>Concepts introduced:</strong> 15 key ML vocabulary terms</span>
+      <span><strong>Concepts introduced:</strong> 16 key ML vocabulary terms</span>
     </div>
     <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
       <p style="font-size: 13px; color: #888; margin: 0;">
@@ -548,6 +548,25 @@
     <div class="insight-text">The ROI of AI infrastructure investment is often realized far from where the investment was made. Fixing a data pipeline is hard to put in a budget presentation. Generating 600 million social media posts for free is not. The emotional resonance of Wrapped is downstream of engineering decisions made years earlier that most listeners will never know about.</div>
   </div>
 
+  <h3>How Spotify actually generated 1.4 billion Wrapped reports</h3>
+
+  <p>The 2025 Wrapped introduced something new: personalized AI-written narratives describing each listener&rsquo;s most interesting listening days. Spotify didn&rsquo;t just pull data and format it &mdash; they used a large language model to write a unique story for each of their 1.4 billion users. Making that work reliably at that scale required months of deliberate engineering work around a practice most people don&rsquo;t associate with infrastructure: <strong>prompt engineering</strong>.</p>
+
+  <p>The team split their prompting strategy into two layers. The system prompt defined the creative contract for every generation &mdash; stories had to be data-driven (every insight traceable to actual listening behavior), written in a specific tone (witty, sincere, and quietly playful), and safe by default (no references to drugs, alcohol, sex, or violence). The user prompt supplied the specific context for each listener: their detailed listening logs for the day, a summarized stats block, their overall Wrapped data, the category of interesting day being described, previously generated reports to avoid repetition, and their country for spelling and vocabulary.</p>
+
+  <p>Prompting was not a one-time task. It was a continuous loop running for more than three months. The team built a prototype to compare outputs across prompt versions and edge cases, ran LLM-as-a-judge evaluations on sampled outputs, and layered in human review. Creative feedback, technical feedback, and safety feedback all fed into the next iteration.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">Business insight</div>
+    <div class="insight-text">Prompt engineering is not a workaround &mdash; it is an engineering discipline. At Spotify&rsquo;s scale, a single poorly worded prompt produces millions of off-brand or unsafe outputs before anyone catches it. The investment in systematic prompt development, evaluation infrastructure, and human review is what separates a reliable AI product from an unpredictable one. This is AI governance applied to generative AI, not just predictive models.</div>
+  </div>
+
+  <p style="font-size: 13px; color: #888; margin: 0.5rem 0 1.5rem;">
+    <strong style="color: #555;">Additional source:</strong> 
+    <a href="https://engineering.atspotify.com/2026/3/inside-the-archive-2025-wrapped" target="_blank" style="color: #1DB954; text-decoration: none; font-style: italic;">Inside the Archive: 2025 Wrapped</a>, 
+    Spotify Engineering, March 2026.
+  </p>
+
   <div class="insight-box" style="background:#f0fdf4; border-left-color:#1DB954;">
     <div class="insight-label" style="color:#166534;">In the lab</div>
     <div class="insight-text" style="color:#166534;">In Lab 3 you will experience this connection firsthand &mdash; the same dataset that powers your recommendation engine will generate your own Wrapped at the end. <a href="chapter3-spotify-lab.html" style="color:#166634; font-weight:700;">Go to Lab 3 &rarr;</a></div>
@@ -715,6 +734,7 @@
     <div class="vocab-card"><div class="vocab-term">Explore/exploit tradeoff</div><div class="vocab-def">Balancing familiar recommendations vs. new discovery</div></div>
     <div class="vocab-card"><div class="vocab-term">Data moat</div><div class="vocab-def">Proprietary behavioral dataset competitors cannot replicate</div></div>
     <div class="vocab-card"><div class="vocab-term">Centralized data architecture</div><div class="vocab-def">One shared pipeline feeding all products — makes each new use case cheaper to build</div></div>
+    <div class="vocab-card"><div class="vocab-term">Prompt engineering</div><div class="vocab-def">The systematic design and iteration of instructions given to a language model to produce reliable, safe, and on-brand outputs at scale</div></div>
   </div>
 
   <h3>Discussion questions</h3>
