@@ -135,13 +135,13 @@
 
 <div class="hero">
   <div class="hero-inner">
-    <div class="hero-tag">Chapter 4 &middot; AI as Operations &middot; Forecasting &middot; Responsible AI</div>
-    <h1>When AI Runs the Business:<br>How Uber Operates on Machine Learning</h1>
-    <p class="hero-sub">Spotify uses AI to improve its product. Uber uses AI to run its entire operation. Every driver repositioned, every price set, every server provisioned &mdash; all of it is the output of algorithms running continuously, without a human in the loop. This chapter asks: what does a business look like when AI is the engine, not just a feature?</p>
+    <div class="hero-tag">Chapter 4 &middot; Uber Is AI &middot; Forecasting &middot; Responsible AI</div>
+    <h1>Uber Is AI:<br>What Happens When the Algorithm Is the Business</h1>
+    <p class="hero-sub">Spotify has AI. Uber is AI. Remove Spotify&rsquo;s recommendation engine and you still have a music app. Remove Uber&rsquo;s algorithms and there is nothing left &mdash; no prices, no drivers, no marketplace. This chapter explores what that means for strategy, decision-making, and accountability.</p>
     <div class="hero-meta">
       <span><strong>Company:</strong> Uber</span>
       <span><strong>Industry:</strong> Ride-Hailing &amp; Logistics</span>
-      <span><strong>Core concept:</strong> AI as operational infrastructure</span>
+      <span><strong>Core concept:</strong> When the algorithm is the business</span>
     </div>
     <div class="hero-nav">
       <a href="chapter4-uber-lab.html" class="btn btn-black">Go to Lab 4 &rarr;</a>
@@ -161,11 +161,11 @@
 
   <div class="cover">
     <div class="cover-tag">MIS 432 &middot; AI in Business &middot; Case Study</div>
-    <h1>When AI Runs the Business:<br>How Uber Operates on Machine Learning</h1>
-    <div class="cover-sub">From demand forecasting to responsible AI &mdash; the business strategy behind the world&rsquo;s most complex AI-driven marketplace</div>
+    <h1>Uber Is AI:<br>What Happens When the Algorithm Is the Business</h1>
+    <div class="cover-sub">Forecasting, automated decisions, and responsible AI &mdash; what Uber reveals about the companies that don&rsquo;t just use AI but are inseparable from it</div>
     <div class="cover-meta">
       <span><strong>Level:</strong> Upper-division undergraduate</span>
-      <span><strong>Topics:</strong> AI as operations, forecasting, algorithmic accountability, responsible AI</span>
+      <span><strong>Topics:</strong> When the algorithm is the business, forecasting, prediction-decision gap, responsible AI</span>
       <span><strong>Concepts introduced:</strong> 10 key business AI terms</span>
     </div>
     <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
@@ -181,10 +181,10 @@
   <div class="toc">
     <div class="toc-title">Contents</div>
     <a href="#s1">1. Company Background</a>
-    <a href="#s2">2. The Big Idea: AI as the Engine, Not the Feature</a>
+    <a href="#s2">2. The Big Idea: Spotify Has AI. Uber Is AI.</a>
     <a href="#s3">3. The Business Problem: You Can&rsquo;t React Fast Enough</a>
     <a href="#s4">4. Framework: The AI Factory at Uber</a>
-    <a href="#s5">5. Step 1 &mdash; Data: The Foundation Everything Runs On</a>
+    <a href="#s5">5. Step 1 &mdash; Data: Where Everything Begins</a>
     <a href="#s6">6. Step 2 &mdash; Model: Choosing the Right Tool for the Job</a>
     <a href="#s7">7. Step 3 &mdash; Prediction: Testing Before You Trust</a>
     <a href="#s8">8. Step 4 &mdash; Decision: When the Algorithm Is in Charge</a>
@@ -218,20 +218,24 @@
 
   <div class="insight-box">
     <div class="insight-label">Strategic context</div>
-    <div class="insight-text">Unlike Spotify, where a bad AI recommendation costs a listener 30 seconds, a bad forecast at Uber costs real money in real time. Under-predicting demand leaves riders stranded and erodes trust. Over-predicting floods neighborhoods with idle drivers who earn nothing. <strong>For Uber, AI is not a product feature &mdash; it is the operating infrastructure of the entire business.</strong></div>
+    <div class="insight-text">Spotify has AI. Uber is AI. When Spotify&rsquo;s recommendation engine fails, a listener skips a song. When Uber&rsquo;s forecasting system fails, riders are stranded, drivers miss income, and servers go down in real time. <strong>The difference is not the sophistication of the technology. It is the consequence of being wrong.</strong> That difference shapes everything about how Uber must think about AI governance, accountability, and the prediction-decision gap.</div>
   </div>
 
   <!-- SECTION 2 -->
-  <h2 id="s2"><span class="section-num">2</span> The Big Idea: AI as the Engine, Not the Feature</h2>
+  <h2 id="s2"><span class="section-num">2</span> The Big Idea: Spotify Has AI. Uber Is AI.</h2>
 
-  <p>In Chapter 3, we saw how Spotify uses AI as a personalization engine &mdash; a system that makes the product experience better for each individual user. Uber represents something different and worth understanding on its own terms. For Uber, AI is not a layer on top of the product. <strong>AI is the product.</strong> Remove the forecasting models, the pricing algorithms, and the demand prediction systems, and there is no Uber &mdash; just an app with no drivers and no prices.</p>
+  <p>In Chapter 3, we saw how Spotify built a recommendation engine that makes its product dramatically better. But here is an honest question worth sitting with: if Spotify&rsquo;s recommendation system disappeared tomorrow, what would be left? A music app. The same 100 million songs available on Apple Music, Amazon Music, and YouTube Music. It would be worse — much worse — but it would still exist.</p>
 
-  <p>This distinction matters strategically. When AI improves a product, you can live without it temporarily. When AI <em>runs</em> a business, every failure is an operational failure. That raises the stakes for everything: accuracy, governance, ethics, and accountability. It also changes what it means to compete. A company that uses AI as infrastructure is not just harder to beat &mdash; it is operating on a fundamentally different model than one that does not.</p>
+  <p>Now ask the same question about Uber. If Uber&rsquo;s algorithms disappeared tomorrow — the demand forecasting, the pricing models, the driver routing systems — what would be left? Nothing. Not a worse version of Uber. No version of Uber. There would be no way to set a price, no way to match a rider to a driver, no way to know where to send anyone. <strong>Uber does not use AI to improve its business. Uber is AI.</strong> The algorithm is not a feature of the product — it is the product.</p>
+
+  <p>This distinction is the thesis of this entire chapter — and it changes everything that follows. Because when the algorithm is the business, the stakes of every AI decision are completely different. When Spotify&rsquo;s recommendation is wrong, you skip a song. When Uber&rsquo;s forecast is wrong, a real person waits 40 minutes in the rain, a real driver misses income, a real server fails during the busiest night of the year. The consequences are immediate, physical, and financial.</p>
+
+  <p>And crucially — this is where your earlier learning in this course becomes most important — <strong>Uber made a deliberate choice to collapse the prediction-decision gap</strong>. In Chapter 2, we saw why that gap exists and why it matters: a prediction tells you what might happen, but a human being should decide what to do about it. Uber removed that human step. The algorithm predicts demand, and the algorithm sets the price, automatically, in milliseconds, at global scale. No human approves each surge. No human decides whether raising prices during a hurricane evacuation is the right call. The model predicts. The system decides. And that is exactly where things go wrong.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
-    <div class="concept-term">AI as operational infrastructure</div>
-    <div class="concept-def">Most companies use AI to enhance decisions that humans already make. Operational AI replaces entire decision-making processes with automated systems that run continuously without human approval for each action. At Uber, no human approves each surge price, each driver nudge, or each server provisioning decision &mdash; algorithms do. This creates enormous efficiency and scale, but it also means that when the system makes a mistake, it makes it at scale. Understanding this distinction &mdash; AI as a tool versus AI as infrastructure &mdash; is one of the most important strategic ideas in this course.</div>
+    <div class="concept-term">The prediction-decision gap — and what happens when you close it</div>
+    <div class="concept-def">The prediction-decision gap is the space between what an AI system forecasts and the business decision that follows. In well-governed AI systems, a human occupies that gap — reviewing the prediction, applying judgment, and taking responsibility for the decision. Uber largely eliminated that gap by design: predictions trigger decisions automatically. This produces enormous operational speed and scale. It also means the system&rsquo;s mistakes become the company&rsquo;s mistakes instantly, at scale, with no human checkpoint in between. Understanding why that gap exists &mdash; and what is lost when it is removed &mdash; is one of the most important lessons this course can teach.</div>
   </div>
 
   <!-- SECTION 3 -->
@@ -279,7 +283,7 @@
   <p>Each step feeds the next, and the loop compounds over time. Every trip Uber completes generates new data that improves the next forecast. This is the same flywheel we saw with Spotify &mdash; operating in a very different, and higher-stakes, context.</p>
 
   <!-- SECTION 5 -->
-  <h2 id="s5"><span class="section-num">5</span> Step 1 &mdash; Data: The Foundation Everything Runs On</h2>
+  <h2 id="s5"><span class="section-num">5</span> Step 1 &mdash; Data: Where Everything Begins</h2>
 
   <p>Uber&rsquo;s forecasting begins with a record of every trip ever taken: where it started and ended, what time it was, how long it took, what the weather was, what local events were happening nearby, and dozens of other contextual factors. This historical record, accumulated across years and thousands of cities, is what makes reliable forecasting possible &mdash; and what makes Uber&rsquo;s forecasting advantage so difficult for a new competitor to replicate.</p>
 
@@ -500,7 +504,7 @@
         <td><span class="step-badge">Decision</span></td>
         <td>Automated driver repositioning, surge pricing, server provisioning</td>
         <td>Convert predictions into operational actions at machine speed</td>
-        <td>AI as operational infrastructure; algorithmic accountability</td>
+        <td>AI as the business, not a feature; closing the prediction-decision gap</td>
       </tr>
       <tr>
         <td><span class="step-badge">Value</span></td>
@@ -513,7 +517,7 @@
 
   <h3>Key vocabulary introduced in this chapter</h3>
   <div class="vocab-grid">
-    <div class="vocab-card"><div class="vocab-term">AI as operational infrastructure</div><div class="vocab-def">When AI replaces entire decision-making processes &mdash; not just enhances them &mdash; running continuously without human approval for each action</div></div>
+    <div class="vocab-card"><div class="vocab-term">Uber is AI — the prediction-decision gap</div><div class="vocab-def">When a company's core product is inseparable from its algorithms, closing the prediction-decision gap creates speed at scale — but removes the human judgment that catches mistakes before they affect real people</div></div>
     <div class="vocab-card"><div class="vocab-term">Forecasting</div><div class="vocab-def">Using historical data and patterns to predict what will happen next, enabling a business to act before a situation develops rather than react to it</div></div>
     <div class="vocab-card"><div class="vocab-term">Time series data</div><div class="vocab-def">Data recorded at regular intervals where order matters &mdash; the foundation of any forecasting system</div></div>
     <div class="vocab-card"><div class="vocab-term">Trend &amp; seasonality</div><div class="vocab-def">The two most common patterns in time series: trend is the long-run direction; seasonality is repeating cycles tied to calendar rhythms</div></div>
