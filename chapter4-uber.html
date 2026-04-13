@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 4: When AI Runs the Business — Uber | MIS 432</title>
+<style>
+  /* ── Uber palette ─────────────────────────────────────────
+     Primary:  #000000  Uber Black
+     Accent:   #1fbad6  Uber Cyan
+     White:    #ffffff
+     Neutral:  #888888  Gray
+  ──────────────────────────────────────────────────────────── */
+
+  nav { background: #000000; padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+  .nav-brand { color: #ffffff; font-size: 15px; font-weight: 700; text-decoration: none; }
+  .nav-links { display: flex; gap: 1.25rem; align-items: center; }
+  .nav-links a { color: #888888; font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: #1fbad6; }
+  .nav-badge { background: #1fbad6; color: #000000; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+
+  .hero { background: linear-gradient(135deg, #000000 0%, #0d1f22 60%, #122a2e 100%); padding: 3.5rem 2rem 3rem; }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+  .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #1fbad6; margin-bottom: 0.75rem; }
+  .hero h1 { font-size: 34px; font-weight: 800; color: #ffffff; line-height: 1.25; margin-bottom: 0.75rem; }
+  .hero-sub { font-size: 16px; color: #888888; max-width: 640px; line-height: 1.65; margin-bottom: 1.5rem; }
+  .hero-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .hero-meta span { font-size: 13px; color: #888888; }
+  .hero-meta strong { color: #ffffff; }
+  .hero-nav { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+  .btn { display: inline-block; padding: 0.55rem 1.2rem; border-radius: 6px; font-size: 13px; font-weight: 700; text-decoration: none; }
+  .btn-black { background: #1fbad6; color: #000000; }
+  .btn-outline { background: transparent; border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; }
+  .btn:hover { opacity: 0.85; }
+
+  .lab-strip { background: #ffffff; padding: 1rem 2rem; border-bottom: 1px solid #e2e8f0; }
+  .lab-strip-inner { max-width: 860px; margin: 0 auto; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+
+  .chapter-nav-bar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-top: 1px solid #e2e8f0; margin-top: 2rem; flex-wrap: wrap; gap: 0.75rem; }
+  .chapter-nav-bar a { font-size: 14px; color: #000000; text-decoration: none; font-weight: 700; }
+  .chapter-nav-bar a:hover { text-decoration: underline; }
+
+  footer { background: #000000; padding: 1.5rem 2rem; text-align: center; }
+  footer p { font-size: 13px; color: #888888; }
+  footer a { color: #1fbad6; text-decoration: none; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #ffffff; color: #333; }
+  .doc { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  .cover { border-bottom: 3px solid #1fbad6; padding-bottom: 1.5rem; margin-bottom: 2rem; }
+  .cover-tag { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #1fbad6; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .cover h1 { font-size: 28px; font-weight: 600; color: #111; line-height: 1.3; margin-bottom: 0.5rem; }
+  .cover-sub { font-size: 15px; color: #555; }
+  .cover-meta { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; }
+  .cover-meta span { font-size: 12px; color: #ffffff; background: #000000; border: 1px solid #333333; border-left: 3px solid #1fbad6; border-radius: 4px; padding: 0.4rem 0.75rem; line-height: 1.5; }
+  .cover-meta strong { color: #1fbad6; font-weight: 700; }
+
+  .mission-block { background: #000000; border-radius: 8px; padding: 1.5rem 1.75rem; margin: 1.5rem 0; }
+  .mission-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #1fbad6; margin-bottom: 0.5rem; }
+  .mission-text { font-size: 18px; font-weight: 600; color: #ffffff; line-height: 1.5; font-style: italic; }
+
+  h2 { font-size: 20px; font-weight: 600; color: #111; margin: 2rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 3px solid #1fbad6; }
+  h3 { font-size: 16px; font-weight: 600; color: #111; margin: 1.5rem 0 0.5rem; }
+  p { font-size: 15px; line-height: 1.75; color: #444; margin-bottom: 0.9rem; }
+  ul { margin: 0.5rem 0 1rem 1.5rem; }
+  li { font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 0.3rem; }
+  strong { color: #111; font-weight: 600; }
+  em { font-style: italic; }
+
+  .concept-box { background: #f5f5f5; border-left: 4px solid #1fbad6; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .concept-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #1fbad6; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .concept-term { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 0.3rem; }
+  .concept-def { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+
+  .insight-box { background: #f0fafb; border-left: 4px solid #1fbad6; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .insight-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #0e8fa3; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .insight-text { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+
+  .danger-box { background: #f5f5f5; border-left: 4px solid #000000; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .danger-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #000000; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .danger-text { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+
+  .update-box { background: #000000; border-left: 4px solid #1fbad6; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .update-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #1fbad6; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .update-text { font-size: 14px; color: #cccccc; line-height: 1.6; margin: 0; }
+  .update-text strong { color: #ffffff; }
+
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.75rem; margin: 1rem 0 1.5rem; }
+  .vocab-card { background: #f8f8f8; border: 1px solid #e0e0e0; border-top: 3px solid #1fbad6; border-radius: 6px; padding: 0.8rem 1rem; }
+  .vocab-term { font-size: 13px; font-weight: 600; color: #111; margin-bottom: 0.25rem; }
+  .vocab-def { font-size: 13px; color: #555; line-height: 1.55; }
+
+  .factory-table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 13px; }
+  .factory-table th { background: #000000; color: #ffffff; font-weight: 600; padding: 10px 12px; text-align: left; }
+  .factory-table td { padding: 9px 12px; border-bottom: 1px solid #E8E8E8; vertical-align: top; color: #444; line-height: 1.5; }
+  .factory-table tr:nth-child(even) td { background: #f8f9fb; }
+  .step-badge { display: inline-block; background: #000000; color: #1fbad6; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin: 1rem 0 1.5rem; }
+  .stat-card { background: #000000; border-radius: 8px; padding: 0.85rem 1rem; text-align: center; }
+  .stat-num { font-size: 22px; font-weight: 700; color: #1fbad6; }
+  .stat-label { font-size: 12px; color: #888888; margin-top: 3px; }
+
+  .toc { background: #f5f5f5; border-left: 4px solid #1fbad6; border-radius: 0 10px 10px 0; padding: 1rem 1.25rem; margin-bottom: 2rem; }
+  .toc-title { font-size: 12px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #1fbad6; margin-bottom: 0.6rem; }
+  .toc a { display: block; font-size: 14px; color: #444; text-decoration: none; padding: 4px 0; border-bottom: 1px solid #e8e8e8; }
+  .toc a:last-child { border-bottom: none; }
+  .toc a:hover { color: #1fbad6; padding-left: 4px; transition: padding 0.15s ease; }
+
+  .section-num { display: inline-block; background: #1fbad6; color: #000000; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 20px; margin-right: 6px; vertical-align: middle; }
+
+  .discussion-list { counter-reset: dq; list-style: none; margin: 0 0 1rem; padding: 0; }
+  .discussion-list li { counter-increment: dq; padding: 0.7rem 0.7rem 0.7rem 2.5rem; position: relative; border-bottom: 1px solid #EEEEEE; font-size: 15px; color: #444; line-height: 1.65; }
+  .discussion-list li::before { content: counter(dq); position: absolute; left: 0.5rem; top: 0.75rem; background: #000000; color: #1fbad6; font-size: 11px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+  .pipeline-row { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin: 1rem 0 1.5rem; }
+  .pipe-step { background: #f5f5f5; border: 1px solid #888888; border-radius: 6px; padding: 0.5rem 0.9rem; font-size: 13px; font-weight: 600; color: #000000; }
+  .pipe-arrow { font-size: 14px; color: #888888; padding: 0 2px; }
+  .pipe-loop { background: #000000; border: 1px solid #1fbad6; border-radius: 6px; padding: 0.5rem 0.9rem; font-size: 13px; font-weight: 600; color: #1fbad6; }
+
+  hr { border: none; border-top: 1px solid #E8E8E8; margin: 2rem 0; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 432 · AI in Business</a>
+  <div class="nav-links">
+    <span class="nav-badge">Chapter 4</span>
+    <a href="chapter4-uber-lab.html">Lab 4 →</a>
+    <a href="chapter3-spotify.html">Chapter 3</a>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Chapter 4 &middot; AI as Operations &middot; Forecasting &middot; Responsible AI</div>
+    <h1>When AI Runs the Business:<br>How Uber Operates on Machine Learning</h1>
+    <p class="hero-sub">Spotify uses AI to improve its product. Uber uses AI to run its entire operation. Every driver repositioned, every price set, every server provisioned &mdash; all of it is the output of algorithms running continuously, without a human in the loop. This chapter asks: what does a business look like when AI is the engine, not just a feature?</p>
+    <div class="hero-meta">
+      <span><strong>Company:</strong> Uber</span>
+      <span><strong>Industry:</strong> Ride-Hailing &amp; Logistics</span>
+      <span><strong>Core concept:</strong> AI as operational infrastructure</span>
+    </div>
+    <div class="hero-nav">
+      <a href="chapter4-uber-lab.html" class="btn btn-black">Go to Lab 4 &rarr;</a>
+      <a href="index.html" class="btn btn-outline">&larr; All Chapters</a>
+    </div>
+  </div>
+</div>
+
+<div class="lab-strip">
+  <div class="lab-strip-inner">
+    <span style="font-size:13px; color:#718096;">Also in this chapter:</span>
+    <a href="chapter4-uber-lab.html" style="font-size:13px; color:#1fbad6; text-decoration:none; font-weight:700;">Lab 4: Build a Demand Forecasting Model in Python &rarr;</a>
+  </div>
+</div>
+
+<div class="doc">
+
+  <div class="cover">
+    <div class="cover-tag">MIS 432 &middot; AI in Business &middot; Case Study</div>
+    <h1>When AI Runs the Business:<br>How Uber Operates on Machine Learning</h1>
+    <div class="cover-sub">From demand forecasting to responsible AI &mdash; the business strategy behind the world&rsquo;s most complex AI-driven marketplace</div>
+    <div class="cover-meta">
+      <span><strong>Level:</strong> Upper-division undergraduate</span>
+      <span><strong>Topics:</strong> AI as operations, forecasting, algorithmic accountability, responsible AI</span>
+      <span><strong>Concepts introduced:</strong> 10 key business AI terms</span>
+    </div>
+    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+      <p style="font-size: 13px; color: #888; margin: 0;">
+        <strong style="color: #555;">Primary sources:</strong> This case is based on Uber Engineering blog posts including
+        <a href="https://www.uber.com/us/en/blog/forecasting-introduction/" target="_blank" style="color: #1fbad6; text-decoration: none; font-style: italic;">Forecasting at Uber: An Introduction</a> (2018),
+        <a href="https://www.uber.com/us/en/blog/scaling-responsible-ai/" target="_blank" style="color: #1fbad6; text-decoration: none; font-style: italic;">Scaling Responsible AI at Uber</a> (2026),
+        and <a href="https://www.uber.com/us/en/blog/ai-prototyping/" target="_blank" style="color: #1fbad6; text-decoration: none; font-style: italic;">AI Prototyping Is Changing How We Build Products at Uber</a> (2026).
+      </p>
+    </div>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <a href="#s1">1. Company Background</a>
+    <a href="#s2">2. The Big Idea: AI as the Engine, Not the Feature</a>
+    <a href="#s3">3. The Business Problem: You Can&rsquo;t React Fast Enough</a>
+    <a href="#s4">4. Framework: The AI Factory at Uber</a>
+    <a href="#s5">5. Step 1 &mdash; Data: The Foundation Everything Runs On</a>
+    <a href="#s6">6. Step 2 &mdash; Model: Choosing the Right Tool for the Job</a>
+    <a href="#s7">7. Step 3 &mdash; Prediction: Testing Before You Trust</a>
+    <a href="#s8">8. Step 4 &mdash; Decision: When the Algorithm Is in Charge</a>
+    <a href="#s9">9. Step 5 &mdash; Value &amp; Risk: What Happens When It Goes Wrong</a>
+    <a href="#s10">10. Responsible AI: Accountability at Scale</a>
+    <a href="#s11">11. From 2018 to Today: Uber&rsquo;s AI Grows Up</a>
+    <a href="#s12">12. Competitive Advantage</a>
+    <a href="#s13">13. Summary &amp; Discussion Questions</a>
+  </div>
+
+  <!-- SECTION 1 -->
+  <h2 id="s1"><span class="section-num">1</span> Company Background</h2>
+
+  <div class="mission-block">
+    <div class="mission-label">Uber&rsquo;s Mission</div>
+    <div class="mission-text">&ldquo;We reimagine the way the world moves for the better.&rdquo;</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">2009</div><div class="stat-label">Founded in San Francisco</div></div>
+    <div class="stat-card"><div class="stat-num">150M+</div><div class="stat-label">Monthly active users</div></div>
+    <div class="stat-card"><div class="stat-num">36M</div><div class="stat-label">Daily trips completed</div></div>
+    <div class="stat-card"><div class="stat-num">5M+</div><div class="stat-label">Active drivers globally</div></div>
+    <div class="stat-card"><div class="stat-num">70+</div><div class="stat-label">Countries</div></div>
+    <div class="stat-card"><div class="stat-num">10,000+</div><div class="stat-label">Cities served</div></div>
+  </div>
+
+  <p>Uber was founded in San Francisco in 2009 by Travis Kalanick and Garrett Camp. What started as a simple app to summon a black car with a tap has grown into one of the most complex logistics platforms ever built. Today Uber connects riders with drivers across more than 70 countries, with services spanning ride-hailing, food delivery (Uber Eats), freight (Uber Freight), and healthcare transportation (Uber Health).</p>
+
+  <p>At any given moment, millions of riders are requesting trips while millions of driver-partners are deciding where to drive. The company&rsquo;s core challenge &mdash; whether any given trip is fast and affordable, or slow and expensive &mdash; is a matching problem: getting the right driver to the right place at the right time, before the rider even opens the app. That problem is solved almost entirely by AI.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">Strategic context</div>
+    <div class="insight-text">Unlike Spotify, where a bad AI recommendation costs a listener 30 seconds, a bad forecast at Uber costs real money in real time. Under-predicting demand leaves riders stranded and erodes trust. Over-predicting floods neighborhoods with idle drivers who earn nothing. <strong>For Uber, AI is not a product feature &mdash; it is the operating infrastructure of the entire business.</strong></div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <h2 id="s2"><span class="section-num">2</span> The Big Idea: AI as the Engine, Not the Feature</h2>
+
+  <p>In Chapter 3, we saw how Spotify uses AI as a personalization engine &mdash; a system that makes the product experience better for each individual user. Uber represents something different and worth understanding on its own terms. For Uber, AI is not a layer on top of the product. <strong>AI is the product.</strong> Remove the forecasting models, the pricing algorithms, and the demand prediction systems, and there is no Uber &mdash; just an app with no drivers and no prices.</p>
+
+  <p>This distinction matters strategically. When AI improves a product, you can live without it temporarily. When AI <em>runs</em> a business, every failure is an operational failure. That raises the stakes for everything: accuracy, governance, ethics, and accountability. It also changes what it means to compete. A company that uses AI as infrastructure is not just harder to beat &mdash; it is operating on a fundamentally different model than one that does not.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">AI as operational infrastructure</div>
+    <div class="concept-def">Most companies use AI to enhance decisions that humans already make. Operational AI replaces entire decision-making processes with automated systems that run continuously without human approval for each action. At Uber, no human approves each surge price, each driver nudge, or each server provisioning decision &mdash; algorithms do. This creates enormous efficiency and scale, but it also means that when the system makes a mistake, it makes it at scale. Understanding this distinction &mdash; AI as a tool versus AI as infrastructure &mdash; is one of the most important strategic ideas in this course.</div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <h2 id="s3"><span class="section-num">3</span> The Business Problem: You Can&rsquo;t React Fast Enough</h2>
+
+  <p>Imagine you are running a taxi fleet in a city. You know Friday nights get busy, and New Year&rsquo;s Eve is the busiest night of the year. But knowing that in general is very different from knowing, at 9:47pm this specific Friday, that demand in the downtown core is about to spike 40% in the next 20 minutes because two concerts just let out simultaneously &mdash; and that rain is starting, which will suppress demand on the east side while amplifying it near transit hubs.</p>
+
+  <p>A human dispatcher cannot process that information and reposition dozens of drivers fast enough. By the time a decision is made, the moment has passed. This is Uber&rsquo;s fundamental business problem, repeating every few minutes in every city it operates, simultaneously. The only solution is a system that anticipates demand <em>before it arrives</em> rather than reacting after the fact.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Forecasting</div>
+    <div class="concept-def">Forecasting is the use of historical data and patterns to predict what will happen next. A weather app predicting tomorrow&rsquo;s rain, a retailer deciding how much inventory to order, and Uber predicting how many ride requests will arrive in a specific neighborhood in the next 15 minutes are all forecasting problems. The key business insight: forecasting lets you act <em>before</em> a situation develops rather than reacting to it after. For Uber, the difference between anticipation and reaction is the difference between a 3-minute wait time and a 20-minute one.</div>
+  </div>
+
+  <p>Uber uses forecasting across three distinct business decisions, each with concrete financial stakes:</p>
+  <ul>
+    <li><strong>Marketplace forecasting</strong> &mdash; Predicting rider demand by location and time so drivers can be directed to high-demand areas before surges occur. This directly increases driver earnings and reduces rider wait times.</li>
+    <li><strong>Infrastructure planning</strong> &mdash; Uber&rsquo;s platform runs on servers. Too few during a demand spike causes outages that destroy user trust. Too many wastes millions in computing costs. Forecasting finds the right balance in advance.</li>
+    <li><strong>Marketing measurement</strong> &mdash; Knowing whether an advertising campaign actually drove incremental rides requires forecasting what demand would have been without it. Without that baseline, you cannot know if your marketing spend worked.</li>
+  </ul>
+
+  <div class="insight-box">
+    <div class="insight-label">Business insight</div>
+    <div class="insight-text">All three use cases share an <strong>asymmetric cost of error</strong>. Predicting too low leaves real riders stranded and real drivers missing income. Predicting too high means wasted servers and idle drivers. The cost of being wrong is not the same in both directions &mdash; and that asymmetry shapes every decision Uber makes about how its forecasting systems are built, monitored, and corrected.</div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <h2 id="s4"><span class="section-num">4</span> Framework: The AI Factory at Uber</h2>
+
+  <p>We introduced the <strong>AI Factory model</strong> in Chapter 3 with Spotify: a system in which data, models, predictions, and decisions continuously reinforce each other to create compounding value. Uber&rsquo;s operation maps directly onto the same framework &mdash; with one critical difference. Spotify&rsquo;s AI Factory operates entirely in the digital world. Uber&rsquo;s operates in the physical one, where geography, weather, road conditions, and human behavior introduce real-world unpredictability that no model can fully eliminate.</p>
+
+  <div class="pipeline-row">
+    <div class="pipe-step">1. Data<br><small style="font-weight:400;color:#555;">Trip history, location,<br>time, weather</small></div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-step">2. Model<br><small style="font-weight:400;color:#555;">Learn patterns<br>from the past</small></div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-step">3. Prediction<br><small style="font-weight:400;color:#555;">Forecast future<br>demand</small></div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-step">4. Decision<br><small style="font-weight:400;color:#555;">Route drivers,<br>set prices</small></div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-loop">5. Value<br><small style="font-weight:400;color:#1fbad6;">More trips &rarr; more data<br>&rarr; better forecasts</small></div>
+  </div>
+
+  <p>Each step feeds the next, and the loop compounds over time. Every trip Uber completes generates new data that improves the next forecast. This is the same flywheel we saw with Spotify &mdash; operating in a very different, and higher-stakes, context.</p>
+
+  <!-- SECTION 5 -->
+  <h2 id="s5"><span class="section-num">5</span> Step 1 &mdash; Data: The Foundation Everything Runs On</h2>
+
+  <p>Uber&rsquo;s forecasting begins with a record of every trip ever taken: where it started and ended, what time it was, how long it took, what the weather was, what local events were happening nearby, and dozens of other contextual factors. This historical record, accumulated across years and thousands of cities, is what makes reliable forecasting possible &mdash; and what makes Uber&rsquo;s forecasting advantage so difficult for a new competitor to replicate.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Time series data &mdash; trend and seasonality</div>
+    <div class="concept-def">A time series is a sequence of data points recorded at regular intervals over time. Uber&rsquo;s trip data is a time series: the number of rides in a city, recorded every hour for years. What makes it special is that <em>order matters</em> &mdash; you cannot randomly shuffle the data and still learn from it. The goal is to understand how today relates to yesterday and last week so you can predict tomorrow. Two patterns almost always appear: <strong>trend</strong> (a long-run direction, like Uber&rsquo;s growing trip volume as it expands into new markets) and <strong>seasonality</strong> (repeating cycles, like Friday nights always being busier than Tuesday mornings). A forecasting system that misses either of these will be systematically wrong &mdash; over-predicting when it should not, under-predicting when it matters most.</div>
+  </div>
+
+  <figure style="margin: 1.5rem 0;">
+    <div style="overflow-x:auto;">
+    <svg width="100%" viewBox="0 0 680 280" role="img" style="max-width:680px;display:block;margin:0 auto;">
+      <title>Uber trips time series showing trend and weekly seasonality</title>
+      <line x1="60" y1="230" x2="640" y2="230" stroke="#ccc" stroke-width="1"/>
+      <line x1="60" y1="30" x2="60" y2="230" stroke="#ccc" stroke-width="1"/>
+      <line x1="60" y1="165" x2="640" y2="165" stroke="#f0f0f0" stroke-width="1"/>
+      <line x1="60" y1="100" x2="640" y2="100" stroke="#f0f0f0" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#999" x="55" y="233" text-anchor="end">Low</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#999" x="55" y="100" text-anchor="end">High</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#aaa" x="70" y="248">Jan</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#aaa" x="150" y="248">Mar</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#aaa" x="234" y="248">May</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#aaa" x="314" y="248">Jul</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#aaa" x="394" y="248">Sep</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#aaa" x="474" y="248">Nov</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#aaa" x="560" y="248">Jan</text>
+      <polyline fill="none" stroke="#1fbad6" stroke-width="1.8"
+        points="70,188 74,163 78,178 82,168 86,153 90,171 94,186
+          98,176 102,151 106,166 110,156 114,141 118,159 122,173
+          126,163 130,139 134,153 138,143 142,128 146,146 150,160
+          154,150 158,126 162,140 166,130 170,115 174,133 178,147
+          182,137 186,113 190,127 194,117 198,103 202,121 206,135
+          210,125 214,101 218,115 222,105 226,91 230,109 234,123
+          238,113 242,89 246,103 250,93 254,79 258,97 262,111
+          266,101 270,77 274,91 278,81 282,67 286,85 290,99
+          294,89 298,65 302,79 306,69 310,55 314,73 318,87
+          322,77 326,64 330,72 334,63 338,79 342,89 346,75
+          350,62 354,50 358,65 362,55 366,69 370,80 374,65
+          378,53 382,60 386,70 390,56 394,70 398,80 402,66
+          406,54 410,61 414,70 418,56 422,71 426,81 430,67
+          434,55 438,62 442,53 446,64 450,74 454,60 458,48
+          462,57 466,67 470,53 474,48 478,59 482,70 486,56
+          490,46 494,53 498,44 502,60 506,70 510,55 514,44
+          518,54 522,64 526,50 530,61 534,71 538,57 542,46
+          546,55 550,67 554,53 558,44 562,59 566,49 570,63
+          574,52 578,40 582,53 586,44 590,58 594,47 598,61
+          602,50 606,38 610,52 614,43 618,57"/>
+      <line x1="70" y1="193" x2="618" y2="45" stroke="#888888" stroke-width="1.5" stroke-dasharray="6 3"/>
+      <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#888888" x="490" y="88" text-anchor="start">&uarr; Upward trend</text>
+      <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#1fbad6" x="140" y="82">Weekly peaks (Fri/Sat)</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#888" x="340" y="268" text-anchor="middle">14 months of daily Uber trips &mdash; trend and weekly seasonality are both clearly visible</text>
+    </svg>
+    </div>
+    <figcaption style="margin-top: 0.6rem; font-size: 13px; color: #667986; line-height: 1.6; max-width: 580px; margin-left: auto; margin-right: auto;">
+      <strong>Figure 1: Trend and seasonality in Uber trip data.</strong> The cyan line shows daily trip volume over 14 months. The dashed gray line shows the upward trend as Uber expands. The regular spikes are weekly seasonality &mdash; Fridays and Saturdays consistently peak. A model that ignores trend will under-predict future demand. One that ignores seasonality will misfire every single week.
+    </figcaption>
+  </figure>
+
+  <!-- SECTION 6 -->
+  <h2 id="s6"><span class="section-num">6</span> Step 2 &mdash; Model: Choosing the Right Tool for the Job</h2>
+
+  <p>Once data is in place, Uber needs models &mdash; the systems that learn patterns from historical data and use them to predict what comes next. There is no single best forecasting model. The most important choice is not which specific model to use, but understanding two key tradeoffs every business faces when choosing an AI approach.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Black-box vs. interpretable models</div>
+    <div class="concept-def">Some AI models are <strong>interpretable</strong> &mdash; you can look at the output and understand in plain language why the model made a given prediction. Others are <strong>black boxes</strong> &mdash; they may be more accurate, but their internal logic is too complex to explain. This is a genuine business tradeoff, not just a technical one. If a forecast tells you to raise prices by 40% on New Year&rsquo;s Eve, a manager may need to explain and defend that decision to executives, regulators, or customers. A black-box model nobody can explain becomes a governance liability &mdash; even if it is technically more accurate. <strong>Choosing between accuracy and explainability is one of the most consequential decisions a business makes when deploying AI.</strong></div>
+  </div>
+
+  <p>Uber explicitly acknowledges that it cannot know in advance which model will work best for any given use case &mdash; and therefore tests multiple approaches in competition for every application. This is a fundamental truth of applied AI: <strong>you don&rsquo;t choose the best model by reasoning from first principles. You run the competition and measure who wins.</strong> That requires infrastructure for testing, not just building.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">Business insight: build vs. buy</div>
+    <div class="insight-text">Uber built its own custom forecasting infrastructure from scratch. Most companies never will &mdash; and should not. The relevant question for a business leader is not &ldquo;how do we build a forecasting system?&rdquo; but <strong>&ldquo;should we build, buy, or partner?&rdquo;</strong> Off-the-shelf forecasting tools exist for most standard use cases. The case for building custom infrastructure only holds when the problem is genuinely unique, strategically critical, and at a scale where generic tools break down. For Uber, with millions of location-specific predictions per minute across thousands of cities, that threshold was clearly met. For most businesses, it is not.</div>
+  </div>
+
+  <!-- SECTION 7 -->
+  <h2 id="s7"><span class="section-num">7</span> Step 3 &mdash; Prediction: Testing Before You Trust</h2>
+
+  <p>Before any forecasting model is deployed to drive real business decisions, Uber needs to know how well it actually works. This sounds obvious &mdash; but testing a forecasting model correctly is harder than it seems. <strong>You cannot use future data to test a model that is supposed to predict the future.</strong> The time ordering of the data must always be preserved: train only on the past, test only against what came after.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Backtesting</div>
+    <div class="concept-def">Backtesting is how you evaluate a forecasting model honestly. Pretend it is a year ago, train the model only on data from before that point, and check how well it predicts what actually happened afterward. If the model predicted 8,200 rides in Chicago on a Friday and 8,400 actually happened, that is a 2.4% error. Repeat this across hundreds of past time windows, average the errors, and you get a realistic picture of real-world performance &mdash; before you bet the business on it. Any model that has not been properly backtested has not been properly validated.</div>
+  </div>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Prediction intervals</div>
+    <div class="concept-def">A <strong>point forecast</strong> gives you one number: &ldquo;We predict 8,200 rides on Friday at 10pm.&rdquo; A <strong>prediction interval</strong> gives you a range: &ldquo;We predict between 7,400 and 9,100 rides, with 90% confidence.&rdquo; The range tells you how uncertain the forecast is &mdash; and that uncertainty has direct business consequences. A narrow interval means you can plan lean. A wide interval means you need larger reserves to cover the possibility of being significantly wrong. <strong>Reporting only the single number without the range leads to overconfident decisions.</strong> This is one of the most common and costly mistakes in applied forecasting, in any industry.</div>
+  </div>
+
+  <!-- SECTION 8 -->
+  <h2 id="s8"><span class="section-num">8</span> Step 4 &mdash; Decision: When the Algorithm Is in Charge</h2>
+
+  <p>A forecast on its own has no value. Its value comes entirely from the decisions it enables. At Uber, forecasting outputs feed directly into operational systems that act automatically &mdash; no human approves each individual decision in real time.</p>
+
+  <h3>Driver repositioning</h3>
+  <p>When the forecasting system predicts a demand spike in a specific area, the driver app uses earnings incentives to nudge nearby drivers toward the predicted high-demand zone <em>before</em> the spike arrives. This is the most direct application of the AI Factory: moving supply to meet demand before demand materializes.</p>
+
+  <h3>Surge pricing</h3>
+  <p>Surge pricing &mdash; the automatic increase in fares during periods of high demand &mdash; is itself forecast-driven. When models predict that demand will exceed available drivers in a location over the next 15 minutes, prices rise automatically. The goal is balance: attract more drivers to the area while moderating demand. Get the forecast wrong, and prices either spike unnecessarily &mdash; damaging rider trust &mdash; or fail to rise when they should, leaving riders without cars.</p>
+
+  <h3>Infrastructure provisioning</h3>
+  <p>Every major holiday, Uber&rsquo;s engineering team provisions additional server capacity before demand arrives &mdash; servers cannot be spun up instantaneously. A forecast generated days in advance determines how much additional capacity to reserve and when. Under-forecast and the platform crashes at the worst possible moment. Over-forecast and millions of dollars in unused computing capacity are wasted.</p>
+
+  <!-- SECTION 9 -->
+  <h2 id="s9"><span class="section-num">9</span> Step 5 &mdash; Value &amp; Risk: What Happens When It Goes Wrong</h2>
+
+  <p>When AI runs the operation, failures are not quiet technical errors. They show up as real, immediate consequences: riders stranded, drivers in the wrong place, servers down during a holiday rush, a marketing campaign that burned millions with no measurable return.</p>
+
+  <div class="danger-box">
+    <div class="danger-label">When forecasting fails</div>
+    <div class="danger-text"><strong>Scenario: New Year&rsquo;s Eve.</strong> Uber&rsquo;s model has seen only a handful of New Year&rsquo;s Eves in its training data. It under-predicts demand by 35%. On the night itself: wait times balloon to 40 minutes downtown, surge prices spike to levels that feel exploitative, riders switch to competitors, and drivers in the wrong neighborhoods miss the busiest night of the year. A better forecast &mdash; one that incorporated event attendance data and historical New Year&rsquo;s patterns from multiple cities &mdash; could have repositioned drivers hours earlier. This is not a hypothetical. It is the type of failure that motivates Uber&rsquo;s ongoing investment in forecasting infrastructure.</div>
+  </div>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Distribution shift</div>
+    <div class="concept-def">A forecasting model is trained on historical data that reflects how the world worked in the past. Distribution shift occurs when the real world starts behaving differently from that training data &mdash; rendering the model&rsquo;s assumptions invalid. For Uber, the shift to remote work during the COVID-19 pandemic fundamentally changed commute patterns that years of training data had captured as stable and predictable. The model&rsquo;s forecasts degraded rapidly &mdash; not because the model was poorly built, but because the world it was trained on no longer existed. Distribution shift is one of the primary reasons AI systems require continuous monitoring and periodic retraining. A model that was excellent last year may be quietly wrong today.</div>
+  </div>
+
+  <!-- SECTION 10 -->
+  <h2 id="s10"><span class="section-num">10</span> Responsible AI: Accountability at Scale</h2>
+
+  <p>When an algorithm makes millions of decisions per day without a human reviewing each one, a new set of business and ethical questions emerges. Who is responsible when the algorithm is wrong? How do you explain a decision to someone it affected? How do you ensure the system is not systematically disadvantaging certain groups of people or behaving in ways that conflict with the company&rsquo;s values? These are not hypothetical concerns &mdash; they are active challenges Uber faces today, and they represent one of the most strategically important areas of investment in modern AI-driven businesses.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Algorithmic accountability</div>
+    <div class="concept-def">Algorithmic accountability is the principle that organizations are responsible for the decisions their AI systems make &mdash; just as they would be for decisions made by human employees. When Uber&rsquo;s surge pricing algorithm raises fares during a natural disaster, it is Uber that faces the reputational and regulatory consequences, even though no human made that specific decision. Accountability requires three capabilities: (1) <strong>explainability</strong> &mdash; the ability to say why the algorithm made a given decision; (2) <strong>monitoring</strong> &mdash; ongoing systems to detect when it is performing unfairly or incorrectly; and (3) <strong>correction</strong> &mdash; the ability to fix it when it goes wrong. These three together form the foundation of what is now called <em>responsible AI</em>.</div>
+  </div>
+
+  <h3>How Uber is building responsible AI into its systems</h3>
+
+  <p>Uber has developed a centralized <strong>Model Catalog</strong> &mdash; a system that tracks every AI model running in production, what decisions it drives, who owns it, and how it is performing. Before the Model Catalog, models could be deployed and largely forgotten, quietly degrading with no clear owner. The Catalog creates organizational visibility: if a model starts underperforming or behaving unexpectedly, the right people know immediately.</p>
+
+  <p>Uber has also built automated explainability tools directly into its engineering workflow &mdash; systems that generate plain-language explanations of why a model made a specific prediction. This matters both internally (so engineers can catch problems early) and externally (so Uber can respond to questions from regulators or customers who feel a decision was unfair or unexplained).</p>
+
+  <div class="insight-box">
+    <div class="insight-label">The surge pricing ethics question</div>
+    <div class="insight-text">Surge pricing is Uber&rsquo;s most publicly visible algorithmic decision &mdash; and its most controversial. In theory, higher prices during high demand attract more drivers and help the market clear. In practice, the system has raised prices during hurricanes, wildfires, and emergency evacuations &mdash; moments when riders had no alternatives and price sensitivity was irrelevant. <strong>Uber has faced significant public backlash, regulatory scrutiny, and reputational damage from these episodes.</strong> The model was doing exactly what it was designed to do. The business was still held responsible for what that meant in practice. Responsible AI requires asking not just &ldquo;is the model technically correct?&rdquo; but &ldquo;do its real-world consequences align with our values &mdash; and with what our customers and regulators expect of us?&rdquo;</div>
+  </div>
+
+  <!-- SECTION 11 -->
+  <h2 id="s11"><span class="section-num">11</span> From 2018 to Today: Uber&rsquo;s AI Grows Up</h2>
+
+  <p>The forecasting system at the core of this chapter was first documented publicly in 2018. Since then, Uber has not simply improved its forecasting &mdash; it has built an entirely different category of AI capability on top of that foundation. Three developments are worth understanding, because each one represents something you will encounter in your own career.</p>
+
+  <div class="update-box">
+    <div class="update-label">Development 1 &mdash; AI Prototyping (2026)</div>
+    <div class="update-text">Uber&rsquo;s product teams now use AI tools to build working, clickable product prototypes in hours rather than weeks. A product manager described achieving full alignment across product, design, engineering, and legal teams using a prototype built in an afternoon &mdash; a process that previously required weeks of meetings and written documents. <strong>The business insight is not about the technology. It is about what happens when the cost of making an idea tangible drops to near zero.</strong> Teams explore more options, align faster, and make better decisions earlier &mdash; before expensive engineering work has already begun. The implication for any organization: AI does not just change what you build. It changes how quickly and confidently you decide what to build.</div>
+  </div>
+
+  <div class="update-box">
+    <div class="update-label">Development 2 &mdash; Agentic AI (2025&ndash;2026)</div>
+    <div class="update-text">Uber has moved beyond AI that makes individual predictions and toward <strong>agentic AI</strong> &mdash; systems that autonomously complete entire multi-step workflows. One example: Uber built an internal tool that connects an AI agent to its design system. A team member shares a link and some context; the agent reads the design file, generates complete technical documentation, and writes it back &mdash; in minutes rather than weeks. <strong>Wherever a workflow involves a predictable sequence of decisions, agentic AI can automate the entire chain.</strong> This is qualitatively different from the forecasting systems of 2018, which made one prediction and stopped. Agentic AI acts on a prediction, assesses the result, decides what to do next, and repeats &mdash; raising the stakes for governance and accountability proportionally.</div>
+  </div>
+
+  <div class="update-box">
+    <div class="update-label">Development 3 &mdash; Uber as an AI Company (2024&ndash;2026)</div>
+    <div class="update-text">Uber has begun selling its AI infrastructure to other companies. The internal systems built to run Uber&rsquo;s own marketplace &mdash; data labeling, model testing, workflow automation &mdash; are now offered to enterprise clients under the <strong>Uber AI Solutions</strong> brand. What began as a cost center has become a revenue center. <strong>This strategic pivot &mdash; turning internal AI infrastructure into a commercial product &mdash; is a pattern worth watching.</strong> The companies that invested earliest in operational AI are discovering that the infrastructure itself has market value. It is a second business model hiding inside the first one.</div>
+  </div>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Agentic AI</div>
+    <div class="concept-def">Traditional AI systems respond to a single input and produce a single output &mdash; a forecast, a recommendation, a classification. Agentic AI systems are given a <em>goal</em> and autonomously plan and execute a sequence of actions to achieve it, adapting as they go. Think of the difference between asking someone &ldquo;what is the weather tomorrow?&rdquo; (one question, one answer) and asking them to &ldquo;plan my trip to Seattle next week&rdquo; (a goal requiring many steps, decisions, and adjustments). Agentic AI is the second kind. It is the direction the industry is moving &mdash; and it raises governance and accountability questions even further, because the chain of decisions an agent makes may be long, fast, and difficult to trace after the fact.</div>
+  </div>
+
+  <!-- SECTION 12 -->
+  <h2 id="s12"><span class="section-num">12</span> Competitive Advantage: Why This Is Hard to Copy</h2>
+
+  <p>Uber&rsquo;s engineers have published detailed blog posts explaining their forecasting methods. The models are not secret. Yet the advantage compounds in ways that are very difficult to replicate quickly. The moat is not the algorithm. It is everything that makes the algorithm work.</p>
+
+  <ul>
+    <li><strong>Years of irreplaceable data.</strong> A new competitor has no historical trip data. Their first forecasts are educated guesses. Uber&rsquo;s models have been calibrated against years of real events &mdash; Super Bowls, elections, pandemics, weather events &mdash; across thousands of cities. This cannot be purchased or shortcut.</li>
+    <li><strong>The self-reinforcing feedback loop.</strong> Every trip Uber completes generates data that improves the next forecast. A competitor with fewer trips generates less feedback, which produces worse forecasts, which leads to worse experiences, which produces fewer trips. The loop is self-reinforcing in both directions.</li>
+    <li><strong>Organizational capability.</strong> Knowing how to build, test, monitor, govern, and continuously improve AI systems at scale is an institutional skill that takes years to develop. A competitor who builds the same architecture tomorrow still lacks the organizational learning that comes from having operated it through hundreds of failure modes and distribution shifts.</li>
+  </ul>
+
+  <p>The competitive moat is <em>data, time, and organizational capability</em>. These three things compound together &mdash; and they are almost impossible to acquire quickly from a standing start.</p>
+
+  <!-- SECTION 13 -->
+  <h2 id="s13"><span class="section-num">13</span> Summary &amp; Discussion Questions</h2>
+
+  <h3>AI Factory model: Uber mapped</h3>
+  <table class="factory-table">
+    <thead>
+      <tr>
+        <th>Step</th>
+        <th>Uber example</th>
+        <th>Business purpose</th>
+        <th>Key concept</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="step-badge">Data</span></td>
+        <td>Years of trip history by city, time, location, and context</td>
+        <td>Build a historical record competitors cannot replicate</td>
+        <td>Time series; trend &amp; seasonality</td>
+      </tr>
+      <tr>
+        <td><span class="step-badge">Model</span></td>
+        <td>Multiple model types tested and selected per use case</td>
+        <td>Match the model to the business decision it needs to drive</td>
+        <td>Black-box vs. interpretable; build vs. buy</td>
+      </tr>
+      <tr>
+        <td><span class="step-badge">Prediction</span></td>
+        <td>Backtested forecasts with prediction intervals, not just point estimates</td>
+        <td>Validate before deploying; quantify uncertainty for decision-makers</td>
+        <td>Backtesting; prediction intervals</td>
+      </tr>
+      <tr>
+        <td><span class="step-badge">Decision</span></td>
+        <td>Automated driver repositioning, surge pricing, server provisioning</td>
+        <td>Convert predictions into operational actions at machine speed</td>
+        <td>AI as operational infrastructure; algorithmic accountability</td>
+      </tr>
+      <tr>
+        <td><span class="step-badge">Value</span></td>
+        <td>Lower wait times, higher driver earnings, leaner infrastructure, Uber AI Solutions revenue</td>
+        <td>Turn AI investment into business outcomes &mdash; and new business models</td>
+        <td>Distribution shift; responsible AI; agentic AI</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Key vocabulary introduced in this chapter</h3>
+  <div class="vocab-grid">
+    <div class="vocab-card"><div class="vocab-term">AI as operational infrastructure</div><div class="vocab-def">When AI replaces entire decision-making processes &mdash; not just enhances them &mdash; running continuously without human approval for each action</div></div>
+    <div class="vocab-card"><div class="vocab-term">Forecasting</div><div class="vocab-def">Using historical data and patterns to predict what will happen next, enabling a business to act before a situation develops rather than react to it</div></div>
+    <div class="vocab-card"><div class="vocab-term">Time series data</div><div class="vocab-def">Data recorded at regular intervals where order matters &mdash; the foundation of any forecasting system</div></div>
+    <div class="vocab-card"><div class="vocab-term">Trend &amp; seasonality</div><div class="vocab-def">The two most common patterns in time series: trend is the long-run direction; seasonality is repeating cycles tied to calendar rhythms</div></div>
+    <div class="vocab-card"><div class="vocab-term">Black-box vs. interpretable models</div><div class="vocab-def">The tradeoff between accuracy and explainability &mdash; a model nobody can explain becomes a governance liability even if it is technically superior</div></div>
+    <div class="vocab-card"><div class="vocab-term">Build vs. buy</div><div class="vocab-def">The strategic decision of whether to develop custom AI infrastructure internally or use off-the-shelf tools &mdash; custom builds are only justified when the problem is genuinely unique and strategically critical</div></div>
+    <div class="vocab-card"><div class="vocab-term">Backtesting</div><div class="vocab-def">Evaluating a forecasting model by simulating how it would have performed on past data it never saw during training &mdash; the honest test before deployment</div></div>
+    <div class="vocab-card"><div class="vocab-term">Prediction intervals</div><div class="vocab-def">The range of uncertainty around a forecast &mdash; reporting only a single number without the range leads to dangerously overconfident decisions</div></div>
+    <div class="vocab-card"><div class="vocab-term">Distribution shift</div><div class="vocab-def">When the real world starts behaving differently from the training data &mdash; the primary reason AI systems degrade over time and require ongoing monitoring</div></div>
+    <div class="vocab-card"><div class="vocab-term">Algorithmic accountability</div><div class="vocab-def">The principle that organizations are responsible for decisions their AI makes &mdash; requiring explainability, monitoring, and the ability to detect and correct errors</div></div>
+    <div class="vocab-card"><div class="vocab-term">Responsible AI</div><div class="vocab-def">The organizational practice of ensuring AI systems are explainable, fair, monitored, and correctable &mdash; particularly critical when AI drives decisions that affect real people at scale</div></div>
+    <div class="vocab-card"><div class="vocab-term">Agentic AI</div><div class="vocab-def">AI systems given a goal that autonomously plan and execute a sequence of actions to achieve it &mdash; qualitatively different from systems that respond to a single input with a single output</div></div>
+  </div>
+
+  <h3>Discussion questions</h3>
+  <p style="font-size:13px; color:#666; margin-bottom:0.75rem;">These work well as written assignments or in-class discussion. Questions 2, 4, and 5 tend to generate the most debate.</p>
+  <ol class="discussion-list">
+    <li><strong>AI as infrastructure changes everything:</strong> Spotify&rsquo;s AI makes the product better. Uber&rsquo;s AI runs the business. What does that distinction mean for how a company should think about governance, risk management, and organizational design? Pick another industry and identify a company where AI has crossed from &ldquo;feature&rdquo; to &ldquo;infrastructure.&rdquo;</li>
+    <li><strong>The surge pricing problem:</strong> Uber&rsquo;s algorithm raised prices during a hurricane evacuation. The model was doing exactly what it was designed to do. Who is responsible &mdash; and what should Uber have done differently? Is this a technical problem, a governance problem, or a values problem?</li>
+    <li><strong>The interpretability tradeoff:</strong> A black-box model forecasts demand 8% more accurately than an interpretable one, but nobody can explain any specific prediction. As the product manager responsible for surge pricing, do you deploy it? What are the risks of yes &mdash; and the costs of no?</li>
+    <li><strong>Data is the moat, not the model:</strong> Lyft could read Uber&rsquo;s engineering blog, hire the same data scientists, and build the same architecture. Why would their forecasts still be worse &mdash; and what does that tell you about where competitive advantage in AI actually comes from?</li>
+    <li><strong>Who runs the AI?</strong> Uber&rsquo;s forecasting systems make millions of decisions per day with no human in the loop. Design a responsible AI governance framework for a company in this position. What decisions should always require human approval? What monitoring would you put in place? Who is accountable when it goes wrong?</li>
+    <li><strong>From cost center to revenue:</strong> Uber built AI infrastructure to run its own business, then started selling that infrastructure to other companies. What other industries could follow this pattern &mdash; and what conditions need to be true for internal AI capability to become a commercially viable product?</li>
+  </ol>
+
+  <hr>
+  <p style="font-size: 13px; color: #999; text-align: center; margin-top: 1rem;">MIS 432 &middot; AI in Business &middot; Case Study &middot; For classroom discussion purposes.</p>
+
+  <div class="chapter-nav-bar">
+    <a href="chapter3-spotify.html">&larr; Chapter 3: Spotify</a>
+    <a href="chapter4-uber-lab.html">Lab 4: Build a Demand Forecasting Model &rarr;</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>MIS 432 &middot; AI in Business &middot; Western Washington University &middot; <a href="index.html">Back to Course Home</a></p>
+</footer>
+
+</body>
+</html>
