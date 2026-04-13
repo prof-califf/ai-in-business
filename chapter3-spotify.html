@@ -284,6 +284,12 @@
     <div class="concept-def">Raw data on its own &mdash; &ldquo;user played a track at 7:12am on Tuesday&rdquo; &mdash; is not something a model can directly learn from. Feature engineering is the process of transforming that raw data into structured, meaningful inputs a model can actually use. For example: &ldquo;number of times this user played this artist in the past 30 days,&rdquo; &ldquo;percentage of songs in this genre this user listened to all the way through,&rdquo; or &ldquo;time of day when this user most often opens the app.&rdquo; Think of it like preparing ingredients before cooking &mdash; the raw data is the vegetable, and feature engineering chops and seasons it into something the model can use. The quality of these inputs often matters just as much as the sophistication of the model itself.</div>
   </div>
 
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Features and feature vectors</div>
+    <div class="concept-def">A <strong>feature</strong> is a single measurable characteristic about something &mdash; one column on a scorecard. For example: &ldquo;number of times this user played their top artist this month&rdquo; is one feature. &ldquo;Percentage of songs skipped this week&rdquo; is another.<br><br>A <strong>feature vector</strong> is simply a list of numbers that describes one thing &mdash; all of a user&rsquo;s features combined into a single row. In Spotify&rsquo;s case, each listener gets their own feature vector: <em>&ldquo;This person has played Arctic Monkeys 14 times this month, skips 62% of songs, finishes 91% of indie rock songs, listens mostly at 7am, and listens for 3.1 minutes on average.&rdquo;</em> A model can&rsquo;t read that sentence &mdash; so it gets turned into numbers: <strong>[ 14, 0.62, 0.91, 7.0, 3.1 ]</strong>. That list is the feature vector.<br><br>Think of it like a customer profile: if the feature vector is the full profile, each feature is a single field on it. Every user gets their own version of the list &mdash; the model compares millions of these lists to find patterns and make predictions.</div>
+  </div>
+
   <p>This is what makes data a strategic moat. A new competitor entering the streaming market might be able to license the same song catalog. <strong>They cannot license Spotify&rsquo;s 751-million-user behavioral dataset.</strong></p>
 
   <!-- SECTION 6 -->
@@ -475,7 +481,9 @@
   <!-- SECTION 7 -->
   <h2 id="s7"><span class="section-num">7</span> Step 3 &mdash; Prediction: Real Time, Every Time</h2>
 
-  <p>The third step in the AI Factory is generating predictions &mdash; taking a trained model and using it to produce a specific output for a specific user at a specific moment.</p>
+  <p>Before predictions can be generated, the options have to be narrowed. This is exactly what the two-stage model architecture in the previous section does: the candidate generation models run first, doing a fast sweep of 100 million tracks and cutting the catalog down to a manageable shortlist. The ranking model then scores that shortlist for this specific listener at this specific moment. Only after both stages have run does the system move to the prediction step &mdash; deciding <em>when</em> and <em>how</em> to serve those results to the user.</p>
+
+  <p>The third step in the AI Factory is generating those predictions &mdash; taking everything the models have learned and producing a specific recommendation for a specific person at a specific moment.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
@@ -526,6 +534,19 @@
   <div class="insight-box">
     <div class="insight-label">Business insight</div>
     <div class="insight-text">This is the point in the AI Factory where human judgment and business strategy intersect with model output. Spotify&rsquo;s product and editorial teams make deliberate choices about how predictions are used &mdash; how much weight to give novelty versus familiarity, how to balance personalization with exposure to new content, how to ensure smaller artists get surfaced alongside established ones. These are not technical decisions. They are business decisions, and they sit in the decision layer of the AI Factory.</div>
+  </div>
+
+  <h3>Familiarity vs. discovery: the tension at the heart of Spotify&rsquo;s strategy</h3>
+
+  <p>The tension between familiarity and discovery is not a design problem to be solved &mdash; it is the core of Spotify&rsquo;s strategy. Every streaming service can give you what you already know you like. That is not a competitive advantage; it is a baseline. Familiarity keeps you satisfied. Discovery is what keeps you loyal to Spotify specifically.</p>
+
+  <p>But discovery only works when it is anchored in familiarity. Surface too much unfamiliar content and the experience feels random and exhausting. Give users only what they already know and the product stagnates. The strategy lives in the balance: <strong>enough familiarity to feel safe, enough discovery to feel alive.</strong></p>
+
+  <p>This tension runs through every product decision Spotify makes &mdash; how Discover Weekly is weighted, how much space emerging artists get on the Home page, how the ranking model balances a sure thing against a calculated risk. And it is not purely a product decision. It is a financial one too. Spotify pays high licensing fees to major labels for well-known content. Emerging and independent artists cost less to serve. Pushing discovery is not just good for users &mdash; it improves Spotify&rsquo;s margins.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">Strategic insight</div>
+    <div class="insight-text">When Spotify&rsquo;s product teams set the familiarity-discovery dial, they are simultaneously making a brand decision, a user experience decision, and a financial decision. That is strategy &mdash; and it is a decision no model can make on its own. The model tells you what users want today. Leadership decides what the product should give them, balancing short-term satisfaction against long-term engagement, loyalty, and margin.</div>
   </div>
 
   <!-- SECTION 10 -->
@@ -584,6 +605,21 @@
     <div class="concept-label">Key concept</div>
     <div class="concept-term">Centralized vs. decentralized data architecture</div>
     <div class="concept-def">Centralized data architecture means all behavioral data flows into one shared pipeline that every team and every product draws from. Decentralized data architecture means each team or product maintains its own separate data store. Centralization is a strategic choice: it costs more to build upfront but makes every future product cheaper, since the infrastructure already exists. Decentralization is often what organizations end up with by default, as teams build what they need independently &mdash; but it creates silos that make cross-team products like Wrapped expensive and slow to produce. Spotify&rsquo;s centralized architecture is a key reason why Wrapped &mdash; one of its most powerful marketing tools &mdash; costs almost nothing extra to produce each year.</div>
+  </div>
+
+  <h3>The real-world tradeoffs of centralization</h3>
+
+  <p>Centralization is a strategic advantage &mdash; but it comes with genuine risks that any organization adopting this architecture needs to manage. These are not hypothetical concerns.</p>
+
+  <ul>
+    <li><strong>Privacy and regulatory exposure.</strong> The more data you hold in one place, the larger the regulatory target you become. When Meta centralized user data across Facebook, Instagram, and WhatsApp, it became one of the most powerful personalization systems in the world &mdash; and one of the most scrutinized. EU GDPR investigations and FTC scrutiny followed directly from what centralized data makes possible. The better the data, the bigger the exposure.</li>
+    <li><strong>Security risk.</strong> Centralization creates a single point of failure. The 2017 Equifax breach exposed the personal and financial data of 147 million people in a single attack &mdash; made catastrophic precisely because the data was centralized. One vulnerability, maximum damage. Distributed data is harder to use, but it is also harder to steal all at once.</li>
+    <li><strong>Organizational politics.</strong> When data is centralized, somebody has to own it &mdash; and that means somebody else loses control of it. Sales, marketing, product, and finance all have data they consider theirs. Centralization forces a conversation about who governs access, who decides how the data is used, and who is accountable when something goes wrong. That conversation is rarely just technical. It is political &mdash; and it is one of the most common reasons data centralization initiatives stall inside large organizations.</li>
+  </ul>
+
+  <div class="danger-box">
+    <div class="danger-label">Governance challenge</div>
+    <div class="danger-text">The same architecture that makes AI powerful also concentrates risk. Privacy exposure, security vulnerability, and internal politics are not reasons to avoid centralization &mdash; but they are reasons to govern it carefully. Organizations that centralize data without investing in governance, security, and clear ownership structures often find that the risks outpace the benefits.</div>
   </div>
 
   <figure style="margin: 1.5rem 0;">
@@ -723,6 +759,7 @@
     <div class="vocab-card"><div class="vocab-term">Recommendation engine</div><div class="vocab-def">ML system that predicts and ranks items by user relevance</div></div>
     <div class="vocab-card"><div class="vocab-term">Implicit signals</div><div class="vocab-def">Behavioral data (skips, replays) captured without user effort</div></div>
     <div class="vocab-card"><div class="vocab-term">Feature engineering</div><div class="vocab-def">Transforming raw data into structured model inputs</div></div>
+    <div class="vocab-card"><div class="vocab-term">Feature &amp; feature vector</div><div class="vocab-def">A feature is a single measurable characteristic (one column on a user scorecard). A feature vector is the full list of a user&rsquo;s features as a row of numbers &mdash; e.g. [ 14, 0.62, 0.91, 7.0, 3.1 ] &mdash; that the model actually reads as input.</div></div>
     <div class="vocab-card"><div class="vocab-term">Collaborative filtering</div><div class="vocab-def">Recommending based on what similar users have liked — the "people like you also enjoyed..." logic</div></div>
     <div class="vocab-card"><div class="vocab-term">Embeddings</div><div class="vocab-def">A compact list of numbers representing a user or song — similar items end up with similar numbers and cluster close together in space</div></div>
     <div class="vocab-card"><div class="vocab-term">Clustering</div><div class="vocab-def">Groups that emerge when similar embeddings are plotted together — discovered by the system without human labels (unsupervised learning)</div></div>
