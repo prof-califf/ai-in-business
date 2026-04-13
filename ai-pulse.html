@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Pulse — News & Newsletters | MIS 432</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; color: #333; }
+
+  /* NAV — matches index */
+  nav { background: #1a1a2e; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+  .nav-brand { color: #fff; font-size: 16px; font-weight: 700; letter-spacing: 0.03em; text-decoration: none; }
+  .nav-brand span { color: #63b3ed; }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a { color: #a0aec0; font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: #fff; }
+  .nav-links a.active { color: #63b3ed; font-weight: 700; }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); padding: 4rem 2rem 3.5rem; text-align: center; }
+  .hero-tag { display: inline-block; background: rgba(99,179,237,0.15); border: 1px solid rgba(99,179,237,0.4); color: #63b3ed; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 1rem; border-radius: 20px; margin-bottom: 1.25rem; }
+  .hero h1 { font-size: 42px; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 0.75rem; }
+  .hero h1 span { color: #63b3ed; }
+  .hero-sub { font-size: 17px; color: #a0aec0; max-width: 580px; margin: 0 auto 1.5rem; line-height: 1.65; }
+  .hero-tip { display: inline-block; background: rgba(99,179,237,0.1); border: 1px solid rgba(99,179,237,0.25); color: #93c5fd; font-size: 13px; padding: 0.5rem 1.25rem; border-radius: 8px; line-height: 1.6; max-width: 620px; }
+
+  /* MAIN */
+  .main { max-width: 900px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+
+  /* SECTION HEADERS */
+  .section-block { margin-bottom: 2.5rem; }
+  .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #63b3ed; margin-bottom: 0.35rem; }
+  .section-title { font-size: 22px; font-weight: 700; color: #1a1a2e; margin-bottom: 1rem; }
+
+  /* ALUM SPOTLIGHT CARD */
+  .spotlight-card { background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%); border-radius: 14px; padding: 1.75rem 2rem; display: flex; align-items: flex-start; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+  .spotlight-badge { background: #63b3ed; color: #1a1a2e; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; margin-top: 3px; }
+  .spotlight-content { flex: 1; min-width: 220px; }
+  .spotlight-content h3 { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 0.3rem; }
+  .spotlight-content h3 a { color: #63b3ed; text-decoration: none; }
+  .spotlight-content h3 a:hover { text-decoration: underline; }
+  .spotlight-byline { font-size: 13px; color: #93c5fd; margin-bottom: 0.6rem; font-style: italic; }
+  .spotlight-desc { font-size: 14px; color: #a0aec0; line-height: 1.65; }
+
+  /* RESOURCE GRID */
+  .resource-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+
+  /* RESOURCE CARD */
+  .resource-card { background: #fff; border-radius: 10px; border: 1px solid #e2e8f0; padding: 1.1rem 1.25rem; display: flex; flex-direction: column; gap: 0.4rem; transition: box-shadow 0.15s, border-color 0.15s; }
+  .resource-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); border-color: #bee3f8; }
+  .resource-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
+  .resource-name { font-size: 15px; font-weight: 700; color: #1a1a2e; text-decoration: none; line-height: 1.3; }
+  .resource-name:hover { color: #2b6cb0; }
+  .resource-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+  .tag-news       { background: #ebf8ff; color: #2b6cb0; }
+  .tag-newsletter { background: #f0fff4; color: #276749; }
+  .tag-podcast    { background: #faf5ff; color: #6b46c1; }
+  .resource-author { font-size: 12px; color: #718096; font-style: italic; }
+  .resource-desc { font-size: 13px; color: #555; line-height: 1.6; }
+
+  /* TIPS BOX */
+  .tips-box { background: #fff; border-left: 4px solid #63b3ed; border-radius: 0 10px 10px 0; padding: 1.1rem 1.25rem; margin-top: 2rem; }
+  .tips-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2b6cb0; margin-bottom: 0.5rem; }
+  .tips-text { font-size: 14px; color: #444; line-height: 1.7; }
+  .tips-text a { color: #2b6cb0; text-decoration: none; font-weight: 600; }
+  .tips-text a:hover { text-decoration: underline; }
+
+  /* FOOTER */
+  footer { background: #111827; padding: 2rem; text-align: center; margin-top: 3rem; }
+  footer p { font-size: 13px; color: #4a5568; }
+  footer a { color: #63b3ed; text-decoration: none; }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 30px; }
+    .spotlight-card { flex-direction: column; gap: 0.75rem; }
+    .resource-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 432 <span>·</span> AI in Business</a>
+  <div class="nav-links">
+    <a href="index.html#chapters">Chapters</a>
+    <a href="index.html#about">About</a>
+    <a href="ai-pulse.html" class="active">AI Pulse</a>
+    <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">MIS 432 · Reading List</div>
+  <h1>AI Pulse:<br><span>Stay Current. Stay Critical.</span></h1>
+  <p class="hero-sub">The AI landscape moves fast. These are the sources worth following — news, newsletters, and voices that will help you think more clearly about AI in business and in the world.</p>
+  <div class="hero-tip">💡 Most Substacks are free — subscribe with your student email. Start with <strong>An Era of Insight</strong> for a student perspective, or <strong>Slow AI</strong> for a more critical take.</div>
+</div>
+
+<div class="main">
+
+  <!-- WWU ALUM SPOTLIGHT -->
+  <div class="spotlight-card">
+    <div class="spotlight-badge">⭐ WWU Alum Spotlight</div>
+    <div class="spotlight-content">
+      <h3><a href="https://substack.com/@juliagreene" target="_blank">An Era of Insight</a></h3>
+      <div class="spotlight-byline">Julia Greene · Former WWU College of Business &amp; Economics student, now a graduate student</div>
+      <div class="spotlight-desc">Focuses on working better with AI and building data literacy. Written by someone who was sitting where you are not long ago — that perspective matters. A great first subscription.</div>
+    </div>
+  </div>
+
+  <!-- NEWS SOURCES -->
+  <div class="section-block">
+    <div class="section-label">News Sources</div>
+    <div class="section-title">Stay Informed</div>
+    <div class="resource-grid">
+
+      <div class="resource-card">
+        <div class="resource-card-top">
+          <a href="https://www.technologyreview.com" target="_blank" class="resource-name">MIT Technology Review</a>
+          <span class="resource-tag tag-news">News</span>
+        </div>
+        <div class="resource-desc">In-depth AI coverage from one of the most respected names in technology journalism. Check if your library has free student access.</div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-card-top">
+          <a href="https://www.wired.com/tag/artificial-intelligence/" target="_blank" class="resource-name">Wired — Artificial Intelligence</a>
+          <span class="resource-tag tag-news">News</span>
+        </div>
+        <div class="resource-desc">Long-form reporting on AI's cultural, political, and technological impact. Good for the bigger picture.</div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-card-top">
+          <a href="https://www.npr.org/sections/technology/" target="_blank" class="resource-name">NPR Technology</a>
+          <span class="resource-tag tag-podcast">News + Podcast</span>
+        </div>
+        <div class="resource-desc">Balanced, accessible coverage from a public media perspective. Also available as a podcast — great for commutes.</div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-card-top">
+          <a href="https://www.theverge.com/ai-artificial-intelligence" target="_blank" class="resource-name">The Verge — AI</a>
+          <span class="resource-tag tag-news">News</span>
+        </div>
+        <div class="resource-desc">Accessible tech and AI news without heavy jargon. Good for keeping up with product launches and industry moves.</div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-card-top">
+          <a href="https://arstechnica.com/ai/" target="_blank" class="resource-name">Ars Technica — AI</a>
+          <span class="resource-tag tag-news">News</span>
+        </div>
+        <div class="resource-desc">Technically detailed but digestible. Good if you want to go one level deeper than most news coverage.</div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-card-top">
+          <a href="https://venturebeat.com/ai/" target="_blank" class="resource-name">VentureBeat AI</a>
+          <span class="resource-tag tag-news">News</span>
+        </div>
+        <div class="resource-desc">Business and industry angle on AI. Useful for understanding how companies are actually adopting and investing in AI.</div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-card-top">
+          <a href="https://www.reuters.com/technology/artificial-intelligence/" target="_blank" class="resource-name">Reuters — AI</a>
+          <span class="resource-tag tag-news">News</span>
+        </div>
+        <div class="resource-desc">Reliable reporting on AI policy and industry news. Good source when you need something credible to cite.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SUBSTACKS & NEWSLETTERS -->
+  <div class="section-block">
+    <div class="section-label">Substacks &amp; Newsletters</div>
+    <div class="section-title">Go Deeper</div>
+    <div class="resource-grid">
+
+      <div class="resource-card">
+        <div class="resource-card-top">
+          <a href="https://slowai.substack.com" target="_blank" class="resource-name">Slow AI</a>
+          <span class="resource-tag tag-newsletter">Newsletter</span>
+        </div>
+        <div class="resource-author">Dr. Sam Illingworth</div>
+        <div class="resource-desc">Critical AI literacy: ethics, empathy, and the human cost of automation. Includes practical exercises every post. Highly recommended for this course.</div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-card-top">
+          <a href="https://www.andrewmcafee.org/blog" target="_blank" class="resource-name">The Geek Way</a>
+          <span class="resource-tag tag-newsletter">Newsletter</span>
+        </div>
+        <div class="resource-author">Andrew McAfee</div>
+        <div class="resource-desc">How some companies consistently outperform. Big-picture thinking on technology, business, and the science of getting things done. More business-oriented than most AI newsletters.</div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-card-top">
+          <a href="https://importai.substack.com" target="_blank" class="resource-name">Import AI</a>
+          <span class="resource-tag tag-newsletter">Newsletter</span>
+        </div>
+        <div class="resource-author">Jack Clark</div>
+        <div class="resource-desc">Weekly deep dives on AI research and policy. One of the most-read newsletters in the field — gives you a sense of what practitioners are paying attention to.</div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-card-top">
+          <a href="https://www.oneusefulthing.org" target="_blank" class="resource-name">One Useful Thing</a>
+          <span class="resource-tag tag-newsletter">Newsletter</span>
+        </div>
+        <div class="resource-author">Ethan Mollick · Wharton</div>
+        <div class="resource-desc">Practical guidance on using AI in learning and work. Written by a business school professor actively experimenting with AI in the classroom. Very relevant to this course.</div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-card-top">
+          <a href="https://aiguide.substack.com" target="_blank" class="resource-name">AI: A Guide for Thinking Humans</a>
+          <span class="resource-tag tag-newsletter">Newsletter</span>
+        </div>
+        <div class="resource-author">Melanie Mitchell · Santa Fe Institute</div>
+        <div class="resource-desc">Accessible, rigorous writing on what AI can and can't actually do. One of the clearest voices on separating real capability from hype. Read this when you want to think, not just catch up.</div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-card-top">
+          <a href="https://www.therundown.ai" target="_blank" class="resource-name">The Rundown AI</a>
+          <span class="resource-tag tag-newsletter">Newsletter</span>
+        </div>
+        <div class="resource-desc">Daily AI digest. Brief and widely read by students. Good for a quick pulse check on what happened in AI today — takes about 3 minutes to read.</div>
+      </div>
+
+    </div>
+
+    <div class="tips-box">
+      <div class="tips-label">Where to Start</div>
+      <div class="tips-text">
+        Most Substacks are free — subscribe with your student email. If you're new to AI news, start with <a href="https://substack.com/@juliagreene" target="_blank">An Era of Insight</a> for a student perspective or <a href="https://www.therundown.ai" target="_blank">The Rundown AI</a> for a quick daily digest. For a more critical lens, <a href="https://slowai.substack.com" target="_blank">Slow AI</a> pairs especially well with this course. <a href="https://www.andrewmcafee.org/blog" target="_blank">The Geek Way</a> is the most business-oriented pick if that's your angle.
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+  <p>MIS 432 · AI in Business · Western Washington University · College of Business and Economics</p>
+  <p style="margin-top:0.5rem;"><a href="index.html">← Back to Course Home</a> · <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a></p>
+</footer>
+
+</body>
+</html>
