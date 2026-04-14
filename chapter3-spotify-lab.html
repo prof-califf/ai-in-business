@@ -156,7 +156,7 @@
   <div class="hero-inner">
     <div class="hero-tag">Lab 3 &middot; Spotify &middot; Recommendation Systems</div>
     <h1>Build a Spotify-Style<br>Recommendation System</h1>
-    <p class="hero-sub">You will build a working recommendation engine step by step &mdash; the same way Spotify built theirs. Along the way you will engineer features from raw data, discover hidden listener clusters, and see how the same dataset that powers recommendations also generates your own Wrapped.</p>
+    <p class="hero-sub">You will build a working recommendation engine step by step &mdash; the same way Spotify generated 1.4 billion personalized reports for the 2025 Wrapped, through prompt engineering. Along the way you will engineer features from raw data, discover hidden listener clusters, and see how the same dataset that powers recommendations also generates your own Wrapped.</p>
     <div class="hero-tools">
       <span class="tool-badge">Claude</span>
       <span class="tool-badge">Google Colab</span>
@@ -781,38 +781,17 @@ Give me the complete HTML in one block. Add plain-English comments explaining ea
     </div>
   </div>
 
-  <!-- STEP 7 — AI Governance -->
+  <!-- STEP 7 — Generate Your Wrapped -->
   <div class="step-card">
     <div class="step-header">
       <div class="step-num">7</div>
-      <div><div class="step-title">AI Governance: The Management Problem</div><div class="step-subtitle">AI Factory stage: keeping the system working</div></div>
-    </div>
-    <div class="step-body">
-      <p>You just built a working recommendation system. Spotify built one too &mdash; and then watched it quietly fail for four months without anyone noticing. No crash. No error message. Just subtly worse recommendations, invisible on any dashboard.</p>
-
-      <div class="danger-box">
-        <div class="danger-label">What happened at Spotify</div>
-        <div class="danger-text">When Spotify moved the Podcast Model to real-time serving, a small discrepancy crept in between how training data and live data were being processed. The model kept running. Podcast recommendations kept appearing. They were just subtly worse than they should have been &mdash; and nobody noticed for four months. Spotify&rsquo;s real fix wasn&rsquo;t just technical. They built monitoring systems, unified their data pipeline, and assigned people to own it. That&rsquo;s AI governance.</div>
-      </div>
-
-      <div class="reflect-box">
-        <div class="reflect-label">Step 07 Reflection &mdash; write a paragraph</div>
-        <div class="reflect-text">Based on what you read in the case study and what you just built: why is AI governance fundamentally a management problem, not a technical one? What would a manager &mdash; not an engineer &mdash; need to do to make sure a system like the one you built keeps working correctly after it is deployed? Be specific about what organizational decisions, roles, or processes would need to exist.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 8 — Generate Your Wrapped -->
-  <div class="step-card">
-    <div class="step-header">
-      <div class="step-num">8</div>
       <div><div class="step-title">Generate Your Wrapped</div><div class="step-subtitle">AI Factory stage: Value</div></div>
     </div>
     <div class="step-body">
-      <p>You are going to generate a Wrapped-style year-in-review using the exact same dataset you built in Step 2 &mdash; no new data, no new pipeline. Paste the prompt below into Claude, copy the code into your Colab notebook, and run it. If you want to see what the output should look like, use the demo in Step 4 as a reference.</p>
+      <p>You are going to add a Wrapped feature directly to the interactive system you built in Step 6 &mdash; no new data, no separate pipeline. The same engagement scores that power your recommendations will now generate a personalized year-in-review, right inside the same HTML file.</p>
       <div class="insight-box">
         <div class="insight-label">The central insight of this step</div>
-        <div class="insight-text">The Wrapped you are about to generate uses the exact same dataset &mdash; the same rows, the same engagement scores &mdash; that powered your recommendation engine in Steps 2 and 3. Spotify does not build a separate system for Wrapped. It is the same infrastructure, repurposed. That is why it costs Spotify almost nothing to produce, and why it generated 600 million social media posts in 2023.</div>
+        <div class="insight-text">The Wrapped you are about to build uses the exact same data &mdash; the same clicks, the same engagement scores &mdash; that already powers your recommendation engine. Spotify does not build a separate system for Wrapped. It is the same infrastructure, repurposed. That is why it costs Spotify almost nothing to produce, and why it generated 600 million social media posts in 2023.</div>
       </div>
 
       <div class="insight-box" style="background:#1a1a2a;border-left-color:#818cf8;">
@@ -820,29 +799,37 @@ Give me the complete HTML in one block. Add plain-English comments explaining ea
         <div class="insight-text" style="color:#4f46e5;">In 2025, Spotify used prompt engineering to generate 1.4 billion personalized Wrapped reports. Their team spent three months iterating on prompts &mdash; designing a system prompt to define the creative contract (tone, safety rules, data-driven storytelling) and a user prompt to supply each listener&rsquo;s specific context. The prompt you are about to paste into Claude is your version of that system. Think carefully about what you ask for &mdash; the quality of your output depends entirely on the quality of your instructions.</div>
       </div>
       <div class="prompt-box">
-        <div class="prompt-label">Paste this into Claude &mdash; then copy the code into Colab and run it</div>
-        <div class="prompt-text">Using the same listening history dataset from my previous steps — without adding any new data — please add code that generates a Spotify Wrapped-style year-in-review for User 1.
+        <div class="prompt-label">In the same Claude conversation from Step 6, send this follow-up</div>
+        <div class="prompt-text">Based on the Spotify recommendation engine you just built, can you add a Wrapped feature to it?
 
-The summary should include:
-- Top 3 most-played songs (highest engagement scores)
-- Top artist (most songs with high engagement)
+Specifically:
+
+1. Add a "Generate my Wrapped" button that becomes active after the user has interacted with at least 5 songs
+
+2. When clicked, it should compute and display — using only the engagement data already being collected in the page — a Wrapped summary that includes:
+- Top 3 songs (highest engagement scores from this session)
+- Top artist (artist with the most high-engagement songs)
 - Top genre
-- Total number of listening events
-- A fun personalized line like "You were in the top X% of listeners for [artist]"
+- Total interactions this session
+- A fun personalized line like "You were in the top X% of [artist] listeners this session"
 
-Print it as a clean, readable summary. Then write 2-3 sentences explaining: this Wrapped summary uses the exact same data as the recommendation engine. What does that tell us about how Spotify thinks about its data infrastructure as a business asset?</div>
+3. Display the Wrapped output in a styled panel inside the existing interface, using the same Spotify dark theme (#191414, #1DB954)
+
+4. Add a small note inside the Wrapped output that says: "This Wrapped was generated from the exact same data log that powered your recommendations above."
+
+Return the complete updated HTML file in one block.</div>
       </div>
       <div class="reflect-box">
-        <div class="reflect-label">Step 08 Reflection &mdash; write 2&ndash;3 sentences</div>
+        <div class="reflect-label">Step 07 Reflection &mdash; write 2&ndash;3 sentences</div>
         <div class="reflect-text">Spotify Wrapped is essentially a marketing campaign that costs almost nothing extra to produce because it runs on a data pipeline that already exists. Can you think of another company in any industry that could do something similar &mdash; turning data they already collect into a product or experience their customers would want to share?</div>
       </div>
     </div>
   </div>
 
-  <!-- STEP 9 — Publish Your Work -->
+  <!-- STEP 8 — Publish Your Work -->
   <div class="step-card">
     <div class="step-header">
-      <div class="step-num">9</div>
+      <div class="step-num">8</div>
       <div><div class="step-title">Publish Your Work on GitHub Pages</div><div class="step-subtitle">Turn what you built into a live portfolio piece</div></div>
     </div>
     <div class="step-body">
@@ -867,18 +854,22 @@ Here is what I built and learned:
 
 1. I created a simulated listening history dataset for 10 users across 15 real songs, where each row captured an implicit engagement signal — a number between 0 (skipped) and 1 (replayed multiple times)
 
-2. I built a collaborative filtering recommendation engine that creates a user-song matrix, calculates cosine similarity between users, and recommends songs that similar users loved but the target user hasn't heard yet
+2. I did feature engineering — transforming raw listening events into structured engagement scores that a machine learning model could actually use. I learned that the quality of your features determines the quality of your model.
 
-3. I explored what happens when AI systems fail silently — and why AI governance is a management problem, not just a technical one
+3. I built a collaborative filtering recommendation engine that creates a user-song matrix, calculates cosine similarity between users, and recommends songs that similar users loved but the target user hasn't heard yet
 
-4. I generated a Wrapped-style year-in-review summary for a user using the exact same dataset that powered the recommendations — demonstrating that Spotify Wrapped costs almost nothing to produce because it runs on the same infrastructure
+4. I learned about unsupervised learning through clustering — how Spotify groups listeners into taste clusters without anyone labeling the data, and how those hidden patterns in behavior drive personalization at scale
+
+5. I explored what happens when AI systems fail silently — and why AI governance is a technology management problem, not just a technical one
+
+6. I generated a Wrapped-style year-in-review summary for a user using the exact same dataset that powered the recommendations — demonstrating that Spotify Wrapped costs almost nothing to produce because it runs on the same infrastructure
 
 Please create a single, complete HTML file for GitHub Pages that does ALL THREE of the following:
 
 PART 1 — THE BUSINESS STORY
 - Explain what Spotify's business problem was: 100 million songs, 751 million users, and the need to make personalization the core strategy
 - Explain what a recommendation engine is and why it matters for businesses, in plain English
-- Walk through the key concepts I learned: implicit signals, collaborative filtering, embeddings, the training-serving gap, AI governance, and the data moat
+- Walk through the key concepts I learned: implicit signals, feature engineering, collaborative filtering, unsupervised learning and taste clustering, embeddings, the training-serving gap, AI governance, and the data moat
 - Explain why Wrapped costs almost nothing to produce and what that tells us about data infrastructure as a business asset
 - End with 3 key business lessons from this project
 
@@ -937,8 +928,29 @@ Give me the complete HTML in one block that I can paste directly into GitHub as 
       </div>
 
       <div class="reflect-box">
-        <div class="reflect-label">Step 09 Reflection &mdash; write 2&ndash;3 sentences</div>
+        <div class="reflect-label">Step 08 Reflection &mdash; write 2&ndash;3 sentences</div>
         <div class="reflect-text">Look at the website Claude generated. You described what you built in plain English and Claude turned it into a polished, employer-facing site. What does that tell you about how AI changes what non-technical business students can produce &mdash; and what skills become more valuable as a result?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 9 — AI Governance -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">9</div>
+      <div><div class="step-title">AI Governance: The Management Problem</div><div class="step-subtitle">AI Factory stage: keeping the system working</div></div>
+    </div>
+    <div class="step-body">
+      <p>You just built a working recommendation system. Spotify built one too &mdash; and then watched it quietly fail for four months without anyone noticing. No crash. No error message. Just subtly worse recommendations, invisible on any dashboard.</p>
+
+      <div class="danger-box">
+        <div class="danger-label">What happened at Spotify</div>
+        <div class="danger-text">When Spotify moved the Podcast Model from batch processing to real-time processing, a small discrepancy crept in between how training data and live data were being processed. Batch processing had computed recommendations overnight in large chunks; real-time processing had to score songs on the fly for each user. That shift introduced subtle differences in how the data was handled &mdash; and the model kept running, podcast recommendations kept appearing, they were just quietly worse than they should have been. Nobody noticed for four months. Spotify&rsquo;s real fix wasn&rsquo;t just technical. They built monitoring systems, unified their data pipeline, and assigned people to own it. That&rsquo;s AI governance.</div>
+      </div>
+
+      <div class="reflect-box">
+        <div class="reflect-label">Step 09 Reflection &mdash; write a few sentences</div>
+        <div class="reflect-text">Based on what you read in the case study and what you just built: why is AI governance fundamentally a <em>technology management</em> question &mdash; not just &ldquo;management&rdquo; in the general sense? What specific technical realities (model drift, training-serving gaps, silent failures, data pipeline dependencies) create the need for management decisions that a non-technical manager would be poorly equipped to make alone? Be specific about what organizational decisions, roles, or processes would need to exist &mdash; and why understanding the technology is inseparable from governing it well.</div>
       </div>
     </div>
   </div>
@@ -960,7 +972,7 @@ Give me the complete HTML in one block that I can paste directly into GitHub as 
       </div>
       <p style="margin-top:0.75rem">For each step above, write one sentence describing: (a) what you built in this lab that corresponds to it, and (b) what Spotify does at that step at real scale.</p>
       <div class="reflect-box">
-        <div class="reflect-label">Step 10 Final Reflection &mdash; write a paragraph</div>
+        <div class="reflect-label">Step 10 Final Reflection &mdash; write a few sentences</div>
         <div class="reflect-text">Your system used 10 simulated users. Spotify uses 751 million real ones. Identify one thing that works fine at your scale that would break or become dangerous at Spotify's scale &mdash; and explain how Spotify would need to address it. Think about the data, the algorithm, the training-serving gap, or governance. Use specific concepts from the case study in your answer.</div>
       </div>
     </div>
