@@ -156,7 +156,7 @@
   <div class="hero-inner">
     <div class="hero-tag">Lab 3 &middot; Spotify &middot; Recommendation Systems</div>
     <h1>Build a Spotify-Style<br>Recommendation System</h1>
-    <p class="hero-sub">You will build a working recommendation engine step by step &mdash; the same way Spotify built theirs. By the end, the same data powering your recommendations will generate your own Wrapped, and a live website will tell the whole story.</p>
+    <p class="hero-sub">You will build a working recommendation engine step by step &mdash; the same way Spotify built theirs. Along the way you will engineer features from raw data, discover hidden listener clusters, and see how the same dataset that powers recommendations also generates your own Wrapped.</p>
     <div class="hero-tools">
       <span class="tool-badge">Claude</span>
       <span class="tool-badge">Google Colab</span>
@@ -172,6 +172,8 @@
   <div class="overview-grid">
     <div class="overview-card"><div class="overview-icon">&#127925;</div><div class="overview-label">What you build</div><div class="overview-val">Recommendation engine</div></div>
     <div class="overview-card"><div class="overview-icon">&#128101;</div><div class="overview-label">Technique</div><div class="overview-val">Collaborative filtering</div></div>
+    <div class="overview-card"><div class="overview-icon">&#9881;&#65039;</div><div class="overview-label">You engineer</div><div class="overview-val">Features from raw data</div></div>
+    <div class="overview-card"><div class="overview-icon">&#128202;</div><div class="overview-label">You discover</div><div class="overview-val">Taste clusters (unsupervised)</div></div>
     <div class="overview-card"><div class="overview-icon">&#9888;&#65039;</div><div class="overview-label">You also break it</div><div class="overview-val">Training-serving gap</div></div>
     <div class="overview-card"><div class="overview-icon">&#127873;</div><div class="overview-label">You generate</div><div class="overview-val">Your own Wrapped</div></div>
     <div class="overview-card"><div class="overview-icon">&#127760;</div><div class="overview-label">You publish</div><div class="overview-val">GitHub Pages site</div></div>
@@ -304,10 +306,128 @@ df = pd.<span class="cf">DataFrame</span>(listening_history)
     </div>
   </div>
 
-  <!-- STEP 3 -->
+  <!-- STEP 3 — Feature Engineering -->
   <div class="step-card">
     <div class="step-header">
       <div class="step-num">3</div>
+      <div><div class="step-title">Feature Engineering</div><div class="step-subtitle">AI Factory stage: Data &rarr; turning raw behavior into something a model can use</div></div>
+    </div>
+    <div class="step-body">
+      <p>You have raw behavioral data — numbers between 0 and 1 representing how each user engaged with each song. But raw data is not the same as useful data. Before any model can learn from it, those raw interactions need to be transformed into features: structured, meaningful summaries that describe a person's taste rather than just listing individual events.</p>
+
+      <div class="insight-box">
+        <div class="insight-label">What feature engineering actually means</div>
+        <div class="insight-text">Raw data: <em>"user_01 played HUMBLE. with score 0.1, played Blinding Lights with score 0.9, played God's Plan with score 0.1."</em> That is three separate rows. Feature engineering collapses those rows into meaningful summaries: <strong>skip rate in Hip-Hop = 67%</strong>, <strong>replay rate in Pop = 90%</strong>, <strong>top genre = Pop with affinity score 0.93</strong>. Now the model has one row per user that describes their taste — not three disconnected events. That transformation is feature engineering, and its quality often matters more than which algorithm you choose.</div>
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-label">Paste this into Claude &mdash; then copy the code into Colab and run it</div>
+        <div class="prompt-text">I have a listening history dataset from my previous step. It has columns: user_id, song, artist, genre, engagement_score (0.1 = skipped, 0.5 = played once, 0.9 = replayed).
+
+Please add Python code that engineers these three new features for each user, and explain each one in a plain-English comment:
+
+1. skip_rate — the proportion of songs this user skipped (engagement_score = 0.1) out of all songs they interacted with
+2. replay_rate — the proportion of songs this user replayed (engagement_score = 0.9) out of all songs they interacted with
+3. top_genre_affinity — for each user, find the genre where their average engagement score is highest, then record that average score as a number
+
+After engineering the features, create a new DataFrame called user_profiles where each row is one user and the columns are: user_id, skip_rate, replay_rate, top_genre, top_genre_affinity. Print it clearly.
+
+Give me all previous code plus this new code in one complete block. Add a comment above each new section explaining what it does and why, as if explaining to someone who has never coded before.</div>
+      </div>
+
+      <div class="code-peek">
+        <div class="code-peek-head" onclick="toggleCode('cfe')">
+          <span class="code-peek-title">&#9658; What feature engineering looks like &mdash; click to peek</span>
+          <span class="code-peek-toggle" id="tfe">show</span>
+        </div>
+        <div class="code-peek-body" id="cfe">
+<pre><span class="cc"># Calculate skip rate per user
+# Skip rate = proportion of songs with engagement score of 0.1</span>
+skip_rate = df[df[<span class="cs">'engagement_score'</span>] == <span class="cn">0.1</span>].<span class="cf">groupby</span>(<span class="cs">'user_id'</span>).<span class="cf">size</span>() /             df.<span class="cf">groupby</span>(<span class="cs">'user_id'</span>).<span class="cf">size</span>()
+
+<span class="cc"># Calculate replay rate per user
+# Replay rate = proportion of songs with engagement score of 0.9</span>
+replay_rate = df[df[<span class="cs">'engagement_score'</span>] == <span class="cn">0.9</span>].<span class="cf">groupby</span>(<span class="cs">'user_id'</span>).<span class="cf">size</span>() /               df.<span class="cf">groupby</span>(<span class="cs">'user_id'</span>).<span class="cf">size</span>()
+
+<span class="cc"># Find each user's top genre by average engagement score</span>
+genre_affinity = df.<span class="cf">groupby</span>([<span class="cs">'user_id'</span>, <span class="cs">'genre'</span>])[<span class="cs">'engagement_score'</span>].<span class="cf">mean</span>()
+top_genre = genre_affinity.<span class="cf">groupby</span>(<span class="cs">'user_id'</span>).<span class="cf">idxmax</span>().<span class="cf">apply</span>(<span class="ck">lambda</span> x: x[<span class="cn">1</span>])
+top_genre_affinity = genre_affinity.<span class="cf">groupby</span>(<span class="cs">'user_id'</span>).<span class="cf">max</span>()
+
+<span class="cc"># Combine into a user profile table — one row per user</span>
+user_profiles = pd.<span class="cf">DataFrame</span>({
+    <span class="cs">'skip_rate'</span>: skip_rate,
+    <span class="cs">'replay_rate'</span>: replay_rate,
+    <span class="cs">'top_genre'</span>: top_genre,
+    <span class="cs">'top_genre_affinity'</span>: top_genre_affinity
+}).<span class="cf">reset_index</span>()
+<span class="cf">print</span>(user_profiles)</pre>
+        </div>
+      </div>
+
+      <div class="reflect-box">
+        <div class="reflect-label">Step 03 Reflection &mdash; write 2&ndash;3 sentences</div>
+        <div class="reflect-text">Look at your user_profiles table. Two users might have very similar individual song scores but very different skip rates and replay rates — which tells a completely different story about their listening habits. Why does collapsing raw events into engineered features give a model a better picture of a user's taste than looking at individual song scores row by row?</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STEP 4 — Clustering & Unsupervised Learning -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div><div class="step-title">Clustering &amp; Unsupervised Learning</div><div class="step-subtitle">AI Factory stage: Model &rarr; finding hidden structure with no labels</div></div>
+    </div>
+    <div class="step-body">
+      <p>Now that each user has a feature profile, you can ask a question Spotify asks constantly: <em>which users are naturally similar to each other?</em> This is where clustering comes in — and where one of the most important ideas in machine learning becomes visible. The algorithm finds groups of similar users without you ever telling it what those groups should be.</p>
+
+      <div class="insight-box">
+        <div class="insight-label">Supervised vs. unsupervised learning</div>
+        <div class="insight-text">Most of the AI you have seen in this lab so far is <strong>supervised learning</strong> — the model learns from labeled examples. You give it data where you already know the answer ("this engagement score means the user liked the song") and it learns to predict that answer for new cases. <strong>Unsupervised learning</strong> is different. There are no labels. You give the model data and ask it to find hidden structure on its own — groups, patterns, relationships that nobody defined in advance. Clustering is the most common form of unsupervised learning. Spotify never told its system "here is what a hip-hop fan looks like." The system found those groups itself, from behavior alone.</div>
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-label">Prompt 1 of 2 &mdash; paste this into Claude to build your intuition first</div>
+        <div class="prompt-text">I am a student in MIS 432: AI in Business at Western Washington University. We are studying how Spotify uses clustering and unsupervised learning.
+
+Please explain the following using only plain English and everyday analogies — no code, no technical jargon:
+
+1. What is clustering? Use a concrete real-world analogy that has nothing to do with music or technology.
+2. What makes it "unsupervised"? What is the model NOT being given that makes it different from the collaborative filtering we already built?
+3. Spotify has a cluster of listeners it calls "late-night chill" — but no human ever created that label. How did that name emerge, and what does that tell us about what unsupervised learning can discover that humans might miss?
+
+Keep each answer to 3-4 sentences.</div>
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-label">Prompt 2 of 2 &mdash; paste this into the same Claude conversation after reading the response</div>
+        <div class="prompt-text">Here is the user_profiles table I built in my previous step. Each row is one user with their skip_rate, replay_rate, top_genre, and top_genre_affinity:
+
+[paste your user_profiles table output from Colab here]
+
+Without running any algorithm — just by reading these numbers — what three natural groups do you see among these users? For each group, give it a descriptive name (like "casual pop listener" or "devoted hip-hop fan") and explain what pattern in the data led you to that grouping.
+
+Then explain: this is essentially what a clustering algorithm does automatically — for 751 million users simultaneously. What would that scale of discovery mean strategically for Spotify?</div>
+      </div>
+
+      <div class="insight-box">
+        <div class="insight-label">The key insight</div>
+        <div class="insight-text">Claude just grouped your users by reading their feature profiles — the same logic a clustering algorithm applies at scale. Notice that nobody told Claude (or the algorithm) what the groups should be called, how many there should be, or what characteristics define each one. <strong>The groups emerged from the data.</strong> That is what unsupervised means: the structure was always there, hidden in the numbers. The algorithm just surfaced it.</div>
+      </div>
+
+      <div class="reflect-box">
+        <div class="reflect-label">Step 04 Reflection</div>
+        <div class="reflect-text">Give your three user groups a name based on what Claude identified. Then answer this: Spotify discovers these listener communities without ever asking a single user "what kind of music fan are you?" What does it mean strategically that a company can learn this much about its customers purely from behavioral data — and what are the implications of that for privacy and trust?</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STEP 5 — Build the Recommendation Engine -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">5</div>
       <div><div class="step-title">Build the Recommendation Engine</div><div class="step-subtitle">AI Factory stage: Model + Prediction</div></div>
     </div>
     <div class="step-body">
@@ -520,16 +640,16 @@ recommendations = <span class="cf">get_recommendations</span>(
         </div>
       </div>
       <div class="reflect-box">
-        <div class="reflect-label">Step 03 Reflection &mdash; write 2&ndash;3 sentences</div>
+        <div class="reflect-label">Step 05 Reflection &mdash; write 2&ndash;3 sentences</div>
         <div class="reflect-text">Your system just recommended songs to User 1 without knowing anything about what those songs actually sound like &mdash; it only looked at who else listened to them. Why does that work as a way to find good recommendations, and what does it tell you about why Spotify needs hundreds of millions of users for its system to be accurate?</div>
       </div>
     </div>
   </div>
 
-  <!-- STEP 4 -->
+  <!-- STEP 6 — Build the Live System -->
   <div class="step-card">
     <div class="step-header">
-      <div class="step-num">4</div>
+      <div class="step-num">6</div>
       <div><div class="step-title">Build the Live System &mdash; Then Try the Demo</div><div class="step-subtitle">AI Factory stage: Decision</div></div>
     </div>
     <div class="step-body">
@@ -655,16 +775,16 @@ Give me the complete HTML in one block. Add plain-English comments explaining ea
       </div>
 
       <div class="reflect-box">
-        <div class="reflect-label">Step 04 Reflection &mdash; write 2&ndash;3 sentences</div>
+        <div class="reflect-label">Step 06 Reflection &mdash; write 2&ndash;3 sentences</div>
         <div class="reflect-text">Watch the live data log as you interact. Every click &mdash; skip, play, replay &mdash; is being recorded as a number and fed into the algorithm. Spotify calls these implicit signals. Why is this type of behavioral data more valuable than simply asking users to rate songs on a scale of 1 to 5?</div>
       </div>
     </div>
   </div>
 
-  <!-- STEP 5 -->
+  <!-- STEP 7 — AI Governance -->
   <div class="step-card">
     <div class="step-header">
-      <div class="step-num">5</div>
+      <div class="step-num">7</div>
       <div><div class="step-title">AI Governance: The Management Problem</div><div class="step-subtitle">AI Factory stage: keeping the system working</div></div>
     </div>
     <div class="step-body">
@@ -676,16 +796,16 @@ Give me the complete HTML in one block. Add plain-English comments explaining ea
       </div>
 
       <div class="reflect-box">
-        <div class="reflect-label">Step 05 Reflection &mdash; write a paragraph</div>
+        <div class="reflect-label">Step 07 Reflection &mdash; write a paragraph</div>
         <div class="reflect-text">Based on what you read in the case study and what you just built: why is AI governance fundamentally a management problem, not a technical one? What would a manager &mdash; not an engineer &mdash; need to do to make sure a system like the one you built keeps working correctly after it is deployed? Be specific about what organizational decisions, roles, or processes would need to exist.</div>
       </div>
     </div>
   </div>
 
-  <!-- STEP 6 -->
+  <!-- STEP 8 — Generate Your Wrapped -->
   <div class="step-card">
     <div class="step-header">
-      <div class="step-num">6</div>
+      <div class="step-num">8</div>
       <div><div class="step-title">Generate Your Wrapped</div><div class="step-subtitle">AI Factory stage: Value</div></div>
     </div>
     <div class="step-body">
@@ -713,16 +833,16 @@ The summary should include:
 Print it as a clean, readable summary. Then write 2-3 sentences explaining: this Wrapped summary uses the exact same data as the recommendation engine. What does that tell us about how Spotify thinks about its data infrastructure as a business asset?</div>
       </div>
       <div class="reflect-box">
-        <div class="reflect-label">Step 06 Reflection &mdash; write 2&ndash;3 sentences</div>
+        <div class="reflect-label">Step 08 Reflection &mdash; write 2&ndash;3 sentences</div>
         <div class="reflect-text">Spotify Wrapped is essentially a marketing campaign that costs almost nothing extra to produce because it runs on a data pipeline that already exists. Can you think of another company in any industry that could do something similar &mdash; turning data they already collect into a product or experience their customers would want to share?</div>
       </div>
     </div>
   </div>
 
-  <!-- STEP 7 -->
+  <!-- STEP 9 — Publish Your Work -->
   <div class="step-card">
     <div class="step-header">
-      <div class="step-num">7</div>
+      <div class="step-num">9</div>
       <div><div class="step-title">Publish Your Work on GitHub Pages</div><div class="step-subtitle">Turn what you built into a live portfolio piece</div></div>
     </div>
     <div class="step-body">
@@ -817,16 +937,16 @@ Give me the complete HTML in one block that I can paste directly into GitHub as 
       </div>
 
       <div class="reflect-box">
-        <div class="reflect-label">Step 07 Reflection &mdash; write 2&ndash;3 sentences</div>
+        <div class="reflect-label">Step 09 Reflection &mdash; write 2&ndash;3 sentences</div>
         <div class="reflect-text">Look at the website Claude generated. You described what you built in plain English and Claude turned it into a polished, employer-facing site. What does that tell you about how AI changes what non-technical business students can produce &mdash; and what skills become more valuable as a result?</div>
       </div>
     </div>
   </div>
 
-  <!-- STEP 8 -->
+  <!-- STEP 10 — Connect Back to the Business Case -->
   <div class="step-card">
     <div class="step-header">
-      <div class="step-num">8</div>
+      <div class="step-num">10</div>
       <div><div class="step-title">Connect Back to the Business Case</div><div class="step-subtitle">AI Factory stage: the full loop</div></div>
     </div>
     <div class="step-body">
@@ -840,7 +960,7 @@ Give me the complete HTML in one block that I can paste directly into GitHub as 
       </div>
       <p style="margin-top:0.75rem">For each step above, write one sentence describing: (a) what you built in this lab that corresponds to it, and (b) what Spotify does at that step at real scale.</p>
       <div class="reflect-box">
-        <div class="reflect-label">Step 08 Final Reflection &mdash; write a paragraph</div>
+        <div class="reflect-label">Step 10 Final Reflection &mdash; write a paragraph</div>
         <div class="reflect-text">Your system used 10 simulated users. Spotify uses 751 million real ones. Identify one thing that works fine at your scale that would break or become dangerous at Spotify's scale &mdash; and explain how Spotify would need to address it. Think about the data, the algorithm, the training-serving gap, or governance. Use specific concepts from the case study in your answer.</div>
       </div>
     </div>
