@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Writing Good Prompts — MIS 432 | AI in Business</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; color: #333; }
+
+  nav { background: #1a1a2e; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+  .nav-brand { color: #fff; font-size: 16px; font-weight: 700; letter-spacing: 0.03em; }
+  .nav-brand span { color: #63b3ed; }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a { color: #a0aec0; font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: #fff; }
+  .nav-links a.active { color: #63b3ed; font-weight: 700; }
+
+  .hero { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); padding: 4rem 2rem 3rem; text-align: center; }
+  .hero-tag { display: inline-block; background: rgba(99,179,237,0.15); border: 1px solid rgba(99,179,237,0.4); color: #63b3ed; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 1rem; border-radius: 20px; margin-bottom: 1.25rem; }
+  .hero h1 { font-size: 40px; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 0.75rem; }
+  .hero h1 span { color: #63b3ed; }
+  .hero-sub { font-size: 17px; color: #a0aec0; max-width: 580px; margin: 0 auto; line-height: 1.65; }
+
+  .doc { max-width: 780px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+
+  .intro-card { background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; padding: 1.75rem 2rem; margin-bottom: 2rem; }
+  .intro-card p { font-size: 15px; color: #444; line-height: 1.85; margin-bottom: 0.9rem; }
+  .intro-card p:last-child { margin-bottom: 0; }
+
+  .concept-block { background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 1.5rem; overflow: hidden; }
+  .concept-header { background: #1a1a2e; padding: 1rem 1.5rem; display: flex; align-items: center; gap: 0.85rem; }
+  .concept-num { width: 32px; height: 32px; border-radius: 50%; background: #63b3ed; color: #1a1a2e; font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .concept-title { font-size: 15px; font-weight: 700; color: #fff; }
+  .concept-subtitle { font-size: 12px; color: #63b3ed; margin-top: 2px; }
+  .concept-body { padding: 1.25rem 1.5rem; }
+  .concept-body p { font-size: 14px; color: #555; line-height: 1.75; margin-bottom: 1rem; }
+
+  .prompt-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1rem 0; }
+  @media(max-width:580px){ .prompt-compare { grid-template-columns: 1fr; } }
+  .prompt-bad { background: #fff5f5; border-radius: 8px; border-left: 3px solid #fc8181; padding: 0.85rem 1rem; }
+  .prompt-good { background: #f0fff4; border-radius: 8px; border-left: 3px solid #68d391; padding: 0.85rem 1rem; }
+  .prompt-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .prompt-bad .prompt-label { color: #e53e3e; }
+  .prompt-good .prompt-label { color: #276749; }
+  .prompt-text { font-size: 13px; line-height: 1.65; color: #2d3748; font-style: italic; }
+
+  .fix-box { background: #ebf8ff; border-radius: 8px; padding: 0.85rem 1rem; margin-top: 0.75rem; }
+  .fix-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2b6cb0; margin-bottom: 0.3rem; }
+  .fix-text { font-size: 13px; color: #2d3748; line-height: 1.65; }
+
+  .meta-box { background: #faf5ff; border-radius: 8px; border-left: 3px solid #b794f4; padding: 0.85rem 1rem; margin: 1rem 0; }
+  .meta-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #6b46c1; margin-bottom: 0.3rem; }
+  .meta-text { font-size: 13px; color: #2d3748; line-height: 1.65; }
+
+  .iteration-block { background: #f7fafc; border-radius: 8px; padding: 1rem; margin: 1rem 0; }
+  .iteration-step { display: flex; gap: 0.75rem; margin-bottom: 0.75rem; align-items: flex-start; }
+  .iteration-step:last-child { margin-bottom: 0; }
+  .iter-label { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #718096; flex-shrink: 0; min-width: 80px; padding-top: 2px; }
+  .iter-text { font-size: 13px; color: #2d3748; line-height: 1.65; font-style: italic; }
+
+  .checklist { background: #1a1a2e; border-radius: 12px; padding: 2rem; margin: 2rem 0; }
+  .checklist-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #63b3ed; margin-bottom: 0.4rem; }
+  .checklist h2 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 1.25rem; }
+  .checklist-items { display: flex; flex-direction: column; gap: 0.6rem; }
+  .checklist-item { display: flex; align-items: flex-start; gap: 0.75rem; }
+  .check-num { color: #63b3ed; font-weight: 800; font-size: 14px; flex-shrink: 0; min-width: 20px; }
+  .check-text { font-size: 14px; color: #a0aec0; line-height: 1.6; }
+  .check-text strong { color: #fff; }
+
+  .notes { background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+  .notes p { font-size: 13px; color: #718096; line-height: 1.7; margin-bottom: 0.4rem; }
+  .notes p:last-child { margin-bottom: 0; }
+
+  .closing { font-size: 15px; color: #555; line-height: 1.85; text-align: center; padding: 0 1rem 1rem; }
+
+  footer { background: #111827; padding: 2rem; text-align: center; margin-top: 2rem; }
+  footer p { font-size: 13px; color: #4a5568; }
+  footer a { color: #63b3ed; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 432 <span>&middot;</span> AI in Business</a>
+  <div class="nav-links">
+    <a href="index.html#about">About the Digital Textbook</a>
+    <a href="good-prompts.html" class="active">Writing Good Prompts</a>
+    <a href="ai-pulse.html" style="color:#63b3ed; font-weight:700;">AI News + Sources</a>
+    <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Student Resource &middot; MIS 432</div>
+  <h1><span>Writing</span> <span>Good Prompts</span></h1>
+  <p class="hero-sub">You will use Claude throughout every lab in this course. How well it helps you depends almost entirely on how well you prompt it. Here is the framework.</p>
+</div>
+
+<div class="doc">
+
+  <!-- Intro -->
+  <div style="margin-bottom: 1.25rem;">
+    <div class="section-label" style="font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#63b3ed; margin-bottom:0.4rem;">Why Most Prompts Fail</div>
+    <div style="font-size:22px; font-weight:700; color:#1a1a2e; margin-bottom:0.25rem;">Prompting as Perspective-Taking</div>
+    <div style="font-size:15px; color:#718096;">What cognitive psychology tells us about talking to AI &mdash; and how to do it better.</div>
+  </div>
+
+  <div class="intro-card">
+    <p>You open ChatGPT, Claude, Gemini &mdash; whichever one you use. You type: <em>&ldquo;Write me a discussion post about leadership for my management class.&rdquo;</em> You hit send. What comes back is technically correct, reasonably well-written, and almost completely useless &mdash; generic paragraphs aimed at nobody in particular, covering things your professor already covered, in a tone that fits no assignment you were actually given.</p>
+    <p>The problem is not the AI. It is the prompt. The reason most prompts fail is that they are written entirely from inside your own head, with no consideration for what the model actually knows, assumes, or needs.</p>
+    <p>Two concepts from cognitive psychology explain both the problem and the fix. <strong>Theory of mind</strong> is the ability to step outside your own perspective and model someone else&rsquo;s &mdash; their knowledge, their assumptions, their blind spots. <strong>Metacognition</strong> is the ability to step back and evaluate your own thinking process rather than just executing it. Together, they are the foundation of effective prompting.</p>
+    <p>There is also a specific failure mode worth naming: the <strong>curse of knowledge</strong>. Once you know something, it becomes almost impossible to imagine not knowing it. Your prompt makes complete sense to you &mdash; but the model has none of your context. The fix is not a longer prompt. It is one written with the model&rsquo;s knowledge gaps in mind, not just your own.</p>
+  </div>
+
+  <!-- Concept 1 -->
+  <div class="concept-block">
+    <div class="concept-header">
+      <div class="concept-num">1</div>
+      <div>
+        <div class="concept-title">Context &amp; Hidden Assumptions</div>
+        <div class="concept-subtitle">&ldquo;The model starts from zero&rdquo;</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <p>Theory of mind tells us that other minds do not share your knowledge state. The model does not know you are a business student, that your presentation is for a non-technical audience, or that your professor wants you to focus on business implications. Every prompt also carries unstated assumptions about format, length, and tone &mdash; and the model fills those gaps with its own defaults. Both problems have the same fix: make the invisible visible.</p>
+      <div class="prompt-compare">
+        <div class="prompt-bad">
+          <div class="prompt-label">&#10005; Too vague</div>
+          <div class="prompt-text">&ldquo;Help me explain how Spotify knows what songs to recommend.&rdquo;</div>
+        </div>
+        <div class="prompt-good">
+          <div class="prompt-label">&#10003; Much better</div>
+          <div class="prompt-text">&ldquo;I am a business student giving a 5-minute presentation on Spotify&rsquo;s recommendation system. My audience has no technical background. Explain the core idea in plain English in 3&ndash;4 sentences &mdash; no jargon, just the business logic.&rdquo;</div>
+        </div>
+      </div>
+      <div class="fix-box">
+        <div class="fix-label">The fix</div>
+        <div class="fix-text">Treat every prompt like a briefing to a smart new colleague on their first day. State your situation, your goal, your audience, and any constraints on format or length. Do not assume any of it is already known.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Concept 2 -->
+  <div class="concept-block">
+    <div class="concept-header">
+      <div class="concept-num">2</div>
+      <div>
+        <div class="concept-title">Intent</div>
+        <div class="concept-subtitle">&ldquo;The model will guess what you want&rdquo;</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <p>Philosophers and linguists have long argued that all communication involves inference &mdash; listeners do not just decode words, they try to figure out what the speaker <em>really</em> means. AI models do the same. A vague prompt produces the model&rsquo;s best guess at your intent, and that guess is usually the most generic possible interpretation.</p>
+      <div class="prompt-compare">
+        <div class="prompt-bad">
+          <div class="prompt-label">&#10005; Too vague</div>
+          <div class="prompt-text">&ldquo;Write something about Spotify Wrapped for my presentation.&rdquo;</div>
+        </div>
+        <div class="prompt-good">
+          <div class="prompt-label">&#10003; Much better</div>
+          <div class="prompt-text">&ldquo;Write a 3-sentence talking point for a slide. I want my classmates to understand that Wrapped is not a separate product &mdash; it runs on the exact same data as Spotify&rsquo;s recommendations, which is why it costs almost nothing extra to produce.&rdquo;</div>
+        </div>
+      </div>
+      <div class="fix-box">
+        <div class="fix-label">The fix</div>
+        <div class="fix-text">State your goal explicitly. Do not make the model infer what you are trying to accomplish &mdash; tell it directly.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Concept 3 -->
+  <div class="concept-block">
+    <div class="concept-header">
+      <div class="concept-num">3</div>
+      <div>
+        <div class="concept-title">Audience</div>
+        <div class="concept-subtitle">&ldquo;The model picks a default reader&rdquo;</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <p>Theory of mind requires adjusting what you say based on what you believe the listener knows and needs. If you do not specify an audience, the model defaults to a general reader. That default is rarely the right one.</p>
+      <div class="prompt-compare">
+        <div class="prompt-bad">
+          <div class="prompt-label">&#10005; Too vague</div>
+          <div class="prompt-text">&ldquo;Explain how Spotify&rsquo;s data pipeline works.&rdquo;</div>
+        </div>
+        <div class="prompt-good">
+          <div class="prompt-label">&#10003; Much better</div>
+          <div class="prompt-text">&ldquo;Explain how Spotify uses listening data to improve recommendations over time. Write for business students with no CS background &mdash; use a real-world analogy instead of technical terms.&rdquo;</div>
+        </div>
+      </div>
+      <div class="fix-box">
+        <div class="fix-label">The fix</div>
+        <div class="fix-text">Name your audience and describe what they know and do not know. The more specific you are, the more precisely the model can calibrate its response.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Concept 4 -->
+  <div class="concept-block">
+    <div class="concept-header">
+      <div class="concept-num">4</div>
+      <div>
+        <div class="concept-title">Perspective-Taking</div>
+        <div class="concept-subtitle">&ldquo;Read your prompt as the model would&rdquo;</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <p>This is the core theory of mind skill: simulating another&rsquo;s point of view before acting. Before you send a prompt, read it as if you are the model receiving it cold &mdash; no prior context, no knowledge of your project, no idea what &ldquo;good&rdquo; looks like to you. This one habit catches most prompt failures before they happen.</p>
+      <div class="prompt-compare">
+        <div class="prompt-bad">
+          <div class="prompt-label">&#10005; Too vague</div>
+          <div class="prompt-text">&ldquo;Make it less technical.&rdquo;</div>
+        </div>
+        <div class="prompt-good">
+          <div class="prompt-label">&#10003; Much better</div>
+          <div class="prompt-text">&ldquo;The following slide script is too technical for my business school audience. Rewrite it in plain English, cut it to under 60 words, and focus on why it matters for Spotify as a business rather than how it works technically: [paste text]&rdquo;</div>
+        </div>
+      </div>
+      <div class="fix-box">
+        <div class="fix-label">The fix</div>
+        <div class="fix-text">Before hitting send, ask &mdash; if I received this prompt cold, what would I produce? If the answer surprises you, rewrite the prompt.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Concept 5 -->
+  <div class="concept-block">
+    <div class="concept-header">
+      <div class="concept-num">5</div>
+      <div>
+        <div class="concept-title">Iteration &amp; Meta-Prompting</div>
+        <div class="concept-subtitle">&ldquo;Prompting is a conversation, not a command&rdquo;</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <p>Good prompting works the same way good collaboration does &mdash; through back-and-forth and progressive refinement. Your first prompt is a starting point. Most people stop after one exchange. The best outputs usually come after three.</p>
+      <div class="iteration-block">
+        <div class="iteration-step">
+          <div class="iter-label">First prompt</div>
+          <div class="iter-text">&ldquo;Explain why Spotify needs so many users for its recommendation system to work.&rdquo;</div>
+        </div>
+        <div class="iteration-step">
+          <div class="iter-label">Follow-up</div>
+          <div class="iter-text">&ldquo;Good &mdash; now make it more concrete. Add a specific example of what happens when a brand new user with no listening history opens the app for the first time.&rdquo;</div>
+        </div>
+        <div class="iteration-step">
+          <div class="iter-label">Follow-up</div>
+          <div class="iter-text">&ldquo;Perfect. Now cut it to three sentences and end with a question that would make a business student stop and think.&rdquo;</div>
+        </div>
+      </div>
+      <p>This is also where <strong>metacognition</strong> comes in. Instead of just prompting, you can step back and ask the model to help you design a better prompt &mdash; using its own knowledge of what makes a good input to improve yours. Researchers call this <strong>meta-prompting</strong>, and it is one of the most underused techniques available.</p>
+      <div class="meta-box">
+        <div class="meta-label">Try this before you start</div>
+        <div class="meta-text">&ldquo;I need to create a presentation on how Spotify&rsquo;s recommendation system works for a business school audience with no technical background. Before I ask you to help me write it &mdash; what information would you need from me to give me the best possible output?&rdquo;</div>
+      </div>
+      <div class="fix-box">
+        <div class="fix-label">The fix</div>
+        <div class="fix-text">Treat your first prompt as a starting point, not a final answer. And before you start, try asking the model what it needs from you first &mdash; that single move often produces better results than any prompt you could write alone.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Concept 6 -->
+  <div class="concept-block">
+    <div class="concept-header">
+      <div class="concept-num">6</div>
+      <div>
+        <div class="concept-title">Verification</div>
+        <div class="concept-subtitle">&ldquo;Confident doesn&rsquo;t mean correct&rdquo;</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <p>Psychologists studying human communication describe a concept called <em>epistemic vigilance</em> &mdash; the tendency to actively evaluate whether information you receive is actually reliable. Most people apply this instinctively in conversation. Few apply it to AI output, because the writing is polished and the tone is confident. But confidence is not accuracy. A hallucinated fact looks identical to a correct one.</p>
+      <div class="prompt-compare">
+        <div class="prompt-bad">
+          <div class="prompt-label">&#10005; Risky</div>
+          <div class="prompt-text">Copy the output directly onto your slide. It says Spotify has 602 million users and generated 1.4 billion Wrapped reports in 2025. Sounds right. Move on.</div>
+        </div>
+        <div class="prompt-good">
+          <div class="prompt-label">&#10003; Much better</div>
+          <div class="prompt-text">&ldquo;Give me three key stats about Spotify&rsquo;s scale for my presentation. For each one, tell me how confident you are and where I should go to verify it.&rdquo;</div>
+        </div>
+      </div>
+      <div class="fix-box">
+        <div class="fix-label">The fix</div>
+        <div class="fix-text">Before you use any specific number, date, company claim, or research finding from an AI output, verify it independently. If you would cite it in a paper, confirm it from a real source first.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checklist -->
+  <div class="checklist">
+    <div class="checklist-label">The Checklist</div>
+    <h2>Before you send your next prompt</h2>
+    <div class="checklist-items">
+      <div class="checklist-item"><div class="check-num">1.</div><div class="check-text"><strong>Context</strong> &mdash; What does the model need to know about my situation that it could not possibly know on its own?</div></div>
+      <div class="checklist-item"><div class="check-num">2.</div><div class="check-text"><strong>Intent</strong> &mdash; Have I stated my actual goal, not just the surface task?</div></div>
+      <div class="checklist-item"><div class="check-num">3.</div><div class="check-text"><strong>Audience</strong> &mdash; Who is this output for, and what do they already know?</div></div>
+      <div class="checklist-item"><div class="check-num">4.</div><div class="check-text"><strong>Perspective</strong> &mdash; If I received this prompt cold, what would I produce?</div></div>
+      <div class="checklist-item"><div class="check-num">5.</div><div class="check-text"><strong>Iteration</strong> &mdash; Have I tried asking the model what it needs from me first?</div></div>
+      <div class="checklist-item"><div class="check-num">6.</div><div class="check-text"><strong>Verification</strong> &mdash; What claims in this output do I need to check before I use them?</div></div>
+    </div>
+  </div>
+
+  <p class="closing">The student who writes the second prompt almost always gets a better result than the one who accepted the first answer. Theory of mind tells you how to model the model. Metacognition tells you how to step back and improve your own strategy. Used together, they turn a frustrating tool into a genuinely useful one.</p>
+
+  <!-- Notes -->
+  <div class="notes">
+    <p><strong>Notes</strong></p>
+    <p>&#185; This idea is developed in H.P. Grice&rsquo;s cooperative principle and his theory of conversational implicature (1975).</p>
+    <p>&#178; The concept of epistemic vigilance is developed in Sperber &amp; Mercier (2012).</p>
+    <p><em>References: Premack &amp; Woodruff (1978); Grice (1975); Flavell (1979); Sperber &amp; Mercier (2012).</em></p>
+  </div>
+
+</div>
+
+<footer>
+  <p>MIS 432 &middot; AI in Business &middot; Western Washington University &middot; College of Business and Economics</p>
+  <p style="margin-top:0.5rem;"><a href="index.html">&larr; Back to Home</a> &middot; <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a> &middot; Free to use for educational purposes</p>
+</footer>
+
+</body>
+</html>
