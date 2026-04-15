@@ -3,24 +3,192 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lab 4: Uber Forecasting Lab — MIS 432</title>
+<title>Lab 4: Demand Forecasting & Surge Pricing — MIS 432</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial, sans-serif; background: #000000; color: #fff; display: flex; flex-direction: column; min-height: 100vh; }
-  nav { background: #000000; padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #222; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; color: #333; }
+
+  /* ── Nav ── */
+  nav { background: #000; padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
   .nav-brand { color: #fff; font-size: 15px; font-weight: 700; text-decoration: none; }
-  .nav-links a { color: #888; font-size: 13px; text-decoration: none; margin-left: 1.5rem; }
+  .nav-links { display: flex; gap: 1.25rem; align-items: center; }
+  .nav-links a { color: #888; font-size: 13px; text-decoration: none; }
   .nav-links a:hover { color: #1fbad6; }
-  .main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 3rem 2rem; }
-  .icon { font-size: 48px; margin-bottom: 1.5rem; }
-  .tag { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #1fbad6; margin-bottom: 1rem; }
-  h1 { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 0.75rem; }
-  p { font-size: 15px; color: #888; line-height: 1.7; max-width: 480px; margin-bottom: 2rem; }
-  .back-btn { display: inline-block; background: #1fbad6; color: #000; font-size: 13px; font-weight: 700; padding: 0.6rem 1.4rem; border-radius: 6px; text-decoration: none; }
-  .back-btn:hover { opacity: 0.85; }
-  footer { background: #000; padding: 1.25rem 2rem; text-align: center; border-top: 1px solid #111; }
-  footer p { font-size: 13px; color: #444; }
+  .nav-badge { background: #1fbad6; color: #000; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+
+  /* ── Hero ── */
+  .hero { background: linear-gradient(135deg, #000 0%, #0a1f22 60%, #0d2b2e 100%); padding: 3rem 2rem 2.5rem; border-bottom: 3px solid #1fbad6; }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+  .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #1fbad6; margin-bottom: 0.75rem; }
+  .hero h1 { font-size: 30px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 0.75rem; }
+  .hero-sub { font-size: 15px; color: #7dd8e8; max-width: 640px; line-height: 1.65; margin-bottom: 1.25rem; }
+  .hero-tools { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .tool-badge { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+
+  /* ── Layout ── */
+  .doc { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  /* ── Overview grid ── */
+  .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; margin: 1.5rem 0; }
+  .overview-card { background: #fff; border-radius: 8px; padding: 1rem; border: 1px solid #e2e8f0; text-align: center; }
+  .overview-icon { font-size: 20px; margin-bottom: 0.4rem; }
+  .overview-label { font-size: 12px; color: #718096; margin-bottom: 0.25rem; }
+  .overview-val { font-size: 14px; font-weight: 700; color: #1a1a1a; }
+
+  /* ── Typography ── */
+  h2 { font-size: 20px; font-weight: 700; color: #111; margin: 2rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 2px solid #1fbad6; }
+  h3 { font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 1.5rem 0 0.5rem; }
+  p { font-size: 15px; line-height: 1.75; color: #444; margin-bottom: 0.9rem; }
+  ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+  li { font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 0.4rem; }
+  strong { color: #111; font-weight: 700; }
+
+  /* ── Step cards ── */
+  .step-card { background: #fff; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 1.5rem; overflow: hidden; }
+  .step-header { background: #000; padding: 1rem 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+  .step-num { width: 32px; height: 32px; border-radius: 50%; background: #1fbad6; color: #000; font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-title { font-size: 15px; font-weight: 700; color: #fff; }
+  .step-subtitle { font-size: 12px; color: #7dd8e8; margin-top: 2px; }
+  .step-body { padding: 1.25rem; }
+
+  /* ── Boxes ── */
+  .prompt-box { background: #050f10; border-radius: 8px; padding: 1rem 1.25rem; margin: 1rem 0; border: 1px solid #0e3038; }
+  .prompt-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #1fbad6; margin-bottom: 0.5rem; }
+  .prompt-text { font-size: 13px; color: #b2eaf2; line-height: 1.7; font-family: monospace; white-space: pre-wrap; }
+  .reflect-box { background: #f0fbfc; border-left: 4px solid #1fbad6; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1rem 0; }
+  .reflect-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #0a7a90; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .reflect-text { font-size: 14px; color: #333; line-height: 1.65; }
+  .insight-box { background: #fffbeb; border-left: 4px solid #d97706; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1rem 0; }
+  .insight-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #d97706; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .insight-text { font-size: 14px; color: #444; line-height: 1.65; margin: 0; }
+  .danger-box { background: #fef2f2; border-left: 4px solid #dc2626; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1rem 0; }
+  .danger-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #dc2626; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .danger-text { font-size: 14px; color: #444; line-height: 1.65; margin: 0; }
+  .concept-box { background: #f5f5f5; border-left: 4px solid #1fbad6; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1rem 0; }
+  .concept-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #1fbad6; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .concept-text { font-size: 14px; color: #444; line-height: 1.65; margin: 0; }
+
+  /* ── Factory pipeline ── */
+  .factory-row { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin: 1rem 0; }
+  .factory-step { background: #f0fbfc; border: 1px solid #9dd8e8; border-radius: 6px; padding: 0.45rem 0.85rem; font-size: 13px; font-weight: 700; color: #0a7a90; }
+  .factory-step.active { background: #1fbad6; border-color: #1fbad6; color: #000; }
+  .factory-arrow { font-size: 14px; color: #a0aec0; }
+
+  /* ── Submit box ── */
+  .submit-box { background: #f0fbfc; border: 2px solid #0a9db8; border-radius: 10px; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+  .submit-label { font-size: 13px; font-weight: 700; color: #0a7a90; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.75rem; }
+  .submit-box ul { margin-left: 1.25rem; }
+  .submit-box li { font-size: 14px; color: #444; margin-bottom: 0.3rem; }
+
+  /* ── Nav bottom ── */
+  .chapter-nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-top: 1px solid #e2e8f0; margin-top: 2rem; flex-wrap: wrap; gap: 0.75rem; }
+  .chapter-nav a { font-size: 14px; color: #1fbad6; text-decoration: none; font-weight: 700; }
+  footer { background: #000; padding: 1.5rem 2rem; text-align: center; }
+  footer p { font-size: 13px; color: #555; }
   footer a { color: #1fbad6; text-decoration: none; }
+
+  /* ── Chart canvas ── */
+  .chart-wrap { background: #000; border-radius: 10px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+  .chart-title { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #1fbad6; margin-bottom: 0.75rem; }
+  canvas { display: block; width: 100%; }
+
+  /* ── Surge simulator ── */
+  .surge-sim { background: #000; border-radius: 12px; padding: 1.25rem; margin: 1.25rem 0; }
+  .surge-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; }
+  .surge-brand { display: flex; align-items: center; gap: 10px; }
+  .u-dot { width: 26px; height: 26px; background: #1fbad6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; font-weight: 900; color: #000; }
+  .surge-name { color: #fff; font-size: 14px; font-weight: 700; }
+  .surge-sub { color: #7dd8e8; font-size: 11px; margin-top: 2px; }
+  .surge-status { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+  .surge-status.normal { background: rgba(31,186,214,0.15); color: #1fbad6; border: 1px solid rgba(31,186,214,0.3); }
+  .surge-status.active { background: rgba(220,38,38,0.2); color: #f87171; border: 1px solid rgba(220,38,38,0.4); animation: pulse 1.2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
+
+  .surge-grid { display: grid; grid-template-columns: 1fr 240px; gap: 10px; }
+  @media(max-width:580px) { .surge-grid { grid-template-columns: 1fr; } }
+
+  .surge-panel { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 8px; overflow: hidden; }
+  .surge-panel-head { padding: 0.6rem 0.85rem; border-bottom: 1px solid #1a1a1a; font-size: 11px; font-weight: 700; color: #7dd8e8; text-transform: uppercase; letter-spacing: 0.06em; }
+  .surge-panel-body { padding: 0.75rem; }
+
+  .demand-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .db-label { font-size: 11px; color: #666; width: 70px; flex-shrink: 0; }
+  .db-track { flex: 1; height: 8px; background: #1a1a1a; border-radius: 4px; overflow: hidden; }
+  .db-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+  .db-fill.demand { background: #1fbad6; }
+  .db-fill.supply { background: #888; }
+  .db-fill.critical { background: #ef4444; }
+  .db-val { font-size: 11px; font-weight: 700; color: #ccc; width: 30px; text-align: right; flex-shrink: 0; }
+
+  .surge-multiplier { text-align: center; padding: 0.75rem 0; }
+  .mult-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .mult-val { font-size: 40px; font-weight: 900; color: #1fbad6; line-height: 1; transition: color 0.3s; }
+  .mult-val.danger { color: #ef4444; }
+  .mult-sub { font-size: 11px; color: #444; margin-top: 4px; }
+
+  .event-tag { display: inline-block; background: #1a0a0a; border: 1px solid #ef4444; color: #f87171; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin: 2px; }
+  .event-tag.weather { border-color: #1fbad6; color: #7dd8e8; background: #001a1f; }
+  .event-tag.normal { border-color: #333; color: #666; background: #0a0a0a; }
+
+  .decision-btns { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .btn-decision { flex: 1; min-width: 100px; padding: 0.7rem 0.5rem; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; border: 2px solid; transition: all 0.15s; text-align: center; }
+  .btn-trust { background: #001a1f; border-color: #1fbad6; color: #1fbad6; }
+  .btn-trust:hover { background: #1fbad6; color: #000; }
+  .btn-override { background: #1a0a0a; border-color: #ef4444; color: #f87171; }
+  .btn-override:hover { background: #ef4444; color: #fff; }
+  .btn-pause { background: #111; border-color: #888; color: #888; }
+  .btn-pause:hover { background: #888; color: #000; }
+
+  .decision-log { font-family: monospace; font-size: 11px; color: #4aafbd; background: #030d0e; border-radius: 6px; padding: 0.75rem; margin-top: 8px; line-height: 1.8; min-height: 80px; max-height: 140px; overflow-y: auto; }
+
+  .outcome-card { border-radius: 8px; padding: 0.75rem; margin-top: 8px; display: none; }
+  .outcome-card.show { display: block; }
+  .outcome-card.good { background: #001a1f; border: 1px solid #1fbad6; }
+  .outcome-card.bad { background: #1a0505; border: 1px solid #ef4444; }
+  .outcome-card.neutral { background: #111; border: 1px solid #333; }
+  .outcome-title { font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+  .outcome-card.good .outcome-title { color: #1fbad6; }
+  .outcome-card.bad .outcome-title { color: #f87171; }
+  .outcome-card.neutral .outcome-title { color: #888; }
+  .outcome-body { font-size: 12px; color: #aaa; line-height: 1.6; }
+
+  /* ── Distribution shift demo ── */
+  .dist-sim { background: #000; border-radius: 12px; padding: 1.25rem; margin: 1.25rem 0; }
+  .dist-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1rem; }
+  .btn-scenario { background: #111; border: 1px solid #333; color: #888; font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 20px; cursor: pointer; transition: all 0.15s; }
+  .btn-scenario:hover, .btn-scenario.active { background: #1fbad6; border-color: #1fbad6; color: #000; }
+  .btn-scenario.danger-btn:hover, .btn-scenario.danger-btn.active { background: #ef4444; border-color: #ef4444; color: #fff; }
+  .dist-alert { background: #1a0505; border: 1px solid #ef4444; border-radius: 6px; padding: 0.6rem 0.85rem; margin-top: 8px; display: none; }
+  .dist-alert.show { display: block; }
+  .dist-alert-text { font-size: 12px; color: #f87171; line-height: 1.6; }
+
+  /* ── Driver game ── */
+  .zone-btn { background:#0a0a0a; border:2px solid #333; border-radius:8px; padding:0.85rem; cursor:pointer; text-align:left; transition:all 0.15s; width:100%; }
+  .zone-btn:hover { border-color:#1fbad6; background:#001a1f; }
+  .zone-btn.selected { border-color:#1fbad6; background:#001a1f; }
+  .zone-btn.wrong { border-color:#ef4444; background:#1a0505; }
+  .zone-name { font-size:14px; font-weight:700; color:#fff; margin-bottom:3px; }
+  .zone-desc { font-size:12px; color:#666; line-height:1.5; }
+  .zone-signal { font-size:12px; font-weight:700; margin-top:4px; }
+
+  /* ── How-to-use prompt block ── */
+  .prompt-steps { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.9rem 1.1rem; margin: 0 0 0; border-bottom: none; border-radius: 8px 8px 0 0; }
+  .prompt-steps-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #555; margin-bottom: 0.5rem; }
+  .prompt-steps ol { margin: 0 0 0 1.1rem; padding: 0; }
+  .prompt-steps li { font-size: 13px; color: #444; line-height: 1.65; margin-bottom: 0.3rem; }
+  .prompt-steps li:last-child { margin-bottom: 0; }
+  .prompt-steps li strong { color: #000; }
+  .prompt-steps + .prompt-box { border-radius: 0 0 8px 8px; border-top: 1px dashed #0e3038; margin-top: 0; }
+
+  /* ── Code peek ── */
+  .code-peek { background: #050f10; border: 1px solid #0e3038; border-radius: 8px; margin: 1rem 0; overflow: hidden; }
+  .code-peek-head { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0.85rem; border-bottom: 1px solid #0e3038; cursor: pointer; }
+  .code-peek-title { font-size: 12px; font-weight: 700; color: #7dd8e8; font-family: monospace; }
+  .code-peek-toggle { font-size: 11px; color: #555; }
+  .code-peek-body { padding: 0.85rem; display: none; overflow-x: auto; }
+  .code-peek-body.open { display: block; }
+  .code-peek-body pre { font-family: monospace; font-size: 12px; color: #7dd8e8; line-height: 1.7; margin: 0; white-space: pre-wrap; }
+  .cc { color: #2a5f6a; } .ck { color: #a78bfa; } .cs { color: #fbbf24; } .cn { color: #60a5fa; } .cf { color: #1fbad6; }
 </style>
 </head>
 <body>
@@ -30,23 +198,1368 @@
   <div class="nav-links">
     <span class="nav-badge">Lab 4</span>
     <a href="chapter4-uber.html">&#8592; Case Study</a>
-    <a href="good-prompts.html">Writing Good Prompts</a>
     <a href="index.html">Home</a>
   </div>
 </nav>
 
-<div class="main">
-  <div class="icon">🚧</div>
-  <div class="tag">Lab 4 · Coming Soon</div>
-  <h1>Uber Forecasting Lab</h1>
-  <p>This lab is under construction. Check back soon — you'll build a demand forecasting model, run a surge pricing simulation, and explore the prediction-decision gap firsthand.</p>
-  <a href="chapter4-uber.html" class="back-btn">← Back to Case Study</a>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Lab 4 &middot; Uber &middot; Forecasting &middot; Surge Pricing &middot; Responsible AI</div>
+    <h1>Build a Demand Forecasting Model<br>&amp; Decide When to Trust the Algorithm</h1>
+    <p class="hero-sub">You will build the same kind of forecasting system Uber uses to set prices and move drivers — step by step, in plain English. Then you will see exactly what happens when that system gets it right, gets it wrong, and faces a world it was never trained on.</p>
+    <div style="background:rgba(31,186,214,0.1); border:1px solid rgba(31,186,214,0.3); border-radius:8px; padding:0.75rem 1rem; margin-top:1rem; margin-bottom:0.5rem;">
+      <p style="font-size:13px; color:#7dd8e8; margin:0; line-height:1.6;"><strong style="color:#1fbad6;">Built with Claude.</strong> Every chart, simulator, and game in this lab was built by your instructor using Claude — the same tool you will use in the Colab steps. As you work through it, pay attention to what it produced. That capability is available to you too.</p>
+    </div>
+    <div class="hero-tools">
+      <span class="tool-badge">Claude</span>
+      <span class="tool-badge">Google Colab</span>
+      <span class="tool-badge">Live Simulators</span>
+      <span class="tool-badge">Driver Game</span>
+      <span class="tool-badge">GitHub Pages</span>
+    </div>
+  </div>
+</div>
+
+<div class="doc">
+
+  <div class="overview-grid">
+    <div class="overview-card"><div class="overview-icon">📈</div><div class="overview-label">Step 1</div><div class="overview-val">Explore the Data</div></div>
+    <div class="overview-card"><div class="overview-icon">🔭</div><div class="overview-label">Step 2</div><div class="overview-val">Build a Forecast</div></div>
+    <div class="overview-card"><div class="overview-icon">⚡</div><div class="overview-label">Step 3</div><div class="overview-val">The Algorithm Decides</div></div>
+    <div class="overview-card"><div class="overview-icon">⚠️</div><div class="overview-label">Step 4</div><div class="overview-val">Break the Model</div></div>
+    <div class="overview-card"><div class="overview-icon">🎮</div><div class="overview-label">Step 5 — Game</div><div class="overview-val">Drive for Uber</div></div>
+    <div class="overview-card"><div class="overview-icon">🌐</div><div class="overview-label">Step 6</div><div class="overview-val">Publish to GitHub</div></div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-label">How this lab fits together</div>
+    <div class="insight-text">Uber's AI system is one continuous chain: <strong>trip history → forecast → surge multiplier → driver moves → rider gets a car</strong>. Every step in this lab is one link in that chain. In Steps 1 and 2 you build the forecast. In Step 3 you see what the forecast drives — the number a rider sees on their screen. In Step 4 you watch the forecast break. In Step 5 you play as a driver making real decisions based on that forecast — including during the weeks it was quietly wrong. By the end, you will not just understand Uber's AI. You will have felt it from both sides.</div>
+  </div>
+
+  <div class="factory-row">
+    <div class="factory-step">1. Trip History</div><div class="factory-arrow">&rarr;</div>
+    <div class="factory-step">2. Forecast</div><div class="factory-arrow">&rarr;</div>
+    <div class="factory-step">3. Surge Multiplier</div><div class="factory-arrow">&rarr;</div>
+    <div class="factory-step">4. Model Breaks</div><div class="factory-arrow">&rarr;</div>
+    <div class="factory-step">5. Driver + Rider</div><div class="factory-arrow">&rarr;</div>
+    <div class="factory-step">6. Publish</div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       STEP 1 — Read the Data
+  ════════════════════════════════════════════════════════════════ -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-title">Explore the Data</div>
+        <div class="step-subtitle">AI Factory stage: Data &mdash; see trend and seasonality in raw trip history</div>
+      </div>
+    </div>
+    <div class="step-body">
+
+      <p>Before anything else, let's be clear about what forecasting actually means — because it is the foundation of everything in this lab.</p>
+
+      <p><strong>Forecasting means using what happened in the past to predict what will happen next.</strong> For Uber in Bellingham, that means looking at years of trip data — every ride taken, what day it was, what time, what the weather was, whether there was an event nearby — and finding the patterns that repeat. Once you know the patterns, you can predict: next Friday at 10pm, after the bars close, in the rain, we will probably need about 340 drivers in downtown Bellingham. That prediction is what sets the surge multiplier a rider sees, and what sends an incentive notification to a driver's phone.</p>
+
+      <p>Without forecasting, Uber cannot set a price, cannot move drivers, cannot provision servers. The forecast is not a feature of Uber's product — it <em>is</em> the product. That is the central argument of the case, and it is what you are going to build from scratch in this lab.</p>
+
+      <p>All forecasting starts with the same question: <em>what has happened before?</em> Uber's forecasting system is trained on years of trip history — every ride, every city, every hour of the day. Before you can build a model, you need to understand what patterns live in that data. Two almost always appear: <strong>trend</strong> (the long-run direction, like Bellingham's trip volume growing each year as Uber expands) and <strong>seasonality</strong> (cycles that repeat on a schedule, like summers being busier than winters, or Friday nights always spiking).</p>
+
+      <div class="reflect-box">
+        <div class="reflect-label">From the case &mdash; Chapter 4, Section 5</div>
+        <div class="reflect-text">The case explains exactly what time series data is, why order matters, and what trend and seasonality look like in Uber's real trip data — including a chart. If those terms feel unfamiliar, re-read Section 5 before continuing. The chart you are about to generate will show the same two patterns.</div>
+      </div>
+
+      <p>The chart below shows simulated Uber trip data for <strong>Bellingham, WA</strong> over 52 weeks. Look carefully before you do anything else. The business questions to answer are right there in the picture.</p>
+
+      <!-- Live chart -->
+      <div class="chart-wrap">
+        <div class="chart-title">Weekly Uber Trips — Bellingham Metro (Simulated, Weeks 1–52)</div>
+        <canvas id="chartTrips" height="220"></canvas>
+      </div>
+
+      <div class="reflect-box">
+        <div class="reflect-label">Step 01 Observation &mdash; write 2&ndash;3 sentences before moving on</div>
+        <div class="reflect-text">Look at the chart above. Can you see a long-run direction (trend)? Can you see any repeating patterns (seasonality)? Identify one specific moment where demand spikes and try to explain in business terms why that spike might be happening. What does Uber need to know <em>before</em> that spike hits in order to respond to it?</div>
+      </div>
+
+      <div class="insight-box">
+        <div class="insight-label">What this prompt is actually doing</div>
+        <div class="insight-text">You are asking Claude to build a simulated but realistic dataset — two years of weekly Uber trip data for Bellingham — and immediately plot it. The dataset is synthetic, but the patterns are real: an upward trend as the market grows, a summer lift as students and tourists increase activity, a Christmas dip, and a New Year's Eve spike. Claude will also add plain-English comments to every section of code so you can read what is happening without needing a programming background. The output you care about most is the chart — it is the same data you already saw on this page, now in your own Colab notebook and ready to build on.</div>
+      </div>
+
+      <div class="prompt-steps">
+        <div class="prompt-steps-label">📋 What you will do with this prompt</div>
+          <li><strong>Open Claude</strong> at claude.ai in a new tab and paste it into a new conversation.</li>
+          <li><strong>Read Claude's response</strong> — it will explain what it's doing before giving you code. Read that explanation, not just the code.</li>
+          <li><strong>Open Google Colab</strong> at colab.research.google.com, create a new notebook, and paste the code Claude gives you into the first cell.</li>
+          <li><strong>Run the cell</strong> (Shift+Enter). You should see a chart and a printed table. That is your dataset — keep this Colab tab open for every subsequent step.</li>
+          <li><strong>Compare the output</strong> to the chart you already saw on this page. They should show the same patterns: trend, summer bump, NYE spike.</li>
+        </ol>
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-label">Prompt 1 &mdash; paste into Claude to generate your dataset in Colab</div>
+        <div class="prompt-text">I am a student in MIS 432: AI in Business at Western Washington University. We are studying how Uber uses demand forecasting.
+
+Please write complete Python code for Google Colab that does the following:
+
+1. Creates a simulated weekly Uber trip dataset for a mid-size city (104 weeks = 2 years of data). The data should have realistic trend (growing from ~3,000 trips/week to ~4,200 trips/week) and clear seasonality (summers are 20% busier, Friday/Saturday nights add a spike, late December drops sharply, New Year's Eve has a single large spike).
+
+2. Stores this as a pandas DataFrame with two columns: week (a date, starting 2023-01-02, weekly frequency) and trips (integer).
+
+3. Plots the data as a clean line chart with:
+   - The title "Weekly Uber Trips — 2 Years of History"
+   - X axis labeled "Week" and Y axis labeled "Trips"
+   - Vertical dashed lines marking the start of each summer
+   - An annotation marking the New Year's Eve spike
+
+4. Prints the first 10 rows and the last 10 rows of the DataFrame.
+
+Add a plain-English comment above each section explaining what it does and why, as if explaining to a business student who has never coded before. No ARIMA, no LSTM — keep the data generation simple and readable.</div>
+      </div>
+
+      <div class="code-peek">
+        <div class="code-peek-head" onclick="toggleCode('cdata')">
+          <span class="code-peek-title">&#9658; What your data will look like &mdash; click to peek</span>
+          <span class="code-peek-toggle" id="tcdata">show</span>
+        </div>
+        <div class="code-peek-body" id="cdata">
+<pre><span class="cc"># What the first few rows look like after running the prompt above:</span>
+<span class="cc">#   week        trips</span>
+<span class="cc">#   2023-01-02  3041</span>
+<span class="cc">#   2023-01-09  3118</span>
+<span class="cc">#   2023-01-16  3055</span>
+<span class="cc">#   ...         ...</span>
+<span class="cc">#   2023-06-26  3890   &lt;-- summer ramp-up visible</span>
+<span class="cc">#   2023-12-25  2650   &lt;-- holiday dip</span>
+<span class="cc">#   2023-12-31  5120   &lt;-- New Year's Eve spike</span>
+<span class="cc">#</span>
+<span class="cc"># Each row is one week. Order matters — shuffling destroys the signal.</span>
+<span class="cc"># Trend: the baseline slowly climbs left to right.</span>
+<span class="cc"># Seasonality: summers up, late December down, NYE spike every year.</span></pre>
+        </div>
+      </div>
+
+      <div class="reflect-box">
+        <div class="reflect-label">Step 01 Reflection &mdash; write 2&ndash;3 sentences</div>
+        <div class="reflect-text">Now that you have seen the data both in the live chart above and in your Colab output: what would happen to Uber's business if their model only learned the average weekly trip count and ignored seasonality entirely? Name one concrete operational problem that would result — for riders, for drivers, or for Uber's infrastructure.</div>
+      </div>
+
+      <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:8px; padding:0.85rem 1.1rem; margin:1rem 0;">
+        <div style="font-size:11px; font-weight:700; color:#166534; text-transform:uppercase; letter-spacing:0.07em; margin-bottom:0.4rem;">↓ What this feeds into — Step 2</div>
+        <p style="font-size:14px; color:#333; margin:0; line-height:1.65;">You now have what Uber calls a <strong>trip history</strong> — a record of how many rides happened each week, going back two years. In Step 2 you are going to teach a model to find the patterns in that history, so it can predict what comes next. That prediction is what everything else in this lab depends on.</p>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       STEP 2 — Build a Forecast
+  ════════════════════════════════════════════════════════════════ -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div>
+        <div class="step-title">Build a Forecast</div>
+        <div class="step-subtitle">AI Factory stage: Model &mdash; backtest, validate, quantify uncertainty</div>
+      </div>
+    </div>
+    <div class="step-body">
+
+      <p>A forecast is not a guess. It is a structured, disciplined estimate built from historical patterns, with an honest measure of how uncertain that estimate is. Uber's forecasting team uses many model types depending on the situation &mdash; but every model does the same thing: it learns from the past to anticipate the future.</p>
+
+      <p>In this step you will build a simple but honest forecasting model. You are not aiming for maximum accuracy. You are aiming to <em>understand what a forecast actually does</em> &mdash; and crucially, to see the difference between a point forecast (one number) and a prediction interval (a range that acknowledges uncertainty).</p>
+
+      <div class="reflect-box">
+        <div class="reflect-label">From the case &mdash; Chapter 4, Section 6</div>
+        <div class="reflect-text">After you run the prompt and see your output, you will hit a question at the end of this step: should you trust a model nobody can explain if it is more accurate than one you can? Section 6 of the case covers exactly that tradeoff — Uber's own reasoning on black-box vs. interpretable models. Worth reading before you answer.</div>
+      </div>
+
+      <div class="insight-box">
+        <div class="insight-label">What this prompt is actually doing</div>
+        <div class="insight-text">Before you paste anything, read this so you know what to look for in the output. The prompt asks Claude to build your model in three phases that mirror exactly what Uber's engineering team does before deploying any model. <strong>Phase A</strong> is feature engineering — turning your raw week/trips table into something a model can actually learn from by adding three signal columns (week number, summer flag, NYE flag). <strong>Phase B</strong> is the backtest: you hide the last 26 weeks from the model, train it only on weeks 1–78, then let it predict weeks 79–104 and compare those predictions against what "actually happened." This honest test on data the model never saw is called backtesting — if it fails here, it fails in production. <strong>Phase C</strong> makes the uncertainty visible: instead of just a single predicted line, the chart shows a shaded band of ±15% around each prediction. That band is your prediction interval — the honest range of outcomes the model considers plausible. When you look at your chart, ask yourself: which weeks does the model miss badly? And what does the width of the shaded band tell an operations manager about how much buffer to build into driver recruitment?</div>
+      </div>
+
+      <div class="prompt-steps">
+        <div class="prompt-steps-label">📋 What you will do with this prompt</div>
+        <ol>
+          <li><strong>Go back to your Claude tab</strong> from Step 1 — do not start a new conversation. You want Claude to remember the context of what you already built.</li>
+          <li><strong>Copy and paste Prompt 2</strong> directly after your Step 1 conversation. Claude will add new code on top of what it already wrote.</li>
+          <li><strong>Copy the full updated code block</strong> Claude returns — it should contain everything from Step 1 plus the new forecasting code.</li>
+          <li><strong>In Colab, add a new cell</strong> below your Step 1 cell and paste the full updated code there. Run it.</li>
+          <li><strong>Look for three things in the output:</strong> (a) the printed MAE number with its plain-English explanation, (b) the backtest chart with the dashed prediction line, and (c) the shaded band around it. That shaded band is the prediction interval.</li>
+          <li><strong>Notice where the dashed line diverges</strong> from the solid line. Those are the weeks the model struggled. You will need this for your reflection.</li>
+        </ol>
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-label">Prompt 2 &mdash; paste into Claude to build and backtest your forecast</div>
+        <div class="prompt-text">I have the weekly Uber trip dataset from the previous step — a DataFrame called df with columns: week (datetime) and trips (integer), 104 weeks of data.
+
+Please add Python code that builds a simple forecasting model in three steps:
+
+Step A — Feature engineering for time series:
+Add these columns to df:
+- week_num: the integer index of each week (1 through 104)
+- is_summer: 1 if the week falls in June/July/August, 0 otherwise
+- is_nye: 1 if the week contains December 31st, 0 otherwise
+Explain in a comment why each feature helps the model.
+
+Step B — Train/test split and linear regression:
+- Use the first 78 weeks (weeks 1–78) as training data and the last 26 weeks as the test set
+- Train a linear regression model using week_num, is_summer, and is_nye as features
+- Generate predictions for the test set
+- Calculate the Mean Absolute Error (MAE) and print it with a plain-English interpretation (e.g., "On average the model is off by X trips per week")
+
+Step C — Visualize the backtest:
+Plot the full 104 weeks as a line chart showing:
+- Actual trips (solid blue/cyan line, all 104 weeks)
+- Predicted trips for the test set only (dashed orange line, weeks 79–104)
+- A shaded band around the predictions showing ±15% as the prediction interval
+- A vertical line separating train from test, labeled "Forecast starts here"
+- Clear title: "Uber Demand Forecast — Backtesting Results"
+
+Keep all code from previous steps plus this new code in one block. Add plain-English comments throughout. No ARIMA, no LSTM — linear regression only.</div>
+      </div>
+
+      <div class="reflect-box">
+        <div class="reflect-label">Step 02 Reflection &mdash; write 2&ndash;3 sentences</div>
+        <div class="reflect-text">Look at your backtest chart. Where is your model most wrong — and why? Now look at the shaded prediction interval. If you were an Uber operations manager deciding how many drivers to recruit for the test period, would you use the point forecast or the full prediction interval to make that decision? What is the cost of being wrong in each direction?</div>
+      </div>
+
+      <div class="danger-box">
+        <div class="danger-label">The black-box tradeoff</div>
+        <div class="danger-text">You built an interpretable model: every prediction can be traced back to its inputs. Uber has also built models nobody on their team can fully explain — they are more accurate, but when something goes wrong, nobody knows why. As the business leader responsible for surge pricing, which would you choose: a model that is 8% more accurate but unexplainable, or one that is slightly less accurate but fully auditable? There is no right answer. That is the point.</div>
+      </div>
+
+      <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:8px; padding:0.85rem 1.1rem; margin:1rem 0;">
+        <div style="font-size:11px; font-weight:700; color:#166534; text-transform:uppercase; letter-spacing:0.07em; margin-bottom:0.4rem;">↓ What this feeds into — Step 3</div>
+        <p style="font-size:14px; color:#333; margin:0; line-height:1.65;">Your forecasting model just produced a number — a predicted trip count for each of the next 26 weeks. In Uber's real system, that number goes to two groups of people at the same time. <strong>Drivers</strong> see incentives appear on their app, nudging them toward high-demand areas before the rush hits. <strong>Riders</strong> see a surge multiplier — a price adjustment — when they open the app. In Step 3 you will see how that multiplier is calculated from a forecast exactly like the one you just built, and you will decide what to do when it recommends something you are not comfortable with.</p>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       STEP 3 — The Algorithm Decides (Surge Simulator)
+  ════════════════════════════════════════════════════════════════ -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div>
+        <div class="step-title">The Algorithm Decides</div>
+        <div class="step-subtitle">AI Factory stage: Prediction &rarr; Decision &mdash; the prediction-decision gap lands here</div>
+      </div>
+    </div>
+    <div class="step-body">
+
+      <p>In Step 2, your forecasting model produced a number — a prediction of how many Uber trips Bellingham will need. That number does not sit in a spreadsheet waiting for a human to review it. It goes directly into Uber's pricing system, which reads it and calculates the <strong>surge multiplier</strong> — the number a rider sees on their app that tells them what a trip will cost right now.</p>
+
+      <p>The surge multiplier is not set by a person. It is the direct output of the forecast you just built. When demand is predicted to be high and drivers are predicted to be scarce, the multiplier goes up automatically, in milliseconds, with no one deciding whether that is the right call in this specific moment. That is what "closing the prediction-decision gap" looks like in practice. And that is exactly where things get complicated.</p>
+
+      <div class="reflect-box">
+        <div class="reflect-label">From the case &mdash; Chapter 4, Sections 2 and 8</div>
+        <div class="reflect-text">Section 2 is where the prediction-decision gap is defined and why Uber chose to close it — re-read that paragraph now if you want the full argument before you use the simulator. Section 8 shows the three specific decisions Uber automates: driver repositioning, surge pricing, and infrastructure provisioning. What you are about to simulate is the middle one.</div>
+      </div>
+
+      <div style="background:#0a0005; border:2px solid #1fbad6; border-radius:10px; padding:1.1rem 1.25rem; margin: 1.25rem 0;">
+        <div style="font-size:13px; font-weight:800; color:#fff; margin-bottom:0.5rem; letter-spacing:0.02em;">⚡ You are now the operator. The algorithm has already made its decision. What will you do?</div>
+        <p style="font-size:13px; color:#aaa; line-height:1.65; margin-bottom:0.6rem;">The simulator below works exactly like Uber's real-time pricing dashboard — except you get to override it. Here is how to use it:</p>
+        <ol style="margin-left:1.25rem; margin-bottom:0;">
+          <li style="font-size:13px; color:#aaa; margin-bottom:0.4rem;"><strong style="color:#1fbad6;">Pick a scenario</strong> using the buttons (start with Normal Friday, then work up to Hurricane Evacuation).</li>
+          <li style="font-size:13px; color:#aaa; margin-bottom:0.4rem;">Watch the <strong style="color:#1fbad6;">Demand vs. Supply bars</strong> update — the algorithm reads those numbers and calculates the surge multiplier automatically.</li>
+          <li style="font-size:13px; color:#aaa; margin-bottom:0.4rem;">Read the <strong style="color:#1fbad6;">algorithm's recommendation</strong> — the large number on the right is what Uber's system would charge in this scenario with no human involved.</li>
+          <li style="font-size:13px; color:#aaa; margin-bottom:0.4rem;"><strong style="color:#fff;">Make your decision:</strong> Trust the Algorithm, Override and Cap the Price, or Pause Surge entirely. Each choice produces a different outcome — some good, some bad, some complicated.</li>
+          <li style="font-size:13px; color:#aaa; margin-bottom:0;">Try every scenario and every decision combination. The Hurricane scenario is the one that will matter most for your reflection.</li>
+        </ol>
+      </div>
+
+      <!-- ░░░░░ SURGE SIMULATOR ░░░░░ -->
+      <div class="surge-sim">
+        <div class="surge-header">
+          <div class="surge-brand">
+            <div class="u-dot">U</div>
+            <div>
+              <div class="surge-name">Uber Surge Engine</div>
+              <div class="surge-sub">Real-time pricing simulation</div>
+            </div>
+          </div>
+          <div class="surge-status normal" id="surgeStatus">Monitoring</div>
+        </div>
+
+        <div style="margin-bottom: 0.75rem;">
+          <div style="font-size:11px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:0.06em; margin-bottom: 6px;">Load scenario:</div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;" id="scenarioBtns">
+            <button class="btn-scenario active" onclick="loadScenario('normal')">Normal Friday</button>
+            <button class="btn-scenario" onclick="loadScenario('concert')">Concert Ends</button>
+            <button class="btn-scenario" onclick="loadScenario('rain')">Rain + Rush Hour</button>
+            <button class="btn-scenario" onclick="loadScenario('hurricane')">⚠️ Hurricane Evacuation</button>
+            <button class="btn-scenario" onclick="loadScenario('nye')">New Year's Eve</button>
+          </div>
+        </div>
+
+        <div class="surge-grid">
+          <!-- Left panel: demand/supply bars -->
+          <div class="surge-panel">
+            <div class="surge-panel-head">Demand vs. Supply — Live</div>
+            <div class="surge-panel-body">
+              <div class="demand-bar-row">
+                <div class="db-label">Demand</div>
+                <div class="db-track"><div class="db-fill demand" id="demandBar" style="width:40%"></div></div>
+                <div class="db-val" id="demandVal">40</div>
+              </div>
+              <div class="demand-bar-row">
+                <div class="db-label">Supply</div>
+                <div class="db-track"><div class="db-fill supply" id="supplyBar" style="width:38%"></div></div>
+                <div class="db-val" id="supplyVal">38</div>
+              </div>
+              <div style="margin: 8px 0 4px; font-size:11px; color:#333; text-transform:uppercase; letter-spacing:0.05em;">Active events:</div>
+              <div id="activeEvents" style="margin-bottom:8px;">
+                <span class="event-tag normal">No unusual events</span>
+              </div>
+              <div style="font-size:11px; color:#333; margin-bottom:4px;">Algorithm prediction:</div>
+              <div id="algoRead" style="font-size:12px; color:#7dd8e8; font-family:monospace; line-height:1.7; background:#030d0e; border-radius:4px; padding:6px 8px;">Demand within normal range. Surge: 1.0×</div>
+            </div>
+          </div>
+
+          <!-- Right panel: multiplier + decision -->
+          <div class="surge-panel">
+            <div class="surge-panel-head">Recommended Surge</div>
+            <div class="surge-panel-body">
+              <div class="surge-multiplier">
+                <div class="mult-label">Surge Multiplier</div>
+                <div class="mult-val" id="multVal">1.0×</div>
+                <div class="mult-sub" id="multSub">Normal pricing</div>
+              </div>
+              <div style="font-size:11px; color:#555; margin-bottom: 6px;">Your decision:</div>
+              <div class="decision-btns">
+                <button class="btn-decision btn-trust" onclick="decide('trust')">Trust the Algorithm</button>
+                <button class="btn-decision btn-override" onclick="decide('override')">Override — Cap Price</button>
+                <button class="btn-decision btn-pause" onclick="decide('pause')">Pause Surge</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="decisionOutcome" class="outcome-card"></div>
+        <div class="decision-log" id="decisionLog">Awaiting scenario...</div>
+      </div>
+      <!-- end surge sim -->
+
+      <div class="reflect-box">
+        <div class="reflect-label">Step 03 Reflection &mdash; answer all three using the simulator above</div>
+        <div class="reflect-text">
+          <strong>Q1 — The scenario comparison.</strong> Load the <em>Concert Ends</em> scenario and choose "Trust the Algorithm." Then load the <em>Hurricane Evacuation</em> scenario and choose "Trust the Algorithm" again. Both times the algorithm is doing exactly what it was designed to do — yet one outcome is labeled good and one is labeled bad. In 2–3 sentences, explain why the same decision produces opposite outcomes in those two scenarios. What changed — the algorithm, the context, or both?<br><br>
+          <strong>Q2 — The override dilemma.</strong> Load the <em>Rain + Rush Hour</em> scenario. Try all three decisions (Trust, Override, Pause) and read each outcome carefully. Which decision do <em>you</em> think is most defensible as a business policy, and why? What value judgment are you making when you choose to override the algorithm's price recommendation?<br><br>
+          <strong>Q3 — The governance gap.</strong> The simulator's decision log records every action you take. In the real Uber system, there is no log like this for individual surge decisions — the algorithm fires and no human reviews it. Based on what you saw in the Hurricane scenario specifically, write one concrete governance rule Uber should add to their responsible AI policy. Make it specific enough that an engineer could implement it as a code check.
+        </div>
+      </div>
+
+      <div class="danger-box">
+        <div class="danger-label">What you just simulated actually happened</div>
+        <div class="danger-text">Load the <em>Hurricane Evacuation</em> scenario and choose "Trust the Algorithm." Read the outcome. Now consider: that outcome is not hypothetical. During Hurricane Sandy in 2012, Uber's surge pricing activated automatically as residents tried to evacuate. Prices reached 7–8× normal. The algorithm was doing exactly what the simulator showed — demand massively exceeded supply, so it surged. The outcome was public outrage, regulatory investigations, and Uber's CEO issuing a personal apology. Uber subsequently built a manual emergency override — a human back in the gap — precisely because "Trust the Algorithm" in the Hurricane scenario produced the result you saw. The simulator gave you the same decision Uber's system made. The question the case is really asking: who should have been in that gap, and why wasn't anyone there?</div>
+      </div>
+
+      <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:8px; padding:0.85rem 1.1rem; margin:1rem 0;">
+        <div style="font-size:11px; font-weight:700; color:#166534; text-transform:uppercase; letter-spacing:0.07em; margin-bottom:0.4rem;">↓ What this feeds into — Step 4</div>
+        <p style="font-size:14px; color:#333; margin:0; line-height:1.65;">The surge multiplier you just saw depends entirely on the forecast being accurate. In Step 4, the world changes — a competitor launches, a pandemic hits, commuters stop commuting — and the forecasting model you built in Step 2 does not know. It keeps producing the same kind of predictions it always has. The multiplier keeps being calculated from those predictions. Drivers and riders keep making decisions based on a number that is quietly, increasingly wrong.</p>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       STEP 4 — Break the Model
+  ════════════════════════════════════════════════════════════════ -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div>
+        <div class="step-title">Break the Model</div>
+        <div class="step-subtitle">AI Factory stage: Value &mdash; distribution shift, model decay, and monitoring</div>
+      </div>
+    </div>
+    <div class="step-body">
+
+      <p>The forecasting model you built in Step 2 is now deployed — meaning it is live, running in the background, producing the predictions that set the surge multiplier drivers and riders see. It passed its backtest. It looked reliable. But that backtest only proved it understood the past. The moment something changes in the real world, it is flying blind — and nobody has told it anything is different.</p>
+
+      <p>This is called <strong>distribution shift</strong> — and it is the main reason AI systems at companies like Uber need constant monitoring, not just a one-time test before launch. Use the simulator below to feel it happen.</p>
+
+      <div class="reflect-box">
+        <div class="reflect-label">From the case &mdash; Chapter 4, Section 9</div>
+        <div class="reflect-text">Section 9 defines distribution shift using Uber's own COVID example — years of commute patterns became useless almost overnight. Read that section, then come back and use the simulator with that story in mind.</div>
+      </div>
+
+      <h3>How the simulator works</h3>
+      <p>Pick a world change below, then drag the slider to choose <em>when</em> it happens. The chart redraws live: the cyan line is what actually happened in the new world, the dashed line is what your model keeps predicting. The gap between them is the cost of not knowing. The MAE counter tracks that cost as a number in real time. The monitoring threshold bar shows how long it would take your system to notice.</p>
+
+      <!-- ░░░░░ INTERACTIVE DISTRIBUTION SHIFT SIMULATOR ░░░░░ -->
+      <div class="dist-sim">
+        <div style="font-size:11px; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.6rem;">Step 1 — Choose what changes in the world:</div>
+        <div class="dist-controls" id="distBtns">
+          <button class="btn-scenario active" onclick="setShiftType('pandemic')">🦠 Pandemic Lockdown</button>
+          <button class="btn-scenario" onclick="setShiftType('competitor')">🚗 Competitor Launches</button>
+          <button class="btn-scenario" onclick="setShiftType('stadium')">🏟️ New Stadium Opens</button>
+          <button class="btn-scenario" onclick="setShiftType('remote')">🏠 Remote Work Shift</button>
+        </div>
+
+        <div style="margin: 1rem 0 0.5rem;">
+          <div style="font-size:11px; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.5rem;">Step 2 — Drag to choose <em>when</em> the world changes:</div>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <span style="font-size:11px; color:#555; white-space:nowrap;">Week 79</span>
+            <input type="range" id="shiftWeekSlider" min="1" max="22" value="8" step="1"
+              style="flex:1; accent-color:#1fbad6; cursor:pointer;"
+              oninput="onSliderMove(this.value)">
+            <span style="font-size:11px; color:#555; white-space:nowrap;">Week 100</span>
+          </div>
+          <div style="text-align:center; margin-top:4px;">
+            <span style="font-size:12px; color:#1fbad6; font-weight:700;" id="sliderLabel">World changes at Week 86</span>
+          </div>
+        </div>
+
+        <!-- Live stats row -->
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:0.75rem 0;">
+          <div style="background:#0a0a0a; border:1px solid #1a1a1a; border-radius:6px; padding:0.6rem; text-align:center;">
+            <div style="font-size:10px; color:#555; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:3px;">MAE Before Shift</div>
+            <div style="font-size:20px; font-weight:900; color:#1fbad6;" id="maeBefore">—</div>
+            <div style="font-size:10px; color:#444;">trips/week</div>
+          </div>
+          <div style="background:#0a0a0a; border:1px solid #1a1a1a; border-radius:6px; padding:0.6rem; text-align:center;">
+            <div style="font-size:10px; color:#555; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:3px;">MAE After Shift</div>
+            <div style="font-size:20px; font-weight:900; color:#ef4444;" id="maeAfter">—</div>
+            <div style="font-size:10px; color:#444;">trips/week</div>
+          </div>
+          <div style="background:#0a0a0a; border:1px solid #1a1a1a; border-radius:6px; padding:0.6rem; text-align:center;">
+            <div style="font-size:10px; color:#555; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:3px;">Error Multiplier</div>
+            <div style="font-size:20px; font-weight:900;" id="maeMultiplier" style="color:#fff;">—</div>
+            <div style="font-size:10px; color:#444;">× worse after shift</div>
+          </div>
+        </div>
+
+        <!-- Monitoring threshold bar -->
+        <div style="background:#0a0a0a; border:1px solid #1a1a1a; border-radius:6px; padding:0.6rem 0.85rem; margin-bottom:0.75rem;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:5px;">
+            <span style="font-size:11px; color:#555; text-transform:uppercase; letter-spacing:0.05em;">Monitoring alert threshold (20% error)</span>
+            <span style="font-size:11px; font-weight:700;" id="alertStatus">—</span>
+          </div>
+          <div style="height:6px; background:#1a1a1a; border-radius:3px; overflow:hidden;">
+            <div id="alertBar" style="height:100%; width:0%; border-radius:3px; transition:width 0.3s, background 0.3s; background:#1fbad6;"></div>
+          </div>
+          <div style="font-size:10px; color:#333; margin-top:4px;" id="alertWeekNote"></div>
+        </div>
+
+        <div class="chart-wrap" style="margin-top:0;">
+          <div class="chart-title" id="shiftChartTitle">Distribution Shift Simulator — 🦠 Pandemic Lockdown</div>
+          <canvas id="chartShift" height="200"></canvas>
+        </div>
+
+        <div class="dist-alert" id="distAlert">
+          <div class="dist-alert-text" id="distAlertText"></div>
+        </div>
+      </div>
+      <!-- end simulator -->
+
+      <div class="reflect-box">
+        <div class="reflect-label">Step 04 Reflection &mdash; answer using the simulator</div>
+        <div class="reflect-text">
+          <strong>Q1 — Speed of failure.</strong> Try the <em>Pandemic Lockdown</em> (sudden collapse) and the <em>Competitor Launches</em> (slow erosion). Drag the slider to the same week for both. Which scenario produces a higher MAE multiplier? Now drag the slider earlier and earlier — at what point does the error multiplier become large enough that you would consider the model dangerously broken? Write down the approximate week and multiplier for each scenario.<br><br>
+          <strong>Q2 — The hidden cost window.</strong> Pick <em>Remote Work Shift</em> and drag the slider so the shift happens at week 82 (early in deployment). Look at the MAE after shift. For the weeks before your monitoring alert fires, Uber's system is still making decisions — driver bonuses, server provisioning, surge pricing — based on predictions that are wrong by that margin. Name two specific decisions Uber would get wrong during that window, and explain the real-world consequence of each.<br><br>
+          <strong>Q3 — Who is responsible?</strong> The monitoring alert fires. Someone needs to pause the model, investigate, and decide whether to retrain or roll back. In most companies, nobody owns this role explicitly. Based on what you saw in the simulator, write a one-sentence job description for the person who should be accountable for catching distribution shift at Uber — and explain why that role belongs in the business, not just in the engineering team.
+        </div>
+      </div>
+
+      <div class="insight-box">
+        <div class="insight-label">Distribution shift is a governance problem, not just a technical one</div>
+        <div class="insight-text">The technical fix is simple: retrain the model. The governance fix — who monitors it, how often, who has authority to pause it, who is accountable when it runs wrong for three weeks undetected — is where most companies fail. Notice that the simulator's monitoring alert is just a threshold check. Someone had to decide what that threshold should be, build the check, and make sure a human reviews it when it fires. Each of those decisions is a governance choice, not a code choice.</div>
+      </div>
+
+      <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:8px; padding:0.85rem 1.1rem; margin:1rem 0;">
+        <div style="font-size:11px; font-weight:700; color:#166534; text-transform:uppercase; letter-spacing:0.07em; margin-bottom:0.4rem;">↓ What this feeds into — Step 5</div>
+        <p style="font-size:14px; color:#333; margin:0; line-height:1.65;">You have now seen the whole system from the outside — the data, the forecast, the multiplier, the failure. In Step 5 you will step inside it. You will play as a driver in Bellingham, making real decisions about where to drive based on the surge multiplier your model produces. Partway through, the world changes — and your model does not know. You will keep receiving the same guidance, making the same decisions, earning less than you should. That gap between what the model says and what is actually happening is distribution shift — felt as a driver, not just understood as a concept.</p>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       STEP 5 — Drive for Uber
+  ════════════════════════════════════════════════════════════════ -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">5</div>
+      <div>
+        <div class="step-title">Drive for Uber</div>
+        <div class="step-subtitle">🎮 Interactive game &mdash; feel the forecast from both sides, as a driver and a rider</div>
+      </div>
+    </div>
+    <div class="step-body">
+
+      <p>You have built the forecast. You have seen the multiplier it produces. You have watched it break. Now you are going to feel what all of that means for the real people on the other side of the algorithm — a driver in Bellingham deciding where to go, and a rider waiting to see if a car shows up.</p>
+
+      <p>Every surge multiplier you see in this game was calculated by a forecasting system running the same logic as the model you built in Step 2 — it reads historical trip patterns, predicts where demand will be, and sets a price automatically. No human approved each number. That is what the case calls <strong>closing the prediction-decision gap</strong>: the forecast triggers the decision, instantly, at scale.</p>
+
+      <p>You will play <strong>6 rounds</strong>. Each round you see a scenario — a time of day, a weather condition, something happening in the city — and the surge multiplier the algorithm has calculated from the forecast. You choose which part of Bellingham to drive to. Then you see what you earned, and what your rider experienced.</p>
+
+      <p><strong>Rounds 1–3</strong> are stable. The forecast is accurate. Learn the rhythm. <strong>Rounds 4–6</strong> — something changes in the world, and the forecast does not know. You will not be told when it happens. Pay attention.</p>
+
+      <!-- ░░░░░ DRIVER GAME ░░░░░ -->
+      <div id="driverGame" style="background:#000; border-radius:12px; padding:1.25rem; margin:1.25rem 0;">
+
+        <!-- Intro screen -->
+        <div id="gameIntro">
+          <div style="text-align:center; padding:1.5rem 0;">
+            <div style="font-size:48px; margin-bottom:0.75rem;">🚗</div>
+            <div style="font-size:18px; font-weight:900; color:#fff; margin-bottom:0.5rem;">You are driving for Uber in Bellingham, WA</div>
+            <div style="font-size:14px; color:#888; margin-bottom:1.5rem; line-height:1.6; max-width:480px; margin-left:auto; margin-right:auto;">It is a Friday evening. Your shift starts now. The algorithm will tell you where demand is high — your job is to decide whether to follow it.</div>
+            <button onclick="startGame()" style="background:#1fbad6; border:none; border-radius:8px; color:#000; font-size:15px; font-weight:800; padding:0.85rem 2rem; cursor:pointer;">Start Driving →</button>
+          </div>
+        </div>
+
+        <!-- Round screen -->
+        <div id="gameRound" style="display:none;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+            <div style="font-size:11px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:0.06em;">Round <span id="roundNum">1</span> of 6</div>
+            <div style="display:flex; gap:6px;">
+              <div id="r1" style="width:10px;height:10px;border-radius:50%;background:#333;"></div>
+              <div id="r2" style="width:10px;height:10px;border-radius:50%;background:#333;"></div>
+              <div id="r3" style="width:10px;height:10px;border-radius:50%;background:#333;"></div>
+              <div id="r4" style="width:10px;height:10px;border-radius:50%;background:#333;"></div>
+              <div id="r5" style="width:10px;height:10px;border-radius:50%;background:#333;"></div>
+              <div id="r6" style="width:10px;height:10px;border-radius:50%;background:#333;"></div>
+            </div>
+            <div style="font-size:13px; font-weight:700; color:#1fbad6;">Earnings: $<span id="totalEarnings">0</span></div>
+          </div>
+
+          <!-- Scenario card -->
+          <div style="background:#0a0a0a; border:1px solid #1a1a1a; border-radius:8px; padding:1rem; margin-bottom:0.75rem;">
+            <div style="font-size:11px; color:#555; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.4rem;">Situation</div>
+            <div style="font-size:15px; color:#fff; font-weight:700; margin-bottom:0.4rem;" id="roundScenario"></div>
+            <div style="font-size:13px; color:#888; line-height:1.6;" id="roundContext"></div>
+          </div>
+
+          <!-- Algorithm reading -->
+          <div style="background:#050f10; border:1px solid #0e3038; border-radius:8px; padding:0.85rem 1rem; margin-bottom:0.75rem;">
+            <div style="font-size:11px; color:#1fbad6; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.5rem;">What the algorithm is telling you</div>
+            <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+              <div style="text-align:center;">
+                <div style="font-size:32px; font-weight:900; color:#1fbad6;" id="gameMult">1.0×</div>
+                <div style="font-size:10px; color:#555; text-transform:uppercase;">Surge multiplier</div>
+              </div>
+              <div style="flex:1; font-size:13px; color:#7dd8e8; line-height:1.65;" id="algoMessage"></div>
+            </div>
+            <div style="font-size:11px; color:#aaa; margin-top:0.5rem; font-style:italic;" id="forecastNote"></div>
+          </div>
+
+          <!-- Zone choice -->
+          <div style="font-size:13px; color:#aaa; margin-bottom:0.6rem;">Where do you drive?</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:0.75rem;">
+            <button class="zone-btn" id="zoneA" onclick="chooseZone('A')"></button>
+            <button class="zone-btn" id="zoneB" onclick="chooseZone('B')"></button>
+          </div>
+
+          <!-- Outcome (hidden until choice) -->
+          <div id="roundOutcome" style="display:none;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:0.75rem;">
+              <div id="driverOutcome" style="background:#0a0a0a; border-radius:8px; padding:0.85rem; border:1px solid #1a1a1a;">
+                <div style="font-size:10px; color:#555; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;">🚗 Your result</div>
+                <div style="font-size:20px; font-weight:900; color:#1fbad6;" id="driverEarned"></div>
+                <div style="font-size:12px; color:#888; margin-top:4px;" id="driverDetail"></div>
+              </div>
+              <div id="riderOutcome" style="background:#0a0a0a; border-radius:8px; padding:0.85rem; border:1px solid #1a1a1a;">
+                <div style="font-size:10px; color:#555; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;">👤 Your rider</div>
+                <div style="font-size:15px; font-weight:700; color:#fff;" id="riderName"></div>
+                <div style="font-size:12px; color:#888; margin-top:4px;" id="riderDetail"></div>
+              </div>
+            </div>
+            <div id="roundLesson" style="background:#111; border-radius:6px; padding:0.75rem; margin-bottom:0.75rem; font-size:13px; color:#aaa; line-height:1.65;"></div>
+            <button onclick="nextRound()" id="nextBtn" style="width:100%; background:#1fbad6; border:none; border-radius:8px; color:#000; font-size:14px; font-weight:800; padding:0.7rem; cursor:pointer;">Next Round →</button>
+          </div>
+        </div>
+
+        <!-- Debrief screen -->
+        <div id="gameDebrief" style="display:none;">
+          <div style="text-align:center; margin-bottom:1.25rem;">
+            <div style="font-size:13px; font-weight:700; color:#1fbad6; text-transform:uppercase; letter-spacing:0.07em; margin-bottom:0.5rem;">Shift Complete</div>
+            <div style="font-size:28px; font-weight:900; color:#fff;">You earned $<span id="finalEarnings"></span></div>
+            <div style="font-size:13px; color:#888; margin-top:4px;">Max possible: $<span id="maxEarnings"></span></div>
+          </div>
+          <div id="debriefReveal" style="background:#0a0a0a; border:1px solid #1fbad6; border-radius:8px; padding:1rem; margin-bottom:1rem;">
+            <div style="font-size:12px; font-weight:700; color:#1fbad6; margin-bottom:0.6rem; text-transform:uppercase; letter-spacing:0.06em;">⚠️ Here is what was happening</div>
+            <div style="font-size:14px; color:#ccc; line-height:1.7;" id="debriefText"></div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:1rem;">
+            <div style="background:#0a0a0a; border-radius:6px; padding:0.7rem; text-align:center; border:1px solid #1a1a1a;">
+              <div style="font-size:10px; color:#555; text-transform:uppercase; margin-bottom:3px;">Rounds model was accurate</div>
+              <div style="font-size:22px; font-weight:900; color:#1fbad6;">1–3</div>
+            </div>
+            <div style="background:#0a0a0a; border-radius:6px; padding:0.7rem; text-align:center; border:1px solid #ef4444;">
+              <div style="font-size:10px; color:#555; text-transform:uppercase; margin-bottom:3px;">Rounds model was wrong</div>
+              <div style="font-size:22px; font-weight:900; color:#ef4444;">4–6</div>
+            </div>
+            <div style="background:#0a0a0a; border-radius:6px; padding:0.7rem; text-align:center; border:1px solid #1a1a1a;">
+              <div style="font-size:10px; color:#555; text-transform:uppercase; margin-bottom:3px;">You knew something was wrong</div>
+              <div style="font-size:22px; font-weight:900; color:#888;" id="noticeRound">?</div>
+            </div>
+          </div>
+          <div style="font-size:13px; color:#888; text-align:center; line-height:1.7; margin-top:0.5rem;">This is <strong style="color:#fff;">distribution shift</strong> — felt as a driver, not just understood as a concept.<br>The forecast was wrong. The multiplier was wrong. Your decisions were wrong. And nobody told you.<br><br>In rounds 1–3, the AI Factory worked exactly as the case describes: historical data → forecast → surge multiplier → drivers move → riders get cars. In rounds 4–6, one broken link — a forecast that didn't know the world had changed — cascaded through the whole chain. That is why Uber's responsible AI framework, and the monitoring system you saw in Step 4, exist: not to make the model perfect, but to catch it when it fails before real drivers lose real income and real riders wait in the rain.</div>
+        </div>
+
+      </div>
+      <!-- end game -->
+
+      <div class="reflect-box">
+        <div class="reflect-label">Step 05 Reflection &mdash; answer after completing all 6 rounds</div>
+        <div class="reflect-text">
+          <strong>Q1 — When did you notice?</strong> At what point during rounds 4–6 did something feel off? What tipped you off — the multiplier, the earnings, the rider outcome, or something else? What does that tell you about how hard distribution shift is to catch in the real world, when a driver or operations manager is just seeing numbers on a screen?<br><br>
+          <strong>Q2 — Driver vs. rider.</strong> During the broken rounds, both you (the driver) and your riders were affected differently. Describe what each side experienced. Who was harmed more — and does it matter that the algorithm had no idea?<br><br>
+          <strong>Q3 — The fix.</strong> You now know the model was wrong from round 4. If you were an Uber operations manager and you saw your earnings data for drivers in Bellingham dropping in rounds 4–6, what would you investigate first — and what would you do if you discovered the forecast was the cause?
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       STEP 6 — Publish to GitHub
+  ════════════════════════════════════════════════════════════════ -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">6</div>
+      <div>
+        <div class="step-title">Publish to GitHub</div>
+        <div class="step-subtitle">Put everything you built into one shareable HTML page, live on the web</div>
+      </div>
+    </div>
+    <div class="step-body">
+
+      <p>This is the final step — and it is the one that makes everything real. You are going to ask Claude to take everything you have built across this lab and assemble it into a single, self-contained HTML page: a mini business case that tells the story of Uber's AI Factory through your own data, your own charts, and your own analysis.</p>
+
+      <p>Think of it as a portfolio piece. When you publish it to GitHub Pages, you will have a public URL you can link from a résumé or share with a future employer. It shows that you can take a business AI concept, build something with it, explain it clearly, and put it on the web.</p>
+
+      <div class="reflect-box">
+        <div class="reflect-label">From the case &mdash; Chapter 4, Sections 9, 10, and 11</div>
+        <div class="reflect-text">Section 10 covers responsible AI and algorithmic accountability — who is responsible when the algorithm is wrong, and what Uber has built in response. Section 11 covers where Uber's AI is going next. Those two sections are the intellectual foundation of your final reflection. Re-read them before writing.</div>
+      </div>
+
+      <p>The prompt asks Claude to assemble a single <code>index.html</code> file containing: an executive summary of Uber's AI Factory in your own words, your trend and seasonality chart, your backtest chart, your distribution shift observations, and all your reflection answers. Everything in one file — no external dependencies, publishable directly to GitHub Pages.</p>
+
+      <div class="insight-box">
+        <div class="insight-label">How to publish to GitHub Pages in 5 minutes</div>
+        <div class="insight-text">Create a free GitHub account if you don't have one. Create a new repository named <code>uber-ai-lab</code>. Upload your <code>index.html</code> file. Go to Settings → Pages → set source to "main" branch → Save. Your page will be live at <code>https://[your-username].github.io/uber-ai-lab</code> within about 60 seconds. That's your submission URL.</div>
+      </div>
+
+      <div class="insight-box">
+        <div class="insight-label">What this prompt is actually doing</div>
+        <div class="insight-text">This is the assembler prompt. You are asking Claude to take everything from the previous steps — the data story, the forecast, the distribution shift lesson, and your own written reflections — and package it into one polished HTML page. Your job before sending it is to type your actual reflection answers into the prompt where indicated. The resulting file is what you publish: it is both your submission and a public portfolio piece.</div>
+      </div>
+
+      <div class="prompt-steps">
+        <div class="prompt-steps-label">📋 What you will do with this prompt</div>
+        <ol>
+          <li><strong>Open a fresh Claude conversation</strong> for this prompt — you are building a webpage, not adding to your Colab notebook.</li>
+          <li><strong>Before pasting, fill in your own content:</strong> replace the placeholder reflection answers in Sections 4, 5, and 6 with your actual written answers from Steps 3, 4, and the final reflection below.</li>
+          <li><strong>When Claude responds</strong>, copy everything from the first <code>&lt;!DOCTYPE html&gt;</code> to the final <code>&lt;/html&gt;</code> tag.</li>
+          <li><strong>Open a plain text editor</strong> (Notepad on Windows, TextEdit on Mac in plain text mode), paste the HTML, and save as exactly <code>index.html</code>.</li>
+          <li><strong>Publish:</strong> GitHub account → new repo <code>uber-ai-lab</code> → upload <code>index.html</code> → Settings → Pages → Source: main → Save. Live in ~60 seconds.</li>
+          <li><strong>Submit that URL</strong> as your deliverable.</li>
+        </ol>
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-label">Prompt 4 &mdash; paste into Claude to generate your publishable HTML page</div>
+        <div class="prompt-text">I am finishing a lab on Uber's AI-powered forecasting and surge pricing system for MIS 432: AI in Business at Western Washington University. I need you to build a complete, self-contained HTML page I can publish to GitHub Pages.
+
+The page should tell the story of what I built and experienced in this lab. Here is all the content to include:
+
+SECTION 1 — EXECUTIVE SUMMARY
+Write a 3-paragraph executive summary in plain business language covering:
+- What Uber's AI Factory does and why demand forecasting is the foundation of their entire business
+- What the prediction-decision gap is and why closing it creates both enormous value and serious risk
+- What distribution shift is and why every AI system needs ongoing monitoring — not just a one-time backtest
+
+SECTION 2 — THE DATA (embed an SVG chart)
+Create an inline SVG chart showing simulated weekly Uber trip data for Bellingham, WA over 52 weeks. Use Uber's brand colors: black background (#000000), cyan (#1fbad6) for the trip line, white (#ffffff) for axis labels. Show a shaded summer region, a NYE spike marker, and an upward trend. Label the X axis with month names and Y axis with "Trips / Week."
+
+SECTION 3 — THE FORECAST
+Summarize in 2–3 sentences what backtesting means and what the prediction interval band shows. Include a simple inline SVG: actual trips (cyan), predicted trips (dashed, lighter), shaded ±15% band, a vertical line labeled "Forecast starts here."
+
+SECTION 4 — THE SURGE MULTIPLIER
+Explain what the surge multiplier is — the number a rider sees on their app — and how it is calculated directly from the forecast. Summarize what the surge simulator showed: how the multiplier changes across scenarios, and what you learned from the Hurricane Evacuation scenario. Include your Step 03 reflection answers here.
+
+[STUDENT: paste your Step 03 reflection answers here before sending]
+
+SECTION 5 — DISTRIBUTION SHIFT
+Summarize what distribution shift is and what the interactive simulator revealed — specifically what happens to drivers and riders during the weeks the model runs wrong before anyone notices. Include your Step 04 reflection answers.
+
+[STUDENT: paste your Step 04 reflection answers here before sending]
+
+SECTION 6 — THE DRIVER GAME
+Summarize what you experienced playing the driver game: what decisions you made, when you noticed something felt wrong, and what it felt like to be making decisions based on a forecast that had quietly broken. Include your Step 05 reflection answers.
+
+[STUDENT: paste your Step 05 reflection answers here before sending]
+
+SECTION 7 — FINAL REFLECTION
+[STUDENT: paste your Step 06 final reflection answers here before sending]
+
+DESIGN REQUIREMENTS:
+- Uber brand colors: #000000 background sections, #1fbad6 cyan accent, #ffffff white text
+- Clean professional layout, nav bar showing "MIS 432 · AI in Business · Lab 4"
+- All CSS and JS inline — no external files or CDN dependencies
+- Single .html file ready to upload to GitHub
+
+Please generate the complete HTML file.</div>
+      </div>
+
+      <div class="reflect-box">
+        <div class="reflect-label">Step 06 Final Reflection &mdash; write this before building your GitHub page</div>
+        <div class="reflect-text">
+          <strong>Q1 — The full chain.</strong> You have now seen Uber's AI system from every angle: you built the forecast, you watched it set a surge multiplier, you watched it break, and you felt what that meant as a driver. In one paragraph, describe how these four steps connect — how a decision made at the data stage affects what a rider pays and what a driver earns.<br><br>
+          <strong>Q2 — Governance.</strong> If you were designing Uber's responsible AI governance framework, what one rule would you make non-negotiable across all automated pricing decisions — and who inside the company would be personally accountable for enforcing it?<br><br>
+          <strong>Q3 — What surprised you.</strong> Which moment in this lab — a simulator outcome, a game round, a number from Colab — surprised you most? What does that surprise tell you about how AI systems actually work versus how you assumed they worked before?
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SUBMIT
+  ════════════════════════════════════════════════════════════════ -->
+  <div class="submit-box">
+    <div class="submit-label">&#9989; What to Submit</div>
+    <ul>
+      <li><strong>GitHub Pages URL</strong> &mdash; your published <code>index.html</code> live at <code>https://[username].github.io/uber-ai-lab</code>. This is your primary deliverable.</li>
+      <li><strong>Step 01 Reflection</strong> &mdash; trend, seasonality, and what Uber needs to know before a spike (2–3 sentences)</li>
+      <li><strong>Step 02 Reflection</strong> &mdash; where the model struggles and your point forecast vs. prediction interval decision (2–3 sentences)</li>
+      <li><strong>Step 03 Reflection</strong> &mdash; scenario comparison, override dilemma, governance rule (one paragraph each)</li>
+      <li><strong>Step 04 Reflection</strong> &mdash; speed of failure, hidden cost window, who is responsible (one paragraph each)</li>
+      <li><strong>Step 05 Reflection</strong> &mdash; when you noticed, driver vs. rider experience, the fix (one paragraph each)</li>
+      <li><strong>Step 06 Final Reflection</strong> &mdash; the full chain, governance rule, what surprised you (full paragraphs)</li>
+    </ul>
+    <p style="font-size:13px; color:#0a7a90; margin-top:0.75rem; margin-bottom:0;"><strong>Note:</strong> Your reflections should appear on your GitHub page. The URL submission covers both the published page and your written answers in one go.</p>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="chapter4-uber.html">&larr; Chapter 4: Uber Is AI</a>
+    <a href="index.html">All Chapters &rarr;</a>
+  </div>
+
 </div>
 
 <footer>
-  <p>MIS 432 &middot; AI in Business &middot; Western Washington University &middot; College of Business and Economics</p>
-  <p style="margin-top:0.5rem;"><a href="index.html">Home</a> &middot; <a href="https://cbe.wwu.edu/people/califfc" target="_blank">Contact</a> &middot; <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a> &middot; Free to use for educational purposes</p>
+  <p>MIS 432 &middot; AI in Business &middot; Western Washington University &middot; <a href="index.html">Back to Course Home</a></p>
 </footer>
 
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   STEP 1 — Trip History Chart
+════════════════════════════════════════════════════════════ */
+(function(){
+  const W = 52;
+  const labels = [];
+  const data = [];
+  const startMs = new Date('2023-01-02').getTime();
+  const msPerWeek = 7*24*3600*1000;
+  for(let i=0;i<W;i++){
+    const d = new Date(startMs + i*msPerWeek);
+    labels.push('W'+(i+1));
+    const mo = d.getMonth(); // 0-indexed
+    const trend = 3000 + (i/W)*1000;
+    const summer = (mo>=5&&mo<=7)?0.2:0;
+    const xmas = (mo===11&&d.getDate()>=20&&d.getDate()<30)?-0.12:0;
+    const nye = (mo===11&&d.getDate()>=30)?0.7:0;
+    const noise = (Math.random()-0.5)*200;
+    data.push(Math.round(trend*(1+summer+xmas+nye)+noise));
+  }
+
+  const ctx = document.getElementById('chartTrips').getContext('2d');
+  // Minimal canvas chart — no external libs
+  const canvas = document.getElementById('chartTrips');
+  canvas.width = canvas.offsetWidth || 800;
+  canvas.height = 220;
+  drawLineChart(ctx, canvas.width, canvas.height, labels, data, '#1fbad6');
+
+  function drawLineChart(ctx, W, H, labs, vals, color){
+    const pad = {t:20,r:20,b:46,l:60};
+    const cw = W-pad.l-pad.r, ch = H-pad.t-pad.b;
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#000';
+    ctx.fillRect(0,0,W,H);
+
+    const mn = Math.min(...vals)*0.95, mx = Math.max(...vals)*1.05;
+    const xS = i => pad.l + (i/(labs.length-1))*cw;
+    const yS = v => pad.t + ch - ((v-mn)/(mx-mn))*ch;
+
+    // Grid
+    ctx.strokeStyle='#2a2a2a'; ctx.lineWidth=1;
+    for(let g=0;g<=4;g++){
+      const y=pad.t+ch*g/4;
+      ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(pad.l+cw,y); ctx.stroke();
+      ctx.fillStyle='#ccc'; ctx.font='10px Arial';
+      ctx.textAlign='right';
+      ctx.fillText(Math.round(mx-(g/4)*(mx-mn)),pad.l-6,y+3);
+    }
+
+    // Y axis label
+    ctx.save();
+    ctx.translate(12, pad.t + ch/2);
+    ctx.rotate(-Math.PI/2);
+    ctx.fillStyle='#aaa'; ctx.font='10px Arial'; ctx.textAlign='center';
+    ctx.fillText('Trips / week', 0, 0);
+    ctx.restore();
+
+    // Summer shading
+    ctx.fillStyle='rgba(31,186,214,0.06)';
+    [[22,35]].forEach(([s,e])=>{
+      const xs=xS(Math.min(s,labs.length-1)), xe=xS(Math.min(e,labs.length-1));
+      ctx.fillRect(xs,pad.t,xe-xs,ch);
+    });
+
+    // Summer label
+    ctx.fillStyle='#1fbad6'; ctx.font='10px Arial'; ctx.textAlign='center';
+    ctx.fillText('Summer ☀',xS(28),pad.t+10);
+
+    // Line
+    ctx.strokeStyle=color; ctx.lineWidth=2; ctx.lineJoin='round';
+    ctx.beginPath();
+    vals.forEach((v,i)=>{
+      i===0?ctx.moveTo(xS(i),yS(v)):ctx.lineTo(xS(i),yS(v));
+    });
+    ctx.stroke();
+
+    // NYE marker
+    const nyeIdx = 51;
+    ctx.strokeStyle='#f87171'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(xS(nyeIdx),pad.t); ctx.lineTo(xS(nyeIdx),pad.t+ch); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='#f87171'; ctx.font='bold 10px Arial'; ctx.textAlign='center';
+    ctx.fillText("NYE↑",xS(nyeIdx),pad.t+8);
+
+    // X axis labels
+    ctx.fillStyle='#ccc'; ctx.font='10px Arial'; ctx.textAlign='center';
+    [0,12,24,36,48,51].forEach(i=>{
+      const mo=new Date(new Date('2023-01-02').getTime()+i*7*24*3600*1000);
+      const ml=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      ctx.fillText(ml[mo.getMonth()],xS(i),H-8);
+    });
+    // X axis label
+    ctx.fillStyle='#aaa'; ctx.font='10px Arial'; ctx.textAlign='center';
+    ctx.fillText('Month (2023)', pad.l+cw/2, H-1);
+
+    // Axis
+    ctx.strokeStyle='#333'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(pad.l,pad.t); ctx.lineTo(pad.l,pad.t+ch); ctx.lineTo(pad.l+cw,pad.t+ch); ctx.stroke();
+  }
+})();
+
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 3 — Surge Simulator
+════════════════════════════════════════════════════════════ */
+const SCENARIOS = {
+  normal:    { demand:40, supply:38, mult:1.0, events:['<span class="event-tag normal">No unusual events</span>'], algo:'Demand within normal range.<br>Surge: 1.0× — base pricing active.', multSub:'Normal pricing', status:'normal', statusTxt:'Monitoring' },
+  concert:   { demand:82, supply:38, mult:2.1, events:['<span class="event-tag">🎵 Concert Ending (2 venues)</span>'], algo:'Demand spike detected: +105% above baseline.<br>Supply insufficient. Surge: 2.1×', multSub:'High demand event', status:'active', statusTxt:'Surge Active' },
+  rain:      { demand:68, supply:30, mult:1.8, events:['<span class="event-tag weather">🌧️ Rain: −25% driver availability</span>','<span class="event-tag">Rush hour overlap</span>'], algo:'Dual constraint: demand elevated, supply suppressed by weather.<br>Surge: 1.8×', multSub:'Supply compressed', status:'active', statusTxt:'Surge Active' },
+  hurricane: { demand:97, supply:22, mult:4.4, events:['<span class="event-tag">⚠️ Hurricane Warning — Mandatory Evacuation</span>','<span class="event-tag">4× normal demand</span>','<span class="event-tag">Drivers going home</span>'], algo:'EXTREME imbalance: demand at maximum, supply critically low.<br>Algorithm recommends: 4.4× surge.', multSub:'Critical shortage', status:'active', statusTxt:'⚠️ Emergency' },
+  nye:       { demand:95, supply:52, mult:3.1, events:['<span class="event-tag">🎆 New Year\'s Eve — Peak Holiday</span>','<span class="event-tag">Bar closing surge</span>'], algo:'Annual peak event. Historical pattern match: NYE 2022, 2023.<br>Surge: 3.1× — forecast model flagged this 72hrs ago.', multSub:'Peak holiday surge', status:'active', statusTxt:'Surge Active' },
+};
+
+const OUTCOMES = {
+  trust: {
+    normal:    { cls:'good', title:'✓ Good call — algorithm handled it.', body:'Normal demand, normal pricing. No action needed. The prediction-decision gap closed itself here — the algorithm was right and fast. This is what automated pricing looks like when it works.' },
+    concert:   { cls:'good', title:'✓ Price cleared the market.', body:'Surge attracted drivers from nearby areas within 12 minutes. Wait times dropped from 18 to 6 minutes. Riders paid a premium; drivers earned more; Uber captured revenue. The algorithm performed correctly.' },
+    rain:      { cls:'neutral', title:'⚖️ Defensible — but riders felt the pain.', body:'Surge was economically correct: scarce supply, high demand. 34% of riders abandoned the app and took the bus or stayed put. Some argued the price punished commuters who had no alternative. Was the algorithm right? Technically, yes. Ethically — your call.' },
+    hurricane: { cls:'bad', title:'✗ Algorithm was right. Outcome was wrong.', body:'Demand was real. Supply was genuinely critical. The 4.4× surge was mathematically correct — and a PR catastrophe. Screenshots spread on social media. Regulators called for price-gouging investigations. Uber\'s CEO had to apologize. The model did its job. The system failed because the prediction-decision gap was fully closed with no emergency override in place.' },
+    nye:       { cls:'good', title:'✓ Forecasted 72hrs ahead — drivers pre-positioned.', body:'Because the model flagged NYE demand in advance, Uber ran driver incentives two days early. Supply was already elevated before the demand hit. Surge cleared the market. This is what forecasting is for: acting before the situation develops, not reacting after.' },
+  },
+  override: {
+    normal:    { cls:'neutral', title:'Override not necessary.', body:'There was nothing to override — prices were already at base. You have introduced friction for no operational reason.' },
+    concert:   { cls:'neutral', title:'Price capped. Longer waits.', body:'You capped surge at 1.5×. Demand still exceeded supply. Average wait times rose to 14 minutes instead of clearing. Some riders got cheaper rides; others waited longer. You made a values choice: distribute the scarcity differently than the market would have.' },
+    rain:      { cls:'good', title:'✓ Thoughtful intervention.', body:'You capped prices during weather disruption — when riders had fewer alternatives. Wait times rose slightly but rider satisfaction scores held. Driver earnings decreased modestly. You\'ve made an explicit governance decision: extreme weather gets a price cap. Document it and build it into policy.' },
+    hurricane: { cls:'good', title:'✓ Right call. Emergency override activated.', body:'You capped surge at 1.5× during the evacuation. Uber absorbed revenue loss; drivers earned below surge rate; many riders who couldn\'t afford 4.4× were able to evacuate. This is the governance rule Uber eventually built after Sandy. You just did it proactively.' },
+    nye:       { cls:'neutral', title:'Market cap on NYE.', body:'You limited surge on the busiest night of the year. Supply shortfalls occurred near 1am–2am. Some ride requests went unfulfilled. Driver earnings dropped. The question: was protecting price-sensitive riders worth the supply shortfall?' },
+  },
+  pause: {
+    normal:    { cls:'neutral', title:'Surge paused — no impact.', body:'No surge was active. Pausing had no effect. The algorithm will resume monitoring.' },
+    concert:   { cls:'bad', title:'✗ Surge paused. Supply did not clear.', body:'With surge off, no drivers repositioned toward the concert venues. Wait times hit 28 minutes. 61% of riders abandoned the app. Revenue collapsed for the 90-minute window. Surge exists to clear markets — removing it during a genuine shortage worsened outcomes for everyone.' },
+    rain:      { cls:'bad', title:'✗ Base pricing during supply crunch.', body:'Pausing surge during a weather-driven supply shortage sent no signal to drivers. Available drivers had no incentive to go out in the rain. Wait times extended past 35 minutes. This is the failure mode surge pricing was designed to prevent.' },
+    hurricane: { cls:'good', title:'✓ Surge paused during emergency.', body:'No price gouging during an evacuation. Riders paid normal rates. But: with no surge signal, drivers had no financial incentive to enter dangerous conditions. Some drivers stayed home. Supply was even lower than the algorithm projected. Pausing solved the optics. It partially worsened the supply problem. There is no clean answer here — only tradeoffs.' },
+    nye:       { cls:'bad', title:'✗ NYE without surge. Supply shortage.', body:'Base pricing on the highest-demand night of the year. Every available driver was already on the road — but demand still exceeded supply by 3:1 without the surge signal drawing more drivers out. Long waits, frustrated riders, missed earnings. The forecast said this would happen. You had 72 hours of warning.' },
+  },
+};
+
+let currentScenario = 'normal';
+
+function loadScenario(key){
+  currentScenario = key;
+  const s = SCENARIOS[key];
+  document.getElementById('demandBar').style.width = s.demand+'%';
+  document.getElementById('demandBar').className = 'db-fill '+(s.demand>85?'critical':'demand');
+  document.getElementById('supplyBar').style.width = s.supply+'%';
+  document.getElementById('demandVal').textContent = s.demand;
+  document.getElementById('supplyVal').textContent = s.supply;
+  document.getElementById('activeEvents').innerHTML = s.events.join(' ');
+  document.getElementById('algoRead').innerHTML = s.algo;
+  const mv = document.getElementById('multVal');
+  mv.textContent = s.mult+'×';
+  mv.className = 'mult-val'+(s.mult>3?' danger':'');
+  document.getElementById('multSub').textContent = s.multSub;
+  const st = document.getElementById('surgeStatus');
+  st.textContent = s.statusTxt;
+  st.className = 'surge-status '+s.status;
+  document.getElementById('decisionOutcome').className = 'outcome-card';
+  document.getElementById('decisionLog').innerHTML = '['+new Date().toLocaleTimeString()+'] Scenario loaded: '+key+'<br>['+new Date().toLocaleTimeString()+'] Demand index: '+s.demand+' | Supply index: '+s.supply+' | Recommended surge: '+s.mult+'×<br>['+new Date().toLocaleTimeString()+'] Awaiting operator decision...';
+
+  document.querySelectorAll('#scenarioBtns .btn-scenario').forEach(b=>{
+    b.classList.toggle('active', b.getAttribute('onclick').includes("'"+key+"'"));
+  });
+}
+
+function decide(action){
+  const out = OUTCOMES[action][currentScenario];
+  const oc = document.getElementById('decisionOutcome');
+  oc.className = 'outcome-card show '+out.cls;
+  oc.innerHTML = '<div class="outcome-title">'+out.title+'</div><div class="outcome-body">'+out.body+'</div>';
+  const log = document.getElementById('decisionLog');
+  const t = new Date().toLocaleTimeString();
+  log.innerHTML += '<br>['+t+'] OPERATOR DECISION: '+action.toUpperCase()+'<br>['+t+'] Outcome: '+out.title;
+  log.scrollTop = log.scrollHeight;
+}
+
+loadScenario('normal');
+
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 4 — Interactive Distribution Shift Simulator
+════════════════════════════════════════════════════════════ */
+
+const SHIFT_TYPES = {
+  pandemic:   {
+    label: '🦠 Pandemic Lockdown',
+    color: '#ef4444',
+    desc: 'Airport & downtown trips collapse',
+    applyMod: (i, shiftAt) => i >= shiftAt ? 0.38 + (Math.random()-0.5)*0.06 : 1,
+    alertMsg: '🦠 ALERT: Demand has collapsed to 38% of predicted volume. Model was trained on pre-pandemic behavior. Airport and downtown routes have largely disappeared. Every surge price, driver bonus, and server allocation is now dangerously miscalculated.'
+  },
+  competitor: {
+    label: '🚗 Competitor Launches',
+    color: '#f97316',
+    desc: 'Market share erodes gradually',
+    applyMod: (i, shiftAt) => i >= shiftAt ? Math.max(0.55, 1 - (i - shiftAt) * 0.032 + (Math.random()-0.5)*0.02) : 1,
+    alertMsg: '🚗 ALERT: Gradual erosion detected. Trip volume declining ~3% per week since competitor launch. Signal is subtle — would pass a one-week check but fails a four-week rolling average. Classic slow-burn distribution shift: harder to catch, longer damage window.'
+  },
+  stadium:    {
+    label: '🏟️ New Stadium Opens',
+    color: '#a78bfa',
+    desc: 'Game-day demand spikes unpredictably',
+    applyMod: (i, shiftAt) => i >= shiftAt && i % 2 === 0 ? 1.55 + Math.random()*0.25 : (i >= shiftAt ? 0.95 : 1),
+    alertMsg: '🏟️ ALERT: Positive distribution shift on event days. Actual demand exceeds forecast by 40–70% on alternating weeks (game days). Model is under-provisioning drivers and triggering excessive surge. Requires stadium event calendar integration before next retraining.'
+  },
+  remote:     {
+    label: '🏠 Remote Work Shift',
+    color: '#34d399',
+    desc: 'Weekday commuter patterns disappear',
+    applyMod: (i, shiftAt) => i >= shiftAt ? (i % 5 === 0 ? 1.3 : 0.68) + (Math.random()-0.5)*0.04 : 1,
+    alertMsg: '🏠 ALERT: Structural weekday demand shift. Monday–Wednesday volume down 32%. Weekend leisure trips up but model cannot predict them — it learned commuter patterns. Over-provisioning drivers on weekdays, under-provisioning on weekends. Permanent shift — full retrain required.'
+  }
+};
+
+let currentShiftType = 'pandemic';
+let currentShiftWeek = 8; // index within the 26-week window
+let shiftActual = [];
+let shiftPredicted = [];
+
+function setShiftType(key) {
+  currentShiftType = key;
+  document.querySelectorAll('#distBtns .btn-scenario').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('onclick').includes("'"+key+"'"));
+  });
+  document.getElementById('shiftChartTitle').textContent = 'Distribution Shift Simulator — ' + SHIFT_TYPES[key].label;
+  rebuildShift();
+}
+
+function onSliderMove(val) {
+  currentShiftWeek = parseInt(val);
+  const weekNum = 78 + currentShiftWeek;
+  document.getElementById('sliderLabel').textContent = 'World changes at Week ' + weekNum;
+  rebuildShift();
+}
+
+function rebuildShift() {
+  const N = 26;
+  const type = SHIFT_TYPES[currentShiftType];
+  const actual = [], predicted = [];
+
+  for (let i = 0; i < N; i++) {
+    const base = 3800 + i * 15;
+    const noise = (Math.random() - 0.5) * 100;
+    const mod = type.applyMod(i, currentShiftWeek);
+    actual.push(Math.max(400, Math.round((base + noise) * mod)));
+    predicted.push(Math.round(base));
+  }
+
+  shiftActual = actual;
+  shiftPredicted = predicted;
+
+  // Compute MAE before and after
+  const before = [], after = [];
+  for (let i = 0; i < N; i++) {
+    const err = Math.abs(actual[i] - predicted[i]);
+    if (i < currentShiftWeek) before.push(err);
+    else after.push(err);
+  }
+
+  const maeBefore = before.length ? Math.round(before.reduce((a,b)=>a+b,0)/before.length) : 0;
+  const maeAfter  = after.length  ? Math.round(after.reduce((a,b)=>a+b,0)/after.length)  : 0;
+  const mult = maeBefore > 0 ? (maeAfter / maeBefore).toFixed(1) : '—';
+
+  document.getElementById('maeBefore').textContent = maeBefore || '—';
+  document.getElementById('maeAfter').textContent  = maeAfter  || '—';
+  const multEl = document.getElementById('maeMultiplier');
+  multEl.textContent = mult + (mult !== '—' ? '×' : '');
+  multEl.style.color = parseFloat(mult) >= 3 ? '#ef4444' : parseFloat(mult) >= 1.5 ? '#f97316' : '#1fbad6';
+
+  // Monitoring threshold — find first week where error > 20% of predicted
+  const THRESHOLD = 0.20;
+  let alertWeek = -1;
+  for (let i = currentShiftWeek; i < N; i++) {
+    if (Math.abs(actual[i] - predicted[i]) / predicted[i] > THRESHOLD) {
+      alertWeek = 78 + i + 1;
+      break;
+    }
+  }
+
+  const pctOfThreshold = maeAfter > 0 ? Math.min(100, Math.round((maeAfter / (predicted[currentShiftWeek] * THRESHOLD)) * 100)) : 0;
+  document.getElementById('alertBar').style.width = pctOfThreshold + '%';
+  document.getElementById('alertBar').style.background = pctOfThreshold >= 100 ? '#ef4444' : pctOfThreshold >= 60 ? '#f97316' : '#1fbad6';
+
+  const alertStatusEl = document.getElementById('alertStatus');
+  const alertNoteEl   = document.getElementById('alertWeekNote');
+  if (alertWeek > 0) {
+    alertStatusEl.textContent = '⚠️ ALERT FIRES';
+    alertStatusEl.style.color = '#ef4444';
+    const weeksUndetected = alertWeek - (78 + currentShiftWeek);
+    alertNoteEl.textContent = 'Monitoring alert fires at Week ' + alertWeek + ' — world changed at Week ' + (78 + currentShiftWeek) + '. Model ran undetected for ' + weeksUndetected + ' week' + (weeksUndetected !== 1 ? 's' : '') + '.';
+    document.getElementById('distAlert').classList.add('show');
+    document.getElementById('distAlertText').innerHTML = type.alertMsg + '<br><br><strong>Weeks of undetected wrong decisions: ' + weeksUndetected + '</strong>';
+  } else {
+    alertStatusEl.textContent = currentShiftWeek >= N - 1 ? 'No shift active' : 'Below threshold';
+    alertStatusEl.style.color = '#1fbad6';
+    alertNoteEl.textContent = '';
+    document.getElementById('distAlert').classList.remove('show');
+  }
+
+  // Draw
+  const canvas = document.getElementById('chartShift');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.offsetWidth || 800;
+  canvas.height = 200;
+  drawInteractiveShift(ctx, canvas.width, canvas.height, actual, predicted, currentShiftWeek, type.color);
+}
+
+function drawInteractiveShift(ctx, W, H, actual, predicted, shiftAt, accentColor) {
+  const pad = {t:24, r:20, b:32, l:56};
+  const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle = '#000'; ctx.fillRect(0,0,W,H);
+
+  const n = actual.length;
+  const allVals = [...actual, ...predicted];
+  const mn = Math.min(...allVals)*0.85, mx = Math.max(...allVals)*1.1;
+  const xS = i => pad.l + (i/(n-1))*cw;
+  const yS = v => pad.t + ch - ((v-mn)/(mx-mn))*ch;
+
+  // Grid
+  ctx.strokeStyle='#1a1a1a'; ctx.lineWidth=1;
+  for (let g=0; g<=4; g++) {
+    const y = pad.t + ch*g/4;
+    ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(pad.l+cw,y); ctx.stroke();
+    ctx.fillStyle='#ccc'; ctx.font='10px Arial'; ctx.textAlign='right';
+    ctx.fillText(Math.round(mx-(g/4)*(mx-mn)), pad.l-5, y+3);
+  }
+
+  // Pre-shift shading (good zone)
+  if (shiftAt > 0) {
+    ctx.fillStyle='rgba(31,186,214,0.04)';
+    ctx.fillRect(pad.l, pad.t, xS(shiftAt-1)-pad.l, ch);
+  }
+
+  // Post-shift shading (danger zone)
+  if (shiftAt < n) {
+    ctx.fillStyle='rgba(239,68,68,0.06)';
+    ctx.fillRect(xS(shiftAt), pad.t, pad.l+cw-xS(shiftAt), ch);
+  }
+
+  // Shift marker line
+  if (shiftAt > 0 && shiftAt < n) {
+    ctx.strokeStyle='#ef4444'; ctx.lineWidth=1.5; ctx.setLineDash([4,3]);
+    ctx.beginPath(); ctx.moveTo(xS(shiftAt), pad.t); ctx.lineTo(xS(shiftAt), pad.t+ch); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='#f87171'; ctx.font='bold 10px Arial'; ctx.textAlign='center';
+    ctx.fillText('World changes ↓', xS(shiftAt), pad.t-4);
+  }
+
+  // Predicted line (dashed)
+  ctx.strokeStyle='#555'; ctx.lineWidth=1.5; ctx.setLineDash([5,4]);
+  ctx.beginPath(); predicted.forEach((v,i)=>{ i===0?ctx.moveTo(xS(i),yS(v)):ctx.lineTo(xS(i),yS(v)); }); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Actual line — pre-shift in cyan, post-shift in accent color
+  for (let i=0; i<n-1; i++) {
+    ctx.strokeStyle = i >= shiftAt ? accentColor : '#1fbad6';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(xS(i),yS(actual[i])); ctx.lineTo(xS(i+1),yS(actual[i+1])); ctx.stroke();
+  }
+
+  // Legend
+  ctx.fillStyle='#1fbad6'; ctx.fillRect(pad.l,pad.t-16,14,2);
+  ctx.fillStyle='#aaa'; ctx.font='10px Arial'; ctx.textAlign='left';
+  ctx.fillText('Reality (before shift)',pad.l+18,pad.t-8);
+  ctx.fillStyle=accentColor; ctx.fillRect(pad.l+155,pad.t-16,14,2);
+  ctx.fillText('Reality (after shift)',pad.l+173,pad.t-8);
+  ctx.strokeStyle='#555'; ctx.setLineDash([4,3]); ctx.beginPath(); ctx.moveTo(pad.l+310,pad.t-15); ctx.lineTo(pad.l+324,pad.t-15); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='#555'; ctx.fillText('Model prediction',pad.l+328,pad.t-8);
+
+  // X axis
+  ctx.strokeStyle='#333'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(pad.l,pad.t+ch); ctx.lineTo(pad.l+cw,pad.t+ch); ctx.stroke();
+  ctx.fillStyle='#ccc'; ctx.font='10px Arial'; ctx.textAlign='center';
+  [0,5,10,15,20,25].forEach(i => ctx.fillText('W'+(i+79), xS(i), H-6));
+}
+
+// Init
+setShiftType('pandemic');
+onSliderMove(8);
+
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 5 — Driver Game
+════════════════════════════════════════════════════════════ */
+const ROUNDS = [
+  // Rounds 1-3: forecast is accurate
+  {
+    round: 1,
+    scenario: 'Friday 10pm — Western Washington University just let out',
+    context: 'It\'s a warm Friday night. Students are heading downtown and back to off-campus housing. No unusual weather.',
+    mult: '2.1×',
+    algoMsg: 'High student demand near campus and downtown. Forecast predicts 340 trip requests in the next hour — well above the 160 available drivers.',
+    forecastNote: 'This multiplier came from a forecasting model trained on 104 weeks of Bellingham trip history — the same approach you used in Step 2. It saw Friday night demand in this data many times and learned the pattern.',
+    zoneA: { name: 'Downtown Bellingham', desc: 'bars, restaurants, 12 ride requests visible', signal: '🟢 Algorithm recommends this zone', color: '#1fbad6' },
+    zoneB: { name: 'WWU Campus area', desc: 'dorms, library, quieter at this hour', signal: '⚪ Lower predicted demand', color: '#555' },
+    correctZone: 'A',
+    earnedCorrect: 34, earnedWrong: 12,
+    driverDetailCorrect: '4 rides in 58 minutes. The algorithm was right — demand was exactly where it predicted.',
+    driverDetailWrong: '1 ride in 58 minutes. Campus cleared out earlier than you expected.',
+    rider: 'Maya, 22', riderDetailCorrect: 'Got a ride home from The Copper Hog in 4 minutes. Paid 2.1× — a bit steep but expected on a Friday.',
+    riderDetailWrong: 'Waited 19 minutes downtown. Most drivers were at campus. Eventually got a ride.',
+    lesson: 'Round 1: The forecast was accurate. Demand was exactly where and when the model predicted. Following the algorithm made sense.',
+    broken: false
+  },
+  {
+    round: 2,
+    scenario: 'Saturday 2am — bars are closing, rain just started',
+    context: 'It stopped drizzling an hour ago but a steady rain just started. Three bars on Railroad Avenue just called last orders.',
+    mult: '3.4×',
+    algoMsg: 'Rain + bar closing = demand spike. Forecast shows 480 requests in next 30 minutes, only 90 drivers online. High surge justified.',
+    forecastNote: 'Your model was trained on 104 weeks of data — it saw this exact combination (rain + late Saturday) many times. This is trend and seasonality working together: a known day of the week, a known weather effect, a predictable outcome.',
+    zoneA: { name: 'Railroad Avenue', desc: 'bar district, large crowds outside', signal: '🟢 Algorithm strongly recommends', color: '#1fbad6' },
+    zoneB: { name: 'Fairhaven Village', desc: 'quieter neighborhood, lower demand', signal: '⚪ Low surge signal here', color: '#555' },
+    correctZone: 'A',
+    earnedCorrect: 52, earnedWrong: 9,
+    driverDetailCorrect: '3 longer rides at 3.4× — people going to North Bellingham and Sudden Valley. Best hour of your week.',
+    driverDetailWrong: '1 short ride. You missed the bar rush entirely.',
+    rider: 'James, 34', riderDetailCorrect: 'Paid $22 for a ride to Sudden Valley in the rain. Not cheap, but a car showed up in 3 minutes.',
+    riderDetailWrong: 'Waited 26 minutes in the rain on Railroad Avenue. Most drivers were in Fairhaven.',
+    lesson: 'Round 2: Rain and bar closings are strong, predictable signals. The model had seen this before and the forecast held up.',
+    broken: false
+  },
+  {
+    round: 3,
+    scenario: 'Sunday 6pm — Seahawks game just ended at a sports bar',
+    context: 'A popular sports bar downtown had 200+ people watching the Seahawks. Game just ended — big win. People are ready to leave.',
+    mult: '1.8×',
+    algoMsg: 'Moderate event spike. Forecast shows 210 requests near downtown in the next 45 minutes. Manageable with current driver supply.',
+    forecastNote: 'Sports events are a regular pattern in the training data. Each trip completed on a previous game day fed back into the model as new training data — the AI Factory flywheel the case describes. More data, better predictions, more trips.',
+    zoneA: { name: 'Downtown near the sports bars', desc: '200+ people leaving, event just ended', signal: '🟢 Clear demand signal', color: '#1fbad6' },
+    zoneB: { name: 'Barkley Village shopping area', desc: 'Sunday shoppers, but steady not spiking', signal: '⚪ Stable but lower multiplier', color: '#555' },
+    correctZone: 'A',
+    earnedCorrect: 28, earnedWrong: 18,
+    driverDetailCorrect: '3 rides in 40 minutes. Shorter trips but high volume. Clean, predictable surge.',
+    driverDetailWrong: '2 rides from Barkley. Steady income but you missed the event spike.',
+    rider: 'Carlos, 41', riderDetailCorrect: 'Got a ride home in 6 minutes. Happy with the Seahawks win, didn\'t mind the 1.8× surge.',
+    riderDetailWrong: 'Waited 14 minutes after the game. Fewer drivers than expected near the bar.',
+    lesson: 'Round 3: Three rounds in, the pattern is clear — follow the algorithm, it knows where demand is going. The forecast is working.',
+    broken: false
+  },
+  // Rounds 4-6: world has changed, model doesn't know
+  {
+    round: 4,
+    scenario: 'Friday 10pm — same time, same area as Round 1',
+    context: 'Another Friday night. Same conditions as round 1 on paper. The algorithm is showing a familiar signal.',
+    mult: '2.3×',
+    algoMsg: 'Strong Friday night demand near campus and downtown. Forecast predicts 360 requests — slightly higher than last week.',
+    forecastNote: 'The model is using the same Friday night pattern it always has. It has no way to know the city changed — it can only predict based on what it was trained on. This is what the case calls distribution shift: the world moved, the model didn\'t.',
+    zoneA: { name: 'Downtown Bellingham', desc: 'algorithm says high demand here', signal: '🟢 Algorithm recommends downtown', color: '#1fbad6' },
+    zoneB: { name: 'Cordata neighborhood (north)', desc: 'new apartment complex opened last month', signal: '⚪ No demand signal from algorithm', color: '#555' },
+    correctZone: 'B',
+    earnedCorrect: 31, earnedWrong: 11,
+    driverDetailCorrect: 'You ignored the algorithm and drove north. 3 rides from the new Cordata apartments — students moved there last month.',
+    driverDetailWrong: 'Downtown was quiet. Only 1 ride in an hour. Something felt off but you couldn\'t say what.',
+    rider: 'Priya, 20', riderDetailCorrect: 'Got a ride from her new apartment to downtown in 5 minutes. Happy — drivers don\'t usually come this far north.',
+    riderDetailWrong: 'Waited 22 minutes downtown. Strange for a Friday. She almost booked a Lyft.',
+    lesson: '⚠️ Round 4: Something shifted. A large student apartment complex opened in Cordata last month — hundreds of students moved north. The model doesn\'t know. It\'s still predicting Friday demand in the old pattern.',
+    broken: true
+  },
+  {
+    round: 5,
+    scenario: 'Saturday night — algorithm showing moderate surge downtown',
+    context: 'Saturday at 11pm. The algorithm is showing a 1.9× surge downtown, same as most Saturdays. But it has felt different lately.',
+    mult: '1.9×',
+    algoMsg: 'Saturday night surge. Forecast predicts 280 requests downtown, 85 drivers online. Consistent with seasonal pattern.',
+    forecastNote: 'The forecast is wrong. The multiplier calculated from it is wrong. But because Uber closed the prediction-decision gap — no human reviews each surge before it fires — there is no one to catch this. The system is confidently sending you the wrong direction.',
+    zoneA: { name: 'Downtown / Railroad Avenue', desc: 'algorithm says surge here, but it\'s been quiet lately', signal: '🟡 Algorithm recommends, but…', color: '#f97316' },
+    zoneB: { name: 'Cordata / Bakerview area', desc: 'further north, no signal, but busy last week', signal: '⚪ No algorithm signal', color: '#555' },
+    correctZone: 'B',
+    earnedCorrect: 38, earnedWrong: 14,
+    driverDetailCorrect: 'You trusted your instinct over the algorithm. 4 rides from Cordata — young residents heading downtown and to late-night food.',
+    driverDetailWrong: 'Downtown was half as busy as the algorithm predicted. $14 in an hour. You\'re starting to doubt the app.',
+    rider: 'Kenji, 23', riderDetailCorrect: 'Got a ride from Cordata to a late-night restaurant in 8 minutes. Surprised a driver came — usually waits much longer.',
+    riderDetailWrong: 'Waited 28 minutes in Cordata. App said high demand downtown so drivers went there. He almost cancelled.',
+    lesson: '⚠️ Round 5: The algorithm is confidently wrong. It\'s sending drivers to downtown based on old patterns. Real demand has moved north with the new residents. Riders in Cordata are waiting. Drivers following the app are sitting idle.',
+    broken: true
+  },
+  {
+    round: 6,
+    scenario: 'Friday evening — you\'ve noticed something is off',
+    context: 'Your third shift this week. You\'ve earned less than usual. The surge multipliers look right but trips aren\'t coming where the app says they will.',
+    mult: '2.0×',
+    algoMsg: 'Friday demand signal. Forecast: 310 requests near campus and downtown corridor. Standard Friday pattern.',
+    forecastNote: 'Three weeks of wrong predictions. The monitoring system in the Step 4 simulator would have fired a warning by now — but only if someone built that check and someone was watching it. This is the governance gap the case describes: knowing the model can fail is different from having a system that catches it when it does.',
+    zoneA: { name: 'Traditional high-demand zone (downtown)', desc: 'app says go here, but it\'s let you down twice', signal: '🔴 Algorithm says yes — but you\'ve seen this before', color: '#ef4444' },
+    zoneB: { name: 'North Bellingham (Cordata, Irongate)', desc: 'no signal, but your instinct says try it', signal: '⚪ Your own judgment', color: '#888' },
+    correctZone: 'B',
+    earnedCorrect: 44, earnedWrong: 8,
+    driverDetailCorrect: 'You ignored the algorithm entirely. Best hour of the week — 5 rides from north Bellingham. You found the real demand the app couldn\'t see.',
+    driverDetailWrong: 'Followed the app one more time. Worst hour of the week. $8. You sit in the car wondering what is going on.',
+    rider: 'Amara, 19', riderDetailCorrect: 'Finally — a driver came to her area. She\'s been using Lyft all month because Uber keeps sending her long waits.',
+    riderDetailWrong: 'Gave up on Uber and opened Lyft. She\'s been switching apps more often lately.',
+    lesson: '⚠️ Round 6: The algorithm has been wrong for three weeks. Drivers who followed it earned less. Riders in the new high-demand area waited longer or switched apps. Nobody at Uber knows yet — the monitoring system hasn\'t caught it.',
+    broken: true
+  }
+];
+
+let currentRound = 0;
+let totalEarnings = 0;
+let maxPossible = 0;
+let noticeRound = '—';
+let playerNoticedBroken = false;
+
+const DEBRIEF = `Starting in round 4, a large student apartment complex opened in Cordata — about 800 new residents, mostly students, moved to north Bellingham. The demand pattern shifted. But the forecasting model was trained on two years of data from the <em>old</em> Bellingham. It kept predicting Friday demand downtown, Saturday demand on Railroad Avenue. It had no idea the city had changed. The surge multiplier you saw in rounds 4–6 was calculated from that wrong forecast. Drivers who followed it went to the wrong neighborhoods. Riders in Cordata waited twice as long. A real Uber operations team would catch this eventually — but it might take 3–4 weeks of declining driver earnings data before anyone investigates. That gap is distribution shift, measured in real people's time and money.`;
+
+function startGame() {
+  document.getElementById('gameIntro').style.display = 'none';
+  document.getElementById('gameRound').style.display = 'block';
+  showRound(0);
+}
+
+function showRound(idx) {
+  const r = ROUNDS[idx];
+  currentRound = idx;
+
+  document.getElementById('roundNum').textContent = r.round;
+  document.getElementById('gameMult').textContent = r.mult;
+  document.getElementById('gameMult').style.color = r.broken ? '#f97316' : '#1fbad6';
+  document.getElementById('roundScenario').textContent = r.scenario;
+  document.getElementById('roundContext').textContent = r.context;
+  document.getElementById('algoMessage').textContent = r.algoMsg;
+  document.getElementById('forecastNote').textContent = r.forecastNote;
+
+  // Zone buttons
+  const btnA = document.getElementById('zoneA');
+  const btnB = document.getElementById('zoneB');
+  btnA.className = 'zone-btn';
+  btnB.className = 'zone-btn';
+  btnA.innerHTML = `<div class="zone-name">📍 ${r.zoneA.name}</div><div class="zone-desc">${r.zoneA.desc}</div><div class="zone-signal" style="color:${r.zoneA.color}">${r.zoneA.signal}</div>`;
+  btnB.innerHTML = `<div class="zone-name">📍 ${r.zoneB.name}</div><div class="zone-desc">${r.zoneB.desc}</div><div class="zone-signal" style="color:${r.zoneB.color}">${r.zoneB.signal}</div>`;
+
+  document.getElementById('roundOutcome').style.display = 'none';
+  maxPossible += Math.max(r.earnedCorrect, r.earnedWrong);
+
+  // Progress dots
+  for (let i=1;i<=6;i++) {
+    const dot = document.getElementById('r'+i);
+    dot.style.background = i < r.round ? '#1fbad6' : i === r.round ? '#fff' : '#333';
+  }
+}
+
+function chooseZone(zone) {
+  const r = ROUNDS[currentRound];
+  const correct = zone === r.correctZone;
+  const earned = correct ? r.earnedCorrect : r.earnedWrong;
+  totalEarnings += earned;
+
+  document.getElementById('totalEarnings').textContent = totalEarnings;
+
+  // Highlight chosen button
+  document.getElementById('zone'+zone).classList.add('selected');
+  document.getElementById('zone'+(zone==='A'?'B':'A')).classList.add('wrong');
+  document.getElementById('zoneA').onclick = null;
+  document.getElementById('zoneB').onclick = null;
+
+  document.getElementById('driverEarned').textContent = '$'+earned;
+  document.getElementById('driverEarned').style.color = earned >= r.earnedCorrect ? '#1fbad6' : '#f87171';
+  document.getElementById('driverDetail').textContent = correct ? r.driverDetailCorrect : r.driverDetailWrong;
+  document.getElementById('riderName').textContent = r.rider;
+  document.getElementById('riderDetail').textContent = correct ? r.riderDetailCorrect : r.riderDetailWrong;
+  document.getElementById('roundLesson').innerHTML = r.lesson;
+  document.getElementById('roundLesson').style.borderLeft = r.broken ? '3px solid #ef4444' : '3px solid #1fbad6';
+
+  // Track when player notices
+  if (r.broken && !playerNoticedBroken && !correct) {
+    // They went against algorithm in a broken round — means they sensed it
+    playerNoticedBroken = true;
+    noticeRound = 'Round ' + r.round;
+  }
+
+  document.getElementById('nextBtn').textContent = currentRound === 5 ? 'See Results →' : 'Next Round →';
+  document.getElementById('roundOutcome').style.display = 'block';
+}
+
+function nextRound() {
+  if (currentRound === 5) {
+    showDebrief();
+  } else {
+    document.getElementById('zoneA').onclick = () => chooseZone('A');
+    document.getElementById('zoneB').onclick = () => chooseZone('B');
+    showRound(currentRound + 1);
+  }
+}
+
+function showDebrief() {
+  document.getElementById('gameRound').style.display = 'none';
+  document.getElementById('gameDebrief').style.display = 'block';
+  document.getElementById('finalEarnings').textContent = totalEarnings;
+  document.getElementById('maxEarnings').textContent = ROUNDS.reduce((s,r)=>s+Math.max(r.earnedCorrect,r.earnedWrong),0);
+  document.getElementById('debriefText').innerHTML = DEBRIEF;
+  document.getElementById('noticeRound').textContent = noticeRound;
+}
+function toggleCode(id){
+  const b=document.getElementById(id);
+  const tId='t'+id.replace('c','');
+  const t=document.getElementById(tId);
+  if(b.classList.contains('open')){ b.classList.remove('open'); t.textContent='show'; }
+  else { b.classList.add('open'); t.textContent='hide'; }
+}
+</script>
 </body>
 </html>
