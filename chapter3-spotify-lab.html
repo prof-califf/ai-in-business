@@ -371,6 +371,64 @@ user_profiles = pd.<span class="cf">DataFrame</span>({
         <div class="reflect-text">Look at your user_profiles table. Two users might have very similar individual song scores but very different skip rates and replay rates — which tells a completely different story about their listening habits. Why does collapsing raw events into engineered features give a model a better picture of a user's taste than looking at individual song scores row by row?</div>
       </div>
 
+      <!-- DATA FLOW VISUAL -->
+      <div style="margin:1.5rem 0;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6ee7b7;margin-bottom:0.75rem;">Where your data goes from here</div>
+        <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-radius:10px;padding:1.25rem;overflow-x:auto;">
+
+          <!-- Row 1: Raw event -->
+          <div style="display:flex;align-items:center;justify-content:center;margin-bottom:0.6rem;">
+            <div style="background:#111;border:1px solid #2a2a2a;border-radius:6px;padding:0.5rem 1rem;text-align:center;min-width:220px;">
+              <div style="font-size:10px;color:#445566;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">Raw behavioral event (Step 2)</div>
+              <div style="font-size:12px;color:#a0b4a0;font-family:monospace;">user_01 | Blinding Lights | 0.9</div>
+              <div style="font-size:10px;color:#334433;margin-top:2px;">user_id · song · engagement_score</div>
+            </div>
+          </div>
+
+          <!-- Arrow down -->
+          <div style="text-align:center;color:#1DB954;font-size:18px;line-height:1;margin-bottom:0.6rem;">↓</div>
+
+          <!-- Row 2: Feature engineering box -->
+          <div style="display:flex;align-items:center;justify-content:center;margin-bottom:0.6rem;">
+            <div style="background:#0d1a0d;border:1px solid #1DB95440;border-radius:6px;padding:0.6rem 1rem;text-align:center;min-width:260px;">
+              <div style="font-size:10px;color:#1DB954;text-transform:uppercase;letter-spacing:0.06em;font-weight:700;margin-bottom:4px;">⚙ Feature Engineering (Step 3)</div>
+              <div style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;margin-top:4px;">
+                <span style="background:#1a2a1a;border:1px solid #2a3a2a;border-radius:4px;padding:2px 8px;font-size:11px;color:#6ee7b7;font-family:monospace;">skip_rate</span>
+                <span style="background:#1a2a1a;border:1px solid #2a3a2a;border-radius:4px;padding:2px 8px;font-size:11px;color:#6ee7b7;font-family:monospace;">replay_rate</span>
+                <span style="background:#1a2a1a;border:1px solid #2a3a2a;border-radius:4px;padding:2px 8px;font-size:11px;color:#6ee7b7;font-family:monospace;">top_genre_affinity</span>
+              </div>
+              <div style="font-size:10px;color:#334433;margin-top:5px;">one row per user · describes taste, not events</div>
+            </div>
+          </div>
+
+          <!-- Two arrows splitting -->
+          <div style="display:flex;align-items:flex-start;justify-content:center;gap:0rem;margin-bottom:0.5rem;position:relative;">
+            <div style="display:flex;flex-direction:column;align-items:center;flex:1;max-width:200px;">
+              <div style="color:#a78bfa;font-size:16px;line-height:1;">↙</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;flex:1;max-width:200px;">
+              <div style="color:#60a5fa;font-size:16px;line-height:1;">↘</div>
+            </div>
+          </div>
+
+          <!-- Row 3: Two downstream uses -->
+          <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;">
+            <div style="background:#1a1a2a;border:1px solid #a78bfa40;border-radius:6px;padding:0.65rem 0.85rem;text-align:center;flex:1;min-width:140px;max-width:200px;">
+              <div style="font-size:10px;color:#a78bfa;text-transform:uppercase;letter-spacing:0.06em;font-weight:700;margin-bottom:4px;">Clustering (Step 4)</div>
+              <div style="font-size:11px;color:#7a6aaa;line-height:1.5;">Groups users by taste profile.<br>Axes: skip_rate vs replay_rate.<br>No labels given.</div>
+            </div>
+            <div style="background:#1a2030;border:1px solid #60a5fa40;border-radius:6px;padding:0.65rem 0.85rem;text-align:center;flex:1;min-width:140px;max-width:200px;">
+              <div style="font-size:10px;color:#60a5fa;text-transform:uppercase;letter-spacing:0.06em;font-weight:700;margin-bottom:4px;">Recommender (Step 5)</div>
+              <div style="font-size:11px;color:#5a7a99;line-height:1.5;">Pivots raw scores into a user × song matrix. Cosine similarity on behavior — not features.</div>
+            </div>
+          </div>
+
+          <div style="text-align:center;font-size:11px;color:#6ee7b7;margin-top:0.85rem;font-style:italic;">The same raw data feeds two separate models. Feature engineering is used for clustering. Raw scores are used for the recommender. Both choices are deliberate.</div>
+        </div>
+        <div style="font-size:11px;color:#445566;margin-top:0.5rem;text-align:center;letter-spacing:0.04em;"><strong style="color:#556655;">Figure 1.</strong> Data flow from raw behavioral events through feature engineering to two downstream models.</div>
+      </div>
+      <!-- END DATA FLOW VISUAL -->
+
     </div>
   </div>
 
@@ -417,9 +475,251 @@ Then explain: this is essentially what a clustering algorithm does automatically
         <div class="insight-text">Claude just grouped your users by reading their feature profiles — the same logic a clustering algorithm applies at scale. Notice that nobody told Claude (or the algorithm) what the groups should be called, how many there should be, or what characteristics define each one. <strong>The groups emerged from the data.</strong> That is what unsupervised means: the structure was always there, hidden in the numbers. The algorithm just surfaced it.</div>
       </div>
 
+      <!-- INTERACTIVE CLUSTER VISUALIZER -->
+      <div style="margin:1.25rem 0;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6ee7b7;margin-bottom:0.75rem;">Now see it — the taste space your feature engineering created</div>
+        <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-radius:10px;overflow:hidden;">
+
+          <div style="padding:0.85rem 1rem;border-bottom:1px solid #1a1a1a;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#e0e0e0;">Listener Taste Clusters</div>
+              <div style="font-size:11px;color:#667788;margin-top:1px;">Each dot is one user. Position = their engineered features. Click any dot.</div>
+            </div>
+            <div style="display:flex;gap:0.75rem;flex-wrap:wrap;" id="clust-legend">
+              <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:#aaa;"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#1DB954;"></span>Selective Listener</span>
+              <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:#aaa;"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#a78bfa;"></span>Enthusiastic Replayer</span>
+              <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:#aaa;"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#60a5fa;"></span>Casual Explorer</span>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:0;flex-wrap:wrap;">
+            <!-- Chart area -->
+            <div style="flex:1;min-width:260px;padding:1rem 1rem 1rem 0.25rem;display:flex;flex-direction:column;">
+              <div style="display:flex;flex:1;">
+                <!-- Y axis label — sits in its own column, fully outside canvas -->
+                <div style="display:flex;align-items:center;justify-content:center;width:18px;flex-shrink:0;margin-right:4px;">
+                  <div style="transform:rotate(-90deg);font-size:9px;color:#6a9a6a;white-space:nowrap;letter-spacing:0.05em;text-transform:uppercase;">← More Skips · Replay Rate · More Replays →</div>
+                </div>
+                <canvas id="clust-canvas" width="400" height="300" style="width:100%;max-width:400px;display:block;cursor:pointer;"></canvas>
+              </div>
+              <!-- X axis label -->
+              <div style="text-align:center;font-size:10px;color:#6a9a6a;margin-top:4px;letter-spacing:0.05em;text-transform:uppercase;">← Fewer Skips · Skip Rate · More Skips →</div>
+            </div>
+
+            <!-- Info panel -->
+            <div style="width:200px;min-width:160px;border-left:1px solid #1a1a1a;padding:1rem;display:flex;flex-direction:column;gap:0.75rem;" id="clust-panel">
+              <div>
+                <div style="font-size:10px;color:#445566;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.4rem;">Selected user</div>
+                <div style="font-size:14px;font-weight:700;color:#e0e0e0;" id="cp-name">—</div>
+                <div style="font-size:11px;color:#445566;margin-top:2px;" id="cp-cluster">Click a dot to explore</div>
+              </div>
+              <div id="cp-features" style="display:none;">
+                <div style="font-size:10px;color:#445566;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;">Engineered features</div>
+                <div style="display:flex;flex-direction:column;gap:0.35rem;">
+                  <div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:2px;"><span style="font-size:10px;color:#778877;">skip_rate</span><span style="font-size:10px;color:#aaa;font-family:monospace;" id="cp-skip-val">—</span></div>
+                    <div style="background:#1a1a1a;border-radius:3px;height:5px;"><div id="cp-skip-bar" style="background:#ef4444;height:100%;border-radius:3px;width:0%;transition:width 0.3s;"></div></div>
+                  </div>
+                  <div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:2px;"><span style="font-size:10px;color:#778877;">replay_rate</span><span style="font-size:10px;color:#aaa;font-family:monospace;" id="cp-replay-val">—</span></div>
+                    <div style="background:#1a1a1a;border-radius:3px;height:5px;"><div id="cp-replay-bar" style="background:#1DB954;height:100%;border-radius:3px;width:0%;transition:width 0.3s;"></div></div>
+                  </div>
+                  <div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:2px;"><span style="font-size:10px;color:#778877;">top_genre</span><span style="font-size:10px;font-family:monospace;" id="cp-genre" style="color:#aaa;">—</span></div>
+                    <div>
+                      <div style="display:flex;justify-content:space-between;margin-bottom:2px;"><span style="font-size:10px;color:#667766;">affinity</span><span style="font-size:10px;color:#aaa;font-family:monospace;" id="cp-affinity-val">—</span></div>
+                      <div style="background:#1a1a1a;border-radius:3px;height:5px;"><div id="cp-affinity-bar" style="background:#60a5fa;height:100%;border-radius:3px;width:0%;transition:width 0.3s;"></div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="cp-origin" style="display:none;background:#0d1a0d;border-radius:5px;padding:0.5rem 0.6rem;">
+                <div style="font-size:10px;color:#1DB954;font-weight:700;margin-bottom:3px;">Raw events that made this</div>
+                <div style="font-size:11px;color:#4a7a4a;line-height:1.6;" id="cp-origin-text"></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding:0.75rem 1rem;border-top:1px solid #1a1a1a;background:#080808;">
+            <div style="font-size:11px;color:#4a7a4a;font-style:italic;">These positions come directly from the user_profiles table your feature engineering produced. The clusters were not defined — they emerged from where users naturally landed in this space.</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:#445566;margin-top:0.5rem;margin-bottom:1rem;text-align:center;letter-spacing:0.04em;"><strong style="color:#556655;">Figure 2.</strong> Listener Taste Clusters — 9 users plotted by skip_rate (X) and replay_rate (Y). Clusters emerged from behavior, not genre labels.</div>
+
+        <div style="margin-top:1rem;padding:0 0.25rem;">
+          <p style="font-size:14px;color:#555;line-height:1.75;margin-bottom:0.6rem;">Each dot's position is determined by two engineered features: <strong style="color:#8aaa8a;">skip_rate</strong> (X axis) and <strong style="color:#8aaa8a;">replay_rate</strong> (Y axis). Nobody drew these clusters or named them. The algorithm placed each user at their coordinates and the groups formed on their own — because users with similar listening behavior naturally landed near each other.</p>
+          <p style="font-size:14px;color:#555;line-height:1.75;margin-bottom:0.6rem;">Notice something important: the clusters are <em>behavioral</em>, not genre-based. The green Selective Listeners (top-left) skip a lot and replay selectively — they include a Pop fan (user_01), a Hip-Hop fan (user_04), and an Indie Pop fan (user_03). What they share is <em>how</em> they listen, not <em>what</em> they listen to. The purple Enthusiastic Replayers (user_08, user_09) barely skip anything and replay over 60% of songs — one loves Pop Rock, the other Hip-Hop. Again, behavior groups them, not genre.</p>
+          <p style="font-size:14px;color:#555;line-height:1.75;">Click any dot to trace the chain: raw listening events → engineered features → position in taste space → cluster membership. <strong style="color:#8aaa8a;">This is the same chain Spotify runs for 751 million users.</strong> The only difference is scale.</p>
+        </div>
+      </div>
+
+      <script>
+      (function(){
+        // User profiles computed from the actual lab engagement data
+        // Clusters are behaviorally-defined, not genre-defined — which is the real lesson:
+        // the algorithm groups by HOW people listen, not just WHAT they listen to.
+        //
+        // Cluster A — "Selective Listeners" (high skip, low-mid replay):
+        //   user_01, user_02, user_03, user_04 — all skip >40% of songs, replay selectively
+        // Cluster B — "Enthusiastic Replayers" (low skip, high replay):
+        //   user_08, user_09 — barely skip anything, replay >60% of what they hear
+        // Cluster C — "Casual Explorers" (low-mid skip, mid replay):
+        //   user_05, user_06, user_07 — open listeners, moderate engagement across genres
+        const USERS = [
+          {id:'user_01',skip:0.40,replay:0.40,genre:'Pop',affinity:0.90,color:'#1DB954',cluster:'Selective Listener',
+           raw:'Top genre: Pop (avg 0.90)\nReplayed: As It Was, Blinding Lights, Levitating, STAY, Watermelon Sugar, drivers license\nSkipped: HUMBLE., God\'s Plan, Industry Baby, Peaches, bad guy, Leave The Door Open'},
+          {id:'user_02',skip:0.40,replay:0.33,genre:'Pop',affinity:0.77,color:'#1DB954',cluster:'Selective Listener',
+           raw:'Top genre: Pop (avg 0.77)\nReplayed: Blinding Lights, Levitating, Peaches, Watermelon Sugar, drivers license\nSkipped: God\'s Plan, HUMBLE., MONTERO, Industry Baby, Leave The Door Open'},
+          {id:'user_03',skip:0.53,replay:0.27,genre:'Indie Pop',affinity:0.90,color:'#1DB954',cluster:'Selective Listener',
+           raw:'Top genre: Indie Pop (avg 0.90) — bad guy by Billie Eilish\nReplayed: God\'s Plan, HUMBLE., Industry Baby, bad guy\nSkipped: As It Was, Blinding Lights, Levitating, STAY, drivers license, Heat Waves, Leave The Door Open'},
+          {id:'user_04',skip:0.47,replay:0.33,genre:'Hip-Hop',affinity:0.90,color:'#1DB954',cluster:'Selective Listener',
+           raw:'Top genre: Hip-Hop (avg 0.90)\nReplayed: God\'s Plan, HUMBLE., Industry Baby, MONTERO, Watermelon Sugar\nSkipped: Blinding Lights, Levitating, STAY, drivers license, Leave The Door Open'},
+          {id:'user_05',skip:0.20,replay:0.27,genre:'R&B',affinity:0.70,color:'#60a5fa',cluster:'Casual Explorer',
+           raw:'Top genre: R&B (avg 0.70) — Peaches\nReplayed: As It Was, Blinding Lights, God\'s Plan, Peaches\nSkipped: Industry Baby, MONTERO only'},
+          {id:'user_06',skip:0.33,replay:0.53,genre:'R&B',affinity:0.90,color:'#60a5fa',cluster:'Casual Explorer',
+           raw:'Top genre: R&B (avg 0.90) — Leave The Door Open, Peaches\nReplayed: As It Was, Blinding Lights, Leave The Door Open, Levitating, Peaches, STAY, drivers license, good 4 u\nSkipped: God\'s Plan, Heat Waves, Industry Baby, bad guy'},
+          {id:'user_07',skip:0.27,replay:0.33,genre:'Indie',affinity:0.90,color:'#60a5fa',cluster:'Casual Explorer',
+           raw:'Top genre: Indie (avg 0.90) — Heat Waves by Glass Animals\nReplayed: Heat Waves, Levitating, MONTERO, Watermelon Sugar, bad guy\nSkipped: Blinding Lights, God\'s Plan, Industry Baby, Leave The Door Open'},
+          {id:'user_08',skip:0.20,replay:0.60,genre:'Pop Rock',affinity:0.90,color:'#a78bfa',cluster:'Enthusiastic Replayer',
+           raw:'Top genre: Pop Rock (avg 0.90) — good 4 u by Olivia Rodrigo\nReplayed: Blinding Lights, God\'s Plan, Industry Baby, Levitating, Peaches, STAY, Watermelon Sugar, drivers license, good 4 u\nSkipped: Heat Waves, HUMBLE. only'},
+          {id:'user_09',skip:0.20,replay:0.60,genre:'Hip-Hop',affinity:0.90,color:'#a78bfa',cluster:'Enthusiastic Replayer',
+           raw:'Top genre: Hip-Hop (avg 0.90)\nReplayed: Blinding Lights, God\'s Plan, HUMBLE., Industry Baby, Levitating, MONTERO, STAY, Watermelon Sugar, drivers license\nSkipped: Heat Waves, bad guy only'},
+          {id:'user_10',skip:0.13,replay:0.67,genre:'Pop',affinity:0.88,color:'#a78bfa',cluster:'Enthusiastic Replayer',
+           raw:'Top genre: Pop (avg 0.88)\nReplayed: As It Was, Blinding Lights, Levitating, STAY, Watermelon Sugar, drivers license, good 4 u, Peaches, Leave The Door Open, Heat Waves\nSkipped: HUMBLE. only'},
+        ];
+
+        const canvas = document.getElementById('clust-canvas');
+        if(!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width, H = canvas.height;
+        const PAD = {l:40,r:45,t:20,b:30};
+
+        function toX(skip){ return PAD.l + skip * (W - PAD.l - PAD.r) / 0.6; }
+        function toY(replay){ return H - PAD.b - replay * (H - PAD.t - PAD.b) / 0.9; }
+
+        let selected = null;
+
+        function draw(){
+          ctx.clearRect(0,0,W,H);
+
+          // Grid
+          ctx.strokeStyle = '#1a1a1a';
+          ctx.lineWidth = 1;
+          [0,0.1,0.2,0.3,0.4,0.5,0.6].forEach(v=>{
+            const x = toX(v);
+            ctx.beginPath(); ctx.moveTo(x,PAD.t); ctx.lineTo(x,H-PAD.b); ctx.stroke();
+            ctx.fillStyle='#8aaa8a'; ctx.font='9px monospace'; ctx.textAlign='center';
+            ctx.fillText(v.toFixed(1),x,H-PAD.b+12);
+          });
+          [0,0.2,0.4,0.6,0.8].forEach(v=>{
+            const y = toY(v);
+            ctx.beginPath(); ctx.moveTo(PAD.l,y); ctx.lineTo(W-PAD.r,y); ctx.stroke();
+            ctx.fillStyle='#8aaa8a'; ctx.font='9px monospace'; ctx.textAlign='right';
+            ctx.fillText(v.toFixed(1),PAD.l-4,y+3);
+          });
+
+          // Cluster halos (convex group shading)
+          [
+            {color:'#1DB954',users:['user_01','user_02','user_03','user_04']},
+            {color:'#a78bfa',users:['user_08','user_09','user_10']},
+            {color:'#60a5fa',users:['user_05','user_06','user_07']},
+          ].forEach(({color,users})=>{
+            const pts = USERS.filter(u=>users.includes(u.id));
+            if(pts.length<2) return;
+            const cx = pts.reduce((s,u)=>s+toX(u.skip),0)/pts.length;
+            const cy = pts.reduce((s,u)=>s+toY(u.replay),0)/pts.length;
+            const r = Math.max(30, ...pts.map(u=>Math.hypot(toX(u.skip)-cx, toY(u.replay)-cy)))+22;
+            const grad = ctx.createRadialGradient(cx,cy,0,cx,cy,r);
+            grad.addColorStop(0, color+'18');
+            grad.addColorStop(1, color+'00');
+            ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
+            ctx.fillStyle=grad; ctx.fill();
+          });
+
+          // Dots
+          USERS.forEach(u=>{
+            const x=toX(u.skip), y=toY(u.replay);
+            const isSel = selected && selected.id===u.id;
+            ctx.beginPath(); ctx.arc(x,y,isSel?9:6,0,Math.PI*2);
+            ctx.fillStyle = isSel ? u.color : u.color+'cc';
+            ctx.fill();
+            if(isSel){
+              ctx.beginPath(); ctx.arc(x,y,13,0,Math.PI*2);
+              ctx.strokeStyle=u.color+'80'; ctx.lineWidth=2; ctx.stroke();
+            }
+            // Smart label placement: check for nearby dots and right-edge crowding
+            const label = u.id.replace('user_','u');
+            const nearRight = x > W - PAD.r - 55;
+            const nearOther = USERS.some(other => other.id !== u.id &&
+              Math.hypot(toX(other.skip)-x, toY(other.replay)-y) < 28);
+            ctx.fillStyle = isSel ? '#ffffff' : '#ccddcc';
+            ctx.font = `${isSel ? 'bold ' : ''}9px monospace`;
+            if(nearRight || nearOther){
+              // Place label above the dot
+              ctx.textAlign='center';
+              ctx.fillText(label, x, y-11);
+            } else {
+              ctx.textAlign='left';
+              ctx.fillText(label, x+10, y+3);
+            }
+          });
+        }
+
+        canvas.addEventListener('click',function(e){
+          const rect=canvas.getBoundingClientRect();
+          const scaleX=W/rect.width, scaleY=H/rect.height;
+          const mx=(e.clientX-rect.left)*scaleX, my=(e.clientY-rect.top)*scaleY;
+          let hit=null, best=999;
+          USERS.forEach(u=>{
+            const d=Math.hypot(toX(u.skip)-mx,toY(u.replay)-my);
+            if(d<best&&d<20){best=d;hit=u;}
+          });
+          selected = (hit && selected && hit.id===selected.id) ? null : hit;
+          draw();
+          if(selected) showPanel(selected);
+          else clearPanel();
+        });
+
+        function showPanel(u){
+          document.getElementById('cp-name').textContent = u.id;
+          document.getElementById('cp-cluster').textContent = '● ' + u.cluster;
+          document.getElementById('cp-cluster').style.color = u.color;
+          document.getElementById('cp-skip-val').textContent = u.skip.toFixed(2);
+          document.getElementById('cp-skip-bar').style.width = (u.skip/0.5*100)+'%';
+          document.getElementById('cp-replay-val').textContent = u.replay.toFixed(2);
+          document.getElementById('cp-replay-bar').style.width = (u.replay/0.9*100)+'%';
+          const genreEl = document.getElementById('cp-genre');
+          genreEl.textContent = u.genre;
+          genreEl.style.color = u.color;
+          document.getElementById('cp-affinity-val').textContent = u.affinity.toFixed(2);
+          document.getElementById('cp-affinity-bar').style.width = (u.affinity*100)+'%';
+          document.getElementById('cp-affinity-bar').style.background = u.color;
+          document.getElementById('cp-origin-text').textContent = u.raw;
+          document.getElementById('cp-features').style.display='block';
+          document.getElementById('cp-origin').style.display='block';
+        }
+        function clearPanel(){
+          document.getElementById('cp-name').textContent='—';
+          document.getElementById('cp-cluster').textContent='Click a dot to explore';
+          document.getElementById('cp-cluster').style.color='#445566';
+          document.getElementById('cp-features').style.display='none';
+          document.getElementById('cp-origin').style.display='none';
+        }
+
+        draw();
+      })();
+      </script>
+      <!-- END CLUSTER VISUALIZER -->
+
       <div class="reflect-box">
-        <div class="reflect-label">Step 04 Reflection</div>
-        <div class="reflect-text">Give your three user groups a name based on what Claude identified. Then answer this: Spotify discovers these listener communities without ever asking a single user "what kind of music fan are you?" What does it mean strategically that a company can learn this much about its customers purely from behavioral data — and what are the implications of that for privacy and trust?</div>
+        <div class="reflect-label">Step 04 Reflection &mdash; write 2&ndash;3 sentences on each part</div>
+        <div class="reflect-text">
+          <strong>Part A — Claude's groupings:</strong> When you pasted your user_profiles table into Claude and asked it to find natural groups, what three clusters did it identify, and what features in the data led it to each one? How closely did Claude's groupings match what you can see in the Listener Taste Clusters chart above?
+          <br><br>
+          <strong>Part B — What the chart reveals:</strong> Look at the green Selective Listeners cluster. It contains a Pop fan, a Hip-Hop fan, and an Indie Pop fan — three very different genre tastes, but they all landed in the same cluster. What does that tell you about what the algorithm actually discovered? And why is grouping people by <em>how</em> they listen potentially more useful for Spotify than grouping them by <em>what genre</em> they prefer?
+          <br><br>
+          <strong>Part C — Scale and strategy:</strong> Spotify discovers these listener communities without ever asking a single user "what kind of music fan are you?" What does it mean strategically that a company can learn this much about its customers purely from behavioral data — and what are the implications for privacy and trust?
+        </div>
       </div>
 
     </div>
@@ -596,6 +896,7 @@ Then explain: this is essentially what a clustering algorithm does automatically
 
         <div style="font-size:12px;color:#445566;margin-top:1.25rem;padding-top:0.75rem;border-top:1px solid rgba(255,255,255,0.06);font-style:italic;">Notice what the algorithm never does: it never listens to the songs or analyzes their genre. It only looks at human behavior — which is exactly what makes it dependent on having lots of users.</div>
       </div>
+      <div style="font-size:11px;color:#445566;margin-top:0.5rem;margin-bottom:1rem;text-align:center;letter-spacing:0.04em;"><strong style="color:#556655;">Figure 3.</strong> How collaborative filtering works — four steps from user-song matrix to ranked recommendations.</div>
       <div class="prompt-box">
         <div class="prompt-label">Paste this into Claude &mdash; then copy the code into Colab and run it</div>
         <div class="prompt-text">Using the listening history dataset from my previous step, please add code that builds a collaborative filtering recommendation engine.
@@ -774,6 +1075,8 @@ Give me the complete HTML in one block. Add plain-English comments explaining ea
         <div class="insight-label">Notice the explore/exploit tradeoff</div>
         <div class="insight-text">As you interact, notice how your recommendations change. If you only replay the same type of song, the system <strong>exploits</strong> what it knows about you &mdash; narrowing in on familiar territory. If you skip around and try different things, it <strong>explores</strong> &mdash; broadening your recommendations. This tension between familiarity and discovery is one of the most important design decisions in any recommendation system. Spotify's ranking layer manages it deliberately for 751 million people simultaneously.</div>
       </div>
+
+      <div style="font-size:11px;color:#445566;margin-top:0.5rem;margin-bottom:0.75rem;text-align:center;letter-spacing:0.04em;"><strong style="color:#556655;">Figure 4.</strong> Live recommendation system — collaborative filtering and Wrapped running in real time on your interactions.</div>
 
       <div class="reflect-box">
         <div class="reflect-label">Step 06 Reflection &mdash; write 2&ndash;3 sentences</div>
