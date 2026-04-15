@@ -4,68 +4,63 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Writing Good Prompts — MIS 432 | AI in Business</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  :root { --black: #0e0e0d; --off-black: #1a1a18; --magenta: #e8197d; --white: #ffffff; --off-white: #f6f4f1; --text-dark: #0e0e0d; --text-muted: #3a3a38; --text-light: #6b6b68; --border: #e0ddd8; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Georgia, serif; background: #f5f5f5; color: #333; }
-
-  nav { background: #1a1a2e; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-family: Arial, sans-serif; }
-  .nav-brand { color: #fff; font-size: 16px; font-weight: 700; letter-spacing: 0.03em; text-decoration: none; }
-  .nav-brand span { color: #63b3ed; }
-  .nav-links { display: flex; gap: 1.5rem; align-items: center; }
-  .nav-links a { color: #a0aec0; font-size: 13px; text-decoration: none; font-family: Arial, sans-serif; }
-  .nav-links a:hover { color: #fff; }
-  .nav-links a.active { color: #fff; font-weight: 700; }
-
-  .hero { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); padding: 4rem 2rem 3rem; text-align: center; }
-  .hero-tag { display: inline-block; background: rgba(99,179,237,0.15); border: 1px solid rgba(99,179,237,0.4); color: #63b3ed; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 1rem; border-radius: 20px; margin-bottom: 1.25rem; font-family: Arial, sans-serif; }
-  .hero h1 { font-size: 42px; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 1rem; font-family: Georgia, serif; }
-  .hero h1 span { color: #63b3ed; }
-  .hero-meta { font-size: 14px; color: #718096; font-family: Arial, sans-serif; }
-  .hero-meta span { margin: 0 0.5rem; }
-
+  body { font-family: 'Space Grotesk', sans-serif; background: var(--white); color: var(--text-dark); }
+  nav { background: var(--black); padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; position: sticky; top: 0; z-index: 100; }
+  .nav-brand { color: var(--magenta); font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.08em; text-decoration: none; text-transform: uppercase; }
+  .nav-brand span { color: rgba(255,255,255,0.25); font-weight: 400; }
+  .nav-links { display: flex; gap: 1.75rem; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.5); font-size: 13px; text-decoration: none; font-weight: 500; transition: color 0.15s; }
+  .nav-links a:hover { color: var(--magenta); }
+  .nav-links a.active { color: var(--magenta); font-weight: 600; }
+  .hero { position: relative; background: var(--black); padding: 4.5rem 2rem 4rem; text-align: center; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(232,25,125,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(232,25,125,0.06) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; }
+  .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 5px; background: var(--magenta); }
+  .hero-inner { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
+  .hero-stamp { display: inline-block; font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.15); padding: 0.3rem 0.9rem; margin-bottom: 1.75rem; }
+  .hero h1 { font-family: 'Oswald', sans-serif; font-size: 66px; font-weight: 700; color: #fff; line-height: 0.95; margin-bottom: 1rem; letter-spacing: -0.01em; text-transform: uppercase; }
+  .hero h1 span { color: var(--magenta); display: block; }
+  .hero-meta { font-size: 13px; color: rgba(255,255,255,0.3); font-style: italic; margin-top: 0.5rem; }
   .article { max-width: 680px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
-
-  .article p { font-size: 17px; line-height: 1.85; color: #2d3748; margin-bottom: 1.4rem; }
-  .article h2 { font-size: 26px; font-weight: 700; color: #1a1a2e; margin: 2.5rem 0 0.5rem; font-family: Georgia, serif; }
-  .article h3 { font-size: 17px; font-weight: 400; color: #718096; margin: 0 0 1rem; font-family: Georgia, serif; font-style: italic; }
-  .article hr { border: none; border-top: 1px solid #e2e8f0; margin: 2.5rem 0; }
-
-  .prompt-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1.25rem 0; font-family: Arial, sans-serif; }
+  .article p { font-size: 16px; line-height: 1.85; color: var(--text-muted); margin-bottom: 1.4rem; font-weight: 400; }
+  .article h2 { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; color: var(--text-dark); margin: 2.5rem 0 0.5rem; text-transform: uppercase; letter-spacing: 0.02em; }
+  .article h3 { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 400; color: var(--text-light); margin: 0 0 1rem; font-style: italic; }
+  .article hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+  .prompt-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1.25rem 0; }
   @media(max-width:580px){ .prompt-pair { grid-template-columns: 1fr; } }
-  .prompt-bad { background: #fff5f5; border-left: 3px solid #fc8181; border-radius: 0 8px 8px 0; padding: 0.9rem 1rem; }
-  .prompt-good { background: #f0fff4; border-left: 3px solid #68d391; border-radius: 0 8px 8px 0; padding: 0.9rem 1rem; }
-  .prompt-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .prompt-bad { background: #fff5f5; border-left: 4px solid #fc8181; padding: 0.9rem 1rem; }
+  .prompt-good { background: #f0fff4; border-left: 4px solid #48bb78; padding: 0.9rem 1rem; }
+  .prompt-lbl { font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; }
   .prompt-bad .prompt-lbl { color: #c53030; }
   .prompt-good .prompt-lbl { color: #276749; }
-  .prompt-txt { font-size: 13px; line-height: 1.65; color: #2d3748; font-style: italic; }
-
-  .callout { border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin: 1.25rem 0; font-family: Arial, sans-serif; }
-  .callout-fix { background: #ebf8ff; border-left: 3px solid #63b3ed; }
-  .callout-meta { background: #faf5ff; border-left: 3px solid #b794f4; }
-  .callout-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.35rem; color: #2b6cb0; }
-  .callout-meta .callout-lbl { color: #6b46c1; }
-  .callout p { font-size: 14px; color: #2d3748; line-height: 1.7; margin: 0; font-family: Arial, sans-serif; }
-
-  .iteration { background: #f7fafc; border-radius: 8px; padding: 1rem 1.25rem; margin: 1.25rem 0; font-family: Arial, sans-serif; }
+  .prompt-txt { font-size: 13px; line-height: 1.65; color: var(--text-muted); font-style: italic; font-weight: 400; }
+  .callout { padding: 1rem 1.25rem; margin: 1.25rem 0; }
+  .callout-fix { background: var(--off-white); border-left: 4px solid var(--magenta); }
+  .callout-meta { background: var(--off-white); border-left: 4px solid var(--off-black); }
+  .callout-lbl { font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.35rem; color: var(--magenta); }
+  .callout-meta .callout-lbl { color: var(--text-dark); }
+  .callout p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin: 0; font-weight: 400; }
+  .iteration { background: var(--off-white); border: 1px solid var(--border); padding: 1rem 1.25rem; margin: 1.25rem 0; }
   .iter-row { display: flex; gap: 0.75rem; margin-bottom: 0.75rem; align-items: flex-start; }
   .iter-row:last-child { margin-bottom: 0; }
-  .iter-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #718096; flex-shrink: 0; min-width: 85px; padding-top: 2px; }
-  .iter-txt { font-size: 13px; color: #2d3748; line-height: 1.65; font-style: italic; }
-
-  .checklist { background: #1a1a2e; border-radius: 12px; padding: 2rem; margin: 2.5rem 0; font-family: Arial, sans-serif; }
-  .checklist-lbl { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #63b3ed; margin-bottom: 0.4rem; }
-  .checklist h2 { font-size: 20px; font-weight: 700; color: #fff; margin: 0 0 1.25rem; font-family: Arial, sans-serif; }
+  .iter-lbl { font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-light); flex-shrink: 0; min-width: 85px; padding-top: 2px; }
+  .iter-txt { font-size: 13px; color: var(--text-muted); line-height: 1.65; font-style: italic; font-weight: 400; }
+  .checklist { background: var(--off-black); border-left: 5px solid var(--magenta); padding: 2rem; margin: 2.5rem 0; }
+  .checklist-lbl { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--magenta); margin-bottom: 0.4rem; }
+  .checklist h2 { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: #fff; margin: 0 0 1.25rem; text-transform: uppercase; letter-spacing: 0.02em; }
   .check-item { display: flex; gap: 0.75rem; margin-bottom: 0.6rem; }
-  .check-num { color: #63b3ed; font-weight: 800; font-size: 14px; flex-shrink: 0; min-width: 20px; }
-  .check-txt { font-size: 14px; color: #a0aec0; line-height: 1.6; }
-  .check-txt strong { color: #fff; }
-
-  .notes { border-top: 1px solid #e2e8f0; padding-top: 1.5rem; margin-top: 1rem; }
-  .notes p { font-size: 13px; color: #718096; line-height: 1.7; margin-bottom: 0.35rem; font-family: Arial, sans-serif; }
-
-  footer { background: #111827; padding: 2rem; text-align: center; font-family: Arial, sans-serif; }
-  footer p { font-size: 13px; color: #4a5568; }
-  footer a { color: #63b3ed; text-decoration: none; }
+  .check-num { color: var(--magenta); font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 15px; flex-shrink: 0; min-width: 20px; }
+  .check-txt { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.6; font-weight: 400; }
+  .check-txt strong { color: #fff; font-weight: 600; }
+  .notes { border-top: 1px solid var(--border); padding-top: 1.5rem; margin-top: 1rem; }
+  .notes p { font-size: 13px; color: var(--text-light); line-height: 1.7; margin-bottom: 0.35rem; font-weight: 400; }
+  footer { background: var(--black); padding: 2rem; text-align: center; border-top: 5px solid var(--magenta); }
+  footer p { font-size: 13px; color: rgba(255,255,255,0.28); }
+  footer a { color: var(--magenta); text-decoration: none; }
+  footer a:hover { color: #fff; }
 </style>
 </head>
 <body>
@@ -74,7 +69,6 @@
   <a href="index.html" class="nav-brand">MIS 432 <span>&middot;</span> AI in Business</a>
   <div class="nav-links">
     <a href="index.html">Home</a>
-    <a href="index.html#about">About the Digital Textbook</a>
     <a href="good-prompts.html" class="active">Writing Good Prompts</a>
     <a href="ai-pulse.html">AI News + Sources</a>
     <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a>
@@ -82,9 +76,10 @@
 </nav>
 
 <div class="hero">
-  <div class="hero-tag">Student Resource &middot; MIS 432</div>
-  <h1><span>Writing</span> <span>Good Prompts</span></h1>
-  <div class="hero-meta">MIS 432 &middot; AI in Business <span>&middot;</span> 7 min read</div>
+  <div class="hero-inner">
+    <div class="hero-stamp">MIS 432 &nbsp;&middot;&nbsp; Student Resource &nbsp;&middot;&nbsp; 7 min read</div>
+    <h1>Writing<span>Good Prompts</span></h1>
+  </div>
 </div>
 
 <div class="article">
