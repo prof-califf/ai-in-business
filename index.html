@@ -4,120 +4,176 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI in Business — MIS 432 | Western Washington University</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --black: #0e0e0d;
+    --off-black: #1a1a18;
+    --magenta: #e8197d;
+    --magenta-dark: #c0146a;
+    --white: #ffffff;
+    --off-white: #f6f4f1;
+    --text-dark: #0e0e0d;
+    --text-muted: #3a3a38;
+    --text-light: #6b6b68;
+    --border: #e0ddd8;
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial, sans-serif; background: #f5f5f5; color: #333; }
+  body { font-family: 'Space Grotesk', sans-serif; background: var(--white); color: var(--text-dark); }
 
   /* NAV */
-  nav { background: #1a1a2e; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
-  .nav-brand { color: #fff; font-size: 16px; font-weight: 700; letter-spacing: 0.03em; }
-  .nav-brand span { color: #63b3ed; }
-  .nav-links { display: flex; gap: 1.5rem; }
-  .nav-links a { color: #a0aec0; font-size: 13px; text-decoration: none; }
-  .nav-links a:hover { color: #fff; }
+  nav {
+    background: var(--black);
+    padding: 0.85rem 2rem;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-brand { color: var(--magenta); font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.08em; text-decoration: none; text-transform: uppercase; }
+  .nav-brand span { color: rgba(255,255,255,0.25); font-weight: 400; }
+  .nav-links { display: flex; gap: 1.75rem; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.5); font-family: 'Space Grotesk', sans-serif; font-size: 13px; text-decoration: none; font-weight: 500; transition: color 0.15s; letter-spacing: 0.02em; }
+  .nav-links a:hover { color: var(--magenta); }
+  .nav-links a.active { color: var(--magenta); font-weight: 600; }
 
   /* HERO */
-  .hero { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); padding: 5rem 2rem 4rem; text-align: center; }
-  .hero-tag { display: inline-block; background: rgba(99,179,237,0.15); border: 1px solid rgba(99,179,237,0.4); color: #63b3ed; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 1rem; border-radius: 20px; margin-bottom: 1.5rem; }
-  .hero h1 { font-size: 48px; font-weight: 800; color: #fff; line-height: 1.15; margin-bottom: 1rem; }
-  .hero h1 span { color: #63b3ed; }
-  .hero-sub { font-size: 20px; color: #a0aec0; max-width: 620px; margin: 0 auto 1.5rem; line-height: 1.6; }
-  .hero-tagline { font-size: 15px; color: #63b3ed; font-style: italic; margin-bottom: 2.5rem; }
-  .hero-meta { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; }
-  .hero-meta-item { text-align: center; }
-  .hero-meta-num { font-size: 28px; font-weight: 800; color: #fff; }
-  .hero-meta-label { font-size: 12px; color: #718096; margin-top: 2px; }
+  .hero {
+    position: relative;
+    background: var(--black);
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(232,25,125,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,25,125,0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 5px;
+    background: var(--magenta);
+  }
+  .hero-inner { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; }
+
+  /* Stamp label */
+  .hero-stamp {
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 0.3rem 0.9rem; margin-bottom: 2rem;
+  }
+
+  .hero h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 88px; font-weight: 700; color: #fff;
+    line-height: 0.95; margin-bottom: 1.25rem;
+    letter-spacing: -0.01em; text-transform: uppercase;
+  }
+  .hero h1 .line2 { display: block; color: var(--magenta); }
+  .hero-sub { font-family: 'Space Grotesk', sans-serif; font-size: 17px; color: rgba(255,255,255,0.5); font-weight: 300; max-width: 520px; margin: 0 auto 0.85rem; line-height: 1.65; letter-spacing: 0.01em; }
+  .hero-tagline { font-family: 'Space Grotesk', sans-serif; font-size: 13px; color: rgba(255,255,255,0.25); font-style: italic; margin-bottom: 3rem; }
+
+  .hero-meta { display: flex; justify-content: center; gap: 0; flex-wrap: wrap; border: 1px solid rgba(232,25,125,0.3); max-width: 480px; margin: 0 auto; }
+  .hero-meta-item { flex: 1; min-width: 110px; padding: 1rem; text-align: center; border-right: 1px solid rgba(232,25,125,0.2); background: rgba(232,25,125,0.05); }
+  .hero-meta-item:last-child { border-right: none; }
+  .hero-meta-num { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; color: var(--magenta); letter-spacing: 0.02em; }
+  .hero-meta-label { font-family: 'Space Grotesk', sans-serif; font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
 
   /* ABOUT */
-  .about { background: #fff; padding: 3rem 2rem; }
-  .about-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
-  .about h2 { font-size: 26px; font-weight: 700; color: #1a1a2e; margin-bottom: 1rem; }
-  .about p { font-size: 15px; color: #555; line-height: 1.75; margin-bottom: 0.9rem; }
+  .about { background: var(--white); padding: 4.5rem 2rem; border-bottom: 1px solid var(--border); }
+  .about-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .about h2 { font-family: 'Oswald', sans-serif; font-size: 42px; font-weight: 700; color: var(--text-dark); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.02em; }
+  .about p { font-size: 15px; color: var(--text-muted); line-height: 1.8; margin-bottom: 0.9rem; font-weight: 400; }
   .about-features { display: flex; flex-direction: column; gap: 0.75rem; }
-  .feature-item { display: flex; align-items: flex-start; gap: 0.75rem; background: #f7fafc; border-radius: 8px; padding: 0.85rem 1rem; }
-  .feature-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; }
-  .feature-icon.blue { background: #ebf8ff; color: #2b6cb0; }
-  .feature-icon.green { background: #f0fff4; color: #276749; }
-  .feature-icon.purple { background: #faf5ff; color: #6b46c1; }
-  .feature-text strong { font-size: 14px; color: #1a1a2e; display: block; margin-bottom: 2px; }
-  .feature-text span { font-size: 13px; color: #718096; }
+  .feature-item { display: flex; align-items: flex-start; gap: 0.85rem; background: var(--off-white); border: 1px solid var(--border); border-left: 4px solid var(--magenta); padding: 0.85rem 1rem; }
+  .feature-icon { font-size: 17px; flex-shrink: 0; margin-top: 1px; }
+  .feature-text strong { font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600; color: var(--text-dark); display: block; margin-bottom: 2px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .feature-text span { font-size: 13px; color: var(--text-muted); line-height: 1.5; font-weight: 400; }
 
   /* HOW IT WORKS */
-  .how { background: #f7fafc; padding: 3rem 2rem; }
+  .how { background: var(--off-white); padding: 4.5rem 2rem; border-bottom: 1px solid var(--border); }
   .how-inner { max-width: 900px; margin: 0 auto; }
-  .section-label { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #63b3ed; margin-bottom: 0.5rem; }
-  .section-title { font-size: 26px; font-weight: 700; color: #1a1a2e; margin-bottom: 0.5rem; }
-  .section-sub { font-size: 15px; color: #718096; margin-bottom: 2rem; }
-  .how-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-  .how-step { background: #fff; border-radius: 10px; padding: 1.5rem; border: 1px solid #e2e8f0; text-align: center; }
-  .how-step-num { width: 40px; height: 40px; border-radius: 50%; background: #1a1a2e; color: #fff; font-size: 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem; }
-  .how-step h4 { font-size: 15px; font-weight: 700; color: #1a1a2e; margin-bottom: 0.4rem; }
-  .how-step p { font-size: 13px; color: #718096; line-height: 1.6; }
+  .section-label { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--magenta); margin-bottom: 0.35rem; }
+  .section-title { font-family: 'Oswald', sans-serif; font-size: 42px; font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.02em; }
+  .section-sub { font-size: 15px; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.7; font-weight: 400; max-width: 640px; }
+  .how-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .how-step { background: var(--white); border: 1px solid var(--border); border-top: 4px solid var(--magenta); padding: 1.5rem; text-align: center; }
+  .how-step-num { width: 36px; height: 36px; background: var(--black); color: var(--magenta); font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem; }
+  .how-step h4 { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 600; color: var(--text-dark); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.03em; }
+  .how-step p { font-size: 13px; color: var(--text-muted); line-height: 1.65; font-weight: 400; }
 
   /* CHAPTERS */
-  .chapters { background: #fff; padding: 3rem 2rem; }
+  .chapters { background: var(--white); padding: 4.5rem 2rem; }
   .chapters-inner { max-width: 900px; margin: 0 auto; }
-  .chapter-card { border-radius: 12px; overflow: hidden; margin-bottom: 2rem; border: 1px solid #e2e8f0; }
+  .chapter-card { overflow: hidden; margin-bottom: 1.75rem; border: 1px solid var(--border); box-shadow: 0 2px 16px rgba(0,0,0,0.07); }
   .chapter-header { padding: 1.75rem 2rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
   .chapter-header-left { flex: 1; }
-  .chapter-num { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; opacity: 0.85; }
-  .chapter-header h3 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 0.3rem; line-height: 1.3; }
-  .chapter-company { font-size: 13px; opacity: 0.75; color: #fff; }
+  .chapter-num { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.4rem; opacity: 0.9; }
+  .chapter-header h3 { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 0.3rem; line-height: 1.25; text-transform: uppercase; letter-spacing: 0.02em; }
+  .chapter-company { font-family: 'Space Grotesk', sans-serif; font-size: 13px; opacity: 0.6; color: #fff; font-weight: 400; }
   .chapter-links { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: flex-start; padding-top: 0.2rem; }
-  .btn { display: inline-block; padding: 0.5rem 1.1rem; border-radius: 6px; font-size: 13px; font-weight: 700; text-decoration: none; transition: opacity 0.15s; }
-  .btn:hover { opacity: 0.85; }
+  .btn { display: inline-block; padding: 0.5rem 1.1rem; font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; text-decoration: none; transition: opacity 0.15s; letter-spacing: 0.06em; text-transform: uppercase; }
+  .btn:hover { opacity: 0.82; }
   .btn-white { background: #fff; }
-  .btn-outline { background: transparent; border: 1.5px solid rgba(255,255,255,0.6); color: #fff; }
-  .chapter-body { background: #fff; padding: 1.25rem 2rem; display: flex; gap: 2rem; flex-wrap: wrap; border-top: 1px solid #e2e8f0; }
+  .btn-outline { background: transparent; border: 1.5px solid rgba(255,255,255,0.5); color: #fff; }
+  .chapter-body { background: var(--off-white); padding: 1.25rem 2rem; display: flex; gap: 2rem; flex-wrap: wrap; border-top: 1px solid var(--border); }
   .chapter-body-col { flex: 1; min-width: 200px; }
-  .chapter-body-col h4 { font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #a0aec0; margin-bottom: 0.5rem; }
+  .chapter-body-col h4 { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.5rem; }
   .chapter-body-col ul { list-style: none; padding: 0; }
-  .chapter-body-col li { font-size: 13px; color: #555; padding: 3px 0; padding-left: 1rem; position: relative; }
-  .chapter-body-col li::before { content: "→"; position: absolute; left: 0; color: #a0aec0; }
+  .chapter-body-col li { font-size: 13px; color: var(--text-muted); padding: 3px 0; padding-left: 1rem; position: relative; font-weight: 400; }
+  .chapter-body-col li::before { content: "→"; position: absolute; left: 0; color: var(--magenta); font-size: 11px; }
 
-  /* EveryCure colors */
+  /* Chapter brand colors — unchanged */
   .ec-header { background: linear-gradient(135deg, #0f3460, #533483); }
   .ec-num { color: #a78bfa; }
-  /* Netflix colors */
   .nf-header { background: linear-gradient(135deg, #141414, #e50914); }
   .nf-num { color: #fc8181; }
-  /* Spotify colors */
   .sp-header { background: linear-gradient(135deg, #191414, #1DB954); }
   .sp-num { color: #6ee7b7; }
-
-  /* Uber colors */
   .ub-header { background: linear-gradient(135deg, #000000 0%, #0d1f22 60%, #122a2e 100%); }
   .ub-num { color: #1fbad6; }
 
   /* AI FACTORY */
-  .factory { background: #1a1a2e; padding: 3rem 2rem; }
+  .factory { background: var(--off-black); padding: 4.5rem 2rem; }
   .factory-inner { max-width: 900px; margin: 0 auto; text-align: center; }
-  .factory h2 { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
-  .factory-sub { font-size: 15px; color: #718096; margin-bottom: 2rem; }
+  .factory .section-label { color: var(--magenta); }
+  .factory .section-title { color: #fff; }
+  .factory-sub { font-size: 15px; color: rgba(255,255,255,0.4); margin-bottom: 2rem; font-weight: 300; }
   .factory-steps { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
-  .factory-step { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 0.85rem 1.25rem; text-align: center; min-width: 110px; }
-  .factory-step-name { font-size: 14px; font-weight: 700; color: #fff; }
-  .factory-step-desc { font-size: 11px; color: #718096; margin-top: 3px; }
-  .factory-arrow { color: #4a5568; font-size: 18px; }
-  .factory-note { font-size: 14px; color: #63b3ed; font-style: italic; }
+  .factory-step { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); padding: 0.85rem 1.25rem; text-align: center; min-width: 110px; }
+  .factory-step-name { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; color: #fff; letter-spacing: 0.05em; text-transform: uppercase; }
+  .factory-step-desc { font-size: 11px; color: rgba(255,255,255,0.28); margin-top: 3px; font-weight: 400; }
+  .factory-arrow { color: rgba(255,255,255,0.15); font-size: 18px; }
+  .factory-note { font-size: 15px; color: rgba(255,255,255,0.45); font-style: italic; max-width: 680px; margin: 0 auto; line-height: 1.75; font-weight: 300; }
+  .factory-note em { color: var(--magenta); font-style: normal; font-weight: 600; }
 
   /* FOOTER */
-  footer { background: #111827; padding: 2rem; text-align: center; }
-  footer p { font-size: 13px; color: #4a5568; }
-  footer a { color: #63b3ed; text-decoration: none; }
+  footer { background: var(--black); padding: 2rem; text-align: center; border-top: 5px solid var(--magenta); }
+  footer p { font-size: 13px; color: rgba(255,255,255,0.28); font-family: 'Space Grotesk', sans-serif; }
+  footer a { color: var(--magenta); text-decoration: none; }
+  footer a:hover { color: #fff; }
 
   @media (max-width: 640px) {
-    .hero h1 { font-size: 32px; }
+    .hero h1 { font-size: 52px; }
     .about-inner { grid-template-columns: 1fr; }
     .how-steps { grid-template-columns: 1fr; }
     .chapter-header { flex-direction: column; }
+    .hero-meta-item { min-width: 90px; }
   }
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-brand">MIS 432 <span>·</span> AI in Business</div>
+  <a href="index.html" class="nav-brand">MIS 432 <span>·</span> AI in Business</a>
   <div class="nav-links">
     <a href="#chapters">Chapters</a>
     <a href="good-prompts.html">Writing Good Prompts</a>
@@ -127,15 +183,17 @@
 </nav>
 
 <div class="hero">
-  <div class="hero-tag">MIS 432 · Western Washington University</div>
-  <h1>AI in Business:<br><span>Real Companies. Real Data. Real AI.</span></h1>
-  <p class="hero-sub">A free, case-based textbook that teaches machine learning and AI strategy through the companies that are actually doing it.</p>
-  <p class="hero-tagline">"Every chapter is a real company. Every concept is something you'll use."</p>
-  <div class="hero-meta">
-    <div class="hero-meta-item"><div class="hero-meta-num">4</div><div class="hero-meta-label">Chapters</div></div>
-    <div class="hero-meta-item"><div class="hero-meta-num">4</div><div class="hero-meta-label">Hands-on Labs</div></div>
-    <div class="hero-meta-item"><div class="hero-meta-num">30+</div><div class="hero-meta-label">Key AI Concepts</div></div>
-    <div class="hero-meta-item"><div class="hero-meta-num">Free</div><div class="hero-meta-label">Always</div></div>
+  <div class="hero-inner">
+    <div class="hero-stamp">Western Washington University &nbsp;·&nbsp; MIS 432 &nbsp;·&nbsp; Free</div>
+    <h1>AI in Business:<br><span class="line2">Real Companies.<br>Real Data. Real AI.</span></h1>
+    <p class="hero-sub">A free, case-based textbook that teaches machine learning and AI strategy through the companies that are actually doing it.</p>
+    <p class="hero-tagline">"Every chapter is a real company. Every concept is something you'll use."</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><div class="hero-meta-num">4</div><div class="hero-meta-label">Chapters</div></div>
+      <div class="hero-meta-item"><div class="hero-meta-num">4</div><div class="hero-meta-label">Labs</div></div>
+      <div class="hero-meta-item"><div class="hero-meta-num">30+</div><div class="hero-meta-label">AI Concepts</div></div>
+      <div class="hero-meta-item"><div class="hero-meta-num">Free</div><div class="hero-meta-label">Always</div></div>
+    </div>
   </div>
 </div>
 
@@ -200,7 +258,7 @@
 
 <div class="factory">
   <div class="factory-inner">
-    <div class="section-label" style="color:#63b3ed;">The Thread That Connects Every Chapter</div>
+    <div class="section-label">The Thread That Connects Every Chapter</div>
     <h2>The AI Factory Model</h2>
     <p class="factory-sub">Every company in this textbook follows the same underlying pattern. Learning to see it is the core skill of the course.</p>
     <div class="factory-steps">
@@ -214,7 +272,7 @@
       <div class="factory-arrow">→</div>
       <div class="factory-step"><div class="factory-step-name">Value</div><div class="factory-step-desc">Business outcome</div></div>
       <div class="factory-arrow">→</div>
-      <div class="factory-step" style="border-color:rgba(99,179,237,0.4);"><div class="factory-step-name" style="color:#63b3ed;">↩ Loop</div><div class="factory-step-desc">Back to data</div></div>
+      <div class="factory-step" style="border-color:rgba(232,25,125,0.35);"><div class="factory-step-name" style="color:#e8197d;">↩ Loop</div><div class="factory-step-desc">Back to data</div></div>
     </div>
     <p class="factory-note">EveryCure uses it to find drug treatments. Netflix uses it to test artwork. Spotify uses it to personalize music. Uber <em>is</em> it — the algorithm and the business are the same thing. Same loop. Very different stakes.</p>
   </div>
