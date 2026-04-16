@@ -285,13 +285,9 @@
         <div class="reflect-text">Look at the chart above. Can you see a long-run direction (trend)? Can you see any repeating patterns (seasonality)? Identify one specific moment where demand spikes and try to explain in business terms why that spike might be happening. What does Uber need to know <em>before</em> that spike hits in order to respond to it?</div>
       </div>
 
-      <div class="insight-box">
-        <div class="insight-label">What this prompt is actually doing</div>
-        <div class="insight-text">You are asking Claude to build a simulated but realistic dataset — two years of weekly Uber trip data for Bellingham — and immediately plot it. The dataset is synthetic, but the patterns are real: an upward trend as the market grows, a summer lift as students and tourists increase activity, a Christmas dip, and a New Year's Eve spike. Claude will also add plain-English comments to every section of code so you can read what is happening without needing a programming background. The output you care about most is the chart — it is the same data you already saw on this page, now in your own Colab notebook and ready to build on.</div>
-      </div>
-
       <div class="prompt-steps">
         <div class="prompt-steps-label">📋 What you will do with this prompt</div>
+        <ol>
           <li><strong>Open Claude</strong> at claude.ai in a new tab and paste it into a new conversation.</li>
           <li><strong>Read Claude's response</strong> — it will explain what it's doing before giving you code. Read that explanation, not just the code.</li>
           <li><strong>Open Google Colab</strong> at colab.research.google.com, create a new notebook, and paste the code Claude gives you into the first cell.</li>
@@ -321,6 +317,11 @@ Please write complete Python code for Google Colab that does the following:
 Add a plain-English comment above each section explaining what it does and why, as if explaining to a business student who has never coded before. No ARIMA, no LSTM — keep the data generation simple and readable.</div>
       </div>
 
+      <div class="insight-box">
+        <div class="insight-label">What this prompt is actually doing</div>
+        <div class="insight-text">You are asking Claude to build a simulated but realistic dataset — two years of weekly Uber trip data for Bellingham — and immediately plot it. The dataset is synthetic, but the patterns are real: an upward trend as the market grows, a summer lift as students and tourists increase activity, a Christmas dip, and a New Year's Eve spike. Claude will also add plain-English comments to every section of code so you can read what is happening without needing a programming background. The output you care about most is the chart — it is the same data you already saw on this page, now in your own Colab notebook and ready to build on.</div>
+      </div>
+
       <div class="code-peek">
         <div class="code-peek-head" onclick="toggleCode('cdata')">
           <span class="code-peek-title">&#9658; What your data will look like &mdash; click to peek</span>
@@ -348,11 +349,6 @@ Add a plain-English comment above each section explaining what it does and why, 
         <div class="reflect-text">Now that you have seen the data both in the live chart above and in your Colab output: what would happen to Uber's business if their model only learned the average weekly trip count and ignored seasonality entirely? Name one concrete operational problem that would result — for riders, for drivers, or for Uber's infrastructure.</div>
       </div>
 
-      <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:8px; padding:0.85rem 1.1rem; margin:1rem 0;">
-        <div style="font-size:11px; font-weight:700; color:#166534; text-transform:uppercase; letter-spacing:0.07em; margin-bottom:0.4rem;">↓ What this feeds into — Step 2</div>
-        <p style="font-size:14px; color:#333; margin:0; line-height:1.65;">You now have what Uber calls a <strong>trip history</strong> — a record of how many rides happened each week, going back two years. In Step 2 you are going to teach a model to find the patterns in that history, so it can predict what comes next. That prediction is what everything else in this lab depends on.</p>
-      </div>
-
     </div>
   </div>
 
@@ -377,11 +373,6 @@ Add a plain-English comment above each section explaining what it does and why, 
       <div class="reflect-box">
         <div class="reflect-label">From the case &mdash; Chapter 4, Section 6</div>
         <div class="reflect-text">After you run the prompt and see your output, you will hit a question at the end of this step: should you trust a model nobody can explain if it is more accurate than one you can? Section 6 of the case covers exactly that tradeoff — Uber's own reasoning on black-box vs. interpretable models. Worth reading before you answer.</div>
-      </div>
-
-      <div class="insight-box">
-        <div class="insight-label">What this prompt is actually doing</div>
-        <div class="insight-text">Before you paste anything, read this so you know what to look for in the output. The prompt asks Claude to build your model in three phases that mirror exactly what Uber's engineering team does before deploying any model. <strong>Phase A</strong> is feature engineering — turning your raw week/trips table into something a model can actually learn from by adding three signal columns (week number, summer flag, NYE flag). <strong>Phase B</strong> is the backtest: you hide the last 26 weeks from the model, train it only on weeks 1–78, then let it predict weeks 79–104 and compare those predictions against what "actually happened." This honest test on data the model never saw is called backtesting — if it fails here, it fails in production. <strong>Phase C</strong> makes the uncertainty visible: instead of just a single predicted line, the chart shows a shaded band of ±15% around each prediction. That band is your prediction interval — the honest range of outcomes the model considers plausible. When you look at your chart, ask yourself: which weeks does the model miss badly? And what does the width of the shaded band tell an operations manager about how much buffer to build into driver recruitment?</div>
       </div>
 
       <div class="prompt-steps">
@@ -426,19 +417,18 @@ Plot the full 104 weeks as a line chart showing:
 Keep all code from previous steps plus this new code in one block. Add plain-English comments throughout. No ARIMA, no LSTM — linear regression only.</div>
       </div>
 
+      <div class="insight-box">
+        <div class="insight-label">What this prompt is actually doing</div>
+        <div class="insight-text">The prompt asks Claude to build your model in three phases that mirror exactly what Uber's engineering team does before deploying any model. <strong>Phase A</strong> is feature engineering — turning your raw week/trips table into something a model can actually learn from by adding three signal columns (week number, summer flag, NYE flag). <strong>Phase B</strong> is the backtest: you hide the last 26 weeks from the model, train it only on weeks 1–78, then let it predict weeks 79–104 and compare those predictions against what "actually happened." This honest test on data the model never saw is called backtesting — if it fails here, it fails in production. <strong>Phase C</strong> makes the uncertainty visible: instead of just a single predicted line, the chart shows a shaded band of ±15% around each prediction. That band is your prediction interval — the honest range of outcomes the model considers plausible. When you look at your chart, ask yourself: which weeks does the model miss badly? And what does the width of the shaded band tell an operations manager about how much buffer to build into driver recruitment?</div>
+      </div>
+
       <div class="reflect-box">
-        <div class="reflect-label">Step 02 Reflection &mdash; write 2&ndash;3 sentences</div>
-        <div class="reflect-text">Look at your backtest chart. Where is your model most wrong — and why? Now look at the shaded prediction interval. If you were an Uber operations manager deciding how many drivers to recruit for the test period, would you use the point forecast or the full prediction interval to make that decision? What is the cost of being wrong in each direction?</div>
-      </div>
-
-      <div class="danger-box">
-        <div class="danger-label">The black-box tradeoff</div>
-        <div class="danger-text">You built an interpretable model: every prediction can be traced back to its inputs. Uber has also built models nobody on their team can fully explain — they are more accurate, but when something goes wrong, nobody knows why. As the business leader responsible for surge pricing, which would you choose: a model that is 8% more accurate but unexplainable, or one that is slightly less accurate but fully auditable? There is no right answer. That is the point.</div>
-      </div>
-
-      <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:8px; padding:0.85rem 1.1rem; margin:1rem 0;">
-        <div style="font-size:11px; font-weight:700; color:#166534; text-transform:uppercase; letter-spacing:0.07em; margin-bottom:0.4rem;">↓ What this feeds into — Step 3</div>
-        <p style="font-size:14px; color:#333; margin:0; line-height:1.65;">Your forecasting model just produced a number — a predicted trip count for each of the next 26 weeks. In Uber's real system, that number goes to two groups of people at the same time. <strong>Drivers</strong> see incentives appear on their app, nudging them toward high-demand areas before the rush hits. <strong>Riders</strong> see a surge multiplier — a price adjustment — when they open the app. In Step 3 you will see how that multiplier is calculated from a forecast exactly like the one you just built, and you will decide what to do when it recommends something you are not comfortable with.</p>
+        <div class="reflect-label">Step 02 Reflection &mdash; answer all three</div>
+        <div class="reflect-text">
+          <strong>Q1 — Where the model misses.</strong> Look at your backtest chart. Where is your model most wrong — and why? Name the specific weeks and what the model failed to capture about them.<br><br>
+          <strong>Q2 — Point forecast vs. prediction interval.</strong> If you were an Uber operations manager deciding how many drivers to recruit for the test period, would you use the single predicted line or the full shaded band to make that decision? What is the cost of being wrong in each direction?<br><br>
+          <strong>Q3 — The black-box tradeoff.</strong> You built an interpretable model: every prediction can be traced back to its inputs. Uber has also built models nobody on their team can fully explain — they are more accurate, but when something goes wrong, nobody knows why. As the business leader responsible for surge pricing, which would you choose: a model that is 8% more accurate but unexplainable, or one that is slightly less accurate but fully auditable? There is no right answer — explain the reasoning behind your choice.
+        </div>
       </div>
 
     </div>
@@ -551,6 +541,11 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
       </div>
       <!-- end surge sim -->
 
+      <div class="danger-box">
+        <div class="danger-label">What you just simulated actually happened</div>
+        <div class="danger-text">Load the <em>Hurricane Evacuation</em> scenario and choose "Trust the Algorithm." Read the outcome. Now consider: that outcome is not hypothetical. During Hurricane Sandy in 2012, Uber's surge pricing activated automatically as residents tried to evacuate. Prices reached 7–8× normal. The algorithm was doing exactly what the simulator showed — demand massively exceeded supply, so it surged. The outcome was public outrage, regulatory investigations, and Uber's CEO issuing a personal apology. Uber subsequently built a manual emergency override — a human back in the gap — precisely because "Trust the Algorithm" in the Hurricane scenario produced the result you saw. The simulator gave you the same decision Uber's system made. The question the case is really asking: who should have been in that gap, and why wasn't anyone there?</div>
+      </div>
+
       <div class="reflect-box">
         <div class="reflect-label">Step 03 Reflection &mdash; answer all three using the simulator above</div>
         <div class="reflect-text">
@@ -558,16 +553,6 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
           <strong>Q2 — The override dilemma.</strong> Load the <em>Rain + Rush Hour</em> scenario. Try all three decisions (Trust, Override, Pause) and read each outcome carefully. Which decision do <em>you</em> think is most defensible as a business policy, and why? What value judgment are you making when you choose to override the algorithm's price recommendation?<br><br>
           <strong>Q3 — The governance gap.</strong> The simulator's decision log records every action you take. In the real Uber system, there is no log like this for individual surge decisions — the algorithm fires and no human reviews it. Based on what you saw in the Hurricane scenario specifically, write one concrete governance rule Uber should add to their responsible AI policy. Make it specific enough that an engineer could implement it as a code check.
         </div>
-      </div>
-
-      <div class="danger-box">
-        <div class="danger-label">What you just simulated actually happened</div>
-        <div class="danger-text">Load the <em>Hurricane Evacuation</em> scenario and choose "Trust the Algorithm." Read the outcome. Now consider: that outcome is not hypothetical. During Hurricane Sandy in 2012, Uber's surge pricing activated automatically as residents tried to evacuate. Prices reached 7–8× normal. The algorithm was doing exactly what the simulator showed — demand massively exceeded supply, so it surged. The outcome was public outrage, regulatory investigations, and Uber's CEO issuing a personal apology. Uber subsequently built a manual emergency override — a human back in the gap — precisely because "Trust the Algorithm" in the Hurricane scenario produced the result you saw. The simulator gave you the same decision Uber's system made. The question the case is really asking: who should have been in that gap, and why wasn't anyone there?</div>
-      </div>
-
-      <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:8px; padding:0.85rem 1.1rem; margin:1rem 0;">
-        <div style="font-size:11px; font-weight:700; color:#166534; text-transform:uppercase; letter-spacing:0.07em; margin-bottom:0.4rem;">↓ What this feeds into — Step 4</div>
-        <p style="font-size:14px; color:#333; margin:0; line-height:1.65;">The surge multiplier you just saw depends entirely on the forecast being accurate. In Step 4, the world changes — a competitor launches, a pandemic hits, commuters stop commuting — and the forecasting model you built in Step 2 does not know. It keeps producing the same kind of predictions it always has. The multiplier keeps being calculated from those predictions. Drivers and riders keep making decisions based on a number that is quietly, increasingly wrong.</p>
       </div>
 
     </div>
@@ -677,11 +662,6 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
       <div class="insight-box">
         <div class="insight-label">Distribution shift is a governance problem, not just a technical one</div>
         <div class="insight-text">The technical fix is simple: retrain the model. The governance fix — who monitors it, how often, who has authority to pause it, who is accountable when it runs wrong for three weeks undetected — is where most companies fail. Notice that the simulator's monitoring alert is just a threshold check. Someone had to decide what that threshold should be, build the check, and make sure a human reviews it when it fires. Each of those decisions is a governance choice, not a code choice.</div>
-      </div>
-
-      <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:8px; padding:0.85rem 1.1rem; margin:1rem 0;">
-        <div style="font-size:11px; font-weight:700; color:#166534; text-transform:uppercase; letter-spacing:0.07em; margin-bottom:0.4rem;">↓ What this feeds into — Step 5</div>
-        <p style="font-size:14px; color:#333; margin:0; line-height:1.65;">You have now seen the whole system from the outside — the data, the forecast, the multiplier, the failure. In Step 5 you will step inside it. You will play as a driver in Bellingham, making real decisions about where to drive based on the surge multiplier your model produces. Partway through, the world changes — and your model does not know. You will keep receiving the same guidance, making the same decisions, earning less than you should. That gap between what the model says and what is actually happening is distribution shift — felt as a driver, not just understood as a concept.</p>
       </div>
 
     </div>
@@ -856,11 +836,6 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
         <div class="insight-text">Create a free GitHub account if you don't have one. Create a new repository named <code>uber-ai-lab</code>. Upload your <code>index.html</code> file. Go to Settings → Pages → set source to "main" branch → Save. Your page will be live at <code>https://[your-username].github.io/uber-ai-lab</code> within about 60 seconds. That's your submission URL.</div>
       </div>
 
-      <div class="insight-box">
-        <div class="insight-label">What this prompt is actually doing</div>
-        <div class="insight-text">This is the assembler prompt. You are asking Claude to take everything from the previous steps — the data story, the forecast, the distribution shift lesson, and your own written reflections — and package it into one polished HTML page. Your job before sending it is to type your actual reflection answers into the prompt where indicated. The resulting file is what you publish: it is both your submission and a public portfolio piece.</div>
-      </div>
-
       <div class="prompt-steps">
         <div class="prompt-steps-label">📋 What you will do with this prompt</div>
         <ol>
@@ -916,6 +891,11 @@ DESIGN REQUIREMENTS:
 - Single .html file ready to upload to GitHub
 
 Please generate the complete HTML file.</div>
+      </div>
+
+      <div class="insight-box">
+        <div class="insight-label">What this prompt is actually doing</div>
+        <div class="insight-text">This is the assembler prompt. You are asking Claude to take everything from the previous steps — the data story, the forecast, the distribution shift lesson, and your own written reflections — and package it into one polished HTML page. Your job before sending it is to type your actual reflection answers into the prompt where indicated. The resulting file is what you publish: it is both your submission and a public portfolio piece.</div>
       </div>
 
       <div class="reflect-box">
