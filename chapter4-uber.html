@@ -166,7 +166,7 @@
     <div class="cover-meta">
       <span><strong>Level:</strong> Upper-division undergraduate</span>
       <span><strong>Topics:</strong> When the algorithm is the business, forecasting, prediction-decision gap, responsible AI</span>
-      <span><strong>Concepts introduced:</strong> 10 key business AI terms</span>
+      <span><strong>Concepts introduced:</strong> 12 key business AI terms</span>
     </div>
     <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
       <p style="font-size: 13px; color: #888; margin: 0;">
@@ -182,17 +182,19 @@
     <div class="toc-title">Contents</div>
     <a href="#s1">1. Company Background</a>
     <a href="#s2">2. The Big Idea: Spotify Has AI. Uber Is AI.</a>
-    <a href="#s3">3. The Business Problem: You Can&rsquo;t React Fast Enough</a>
-    <a href="#s4">4. Framework: The AI Factory at Uber</a>
-    <a href="#s5">5. Step 1 &mdash; Data: Where Everything Begins</a>
-    <a href="#s6">6. Step 2 &mdash; Model: Choosing the Right Tool for the Job</a>
-    <a href="#s7">7. Step 3 &mdash; Prediction: Testing Before You Trust</a>
-    <a href="#s8">8. Step 4 &mdash; Decision: When the Algorithm Is in Charge</a>
-    <a href="#s9">9. Step 5 &mdash; Value &amp; Risk: What Happens When It Goes Wrong</a>
-    <a href="#s10">10. Responsible AI: Accountability at Scale</a>
-    <a href="#s11">11. From 2018 to Today: Uber&rsquo;s AI Grows Up</a>
-    <a href="#s12">12. Competitive Advantage</a>
-    <a href="#s13">13. Summary &amp; Discussion Questions</a>
+    <a href="#s3">3. The Prediction-Decision Gap: Uber&rsquo;s Most Consequential Choice</a>
+    <a href="#s4">4. The Business Problem: You Can&rsquo;t React Fast Enough</a>
+    <a href="#s5">5. Framework: The AI Factory at Uber</a>
+    <a href="#s6">6. Step 1 &mdash; Data: The Historical Record That Can&rsquo;t Be Bought</a>
+    <a href="#s7">7. Step 2 &mdash; Model: The Accuracy-Explainability Tradeoff</a>
+    <a href="#s8">8. Step 3 &mdash; Prediction: Testing Before You Trust</a>
+    <a href="#s9">9. Things Can Go Wrong: Sydney, 2014</a>
+    <a href="#s10">10. Step 4 &mdash; Decision: When the Algorithm Is in Charge</a>
+    <a href="#s11">11. Step 5 &mdash; Value: From Cost Center to Revenue Engine</a>
+    <a href="#s12">12. Responsible AI: Accountability at Scale</a>
+    <a href="#s13">13. What&rsquo;s Next: Agentic AI and the Road Ahead</a>
+    <a href="#s14">14. Competitive Advantage</a>
+    <a href="#s15">15. Summary &amp; Discussion Questions</a>
   </div>
 
   <!-- SECTION 1 -->
@@ -216,30 +218,123 @@
 
   <p>At any given moment, millions of riders are requesting trips while millions of driver-partners are deciding where to drive. The company&rsquo;s core challenge &mdash; whether any given trip is fast and affordable, or slow and expensive &mdash; is a matching problem: getting the right driver to the right place at the right time, before the rider even opens the app. That problem is solved almost entirely by AI.</p>
 
+  <p>Uber competes with traditional taxis, rival ride-hail services like Lyft and Didi, public transit, and increasingly with food-delivery competitors like DoorDash. In every one of those markets, <strong>the drivers are the same drivers, the cars are the same cars, and the streets are the same streets.</strong> What Uber actually sells is <em>matching</em> &mdash; connecting a rider to the nearest available driver at a fair price in a few seconds. At the scale of tens of millions of trips per day across thousands of cities, that matching problem is simply not solvable by humans. It is solvable only by algorithms. Which means AI is not a feature of Uber&rsquo;s business. It <em>is</em> the business.</p>
+
   <div class="insight-box">
     <div class="insight-label">Strategic context</div>
     <div class="insight-text">Spotify has AI. Uber is AI. When Spotify&rsquo;s recommendation engine fails, a listener skips a song. When Uber&rsquo;s forecasting system fails, riders are stranded, drivers miss income, and servers go down in real time. <strong>The difference is not the sophistication of the technology. It is the consequence of being wrong.</strong> That difference shapes everything about how Uber must think about AI governance, accountability, and the prediction-decision gap.</div>
   </div>
 
+  <div class="insight-box">
+    <div class="insight-label">Why AI <em>is</em> the strategy</div>
+    <div class="insight-text">In markets where the product is roughly the same everywhere (the same cars, the same roads, the same drivers who often work for multiple apps), the differentiator is the <strong>experience of matching supply to demand</strong> &mdash; who gets a car in three minutes versus fifteen, whose price feels fair versus exploitative, whose driver is busy during the evening rush versus idle. That experience is a pure AI problem. Everything Uber does to compete &mdash; faster pickups, better prices, higher driver earnings, more reliable service &mdash; ultimately traces back to the quality of its forecasts and the speed of its decisions.</div>
+  </div>
+
   <!-- SECTION 2 -->
   <h2 id="s2"><span class="section-num">2</span> The Big Idea: Spotify Has AI. Uber Is AI.</h2>
 
-  <p>In Chapter 3, we saw how Spotify built a recommendation engine that makes its product dramatically better. But here is an honest question worth sitting with: if Spotify&rsquo;s recommendation system disappeared tomorrow, what would be left? A music app. The same 100 million songs available on Apple Music, Amazon Music, and YouTube Music. It would be worse — much worse — but it would still exist.</p>
+  <p>In Chapter 3, we saw how Spotify built a recommendation engine that makes its product dramatically better. But here is an honest question worth sitting with: if Spotify&rsquo;s recommendation system disappeared tomorrow, what would be left? A music app. The same 100 million songs available on Apple Music, Amazon Music, and YouTube Music. It would be worse &mdash; much worse &mdash; but it would still exist.</p>
 
-  <p>Now ask the same question about Uber. If Uber&rsquo;s algorithms disappeared tomorrow — the demand forecasting, the pricing models, the driver routing systems — what would be left? Nothing. Not a worse version of Uber. No version of Uber. There would be no way to set a price, no way to match a rider to a driver, no way to know where to send anyone. <strong>Uber does not use AI to improve its business. Uber is AI.</strong> The algorithm is not a feature of the product — it is the product.</p>
+  <p>Now ask the same question about Uber. If Uber&rsquo;s algorithms disappeared tomorrow &mdash; the demand forecasting, the pricing models, the driver routing systems &mdash; what would be left? Nothing. Not a worse version of Uber. No version of Uber. There would be no way to set a price, no way to match a rider to a driver, no way to know where to send anyone. <strong>Uber does not use AI to improve its business. Uber is AI.</strong> The algorithm is not a feature of the product &mdash; it is the product.</p>
 
-  <p>This distinction is the thesis of this entire chapter — and it changes everything that follows. Because when the algorithm is the business, the stakes of every AI decision are completely different. When Spotify&rsquo;s recommendation is wrong, you skip a song. When Uber&rsquo;s forecast is wrong, a real person waits 40 minutes in the rain, a real driver misses income, a real server fails during the busiest night of the year. The consequences are immediate, physical, and financial.</p>
+  <p>This distinction is the thesis of this entire chapter &mdash; and it changes everything that follows. Because when the algorithm is the business, the stakes of every AI decision are completely different. When Spotify&rsquo;s recommendation is wrong, you skip a song. When Uber&rsquo;s forecast is wrong, a real person waits 40 minutes in the rain, a real driver misses income, a real server fails during the busiest night of the year. The consequences are immediate, physical, and financial.</p>
 
-  <p>And crucially — this is where your earlier learning in this course becomes most important — <strong>Uber made a deliberate choice to collapse the prediction-decision gap</strong>. In Chapter 2, we saw why that gap exists and why it matters: a prediction tells you what might happen, but a human being should decide what to do about it. Uber removed that human step. The algorithm predicts demand, and the algorithm sets the price, automatically, in milliseconds, at global scale. No human approves each surge. No human decides whether raising prices during a hurricane evacuation is the right call. The model predicts. The system decides. And that is exactly where things go wrong.</p>
+  <!-- SECTION 3 -->
+  <h2 id="s3"><span class="section-num">3</span> The Prediction-Decision Gap: Uber&rsquo;s Most Consequential Choice</h2>
+
+  <p>The single most important design choice Uber made &mdash; and the one that makes this chapter different from every other chapter in this book &mdash; is that Uber largely eliminated something we introduced in Chapter 2: <strong>the prediction-decision gap</strong>. That choice is the source of Uber&rsquo;s speed and scale. It is also the source of nearly every serious failure and controversy the company has faced.</p>
+
+  <p>In most AI systems, there are two distinct steps. First, a model makes a <em>prediction</em> &mdash; a forecast of what is likely to happen. Then, a human being makes a <em>decision</em> about what to do with that prediction. A credit-scoring model predicts a loan is risky; a loan officer decides whether to approve it anyway. A Netflix model predicts you might like a show; a human editor decides whether it fits the row of recommendations that week. Spotify&rsquo;s recommendation model predicts what songs you&rsquo;ll love; Spotify&rsquo;s product team decides how to balance those predictions against discovery, artist equity, and brand voice. The space between the prediction and the decision is where human judgment, context, and accountability live.</p>
+
+  <p>Uber removed that space by design. The algorithm predicts demand, and the algorithm sets the price, automatically, in milliseconds, at global scale. No human approves each surge. No human decides whether raising prices during a hurricane evacuation is the right call. The model predicts. The system decides. The two steps collapse into one.</p>
+
+  <figure style="margin: 1.5rem 0;">
+    <div style="overflow-x:auto;">
+    <svg width="100%" viewBox="0 0 680 320" role="img" style="max-width:680px;display:block;margin:0 auto;">
+      <title>The prediction-decision gap: Spotify vs. Uber</title>
+      <desc>Two pipelines side by side. Spotify's pipeline has a human curator between prediction and decision. Uber's pipeline has prediction feeding decision directly with no human in between.</desc>
+      <defs>
+        <marker id="pdgarr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+      <!-- divider -->
+      <line x1="340" y1="30" x2="340" y2="290" stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="4 4"/>
+
+      <!-- LEFT: Spotify -->
+      <rect x="40" y="30" width="260" height="28" rx="4" fill="#f0fafb"/>
+      <text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#0e8fa3" x="170" y="49" text-anchor="middle">Spotify &mdash; gap preserved</text>
+
+      <rect x="60" y="80" width="100" height="44" rx="6" fill="#f5f5f5" stroke="#888" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#333" x="110" y="100" text-anchor="middle">Prediction</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#666" x="110" y="115" text-anchor="middle">&ldquo;user likes</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#666" x="110" y="125" text-anchor="middle">this song&rdquo;</text>
+
+      <line x1="160" y1="102" x2="182" y2="102" stroke="#0e8fa3" stroke-width="1.5" marker-end="url(#pdgarr)"/>
+
+      <rect x="185" y="75" width="80" height="54" rx="6" fill="#f0fafb" stroke="#0e8fa3" stroke-width="1.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#0e8fa3" x="225" y="93" text-anchor="middle">Human</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#0e8fa3" x="225" y="108" text-anchor="middle">judgment</text>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#0e8fa3" x="225" y="122" text-anchor="middle">(product team,</text>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#0e8fa3" x="225" y="134" text-anchor="middle">editors)</text>
+
+      <rect x="85" y="165" width="180" height="44" rx="6" fill="#f5f5f5" stroke="#888" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#333" x="175" y="185" text-anchor="middle">Decision</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#666" x="175" y="199" text-anchor="middle">what actually goes on Home</text>
+
+      <line x1="225" y1="129" x2="200" y2="163" stroke="#0e8fa3" stroke-width="1.5" marker-end="url(#pdgarr)"/>
+
+      <rect x="60" y="230" width="240" height="50" rx="6" fill="#f0fafb" stroke="#0e8fa3" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#0e8fa3" x="180" y="248" text-anchor="middle">Human catches bad predictions,</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#0e8fa3" x="180" y="262" text-anchor="middle">applies brand values, takes</text>
+      <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#0e8fa3" x="180" y="275" text-anchor="middle">responsibility. Slow but safe.</text>
+
+      <!-- RIGHT: Uber -->
+      <rect x="370" y="30" width="260" height="28" rx="4" fill="#000000"/>
+      <text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#1fbad6" x="500" y="49" text-anchor="middle">Uber &mdash; gap removed</text>
+
+      <rect x="390" y="80" width="100" height="44" rx="6" fill="#f5f5f5" stroke="#888" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#333" x="440" y="100" text-anchor="middle">Prediction</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#666" x="440" y="115" text-anchor="middle">&ldquo;demand will</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#666" x="440" y="125" text-anchor="middle">spike 40%&rdquo;</text>
+
+      <line x1="490" y1="102" x2="540" y2="102" stroke="#1fbad6" stroke-width="2.5" marker-end="url(#pdgarr)"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#1fbad6" font-weight="bold" x="515" y="94" text-anchor="middle">milliseconds</text>
+
+      <rect x="540" y="80" width="80" height="44" rx="6" fill="#f5f5f5" stroke="#888" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#333" x="580" y="100" text-anchor="middle">Decision</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#666" x="580" y="115" text-anchor="middle">raise price,</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#666" x="580" y="125" text-anchor="middle">reroute drivers</text>
+
+      <!-- no human box, but marker showing empty space -->
+      <rect x="430" y="145" width="140" height="45" rx="6" fill="none" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="5 3"/>
+      <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#c0392b" x="500" y="164" text-anchor="middle">No human here</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#c0392b" x="500" y="180" text-anchor="middle">(no approval, no judgment,</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#c0392b" x="500" y="192" text-anchor="middle">no checkpoint)</text>
+
+      <rect x="380" y="230" width="240" height="50" rx="6" fill="#000000" stroke="#1fbad6" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#1fbad6" x="500" y="248" text-anchor="middle">Machine-speed scale,</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#1fbad6" x="500" y="262" text-anchor="middle">but errors become the company&rsquo;s</text>
+      <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#1fbad6" x="500" y="275" text-anchor="middle">mistakes instantly. Fast but risky.</text>
+
+      <text font-family="Arial,sans-serif" font-size="10" fill="#888" x="340" y="305" text-anchor="middle">Same AI pipeline. Different choice about where humans sit inside it.</text>
+    </svg>
+    </div>
+    <figcaption style="margin-top: 0.75rem; font-size: 13px; color: #667986; line-height: 1.65; max-width: 580px; margin-left: auto; margin-right: auto;">
+      <strong>Figure 1: The prediction-decision gap.</strong> On the left, Spotify&rsquo;s pipeline: a model predicts what a user will like, but human judgment still sits between that prediction and what actually appears on the Home page. On the right, Uber&rsquo;s pipeline: prediction and decision collapse into a single automated step. The algorithm doesn&rsquo;t just recommend a price &mdash; it <em>sets</em> the price. This choice is the source of Uber&rsquo;s speed. It is also the source of every surge-pricing controversy the company has ever faced.
+    </figcaption>
+  </figure>
 
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
-    <div class="concept-term">The prediction-decision gap — and what happens when you close it</div>
-    <div class="concept-def">The prediction-decision gap is the space between what an AI system forecasts and the business decision that follows. In well-governed AI systems, a human occupies that gap — reviewing the prediction, applying judgment, and taking responsibility for the decision. Uber largely eliminated that gap by design: predictions trigger decisions automatically. This produces enormous operational speed and scale. It also means the system&rsquo;s mistakes become the company&rsquo;s mistakes instantly, at scale, with no human checkpoint in between. Understanding why that gap exists &mdash; and what is lost when it is removed &mdash; is one of the most important lessons this course can teach.</div>
+    <div class="concept-term">The prediction-decision gap &mdash; and what happens when you close it</div>
+    <div class="concept-def">The prediction-decision gap is the space between what an AI system forecasts and the business decision that follows. In well-governed AI systems, a human occupies that gap &mdash; reviewing the prediction, applying judgment, and taking responsibility for the decision. Uber largely eliminated that gap by design: predictions trigger decisions automatically. This produces enormous operational speed and scale. It also means the system&rsquo;s mistakes become the company&rsquo;s mistakes instantly, at scale, with no human checkpoint in between. Understanding why that gap exists &mdash; and what is lost when it is removed &mdash; is one of the most important lessons this course can teach.</div>
   </div>
 
-  <!-- SECTION 3 -->
-  <h2 id="s3"><span class="section-num">3</span> The Business Problem: You Can&rsquo;t React Fast Enough</h2>
+  <p>For the rest of this chapter, keep this diagram in mind. Every benefit Uber gets from AI &mdash; speed, scale, responsiveness &mdash; flows from having closed the gap. Every failure mode &mdash; surge pricing during emergencies, forecasts that degrade without anyone noticing, algorithmic decisions that conflict with the company&rsquo;s own values &mdash; flows from the same place. This is the tradeoff at the heart of &ldquo;Uber is AI.&rdquo;</p>
+
+  <!-- SECTION 4 -->
+  <h2 id="s4"><span class="section-num">4</span> The Business Problem: You Can&rsquo;t React Fast Enough</h2>
 
   <p>Imagine you are running a taxi fleet in a city. You know Friday nights get busy, and New Year&rsquo;s Eve is the busiest night of the year. But knowing that in general is very different from knowing, at 9:47pm this specific Friday, that demand in the downtown core is about to spike 40% in the next 20 minutes because two concerts just let out simultaneously &mdash; and that rain is starting, which will suppress demand on the east side while amplifying it near transit hubs.</p>
 
@@ -263,8 +358,8 @@
     <div class="insight-text">All three use cases share an <strong>asymmetric cost of error</strong>. Predicting too low leaves real riders stranded and real drivers missing income. Predicting too high means wasted servers and idle drivers. The cost of being wrong is not the same in both directions &mdash; and that asymmetry shapes every decision Uber makes about how its forecasting systems are built, monitored, and corrected.</div>
   </div>
 
-  <!-- SECTION 4 -->
-  <h2 id="s4"><span class="section-num">4</span> Framework: The AI Factory at Uber</h2>
+  <!-- SECTION 5 -->
+  <h2 id="s5"><span class="section-num">5</span> Framework: The AI Factory at Uber</h2>
 
   <p>We introduced the <strong>AI Factory model</strong> in Chapter 3 with Spotify: a system in which data, models, predictions, and decisions continuously reinforce each other to create compounding value. Uber&rsquo;s operation maps directly onto the same framework &mdash; with one critical difference. Spotify&rsquo;s AI Factory operates entirely in the digital world. Uber&rsquo;s operates in the physical one, where geography, weather, road conditions, and human behavior introduce real-world unpredictability that no model can fully eliminate.</p>
 
@@ -282,15 +377,19 @@
 
   <p>Each step feeds the next, and the loop compounds over time. Every trip Uber completes generates new data that improves the next forecast. This is the same flywheel we saw with Spotify &mdash; operating in a very different, and higher-stakes, context.</p>
 
-  <!-- SECTION 5 -->
-  <h2 id="s5"><span class="section-num">5</span> Step 1 &mdash; Data: Where Everything Begins</h2>
+  <!-- SECTION 6 -->
+  <h2 id="s6"><span class="section-num">6</span> Step 1 &mdash; Data: The Historical Record That Can&rsquo;t Be Bought</h2>
 
   <p>Uber&rsquo;s forecasting begins with a record of every trip ever taken: where it started and ended, what time it was, how long it took, what the weather was, what local events were happening nearby, and dozens of other contextual factors. This historical record, accumulated across years and thousands of cities, is what makes reliable forecasting possible &mdash; and what makes Uber&rsquo;s forecasting advantage so difficult for a new competitor to replicate.</p>
+
+  <p>Before we get to the technical vocabulary, consider a familiar example. Think of a retailer planning this year&rsquo;s holiday season. They pull out last year&rsquo;s sales and notice two things. First, total sales keep going up year after year &mdash; the store is growing. Second, every December is the biggest month, every January is a lull, and every Saturday outsells every Tuesday. <strong>A good inventory plan accounts for both patterns.</strong> Ignore the growth and you&rsquo;ll under-order every year. Ignore the weekly and seasonal rhythms and you&rsquo;ll over-order in January and run out on Saturdays.</p>
+
+  <p>That is exactly what Uber does &mdash; except instead of one retailer planning once a year, Uber has forecasting systems running every 15 minutes in every city it operates. The two patterns the retailer noticed have formal names: <em>trend</em> and <em>seasonality</em>. They are the foundation of every forecasting system in every industry.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
     <div class="concept-term">Time series data &mdash; trend and seasonality</div>
-    <div class="concept-def">A time series is a sequence of data points recorded at regular intervals over time. Uber&rsquo;s trip data is a time series: the number of rides in a city, recorded every hour for years. What makes it special is that <em>order matters</em> &mdash; you cannot randomly shuffle the data and still learn from it. The goal is to understand how today relates to yesterday and last week so you can predict tomorrow. Two patterns almost always appear: <strong>trend</strong> (a long-run direction, like Uber&rsquo;s growing trip volume as it expands into new markets) and <strong>seasonality</strong> (repeating cycles, like Friday nights always being busier than Tuesday mornings). A forecasting system that misses either of these will be systematically wrong &mdash; over-predicting when it should not, under-predicting when it matters most.</div>
+    <div class="concept-def">A <strong>time series</strong> is a sequence of data points recorded at regular intervals over time. Uber&rsquo;s trip data is a time series: the number of rides in a city, recorded every hour for years. What makes it special is that <em>order matters</em> &mdash; you cannot randomly shuffle the data and still learn from it. The goal is to understand how today relates to yesterday and last week so you can predict tomorrow. Two patterns almost always appear: <strong>trend</strong> (the long-run direction, like the retailer&rsquo;s year-over-year growth, or Uber&rsquo;s growing trip volume as it expands into new markets) and <strong>seasonality</strong> (repeating cycles tied to calendar rhythms, like December being the biggest retail month, or Friday nights always being busier for Uber than Tuesday mornings). A forecasting system that misses either of these will be systematically wrong &mdash; over-predicting when it should not, under-predicting when it matters most.</div>
   </div>
 
   <figure style="margin: 1.5rem 0;">
@@ -338,20 +437,81 @@
     </svg>
     </div>
     <figcaption style="margin-top: 0.6rem; font-size: 13px; color: #667986; line-height: 1.6; max-width: 580px; margin-left: auto; margin-right: auto;">
-      <strong>Figure 1: Trend and seasonality in Uber trip data.</strong> The cyan line shows daily trip volume over 14 months. The dashed gray line shows the upward trend as Uber expands. The regular spikes are weekly seasonality &mdash; Fridays and Saturdays consistently peak. A model that ignores trend will under-predict future demand. One that ignores seasonality will misfire every single week.
+      <strong>Figure 2: Trend and seasonality in Uber trip data.</strong> The cyan line shows daily trip volume over 14 months. The dashed gray line shows the upward trend as Uber expands. The regular spikes are weekly seasonality &mdash; Fridays and Saturdays consistently peak. A model that ignores trend will under-predict future demand. One that ignores seasonality will misfire every single week.
     </figcaption>
   </figure>
 
-  <!-- SECTION 6 -->
-  <h2 id="s6"><span class="section-num">6</span> Step 2 &mdash; Model: Choosing the Right Tool for the Job</h2>
+  <!-- SECTION 7 -->
+  <h2 id="s7"><span class="section-num">7</span> Step 2 &mdash; Model: The Accuracy-Explainability Tradeoff</h2>
 
-  <p>Once data is in place, Uber needs models &mdash; the systems that learn patterns from historical data and use them to predict what comes next. There is no single best forecasting model. The most important choice is not which specific model to use, but understanding two key tradeoffs every business faces when choosing an AI approach.</p>
+  <p>Once data is in place, Uber needs models &mdash; the systems that learn patterns from historical data and use them to predict what comes next. There is no single best forecasting model. The most important choice is not <em>which specific model</em> to use, but understanding the key tradeoff every business faces when choosing an AI approach: <strong>how much accuracy are you willing to give up in exchange for being able to explain what the model is doing?</strong> This is not a technical question. It is one of the most consequential business decisions an organization makes when deploying AI.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
     <div class="concept-term">Black-box vs. interpretable models</div>
-    <div class="concept-def">Some AI models are <strong>interpretable</strong> &mdash; you can look at the output and understand in plain language why the model made a given prediction. Others are <strong>black boxes</strong> &mdash; they may be more accurate, but their internal logic is too complex to explain. This is a genuine business tradeoff, not just a technical one. If a forecast tells you to raise prices by 40% on New Year&rsquo;s Eve, a manager may need to explain and defend that decision to executives, regulators, or customers. A black-box model nobody can explain becomes a governance liability &mdash; even if it is technically more accurate. <strong>Choosing between accuracy and explainability is one of the most consequential decisions a business makes when deploying AI.</strong></div>
+    <div class="concept-def">Some AI models are <strong>interpretable</strong> &mdash; you can look at the output and understand in plain language why the model made a given prediction. Others are <strong>black boxes</strong> &mdash; they may be more accurate, but their internal logic is too complex to explain. This is a genuine business tradeoff, not just a technical one. If a forecast tells you to raise prices by 40% on New Year&rsquo;s Eve, a manager may need to explain and defend that decision to executives, regulators, or customers. A black-box model nobody can explain becomes a governance liability &mdash; even if it is technically more accurate.</div>
   </div>
+
+  <figure style="margin: 1.5rem 0;">
+    <div style="overflow-x:auto;">
+    <svg width="100%" viewBox="0 0 680 340" role="img" style="max-width:680px;display:block;margin:0 auto;">
+      <title>Interpretable vs. black-box model tradeoff</title>
+      <desc>Two models shown side by side. The interpretable model is less accurate but can be explained step by step. The black-box model is more accurate but cannot be explained.</desc>
+      <!-- divider -->
+      <line x1="340" y1="25" x2="340" y2="310" stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="4 4"/>
+
+      <!-- LEFT: Interpretable -->
+      <rect x="40" y="25" width="260" height="28" rx="4" fill="#f0fafb"/>
+      <text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#0e8fa3" x="170" y="44" text-anchor="middle">Interpretable model</text>
+
+      <rect x="60" y="70" width="220" height="38" rx="6" fill="#f5f5f5" stroke="#888" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#333" x="170" y="87" text-anchor="middle">Input: Fri 10pm downtown,</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#666" x="170" y="101" text-anchor="middle">55°F, concert ending at 10:30</text>
+
+      <!-- visible reasoning -->
+      <rect x="60" y="120" width="220" height="92" rx="6" fill="#f0fafb" stroke="#0e8fa3" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#0e8fa3" font-weight="bold" x="170" y="138" text-anchor="middle">You can see every step:</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#0e8fa3" x="70" y="155">• Base Fri 10pm = 6,200 rides</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#0e8fa3" x="70" y="169">• + 18% for concert let-out</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#0e8fa3" x="70" y="183">• + 6% for mild weather</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#0e8fa3" x="70" y="197">• − 3% for trend adjustment</text>
+
+      <rect x="60" y="224" width="220" height="38" rx="6" fill="#f5f5f5" stroke="#888" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#333" x="170" y="241" text-anchor="middle">Forecast: 7,500 rides</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#666" x="170" y="254" text-anchor="middle">Actual: 8,100 (8% off)</text>
+
+      <rect x="60" y="274" width="220" height="30" rx="4" fill="#f0fafb" stroke="#0e8fa3" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#0e8fa3" x="170" y="293" text-anchor="middle">Defensible. Auditable. Less accurate.</text>
+
+      <!-- RIGHT: Black box -->
+      <rect x="370" y="25" width="260" height="28" rx="4" fill="#000000"/>
+      <text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#1fbad6" x="500" y="44" text-anchor="middle">Black-box model</text>
+
+      <rect x="390" y="70" width="220" height="38" rx="6" fill="#f5f5f5" stroke="#888" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#333" x="500" y="87" text-anchor="middle">Input: Fri 10pm downtown,</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#666" x="500" y="101" text-anchor="middle">55°F, concert ending at 10:30</text>
+
+      <!-- opaque reasoning -->
+      <rect x="390" y="120" width="220" height="92" rx="6" fill="#000000" stroke="#1fbad6" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#1fbad6" font-weight="bold" x="500" y="140" text-anchor="middle">?</text>
+      <text font-family="Arial,sans-serif" font-size="36" fill="#1fbad6" x="500" y="178" text-anchor="middle">?</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#888" x="500" y="200" text-anchor="middle">Millions of parameters.</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#888" x="500" y="212" text-anchor="middle">No plain-language explanation.</text>
+
+      <rect x="390" y="224" width="220" height="38" rx="6" fill="#f5f5f5" stroke="#888" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#333" x="500" y="241" text-anchor="middle">Forecast: 7,950 rides</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#666" x="500" y="254" text-anchor="middle">Actual: 8,100 (2% off)</text>
+
+      <rect x="390" y="274" width="220" height="30" rx="4" fill="#000000" stroke="#1fbad6" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#1fbad6" x="500" y="293" text-anchor="middle">More accurate. Can&rsquo;t defend it.</text>
+
+      <text font-family="Arial,sans-serif" font-size="10" fill="#888" x="340" y="328" text-anchor="middle">Same input, same event. Two different models. A business choice, not just a technical one.</text>
+    </svg>
+    </div>
+    <figcaption style="margin-top: 0.75rem; font-size: 13px; color: #667986; line-height: 1.65; max-width: 580px; margin-left: auto; margin-right: auto;">
+      <strong>Figure 3: The accuracy-explainability tradeoff.</strong> Both models see the same input. The interpretable model on the left shows its work &mdash; a product manager could defend this forecast in a meeting with the CFO or a regulator. The black-box model on the right is more accurate but offers no explanation of how it got there. When something goes wrong &mdash; a prediction that enrages customers, a pricing decision questioned by regulators &mdash; which model would you rather have to defend? That is the business decision.
+    </figcaption>
+  </figure>
 
   <p>Uber explicitly acknowledges that it cannot know in advance which model will work best for any given use case &mdash; and therefore tests multiple approaches in competition for every application. This is a fundamental truth of applied AI: <strong>you don&rsquo;t choose the best model by reasoning from first principles. You run the competition and measure who wins.</strong> That requires infrastructure for testing, not just building.</p>
 
@@ -360,8 +520,8 @@
     <div class="insight-text">Uber built its own custom forecasting infrastructure from scratch. Most companies never will &mdash; and should not. The relevant question for a business leader is not &ldquo;how do we build a forecasting system?&rdquo; but <strong>&ldquo;should we build, buy, or partner?&rdquo;</strong> Off-the-shelf forecasting tools exist for most standard use cases. The case for building custom infrastructure only holds when the problem is genuinely unique, strategically critical, and at a scale where generic tools break down. For Uber, with millions of location-specific predictions per minute across thousands of cities, that threshold was clearly met. For most businesses, it is not.</div>
   </div>
 
-  <!-- SECTION 7 -->
-  <h2 id="s7"><span class="section-num">7</span> Step 3 &mdash; Prediction: Testing Before You Trust</h2>
+  <!-- SECTION 8 -->
+  <h2 id="s8"><span class="section-num">8</span> Step 3 &mdash; Prediction: Testing Before You Trust</h2>
 
   <p>Before any forecasting model is deployed to drive real business decisions, Uber needs to know how well it actually works. This sounds obvious &mdash; but testing a forecasting model correctly is harder than it seems. <strong>You cannot use future data to test a model that is supposed to predict the future.</strong> The time ordering of the data must always be preserved: train only on the past, test only against what came after.</p>
 
@@ -371,46 +531,132 @@
     <div class="concept-def">Backtesting is how you evaluate a forecasting model honestly. Pretend it is a year ago, train the model only on data from before that point, and check how well it predicts what actually happened afterward. If the model predicted 8,200 rides in Chicago on a Friday and 8,400 actually happened, that is a 2.4% error. Repeat this across hundreds of past time windows, average the errors, and you get a realistic picture of real-world performance &mdash; before you bet the business on it. Any model that has not been properly backtested has not been properly validated.</div>
   </div>
 
+  <figure style="margin: 1.5rem 0;">
+    <div style="overflow-x:auto;">
+    <svg width="100%" viewBox="0 0 680 260" role="img" style="max-width:680px;display:block;margin:0 auto;">
+      <title>Backtesting: train on past, test against what came next</title>
+      <desc>Timeline showing a historical data window used for training and a held-out window used for testing, with the model's prediction compared to what actually happened.</desc>
+
+      <!-- timeline bar -->
+      <line x1="40" y1="150" x2="640" y2="150" stroke="#888" stroke-width="1.5"/>
+      <polygon points="640,150 632,146 632,154" fill="#888"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#888" x="648" y="153" text-anchor="start">time</text>
+
+      <!-- training window -->
+      <rect x="60" y="75" width="380" height="60" rx="6" fill="#f0fafb" stroke="#0e8fa3" stroke-width="1.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#0e8fa3" x="250" y="100" text-anchor="middle">Training window</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#0e8fa3" x="250" y="118" text-anchor="middle">Model learns from this data only</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#0e8fa3" x="250" y="130" text-anchor="middle">(pretend it is 2024 — the model can&rsquo;t see what comes next)</text>
+
+      <!-- test window -->
+      <rect x="450" y="75" width="170" height="60" rx="6" fill="#000000" stroke="#1fbad6" stroke-width="1.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#1fbad6" x="535" y="100" text-anchor="middle">Test window</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#1fbad6" x="535" y="118" text-anchor="middle">What actually happened</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#1fbad6" x="535" y="130" text-anchor="middle">(held back from the model)</text>
+
+      <!-- tick marks -->
+      <line x1="60" y1="147" x2="60" y2="153" stroke="#888" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#888" x="60" y="167" text-anchor="middle">start</text>
+      <line x1="450" y1="147" x2="450" y2="153" stroke="#888" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#888" x="450" y="167" text-anchor="middle">cutoff</text>
+      <line x1="620" y1="147" x2="620" y2="153" stroke="#888" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#888" x="620" y="167" text-anchor="middle">today</text>
+
+      <!-- prediction vs actual -->
+      <rect x="100" y="190" width="200" height="46" rx="6" fill="#f5f5f5" stroke="#0e8fa3" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#333" x="200" y="208" text-anchor="middle">Model predicted</text>
+      <text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#0e8fa3" x="200" y="226" text-anchor="middle">8,200 rides</text>
+
+      <text font-family="Arial,sans-serif" font-size="18" fill="#888" x="335" y="220" text-anchor="middle">vs.</text>
+
+      <rect x="370" y="190" width="200" height="46" rx="6" fill="#f5f5f5" stroke="#1fbad6" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#333" x="470" y="208" text-anchor="middle">Actually happened</text>
+      <text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#1fbad6" x="470" y="226" text-anchor="middle">8,400 rides &mdash; 2.4% off</text>
+
+      <text font-family="Arial,sans-serif" font-size="10" fill="#888" x="340" y="254" text-anchor="middle">Repeat across hundreds of time windows &rarr; honest picture of real-world accuracy</text>
+
+      <text font-family="Arial,sans-serif" font-size="14" font-weight="bold" fill="#333" x="340" y="55" text-anchor="middle">Backtesting: train on the past, test on what came next</text>
+    </svg>
+    </div>
+    <figcaption style="margin-top: 0.75rem; font-size: 13px; color: #667986; line-height: 1.65; max-width: 580px; margin-left: auto; margin-right: auto;">
+      <strong>Figure 4: Backtesting in one picture.</strong> The model is trained using only data from the blue window &mdash; the test window is hidden from it during training. Then the model&rsquo;s predictions are compared against what actually happened in the held-back period. Running this process hundreds of times across different time windows gives Uber an honest estimate of how accurate the model will be before real business decisions start depending on it.
+    </figcaption>
+  </figure>
+
+  <p>A strong backtest tells you <em>how accurate</em> the model is on average. But a manager about to act on a forecast needs to know more than an average &mdash; they need to know how confident to be in any single prediction. That is where the next concept comes in.</p>
+
+  <h3>From a number to a range: why uncertainty changes the decision</h3>
+
+  <p>Imagine you are Uber&rsquo;s operations lead for Chicago, planning driver incentives for this Friday. Your forecasting team hands you a prediction: <em>&ldquo;Expect 8,200 rides Friday at 10pm downtown.&rdquo;</em> You start planning. But before you commit spend, you ask a follow-up question every manager learns to ask: <strong>how sure are you?</strong> The answer is not trivial. If the team says &ldquo;we&rsquo;re 90% confident the number will fall between 7,900 and 8,500,&rdquo; you run a lean operation &mdash; you can plan close to the estimate with minimal reserve capacity. If the team says &ldquo;we&rsquo;re 90% confident the number will fall between 4,000 and 12,000,&rdquo; you have no idea what&rsquo;s coming and must hold enormous reserves just to cover the range. <strong>The single number is the same. The decisions you make are completely different.</strong></p>
+
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
     <div class="concept-term">Prediction intervals</div>
     <div class="concept-def">A <strong>point forecast</strong> gives you one number: &ldquo;We predict 8,200 rides on Friday at 10pm.&rdquo; A <strong>prediction interval</strong> gives you a range: &ldquo;We predict between 7,400 and 9,100 rides, with 90% confidence.&rdquo; The range tells you how uncertain the forecast is &mdash; and that uncertainty has direct business consequences. A narrow interval means you can plan lean. A wide interval means you need larger reserves to cover the possibility of being significantly wrong. <strong>Reporting only the single number without the range leads to overconfident decisions.</strong> This is one of the most common and costly mistakes in applied forecasting, in any industry.</div>
   </div>
 
-  <!-- SECTION 8 -->
-  <h2 id="s8"><span class="section-num">8</span> Step 4 &mdash; Decision: When the Algorithm Is in Charge</h2>
+  <!-- SECTION 9: Things Can Go Wrong (moved & rewritten with real Sydney incident) -->
+  <h2 id="s9"><span class="section-num">9</span> Things Can Go Wrong: Sydney, 2014</h2>
 
-  <p>A forecast on its own has no value. Its value comes entirely from the decisions it enables. At Uber, forecasting outputs feed directly into operational systems that act automatically &mdash; no human approves each individual decision in real time.</p>
+  <p>Before we connect predictions to decisions in the next section, we need to pause on what happens when the predictions are wrong &mdash; because at Uber, failures do not stay inside the system. They show up as stranded riders, missed driver earnings, and public controversies that make the news.</p>
+
+  <p>The most instructive failure in Uber&rsquo;s history happened on December 15, 2014, in Sydney, Australia. A gunman walked into the Lindt Chocolat Caf&eacute; in Sydney&rsquo;s central business district and took 13 people hostage. Authorities evacuated the surrounding office buildings and warned the public to stay away. As thousands of people simultaneously tried to leave the area, Uber&rsquo;s demand forecasting system registered exactly what it was designed to detect: a massive, sudden spike in demand. And its pricing system did exactly what it was designed to do in response &mdash; surge prices rose to up to four times the normal fare, with a minimum fare reportedly around AU$100, to encourage more drivers into the area.</p>
+
+  <p>The model worked. The code did not malfunction. Every engineering system performed exactly as specified. And the result was an immediate public relations catastrophe: Uber was charging people four times the normal price to flee a terrorist incident. The backlash on social media was instant. Within hours Uber reversed course, offered free rides out of the CBD, and refunded riders who had been charged surge fares &mdash; but the damage was done. The incident became a defining example, still cited more than a decade later, of what can go wrong when algorithms make high-stakes decisions without a human in the loop.</p>
+
+  <div class="danger-box">
+    <div class="danger-label">What went wrong &mdash; and what didn&rsquo;t</div>
+    <div class="danger-text">Nothing technical failed in Sydney. The forecasting model correctly identified a demand spike. The pricing model correctly raised prices to rebalance supply and demand. The system did exactly what its designers intended. <strong>What failed was the design itself.</strong> A human dispatcher would have looked at the news, recognized that the &ldquo;demand spike&rdquo; was people fleeing a hostage situation, and overridden the pricing logic in seconds. Uber&rsquo;s system had no such override. The prediction-decision gap had been removed. There was no human checkpoint between &ldquo;demand is up&rdquo; and &ldquo;raise prices.&rdquo; This is the exact tradeoff Figure 1 illustrated &mdash; and Sydney is what it looks like when it goes wrong.</div>
+  </div>
+
+  <p>The Sydney incident has a second lesson that matters for every AI-driven business. Even after Uber added emergency price caps and introduced policies to suspend surge pricing during declared disasters, the underlying architecture did not fundamentally change. Surge pricing is still automated. Edge cases still arise. And every few years a new version of the Sydney problem surfaces &mdash; surge pricing during a wildfire evacuation, during a London terror attack, during a hurricane landfall. <strong>Closing the prediction-decision gap is a design choice that keeps generating the same category of failure, even after specific incidents are patched.</strong></p>
+
+  <p>There is a second, quieter failure mode as well &mdash; one that is easier to miss because it does not make headlines.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Distribution shift</div>
+    <div class="concept-def">A forecasting model is trained on historical data that reflects how the world worked in the past. <strong>Distribution shift</strong> occurs when the real world starts behaving differently from that training data &mdash; rendering the model&rsquo;s assumptions invalid. For Uber, the shift to remote work during the COVID-19 pandemic fundamentally changed commute patterns that years of training data had captured as stable and predictable. The model&rsquo;s forecasts degraded rapidly &mdash; not because the model was poorly built, but because the world it was trained on no longer existed. Distribution shift is one of the primary reasons AI systems require continuous monitoring and periodic retraining. A model that was excellent last year may be quietly wrong today.</div>
+  </div>
+
+  <p>Sydney is the visible failure mode: the algorithm does what it was built to do and the consequences are immediate and public. Distribution shift is the invisible failure mode: nothing goes wrong in a way anyone can see, but forecasts quietly drift further from reality every week. Both are inescapable consequences of running a business on AI at scale. Both are why what comes next &mdash; how predictions become decisions, and how those decisions are governed &mdash; matters as much as the predictions themselves.</p>
+
+  <!-- SECTION 10 -->
+  <h2 id="s10"><span class="section-num">10</span> Step 4 &mdash; Decision: When the Algorithm Is in Charge</h2>
+
+  <p>A forecast on its own has no value. Its value comes entirely from the decisions it enables. At Uber, forecasting outputs feed directly into operational systems that act automatically &mdash; no human approves each individual decision in real time. This is the prediction-decision gap closed in practice.</p>
 
   <h3>Driver repositioning</h3>
   <p>When the forecasting system predicts a demand spike in a specific area, the driver app uses earnings incentives to nudge nearby drivers toward the predicted high-demand zone <em>before</em> the spike arrives. This is the most direct application of the AI Factory: moving supply to meet demand before demand materializes.</p>
 
   <h3>Surge pricing</h3>
-  <p>Surge pricing &mdash; the automatic increase in fares during periods of high demand &mdash; is itself forecast-driven. When models predict that demand will exceed available drivers in a location over the next 15 minutes, prices rise automatically. The goal is balance: attract more drivers to the area while moderating demand. Get the forecast wrong, and prices either spike unnecessarily &mdash; damaging rider trust &mdash; or fail to rise when they should, leaving riders without cars.</p>
+  <p>Surge pricing &mdash; the automatic increase in fares during periods of high demand &mdash; is itself forecast-driven. When models predict that demand will exceed available drivers in a location over the next 15 minutes, prices rise automatically. The goal is balance: attract more drivers to the area while moderating demand. Get the forecast wrong, and prices either spike unnecessarily &mdash; damaging rider trust &mdash; or fail to rise when they should, leaving riders without cars. As Sydney demonstrated, this is also where algorithmic speed can produce outcomes the company itself does not endorse.</p>
 
   <h3>Infrastructure provisioning</h3>
   <p>Every major holiday, Uber&rsquo;s engineering team provisions additional server capacity before demand arrives &mdash; servers cannot be spun up instantaneously. A forecast generated days in advance determines how much additional capacity to reserve and when. Under-forecast and the platform crashes at the worst possible moment. Over-forecast and millions of dollars in unused computing capacity are wasted.</p>
 
-  <!-- SECTION 9 -->
-  <h2 id="s9"><span class="section-num">9</span> Step 5 &mdash; Value &amp; Risk: What Happens When It Goes Wrong</h2>
+  <!-- SECTION 11 -->
+  <h2 id="s11"><span class="section-num">11</span> Step 5 &mdash; Value: From Cost Center to Revenue Engine</h2>
 
-  <p>When AI runs the operation, failures are not quiet technical errors. They show up as real, immediate consequences: riders stranded, drivers in the wrong place, servers down during a holiday rush, a marketing campaign that burned millions with no measurable return.</p>
+  <p>The last step in the AI Factory is where investment in data, models, predictions, and decisions gets converted into measurable business outcomes. At Uber, the visible forms of value are what you would expect: shorter wait times, higher driver earnings, fewer outages, better-targeted marketing spend. Each one traces directly back to a better forecast and a faster decision.</p>
 
-  <div class="danger-box">
-    <div class="danger-label">When forecasting fails</div>
-    <div class="danger-text"><strong>Scenario: New Year&rsquo;s Eve.</strong> Uber&rsquo;s model has seen only a handful of New Year&rsquo;s Eves in its training data. It under-predicts demand by 35%. On the night itself: wait times balloon to 40 minutes downtown, surge prices spike to levels that feel exploitative, riders switch to competitors, and drivers in the wrong neighborhoods miss the busiest night of the year. A better forecast &mdash; one that incorporated event attendance data and historical New Year&rsquo;s patterns from multiple cities &mdash; could have repositioned drivers hours earlier. This is not a hypothetical. It is the type of failure that motivates Uber&rsquo;s ongoing investment in forecasting infrastructure.</div>
+  <p>But the most strategically interesting form of value Uber has generated is the one most easily overlooked &mdash; and it closely mirrors something you already saw in Chapter 3. In the Spotify case, we saw that the same centralized data pipeline that powered recommendations could be turned into Wrapped, the annual listening recap that has become one of the most viral marketing moments on the internet. The same infrastructure built for one purpose ended up producing a product nobody had originally set out to build. Uber is now doing the same thing &mdash; but with the AI infrastructure itself.</p>
+
+  <h3>Uber AI Solutions: the infrastructure becomes the product</h3>
+
+  <p>For more than a decade Uber built the forecasting, data labeling, model testing, and workflow automation systems it needed to run its own marketplace. These were internal tools &mdash; a cost of doing business. Starting in 2024, Uber began packaging those same internal systems and selling them to other companies under the <strong>Uber AI Solutions</strong> brand. The data-labeling infrastructure Uber built to train its own self-driving and mapping models is now sold to other companies training their own models. The workflow automation tools built to keep Uber&rsquo;s operations running are now sold to enterprises running theirs. <strong>What began as a cost center has become a revenue center.</strong></p>
+
+  <div class="insight-box">
+    <div class="insight-label">The Wrapped pattern, applied to infrastructure</div>
+    <div class="insight-text">Spotify&rsquo;s Wrapped is what happens when a company realizes that the data it collected for one purpose has a <em>second</em> use &mdash; as a product their customers want. Uber AI Solutions is the same insight applied one level deeper: the data <em>infrastructure itself</em> has a second use &mdash; as a product other businesses want. Both cases demonstrate the same strategic principle: <strong>the investments a company makes to run its own AI operations often contain hidden product lines.</strong> The companies that recognize this early turn internal AI spend into a new source of revenue. The companies that do not keep treating it as overhead.</div>
   </div>
 
-  <div class="concept-box">
-    <div class="concept-label">Key concept</div>
-    <div class="concept-term">Distribution shift</div>
-    <div class="concept-def">A forecasting model is trained on historical data that reflects how the world worked in the past. Distribution shift occurs when the real world starts behaving differently from that training data &mdash; rendering the model&rsquo;s assumptions invalid. For Uber, the shift to remote work during the COVID-19 pandemic fundamentally changed commute patterns that years of training data had captured as stable and predictable. The model&rsquo;s forecasts degraded rapidly &mdash; not because the model was poorly built, but because the world it was trained on no longer existed. Distribution shift is one of the primary reasons AI systems require continuous monitoring and periodic retraining. A model that was excellent last year may be quietly wrong today.</div>
-  </div>
+  <p>This pattern is worth watching across every AI-driven industry. Any company that invests heavily in AI infrastructure to run its own business is potentially sitting on a second business. Amazon famously did it with AWS, turning internal cloud infrastructure into a product line now larger than its retail operation. Netflix has done it in smaller ways with its open-source video encoding and recommendation tools. Uber is doing it now with AI Solutions. The question for any business leader looking at their own AI investments is whether the same pattern could apply &mdash; and if so, which piece of internal infrastructure might be the next one to have a market outside the company&rsquo;s own four walls.</p>
 
-  <!-- SECTION 10 -->
-  <h2 id="s10"><span class="section-num">10</span> Responsible AI: Accountability at Scale</h2>
+  <!-- SECTION 12 -->
+  <h2 id="s12"><span class="section-num">12</span> Responsible AI: Accountability at Scale</h2>
 
-  <p>When an algorithm makes millions of decisions per day without a human reviewing each one, a new set of business and ethical questions emerges. Who is responsible when the algorithm is wrong? How do you explain a decision to someone it affected? How do you ensure the system is not systematically disadvantaging certain groups of people or behaving in ways that conflict with the company&rsquo;s values? These are not hypothetical concerns &mdash; they are active challenges Uber faces today, and they represent one of the most strategically important areas of investment in modern AI-driven businesses.</p>
+  <p>When an algorithm makes millions of decisions per day without a human reviewing each one &mdash; as the prediction-decision gap diagram in Section 3 showed &mdash; a new set of business and ethical questions emerges. Who is responsible when the algorithm is wrong? How do you explain a decision to someone it affected? How do you ensure the system is not systematically disadvantaging certain groups of people or behaving in ways that conflict with the company&rsquo;s values? These are not hypothetical concerns &mdash; they are active challenges Uber faces today, and they represent one of the most strategically important areas of investment in modern AI-driven businesses.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
@@ -420,19 +666,19 @@
 
   <h3>How Uber is building responsible AI into its systems</h3>
 
-  <p>Uber has developed a centralized <strong>Model Catalog</strong> &mdash; a system that tracks every AI model running in production, what decisions it drives, who owns it, and how it is performing. Before the Model Catalog, models could be deployed and largely forgotten, quietly degrading with no clear owner. The Catalog creates organizational visibility: if a model starts underperforming or behaving unexpectedly, the right people know immediately.</p>
+  <p>Uber has developed a centralized <strong>Model Catalog</strong> &mdash; a system that tracks every AI model running in production, what decisions it drives, who owns it, and how it is performing. Before the Model Catalog, models could be deployed and largely forgotten, quietly degrading with no clear owner. The Catalog creates organizational visibility: if a model starts underperforming or behaving unexpectedly, the right people know immediately. This is the kind of governance infrastructure we saw Spotify building in Chapter 3 after their four-month podcast recommendation incident &mdash; a systematic answer to the question &ldquo;who is watching the AI?&rdquo;</p>
 
   <p>Uber has also built automated explainability tools directly into its engineering workflow &mdash; systems that generate plain-language explanations of why a model made a specific prediction. This matters both internally (so engineers can catch problems early) and externally (so Uber can respond to questions from regulators or customers who feel a decision was unfair or unexplained).</p>
 
   <div class="insight-box">
-    <div class="insight-label">The surge pricing ethics question</div>
-    <div class="insight-text">Surge pricing is Uber&rsquo;s most publicly visible algorithmic decision &mdash; and its most controversial. In theory, higher prices during high demand attract more drivers and help the market clear. In practice, the system has raised prices during hurricanes, wildfires, and emergency evacuations &mdash; moments when riders had no alternatives and price sensitivity was irrelevant. <strong>Uber has faced significant public backlash, regulatory scrutiny, and reputational damage from these episodes.</strong> The model was doing exactly what it was designed to do. The business was still held responsible for what that meant in practice. Responsible AI requires asking not just &ldquo;is the model technically correct?&rdquo; but &ldquo;do its real-world consequences align with our values &mdash; and with what our customers and regulators expect of us?&rdquo;</div>
+    <div class="insight-label">The surge pricing ethics question, revisited</div>
+    <div class="insight-text">Sydney was not an isolated incident. Uber&rsquo;s automated pricing system has raised prices during hurricanes in Florida, wildfire evacuations in California, and terror incidents in London &mdash; moments when riders had no alternatives and price sensitivity was irrelevant. Each time, the model was doing exactly what it was designed to do. The business was still held responsible for what that meant in practice. <strong>Responsible AI requires asking not just &ldquo;is the model technically correct?&rdquo; but &ldquo;do its real-world consequences align with our values &mdash; and with what our customers and regulators expect of us?&rdquo;</strong> That question cannot be answered by an algorithm. It requires human judgment, organizational process, and a willingness to accept that some decisions should not be fully automated, even when they could be.</div>
   </div>
 
-  <!-- SECTION 11 -->
-  <h2 id="s11"><span class="section-num">11</span> From 2018 to Today: Uber&rsquo;s AI Grows Up</h2>
+  <!-- SECTION 13 -->
+  <h2 id="s13"><span class="section-num">13</span> What&rsquo;s Next: Agentic AI and the Road Ahead</h2>
 
-  <p>The forecasting system at the core of this chapter was first documented publicly in 2018. Since then, Uber has not simply improved its forecasting &mdash; it has built an entirely different category of AI capability on top of that foundation. Three developments are worth understanding, because each one represents something you will encounter in your own career.</p>
+  <p>The forecasting system at the core of this chapter was first documented publicly in 2018. Since then, Uber has not simply improved its forecasting &mdash; it has built entirely new categories of AI capability on top of that foundation. Two developments are worth understanding as you finish this chapter, because each one represents something you will encounter in your own career.</p>
 
   <div class="update-box">
     <div class="update-label">Development 1 &mdash; AI Prototyping (2026)</div>
@@ -441,12 +687,7 @@
 
   <div class="update-box">
     <div class="update-label">Development 2 &mdash; Agentic AI (2025&ndash;2026)</div>
-    <div class="update-text">Uber has moved beyond AI that makes individual predictions and toward <strong>agentic AI</strong> &mdash; systems that autonomously complete entire multi-step workflows. One example: Uber built an internal tool that connects an AI agent to its design system. A team member shares a link and some context; the agent reads the design file, generates complete technical documentation, and writes it back &mdash; in minutes rather than weeks. <strong>Wherever a workflow involves a predictable sequence of decisions, agentic AI can automate the entire chain.</strong> This is qualitatively different from the forecasting systems of 2018, which made one prediction and stopped. Agentic AI acts on a prediction, assesses the result, decides what to do next, and repeats &mdash; raising the stakes for governance and accountability proportionally.</div>
-  </div>
-
-  <div class="update-box">
-    <div class="update-label">Development 3 &mdash; Uber as an AI Company (2024&ndash;2026)</div>
-    <div class="update-text">Uber has begun selling its AI infrastructure to other companies. The internal systems built to run Uber&rsquo;s own marketplace &mdash; data labeling, model testing, workflow automation &mdash; are now offered to enterprise clients under the <strong>Uber AI Solutions</strong> brand. What began as a cost center has become a revenue center. <strong>This strategic pivot &mdash; turning internal AI infrastructure into a commercial product &mdash; is a pattern worth watching.</strong> The companies that invested earliest in operational AI are discovering that the infrastructure itself has market value. It is a second business model hiding inside the first one.</div>
+    <div class="update-text">Uber has moved beyond AI that makes individual predictions and toward <strong>agentic AI</strong> &mdash; systems that autonomously complete entire multi-step workflows. One example: Uber built an internal tool that connects an AI agent to its design system. A team member shares a link and some context; the agent reads the design file, generates complete technical documentation, and writes it back &mdash; in minutes rather than weeks. <strong>Wherever a workflow involves a predictable sequence of decisions, agentic AI can automate the entire chain.</strong> This is qualitatively different from the forecasting systems of 2018, which made one prediction and stopped. Agentic AI acts on a prediction, assesses the result, decides what to do next, and repeats &mdash; which means the prediction-decision gap we spent this whole chapter discussing does not just close once. It closes over and over again, at every step of the chain.</div>
   </div>
 
   <div class="concept-box">
@@ -455,21 +696,23 @@
     <div class="concept-def">Traditional AI systems respond to a single input and produce a single output &mdash; a forecast, a recommendation, a classification. Agentic AI systems are given a <em>goal</em> and autonomously plan and execute a sequence of actions to achieve it, adapting as they go. Think of the difference between asking someone &ldquo;what is the weather tomorrow?&rdquo; (one question, one answer) and asking them to &ldquo;plan my trip to Seattle next week&rdquo; (a goal requiring many steps, decisions, and adjustments). Agentic AI is the second kind. It is the direction the industry is moving &mdash; and it raises governance and accountability questions even further, because the chain of decisions an agent makes may be long, fast, and difficult to trace after the fact.</div>
   </div>
 
-  <!-- SECTION 12 -->
-  <h2 id="s12"><span class="section-num">12</span> Competitive Advantage: Why This Is Hard to Copy</h2>
+  <p>Each of these developments is, at heart, an extension of the same story this chapter has been telling. AI Prototyping is faster model building and faster decisions about what to build. Agentic AI is the prediction-decision gap closed not once but many times in sequence. Uber AI Solutions is the infrastructure itself becoming the product. All three are natural consequences of what happens when a company doesn&rsquo;t just use AI &mdash; it <em>is</em> AI.</p>
+
+  <!-- SECTION 14 -->
+  <h2 id="s14"><span class="section-num">14</span> Competitive Advantage: Why This Is Hard to Copy</h2>
 
   <p>Uber&rsquo;s engineers have published detailed blog posts explaining their forecasting methods. The models are not secret. Yet the advantage compounds in ways that are very difficult to replicate quickly. The moat is not the algorithm. It is everything that makes the algorithm work.</p>
 
   <ul>
     <li><strong>Years of irreplaceable data.</strong> A new competitor has no historical trip data. Their first forecasts are educated guesses. Uber&rsquo;s models have been calibrated against years of real events &mdash; Super Bowls, elections, pandemics, weather events &mdash; across thousands of cities. This cannot be purchased or shortcut.</li>
     <li><strong>The self-reinforcing feedback loop.</strong> Every trip Uber completes generates data that improves the next forecast. A competitor with fewer trips generates less feedback, which produces worse forecasts, which leads to worse experiences, which produces fewer trips. The loop is self-reinforcing in both directions.</li>
-    <li><strong>Organizational capability.</strong> Knowing how to build, test, monitor, govern, and continuously improve AI systems at scale is an institutional skill that takes years to develop. A competitor who builds the same architecture tomorrow still lacks the organizational learning that comes from having operated it through hundreds of failure modes and distribution shifts.</li>
+    <li><strong>Organizational capability.</strong> Knowing how to build, test, monitor, govern, and continuously improve AI systems at scale is an institutional skill that takes years to develop. A competitor who builds the same architecture tomorrow still lacks the organizational learning that comes from having operated it through hundreds of failure modes, distribution shifts, and incidents like Sydney.</li>
   </ul>
 
   <p>The competitive moat is <em>data, time, and organizational capability</em>. These three things compound together &mdash; and they are almost impossible to acquire quickly from a standing start.</p>
 
-  <!-- SECTION 13 -->
-  <h2 id="s13"><span class="section-num">13</span> Summary &amp; Discussion Questions</h2>
+  <!-- SECTION 15 -->
+  <h2 id="s15"><span class="section-num">15</span> Summary &amp; Discussion Questions</h2>
 
   <h3>AI Factory model: Uber mapped</h3>
   <table class="factory-table">
@@ -508,9 +751,9 @@
       </tr>
       <tr>
         <td><span class="step-badge">Value</span></td>
-        <td>Lower wait times, higher driver earnings, leaner infrastructure, Uber AI Solutions revenue</td>
-        <td>Turn AI investment into business outcomes &mdash; and new business models</td>
-        <td>Distribution shift; responsible AI; agentic AI</td>
+        <td>Shorter wait times, higher driver earnings, leaner infrastructure &mdash; plus Uber AI Solutions selling the infrastructure itself</td>
+        <td>Turn AI investment into business outcomes &mdash; and recognize when internal infrastructure contains a second business model</td>
+        <td>Infrastructure-as-product; responsible AI; agentic AI</td>
       </tr>
     </tbody>
   </table>
@@ -532,14 +775,15 @@
   </div>
 
   <h3>Discussion questions</h3>
-  <p style="font-size:13px; color:#666; margin-bottom:0.75rem;">These work well as written assignments or in-class discussion. Questions 2, 4, and 5 tend to generate the most debate.</p>
+  <p style="font-size:13px; color:#666; margin-bottom:0.75rem;">These work well as written assignments or in-class discussion. Questions 2, 5, and 7 tend to generate the most debate.</p>
   <ol class="discussion-list">
     <li><strong>AI as infrastructure changes everything:</strong> Spotify&rsquo;s AI makes the product better. Uber&rsquo;s AI runs the business. What does that distinction mean for how a company should think about governance, risk management, and organizational design? Pick another industry and identify a company where AI has crossed from &ldquo;feature&rdquo; to &ldquo;infrastructure.&rdquo;</li>
-    <li><strong>The surge pricing problem:</strong> Uber&rsquo;s algorithm raised prices during a hurricane evacuation. The model was doing exactly what it was designed to do. Who is responsible &mdash; and what should Uber have done differently? Is this a technical problem, a governance problem, or a values problem?</li>
+    <li><strong>The Sydney problem:</strong> On December 15, 2014, Uber&rsquo;s algorithm automatically quadrupled fares for people fleeing a hostage crisis in Sydney. The model was doing exactly what it was designed to do. Who is responsible &mdash; and what should Uber have done differently? Is this a technical problem, a governance problem, or a values problem? If you could redesign Uber&rsquo;s pricing system, would you keep it fully automated?</li>
     <li><strong>The interpretability tradeoff:</strong> A black-box model forecasts demand 8% more accurately than an interpretable one, but nobody can explain any specific prediction. As the product manager responsible for surge pricing, do you deploy it? What are the risks of yes &mdash; and the costs of no?</li>
     <li><strong>Data is the moat, not the model:</strong> Lyft could read Uber&rsquo;s engineering blog, hire the same data scientists, and build the same architecture. Why would their forecasts still be worse &mdash; and what does that tell you about where competitive advantage in AI actually comes from?</li>
     <li><strong>Who runs the AI?</strong> Uber&rsquo;s forecasting systems make millions of decisions per day with no human in the loop. Design a responsible AI governance framework for a company in this position. What decisions should always require human approval? What monitoring would you put in place? Who is accountable when it goes wrong?</li>
-    <li><strong>From cost center to revenue:</strong> Uber built AI infrastructure to run its own business, then started selling that infrastructure to other companies. What other industries could follow this pattern &mdash; and what conditions need to be true for internal AI capability to become a commercially viable product?</li>
+    <li><strong>From cost center to revenue:</strong> Uber built AI infrastructure to run its own business, then started selling that infrastructure to other companies. Spotify did something similar, turning its centralized data pipeline into Wrapped. Amazon famously did it at enormous scale with AWS. What other industries could follow this pattern &mdash; and what conditions need to be true for internal AI capability to become a commercially viable product?</li>
+    <li><strong>Where would you put the human back?</strong> This chapter argued that closing the prediction-decision gap is Uber&rsquo;s most consequential design choice &mdash; the source of both its speed and its most serious failures. Pick one Uber system (surge pricing, driver repositioning, or infrastructure provisioning) and argue for where a human checkpoint should go, what that human would be empowered to do, and what the cost of that checkpoint would be. Then argue the opposite position. Which argument is stronger?</li>
   </ol>
 
   <hr>
