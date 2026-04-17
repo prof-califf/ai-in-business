@@ -103,6 +103,94 @@
   .pipe-step { background: #EBF4FB; border: 1px solid #BDD6ED; border-radius: 6px; padding: 0.5rem 0.9rem; font-size: 13px; font-weight: 600; color: #1D3557; }
   .pipe-arrow { font-size: 14px; color: #999; padding: 0 2px; }
   .pipe-loop { background: #E8F8EF; border: 1px solid #1DB954; border-radius: 6px; padding: 0.5rem 0.9rem; font-size: 13px; font-weight: 600; color: #1DB954; }
+
+  /* NAV DROPDOWN */
+  .nav-dropdown { position: relative; }
+  .nav-dropdown-toggle {
+    color: #a0aec0;
+    font-size: 13px; font-weight: 500;
+    text-decoration: none;
+    background: none; border: none; cursor: pointer; padding: 0;
+    display: inline-flex; align-items: center; gap: 4px;
+    transition: color 0.15s; font-family: inherit;
+  }
+  .nav-dropdown-toggle:hover,
+  .nav-dropdown:hover .nav-dropdown-toggle,
+  .nav-dropdown.open .nav-dropdown-toggle { color: #fff; }
+  .nav-dropdown-toggle .caret {
+    display: inline-block;
+    width: 0; height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid currentColor;
+    transition: transform 0.15s;
+  }
+  .nav-dropdown:hover .nav-dropdown-toggle .caret,
+  .nav-dropdown.open .nav-dropdown-toggle .caret { transform: rotate(180deg); }
+  .nav-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    background: #1a1a2e;
+    border: 1px solid rgba(160,174,192,0.2);
+    border-radius: 4px;
+    min-width: 220px;
+    padding: 0.4rem 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s, visibility 0.15s, transform 0.15s;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    z-index: 200;
+  }
+  .nav-dropdown:hover .nav-dropdown-menu,
+  .nav-dropdown.open .nav-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+  .nav-dropdown::after {
+    content: '';
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    height: 12px;
+  }
+  .nav-dropdown-menu a {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: rgba(255,255,255,0.65);
+    font-size: 13px; font-weight: 500;
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: color 0.12s, background 0.12s, border-color 0.12s;
+  }
+  .nav-dropdown-menu a:hover {
+    color: #a78bfa;
+    background: rgba(124,58,237,0.08);
+    border-left-color: #a78bfa;
+  }
+  .nav-dropdown-menu .menu-num {
+    display: inline-block;
+    font-size: 11px;
+    color: #a78bfa;
+    margin-right: 7px;
+    min-width: 24px;
+    font-weight: 700;
+  }
+  .nav-dropdown-menu .menu-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 0.3rem 0.75rem;
+  }
+  .menu-divider-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    padding: 0.4rem 1rem 0.2rem;
+  }
+
 </style>
 </head>
 <body>
@@ -112,7 +200,29 @@
   <div class="nav-links">
     <span class="nav-badge">Chapter 3</span>
     <a href="chapter3-spotify-lab.html">Lab 3 &rarr;</a>
-    <a href="good-prompts.html">Writing Good Prompts</a>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Jump To <span class="caret"></span></button>
+      <div class="nav-dropdown-menu" role="menu">
+        <div class="menu-divider-label">Chapters</div>
+        <a href="chapter1-everycure.html" role="menuitem"><span class="menu-num">01</span>EveryCure</a>
+        <a href="chapter2-netflix.html" role="menuitem"><span class="menu-num">02</span>Netflix</a>
+        <a href="chapter3-spotify.html" role="menuitem"><span class="menu-num">03</span>Spotify</a>
+        <a href="chapter4-uber.html" role="menuitem"><span class="menu-num">04</span>Uber</a>
+        <div class="menu-divider"></div>
+        <div class="menu-divider-label">Labs</div>
+        <a href="chapter1-everycure-lab.html" role="menuitem"><span class="menu-num">L1</span>EveryCure Lab</a>
+        <a href="chapter2-netflix-lab.html" role="menuitem"><span class="menu-num">L2</span>Netflix Lab</a>
+        <a href="chapter3-spotify-lab.html" role="menuitem"><span class="menu-num">L3</span>Spotify Lab</a>
+        <a href="chapter4-uber-lab.html" role="menuitem"><span class="menu-num">L4</span>Uber Lab</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Student Resources <span class="caret"></span></button>
+      <div class="nav-dropdown-menu" role="menu">
+        <a href="good-prompts.html" role="menuitem"><span class="menu-num">✦</span>Writing Good Prompts</a>
+        <a href="ai-news-and-sources.html" role="menuitem"><span class="menu-num">✦</span>AI News + Sources</a>
+      </div>
+    </div>
     <a href="index.html">Home</a>
   </div>
 </nav>
@@ -800,5 +910,42 @@
   <p style="margin-top:0.5rem;"><a href="index.html">Home</a> &middot; <a href="https://cbe.wwu.edu/people/califfc" target="_blank">Contact</a> &middot; <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a> &middot; Free to use for educational purposes</p>
 </footer>
 
+<script>
+  (function () {
+    var dropdowns = document.querySelectorAll('.nav-dropdown');
+    dropdowns.forEach(function (dropdown) {
+      var toggle = dropdown.querySelector('.nav-dropdown-toggle');
+      toggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        var isOpen = !dropdown.classList.contains('open');
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        if (isOpen) {
+          dropdown.classList.add('open');
+          toggle.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        document.activeElement.blur();
+      }
+    });
+  })();
+</script>
 </body>
 </html>

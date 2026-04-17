@@ -126,6 +126,11 @@
     color: rgba(255,255,255,0.45);
     font-size: 12px;
   }
+  .menu-divider-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: rgba(255,255,255,0.25);
+    padding: 0.4rem 1rem 0.2rem;
+  }
 
   /* HERO */
   .hero {
@@ -277,8 +282,22 @@
         <a href="#chapters" class="menu-all" role="menuitem"><span class="menu-num">&rarr;</span>All chapters on this page</a>
       </div>
     </div>
-    <a href="good-prompts.html">Writing Good Prompts</a>
-    <a href="ai-pulse.html">AI News + Sources</a>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Labs <span class="caret"></span></button>
+      <div class="nav-dropdown-menu" role="menu">
+        <a href="chapter1-everycure-lab.html" role="menuitem"><span class="menu-num">L1</span>EveryCure Lab</a>
+        <a href="chapter2-netflix-lab.html" role="menuitem"><span class="menu-num">L2</span>Netflix Lab</a>
+        <a href="chapter3-spotify-lab.html" role="menuitem"><span class="menu-num">L3</span>Spotify Lab</a>
+        <a href="chapter4-uber-lab.html" role="menuitem"><span class="menu-num">L4</span>Uber Lab</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Student Resources <span class="caret"></span></button>
+      <div class="nav-dropdown-menu" role="menu">
+        <a href="good-prompts.html" role="menuitem"><span class="menu-num">✦</span>Writing Good Prompts</a>
+        <a href="ai-news-and-sources.html" role="menuitem"><span class="menu-num">✦</span>AI News + Sources</a>
+      </div>
+    </div>
     <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a>
   </div>
 </nav>
@@ -576,32 +595,46 @@
 </footer>
 
 <script>
-  // Make the Chapters dropdown tappable on touch devices and keyboard-accessible.
+  // Make all nav dropdowns tappable on touch devices and keyboard-accessible.
   (function () {
-    var dropdown = document.querySelector('.nav-dropdown');
-    if (!dropdown) return;
-    var toggle = dropdown.querySelector('.nav-dropdown-toggle');
+    var dropdowns = document.querySelectorAll('.nav-dropdown');
 
-    toggle.addEventListener('click', function (e) {
-      e.preventDefault();
-      var isOpen = dropdown.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    dropdowns.forEach(function (dropdown) {
+      var toggle = dropdown.querySelector('.nav-dropdown-toggle');
+
+      toggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        var isOpen = !dropdown.classList.contains('open');
+        // Close all other dropdowns
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        if (isOpen) {
+          dropdown.classList.add('open');
+          toggle.setAttribute('aria-expanded', 'true');
+        }
+      });
     });
 
     // Close when clicking outside
     document.addEventListener('click', function (e) {
-      if (!dropdown.contains(e.target)) {
-        dropdown.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
+      if (!e.target.closest('.nav-dropdown')) {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
       }
     });
 
     // Close on Escape
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
-        dropdown.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
-        toggle.blur();
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        document.activeElement.blur();
       }
     });
   })();
