@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Talking About AI in a Job Interview — MIS 432 | AI in Business</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --black: #0e0e0d; --off-black: #1a1a18; --magenta: #e8197d; --white: #ffffff; --off-white: #f6f4f1; --text-dark: #0e0e0d; --text-muted: #3a3a38; --text-light: #6b6b68; --border: #e0ddd8; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Space Grotesk', sans-serif; background: var(--white); color: var(--text-dark); }
+  nav { background: var(--black); padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; position: sticky; top: 0; z-index: 100; }
+  .nav-brand { color: var(--magenta); font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.08em; text-decoration: none; text-transform: uppercase; }
+  .nav-brand span { color: rgba(255,255,255,0.25); font-weight: 400; }
+  .nav-links { display: flex; gap: 1.75rem; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.5); font-size: 13px; text-decoration: none; font-weight: 500; transition: color 0.15s; }
+  .nav-links a:hover { color: var(--magenta); }
+  .nav-links a.active { color: var(--magenta); font-weight: 600; }
+  .hero { position: relative; background: var(--black); padding: 4.5rem 2rem 4rem; text-align: center; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(232,25,125,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(232,25,125,0.06) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; }
+  .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 5px; background: var(--magenta); }
+  .hero-inner { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
+  .hero-stamp { display: inline-block; font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.15); padding: 0.3rem 0.9rem; margin-bottom: 1.75rem; }
+  .hero h1 { font-family: 'Oswald', sans-serif; font-size: 58px; font-weight: 700; color: #fff; line-height: 0.95; margin-bottom: 1rem; letter-spacing: -0.01em; text-transform: uppercase; }
+  .hero h1 span { color: var(--magenta); display: block; }
+  .hero-meta { font-size: 13px; color: rgba(255,255,255,0.3); font-style: italic; margin-top: 0.5rem; }
+  .article { max-width: 680px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+  .article p { font-size: 16px; line-height: 1.85; color: var(--text-muted); margin-bottom: 1.4rem; font-weight: 400; }
+  .article h2 { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; color: var(--text-dark); margin: 2.5rem 0 0.5rem; text-transform: uppercase; letter-spacing: 0.02em; }
+  .article h3 { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 400; color: var(--text-light); margin: 0 0 1rem; font-style: italic; }
+  .article hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+
+  .prompt-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1.25rem 0; }
+  @media(max-width:580px){ .prompt-pair { grid-template-columns: 1fr; } }
+  .prompt-bad { background: #fff5f5; border-left: 4px solid #fc8181; padding: 0.9rem 1rem; }
+  .prompt-good { background: #f0fff4; border-left: 4px solid #48bb78; padding: 0.9rem 1rem; }
+  .prompt-lbl { font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .prompt-bad .prompt-lbl { color: #c53030; }
+  .prompt-good .prompt-lbl { color: #276749; }
+  .prompt-txt { font-size: 13px; line-height: 1.65; color: var(--text-muted); font-style: italic; font-weight: 400; }
+
+  .callout { padding: 1rem 1.25rem; margin: 1.25rem 0; }
+  .callout-fix { background: var(--off-white); border-left: 4px solid var(--magenta); }
+  .callout-meta { background: var(--off-white); border-left: 4px solid var(--off-black); }
+  .callout-lbl { font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.35rem; color: var(--magenta); }
+  .callout-meta .callout-lbl { color: var(--text-dark); }
+  .callout p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin: 0; font-weight: 400; }
+
+  .answer-block { background: var(--off-white); border: 1px solid var(--border); border-left: 4px solid var(--magenta); padding: 1.1rem 1.25rem; margin: 1.25rem 0; }
+  .answer-lbl { font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--magenta); margin-bottom: 0.5rem; }
+  .answer-txt { font-size: 14px; color: var(--text-muted); line-height: 1.75; font-weight: 400; }
+  .answer-txt strong { color: var(--text-dark); }
+
+  .portfolio-step { display: flex; gap: 1rem; margin-bottom: 1.1rem; align-items: flex-start; }
+  .portfolio-num { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: var(--magenta); flex-shrink: 0; min-width: 32px; line-height: 1; padding-top: 2px; }
+  .portfolio-txt { font-size: 15px; color: var(--text-muted); line-height: 1.7; font-weight: 400; }
+  .portfolio-txt strong { color: var(--text-dark); font-weight: 600; }
+
+  .checklist { background: var(--off-black); border-left: 5px solid var(--magenta); padding: 2rem; margin: 2.5rem 0; }
+  .checklist-lbl { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--magenta); margin-bottom: 0.4rem; }
+  .checklist h2 { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: #fff; margin: 0 0 1.25rem; text-transform: uppercase; letter-spacing: 0.02em; }
+  .check-item { display: flex; gap: 0.75rem; margin-bottom: 0.6rem; }
+  .check-num { color: var(--magenta); font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 15px; flex-shrink: 0; min-width: 20px; }
+  .check-txt { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.6; font-weight: 400; }
+  .check-txt strong { color: #fff; font-weight: 600; }
+
+  .reality-box { background: #fff8f0; border-left: 4px solid #d97706; padding: 1rem 1.25rem; margin: 1.25rem 0; }
+  .reality-lbl { font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #d97706; margin-bottom: 0.35rem; }
+  .reality-txt { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin: 0; font-weight: 400; }
+
+  footer { background: var(--black); padding: 2rem; text-align: center; border-top: 5px solid var(--magenta); }
+  footer p { font-size: 13px; color: rgba(255,255,255,0.28); }
+  footer a { color: var(--magenta); text-decoration: none; }
+  footer a:hover { color: #fff; }
+
+  /* NAV DROPDOWN */
+  .nav-dropdown { position: relative; }
+  .nav-dropdown-toggle {
+    color: rgba(255,255,255,0.5);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px; font-weight: 500;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    background: none; border: none; cursor: pointer; padding: 0;
+    display: inline-flex; align-items: center; gap: 4px;
+    transition: color 0.15s;
+  }
+  .nav-dropdown-toggle:hover,
+  .nav-dropdown:hover .nav-dropdown-toggle,
+  .nav-dropdown.open .nav-dropdown-toggle { color: var(--magenta); }
+  .nav-dropdown-toggle .caret {
+    display: inline-block; width: 0; height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid currentColor;
+    transition: transform 0.15s;
+  }
+  .nav-dropdown:hover .nav-dropdown-toggle .caret,
+  .nav-dropdown.open .nav-dropdown-toggle .caret { transform: rotate(180deg); }
+  .nav-dropdown-menu {
+    position: absolute; top: calc(100% + 12px); left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    background: var(--off-black);
+    border: 1px solid rgba(232,25,125,0.2);
+    border-radius: 4px; min-width: 220px; padding: 0.4rem 0;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.15s, visibility 0.15s, transform 0.15s;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35); z-index: 200;
+  }
+  .nav-dropdown:hover .nav-dropdown-menu,
+  .nav-dropdown.open .nav-dropdown-menu {
+    opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0);
+  }
+  .nav-dropdown::after {
+    content: ''; position: absolute; top: 100%; left: 0; right: 0; height: 12px;
+  }
+  .nav-dropdown-menu a {
+    display: block; padding: 0.5rem 1rem;
+    color: rgba(255,255,255,0.65);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px; font-weight: 500;
+    text-decoration: none; border-left: 2px solid transparent;
+    transition: color 0.12s, background 0.12s, border-color 0.12s;
+  }
+  .nav-dropdown-menu a:hover {
+    color: var(--magenta); background: rgba(232,25,125,0.06); border-left-color: var(--magenta);
+  }
+  .nav-dropdown-menu .menu-num {
+    display: inline-block; font-size: 11px; color: var(--magenta);
+    margin-right: 7px; min-width: 24px; font-weight: 700;
+  }
+  .nav-dropdown-menu .menu-divider {
+    height: 1px; background: rgba(255,255,255,0.08); margin: 0.3rem 0.75rem;
+  }
+  .menu-divider-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: rgba(255,255,255,0.25);
+    padding: 0.4rem 1rem 0.2rem;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 432 <span>&middot;</span> AI in Business</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Chapters &amp; Labs <span class="caret"></span></button>
+      <div class="nav-dropdown-menu" role="menu">
+        <div class="menu-divider-label">Chapters</div>
+        <a href="chapter1-everycure.html" role="menuitem"><span class="menu-num">01</span>EveryCure</a>
+        <a href="chapter2-netflix.html" role="menuitem"><span class="menu-num">02</span>Netflix</a>
+        <a href="chapter3-spotify.html" role="menuitem"><span class="menu-num">03</span>Spotify</a>
+        <a href="chapter4-uber.html" role="menuitem"><span class="menu-num">04</span>Uber</a>
+        <div class="menu-divider"></div>
+        <div class="menu-divider-label">Labs</div>
+        <a href="chapter1-everycure-lab.html" role="menuitem"><span class="menu-num">L1</span>EveryCure Lab</a>
+        <a href="chapter2-netflix-lab.html" role="menuitem"><span class="menu-num">L2</span>Netflix Lab</a>
+        <a href="chapter3-spotify-lab.html" role="menuitem"><span class="menu-num">L3</span>Spotify Lab</a>
+        <a href="chapter4-uber-lab.html" role="menuitem"><span class="menu-num">L4</span>Uber Lab</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Student Resources <span class="caret"></span></button>
+      <div class="nav-dropdown-menu" role="menu">
+        <a href="good-prompts.html" role="menuitem"><span class="menu-num">✦</span>Writing Good Prompts</a>
+        <a href="ai-job-interview.html" class="active" role="menuitem"><span class="menu-num">✦</span>AI in Job Interviews</a>
+        <a href="ai-news-and-sources.html" role="menuitem"><span class="menu-num">✦</span>AI News + Sources</a>
+      </div>
+    </div>
+    <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-stamp">MIS 432 &nbsp;&middot;&nbsp; Student Resource &nbsp;&middot;&nbsp; 10 min read</div>
+    <h1>Talking About AI<span>In a Job Interview</span></h1>
+    <p class="hero-meta">What you actually know, why it matters, and how to show it</p>
+  </div>
+</div>
+
+<div class="article">
+
+  <p>Let&rsquo;s be direct about something. The job market for new graduates right now is genuinely harder than it was a few years ago. Hiring has slowed across finance, consulting, marketing, and tech. More applicants are competing for fewer entry-level roles, and employers are screening faster and more aggressively than ever.</p>
+
+  <p>In that environment, almost every candidate will claim they &ldquo;know AI.&rdquo; Most of them will not be able to say anything specific. You can. That gap &mdash; between students who can speak concretely about AI and students who just repeat buzzwords &mdash; is one of the most useful advantages you can create for yourself right now.</p>
+
+  <p>This guide is about how to use what you have actually done in this course to stand out in an interview, and how to build a simple portfolio that makes your work visible before the conversation even starts.</p>
+
+  <hr>
+
+  <h2>1. The Problem With "I Know AI"</h2>
+  <h3>Why vague answers hurt you even when they sound fine</h3>
+
+  <p>Most business students preparing for interviews will say something like: <em>&ldquo;I&rsquo;m really interested in AI and how it&rsquo;s changing business.&rdquo;</em> Interviewers hear this dozens of times a day. It signals enthusiasm but no substance. It does not differentiate you from anyone else in the pile.</p>
+
+  <p>The answer that gets remembered is specific. It names real companies, real concepts, and real things you actually built or analyzed. It shows that you understand how AI creates business value, not just that you are aware it exists.</p>
+
+  <div class="prompt-pair">
+    <div class="prompt-bad">
+      <div class="prompt-lbl">&#10005; Forgettable</div>
+      <div class="prompt-txt">&ldquo;I&rsquo;ve been learning a lot about AI and I think it&rsquo;s really going to change how companies operate. I&rsquo;m excited to apply that in a business context.&rdquo;</div>
+    </div>
+    <div class="prompt-good">
+      <div class="prompt-lbl">&#10003; Memorable</div>
+      <div class="prompt-txt">&ldquo;In my AI in Business course, I studied how Netflix uses A/B testing to decide what artwork to show each user. I actually simulated one of those tests myself &mdash; ran the statistics, calculated significance, and identified where the prediction-decision gap creates real risk.&rdquo;</div>
+    </div>
+  </div>
+
+  <p>The second answer is not more impressive because it sounds technical. It is more impressive because it is <em>true</em> and <em>specific</em>. You did that. You can talk about it for five minutes if asked. That credibility is what makes the difference.</p>
+
+  <hr>
+
+  <h2>2. What You Actually Know</h2>
+  <h3>Translating your coursework into interview language</h3>
+
+  <p>Here is what you have studied this quarter, reframed the way a hiring manager would hear it.</p>
+
+  <p><strong>EveryCure &mdash; Knowledge Graphs &amp; AI Prediction.</strong> You understand how organizations use structured data to surface non-obvious patterns &mdash; in EveryCure&rsquo;s case, finding drug-disease connections that human researchers would never find manually. In an interview, this translates to: understanding how AI can create value from existing data assets, how graph-based thinking differs from traditional data analysis, and why AI for social good is one of the most compelling frontiers in the field.</p>
+
+  <p><strong>Netflix &mdash; A/B Testing &amp; Experimentation.</strong> You understand how data-driven companies make decisions without relying on intuition. You can explain randomization, statistical significance, and the difference between a prediction and a decision. You actually ran a simulated A/B test. In an interview: &ldquo;I&rsquo;ve studied how Netflix uses controlled experiments to test every product change, and I&rsquo;ve run my own simulation of that process.&rdquo; That sentence will prompt follow-up questions rather than polite nodding.</p>
+
+  <p><strong>Spotify &mdash; Recommendation Systems &amp; Personalization.</strong> You understand collaborative filtering, why personalization is a competitive moat, and what happens when a recommendation system silently fails. You built a version of one yourself. In an interview, you can speak credibly about why personalization creates compounding business value and why the governance of AI systems matters as much as the accuracy.</p>
+
+  <p><strong>Uber &mdash; Forecasting, Black-Box Models, and Responsible AI.</strong> You understand how an entire business can be operationalized through AI, what the prediction-decision gap means in practice, and what happens when algorithmic accountability fails. The Sydney hostage crisis example and the Upfront Fares case are not just stories &mdash; they are concrete examples of AI governance failures you can cite by name.</p>
+
+  <div class="callout callout-fix">
+    <div class="callout-lbl">The principle</div>
+    <p>You do not need to memorize new material for an interview. You need to translate what you already know into the language the interviewer is using. &ldquo;Prediction-decision gap&rdquo; becomes &ldquo;where AI recommendations become automated decisions without human review.&rdquo; Same idea. Much clearer to a non-technical audience.</p>
+  </div>
+
+  <hr>
+
+  <h2>3. Three Questions You Will Likely Get</h2>
+  <h3>And how to answer them using what you know</h3>
+
+  <p>Most interview questions about AI in business fall into one of three categories. Here is how to approach each one.</p>
+
+  <p><strong>&ldquo;Tell me about your experience with AI.&rdquo;</strong></p>
+
+  <div class="answer-block">
+    <div class="answer-lbl">Strong answer structure</div>
+    <div class="answer-txt">Start with the course framing: <strong>&ldquo;I took a course specifically on how companies use AI to make business decisions&rdquo;</strong> &mdash; then name one or two specific things you did. The lab you built. The case you analyzed. The concept you can explain. End with a connection to the role you are interviewing for: <strong>&ldquo;Given that this role involves [pricing / marketing / operations / analytics], the Uber forecasting and Spotify personalization cases were particularly relevant to me.&rdquo;</strong></div>
+  </div>
+
+  <p><strong>&ldquo;Can you give me an example of a data-driven decision?&rdquo;</strong></p>
+
+  <div class="answer-block">
+    <div class="answer-lbl">Strong answer structure</div>
+    <div class="answer-txt">Use the Netflix A/B testing framework. Describe the decision (which thumbnail to show), the experiment (random assignment, control vs. treatment), the metric (click-through rate), and the outcome (statistically significant improvement). Then add: <strong>&ldquo;What I found interesting was that even a small improvement in click-through rate compounds significantly at Netflix&rsquo;s scale &mdash; that&rsquo;s the core idea behind why data-driven experimentation is worth the investment.&rdquo;</strong> That last sentence shows business thinking, not just technical knowledge.</div>
+  </div>
+
+  <p><strong>&ldquo;What do you think about AI &mdash; is it a risk or an opportunity?&rdquo;</strong></p>
+
+  <div class="answer-block">
+    <div class="answer-lbl">Strong answer structure</div>
+    <div class="answer-txt">Do not give a one-sided answer. The most impressive response acknowledges both. Use the Uber framework: <strong>&ldquo;The companies that win with AI are the ones that understand where to close the prediction-decision gap and where to keep a human in the loop. Uber&rsquo;s surge pricing during a crisis is a good example of where full automation failed. The risk isn&rsquo;t AI itself &mdash; it&rsquo;s deploying it without thinking carefully about where human judgment still needs to sit.&rdquo;</strong> That answer shows maturity and will surprise most interviewers.</div>
+  </div>
+
+  <hr>
+
+  <h2>4. Your Group Project Is a Portfolio Piece</h2>
+  <h3>How to talk about what you built</h3>
+
+  <p>Your group project &mdash; from problem proposal through system design to working prototype &mdash; is a complete product development story. Most entry-level candidates cannot describe having done anything like it. The key is knowing how to frame it.</p>
+
+  <p>Do not say: <em>&ldquo;We did a group project where we built an AI thing.&rdquo;</em></p>
+
+  <p>Say: <em>&ldquo;Our team identified a real business problem, defined the decision the system would support, designed the data inputs and outputs, and built a working prototype. We presented it three times to the class as it evolved.&rdquo;</em></p>
+
+  <p>That framing maps directly onto how product and analytics teams actually work. It shows you can go from ambiguity to something real. Interviewers in consulting, product management, operations, and marketing will recognize that process.</p>
+
+  <div class="callout callout-meta">
+    <div class="callout-lbl">If they ask what problem you solved</div>
+    <p>Be ready to explain: (1) the business context, (2) the decision the system supported, (3) what data you used, (4) what the system produced, and (5) what value it created. That five-part structure is exactly how Milestone 2 asked you to think. You already have the answer &mdash; just practice saying it out loud.</p>
+  </div>
+
+  <hr>
+
+  <h2>5. Build a Portfolio Page</h2>
+  <h3>Make your work visible before the interview starts</h3>
+
+  <p>Here is the reality: most business school students do not have a portfolio. Most cannot point an employer to anything they have built. That absence is now a competitive disadvantage, because the students who do have one stand out immediately.</p>
+
+  <p>The good news is that you do not need to know how to code a website. You can use Claude or another AI tool to build one for you &mdash; and the process of doing it is itself a demonstration of exactly the AI skills employers want to see.</p>
+
+  <div class="reality-box">
+    <div class="reality-lbl">Why this matters right now</div>
+    <div class="reality-txt">Employers are receiving more applications than ever and spending less time on each one. A LinkedIn profile with a link to a real portfolio page that shows actual work &mdash; a lab write-up, a project summary, a notebook with results &mdash; is one of the few things that reliably gets a second look. It signals initiative, technical comfort, and the ability to communicate clearly. All three are things employers say they cannot find enough of.</div>
+  </div>
+
+  <p>Here is how to build one in a weekend, using tools you already have access to.</p>
+
+  <div class="portfolio-step">
+    <div class="portfolio-num">1</div>
+    <div class="portfolio-txt"><strong>Decide what to include.</strong> At minimum: a short bio, your group project summary (problem, system, results), and one or two lab write-ups. You do not need everything. Two strong pieces are better than five mediocre ones.</div>
+  </div>
+  <div class="portfolio-step">
+    <div class="portfolio-num">2</div>
+    <div class="portfolio-txt"><strong>Use Claude to build the page.</strong> Describe what you want: &ldquo;I want a clean, professional single-page portfolio website for a business student. It should include an about section, a projects section with two entries, and contact links. Make it simple and readable.&rdquo; Claude will write the HTML. You do not need to understand every line of it.</div>
+  </div>
+  <div class="portfolio-step">
+    <div class="portfolio-num">3</div>
+    <div class="portfolio-txt"><strong>Deploy it for free on GitHub Pages.</strong> This is exactly what your course website uses. Create a free GitHub account, upload your HTML file, turn on GitHub Pages in settings, and your site is live at a real URL in minutes. There are step-by-step guides on YouTube if you get stuck.</div>
+  </div>
+  <div class="portfolio-step">
+    <div class="portfolio-num">4</div>
+    <div class="portfolio-txt"><strong>Write up your project clearly.</strong> Use AI to help you write a one-page summary of your group project: what problem you solved, how the system worked, and what business value it created. Keep it jargon-free. Imagine explaining it to a manager, not a professor.</div>
+  </div>
+  <div class="portfolio-step">
+    <div class="portfolio-num">5</div>
+    <div class="portfolio-txt"><strong>Add the link everywhere.</strong> Your LinkedIn headline, your resume, your email signature. A URL that goes somewhere real is a signal that you are a person who finishes things.</div>
+  </div>
+
+  <div class="callout callout-fix">
+    <div class="callout-lbl">What to tell the interviewer</div>
+    <p>&ldquo;I actually used AI to build my portfolio site &mdash; I described what I wanted, Claude wrote the HTML, and I deployed it on GitHub Pages. It took a few hours. I think that&rsquo;s a pretty good example of how I think about using AI as a tool rather than just talking about it.&rdquo; That answer, delivered naturally, will be remembered.</p>
+  </div>
+
+  <hr>
+
+  <h2>6. A Note on Honesty</h2>
+  <h3>Know what you know and know what you don&rsquo;t</h3>
+
+  <p>The biggest mistake students make when talking about AI in interviews is overclaiming. Do not say you &ldquo;built a machine learning model&rdquo; if you ran a simulation. Do not say you are &ldquo;experienced in Python&rdquo; if you wrote code with significant AI assistance. Interviewers who know the field will ask a follow-up question, and overclaiming collapses fast.</p>
+
+  <p>What you can say honestly is more than enough. You studied how real companies &mdash; a healthcare startup, a streaming giant, a music platform, a ride-sharing company &mdash; use AI to make decisions at scale. You ran experiments, built systems, and designed an AI product from scratch. You can explain the prediction-decision gap, Responsible AI and algorithmic accountability, A/B testing, and why black-box models create governance risks. That is a genuinely strong foundation, and it is all true.</p>
+
+  <p>Confidence in what you actually know is more impressive than bravado about things you don&rsquo;t. The interviewer is not trying to catch you out &mdash; they are trying to find out whether you can think clearly and communicate well under pressure. You can.</p>
+
+  <div class="checklist">
+    <div class="checklist-lbl">Before Your Next Interview</div>
+    <h2>Your AI Readiness Checklist</h2>
+    <div class="check-item"><div class="check-num">1.</div><div class="check-txt"><strong>Pick two case studies</strong> from this course you can talk about for two minutes each without notes.</div></div>
+    <div class="check-item"><div class="check-num">2.</div><div class="check-txt"><strong>Prepare your project story</strong> &mdash; problem, system, data, output, value &mdash; in under 90 seconds.</div></div>
+    <div class="check-item"><div class="check-num">3.</div><div class="check-txt"><strong>Build a portfolio page</strong> and get it live at a real URL before you start applying.</div></div>
+    <div class="check-item"><div class="check-num">4.</div><div class="check-txt"><strong>Practice the three interview questions</strong> in Section 3 out loud, not just in your head.</div></div>
+    <div class="check-item"><div class="check-num">5.</div><div class="check-txt"><strong>Know your limits</strong> &mdash; be clear about what you built vs. what you studied vs. what you are still learning.</div></div>
+    <div class="check-item"><div class="check-num">6.</div><div class="check-txt"><strong>Add your portfolio URL</strong> to your LinkedIn, resume, and email signature today, not the night before an interview.</div></div>
+  </div>
+
+  <p>The job market is harder. That is true and it is worth acknowledging. But most of your competition is going into interviews with generic answers and nothing to show. You have specific knowledge, real work, and now a framework for talking about both. That combination is rarer than you think.</p>
+
+</div>
+
+<footer>
+  <p>MIS 432 &middot; AI in Business &middot; Western Washington University &middot; College of Business and Economics</p>
+  <p style="margin-top:0.5rem;"><a href="index.html">Home</a> &middot; <a href="https://cbe.wwu.edu/people/califfc" target="_blank">Contact</a> &middot; <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a> &middot; Free to use for educational purposes</p>
+</footer>
+
+<script>
+  (function () {
+    var dropdowns = document.querySelectorAll('.nav-dropdown');
+    dropdowns.forEach(function (dropdown) {
+      var toggle = dropdown.querySelector('.nav-dropdown-toggle');
+      toggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        var isOpen = !dropdown.classList.contains('open');
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        if (isOpen) { dropdown.classList.add('open'); toggle.setAttribute('aria-expanded', 'true'); }
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        document.activeElement.blur();
+      }
+    });
+  })();
+</script>
+</body>
+</html>
