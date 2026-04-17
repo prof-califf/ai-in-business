@@ -423,12 +423,10 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
       </div>
 
       <div class="reflect-box">
-        <div class="reflect-label">Step 02 Reflection &mdash; answer all four</div>
+        <div class="reflect-label">Step 02 Reflection &mdash; answer both</div>
         <div class="reflect-text">
-          <strong>Q1 &mdash; Where the model misses.</strong> Look at your backtest chart. Where is your model most wrong &mdash; and why? Name the specific weeks and what the model failed to capture about them.<br><br>
-          <strong>Q2 &mdash; Point forecast vs. prediction interval.</strong> If you were an Uber operations manager deciding how many drivers to recruit for the test period, would you use the single predicted line or the full shaded band to make that decision? What is the cost of being wrong in each direction?<br><br>
-          <strong>Q3 &mdash; The black-box tradeoff.</strong> You built an interpretable model: every prediction can be traced back to its inputs (week number, summer flag, NYE flag). Google Cloud&rsquo;s <em>Vertex AI Forecasting</em> could likely forecast Bellingham&rsquo;s demand more accurately than your linear model &mdash; but neither you nor Google&rsquo;s engineers could explain in plain language why next Tuesday&rsquo;s forecast is 12% higher than last Tuesday&rsquo;s. As the business leader responsible for surge pricing, which would you choose: the 8%-more-accurate black box or your slightly less accurate but fully auditable model? Now imagine the same model is being used by a bank to decide who gets a loan &mdash; does your answer change? Explain the reasoning, and connect it to the &ldquo;When interpretability is not optional&rdquo; box in Section 7 of the case.<br><br>
-          <strong>Q4 &mdash; Build vs. buy.</strong> You just built this forecasting model from scratch in a weekend with Claude&rsquo;s help. A mid-sized regional delivery company wants to forecast their own demand. Should they build something like what you just built, or buy an off-the-shelf product like Google Vertex AI Forecasting or AWS SageMaker? Defend your answer using the specific factors from Section 7 &mdash; scale, uniqueness, strategic importance, and the downstream implications for explainability and governance.
+          <strong>Q1 &mdash; Point forecast vs. prediction interval.</strong> If you were an Uber operations manager deciding how many drivers to recruit for the test period, would you use the single predicted line or the full shaded band to make that decision? What is the cost of being wrong in each direction?<br><br>
+          <strong>Q2 &mdash; Build vs. buy.</strong> You just built this forecasting model from scratch in a weekend with Claude&rsquo;s help. A mid-sized regional delivery company wants to forecast their own demand. Should they build something like what you just built, or buy an off-the-shelf product like Google Vertex AI Forecasting or AWS SageMaker? Defend your answer using the factors from Section 7 &mdash; scale, uniqueness, strategic importance, and the downstream implications for explainability and governance.
         </div>
       </div>
 
@@ -548,11 +546,10 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
       </div>
 
       <div class="reflect-box">
-        <div class="reflect-label">Step 03 Reflection &mdash; answer all three using the simulator above</div>
+        <div class="reflect-label">Step 03 Reflection &mdash; answer both using the simulator above</div>
         <div class="reflect-text">
-          <strong>Q1 — The scenario comparison.</strong> Load the <em>Concert Ends</em> scenario and choose "Trust the Algorithm." Then load the <em>Hurricane Evacuation</em> scenario and choose "Trust the Algorithm" again. Both times the algorithm is doing exactly what it was designed to do — yet one outcome is labeled good and one is labeled bad. In 2–3 sentences, explain why the same decision produces opposite outcomes in those two scenarios. What changed — the algorithm, the context, or both?<br><br>
-          <strong>Q2 — The override dilemma.</strong> Load the <em>Rain + Rush Hour</em> scenario. Try all three decisions (Trust, Override, Pause) and read each outcome carefully. Which decision do <em>you</em> think is most defensible as a business policy, and why? What value judgment are you making when you choose to override the algorithm's price recommendation?<br><br>
-          <strong>Q3 — The governance gap.</strong> The simulator's decision log records every action you take. In the real Uber system, there is no log like this for individual surge decisions — the algorithm fires and no human reviews it. Based on what you saw in the Hurricane scenario specifically, write one concrete governance rule Uber should add to their responsible AI policy. Make it specific enough that an engineer could implement it as a code check.
+          <strong>Q1 &mdash; The scenario comparison.</strong> Load the <em>Concert Ends</em> scenario and choose &ldquo;Trust the Algorithm.&rdquo; Then load the <em>Hurricane Evacuation</em> scenario and choose &ldquo;Trust the Algorithm&rdquo; again. Both times the algorithm is doing exactly what it was designed to do &mdash; yet one outcome is labeled good and one is labeled bad. In 2&ndash;3 sentences, explain why the same decision produces opposite outcomes in those two scenarios. What changed &mdash; the algorithm, the context, or both?<br><br>
+          <strong>Q2 &mdash; The governance gap.</strong> The simulator&rsquo;s decision log records every action you take. In the real Uber system, there is no log like this for individual surge decisions &mdash; the algorithm fires and no human reviews it. Based on what you saw in the Hurricane scenario specifically, write one concrete governance rule Uber should add to their responsible AI policy. Make it specific enough that an engineer could implement it as a code check.
         </div>
       </div>
 
@@ -652,11 +649,10 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
       <!-- end simulator -->
 
       <div class="reflect-box">
-        <div class="reflect-label">Step 04 Reflection &mdash; answer using the simulator</div>
+        <div class="reflect-label">Step 04 Reflection &mdash; answer both using the simulator</div>
         <div class="reflect-text">
-          <strong>Q1 — Speed of failure.</strong> Try the <em>Pandemic Lockdown</em> (sudden collapse) and the <em>Competitor Launches</em> (slow erosion). Drag the slider to the same week for both. Which scenario produces a higher MAE multiplier? Now drag the slider earlier and earlier — at what point does the error multiplier become large enough that you would consider the model dangerously broken? Write down the approximate week and multiplier for each scenario.<br><br>
-          <strong>Q2 — The hidden cost window.</strong> Pick <em>Remote Work Shift</em> and drag the slider so the shift happens at week 82 (early in deployment). Look at the MAE after shift. For the weeks before your monitoring alert fires, Uber's system is still making decisions — driver bonuses, server provisioning, surge pricing — based on predictions that are wrong by that margin. Name two specific decisions Uber would get wrong during that window, and explain the real-world consequence of each.<br><br>
-          <strong>Q3 — Who is responsible?</strong> The monitoring alert fires. Someone needs to pause the model, investigate, and decide whether to retrain or roll back. In most companies, nobody owns this role explicitly. Based on what you saw in the simulator, write a one-sentence job description for the person who should be accountable for catching distribution shift at Uber — and explain why that role belongs in the business, not just in the engineering team.
+          <strong>Q1 &mdash; The hidden cost window.</strong> Pick <em>Remote Work Shift</em> and drag the slider so the shift happens at week 82 (early in deployment). Look at the MAE after shift. For the weeks before your monitoring alert fires, Uber&rsquo;s system is still making decisions &mdash; driver bonuses, server provisioning, surge pricing &mdash; based on predictions that are wrong by that margin. Name two specific decisions Uber would get wrong during that window, and explain the real-world consequence of each.<br><br>
+          <strong>Q2 &mdash; Who is responsible?</strong> The monitoring alert fires. Someone needs to pause the model, investigate, and decide whether to retrain or roll back. In most companies, nobody owns this role explicitly. Based on what you saw in the simulator, write a one-sentence job description for the person who should be accountable for catching distribution shift at Uber &mdash; and explain why that role belongs in the business, not just in the engineering team.
         </div>
       </div>
 
@@ -796,12 +792,10 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
       <!-- end game -->
 
       <div class="reflect-box">
-        <div class="reflect-label">Step 05 Reflection &mdash; answer after completing all 6 rounds</div>
+        <div class="reflect-label">Step 05 Reflection &mdash; answer both after completing all 6 rounds</div>
         <div class="reflect-text">
           <strong>Q1 &mdash; When did you notice?</strong> At what point during rounds 4&ndash;6 did something feel off? What tipped you off &mdash; the multiplier, the earnings, the rider outcome, or something else? What does that tell you about how hard distribution shift is to catch in the real world, when a driver or operations manager is just seeing numbers on a screen?<br><br>
-          <strong>Q2 &mdash; Driver vs. rider.</strong> During the broken rounds, both you (the driver) and your riders were affected differently. Describe what each side experienced. Who was harmed more &mdash; and does it matter that the algorithm had no idea?<br><br>
-          <strong>Q3 &mdash; The fix.</strong> You now know the model was wrong from round 4. If you were an Uber operations manager and you saw your earnings data for drivers in Bellingham dropping in rounds 4&ndash;6, what would you investigate first &mdash; and what would you do if you discovered the forecast was the cause?<br><br>
-          <strong>Q4 &mdash; The Upfront Fares layer.</strong> In this game you could always see the surge multiplier before deciding where to drive. Re-read the <em>Upfront Fares mini-case in Section 10</em> of the chapter. In the real Uber system as of 2022, drivers stopped being able to predict their pay from time and distance &mdash; an opaque algorithm now decides each fare using undisclosed factors. Imagine a Round 7 where you still see the multiplier, but your actual payout is determined by a separate black-box algorithm that might pay you $14 on a trip where another driver got $21 for the same work. How would that change your driving strategy, your trust in the platform, and your willingness to keep working for Uber? What does this add to what you learned about distribution shift and the prediction-decision gap?
+          <strong>Q2 &mdash; The Upfront Fares layer.</strong> In this game you could always see the surge multiplier before deciding where to drive. Re-read the <em>Upfront Fares mini-case in Section 10</em> of the chapter. In the real Uber system as of 2022, drivers stopped being able to predict their pay from time and distance &mdash; an opaque algorithm now decides each fare using undisclosed factors. Imagine a Round 7 where you still see the multiplier, but your actual payout is determined by a separate black-box algorithm that might pay you $14 on a trip where another driver got $21 for the same work. How would that change your driving strategy, your trust in the platform, and your willingness to keep working for Uber? What does this add to what you learned about distribution shift and the prediction-decision gap?
         </div>
       </div>
 
@@ -906,12 +900,10 @@ Please generate the complete HTML file.</div>
       </div>
 
       <div class="reflect-box">
-        <div class="reflect-label">Step 06 Final Reflection &mdash; write this before building your GitHub page</div>
+        <div class="reflect-label">Step 06 Final Reflection &mdash; answer both before building your GitHub page</div>
         <div class="reflect-text">
           <strong>Q1 &mdash; The full chain.</strong> You have now seen Uber's AI system from every angle: you built the forecast, you watched it set a surge multiplier, you watched it break, and you felt what that meant as a driver. In one paragraph, describe how these four steps connect &mdash; how a decision made at the data stage affects what a rider pays and what a driver earns.<br><br>
-          <strong>Q2 &mdash; Governance.</strong> If you were designing Uber's responsible AI governance framework, what one rule would you make non-negotiable across all automated pricing decisions &mdash; and who inside the company would be personally accountable for enforcing it?<br><br>
-          <strong>Q3 &mdash; What surprised you.</strong> Which moment in this lab &mdash; a simulator outcome, a game round, a number from Colab &mdash; surprised you most? What does that surprise tell you about how AI systems actually work versus how you assumed they worked before?<br><br>
-          <strong>Q4 &mdash; Compounding advantage.</strong> Tomorrow you could hand your published GitHub page to a competitor: your code, your approach, your charts, your reflection. They would have everything. Would they still be unable to build a better forecaster than Uber has today? Why or why not? Use the term <em>compounding advantage</em> from Section 14 in your answer, and connect it specifically to what you saw happen across your own four-step workflow in this lab &mdash; where the advantage lives, and why it is almost impossible to replicate by reading a blog post.
+          <strong>Q2 &mdash; Compounding advantage.</strong> Tomorrow you could hand your published GitHub page to a competitor: your code, your approach, your charts, your reflection. They would have everything. Would they still be unable to build a better forecaster than Uber has today? Why or why not? Use the term <em>compounding advantage</em> from Section 14 in your answer, and connect it specifically to what you saw happen across your own four-step workflow in this lab &mdash; where the advantage lives, and why it is almost impossible to replicate by reading a blog post.
         </div>
       </div>
 
@@ -926,12 +918,12 @@ Please generate the complete HTML file.</div>
     <div class="submit-label">&#9989; What to Submit</div>
     <ul>
       <li><strong>GitHub Pages URL</strong> &mdash; your published <code>index.html</code> live at <code>https://[username].github.io/uber-ai-lab</code>. This is your primary deliverable.</li>
-      <li><strong>Step 01 Reflection</strong> &mdash; trend, seasonality, and what Uber needs to know before a spike (2&ndash;3 sentences)</li>
-      <li><strong>Step 02 Reflection</strong> &mdash; where the model struggles, point forecast vs. prediction interval, the black-box tradeoff, and build vs. buy (one short paragraph each)</li>
-      <li><strong>Step 03 Reflection</strong> &mdash; scenario comparison, override dilemma, governance rule (one paragraph each)</li>
-      <li><strong>Step 04 Reflection</strong> &mdash; speed of failure, hidden cost window, who is responsible (one paragraph each)</li>
-      <li><strong>Step 05 Reflection</strong> &mdash; when you noticed, driver vs. rider experience, the fix, and the Upfront Fares layer (one paragraph each)</li>
-      <li><strong>Step 06 Final Reflection</strong> &mdash; the full chain, governance rule, what surprised you, and compounding advantage (full paragraphs)</li>
+      <li><strong>Step 01 Reflection</strong> &mdash; observation (2&ndash;3 sentences) + one reflection (2&ndash;3 sentences)</li>
+      <li><strong>Step 02 Reflection</strong> &mdash; 2 questions: point forecast vs. prediction interval, and build vs. buy</li>
+      <li><strong>Step 03 Reflection</strong> &mdash; 2 questions: the scenario comparison, and one concrete governance rule</li>
+      <li><strong>Step 04 Reflection</strong> &mdash; 2 questions: the hidden cost window, and who is responsible</li>
+      <li><strong>Step 05 Reflection</strong> &mdash; 2 questions: when you noticed, and the Upfront Fares layer</li>
+      <li><strong>Step 06 Final Reflection</strong> &mdash; 2 questions: the full chain, and compounding advantage</li>
     </ul>
     <p style="font-size:13px; color:#0a7a90; margin-top:0.75rem; margin-bottom:0;"><strong>Note:</strong> Your reflections should appear on your GitHub page. The URL submission covers both the published page and your written answers in one go.</p>
   </div>
