@@ -268,8 +268,8 @@
       <p>All forecasting starts with the same question: <em>what has happened before?</em> Uber's forecasting system is trained on years of trip history — every ride, every city, every hour of the day. Before you can build a model, you need to understand what patterns live in that data. Two almost always appear: <strong>trend</strong> (the long-run direction, like Bellingham's trip volume growing each year as Uber expands) and <strong>seasonality</strong> (cycles that repeat on a schedule, like summers being busier than winters, or Friday nights always spiking).</p>
 
       <div class="reflect-box">
-        <div class="reflect-label">From the case &mdash; Chapter 4, Section 5</div>
-        <div class="reflect-text">The case explains exactly what time series data is, why order matters, and what trend and seasonality look like in Uber's real trip data — including a chart. If those terms feel unfamiliar, re-read Section 5 before continuing. The chart you are about to generate will show the same two patterns.</div>
+        <div class="reflect-label">From the case &mdash; Chapter 4, Section 6</div>
+        <div class="reflect-text">The case explains exactly what time series data is, why order matters, and what trend and seasonality look like in Uber's real trip data &mdash; including a chart. If those terms feel unfamiliar, re-read Section 6 before continuing. The chart you are about to generate will show the same two patterns.</div>
       </div>
 
       <p>The chart below shows simulated Uber trip data for <strong>Bellingham, WA</strong> over 52 weeks. Look carefully before you do anything else. The business questions to answer are right there in the picture.</p>
@@ -371,8 +371,8 @@ Add a plain-English comment above each section explaining what it does and why, 
       <p>In this step you will build a simple but honest forecasting model. You are not aiming for maximum accuracy. You are aiming to <em>understand what a forecast actually does</em> &mdash; and crucially, to see the difference between a point forecast (one number) and a prediction interval (a range that acknowledges uncertainty).</p>
 
       <div class="reflect-box">
-        <div class="reflect-label">From the case &mdash; Chapter 4, Section 6</div>
-        <div class="reflect-text">After you run the prompt and see your output, you will hit a question at the end of this step: should you trust a model nobody can explain if it is more accurate than one you can? Section 6 of the case covers exactly that tradeoff — Uber's own reasoning on black-box vs. interpretable models. Worth reading before you answer.</div>
+        <div class="reflect-label">From the case &mdash; Chapter 4, Section 7</div>
+        <div class="reflect-text">After you run the prompt and see your output, you will hit a question at the end of this step: should you trust a model nobody can explain if it is more accurate than one you can? Section 7 of the case covers exactly that tradeoff &mdash; along with the build-vs-buy decision that sits behind it. Worth reading before you answer.</div>
       </div>
 
       <div class="prompt-steps">
@@ -423,11 +423,12 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
       </div>
 
       <div class="reflect-box">
-        <div class="reflect-label">Step 02 Reflection &mdash; answer all three</div>
+        <div class="reflect-label">Step 02 Reflection &mdash; answer all four</div>
         <div class="reflect-text">
-          <strong>Q1 — Where the model misses.</strong> Look at your backtest chart. Where is your model most wrong — and why? Name the specific weeks and what the model failed to capture about them.<br><br>
-          <strong>Q2 — Point forecast vs. prediction interval.</strong> If you were an Uber operations manager deciding how many drivers to recruit for the test period, would you use the single predicted line or the full shaded band to make that decision? What is the cost of being wrong in each direction?<br><br>
-          <strong>Q3 — The black-box tradeoff.</strong> You built an interpretable model: every prediction can be traced back to its inputs. Uber has also built models nobody on their team can fully explain — they are more accurate, but when something goes wrong, nobody knows why. As the business leader responsible for surge pricing, which would you choose: a model that is 8% more accurate but unexplainable, or one that is slightly less accurate but fully auditable? There is no right answer — explain the reasoning behind your choice.
+          <strong>Q1 &mdash; Where the model misses.</strong> Look at your backtest chart. Where is your model most wrong &mdash; and why? Name the specific weeks and what the model failed to capture about them.<br><br>
+          <strong>Q2 &mdash; Point forecast vs. prediction interval.</strong> If you were an Uber operations manager deciding how many drivers to recruit for the test period, would you use the single predicted line or the full shaded band to make that decision? What is the cost of being wrong in each direction?<br><br>
+          <strong>Q3 &mdash; The black-box tradeoff.</strong> You built an interpretable model: every prediction can be traced back to its inputs (week number, summer flag, NYE flag). Google Cloud&rsquo;s <em>Vertex AI Forecasting</em> could likely forecast Bellingham&rsquo;s demand more accurately than your linear model &mdash; but neither you nor Google&rsquo;s engineers could explain in plain language why next Tuesday&rsquo;s forecast is 12% higher than last Tuesday&rsquo;s. As the business leader responsible for surge pricing, which would you choose: the 8%-more-accurate black box or your slightly less accurate but fully auditable model? Now imagine the same model is being used by a bank to decide who gets a loan &mdash; does your answer change? Explain the reasoning, and connect it to the &ldquo;When interpretability is not optional&rdquo; box in Section 7 of the case.<br><br>
+          <strong>Q4 &mdash; Build vs. buy.</strong> You just built this forecasting model from scratch in a weekend with Claude&rsquo;s help. A mid-sized regional delivery company wants to forecast their own demand. Should they build something like what you just built, or buy an off-the-shelf product like Google Vertex AI Forecasting or AWS SageMaker? Defend your answer using the specific factors from Section 7 &mdash; scale, uniqueness, strategic importance, and the downstream implications for explainability and governance.
         </div>
       </div>
 
@@ -453,8 +454,8 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
       <p>The surge multiplier is not set by a person. It is the direct output of the forecast you just built. When demand is predicted to be high and drivers are predicted to be scarce, the multiplier goes up automatically, in milliseconds, with no one deciding whether that is the right call in this specific moment. That is what "closing the prediction-decision gap" looks like in practice. And that is exactly where things get complicated.</p>
 
       <div class="reflect-box">
-        <div class="reflect-label">From the case &mdash; Chapter 4, Sections 2 and 8</div>
-        <div class="reflect-text">Section 2 is where the prediction-decision gap is defined and why Uber chose to close it — re-read that paragraph now if you want the full argument before you use the simulator. Section 8 shows the three specific decisions Uber automates: driver repositioning, surge pricing, and infrastructure provisioning. What you are about to simulate is the middle one.</div>
+        <div class="reflect-label">From the case &mdash; Chapter 4, Sections 3 and 10</div>
+        <div class="reflect-text">Section 3 is where the prediction-decision gap is defined and why Uber chose to close it &mdash; re-read that section now if you want the full argument before you use the simulator. Section 10 shows the four specific algorithmic decisions Uber automates: driver repositioning, surge pricing, infrastructure provisioning, and &mdash; in the Upfront Fares mini-case &mdash; driver pay itself. What you are about to simulate is surge pricing.</div>
       </div>
 
       <div style="background:#0a0005; border:2px solid #1fbad6; border-radius:10px; padding:1.1rem 1.25rem; margin: 1.25rem 0;">
@@ -797,9 +798,10 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
       <div class="reflect-box">
         <div class="reflect-label">Step 05 Reflection &mdash; answer after completing all 6 rounds</div>
         <div class="reflect-text">
-          <strong>Q1 — When did you notice?</strong> At what point during rounds 4–6 did something feel off? What tipped you off — the multiplier, the earnings, the rider outcome, or something else? What does that tell you about how hard distribution shift is to catch in the real world, when a driver or operations manager is just seeing numbers on a screen?<br><br>
-          <strong>Q2 — Driver vs. rider.</strong> During the broken rounds, both you (the driver) and your riders were affected differently. Describe what each side experienced. Who was harmed more — and does it matter that the algorithm had no idea?<br><br>
-          <strong>Q3 — The fix.</strong> You now know the model was wrong from round 4. If you were an Uber operations manager and you saw your earnings data for drivers in Bellingham dropping in rounds 4–6, what would you investigate first — and what would you do if you discovered the forecast was the cause?
+          <strong>Q1 &mdash; When did you notice?</strong> At what point during rounds 4&ndash;6 did something feel off? What tipped you off &mdash; the multiplier, the earnings, the rider outcome, or something else? What does that tell you about how hard distribution shift is to catch in the real world, when a driver or operations manager is just seeing numbers on a screen?<br><br>
+          <strong>Q2 &mdash; Driver vs. rider.</strong> During the broken rounds, both you (the driver) and your riders were affected differently. Describe what each side experienced. Who was harmed more &mdash; and does it matter that the algorithm had no idea?<br><br>
+          <strong>Q3 &mdash; The fix.</strong> You now know the model was wrong from round 4. If you were an Uber operations manager and you saw your earnings data for drivers in Bellingham dropping in rounds 4&ndash;6, what would you investigate first &mdash; and what would you do if you discovered the forecast was the cause?<br><br>
+          <strong>Q4 &mdash; The Upfront Fares layer.</strong> In this game you could always see the surge multiplier before deciding where to drive. Re-read the <em>Upfront Fares mini-case in Section 10</em> of the chapter. In the real Uber system as of 2022, drivers stopped being able to predict their pay from time and distance &mdash; an opaque algorithm now decides each fare using undisclosed factors. Imagine a Round 7 where you still see the multiplier, but your actual payout is determined by a separate black-box algorithm that might pay you $14 on a trip where another driver got $21 for the same work. How would that change your driving strategy, your trust in the platform, and your willingness to keep working for Uber? What does this add to what you learned about distribution shift and the prediction-decision gap?
         </div>
       </div>
 
@@ -825,11 +827,16 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
       <p>Think of it as a portfolio piece. When you publish it to GitHub Pages, you will have a public URL you can link from a résumé or share with a future employer. It shows that you can take a business AI concept, build something with it, explain it clearly, and put it on the web.</p>
 
       <div class="reflect-box">
-        <div class="reflect-label">From the case &mdash; Chapter 4, Sections 9, 10, and 11</div>
-        <div class="reflect-text">Section 10 covers responsible AI and algorithmic accountability — who is responsible when the algorithm is wrong, and what Uber has built in response. Section 11 covers where Uber's AI is going next. Those two sections are the intellectual foundation of your final reflection. Re-read them before writing.</div>
+        <div class="reflect-label">From the case &mdash; Chapter 4, Sections 9, 12, and 13</div>
+        <div class="reflect-text">Section 12 covers responsible AI and algorithmic accountability &mdash; who is responsible when the algorithm is wrong, and the five-pillar program Uber has built in response (Visibility, Explainability, Governance, Education, Adoption). Section 13 covers where Uber's AI is going next &mdash; including AI Prototyping, which is essentially what you have been doing with Claude throughout this lab. Those sections are the intellectual foundation of your final reflection. Re-read them before writing.</div>
       </div>
 
-      <p>The prompt asks Claude to assemble a single <code>index.html</code> file containing: an executive summary of Uber's AI Factory in your own words, your trend and seasonality chart, your backtest chart, your distribution shift observations, and all your reflection answers. Everything in one file — no external dependencies, publishable directly to GitHub Pages.</p>
+      <div class="insight-box">
+        <div class="insight-label">&#x1F50D; Pause and notice &mdash; you just did AI Prototyping</div>
+        <div class="insight-text">Before you build the final page, stop and notice what you have just done for the last several hours. You described what you wanted in natural language. Claude wrote the code. You ran it, looked at the output, decided what to change, and asked Claude to change it. You iterated your way to a working forecast, a backtest chart, and a surge-pricing simulation &mdash; in one afternoon &mdash; without writing most of the code yourself. That workflow has a name in the case: <strong>AI Prototyping</strong> (Section 13). It is exactly what Uber&rsquo;s product teams now do when they turn a rough idea into a clickable product in hours rather than weeks. <strong>The cost of making an idea tangible has dropped to nearly zero</strong>, and what used to take an engineer a week can be sketched by a student in an afternoon. This is very likely the form of AI you will use most often in your career &mdash; regardless of what industry you end up in. You are not learning to replace engineers. You are learning to do the thing that was previously too expensive to even try.</div>
+      </div>
+
+      <p>The prompt asks Claude to assemble a single <code>index.html</code> file containing: an executive summary of Uber's AI Factory in your own words, your trend and seasonality chart, your backtest chart, your distribution shift observations, and all your reflection answers. Everything in one file &mdash; no external dependencies, publishable directly to GitHub Pages.</p>
 
       <div class="insight-box">
         <div class="insight-label">How to publish to GitHub Pages in 5 minutes</div>
@@ -901,9 +908,10 @@ Please generate the complete HTML file.</div>
       <div class="reflect-box">
         <div class="reflect-label">Step 06 Final Reflection &mdash; write this before building your GitHub page</div>
         <div class="reflect-text">
-          <strong>Q1 — The full chain.</strong> You have now seen Uber's AI system from every angle: you built the forecast, you watched it set a surge multiplier, you watched it break, and you felt what that meant as a driver. In one paragraph, describe how these four steps connect — how a decision made at the data stage affects what a rider pays and what a driver earns.<br><br>
-          <strong>Q2 — Governance.</strong> If you were designing Uber's responsible AI governance framework, what one rule would you make non-negotiable across all automated pricing decisions — and who inside the company would be personally accountable for enforcing it?<br><br>
-          <strong>Q3 — What surprised you.</strong> Which moment in this lab — a simulator outcome, a game round, a number from Colab — surprised you most? What does that surprise tell you about how AI systems actually work versus how you assumed they worked before?
+          <strong>Q1 &mdash; The full chain.</strong> You have now seen Uber's AI system from every angle: you built the forecast, you watched it set a surge multiplier, you watched it break, and you felt what that meant as a driver. In one paragraph, describe how these four steps connect &mdash; how a decision made at the data stage affects what a rider pays and what a driver earns.<br><br>
+          <strong>Q2 &mdash; Governance.</strong> If you were designing Uber's responsible AI governance framework, what one rule would you make non-negotiable across all automated pricing decisions &mdash; and who inside the company would be personally accountable for enforcing it?<br><br>
+          <strong>Q3 &mdash; What surprised you.</strong> Which moment in this lab &mdash; a simulator outcome, a game round, a number from Colab &mdash; surprised you most? What does that surprise tell you about how AI systems actually work versus how you assumed they worked before?<br><br>
+          <strong>Q4 &mdash; Compounding advantage.</strong> Tomorrow you could hand your published GitHub page to a competitor: your code, your approach, your charts, your reflection. They would have everything. Would they still be unable to build a better forecaster than Uber has today? Why or why not? Use the term <em>compounding advantage</em> from Section 14 in your answer, and connect it specifically to what you saw happen across your own four-step workflow in this lab &mdash; where the advantage lives, and why it is almost impossible to replicate by reading a blog post.
         </div>
       </div>
 
@@ -918,12 +926,12 @@ Please generate the complete HTML file.</div>
     <div class="submit-label">&#9989; What to Submit</div>
     <ul>
       <li><strong>GitHub Pages URL</strong> &mdash; your published <code>index.html</code> live at <code>https://[username].github.io/uber-ai-lab</code>. This is your primary deliverable.</li>
-      <li><strong>Step 01 Reflection</strong> &mdash; trend, seasonality, and what Uber needs to know before a spike (2–3 sentences)</li>
-      <li><strong>Step 02 Reflection</strong> &mdash; where the model struggles and your point forecast vs. prediction interval decision (2–3 sentences)</li>
+      <li><strong>Step 01 Reflection</strong> &mdash; trend, seasonality, and what Uber needs to know before a spike (2&ndash;3 sentences)</li>
+      <li><strong>Step 02 Reflection</strong> &mdash; where the model struggles, point forecast vs. prediction interval, the black-box tradeoff, and build vs. buy (one short paragraph each)</li>
       <li><strong>Step 03 Reflection</strong> &mdash; scenario comparison, override dilemma, governance rule (one paragraph each)</li>
       <li><strong>Step 04 Reflection</strong> &mdash; speed of failure, hidden cost window, who is responsible (one paragraph each)</li>
-      <li><strong>Step 05 Reflection</strong> &mdash; when you noticed, driver vs. rider experience, the fix (one paragraph each)</li>
-      <li><strong>Step 06 Final Reflection</strong> &mdash; the full chain, governance rule, what surprised you (full paragraphs)</li>
+      <li><strong>Step 05 Reflection</strong> &mdash; when you noticed, driver vs. rider experience, the fix, and the Upfront Fares layer (one paragraph each)</li>
+      <li><strong>Step 06 Final Reflection</strong> &mdash; the full chain, governance rule, what surprised you, and compounding advantage (full paragraphs)</li>
     </ul>
     <p style="font-size:13px; color:#0a7a90; margin-top:0.75rem; margin-bottom:0;"><strong>Note:</strong> Your reflections should appear on your GitHub page. The URL submission covers both the published page and your written answers in one go.</p>
   </div>
