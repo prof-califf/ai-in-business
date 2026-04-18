@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-79P6FCY547"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-79P6FCY547');
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI in Business — MIS 432 | Western Washington University</title>
@@ -65,12 +73,13 @@
   .nav-dropdown-menu {
     position: absolute;
     top: calc(100% + 12px);
-    left: 50%;
-    transform: translateX(-50%) translateY(-4px);
+    left: 0;
+    right: auto;
+    transform: translateY(-4px);
     background: var(--off-black);
     border: 1px solid rgba(232,25,125,0.2);
     border-radius: 4px;
-    min-width: 260px;
+    min-width: 270px;
     padding: 0.4rem 0;
     opacity: 0;
     visibility: hidden;
@@ -82,7 +91,7 @@
   .nav-dropdown.open .nav-dropdown-menu {
     opacity: 1;
     visibility: visible;
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
   }
   /* invisible bridge so cursor can cross the gap without closing the menu */
   .nav-dropdown::after {
@@ -174,11 +183,11 @@
 
   .hero h1 {
     font-family: 'Oswald', sans-serif;
-    font-size: 88px; font-weight: 700; color: #fff;
+    font-size: 74px; font-weight: 700; color: #fff;
     line-height: 0.95; margin-bottom: 1.25rem;
     letter-spacing: -0.01em; text-transform: uppercase;
   }
-  .hero h1 .line2 { display: block; color: var(--magenta); font-size: 48px; }
+  .hero h1 .line2 { display: inline; color: var(--magenta); font-size: inherit; }
   .hero-sub { font-family: 'Space Grotesk', sans-serif; font-size: 17px; color: rgba(255,255,255,0.75); font-weight: 300; max-width: 520px; margin: 0 auto 0.85rem; line-height: 1.65; letter-spacing: 0.01em; }
   .hero-tagline { font-family: 'Space Grotesk', sans-serif; font-size: 17px; color: rgba(255,255,255,0.6); font-style: italic; margin-bottom: 3rem; }
 
@@ -186,7 +195,7 @@
   .hero-meta-item { flex: 1; min-width: 110px; padding: 1rem; text-align: center; border-right: 1px solid rgba(232,25,125,0.2); background: rgba(232,25,125,0.05); }
   .hero-meta-item:last-child { border-right: none; }
   .hero-meta-num { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; color: var(--magenta); letter-spacing: 0.02em; }
-  .hero-meta-label { font-family: 'Space Grotesk', sans-serif; font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
+  .hero-meta-label { font-family: 'Space Grotesk', sans-serif; font-size: 10px; color: rgba(255,255,255,0.65); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
 
   /* ABOUT */
   .about { background: var(--white); padding: 4.5rem 2rem; border-bottom: 1px solid var(--border); }
@@ -233,18 +242,72 @@
   .chapter-body-col li::before { content: "→"; position: absolute; left: 0; color: var(--magenta); font-size: 11px; }
 
   /* Chapter brand colors — unchanged */
-  .ec-header { background: linear-gradient(135deg, #0f3460, #533483); }
+  .ec-header { background: linear-gradient(135deg, #0f3460, #533483); position: relative; overflow: hidden; }
+  .ec-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url('https://everycure.org/wp-content/uploads/2023/01/EveryCure-Logo-White.png');
+    background-repeat: no-repeat;
+    background-position: right -20px center;
+    background-size: 280px auto;
+    opacity: 0.07;
+    pointer-events: none;
+  }
+  .nf-header { background: linear-gradient(135deg, #141414, #e50914); position: relative; overflow: hidden; }
+  .nf-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg');
+    background-repeat: no-repeat;
+    background-position: right 20px center;
+    background-size: 240px auto;
+    opacity: 0.08;
+    pointer-events: none;
+  }
+  .sp-header { background: linear-gradient(135deg, #191414, #1DB954); position: relative; overflow: hidden; }
+  .sp-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg');
+    background-repeat: no-repeat;
+    background-position: right 20px center;
+    background-size: 220px auto;
+    opacity: 0.1;
+    pointer-events: none;
+  }
+  .ub-header { background: linear-gradient(135deg, #000000 0%, #0d1f22 60%, #122a2e 100%); position: relative; overflow: hidden; }
+  .ub-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png');
+    background-repeat: no-repeat;
+    background-position: right 24px center;
+    background-size: 200px auto;
+    opacity: 0.1;
+    pointer-events: none;
+  }
+  .ab-header {
+    background: linear-gradient(135deg, #ff385c 0%, #e0003d 40%, #c41d48 70%, #8a1030 100%);
+    position: relative; overflow: hidden;
+  }
+  .ab-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_B%C3%A9lo.svg');
+    background-repeat: no-repeat;
+    background-position: right 24px center;
+    background-size: 220px auto;
+    opacity: 0.12;
+    filter: brightness(10);
+    pointer-events: none;
+  }
   .ec-num { color: #a78bfa; }
-  .nf-header { background: linear-gradient(135deg, #141414, #e50914); }
   .nf-num { color: #fc8181; }
-  .sp-header { background: linear-gradient(135deg, #191414, #1DB954); }
   .sp-num { color: #6ee7b7; }
-  .ub-header { background: linear-gradient(135deg, #000000 0%, #0d1f22 60%, #122a2e 100%); }
   .ub-num { color: #1fbad6; }
-  .ab-header { background: linear-gradient(135deg, #ff385c 0%, #c41d48 50%, #222222 100%); }
-  .ab-num { color: #ffb3c1; }
-
-  /* AI FACTORY */
+  .ab-num { color: #ffffff; }
+  /* Ensure header text sits above logo pseudo-elements */
+  .chapter-header-left, .chapter-links { position: relative; z-index: 1; }
   .factory { background: var(--off-black); padding: 4.5rem 2rem; }
   .factory-inner { max-width: 900px; margin: 0 auto; text-align: center; }
   .factory .section-label { color: var(--magenta); }
@@ -254,18 +317,18 @@
   .factory-step { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); padding: 0.85rem 1.25rem; text-align: center; min-width: 110px; }
   .factory-step-name { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; color: #fff; letter-spacing: 0.05em; text-transform: uppercase; }
   .factory-step-desc { font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 3px; font-weight: 400; }
-  .factory-arrow { color: rgba(255,255,255,0.15); font-size: 18px; }
-  .factory-note { font-size: 15px; color: rgba(255,255,255,0.45); font-style: italic; max-width: 680px; margin: 0 auto; line-height: 1.75; font-weight: 300; }
+  .factory-arrow { color: rgba(255,255,255,0.55); font-size: 18px; }
+  .factory-note { font-size: 15px; color: rgba(255,255,255,0.75); font-style: italic; max-width: 680px; margin: 0 auto; line-height: 1.75; font-weight: 300; }
   .factory-note em { color: var(--magenta); font-style: normal; font-weight: 600; }
 
   /* FOOTER */
   footer { background: var(--black); padding: 2rem; text-align: center; border-top: 5px solid var(--magenta); }
-  footer p { font-size: 13px; color: rgba(255,255,255,0.28); font-family: 'Space Grotesk', sans-serif; }
+  footer p { font-size: 13px; color: rgba(255,255,255,0.65); font-family: 'Space Grotesk', sans-serif; }
   footer a { color: var(--magenta); text-decoration: none; }
   footer a:hover { color: #fff; }
 
   @media (max-width: 640px) {
-    .hero h1 { font-size: 52px; }
+    .hero h1 { font-size: 42px; }
     .about-inner { grid-template-columns: 1fr; }
     .how-steps { grid-template-columns: 1fr; }
     .chapter-header { flex-direction: column; }
@@ -294,6 +357,9 @@
         <a href="chapter3-spotify-lab.html" role="menuitem"><span class="menu-num">L3</span>Spotify Lab</a>
         <a href="chapter4-uber-lab.html" role="menuitem"><span class="menu-num">L4</span>Uber Lab</a>
         <a href="chapter5-airbnb-lab.html" role="menuitem"><span class="menu-num">L5</span>Airbnb Lab</a>
+        <div class="menu-divider"></div>
+        <div class="menu-divider-label">All Chapters</div>
+        <a href="index.html#chapters" role="menuitem"><span class="menu-num">↓</span>View All Chapters</a>
       </div>
     </div>
     <div class="nav-dropdown">
@@ -317,7 +383,6 @@
     <div class="hero-meta">
       <div class="hero-meta-item"><div class="hero-meta-num">5</div><div class="hero-meta-label">Chapters</div></div>
       <div class="hero-meta-item"><div class="hero-meta-num">5</div><div class="hero-meta-label">Labs</div></div>
-      <div class="hero-meta-item"><div class="hero-meta-num">40+</div><div class="hero-meta-label">AI Concepts</div></div>
       <div class="hero-meta-item"><div class="hero-meta-num">Free</div><div class="hero-meta-label">Always</div></div>
     </div>
   </div>
@@ -359,7 +424,7 @@
 
 <div class="how">
   <div class="how-inner">
-    <div class="section-label">How Each Chapter Works</div>
+    <div class="section-label" style="font-size:15px; letter-spacing:0.12em;">How Each Chapter Works</div>
     <div class="section-title">Three parts. One big idea.</div>
     <p class="section-sub">Every chapter follows the same structure so you always know what to expect.</p>
     <div class="how-steps">
@@ -384,7 +449,7 @@
 
 <div class="factory">
   <div class="factory-inner">
-    <div class="section-label">The Thread That Connects Every Chapter</div>
+    <div class="section-label" style="font-size:15px; letter-spacing:0.12em;">The Thread That Connects Every Chapter</div>
     <h2>The AI Factory Model</h2>
     <div class="factory-steps">
       <div class="factory-step"><div class="factory-step-name">Data</div><div class="factory-step-desc">Collect &amp; structure</div></div>
@@ -405,7 +470,7 @@
 
 <div class="chapters" id="chapters">
   <div class="chapters-inner">
-    <div class="section-label">Course Chapters</div>
+    <div class="section-label" style="font-size:15px; letter-spacing:0.12em;">Course Chapters</div>
     <div class="section-title">Start Reading</div>
     <p class="section-sub">This textbook is for business students who want to understand how AI actually works in practice — not just in theory. You do not need a coding background. Each chapter tells the story of a real company, teaches the AI concepts that made their strategy possible, and then walks you through building a version of it yourself.</p>
     <p class="section-sub" style="margin-bottom:2rem;">Each chapter includes a business case, key ML concepts, and a hands-on lab.</p>
@@ -593,49 +658,49 @@
     </div>
 
     <!-- Chapter 5: Airbnb -->
-    <div class="chapter-card">
+    <div class="chapter-card" style="border-color: #ff385c; box-shadow: 0 2px 20px rgba(255,56,92,0.2);">
       <div class="chapter-header ab-header">
         <div class="chapter-header-left">
           <div class="chapter-num ab-num">Chapter 5 · Two-Sided Marketplaces</div>
-          <h3>Dynamic Pricing &amp; Generative AI<br>in a Two-Sided Marketplace</h3>
-          <div class="chapter-company">Airbnb · Marketplace matching · Dynamic pricing · Hybrid ML · Generative AI in production</div>
+          <h3 style="color:#ffffff;">Dynamic Pricing &amp; Generative AI<br>in a Two-Sided Marketplace</h3>
+          <div class="chapter-company" style="color:rgba(255,255,255,0.85);">Airbnb · Marketplace matching · Dynamic pricing · Hybrid ML · Generative AI in production</div>
         </div>
         <div class="chapter-links">
-          <a href="chapter5-airbnb.html" class="btn btn-white" style="color:#ff385c;">Read Case →</a>
-          <a href="chapter5-airbnb-lab.html" class="btn btn-outline">Lab 5</a>
+          <a href="chapter5-airbnb.html" class="btn" style="background:#ffffff; color:#ff385c; font-weight:700;">Read Case →</a>
+          <a href="chapter5-airbnb-lab.html" class="btn" style="background:transparent; border:1.5px solid rgba(255,255,255,0.8); color:#ffffff;">Lab 5</a>
         </div>
       </div>
-      <div class="chapter-body">
+      <div class="chapter-body" style="background: #fff5f7; border-top: 1px solid rgba(255,56,92,0.2);">
         <div class="chapter-body-col">
-          <h4>AI Concepts</h4>
+          <h4 style="color:#c41d48;">AI Concepts</h4>
           <ul>
-            <li>Two-sided marketplaces &amp; matching</li>
-            <li>Cold-start problem</li>
-            <li>Behavioral sequences as tokens</li>
-            <li>Embeddings &amp; multi-task learning</li>
-            <li>Dynamic pricing &amp; lead time</li>
-            <li>Hybrid ML + structural models</li>
-            <li>Generative vs. predictive AI</li>
+            <li style="color:#3a1520;">Two-sided marketplaces &amp; matching</li>
+            <li style="color:#3a1520;">Cold-start problem</li>
+            <li style="color:#3a1520;">Behavioral sequences as tokens</li>
+            <li style="color:#3a1520;">Embeddings &amp; multi-task learning</li>
+            <li style="color:#3a1520;">Dynamic pricing &amp; lead time</li>
+            <li style="color:#3a1520;">Hybrid ML + structural models</li>
+            <li style="color:#3a1520;">Generative vs. predictive AI</li>
           </ul>
         </div>
         <div class="chapter-body-col">
-          <h4>Business Topics</h4>
+          <h4 style="color:#c41d48;">Business Topics</h4>
           <ul>
-            <li>Matching both sides of a marketplace</li>
-            <li>Exploratory vs. transactional users</li>
-            <li>Whose margin is the algorithm optimizing?</li>
-            <li>Automation vs. augmentation (hosts)</li>
-            <li>GenAI in established businesses</li>
-            <li>Labor substitution vs. augmentation</li>
+            <li style="color:#3a1520;">Matching both sides of a marketplace</li>
+            <li style="color:#3a1520;">Exploratory vs. transactional users</li>
+            <li style="color:#3a1520;">Whose margin is the algorithm optimizing?</li>
+            <li style="color:#3a1520;">Automation vs. augmentation (hosts)</li>
+            <li style="color:#3a1520;">GenAI in established businesses</li>
+            <li style="color:#3a1520;">Labor substitution vs. augmentation</li>
           </ul>
         </div>
         <div class="chapter-body-col">
-          <h4>In the Lab</h4>
+          <h4 style="color:#c41d48;">In the Lab</h4>
           <ul>
-            <li>Build a demand-based pricing model</li>
-            <li>Fit a lead time distribution</li>
-            <li>Cluster listings into demand aggregations</li>
-            <li>Compare pure ML vs. hybrid approaches</li>
+            <li style="color:#3a1520;">Build a demand-based pricing model</li>
+            <li style="color:#3a1520;">Fit a lead time distribution</li>
+            <li style="color:#3a1520;">Cluster listings into demand aggregations</li>
+            <li style="color:#3a1520;">Compare pure ML vs. hybrid approaches</li>
           </ul>
         </div>
       </div>
@@ -650,9 +715,32 @@
 </footer>
 
 <script>
-  // Make all nav dropdowns tappable on touch devices and keyboard-accessible.
   (function () {
     var dropdowns = document.querySelectorAll('.nav-dropdown');
+
+    // Reposition any menu that would overflow the left edge of the viewport
+    function repositionMenus() {
+      dropdowns.forEach(function (dropdown) {
+        var menu = dropdown.querySelector('.nav-dropdown-menu');
+        // Temporarily make visible off-screen to measure
+        menu.style.visibility = 'hidden';
+        menu.style.opacity = '0';
+        menu.style.display = 'block';
+        menu.style.left = '0';
+        menu.style.right = 'auto';
+        var rect = menu.getBoundingClientRect();
+        if (rect.left < 8) {
+          menu.style.left = 'auto';
+          menu.style.right = '0';
+        }
+        menu.style.display = '';
+        menu.style.visibility = '';
+        menu.style.opacity = '';
+      });
+    }
+
+    repositionMenus();
+    window.addEventListener('resize', repositionMenus);
 
     dropdowns.forEach(function (dropdown) {
       var toggle = dropdown.querySelector('.nav-dropdown-toggle');
