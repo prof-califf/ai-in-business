@@ -241,72 +241,24 @@
   .chapter-body-col li { font-size: 13px; color: var(--text-muted); padding: 3px 0; padding-left: 1rem; position: relative; font-weight: 400; }
   .chapter-body-col li::before { content: "→"; position: absolute; left: 0; color: var(--magenta); font-size: 11px; }
 
-  /* Chapter brand colors — unchanged */
-  .ec-header { background: linear-gradient(135deg, #0f3460, #533483); position: relative; overflow: hidden; }
-  .ec-header::before {
-    content: '';
-    position: absolute; inset: 0;
-    background-image: url('https://everycure.org/wp-content/uploads/2023/01/EveryCure-Logo-White.png');
-    background-repeat: no-repeat;
-    background-position: right -20px center;
-    background-size: 280px auto;
-    opacity: 0.07;
-    pointer-events: none;
-  }
-  .nf-header { background: linear-gradient(135deg, #141414, #e50914); position: relative; overflow: hidden; }
-  .nf-header::before {
-    content: '';
-    position: absolute; inset: 0;
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg');
-    background-repeat: no-repeat;
-    background-position: right 20px center;
-    background-size: 240px auto;
-    opacity: 0.08;
-    pointer-events: none;
-  }
-  .sp-header { background: linear-gradient(135deg, #191414, #1DB954); position: relative; overflow: hidden; }
-  .sp-header::before {
-    content: '';
-    position: absolute; inset: 0;
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg');
-    background-repeat: no-repeat;
-    background-position: right 20px center;
-    background-size: 220px auto;
-    opacity: 0.1;
-    pointer-events: none;
-  }
-  .ub-header { background: linear-gradient(135deg, #000000 0%, #0d1f22 60%, #122a2e 100%); position: relative; overflow: hidden; }
-  .ub-header::before {
-    content: '';
-    position: absolute; inset: 0;
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png');
-    background-repeat: no-repeat;
-    background-position: right 24px center;
-    background-size: 200px auto;
-    opacity: 0.1;
-    pointer-events: none;
-  }
-  .ab-header {
-    background: linear-gradient(135deg, #ff385c 0%, #e0003d 40%, #c41d48 70%, #8a1030 100%);
-    position: relative; overflow: hidden;
-  }
-  .ab-header::before {
-    content: '';
-    position: absolute; inset: 0;
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_B%C3%A9lo.svg');
-    background-repeat: no-repeat;
-    background-position: right 24px center;
-    background-size: 220px auto;
-    opacity: 0.12;
-    filter: brightness(10);
-    pointer-events: none;
-  }
-  .ec-num { color: #a78bfa; }
+  /* Chapter brand colors */
+  .ec-header { background: linear-gradient(135deg, #0a1f44 0%, #0e3a6e 60%, #0f5a8a 100%); }
+  .ec-num { color: #63d4f5; }
+
+  .nf-header { background: linear-gradient(135deg, #3a0000 0%, #b00000 50%, #e50914 100%); }
   .nf-num { color: #fc8181; }
+
+  .sp-header { background: linear-gradient(135deg, #0a0a0a 0%, #0d2a0d 60%, #1DB954 100%); }
   .sp-num { color: #6ee7b7; }
+
+  .ub-header { background: linear-gradient(135deg, #000000 0%, #0d1f22 60%, #122a2e 100%); }
   .ub-num { color: #1fbad6; }
+
+  .ab-header {
+    background: linear-gradient(135deg, #ff385c 0%, #ff5a6e 50%, #ff7a8a 100%);
+  }
   .ab-num { color: #ffffff; }
-  /* Ensure header text sits above logo pseudo-elements */
+
   .chapter-header-left, .chapter-links { position: relative; z-index: 1; }
   .factory { background: var(--off-black); padding: 4.5rem 2rem; }
   .factory-inner { max-width: 900px; margin: 0 auto; text-align: center; }
@@ -662,7 +614,7 @@
       <div class="chapter-header ab-header">
         <div class="chapter-header-left">
           <div class="chapter-num ab-num">Chapter 5 · Two-Sided Marketplaces</div>
-          <h3 style="color:#ffffff;">Dynamic Pricing &amp; Generative AI<br>in a Two-Sided Marketplace</h3>
+          <h3 style="color:#ffffff;">Airbnb: Dynamic Pricing &amp; Generative AI<br>in a Two-Sided Marketplace</h3>
           <div class="chapter-company" style="color:rgba(255,255,255,0.85);">Airbnb · Marketplace matching · Dynamic pricing · Hybrid ML · Generative AI in production</div>
         </div>
         <div class="chapter-links">
