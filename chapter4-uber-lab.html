@@ -399,25 +399,29 @@
 
   <div class="overview-grid">
     <div class="overview-card"><div class="overview-icon">📈</div><div class="overview-label">Step 1</div><div class="overview-val">Explore the Data</div></div>
-    <div class="overview-card"><div class="overview-icon">🔭</div><div class="overview-label">Step 2</div><div class="overview-val">Build a Forecast</div></div>
-    <div class="overview-card"><div class="overview-icon">⚡</div><div class="overview-label">Step 3</div><div class="overview-val">The Algorithm Decides</div></div>
-    <div class="overview-card"><div class="overview-icon">⚠️</div><div class="overview-label">Step 4</div><div class="overview-val">Break the Model</div></div>
-    <div class="overview-card"><div class="overview-icon">🎮</div><div class="overview-label">Step 5 — Game</div><div class="overview-val">Drive for Uber</div></div>
-    <div class="overview-card"><div class="overview-icon">🌐</div><div class="overview-label">Step 6</div><div class="overview-val">Publish to GitHub</div></div>
+    <div class="overview-card"><div class="overview-icon">🔭</div><div class="overview-label">Step 2</div><div class="overview-val">Build &amp; Backtest</div></div>
+    <div class="overview-card"><div class="overview-icon">📅</div><div class="overview-label">Step 3</div><div class="overview-val">Make a Real Forecast</div></div>
+    <div class="overview-card"><div class="overview-icon">🔀</div><div class="overview-label">Step 4</div><div class="overview-val">Stress-Test It</div></div>
+    <div class="overview-card"><div class="overview-icon">⚡</div><div class="overview-label">Step 5</div><div class="overview-val">The Algorithm Decides</div></div>
+    <div class="overview-card"><div class="overview-icon">⚠️</div><div class="overview-label">Step 6</div><div class="overview-val">Break the Model</div></div>
+    <div class="overview-card"><div class="overview-icon">🎮</div><div class="overview-label">Step 7 — Game</div><div class="overview-val">Drive for Uber</div></div>
+    <div class="overview-card"><div class="overview-icon">🌐</div><div class="overview-label">Step 8</div><div class="overview-val">Publish to GitHub</div></div>
   </div>
 
   <div class="insight-box">
     <div class="insight-label">How this lab fits together</div>
-    <div class="insight-text">Uber's AI system is one continuous chain: <strong>trip history → forecast → surge multiplier → driver moves → rider gets a car</strong>. Every step in this lab is one link in that chain. In Steps 1 and 2 you build the forecast. In Step 3 you see what the forecast drives — the number a rider sees on their screen. In Step 4 you watch the forecast break. In Step 5 you play as a driver making real decisions based on that forecast — including during the weeks it was quietly wrong. By the end, you will not just understand Uber's AI. You will have felt it from both sides.</div>
+    <div class="insight-text">Uber's AI system is one continuous chain: <strong>trip history → forecast → surge multiplier → driver moves → rider gets a car</strong>. Every step in this lab is one link in that chain. In Steps 1 and 2 you build the forecast. In Step 3 you use it to make a real prediction about the future and turn that into a business recommendation. In Step 4 you ask "what if we're wrong about one thing?" and see how much that changes everything. In Step 5 you see how that forecast number becomes the price a rider sees — automatically, with no human involved. In Step 6 the model breaks. In Step 7 you play as a driver living through it. By the end, you will not just understand Uber's AI. You will have felt it from both sides.</div>
   </div>
 
   <div class="factory-row">
-    <div class="factory-step">1. Trip History</div><div class="factory-arrow">&rarr;</div>
-    <div class="factory-step">2. Forecast</div><div class="factory-arrow">&rarr;</div>
-    <div class="factory-step">3. Surge Multiplier</div><div class="factory-arrow">&rarr;</div>
-    <div class="factory-step">4. Model Breaks</div><div class="factory-arrow">&rarr;</div>
-    <div class="factory-step">5. Driver + Rider</div><div class="factory-arrow">&rarr;</div>
-    <div class="factory-step">6. Publish</div>
+    <div class="factory-step">1. Explore Data</div><div class="factory-arrow">&rarr;</div>
+    <div class="factory-step active">2. Build &amp; Backtest</div><div class="factory-arrow">&rarr;</div>
+    <div class="factory-step active">3. Real Forecast</div><div class="factory-arrow">&rarr;</div>
+    <div class="factory-step active">4. Stress-Test</div><div class="factory-arrow">&rarr;</div>
+    <div class="factory-step">5. Surge Pricing</div><div class="factory-arrow">&rarr;</div>
+    <div class="factory-step">6. Model Breaks</div><div class="factory-arrow">&rarr;</div>
+    <div class="factory-step">7. Drive for Uber</div><div class="factory-arrow">&rarr;</div>
+    <div class="factory-step">8. Publish</div>
   </div>
 
 
@@ -456,7 +460,7 @@
       </div>
 
       <div class="reflect-box">
-        <div class="reflect-label">Step 01 Observation &mdash; write 2&ndash;3 sentences before moving on</div>
+        <div class="reflect-label">Step 1 Observation &mdash; write 2&ndash;3 sentences before moving on</div>
         <div class="reflect-text">Look at the chart above. Can you see a long-run direction (trend)? Can you see any repeating patterns (seasonality)? Identify one specific moment where demand spikes and try to explain in business terms why that spike might be happening. What does Uber need to know <em>before</em> that spike hits in order to respond to it?</div>
       </div>
 
@@ -520,7 +524,7 @@ Add a plain-English comment above each section explaining what it does and why, 
       </div>
 
       <div class="reflect-box">
-        <div class="reflect-label">Step 01 Reflection &mdash; write 2&ndash;3 sentences</div>
+        <div class="reflect-label">Step 1 Reflection &mdash; write 2&ndash;3 sentences</div>
         <div class="reflect-text">Now that you have seen the data both in the live chart above and in your Colab output: what would happen to Uber's business if their model only learned the average weekly trip count and ignored seasonality entirely? Name one concrete operational problem that would result — for riders, for drivers, or for Uber's infrastructure.</div>
       </div>
 
@@ -598,7 +602,7 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
       </div>
 
       <div class="reflect-box">
-        <div class="reflect-label">Step 02 Reflection &mdash; answer both</div>
+        <div class="reflect-label">Step 2 Reflection &mdash; answer both</div>
         <div class="reflect-text">
           <strong>Q1 &mdash; Point forecast vs. prediction interval.</strong> If you were an Uber operations manager deciding how many drivers to recruit for the test period, would you use the single predicted line or the full shaded band to make that decision? What is the cost of being wrong in each direction?<br><br>
           <strong>Q2 &mdash; Build vs. buy.</strong> You just built this forecasting model from scratch in a weekend with Claude&rsquo;s help. A mid-sized regional delivery company wants to forecast their own demand. Should they build something like what you just built, or buy an off-the-shelf product like Google Vertex AI Forecasting or AWS SageMaker? Defend your answer using the factors from Section 7 &mdash; scale, uniqueness, strategic importance, and the downstream implications for explainability and governance.
@@ -610,11 +614,166 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
 
 
   <!-- ═══════════════════════════════════════════════════════════
-       STEP 3 — The Algorithm Decides (Surge Simulator)
+       STEP 3 — Make a Real Forecast
   ════════════════════════════════════════════════════════════════ -->
   <div class="step-card">
     <div class="step-header">
       <div class="step-num">3</div>
+      <div>
+        <div class="step-title">Make a Real Forecast</div>
+        <div class="step-subtitle">Use your model to predict the future — then turn those numbers into a business decision</div>
+      </div>
+    </div>
+    <div class="step-body">
+
+      <p>In Step 2, you built a model and checked whether it could predict the past. That's a useful test — but it's not a forecast. A real forecast means pointing at weeks that <em>haven't happened yet</em> and saying: "Here's what we think demand will look like." That's what you're doing now.</p>
+
+      <p>You're going to ask your model to predict the next 13 weeks — the ones after your dataset ends. Your model has never seen these weeks. It will make its best guess based on everything it learned from two years of history. Then you'll look at those numbers and figure out what an Uber operations manager should actually <em>do</em> with them.</p>
+
+      <div class="concept-box">
+        <div class="concept-label">Why 13 weeks?</div>
+        <div class="concept-text">Uber's operations teams plan about 90 days ahead — roughly 13 weeks. That's how long it takes to recruit new drivers, run incentive campaigns, and get staffing in place. If you wait until the busy week arrives to start planning, it's already too late. The forecast exists so you can act <em>before</em> demand hits.</div>
+      </div>
+
+      <div class="prompt-steps">
+        <div class="prompt-steps-label">📋 What you will do</div>
+        <ol>
+          <li><strong>Stay in the same Claude conversation</strong> from Steps 1 and 2 — Claude already knows your dataset and model.</li>
+          <li><strong>Paste Prompt 3</strong> below into Claude.</li>
+          <li><strong>Add a new cell in Colab</strong>, paste the code Claude gives you, and run it.</li>
+          <li><strong>Look at the table first</strong> — it shows a predicted trip count for each of the next 13 weeks, plus a "driver signal" column that flags which weeks are HIGH, MODERATE, or NORMAL demand.</li>
+          <li><strong>Then look at the chart</strong> — you'll see your two years of history on the left, and the 13-week forecast extending to the right as a dashed orange line.</li>
+        </ol>
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-label">Prompt 3 &mdash; paste into Claude to generate your forward forecast</div>
+        <div class="prompt-text">I now want to extend the model beyond the historical data to generate a genuine forward forecast.
+
+Please add Python code that does the following:
+
+Step A — Build the future dataset:
+Create a new DataFrame called df_future with 13 rows representing weeks 105–117 (starting from the week after the last row in df). Add the same feature columns you used for training: week_num, is_summer, and is_nye. Fill them in correctly based on the calendar dates those weeks fall on.
+
+Step B — Generate predictions:
+Use the already-trained linear regression model to predict trips for all 13 future weeks. Store results in a column called predicted_trips. Also compute a lower bound (predicted_trips × 0.85) and upper bound (predicted_trips × 1.15) representing the ±15% prediction interval.
+
+Step C — Print a forecast table:
+Print a clean table showing: week date, week number, predicted trips (rounded to the nearest integer), lower bound, and upper bound. Add a column called "driver_signal" that prints HIGH if predicted trips exceed 4,000, MODERATE if between 3,200 and 4,000, and NORMAL otherwise.
+
+Step D — Plot the full picture:
+Extend your existing backtest chart to show all three periods in one view:
+- Weeks 1–78: solid cyan line labeled "Training data"
+- Weeks 79–104: solid white line labeled "Backtest period (known)"
+- Weeks 105–117: dashed orange line labeled "Forward forecast (unknown)"
+- Shaded ±15% band around the forward forecast only
+- A vertical dashed line at week 104 labeled "Today — forecast begins here"
+- Title: "Uber Demand Forecast — 13-Week Forward Outlook"
+
+Add plain-English comments throughout. No ARIMA, no LSTM.</div>
+      </div>
+
+      <div class="insight-box">
+        <div class="insight-label">What you are looking at</div>
+        <div class="insight-text">The orange dashed line is your actual forecast — the number your model would hand to an Uber operations manager on Monday morning. Every number in that table is a bet: the model is saying "based on everything I learned from two years of history, I believe demand in week 108 will be approximately X trips." The shaded band around that line is the <strong>prediction interval</strong> — think of it as the model's honest admission that it could be wrong. The band shows the range of outcomes the model considers plausible, not just its best single guess. Notice the band gets slightly wider the further out you go. That is honest — the further into the future you predict, the less certain you can be.</div>
+      </div>
+
+      <div class="reflect-box">
+        <div class="reflect-label">Step 3 Reflection &mdash; write 3&ndash;4 sentences</div>
+        <div class="reflect-text">
+          Look at your forecast table. Pick the week with the highest predicted demand. In 3&ndash;4 sentences, tell an Uber operations manager what your model is predicting and what they should do about it <em>right now</em> — before that week arrives. Use the actual number from your table. Be specific: what action would you recommend, and why does it need to happen in advance?
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       STEP 4 — Stress-Test the Forecast
+  ════════════════════════════════════════════════════════════════ -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div>
+        <div class="step-title">Stress-Test the Forecast</div>
+        <div class="step-subtitle">What happens when one thing you assumed turns out to be wrong?</div>
+      </div>
+    </div>
+    <div class="step-body">
+
+      <p>Every forecast is built on assumptions. Your model assumes summer is the busy season, New Year's Eve is the only big spike, and demand keeps growing in a straight line. Those assumptions came from your training data — two years of Bellingham history. But what if something happens that wasn't in those two years?</p>
+
+      <p>Here's the scenario: Western Washington University announces a 15% enrollment increase. More students move back to Bellingham in late August and early September — and they need a lot of Uber rides. Your model doesn't know that's coming. In this step, you'll teach it about that pattern, run the forecast again, and compare what changed.</p>
+
+      <div class="concept-box">
+        <div class="concept-label">What "teaching the model" means</div>
+        <div class="concept-text">You're going to add one new piece of information: a flag that marks late August and early September as a high-demand period. Claude will write the code. Your job is to look at what changes in the forecast once the model has that new information — and think about what it means if you had been planning based on the old forecast.</div>
+      </div>
+
+      <div class="reflect-box">
+        <div class="reflect-label">From the case &mdash; Chapter 4, Section 9</div>
+        <div class="reflect-text">Section 9 describes what happens when the world changes in a way the model was never trained to expect — Uber calls this distribution shift, and their COVID example shows how fast it can happen. What you are doing here is the proactive version: simulating a known upcoming change <em>before</em> it breaks the model, rather than discovering it after. That is the difference between forecasting teams that get ahead of problems and ones that find out the hard way.</div>
+      </div>
+
+      <div class="prompt-steps">
+        <div class="prompt-steps-label">📋 What you will do</div>
+        <ol>
+          <li><strong>Stay in the same Claude conversation.</strong> Claude still has your full dataset and model.</li>
+          <li><strong>Paste Prompt 4</strong> below. Claude will add the enrollment signal, update the model, and produce a second forecast alongside your original one.</li>
+          <li><strong>Add a new Colab cell</strong>, paste the code, and run it.</li>
+          <li><strong>Look at the comparison table</strong> — it shows both forecasts side by side with the difference between them. Find the week where the gap is biggest.</li>
+          <li><strong>Look at the chart</strong> — you'll see two forecast lines. The weeks where they split apart the most are the weeks your original model was most wrong about.</li>
+        </ol>
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-label">Prompt 4 &mdash; paste into Claude to stress-test with a what-if scenario</div>
+        <div class="prompt-text">I want to stress-test my forward forecast by introducing a new scenario: university enrollment in Bellingham grows 15% next fall, adding a new seasonal demand bump in late August and early September that was not present in the original training data.
+
+Please add Python code that does the following:
+
+Step A — Add a new signal to the dataset:
+Add a column called is_enrollment_surge to df. Set it to 1 for any week that falls in the last two weeks of August or the first two weeks of September. Set it to 0 everywhere else. Add a plain-English comment explaining what this column represents.
+
+Step B — Retrain the model with the new signal:
+Re-run the same train/test split (weeks 1–78 train, weeks 79–104 test) but now include is_enrollment_surge as a fourth input alongside week_num, is_summer, and is_nye. Print a plain-English sentence explaining what the model learned about the enrollment weeks (e.g., "The model learned that enrollment weeks add approximately X extra trips compared to a normal week").
+
+Step C — Generate two forward forecasts for weeks 105–117:
+- Baseline: the original model without the enrollment signal (reuse earlier predictions)
+- University Growth: the new model, with is_enrollment_surge set to 1 for the relevant weeks
+
+Step D — Compare side by side:
+Print a table showing: week date, baseline predicted trips, university growth predicted trips, and the difference. Flag any week where the difference exceeds 200 trips with the label "⚠ significant gap".
+
+Step E — Plot both forecasts:
+Show both forecast lines on one chart (weeks 79–117). Use dashed orange for the baseline and dashed green for the university growth scenario. Shade the weeks where the two lines diverge by more than 200 trips. Title it "What-If Forecast: Baseline vs. University Enrollment Growth".
+
+Add plain-English comments throughout.</div>
+      </div>
+
+      <div class="insight-box">
+        <div class="insight-label">What this reveals about every forecast</div>
+        <div class="insight-text">The gap between your two forecast lines is not just a number — it is the cost of a wrong assumption. If enrollment really does surge and you used the baseline forecast to plan driver supply, you would be short by exactly the number of trips shown in that difference column. This is why forecasting teams at Uber, Amazon, and Google don't publish a single forecast — they run dozens of scenarios and plan for the gaps between them. The skill is not predicting the future perfectly. It is knowing <em>which assumptions your forecast depends on most</em>, and making sure someone is watching those assumptions for you.</div>
+      </div>
+
+      <div class="reflect-box">
+        <div class="reflect-label">Step 4 Reflection &mdash; write 3&ndash;4 sentences</div>
+        <div class="reflect-text">
+          Find the week in your comparison table where the two forecasts differ the most. In 3&ndash;4 sentences: What is the difference in predicted trips between the two versions? If Uber had been using your original forecast to plan driver supply for that week, what would have actually happened when demand came in higher than expected — for riders waiting for a car, and for drivers trying to earn money?
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       STEP 5 — The Algorithm Decides (Surge Simulator)
+  ════════════════════════════════════════════════════════════════ -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">5</div>
       <div>
         <div class="step-title">The Algorithm Decides</div>
         <div class="step-subtitle">AI Factory stage: Prediction &rarr; Decision &mdash; the prediction-decision gap lands here</div>
@@ -631,18 +790,6 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
         <div class="reflect-text">Section 3 is where the prediction-decision gap is defined and why Uber chose to close it &mdash; re-read that section now if you want the full argument before you use the simulator. Section 10 shows the four specific algorithmic decisions Uber automates: driver repositioning, surge pricing, infrastructure provisioning, and &mdash; in the Upfront Fares mini-case &mdash; driver pay itself. What you are about to simulate is surge pricing.</div>
       </div>
 
-      <div style="background:#0a0005; border:2px solid #1fbad6; border-radius:10px; padding:1.1rem 1.25rem; margin: 1.25rem 0;">
-        <div style="font-size:13px; font-weight:800; color:#fff; margin-bottom:0.5rem; letter-spacing:0.02em;">⚡ You are now the operator. The algorithm has already made its decision. What will you do?</div>
-        <p style="font-size:13px; color:#aaa; line-height:1.65; margin-bottom:0.6rem;">The simulator below works exactly like Uber's real-time pricing dashboard — except you get to override it. Here is how to use it:</p>
-        <ol style="margin-left:1.25rem; margin-bottom:0;">
-          <li style="font-size:13px; color:#aaa; margin-bottom:0.4rem;"><strong style="color:#1fbad6;">Pick a scenario</strong> using the buttons (start with Normal Friday, then work up to Hurricane Evacuation).</li>
-          <li style="font-size:13px; color:#aaa; margin-bottom:0.4rem;">Watch the <strong style="color:#1fbad6;">Demand vs. Supply bars</strong> update — the algorithm reads those numbers and calculates the surge multiplier automatically.</li>
-          <li style="font-size:13px; color:#aaa; margin-bottom:0.4rem;">Read the <strong style="color:#1fbad6;">algorithm's recommendation</strong> — the large number on the right is what Uber's system would charge in this scenario with no human involved.</li>
-          <li style="font-size:13px; color:#aaa; margin-bottom:0.4rem;"><strong style="color:#fff;">Make your decision:</strong> Trust the Algorithm, Override and Cap the Price, or Pause Surge entirely. Each choice produces a different outcome — some good, some bad, some complicated.</li>
-          <li style="font-size:13px; color:#aaa; margin-bottom:0;">Try every scenario and every decision combination. The Hurricane scenario is the one that will matter most for your reflection.</li>
-        </ol>
-      </div>
-
       <!-- ░░░░░ SURGE SIMULATOR ░░░░░ -->
       <div class="surge-sim">
         <div class="surge-header">
@@ -654,6 +801,15 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
             </div>
           </div>
           <div class="surge-status normal" id="surgeStatus">Monitoring</div>
+        </div>
+
+        <div style="background:#0a0a0a; border:1px solid #1a1a1a; border-radius:8px; padding:0.75rem 1rem; margin-bottom:1rem;">
+          <div style="font-size:11px; font-weight:700; color:#1fbad6; text-transform:uppercase; letter-spacing:0.07em; margin-bottom:0.5rem;">How to use this simulator</div>
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:0.5rem;">
+            <div style="font-size:12px; color:#888; line-height:1.6;"><span style="color:#1fbad6; font-weight:700;">1.</span> Pick a scenario below — start with Normal Friday, end with Hurricane Evacuation.</div>
+            <div style="font-size:12px; color:#888; line-height:1.6;"><span style="color:#1fbad6; font-weight:700;">2.</span> Watch the Demand vs. Supply bars update and read the surge multiplier the algorithm sets.</div>
+            <div style="font-size:12px; color:#888; line-height:1.6;"><span style="color:#1fbad6; font-weight:700;">3.</span> Make your decision — Trust, Override, or Pause — and see what happens.</div>
+          </div>
         </div>
 
         <div style="margin-bottom: 0.75rem;">
@@ -721,7 +877,7 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
       </div>
 
       <div class="reflect-box">
-        <div class="reflect-label">Step 03 Reflection &mdash; answer both using the simulator above</div>
+        <div class="reflect-label">Step 5 Reflection &mdash; answer both using the simulator above</div>
         <div class="reflect-text">
           <strong>Q1 &mdash; The scenario comparison.</strong> Load the <em>Concert Ends</em> scenario and choose &ldquo;Trust the Algorithm.&rdquo; Then load the <em>Hurricane Evacuation</em> scenario and choose &ldquo;Trust the Algorithm&rdquo; again. Both times the algorithm is doing exactly what it was designed to do &mdash; yet one outcome is labeled good and one is labeled bad. In 2&ndash;3 sentences, explain why the same decision produces opposite outcomes in those two scenarios. What changed &mdash; the algorithm, the context, or both?<br><br>
           <strong>Q2 &mdash; The governance gap.</strong> The simulator&rsquo;s decision log records every action you take. In the real Uber system, there is no log like this for individual surge decisions &mdash; the algorithm fires and no human reviews it. Based on what you saw in the Hurricane scenario specifically, write one concrete governance rule Uber should add to their responsible AI policy. Make it specific enough that an engineer could implement it as a code check.
@@ -733,11 +889,11 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
 
 
   <!-- ═══════════════════════════════════════════════════════════
-       STEP 4 — Break the Model
+       STEP 6 — Break the Model
   ════════════════════════════════════════════════════════════════ -->
   <div class="step-card">
     <div class="step-header">
-      <div class="step-num">4</div>
+      <div class="step-num">6</div>
       <div>
         <div class="step-title">Break the Model</div>
         <div class="step-subtitle">AI Factory stage: Value &mdash; distribution shift, model decay, and monitoring</div>
@@ -824,7 +980,7 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
       <!-- end simulator -->
 
       <div class="reflect-box">
-        <div class="reflect-label">Step 04 Reflection &mdash; answer both using the simulator</div>
+        <div class="reflect-label">Step 6 Reflection &mdash; answer both using the simulator</div>
         <div class="reflect-text">
           <strong>Q1 &mdash; The hidden cost window.</strong> Pick <em>Remote Work Shift</em> and drag the slider so the shift happens at week 82 (early in deployment). Look at the MAE after shift. For the weeks before your monitoring alert fires, Uber&rsquo;s system is still making decisions &mdash; driver bonuses, server provisioning, surge pricing &mdash; based on predictions that are wrong by that margin. Name two specific decisions Uber would get wrong during that window, and explain the real-world consequence of each.<br><br>
           <strong>Q2 &mdash; Who is responsible?</strong> The monitoring alert fires. Someone needs to pause the model, investigate, and decide whether to retrain or roll back. In most companies, nobody owns this role explicitly. Based on what you saw in the simulator, write a one-sentence job description for the person who should be accountable for catching distribution shift at Uber &mdash; and explain why that role belongs in the business, not just in the engineering team.
@@ -841,11 +997,11 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
 
 
   <!-- ═══════════════════════════════════════════════════════════
-       STEP 5 — Drive for Uber
+       STEP 7 — Drive for Uber
   ════════════════════════════════════════════════════════════════ -->
   <div class="step-card">
     <div class="step-header">
-      <div class="step-num">5</div>
+      <div class="step-num">7</div>
       <div>
         <div class="step-title">Drive for Uber</div>
         <div class="step-subtitle">🎮 Interactive game &mdash; feel the forecast from both sides, as a driver and a rider</div>
@@ -960,14 +1116,14 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
               <div style="font-size:22px; font-weight:900; color:#888;" id="noticeRound">?</div>
             </div>
           </div>
-          <div style="font-size:13px; color:#888; text-align:center; line-height:1.7; margin-top:0.5rem;">This is <strong style="color:#fff;">distribution shift</strong> — felt as a driver, not just understood as a concept.<br>The forecast was wrong. The multiplier was wrong. Your decisions were wrong. And nobody told you.<br><br>In rounds 1–3, the AI Factory worked exactly as the case describes: historical data → forecast → surge multiplier → drivers move → riders get cars. In rounds 4–6, one broken link — a forecast that didn't know the world had changed — cascaded through the whole chain. That is why Uber's responsible AI framework, and the monitoring system you saw in Step 4, exist: not to make the model perfect, but to catch it when it fails before real drivers lose real income and real riders wait in the rain.</div>
+          <div style="font-size:13px; color:#888; text-align:center; line-height:1.7; margin-top:0.5rem;">This is <strong style="color:#fff;">distribution shift</strong> — felt as a driver, not just understood as a concept.<br>The forecast was wrong. The multiplier was wrong. Your decisions were wrong. And nobody told you.<br><br>In rounds 1–3, the AI Factory worked exactly as the case describes: historical data → forecast → surge multiplier → drivers move → riders get cars. In rounds 4–6, one broken link — a forecast that didn't know the world had changed — cascaded through the whole chain. That is why Uber's responsible AI framework, and the monitoring system you saw in Step 6, exist: not to make the model perfect, but to catch it when it fails before real drivers lose real income and real riders wait in the rain.</div>
         </div>
 
       </div>
       <!-- end game -->
 
       <div class="reflect-box">
-        <div class="reflect-label">Step 05 Reflection &mdash; answer both after completing all 6 rounds</div>
+        <div class="reflect-label">Step 7 Reflection &mdash; answer both after completing all 6 rounds</div>
         <div class="reflect-text">
           <strong>Q1 &mdash; When did you notice?</strong> At what point during rounds 4&ndash;6 did something feel off? What tipped you off &mdash; the multiplier, the earnings, the rider outcome, or something else? What does that tell you about how hard distribution shift is to catch in the real world, when a driver or operations manager is just seeing numbers on a screen?<br><br>
           <strong>Q2 &mdash; The Upfront Fares layer.</strong> In this game you could always see the surge multiplier before deciding where to drive. Re-read the <em>Upfront Fares mini-case in Section 10</em> of the chapter. In the real Uber system as of 2022, drivers stopped being able to predict their pay from time and distance &mdash; an opaque algorithm now decides each fare using undisclosed factors. Imagine a Round 7 where you still see the multiplier, but your actual payout is determined by a separate black-box algorithm that might pay you $14 on a trip where another driver got $21 for the same work. How would that change your driving strategy, your trust in the platform, and your willingness to keep working for Uber? What does this add to what you learned about distribution shift and the prediction-decision gap?
@@ -979,11 +1135,11 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
 
 
   <!-- ═══════════════════════════════════════════════════════════
-       STEP 6 — Publish to GitHub
+       STEP 8 — Publish to GitHub
   ════════════════════════════════════════════════════════════════ -->
   <div class="step-card">
     <div class="step-header">
-      <div class="step-num">6</div>
+      <div class="step-num">8</div>
       <div>
         <div class="step-title">Publish to GitHub</div>
         <div class="step-subtitle">Put everything you built into one shareable HTML page, live on the web</div>
@@ -1025,7 +1181,7 @@ Keep all code from previous steps plus this new code in one block. Add plain-Eng
       </div>
 
       <div class="prompt-box">
-        <div class="prompt-label">Prompt 4 &mdash; paste into Claude to generate your publishable HTML page</div>
+        <div class="prompt-label">Prompt 8 &mdash; paste into Claude to generate your publishable HTML page</div>
         <div class="prompt-text">I am finishing a lab on Uber's AI-powered forecasting and surge pricing system for MIS 432: AI in Business at Western Washington University. I need you to build a complete, self-contained HTML page I can publish to GitHub Pages.
 
 The page should tell the story of what I built and experienced in this lab. Here is all the content to include:
@@ -1040,25 +1196,28 @@ SECTION 2 — THE DATA (embed an SVG chart)
 Create an inline SVG chart showing simulated weekly Uber trip data for Bellingham, WA over 52 weeks. Use Uber's brand colors: black background (#000000), cyan (#1fbad6) for the trip line, white (#ffffff) for axis labels. Show a shaded summer region, a NYE spike marker, and an upward trend. Label the X axis with month names and Y axis with "Trips / Week."
 
 SECTION 3 — THE FORECAST
-Summarize in 2–3 sentences what backtesting means and what the prediction interval band shows. Include a simple inline SVG: actual trips (cyan), predicted trips (dashed, lighter), shaded ±15% band, a vertical line labeled "Forecast starts here."
+Summarize in 2–3 sentences what backtesting means and what the prediction interval band shows. Then describe the forward forecast: what the model predicted for the next 13 weeks, which weeks showed HIGH demand, and what action you recommended an operations manager take. Finally, describe the stress-test: what changed when you added the university enrollment signal, and what that gap between the two forecasts revealed about the assumptions baked into the original model. Include your Step 3 and Step 4 reflection answers here.
+
+[STUDENT: paste your Step 3 reflection answer here before sending]
+[STUDENT: paste your Step 4 reflection answer here before sending]
 
 SECTION 4 — THE SURGE MULTIPLIER
-Explain what the surge multiplier is — the number a rider sees on their app — and how it is calculated directly from the forecast. Summarize what the surge simulator showed: how the multiplier changes across scenarios, and what you learned from the Hurricane Evacuation scenario. Include your Step 03 reflection answers here.
+Explain what the surge multiplier is — the number a rider sees on their app — and how it is calculated directly from the forecast. Summarize what the surge simulator showed: how the multiplier changes across scenarios, and what you learned from the Hurricane Evacuation scenario. Include your Step 5 reflection answers here.
 
-[STUDENT: paste your Step 03 reflection answers here before sending]
+[STUDENT: paste your Step 5 reflection answers here before sending]
 
 SECTION 5 — DISTRIBUTION SHIFT
-Summarize what distribution shift is and what the interactive simulator revealed — specifically what happens to drivers and riders during the weeks the model runs wrong before anyone notices. Include your Step 04 reflection answers.
+Summarize what distribution shift is and what the interactive simulator revealed — specifically what happens to drivers and riders during the weeks the model runs wrong before anyone notices. Include your Step 6 reflection answers.
 
-[STUDENT: paste your Step 04 reflection answers here before sending]
+[STUDENT: paste your Step 6 reflection answers here before sending]
 
 SECTION 6 — THE DRIVER GAME
-Summarize what you experienced playing the driver game: what decisions you made, when you noticed something felt wrong, and what it felt like to be making decisions based on a forecast that had quietly broken. Include your Step 05 reflection answers.
+Summarize what you experienced playing the driver game: what decisions you made, when you noticed something felt wrong, and what it felt like to be making decisions based on a forecast that had quietly broken. Include your Step 7 reflection answers.
 
-[STUDENT: paste your Step 05 reflection answers here before sending]
+[STUDENT: paste your Step 7 reflection answers here before sending]
 
 SECTION 7 — FINAL REFLECTION
-[STUDENT: paste your Step 06 final reflection answers here before sending]
+[STUDENT: paste your Step 8 final reflection answers here before sending]
 
 DESIGN REQUIREMENTS:
 - Uber brand colors: #000000 background sections, #1fbad6 cyan accent, #ffffff white text
@@ -1075,10 +1234,10 @@ Please generate the complete HTML file.</div>
       </div>
 
       <div class="reflect-box">
-        <div class="reflect-label">Step 06 Final Reflection &mdash; answer both before building your GitHub page</div>
+        <div class="reflect-label">Step 8 Final Reflection &mdash; answer both before building your GitHub page</div>
         <div class="reflect-text">
-          <strong>Q1 &mdash; The full chain.</strong> You have now seen Uber's AI system from every angle: you built the forecast, you watched it set a surge multiplier, you watched it break, and you felt what that meant as a driver. In one paragraph, describe how these four steps connect &mdash; how a decision made at the data stage affects what a rider pays and what a driver earns.<br><br>
-          <strong>Q2 &mdash; Compounding advantage.</strong> Tomorrow you could hand your published GitHub page to a competitor: your code, your approach, your charts, your reflection. They would have everything. Would they still be unable to build a better forecaster than Uber has today? Why or why not? Use the term <em>compounding advantage</em> from Section 14 in your answer, and connect it specifically to what you saw happen across your own four-step workflow in this lab &mdash; where the advantage lives, and why it is almost impossible to replicate by reading a blog post.
+          <strong>Q1 &mdash; The full chain.</strong> You have now seen Uber's AI system from every angle: you built the forecast, you used it to predict the future, you stress-tested it, you watched it set a surge multiplier, you watched it break, and you felt what that meant as a driver. In one paragraph, describe how these steps connect &mdash; how a decision made at the data stage affects what a rider pays and what a driver earns.<br><br>
+          <strong>Q2 &mdash; Compounding advantage.</strong> Tomorrow you could hand your published GitHub page to a competitor: your code, your approach, your charts, your reflection. They would have everything. Would they still be unable to build a better forecaster than Uber has today? Why or why not? Use the term <em>compounding advantage</em> from Section 14 in your answer, and connect it specifically to what you saw happen across your own workflow in this lab &mdash; where the advantage lives, and why it is almost impossible to replicate by reading a blog post.
         </div>
       </div>
 
@@ -1093,12 +1252,14 @@ Please generate the complete HTML file.</div>
     <div class="submit-label">&#9989; What to Submit</div>
     <ul>
       <li><strong>GitHub Pages URL</strong> &mdash; your published <code>index.html</code> live at <code>https://[username].github.io/uber-ai-lab</code>. This is your primary deliverable.</li>
-      <li><strong>Step 01 Reflection</strong> &mdash; observation (2&ndash;3 sentences) + one reflection (2&ndash;3 sentences)</li>
-      <li><strong>Step 02 Reflection</strong> &mdash; 2 questions: point forecast vs. prediction interval, and build vs. buy</li>
-      <li><strong>Step 03 Reflection</strong> &mdash; 2 questions: the scenario comparison, and one concrete governance rule</li>
-      <li><strong>Step 04 Reflection</strong> &mdash; 2 questions: the hidden cost window, and who is responsible</li>
-      <li><strong>Step 05 Reflection</strong> &mdash; 2 questions: when you noticed, and the Upfront Fares layer</li>
-      <li><strong>Step 06 Final Reflection</strong> &mdash; 2 questions: the full chain, and compounding advantage</li>
+      <li><strong>Step 1 Reflection</strong> &mdash; observation + one reflection (2&ndash;3 sentences each)</li>
+      <li><strong>Step 2 Reflection</strong> &mdash; 2 questions: point forecast vs. prediction interval, and build vs. buy</li>
+      <li><strong>Step 3 Reflection</strong> &mdash; 1 question: what you forecasted and what the operations team should do</li>
+      <li><strong>Step 4 Reflection</strong> &mdash; 1 question: what changed when the assumption changed, and who bears the cost</li>
+      <li><strong>Step 5 Reflection</strong> &mdash; 2 questions: the scenario comparison, and one concrete governance rule</li>
+      <li><strong>Step 6 Reflection</strong> &mdash; 2 questions: the hidden cost window, and who is responsible</li>
+      <li><strong>Step 7 Reflection</strong> &mdash; 2 questions: when you noticed, and the Upfront Fares layer</li>
+      <li><strong>Step 8 Final Reflection</strong> &mdash; 2 questions: the full chain, and compounding advantage</li>
     </ul>
     <p style="font-size:13px; color:#0a7a90; margin-top:0.75rem; margin-bottom:0;"><strong>Note:</strong> Your reflections should appear on your GitHub page. The URL submission covers both the published page and your written answers in one go.</p>
   </div>
@@ -1295,7 +1456,7 @@ loadScenario('normal');
 
 
 /* ═══════════════════════════════════════════════════════════
-   STEP 4 — Interactive Distribution Shift Simulator
+   STEP 6 — Interactive Distribution Shift Simulator
 ════════════════════════════════════════════════════════════ */
 
 const SHIFT_TYPES = {
@@ -1498,7 +1659,7 @@ onSliderMove(8);
 
 
 /* ═══════════════════════════════════════════════════════════
-   STEP 5 — Driver Game
+   STEP 7 — Driver Game
 ════════════════════════════════════════════════════════════ */
 const ROUNDS = [
   // Rounds 1-3: forecast is accurate
@@ -1599,7 +1760,7 @@ const ROUNDS = [
     context: 'Your third shift this week. You\'ve earned less than usual. The surge multipliers look right but trips aren\'t coming where the app says they will.',
     mult: '2.0×',
     algoMsg: 'Friday demand signal. Forecast: 310 requests near campus and downtown corridor. Standard Friday pattern.',
-    forecastNote: 'Three weeks of wrong predictions. The monitoring system in the Step 4 simulator would have fired a warning by now — but only if someone built that check and someone was watching it. This is the governance gap the case describes: knowing the model can fail is different from having a system that catches it when it does.',
+    forecastNote: 'Three weeks of wrong predictions. The monitoring system in the Step 6 simulator would have fired a warning by now — but only if someone built that check and someone was watching it. This is the governance gap the case describes: knowing the model can fail is different from having a system that catches it when it does.',
     zoneA: { name: 'Traditional high-demand zone (downtown)', desc: 'app says go here, but it\'s let you down twice', signal: '🔴 Algorithm says yes — but you\'ve seen this before', color: '#ef4444' },
     zoneB: { name: 'North Bellingham (Cordata, Irongate)', desc: 'no signal, but your instinct says try it', signal: '⚪ Your own judgment', color: '#888' },
     correctZone: 'B',
