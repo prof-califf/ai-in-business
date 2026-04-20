@@ -250,12 +250,12 @@
   .factory .section-label { color: var(--magenta); }
   .factory h2 { color: #fff; }
   .factory-sub { font-size: 15px; color: rgba(255,255,255,0.4); margin-bottom: 2rem; font-weight: 300; }
-  .factory-steps { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+  .factory-steps { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; margin-bottom: 2rem; }
   .factory-step { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); padding: 0.85rem 1.25rem; text-align: center; min-width: 110px; }
   .factory-step-name { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; color: #fff; letter-spacing: 0.05em; text-transform: uppercase; }
   .factory-step-desc { font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 3px; font-weight: 400; }
-  .factory-arrow { color: rgba(255,255,255,0.15); font-size: 18px; }
-  .factory-note { font-size: 15px; color: rgba(255,255,255,0.45); font-style: italic; max-width: 680px; margin: 0 auto; line-height: 1.75; font-weight: 300; }
+  .factory-arrow { color: rgba(255,255,255,0.7); font-size: 22px; font-weight: 700; }
+  .factory-note { font-size: 15px; color: rgba(255,255,255,0.9); font-style: italic; max-width: 680px; margin: 0 auto; line-height: 1.75; font-weight: 400; }
   .factory-note em { color: var(--magenta); font-style: normal; font-weight: 600; }
 
   /* FOOTER */
@@ -288,6 +288,7 @@
         <a href="chapter4-uber.html" role="menuitem"><span class="menu-num">04</span>Uber</a>
         <a href="chapter5-waymo.html" role="menuitem"><span class="menu-num">05</span>Waymo</a>
         <a href="chapter6-airbnb.html" role="menuitem"><span class="menu-num">06</span>Airbnb</a>
+        <a href="chapter7-epic.html" role="menuitem"><span class="menu-num">07</span>Epic</a>
         <div class="menu-divider"></div>
         <div class="menu-divider-label">Labs</div>
         <a href="chapter1-everycure-lab.html" role="menuitem"><span class="menu-num">L1</span>EveryCure Lab</a>
@@ -296,6 +297,7 @@
         <a href="chapter4-uber-lab.html" role="menuitem"><span class="menu-num">L4</span>Uber Lab</a>
         <a href="chapter5-waymo-lab.html" role="menuitem"><span class="menu-num">L5</span>Waymo Lab</a>
         <a href="chapter6-airbnb-lab.html" role="menuitem"><span class="menu-num">L6</span>Airbnb Lab</a>
+        <a href="chapter7-epic-lab.html" role="menuitem"><span class="menu-num">L7</span>Epic Lab</a>
       </div>
     </div>
     <div class="nav-dropdown">
@@ -317,8 +319,8 @@
     <p class="hero-sub">A free, case-based digital textbook that teaches machine learning and AI through real companies and hands-on AI labs.</p>
     <p class="hero-tagline">Every chapter is a real business case. Every lab puts you inside the AI that made it work.</p>
     <div class="hero-meta">
-      <div class="hero-meta-item"><div class="hero-meta-num">6</div><div class="hero-meta-label">Chapters</div></div>
-      <div class="hero-meta-item"><div class="hero-meta-num">6</div><div class="hero-meta-label">Labs</div></div>
+      <div class="hero-meta-item"><div class="hero-meta-num">7</div><div class="hero-meta-label">Chapters</div></div>
+      <div class="hero-meta-item"><div class="hero-meta-num">7</div><div class="hero-meta-label">Labs</div></div>
       <div class="hero-meta-item"><div class="hero-meta-num">40+</div><div class="hero-meta-label">AI Concepts</div></div>
       <div class="hero-meta-item"><div class="hero-meta-num">Free</div><div class="hero-meta-label">Always</div></div>
     </div>
@@ -691,6 +693,54 @@
       </div>
     </div>
 
+    <!-- Chapter 7: Epic -->
+    <div class="chapter-card">
+      <div class="chapter-header" style="background: linear-gradient(135deg, #1a0010 0%, #7a0020 55%, #cd003b 100%);">
+        <div class="chapter-header-left">
+          <div class="chapter-num" style="color: #f5b8c8;">Chapter 7 · Agentic AI · Healthcare</div>
+          <h3>From Paper Charts to AI Agents:<br>How Epic Is Reinventing American Healthcare</h3>
+          <div class="chapter-company">Epic · Agentic AI · Ambient documentation · Human-in-the-loop · Future of medicine</div>
+        </div>
+        <div class="chapter-links">
+          <a href="chapter7-epic.html" class="btn btn-white" style="color:#cd003b;">Read Case &rarr;</a>
+          <a href="chapter7-epic-lab.html" class="btn btn-outline">Lab 7</a>
+        </div>
+      </div>
+      <div class="chapter-body">
+        <div class="chapter-body-col">
+          <h4>AI Concepts</h4>
+          <ul>
+            <li>Agentic AI &amp; autonomous action</li>
+            <li>Ambient AI &amp; DAX Copilot</li>
+            <li>Human-in-the-loop vs. on-the-loop</li>
+            <li>Prompt engineering in production</li>
+            <li>AI prototyping</li>
+            <li>Multi-step agent pipelines</li>
+          </ul>
+        </div>
+        <div class="chapter-body-col">
+          <h4>Business Topics</h4>
+          <ul>
+            <li>When AI stops answering and starts acting</li>
+            <li>Healthcare AI governance &amp; liability</li>
+            <li>Physician burnout &amp; the documentation crisis</li>
+            <li>Art, Penny &amp; the pre-visit assistant</li>
+            <li>Automation vs. augmentation in medicine</li>
+          </ul>
+        </div>
+        <div class="chapter-body-col">
+          <h4>In the Lab</h4>
+          <ul>
+            <li>Map Epic's agents to the agentic AI framework</li>
+            <li>Build a Penny-style insurance appeal agent</li>
+            <li>Compare chatbot vs. agentic approach</li>
+            <li>Design a human-in-the-loop governance framework</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <footer>

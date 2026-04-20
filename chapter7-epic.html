@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 7: Agentic AI in Healthcare — Epic | MIS 432</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-79P6FCY547"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-79P6FCY547');
+</script>
+<style>
+  nav { background: #1a0010; padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+  .nav-brand { color: #ffffff; font-size: 15px; font-weight: 700; text-decoration: none; }
+  .nav-links { display: flex; gap: 1.25rem; align-items: center; }
+  .nav-links a { color: #e8b0c0; font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: #f5b8c8; }
+  .nav-badge { background: #cd003b; color: #ffffff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+  .hero { background: linear-gradient(135deg, #1a0010 0%, #7a0020 55%, #cd003b 100%); padding: 3.5rem 2rem 3rem; }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+  .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #fce8ed; margin-bottom: 0.75rem; }
+  .hero h1 { font-size: 34px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 0.75rem; }
+  .hero-sub { font-size: 16px; color: #fce8ed; max-width: 640px; line-height: 1.65; margin-bottom: 1.5rem; }
+  .hero-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .hero-meta span { font-size: 13px; color: #fce8ed; }
+  .hero-meta strong { color: #fff; }
+  .hero-nav { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+  .btn { display: inline-block; padding: 0.55rem 1.2rem; border-radius: 6px; font-size: 13px; font-weight: 700; text-decoration: none; }
+  .btn-green { background: #cd003b; color: #ffffff; }
+  .btn-outline { background: transparent; border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; }
+  .btn:hover { opacity: 0.85; }
+  .lab-strip { background: #ffffff; padding: 1rem 2rem; border-bottom: 1px solid #e2e8f0; }
+  .lab-strip-inner { max-width: 860px; margin: 0 auto; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+  .chapter-nav-bar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-top: 1px solid #e2e8f0; margin-top: 2rem; flex-wrap: wrap; gap: 0.75rem; }
+  .chapter-nav-bar a { font-size: 14px; color: #cd003b; text-decoration: none; font-weight: 700; }
+  .chapter-nav-bar a:hover { text-decoration: underline; }
+  footer { background: #1a0010; padding: 1.5rem 2rem; text-align: center; }
+  footer p { font-size: 13px; color: #8a4055; }
+  footer a { color: #cd003b; text-decoration: none; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #ffffff; color: #333; }
+  .doc { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .cover { border-bottom: 3px solid #cd003b; padding-bottom: 1.5rem; margin-bottom: 2rem; }
+  .cover-tag { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #cd003b; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .cover h1 { font-size: 28px; font-weight: 600; color: #111; line-height: 1.3; margin-bottom: 0.5rem; }
+  .cover-sub { font-size: 15px; color: #555; }
+  .cover-meta { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; }
+  .cover-meta span { font-size: 12px; color: #ffffff; background: #1a0010; border: 1px solid #7a0020; border-left: 3px solid #cd003b; border-radius: 4px; padding: 0.4rem 0.75rem; line-height: 1.5; }
+  .cover-meta strong { color: #cd003b; font-weight: 700; }
+  .mission-block { background: #1a0010; border-radius: 8px; padding: 1.5rem 1.75rem; margin: 1.5rem 0; }
+  .mission-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #f5b8c8; margin-bottom: 0.5rem; }
+  .mission-text { font-size: 18px; font-weight: 600; color: #ffffff; line-height: 1.5; font-style: italic; }
+  h2 { font-size: 20px; font-weight: 600; color: #111; margin: 2rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 3px solid #cd003b; }
+  h3 { font-size: 16px; font-weight: 600; color: #111; margin: 1.5rem 0 0.5rem; }
+  h4 { font-size: 14px; font-weight: 600; color: #555; margin: 1.2rem 0 0.4rem; }
+  p { font-size: 15px; line-height: 1.75; color: #444; margin-bottom: 0.9rem; }
+  ul { margin: 0.5rem 0 1rem 1.5rem; }
+  li { font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 0.3rem; }
+  strong { color: #111; font-weight: 600; }
+  em { font-style: italic; }
+  .concept-box { background: #fff0f3; border-left: 4px solid #cd003b; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .concept-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #cd003b; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .concept-term { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 0.3rem; }
+  .concept-def { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+  .insight-box { background: #fff0f3; border-left: 4px solid #f5b8c8; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .insight-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #cd003b; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .insight-text { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+  .danger-box { background: #fff5f5; border-left: 4px solid #c0392b; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .danger-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #c0392b; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .danger-text { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+  .update-box { background: #1a0010; border-left: 4px solid #cd003b; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .update-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #f5b8c8; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .update-text { font-size: 14px; color: #fce8ed; line-height: 1.6; margin: 0; }
+  .update-text strong { color: #ffffff; }
+  .future-box { background: linear-gradient(135deg, #1a0010 0%, #0d0008 100%); border: 1px solid #cd003b; border-radius: 8px; padding: 1.25rem 1.4rem; margin: 1.5rem 0; }
+  .future-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #f5b8c8; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .future-text { font-size: 14px; color: #fce8ed; line-height: 1.65; margin: 0; }
+  .future-text strong { color: #ffffff; }
+  .perspective-box { background: #f8fffe; border: 1.5px solid #cd003b; border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1rem 0; }
+  .perspective-who { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #cd003b; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem; }
+  .perspective-text { font-size: 14px; color: #333; line-height: 1.65; margin: 0; font-style: italic; }
+  .minicase-box { background: #fdfdfd; border: 2px solid #cd003b; border-radius: 8px; padding: 1.25rem 1.4rem 1.1rem; margin: 1.8rem 0; box-shadow: 0 1px 4px rgba(45,106,79,0.08); }
+  .minicase-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #cd003b; text-transform: uppercase; margin-bottom: 0.4rem; display: inline-block; padding: 0.2rem 0.6rem; background: #d8f3dc; border-radius: 3px; }
+  .minicase-title { font-size: 17px; font-weight: 700; color: #111; margin: 0.5rem 0 0.75rem; }
+  .minicase-box p { font-size: 14.5px; color: #333; line-height: 1.65; margin: 0 0 0.7rem; }
+  .minicase-box p:last-child { margin-bottom: 0; }
+  .timeline { margin: 1.5rem 0; border-left: 3px solid #cd003b; padding-left: 1.5rem; }
+  .timeline-item { margin-bottom: 1.5rem; position: relative; }
+  .timeline-item::before { content: ''; position: absolute; left: -1.85rem; top: 0.4rem; width: 10px; height: 10px; border-radius: 50%; background: #cd003b; border: 2px solid #fff; box-shadow: 0 0 0 2px #cd003b; }
+  .timeline-year { font-size: 12px; font-weight: 700; color: #cd003b; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.2rem; }
+  .timeline-title { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 0.3rem; }
+  .timeline-text { font-size: 14px; color: #555; line-height: 1.6; }
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.75rem; margin: 1rem 0 1.5rem; }
+  .vocab-card { background: #f8f8f8; border: 1px solid #e0e0e0; border-top: 3px solid #cd003b; border-radius: 6px; padding: 0.8rem 1rem; }
+  .vocab-term { font-size: 13px; font-weight: 600; color: #111; margin-bottom: 0.25rem; }
+  .vocab-def { font-size: 13px; color: #555; line-height: 1.55; }
+  .factory-table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 13px; }
+  .factory-table th { background: #1a0010; color: #ffffff; font-weight: 600; padding: 10px 12px; text-align: left; }
+  .factory-table td { padding: 9px 12px; border-bottom: 1px solid #E8E8E8; vertical-align: top; color: #444; line-height: 1.5; }
+  .factory-table tr:nth-child(even) td { background: #f3faf5; }
+  .step-badge { display: inline-block; background: #1a0010; color: #cd003b; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin: 1rem 0 1.5rem; }
+  .stat-card { background: #1a0010; border-radius: 8px; padding: 0.85rem 1rem; text-align: center; }
+  .stat-num { font-size: 22px; font-weight: 700; color: #cd003b; }
+  .stat-label { font-size: 12px; color: #e8b0c0; margin-top: 3px; }
+  .toc { background: #fff5f7; border-left: 4px solid #cd003b; border-radius: 0 10px 10px 0; padding: 1rem 1.25rem; margin-bottom: 2rem; }
+  .toc-title { font-size: 12px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #cd003b; margin-bottom: 0.6rem; }
+  .toc a { display: block; font-size: 14px; color: #444; text-decoration: none; padding: 4px 0; border-bottom: 1px solid #e8e8e8; }
+  .toc a:last-child { border-bottom: none; }
+  .toc a:hover { color: #cd003b; padding-left: 4px; transition: padding 0.15s ease; }
+  .section-num { display: inline-block; background: #cd003b; color: #ffffff; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 20px; margin-right: 6px; vertical-align: middle; }
+  .pipeline-row { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin: 1rem 0 1.5rem; }
+  .pipe-step { background: #fff5f7; border: 1px solid #e8b0c0; border-radius: 6px; padding: 0.5rem 0.9rem; font-size: 13px; font-weight: 600; color: #1a0010; }
+  .pipe-arrow { font-size: 14px; color: #888; padding: 0 2px; }
+  .pipe-loop { background: #1a0010; border: 1px solid #cd003b; border-radius: 6px; padding: 0.5rem 0.9rem; font-size: 13px; font-weight: 600; color: #cd003b; }
+  .discussion-list { counter-reset: dq; list-style: none; margin: 0 0 1rem; padding: 0; }
+  .discussion-list li { counter-increment: dq; padding: 0.7rem 0.7rem 0.7rem 2.5rem; position: relative; border-bottom: 1px solid #EEEEEE; font-size: 15px; color: #444; line-height: 1.65; }
+  .discussion-list li::before { content: counter(dq); position: absolute; left: 0.5rem; top: 0.75rem; background: #1a0010; color: #cd003b; font-size: 11px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  hr { border: none; border-top: 1px solid #E8E8E8; margin: 2rem 0; }
+  .nav-dropdown { position: relative; }
+  .nav-dropdown-toggle { color: #e8b0c0; font-size: 13px; font-weight: 500; text-decoration: none; background: none; border: none; cursor: pointer; padding: 0; display: inline-flex; align-items: center; gap: 4px; transition: color 0.15s; font-family: inherit; }
+  .nav-dropdown-toggle:hover, .nav-dropdown:hover .nav-dropdown-toggle, .nav-dropdown.open .nav-dropdown-toggle { color: #fff; }
+  .nav-dropdown-toggle .caret { display: inline-block; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid currentColor; transition: transform 0.15s; }
+  .nav-dropdown:hover .nav-dropdown-toggle .caret, .nav-dropdown.open .nav-dropdown-toggle .caret { transform: rotate(180deg); }
+  .nav-dropdown-menu { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(-4px); background: #1a0010; border: 1px solid rgba(205,0,59,0.2); border-radius: 4px; min-width: 240px; padding: 0.4rem 0; opacity: 0; visibility: hidden; transition: opacity 0.15s, visibility 0.15s, transform 0.15s; box-shadow: 0 8px 24px rgba(0,0,0,0.35); z-index: 200; }
+  .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown.open .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+  .nav-dropdown::after { content: ''; position: absolute; top: 100%; left: 0; right: 0; height: 12px; }
+  .nav-dropdown-menu a { display: block; padding: 0.5rem 1rem; color: rgba(255,255,255,0.65); font-size: 13px; font-weight: 500; text-decoration: none; border-left: 2px solid transparent; transition: color 0.12s, background 0.12s, border-color 0.12s; }
+  .nav-dropdown-menu a:hover { color: #cd003b; background: rgba(205,0,59,0.08); border-left-color: #cd003b; }
+  .nav-dropdown-menu .menu-num { display: inline-block; font-size: 11px; color: #cd003b; margin-right: 7px; min-width: 24px; font-weight: 700; }
+  .nav-dropdown-menu .menu-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 0.3rem 0.75rem; }
+  .menu-divider-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 0.4rem 1rem 0.2rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 432 · AI in Business</a>
+  <div class="nav-links">
+    <span class="nav-badge">Chapter 7</span>
+    <a href="chapter7-epic-lab.html">Lab 7 &rarr;</a>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Chapters &amp; Labs <span class="caret"></span></button>
+      <div class="nav-dropdown-menu" role="menu">
+        <div class="menu-divider-label">Chapters</div>
+        <a href="chapter1-everycure.html" role="menuitem"><span class="menu-num">01</span>EveryCure</a>
+        <a href="chapter2-netflix.html" role="menuitem"><span class="menu-num">02</span>Netflix</a>
+        <a href="chapter3-spotify.html" role="menuitem"><span class="menu-num">03</span>Spotify</a>
+        <a href="chapter4-uber.html" role="menuitem"><span class="menu-num">04</span>Uber</a>
+        <a href="chapter5-waymo.html" role="menuitem"><span class="menu-num">05</span>Waymo</a>
+        <a href="chapter6-airbnb.html" role="menuitem"><span class="menu-num">06</span>Airbnb</a>
+        <a href="chapter7-epic.html" role="menuitem"><span class="menu-num">07</span>Epic</a>
+        <div class="menu-divider"></div>
+        <div class="menu-divider-label">Labs</div>
+        <a href="chapter1-everycure-lab.html" role="menuitem"><span class="menu-num">L1</span>EveryCure Lab</a>
+        <a href="chapter2-netflix-lab.html" role="menuitem"><span class="menu-num">L2</span>Netflix Lab</a>
+        <a href="chapter3-spotify-lab.html" role="menuitem"><span class="menu-num">L3</span>Spotify Lab</a>
+        <a href="chapter4-uber-lab.html" role="menuitem"><span class="menu-num">L4</span>Uber Lab</a>
+        <a href="chapter5-waymo-lab.html" role="menuitem"><span class="menu-num">L5</span>Waymo Lab</a>
+        <a href="chapter6-airbnb-lab.html" role="menuitem"><span class="menu-num">L6</span>Airbnb Lab</a>
+        <a href="chapter7-epic-lab.html" role="menuitem"><span class="menu-num">L7</span>Epic Lab</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Student Resources <span class="caret"></span></button>
+      <div class="nav-dropdown-menu" role="menu">
+        <a href="good-prompts.html" role="menuitem"><span class="menu-num">✦</span>Writing Good Prompts</a>
+        <a href="ai-job-interview.html" role="menuitem"><span class="menu-num">✦</span>AI in Job Interviews</a>
+        <a href="ai-news-and-sources.html" role="menuitem"><span class="menu-num">✦</span>AI News + Sources</a>
+      </div>
+    </div>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Chapter 7 &middot; Agentic AI &middot; Healthcare &middot; The Future of Medicine</div>
+    <h1>From Paper Charts to AI Agents:<br>How Epic Is Reinventing American Healthcare</h1>
+    <p class="hero-sub">Epic began in a Wisconsin basement in 1979 with one idea: patient information should follow the patient. Forty-five years later, that idea has grown into the infrastructure of American medicine &mdash; and is now the launchpad for AI that doesn&rsquo;t just store information, but acts on it.</p>
+    <div class="hero-meta">
+      <span><strong>Company:</strong> Epic</span>
+      <span><strong>Industry:</strong> Healthcare IT</span>
+      <span><strong>Core concept:</strong> Agentic AI &amp; the future of clinical care</span>
+    </div>
+    <div class="hero-nav">
+      <a href="chapter7-epic-lab.html" class="btn btn-green">Go to Lab 7 &rarr;</a>
+      <a href="index.html" class="btn btn-outline">&larr; All Chapters</a>
+    </div>
+  </div>
+</div>
+
+<div class="lab-strip">
+  <div class="lab-strip-inner">
+    <span style="font-size:13px; color:#718096;">Also in this chapter:</span>
+    <a href="chapter7-epic-lab.html" style="font-size:13px; color:#cd003b; text-decoration:none; font-weight:700;">Lab 7: Build an Agentic AI Workflow in Python &rarr;</a>
+  </div>
+</div>
+
+<div class="doc">
+
+  <div class="cover">
+    <div class="cover-tag">MIS 432 &middot; AI in Business &middot; Case Study</div>
+    <h1>From Paper Charts to AI Agents:<br>How Epic Is Reinventing American Healthcare</h1>
+    <div class="cover-sub">A forty-five year arc &mdash; from a basement database to the most ambitious agentic AI deployment in American medicine</div>
+    <div class="cover-meta">
+      <span><strong>Level:</strong> Upper-division undergraduate</span>
+      <span><strong>Topics:</strong> Agentic AI, ambient AI, EHR history, human-in-the-loop, prompt engineering, AI prototyping, future of healthcare AI</span>
+      <span><strong>Concepts introduced:</strong> 16 key business AI terms</span>
+    </div>
+    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+      <p style="font-size: 13px; color: #888; margin: 0;">
+        <strong style="color: #555;">Primary sources:</strong>
+        <a href="https://www.fiercehealthcare.com/ai-and-machine-learning/epic-building-out-agentic-ai-it-also-broadens-focus-beyond-ehrs" target="_blank" style="color: #cd003b; text-decoration: none; font-style: italic;">HIMSS 2025 reporting on Epic&rsquo;s agentic AI strategy</a> (Fierce Healthcare);
+        <a href="https://support.microsoft.com/en-us/dax-copilot/epic/learn-dax-copilot-for-epic" target="_blank" style="color: #cd003b; text-decoration: none; font-style: italic;">Microsoft DAX Copilot for Epic documentation</a>;
+        AMA physician burnout surveys 2023&ndash;2024; Epic UGM 2025 announcements; peer-reviewed research on EHR adoption and AI clinical outcomes.
+      </p>
+    </div>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">In this chapter</div>
+    <a href="#s1">1. The founding story: a patient dies, and a database is born</a>
+    <a href="#s2">2. Twenty years of paper: what healthcare looked like before the EHR</a>
+    <a href="#s3">3. The digital mandate: HITECH, Meaningful Use, and the great digitization</a>
+    <a href="#s4">4. The unintended consequence: when digital created new burdens</a>
+    <a href="#s5">5. The data foundation: Cosmos and why 280 million records matter</a>
+    <a href="#s6">6. The AI era begins: from storage to intelligence</a>
+    <a href="#s7">7. Ambient AI: DAX Copilot and the doctor-patient relationship</a>
+    <a href="#s8">8. Agentic AI: when AI stops answering and starts acting</a>
+    <a href="#s9">9. Epic&rsquo;s agents: Art, Penny, and the pre-visit assistant</a>
+    <a href="#s10">10. The AI Factory at Epic</a>
+    <a href="#s11">11. Prompt engineering and AI prototyping in healthcare</a>
+    <a href="#s12">12. The human-in-the-loop question</a>
+    <a href="#s13">13. Four perspectives: how AI is changing healthcare for everyone</a>
+    <a href="#s14">14. Beyond today: what comes next</a>
+    <a href="#s15">15. Key vocabulary &amp; discussion questions</a>
+  </div>
+
+  <!-- SECTION 1 -->
+  <h2 id="s1"><span class="section-num">1</span> The Founding Story: A Patient Dies, and a Database Is Born</h2>
+
+  <p>In the mid-1970s, Gordon Faulkner, a pediatrician in Madison, Wisconsin, learned that one of his young patients had died. The child&rsquo;s family had moved to Milwaukee, 75 miles away. When the child fell ill at a new hospital, the physicians there had no access to her medical history. They did not know her conditions. They did not know how to treat her. Gordon believed, quietly and with certainty, that if those doctors had had her records, she would have survived.</p>
+
+  <p>His wife, Judy Faulkner, was a graduate student in computer science at the University of Wisconsin. She had taken one of the first courses ever offered on computers in medicine, under a visionary professor named Warner Slack. The morning after hearing about the child, she went back to work with a new sense of urgency. She had already been building a database for tracking patient information over time. It was no longer just a research project. It was a mission.</p>
+
+  <div class="mission-block">
+    <div class="mission-label">The founding idea &mdash; 1979</div>
+    <div class="mission-text">&ldquo;Patient information should follow the patient &mdash; not stay locked in a filing cabinet at the last doctor&rsquo;s office they visited.&rdquo;</div>
+  </div>
+
+  <p>In 1979, working on a single refrigerator-sized minicomputer in the basement of a house at 2020 University Avenue in Madison, Judy Faulkner co-founded a company called Human Services Computing with $70,000 in startup capital. The company would later be renamed Epic Systems. She has run it ever since, now in her eighties, overseeing a company of 14,000 employees on a 1,670-acre campus outside Madison.</p>
+
+  <p>Epic has never gone public. It has never taken outside investment after those early days. It has never made a significant acquisition. Faulkner runs it according to principles she calls &ldquo;commandments&rdquo; painted on walls throughout the campus. The first three: do not go public, do not acquire or be acquired, and software must work. This independence has allowed Epic to make long-term decisions that publicly traded companies cannot &mdash; including investing decades in data infrastructure that now makes its entire AI strategy possible.</p>
+
+  <!-- SECTION 2 -->
+  <h2 id="s2"><span class="section-num">2</span> Twenty Years of Paper: What Healthcare Looked Like Before the EHR</h2>
+
+  <p>To understand Epic&rsquo;s story, you have to understand what healthcare looked like before it. For most of the twentieth century, and well into the twenty-first, the medical record was a physical object: a manila folder stuffed with handwritten notes, carbon-copy prescription pads, typed discharge summaries, and stapled lab printouts. It lived in a filing cabinet at a single hospital or clinic. When a patient went to a different facility, their records did not go with them.</p>
+
+  <p>The practical consequences were severe. Physicians made decisions without a patient&rsquo;s full history. Medications were prescribed without knowing what a patient was already taking elsewhere. Allergies discovered at one hospital were unknown at another. Redundant tests were ordered because no one knew the same tests had already been run. Specialists wrote letters to referring physicians that arrived weeks after the visit. Emergency physicians made life-or-death decisions with incomplete information as a matter of routine.</p>
+
+  <div class="minicase-box">
+    <span class="minicase-label">What paper looked like in practice</span>
+    <div class="minicase-title">A typical patient encounter in 1995</div>
+    <p>A 67-year-old woman arrives at an emergency department in severe abdominal pain. She takes medications for heart disease but cannot remember their names. Her primary care doctor is in a different health system. His office won&rsquo;t open for three hours. The hospital has no record of her previous visits because she was last hospitalized at a different facility five years ago.</p>
+    <p>The ER physician orders a full medication reconciliation from scratch. Blood is drawn for labs that were already done at her cardiologist&rsquo;s office two weeks ago. She waits. The physician makes decisions based on what the patient can remember, supplemented by educated guesses. This is not a worst-case scenario. This is Tuesday.</p>
+  </div>
+
+  <p>Epic&rsquo;s earliest products addressed this problem on a small scale through the 1980s and 1990s. But adoption was slow and expensive. Most hospitals remained on paper, or on fragmented electronic systems that could not communicate with each other. A patient&rsquo;s information was still trapped &mdash; just now in a digital silo instead of a filing cabinet.</p>
+
+  <!-- SECTION 3 -->
+  <h2 id="s3"><span class="section-num">3</span> The Digital Mandate: HITECH, Meaningful Use, and the Great Digitization (2009&ndash;2015)</h2>
+
+  <p>The moment that changed everything was not a technology breakthrough. It was a law. In February 2009, President Obama signed the American Recovery and Reinvestment Act. Buried inside it was the <strong>Health Information Technology for Economic and Clinical Health Act</strong> &mdash; <strong>HITECH</strong>.</p>
+
+  <p>HITECH created a simple but powerful incentive structure: hospitals and physicians who adopted certified electronic health records and demonstrated &ldquo;meaningful use&rdquo; of them would receive substantial Medicare and Medicaid payments. Those who had not adopted EHRs by 2015 would face financial penalties. The federal government committed $27 billion to the program. The message to healthcare was unmistakable: digitize now, or lose money.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Meaningful Use</div>
+    <div class="concept-def">Meaningful Use was the standard hospitals and physicians had to meet to qualify for HITECH incentive payments. It was not enough to buy an EHR &mdash; providers had to demonstrate actual clinical use: electronic prescribing, health information exchange with other providers, patient engagement through online portals, and tracking of clinical quality measures. Meaningful Use created a minimum floor for what EHRs had to do, driving standardization across an industry that had previously been a patchwork of incompatible systems. The program has since been renamed Promoting Interoperability, but its framework still governs EHR requirements today.</div>
+  </div>
+
+  <p>The results were dramatic. In 2008, fewer than 10% of hospitals had adopted basic EHR systems. By 2015, more than 80% had. Annual EHR adoption rates among eligible hospitals jumped from 3.2% per year before HITECH to 14.2% per year after. The U.S. healthcare system digitized faster, in a shorter time, than almost any comparable transformation in any other sector of the American economy.</p>
+
+  <p>Epic was the primary beneficiary. Its comprehensive integrated platform &mdash; covering clinical documentation, billing, lab ordering, pharmacy, and the patient portal (MyChart) &mdash; was exactly what hospital systems needed to meet Meaningful Use requirements quickly. Between 2009 and 2015, Epic went from serving hundreds of hospitals to thousands. Implementation wait lists stretched years into the future. The Verona campus expanded rapidly.</p>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">&lt;10%</div><div class="stat-label">U.S. hospital EHR adoption in 2008</div></div>
+    <div class="stat-card"><div class="stat-num">&gt;80%</div><div class="stat-label">U.S. hospital EHR adoption by 2015</div></div>
+    <div class="stat-card"><div class="stat-num">$27B</div><div class="stat-label">Federal HITECH investment</div></div>
+    <div class="stat-card"><div class="stat-num">38%</div><div class="stat-label">Epic&rsquo;s current U.S. hospital market share</div></div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <h2 id="s4"><span class="section-num">4</span> The Unintended Consequence: When Digital Created New Burdens</h2>
+
+  <p>The digitization of American healthcare solved the access problem. Patient information could now follow the patient &mdash; at least within systems using the same software. But it created a problem no one fully anticipated: <strong>documentation burden</strong>.</p>
+
+  <p>Paper records were incomplete and fragmented &mdash; but they were fast to write. A physician could scrawl a few lines of notes, sign the chart, and move on. Electronic health records were comprehensive and structured, but they required orders of magnitude more data entry. Every medication had to be selected from a dropdown. Every diagnosis had to be coded against a classification system. Every clinical decision had to be documented in a structured template. Every insurance interaction generated forms. The EHR, designed to make information more accessible, also made creating that information far more labor-intensive.</p>
+
+  <div class="danger-box">
+    <div class="danger-label">The numbers behind the crisis</div>
+    <div class="danger-text">By 2023, the American Medical Association found that <strong>48% of physicians reported feeling burned out</strong>, with EHR documentation consistently identified as the leading cause. Physicians reported spending an average of <strong>nine minutes in the EHR for every 15 minutes spent with a patient</strong>. More than 20% reported spending over eight hours per week on the EHR outside of normal working hours &mdash; a phenomenon the medical community calls <strong>&ldquo;pajama time.&rdquo;</strong> Emergency department nurses spent approximately <strong>27% of their shifts on EHR-related tasks</strong> &mdash; nearly the same proportion as direct patient care. The technology designed to improve healthcare was, in measurable and documented ways, degrading the experience of practicing it.</div>
+  </div>
+
+  <p>This created a paradox at the center of Epic&rsquo;s dominance. Epic&rsquo;s software was simultaneously the essential infrastructure of modern healthcare <em>and</em> a primary driver of clinician burnout. The company built on the mission of serving patients had built a system that was, in many cases, pulling clinicians away from patients. The instrument of care had become a barrier to caring.</p>
+
+  <div class="perspective-box">
+    <div class="perspective-who">👨‍⚕️ &nbsp; Physician perspective</div>
+    <div class="perspective-text">&ldquo;I went into medicine to take care of patients. By 2018, I was spending more time staring at a computer screen than looking at the person in front of me. I knew my patient&rsquo;s name, but my eyes were on the dropdown menu for their medication. I had become a data entry specialist with a medical degree.&rdquo; &mdash; Composite of reported experiences from AMA physician surveys, 2022&ndash;2024</div>
+  </div>
+
+  <div class="perspective-box">
+    <div class="perspective-who">👩‍⚕️ &nbsp; Nurse perspective</div>
+    <div class="perspective-text">&ldquo;We were hired to care for patients, but half my shift is clicking through screens. Medication administration requires multiple clicks to document each dose. Vital signs have to be entered in several places. I love my patients &mdash; but the EHR makes me feel like the patient is the computer, not the person in the bed.&rdquo; &mdash; Composite of reported nursing experiences</div>
+  </div>
+
+  <p>This is the context into which Epic began deploying AI. The problem was not primarily a data problem. It was a human problem: how do you give clinicians back the time and attention that digitization had, unintentionally, taken from them?</p>
+
+  <!-- SECTION 5 -->
+  <h2 id="s5"><span class="section-num">5</span> The Data Foundation: Cosmos and Why 280 Million Records Matter</h2>
+
+  <p>Before getting to the AI, we need to understand what made it possible: the data. What Epic built over forty-five years &mdash; before anyone was thinking about large language models or agentic systems &mdash; was the largest longitudinal clinical dataset ever assembled.</p>
+
+  <p><strong>Cosmos</strong> is Epic&rsquo;s de-identified clinical data platform. As health systems join Cosmos, their anonymized patient data flows into a shared research database. Today Cosmos contains records for more than <strong>280 million patients</strong>, with over <strong>16 billion clinical data points</strong>: diagnoses, medications, lab results, vital signs, imaging findings, clinical notes, procedures, and outcomes &mdash; accumulated over time, across multiple care settings, in standardized and structured format.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Longitudinal clinical data</div>
+    <div class="concept-def">Most datasets capture a snapshot &mdash; what is true at a single moment. Longitudinal data captures a trajectory: what happened to this patient over months or years, across multiple encounters and care settings. This is what makes Cosmos uniquely powerful for AI training. A model trained on Cosmos can learn not just what a patient looks like at a single visit, but how patients with specific characteristics tend to progress over time &mdash; who improves, who deteriorates, what interventions make a difference, and what patterns predict complications before they appear. No dataset of clinical snapshots can teach a model the same thing, because medicine plays out over time.</div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-label">Why a tech company cannot replicate this</div>
+    <div class="insight-text">Google Health, Microsoft, Amazon &mdash; all have tried to build clinical AI platforms. None has access to a dataset approaching Cosmos in scale or quality. The reason is structural: to build this data, you needed to be inside thousands of health systems for decades, earning their trust, managing their data under HIPAA, and operating within legal and contractual frameworks that take generations to establish. Epic has been doing this since 1979. The AI advantage is not in the algorithm. It is in the data that no check can purchase. A startup trying to replicate Cosmos&rsquo;s longitudinal depth today would need not just money &mdash; it would need decades.</div>
+  </div>
+
+  <p>One concrete example: Epic&rsquo;s Sepsis Prediction Model monitors every inpatient at participating hospitals every 15 minutes, recalculating each patient&rsquo;s sepsis risk score using dozens of clinical variables updated in real time. A validation study found that after implementing the model, sepsis-related mortality at one hospital system declined by <strong>44%</strong>. A separate AI sepsis surveillance tool found a <strong>17% reduction in mortality</strong>. These are not incremental improvements. They are lives. And they are made possible by the data foundation that was built over decades before anyone was thinking about AI.</p>
+
+  <!-- SECTION 6 -->
+  <h2 id="s6"><span class="section-num">6</span> The AI Era Begins: From Data Storage to Intelligence</h2>
+
+  <p>Epic&rsquo;s AI journey did not start with large language models. It began years earlier with <strong>predictive models</strong> &mdash; statistical systems trained to find patterns in clinical data and alert clinicians to risk before it became crisis.</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-year">2008&ndash;2015 &mdash; The digitization era</div>
+      <div class="timeline-title">From paper to pixels</div>
+      <div class="timeline-text">HITECH drives mass EHR adoption. Epic grows to serve thousands of hospital systems. Patient data begins accumulating at scale for the first time. Cosmos is seeded. The infrastructure for AI is built without anyone yet thinking of it as AI infrastructure.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2015&ndash;2020 &mdash; The predictive era</div>
+      <div class="timeline-title">AI as early warning system</div>
+      <div class="timeline-text">Epic deploys machine learning models trained on Cosmos data. The Sepsis Model, deterioration index, and readmission risk tools run in the background of every Epic installation, alerting nurses and physicians when risk crosses a threshold. These are narrow AI tools &mdash; each trained for one task, each requiring human response to every alert.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2020&ndash;2023 &mdash; The generative era</div>
+      <div class="timeline-title">AI begins to write</div>
+      <div class="timeline-text">Microsoft acquires Nuance Communications for $19.7 billion, primarily for its DAX ambient documentation technology. Epic integrates Azure OpenAI Service. The first generative AI features appear: automated drafts of responses to patient messages, AI chart summarization. Ambient clinical documentation enters early deployment at pilot sites.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2024&ndash;present &mdash; The agentic era</div>
+      <div class="timeline-title">AI begins to act</div>
+      <div class="timeline-text">DAX Copilot becomes generally available embedded in Epic, deploying to 150+ health systems. Epic announces agentic AI agents &mdash; Art, Penny, pre-visit assistants &mdash; at HIMSS 2025 and UGM 2025. The direction shifts from AI that responds to queries to AI that pursues goals, plans multi-step workflows, and acts under human oversight.</div>
+    </div>
+  </div>
+
+  <p>Each phase built on the previous one. Predictive models required Cosmos. Generative AI required the EHR integrations that Meaningful Use compliance had forced hospitals to build. Agentic AI requires the institutional trust that years of predictive and generative AI deployment have established. This is not a sudden transformation. It is the culmination of a forty-five-year compounding investment.</p>
+
+  <!-- SECTION 7 -->
+  <h2 id="s7"><span class="section-num">7</span> Ambient AI: DAX Copilot and the Doctor-Patient Relationship</h2>
+
+  <p>The most immediately impactful AI deployment Epic has made is also the most human: a system designed to give doctors back the ability to look their patients in the eye.</p>
+
+  <p><strong>DAX Copilot</strong> (Dragon Ambient eXperience Copilot) is built through a partnership between Epic, Microsoft, and Nuance. A physician opens Epic on a tablet, taps a button to begin a visit, and DAX Copilot activates. It listens to the conversation between the physician and patient &mdash; not recording a transcript, but understanding the clinical meaning of what is being said in real time, using large language models fine-tuned on clinical language. When the visit ends, DAX Copilot produces a complete, structured draft clinical note within seconds. The physician reads it, edits anything that needs correction, and approves it for the medical record. Documentation is done before the patient leaves the room.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Ambient AI</div>
+    <div class="concept-def">Ambient AI refers to artificial intelligence that operates passively in the background of an environment, gathering information and generating outputs without requiring explicit prompts or commands from the user. The physician does not type a query. They do not dictate notes. They simply conduct the visit naturally, and the AI observes, understands, and acts. The word &ldquo;ambient&rdquo; is important: it means the AI is present without demanding attention &mdash; woven into the environment rather than imposed on it. This is the opposite of the EHR workflow it is replacing, which demanded physician attention constantly: menus to navigate, fields to fill, codes to select. Ambient AI asks for nothing from the clinician during the visit. It gives something back afterward: time.</div>
+  </div>
+
+  <p>The measured results are striking. Clinicians using DAX report a <strong>50% reduction in documentation time</strong>, <strong>70% reduction in feelings of burnout and fatigue</strong>, an average of <strong>seven minutes saved per patient encounter</strong>, and the ability to see an additional <strong>five patients per day</strong>. At Northwestern Medicine, physicians using DAX in at least half their encounters were seeing an additional <strong>11.3 patients per month</strong>. At WellSpan Health, <strong>94% of physicians</strong> reported that DAX improved the quality of their patient interactions.</p>
+
+  <p>But the most important finding is not in the productivity data. When physicians are not typing, they look at their patients. That shift &mdash; from screen to face &mdash; changes the encounter in ways that are measurable in patient satisfaction scores but felt most directly in the examination room.</p>
+
+  <div class="perspective-box">
+    <div class="perspective-who">👨‍⚕️ &nbsp; Physician using DAX Copilot</div>
+    <div class="perspective-text">&ldquo;For the first time in years, I was actually present. Not multitasking between the patient and the keyboard. I could make eye contact. I could listen to what they were actually saying, not just what I needed to document. One of my patients asked me what was different. I told her I got a little help with the paperwork. She said, &lsquo;You seem like yourself again.&rsquo;&rdquo;</div>
+  </div>
+
+  <div class="perspective-box">
+    <div class="perspective-who">🧑‍🦳 &nbsp; Patient perspective</div>
+    <div class="perspective-text">&ldquo;I used to feel like the doctor was only half listening &mdash; typing the whole time. Now they look at me. They ask follow-up questions. I feel like I&rsquo;m talking to a human being again, not filling out a form. I don&rsquo;t know what changed, but something did.&rdquo; &mdash; Composite of patient experience reports from DAX deployment studies</div>
+  </div>
+
+  <p>In late 2025, Microsoft extended ambient AI to nurses with <strong>Dragon Copilot for nurses</strong> &mdash; designed specifically around nursing documentation workflows, which historically had been poorly served by existing AI tools. Emergency department nurses who spend roughly a quarter of their shift on EHR tasks are primary beneficiaries. The principle is the same: capture documentation passively while the nurse cares for the patient, rather than demanding documentation at the expense of care.</p>
+
+  <div class="perspective-box">
+    <div class="perspective-who">👩‍⚕️ &nbsp; Nurse perspective</div>
+    <div class="perspective-text">&ldquo;Nursing documentation was never designed around how nurses actually work. We move between patients constantly. We&rsquo;re assessing, mediating, coordinating &mdash; and then expected to document everything at the end of a 12-hour shift from memory. AI that captures what I&rsquo;m doing as I&rsquo;m doing it isn&rsquo;t just efficiency. That&rsquo;s accuracy. That&rsquo;s patient safety.&rdquo; &mdash; Composite of reported nursing experiences</div>
+  </div>
+
+  <!-- SECTION 8 -->
+  <h2 id="s8"><span class="section-num">8</span> Agentic AI: When AI Stops Answering and Starts Acting</h2>
+
+  <p>Ambient AI listens and generates. It produces a draft note that a human reviews. It is powerful, but it is still a tool that responds to input and requires human action to produce an outcome in the medical record. <strong>Agentic AI</strong> is categorically different.</p>
+
+  <p>At HIMSS 2025, Epic&rsquo;s VP of R&amp;D Seth Howard described the shift directly: <em>&ldquo;We&rsquo;ve woven AI into the foundational capabilities of Epic, and we&rsquo;ve been working towards an agentic platform for the past year or so. We&rsquo;re really building on the foundation that we created to have generative AI as part of the software to start building reusable components that can take action, under human oversight.&rdquo;</em></p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Agentic AI</div>
+    <div class="concept-def">An agentic AI system is given a goal and autonomously plans and executes a sequence of actions to achieve it &mdash; without requiring a human to specify each step. A standard AI responds to a single prompt with a single output: you ask, it answers. An agentic AI receives an objective, breaks it into subtasks, uses tools (databases, APIs, messaging systems, scheduling platforms) to accomplish those subtasks, evaluates its own progress, and adjusts its approach based on what it finds. In healthcare, a generative AI writes a note when prompted. An agentic AI might review a patient&rsquo;s chart, identify a missed diabetes screening, draft a personalized outreach message, suggest scheduling a follow-up, notify the care coordinator, and flag the case for nursing review &mdash; all without being asked to do any of those steps individually. The distinction is autonomy over a multi-step process, not just the generation of a single response.</div>
+  </div>
+
+  <p>This distinction matters enormously in healthcare, because the stakes of autonomous action are unlike almost any other domain. Every previous chapter in this book introduced AI that makes predictions or recommendations. Uber&rsquo;s algorithm predicts demand and sets prices automatically. Spotify&rsquo;s system personalizes playlists. The prediction and the action are tightly linked. Agentic AI is different because it can pursue a complex, multi-step goal that requires reasoning, tool use, and adaptation &mdash; not just a single algorithmic output.</p>
+
+  <p>And that is precisely why the phrase <em>&ldquo;under human oversight&rdquo;</em> in Howard&rsquo;s statement is not a legal disclaimer. It is the central engineering and governance question of Epic&rsquo;s entire AI program. The capability of the AI is not the binding constraint. The question is: at what level of verified accuracy, and for which tasks, is it safe to let an AI act without a human checking every output?</p>
+
+  <!-- SECTION 9 -->
+  <h2 id="s9"><span class="section-num">9</span> Epic&rsquo;s Agents: Art, Penny, and the Pre-Visit Assistant</h2>
+
+  <p>Epic is not building one agentic AI. It is building a fleet of specialized agents, each designed for a specific clinical or administrative workflow. Think of them less as a single AI assistant and more as a team of invisible staff members &mdash; each with a defined role, operating within defined constraints, always surfacing their work to a human before it takes effect.</p>
+
+  <h3>Art: The Clinical Intelligence Agent</h3>
+
+  <p><strong>Art</strong> is Epic&rsquo;s clinician-facing AI agent. Before a physician walks into an exam room, Art prepares them. It reviews the patient&rsquo;s entire clinical history in Epic, synthesizes the key information, and generates a concise pre-visit brief: the most relevant diagnoses, medication changes since the last visit, lab values trending in the wrong direction, and care gaps that should be addressed during the encounter. During complex cases, Art can search across the 16+ billion data points in Cosmos to surface comparable patients and what happened to them, answering questions like &ldquo;What do patients with this combination of findings typically respond to?&rdquo;</p>
+
+  <div class="minicase-box">
+    <span class="minicase-label">Art in practice</span>
+    <div class="minicase-title">The two-minute pre-brief that used to take ten</div>
+    <p>A primary care physician hasn&rsquo;t seen a patient in 18 months. Without Art, she would spend the first several minutes of the appointment scrolling through the EHR, reconstructing what had happened since the last visit: what medications changed, what specialist notes arrived, what test results need follow-up. It is not unusual for this to consume a third of a 20-minute appointment.</p>
+    <p>With Art, she opens the chart and reads a focused summary: two chronic conditions, one medication change made by cardiology, a rising creatinine trend nobody has acted on, and a mammogram that is two years overdue. She walks into the room already knowing what matters. The patient gets more care in the same amount of time.</p>
+  </div>
+
+  <h3>Penny: The Revenue Cycle Agent</h3>
+
+  <p><strong>Penny</strong> addresses the part of healthcare patients rarely see: billing and insurance. When an insurance company denies a claim &mdash; which happens approximately 17% of the time for commercial insurers &mdash; a human staff member traditionally researches the denial, pulls together clinical justification, and writes an appeal letter from scratch. This process takes 45 minutes or more, and many denials go unchallenged simply because the labor cost of fighting them exceeds their financial value.</p>
+
+  <p>Penny does this autonomously: it reads the denial, retrieves the relevant clinical documentation from the EHR, identifies the applicable policy language, drafts the appeal letter, and presents it to an administrator for review and submission. The human approves or edits. The whole process takes minutes instead of hours &mdash; and the threshold for which denials are worth fighting changes entirely.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">Why the administrative agent matters for patient care</div>
+    <div class="insight-text">Insurance claim denials cost U.S. health systems an estimated <strong>$19.7 billion per year</strong> in processing costs. When the cost of an appeal drops from 45 minutes of skilled staff time to 3 minutes of review, health systems can fight denials they previously let go. That recovered revenue funds nurses, equipment, and expanded services. Agentic AI in the administrative back office has a direct line to what is possible at the bedside. This is not an abstract connection &mdash; it is the economics of healthcare delivery.</div>
+  </div>
+
+  <h3>The Pre-Visit Patient Assistant</h3>
+
+  <p>Epic is also developing conversational AI agents that interact with <em>patients</em> before they arrive. These agents contact patients ahead of appointments, ask about the goals of the visit, gather information about any symptoms that have changed, confirm which medications they are still taking, and identify whether any prerequisite tests should be scheduled. They summarize this for both the patient (in MyChart) and the physician (in the pre-visit brief). The patient arrives more prepared. The physician arrives more informed. The visit is more productive before it begins.</p>
+
+  <div class="perspective-box">
+    <div class="perspective-who">🧑‍🦳 &nbsp; Patient using the pre-visit assistant</div>
+    <div class="perspective-text">&ldquo;The app messaged me a few days before my appointment asking what I wanted to talk about. I always forget one of the three things I&rsquo;m worried about once I&rsquo;m sitting in the exam room. This time, my doctor already knew what was on my mind when she walked in. We didn&rsquo;t waste any time. We just talked about what mattered.&rdquo;</div>
+  </div>
+
+  <!-- SECTION 10 -->
+  <h2 id="s10"><span class="section-num">10</span> The AI Factory at Epic</h2>
+
+  <p>The AI Factory model we introduced in Chapter 1 &mdash; data feeding models, models generating predictions, predictions informing decisions, decisions creating value that generates new data &mdash; maps directly onto Epic&rsquo;s AI architecture. With one important difference from every previous chapter: at Epic, the loop includes patients, and the value being created is not just commercial. It is clinical.</p>
+
+  <div class="pipeline-row">
+    <div class="pipe-step">1. Data<br><small style="font-weight:400;color:#555;">280M patients,<br>16B+ clinical data points</small></div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-step">2. Model<br><small style="font-weight:400;color:#555;">GPT-4 + Cosmos fine-tuning<br>+ domain-specific models</small></div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-step">3. Prediction<br><small style="font-weight:400;color:#555;">Draft notes, risk scores,<br>care gaps, appeal letters</small></div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-step">4. Decision<br><small style="font-weight:400;color:#555;">Clinician reviews<br>and approves</small></div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-loop">5. Value<br><small style="font-weight:400;color:#cd003b;">Better care &rarr; new data<br>&rarr; better models</small></div>
+  </div>
+
+  <p>Notice step 4. Unlike Uber, which closed the prediction-decision gap entirely, Epic has &mdash; by design, and for now &mdash; kept the human inside that gap for all clinical decisions. Every AI-generated note, every flagged risk alert, every care gap suggestion passes through a clinician before it becomes part of a patient&rsquo;s official record or triggers any action. This is the same approach Spotify takes with its &ldquo;algotorial&rdquo; model: AI does the fast, scalable work; humans approve the consequential outputs.</p>
+
+  <table class="factory-table">
+    <thead>
+      <tr><th>AI Factory Step</th><th>What Epic does</th><th>Business lesson</th><th>Key concept</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="step-badge">Data</span></td>
+        <td>Every clinical encounter generates structured and unstructured data flowing into Cosmos &mdash; the largest longitudinal clinical dataset ever assembled</td>
+        <td>Healthcare data is uniquely irreplaceable &mdash; built over decades through trusted relationships no competitor can fast-follow</td>
+        <td>Data moat; longitudinal clinical data</td>
+      </tr>
+      <tr>
+        <td><span class="step-badge">Model</span></td>
+        <td>Azure OpenAI (GPT-4 and successors) fine-tuned on Cosmos clinical data, plus domain-specific models for sepsis prediction, deterioration risk, and readmission probability</td>
+        <td>General foundation models need domain fine-tuning to perform in specialized fields &mdash; clinical expertise lives in what the model is trained on, not just its architecture</td>
+        <td>Fine-tuning; domain adaptation; foundation models</td>
+      </tr>
+      <tr>
+        <td><span class="step-badge">Prediction</span></td>
+        <td>Ambient notes (DAX), risk alerts (sepsis, deterioration), care gap identification, insurance appeal drafts, chart summaries, pre-visit briefings, patient outreach messages</td>
+        <td>In healthcare, AI predictions are outputs to be reviewed, not decisions to be automated &mdash; the prediction-decision gap is preserved by design, not by oversight failure</td>
+        <td>Ambient AI; predictive models; agentic AI</td>
+      </tr>
+      <tr>
+        <td><span class="step-badge">Decision</span></td>
+        <td>Physicians review and approve AI notes; nurses respond to or dismiss risk alerts; administrators approve appeal letters; clinicians act on care gap notifications</td>
+        <td>Keeping humans in the decision loop is both ethically correct and strategically necessary for adoption &mdash; clinician trust determines deployment success more than technical accuracy</td>
+        <td>Human-in-the-loop; augmentation vs. automation</td>
+      </tr>
+      <tr>
+        <td><span class="step-badge">Value</span></td>
+        <td>Reduced burnout, more time with patients, earlier sepsis detection, recovered insurance revenue, fewer preventable readmissions</td>
+        <td>Healthcare AI value is measured in clinician time returned and patient outcomes improved &mdash; not engagement metrics or click-through rates</td>
+        <td>Augmentation ROI; clinical efficiency</td>
+      </tr>
+      <tr>
+        <td><span class="step-badge" style="background:#555;">Loop&nbsp;back</span></td>
+        <td>Every physician edit of an AI note, every accepted or rejected risk alert, every corrected suggestion becomes training signal that improves the next model version</td>
+        <td>Expert corrections in high-stakes domains are extraordinarily valuable training data &mdash; the humans in the loop are also teaching the model how to improve</td>
+        <td>RLHF; continuous improvement; compounding advantage</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 11 -->
+  <h2 id="s11"><span class="section-num">11</span> Prompt Engineering and AI Prototyping in Healthcare</h2>
+
+  <p>Two concepts introduced elsewhere in this course take on particular importance in healthcare, where the stakes of AI outputs are highest.</p>
+
+  <h3>Prompt Engineering as a Safety Discipline</h3>
+
+  <p>Prompt engineering is the practice of deliberately designing the inputs given to an AI system to produce reliable, accurate, and safe outputs. In consumer applications, prompt engineering is often casual &mdash; you experiment with different phrasings until you get a useful result. In clinical AI, prompt engineering is an engineering discipline with patient safety implications, and it is treated accordingly.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Prompt engineering in high-stakes AI</div>
+    <div class="concept-def">When Epic deploys a generative AI feature &mdash; like automated drafts of responses to patient messages in the physician&rsquo;s EHR inbox &mdash; the prompts given to the underlying model are not casual suggestions. They are carefully engineered instructions that specify the model&rsquo;s role, the format and length of its output, the clinical constraints on what it should and should not say, and the signals that should cause it to defer to a human clinician rather than generate a response. These prompts are developed in collaboration with clinicians, ethicists, and patient safety teams, tested against thousands of real and synthetic cases, and governed like any other medical device configuration. They are versioned, audited, and updated when outputs reveal problems. In clinical AI, &ldquo;just tweak the prompt&rdquo; is not a debugging strategy. It is an engineering process with safety review at every step.</div>
+  </div>
+
+  <h3>AI Prototyping: From Clinical Problem to Working Solution in Days</h3>
+
+  <p>One of the most significant shifts in how Epic and its health system partners build new features is the rise of <strong>AI prototyping</strong> &mdash; using AI tools to produce working drafts of features and workflows in hours or days rather than months.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">AI prototyping</div>
+    <div class="concept-def">AI prototyping refers to using AI tools &mdash; typically large language models accessed through natural language &mdash; to produce working drafts of products, features, interfaces, or workflows rapidly, dramatically reducing the cost and time of making an idea tangible enough to test and evaluate. In healthcare IT, a clinical workflow that previously required months of requirements gathering, design, engineering, and QA can now be rough-prototyped in days by a small team using AI-assisted development tools. This does not eliminate the validation, clinical testing, and safety review that medical software requires. But it changes what ideas are worth exploring, because the cost of exploration has collapsed. And it changes who can meaningfully participate in that exploration: a nurse who identifies a documentation problem can now describe a potential solution in plain language, use AI to build a prototype, and show it to engineers &mdash; rather than writing a formal requirements document that may be read months later.</div>
+  </div>
+
+  <p>This is making healthcare software development more responsive to clinicians &mdash; which, historically, has been one of its most persistent and costly failures. EHRs were designed by engineers, for workflows that engineers imagined clinicians had. AI prototyping, combined with ambient AI tools that make clinical processes more visible to software developers, is beginning to close that gap.</p>
+
+  <!-- SECTION 12 -->
+  <h2 id="s12"><span class="section-num">12</span> The Human-in-the-Loop Question</h2>
+
+  <p>Every AI system in this chapter keeps a human in the loop at the decision stage. This is intentional &mdash; and it will not stay this way forever. Understanding why this design choice was made, and how it will evolve, is one of the most important things this chapter can teach.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Human-in-the-loop vs. human-on-the-loop</div>
+    <div class="concept-def">These terms describe two different relationships between humans and AI systems. <strong>Human-in-the-loop</strong>: a human must actively review and approve each AI output before it takes effect. The physician who reads the DAX note before it enters the chart is in-the-loop. <strong>Human-on-the-loop</strong>: the AI acts autonomously while a human monitors and can intervene. An administrator who reviews a dashboard of AI-submitted insurance appeals rather than approving each letter individually is on-the-loop. As AI systems demonstrate sustained accuracy across millions of interactions, and as regulatory frameworks and institutional trust develop, organizations tend to move from in-the-loop to on-the-loop for specific tasks. The key question is not whether this transition will happen, but for which tasks, at what demonstrated accuracy level, and with what governance structures it is safe to make.</div>
+  </div>
+
+  <div class="danger-box">
+    <div class="danger-label">The stakes of getting this wrong</div>
+    <div class="danger-text">Healthcare AI errors are unlike errors in other domains. If Spotify recommends a song you dislike, you skip it. If an agentic AI misfires a medication dosage, misreads an allergy, or fails to escalate a deteriorating patient, the consequences can be permanent and irreversible. This asymmetry &mdash; the catastrophically high cost of certain AI errors in medicine versus virtually every other industry &mdash; is why the movement from human-in-the-loop to human-on-the-loop in healthcare is much slower, much more evidence-dependent, and much more heavily regulated than in other sectors. The question is not whether AI can be accurate. The question is: how accurate does it need to be, validated across how many patients, before we stop verifying every output it produces? And who is legally and ethically responsible when that calculation proves wrong?</div>
+  </div>
+
+  <!-- SECTION 13 -->
+  <h2 id="s13"><span class="section-num">13</span> Four Perspectives: How AI Is Changing Healthcare for Everyone</h2>
+
+  <p>AI in healthcare is not a monolithic experience. It looks different depending on where you sit in the system. Here is what the current transformation means for each major stakeholder &mdash; including what each group gains and what each group risks.</p>
+
+  <h3>Physicians</h3>
+
+  <p>For physicians, the AI era represents the first genuine attempt to reverse the burnout crisis that EHR adoption created. Ambient documentation is returning time that was stolen by the keyboard. Predictive models are adding a layer of continuous pattern recognition that no individual physician can maintain across dozens of simultaneous patients. Pre-visit briefing agents are making it possible to be fully prepared for complex patients without spending a third of the appointment catching up on the record.</p>
+
+  <p>The risk is different: <strong>alert fatigue</strong>. When AI systems generate too many notifications &mdash; too many risk scores, care gap flags, suggested actions &mdash; physicians stop reading them. The sepsis prediction model has been studied at multiple hospitals where clinicians began dismissing alerts reflexively because they arrived too frequently. The benefit of the model was neutralized by its own volume. Epic&rsquo;s challenge is not just building AI that is accurate. It is building AI whose alerts physicians will actually act on &mdash; which requires calibration, context, and understanding of clinical workflow that purely technical optimization cannot provide.</p>
+
+  <h3>Nurses</h3>
+
+  <p>Nurses have historically been the most underserved group in health IT. EHR systems were designed primarily around physician workflows. Nursing documentation was often retrofitted into tools that did not fit how nurses actually work: in motion, across multiple patients simultaneously, with constant interruption. The extension of ambient AI to nursing workflows, the development of AI-assisted flowsheet population, and use of AI to reduce end-of-shift documentation backlogs are meaningful steps toward healthcare AI that serves the people who provide most direct patient care.</p>
+
+  <p>Nurses are also among the most cautious about AI accuracy in specific contexts. A physician reviewing an AI-generated note can catch errors through clinical expertise. In some nursing workflows, the safety redundancies are fewer. Trust calibration matters enormously, and it must be earned task by task, not assumed.</p>
+
+  <h3>Patients</h3>
+
+  <p>For patients, the most visible change is often the most subtle: physicians who look at them again. The return of presence &mdash; eye contact, genuine listening, follow-up questions &mdash; is the human dividend of AI absorbing the documentation burden. Patients do not see DAX Copilot. They see what it gives back.</p>
+
+  <p>Less visible is the AI acting on their behalf when they are not in the room: the sepsis model that flags their deterioration at 3am, the care gap alert that prompts their physician to order an overdue mammogram, the pre-visit assistant that ensures the appointment addresses what actually matters to them. These interventions are invisible but may determine whether they receive the right care at the right time &mdash; or don&rsquo;t.</p>
+
+  <div class="perspective-box">
+    <div class="perspective-who">🧑‍🦳 &nbsp; Patient perspective on the invisible AI</div>
+    <div class="perspective-text">&ldquo;I&rsquo;ve been coming to this clinic for ten years. Last month my doctor brought up a test I hadn&rsquo;t had in two years. I didn&rsquo;t even know I was overdue for it. She caught it. I don&rsquo;t know if it was her or the computer that remembered &mdash; but something did.&rdquo;</div>
+  </div>
+
+  <h3>Healthcare Administrators and the System</h3>
+
+  <p>For hospital administrators, AI represents a dual opportunity: reduce costs through automation of administrative workflows, and increase revenue through systematic recovery of denied claims and improved physician throughput. For the broader healthcare system, AI that reduces unnecessary tests and hospital readmissions is a societal benefit &mdash; but AI that helps hospitals fight more insurance denials is a direct cost to payers. The economic dynamics are not zero-sum across the whole system, but they create real tensions between stakeholders in specific transactions.</p>
+
+  <!-- SECTION 14 -->
+  <h2 id="s14"><span class="section-num">14</span> Beyond Today: What Comes Next in Healthcare AI</h2>
+
+  <p>The agentic AI Epic is deploying in 2024 and 2025 is closer to the beginning of a long arc than to its endpoint. Here is where the evidence and the trajectory of investment suggest healthcare AI is heading.</p>
+
+  <h3>Near term (2025&ndash;2027): Greater autonomy, task by task</h3>
+
+  <p>The current generation of Epic&rsquo;s agents operates in human-in-the-loop mode for clinical decisions. As confidence builds through validation studies and outcome data, lower-stakes tasks will shift to human-on-the-loop operation. Insurance appeal letters may be submitted automatically, with humans reviewing exceptions. Routine preventive outreach may become fully automated. The shift will happen task by task, evidence by evidence, not as a single policy change.</p>
+
+  <div class="future-box">
+    <div class="future-label">Near-term projection (2025&ndash;2027)</div>
+    <div class="future-text"><strong>Systematic care gap closure at scale:</strong> Within two to three years, health systems using Epic are likely to have fully agentic workflows that proactively identify patients overdue for preventive screenings, draft and send personalized outreach, suggest appointment scheduling, and follow up with non-responders &mdash; all without any human initiating each individual action. For a primary care practice with 2,000 patients, this kind of systematic proactive outreach has been operationally impossible. Agentic AI will make it routine. The patients who benefit most will be those who were too busy, too intimidated, or too isolated to reach out themselves.</div>
+  </div>
+
+  <h3>Medium term (2027&ndash;2032): Multimodal AI and continuous monitoring</h3>
+
+  <p>Epic&rsquo;s leadership has explicitly described a roadmap toward native multimodal AI capabilities &mdash; processing not just text but video, images, and genomic data. This opens the door to AI-assisted diagnostics that go beyond pattern-matching in text records. An AI agent that can analyze a dermatology photograph, a radiology scan, and the patient&rsquo;s full clinical history simultaneously &mdash; and surface a differential diagnosis for a physician to review &mdash; is within technical reach.</p>
+
+  <div class="future-box">
+    <div class="future-label">Medium-term projection (2027&ndash;2032)</div>
+    <div class="future-text"><strong>The hospital-at-home model, powered by continuous AI surveillance:</strong> Wearable devices already generate continuous streams of physiological data. As integration between wearables and Epic improves, agentic AI will monitor this stream for clinical signals, alerting care teams to changes before they become emergencies. Patients recovering from surgery, managing chronic diseases, or at elevated risk will receive effective clinical monitoring from home. The hospital-at-home model is already in early deployment and will expand substantially &mdash; shifting care from a location-based model to a continuous, data-driven one.</div>
+  </div>
+
+  <h3>Longer term (2032+): AI as a structural participant in care delivery</h3>
+
+  <p>The U.S. faces a projected shortage of 86,000 physicians by 2036. AI cannot fill that gap by being a better search engine. But AI agents that handle routine chronic disease monitoring, medication refill management, follow-up on stable conditions, and patient question triage &mdash; while escalating anything requiring physician judgment &mdash; could meaningfully extend the productive capacity of each physician. This is not a future in which AI replaces doctors. It is a future in which AI makes it possible to extend physician-level oversight to populations who currently have very limited access to it.</p>
+
+  <div class="future-box">
+    <div class="future-label">Longer-term projection (2032+)</div>
+    <div class="future-text"><strong>The AI primary care layer:</strong> In underserved communities, rural areas, and developing nations, physician access is already deeply constrained. AI agents trained on Cosmos-scale data and validated against millions of clinical outcomes could extend a meaningful layer of evidence-based care to populations that currently lack access to any specialist and see a primary care physician rarely if ever. This is healthcare AI&rsquo;s most ambitious potential contribution &mdash; not making existing care more efficient, but making care accessible where it currently does not exist.</div>
+  </div>
+
+  <div class="danger-box">
+    <div class="danger-label">The risks that accompany the progress</div>
+    <div class="danger-text">Every expansion of AI autonomy in healthcare carries risks the field is still learning to manage. <strong>AI bias</strong>: models trained on historical data perpetuate the disparities embedded in that data, potentially producing worse predictions for underrepresented populations. <strong>Errors at scale</strong>: a bug in an algorithm deployed to 3,600 hospitals could affect millions of patients before detection. <strong>Regulatory lag</strong>: the FDA is still developing frameworks for governing agentic AI as a medical device. <strong>Liability</strong>: when an AI agent causes harm, who is responsible &mdash; the hospital, Epic, Microsoft, or the physician who trusted the output? These are not hypothetical questions. They are active legal and policy debates that will shape the pace and architecture of healthcare AI for years to come.</div>
+  </div>
+
+  <!-- SECTION 15 -->
+  <h2 id="s15"><span class="section-num">15</span> Key Vocabulary &amp; Discussion Questions</h2>
+
+  <h3>Key vocabulary introduced in this chapter</h3>
+  <div class="vocab-grid">
+    <div class="vocab-card"><div class="vocab-term">Agentic AI</div><div class="vocab-def">AI given a goal that autonomously plans and executes multi-step processes &mdash; qualitatively different from systems that respond to a single prompt with a single output</div></div>
+    <div class="vocab-card"><div class="vocab-term">Ambient AI</div><div class="vocab-def">AI that operates passively in the background, capturing and processing information without explicit commands &mdash; DAX Copilot listens to clinical conversations without the physician typing a word</div></div>
+    <div class="vocab-card"><div class="vocab-term">Electronic Health Record (EHR)</div><div class="vocab-def">A digital system for storing and managing patient medical information across encounters, providers, and settings &mdash; the platform on which all healthcare AI is being built</div></div>
+    <div class="vocab-card"><div class="vocab-term">HITECH Act / Meaningful Use</div><div class="vocab-def">The 2009 U.S. law that drove the rapid digitization of American healthcare through financial incentives and penalties &mdash; the policy decision that created the data foundation for healthcare AI</div></div>
+    <div class="vocab-card"><div class="vocab-term">Pajama time</div><div class="vocab-def">The informal term for after-hours documentation work done by physicians at home &mdash; a measurable indicator of EHR administrative burden and a primary target of ambient AI solutions</div></div>
+    <div class="vocab-card"><div class="vocab-term">Longitudinal clinical data</div><div class="vocab-def">Patient data captured across time and multiple care settings &mdash; what teaches AI models how diseases progress and what interventions work, rather than snapshots of isolated moments</div></div>
+    <div class="vocab-card"><div class="vocab-term">Cosmos</div><div class="vocab-def">Epic&rsquo;s de-identified clinical data platform: 280+ million patients, 16+ billion data points &mdash; the data moat that makes Epic&rsquo;s AI strategy structurally difficult for competitors to replicate</div></div>
+    <div class="vocab-card"><div class="vocab-term">Fine-tuning</div><div class="vocab-def">Taking a pre-trained foundation model and continuing to train it on domain-specific data &mdash; how Epic adapts GPT-4 to understand the specialized language and reasoning patterns of clinical medicine</div></div>
+    <div class="vocab-card"><div class="vocab-term">Prompt engineering</div><div class="vocab-def">The systematic design and testing of AI inputs to produce reliable, accurate outputs at scale &mdash; in clinical AI, a safety-critical engineering discipline governed like any other medical device configuration</div></div>
+    <div class="vocab-card"><div class="vocab-term">AI prototyping</div><div class="vocab-def">Using AI tools to produce working drafts of features in hours or days &mdash; changing who can participate in healthcare software development and accelerating the feedback loop between clinical need and technical solution</div></div>
+    <div class="vocab-card"><div class="vocab-term">Human-in-the-loop</div><div class="vocab-def">A system design requiring a human to review and approve each AI output before it takes effect &mdash; Epic&rsquo;s current standard for all clinical decisions</div></div>
+    <div class="vocab-card"><div class="vocab-term">Human-on-the-loop</div><div class="vocab-def">A system design where AI acts autonomously while humans monitor and can intervene &mdash; the direction specific healthcare AI tasks are moving as accuracy is validated over time</div></div>
+    <div class="vocab-card"><div class="vocab-term">Alert fatigue</div><div class="vocab-def">When clinicians begin ignoring AI alerts because they are too frequent or poorly calibrated &mdash; one of the most significant barriers to effective clinical AI deployment, independent of the underlying model&rsquo;s accuracy</div></div>
+    <div class="vocab-card"><div class="vocab-term">Data moat</div><div class="vocab-def">A proprietary dataset so large, domain-specific, and difficult to replicate that it creates structural competitive advantage &mdash; Cosmos is arguably the most powerful data moat in enterprise healthcare</div></div>
+    <div class="vocab-card"><div class="vocab-term">RLHF (Reinforcement Learning from Human Feedback)</div><div class="vocab-def">A training technique using human expert evaluations to improve AI models &mdash; every physician edit of an AI-generated clinical note is a learning signal that can make the next note better</div></div>
+    <div class="vocab-card"><div class="vocab-term">Platform consolidation</div><div class="vocab-def">An incumbent platform internalizing capabilities that third-party vendors built on its ecosystem &mdash; Epic embedding ambient documentation removes the need for separate vendor contracts and shifts competitive dynamics</div></div>
+  </div>
+
+  <h3>Discussion questions</h3>
+  <p style="font-size:13px; color:#666; margin-bottom:0.75rem;">Eight questions anchored in the themes of this chapter. These work equally well as written assignments or in-class discussion. Questions 2, 5, and 7 tend to generate the most debate.</p>
+  <ol class="discussion-list">
+    <li><strong>The unintended consequence (Sections 4 &amp; 7).</strong> The HITECH Act drove the digitization of American healthcare and created the data foundation that now makes AI possible &mdash; but it also created the burnout crisis that AI is now trying to solve. Is this a story of good policy with unintended consequences, or a failure of policy design to anticipate human factors? What would you have done differently in 2009? Does your answer change knowing that without HITECH, the data infrastructure for today&rsquo;s clinical AI would not exist?</li>
+    <li><strong>Whose problem is AI solving? (Sections 4, 7, 13).</strong> This chapter presents ambient AI as a solution to clinician burnout. But hospitals also benefit when physicians see more patients per day. Epic earns revenue. Insurance companies may pay more claims when Penny helps hospitals fight more denials. Is Epic reducing burnout as an act of mission &mdash; or as a business strategy that happens to benefit clinicians? Can it be both? Does the motivation matter if the outcome is the same?</li>
+    <li><strong>The Uber comparison (Section 10).</strong> Uber closed the prediction-decision gap entirely &mdash; predictions trigger automated decisions at machine speed. Epic has deliberately preserved the gap for clinical decisions. Both made rational choices for their contexts. Pick one specific Epic AI feature (Art, Penny, DAX, the sepsis model, or the pre-visit assistant) and argue for closing its prediction-decision gap entirely &mdash; letting it act without human review. Now argue against. What specific evidence would move you from one position to the other?</li>
+    <li><strong>Alert fatigue and the signal problem (Section 13).</strong> Epic&rsquo;s sepsis model at some hospitals generated so many alerts that clinicians began dismissing them without reading them &mdash; neutralizing the model&rsquo;s benefit entirely. This is not a model accuracy failure. It is a workflow integration failure. If you were designing a clinical AI alert system, what would you change? Be specific: what would you measure, what thresholds would you set, how would you know if you got it right, and what happens if you got it wrong?</li>
+    <li><strong>The data moat and equity (Section 5).</strong> Cosmos is built primarily from data generated by patients at large, well-resourced U.S. health systems. Rural patients, uninsured patients, and patients at safety-net hospitals are underrepresented. If AI models are trained on this data, how might that shape their predictions for patients who look less like the training population? Is this a problem Epic can solve? Who is responsible for solving it if Epic cannot or will not?</li>
+    <li><strong>Prompt engineering as safety engineering (Section 11).</strong> This chapter argues that prompt engineering in clinical AI is a safety-critical engineering discipline, not casual experimentation. Design a governance framework for how a hospital should manage the prompts used in its clinical AI systems. Who writes them? Who reviews and approves them? How often are they updated? What happens when a prompt produces a harmful output? Use the principles of this chapter to defend your framework.</li>
+    <li><strong>The liability question (Section 14).</strong> An AI agent drafts a clinical note containing a dosage error. The physician reviews it, does not catch the mistake, and approves it. The patient is harmed. Who is legally and ethically responsible &mdash; the physician, the hospital, Epic, or Microsoft? Now change the scenario: the physician was reviewing 40 AI-generated notes that morning and had four minutes per note. Does that change your answer? Should it change how AI-generated clinical content is governed?</li>
+    <li><strong>Your career in the AI healthcare era (Section 14).</strong> The physician shortage and the expansion of healthcare AI are happening simultaneously. AI agents will increasingly extend clinician capacity, not replace it. Pick a healthcare-adjacent career that interests you &mdash; health system administration, health insurance, pharmaceuticals, public health, consulting, or health IT. Identify one specific workflow in that field where agentic AI is likely to be deployed within five years. Describe what the agent does, where the human checkpoint sits, and what specific skills would make you the person who works effectively with that agent &mdash; rather than the person whose role the agent has replaced.</li>
+  </ol>
+
+  <hr>
+  <p style="font-size: 13px; color: #999; text-align: center; margin-top: 1rem;">MIS 432 &middot; AI in Business &middot; Case Study &middot; For classroom discussion purposes.</p>
+
+  <div class="chapter-nav-bar">
+    <a href="chapter6-airbnb.html">&larr; Chapter 6: Airbnb</a>
+    <a href="chapter7-epic-lab.html">Lab 7: Build an Agentic AI Workflow &rarr;</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>MIS 432 &middot; AI in Business &middot; Western Washington University &middot; College of Business and Economics</p>
+  <p style="margin-top:0.5rem;"><a href="index.html">Home</a> &middot; <a href="https://cbe.wwu.edu/people/califfc" target="_blank">Contact</a> &middot; <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a> &middot; Free to use for educational purposes</p>
+</footer>
+
+<script>
+  (function () {
+    var dropdowns = document.querySelectorAll('.nav-dropdown');
+    dropdowns.forEach(function (dropdown) {
+      var toggle = dropdown.querySelector('.nav-dropdown-toggle');
+      toggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        var isOpen = !dropdown.classList.contains('open');
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        if (isOpen) {
+          dropdown.classList.add('open');
+          toggle.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        document.activeElement.blur();
+      }
+    });
+  })();
+</script>
+</body>
+</html>
