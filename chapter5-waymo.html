@@ -312,22 +312,18 @@
     <div class="toc-part">Origin Story</div>
     <a href="#s1">1. AlphaGo and the Moment Everything Changed</a>
     <a href="#s2">2. What Deep Learning Actually Is</a>
-    <a href="#s3">3. The AI Factory at Waymo</a>
-    <div class="toc-part">Part I — How the Car Sees</div>
-    <a href="#s4">4. The Perception Problem</a>
-    <a href="#s5">5. Convolutional Neural Networks: Teaching Machines to See</a>
-    <a href="#s6">6. From Pixels to Decisions: The Full Perception Stack</a>
-    <div class="toc-part">Part II — How the Car Learns</div>
-    <a href="#s7">7. The Data Problem: You Can't Drive a Million Miles of Catastrophe</a>
-    <a href="#s8">8. Simulation and Synthetic Data</a>
-    <a href="#s9">9. The Waymo World Model: Simulating What Never Happened</a>
-    <a href="#s9b">9b. World Models Beyond Waymo: NVIDIA, Meta, and Weather</a>
-    <div class="toc-part">Part III — Implications</div>
-    <a href="#s10">10. Reinforcement Learning and the Go Connection</a>
-    <a href="#s11">11. Deep Learning as Competitive Advantage</a>
-    <a href="#s12">12. Responsible AI: What Happens When the Car Is Wrong?</a>
-    <a href="#s12b">12b. Waymo in the Wild: What Actually Goes Wrong</a>
-    <a href="#s13">13. Summary Table &amp; Discussion Questions</a>
+    <div class="toc-part">The AI Factory</div>
+    <a href="#s3">3. Step 1 — Data: Sensors, Miles, and the Long-Tail Problem</a>
+    <a href="#s5">4. Step 2 — Model: Teaching Machines to See</a>
+    <a href="#s6">5. Step 3 — Prediction: A 3D Picture of the World</a>
+    <a href="#s10">6. Step 4 — Decision: Learning to Drive</a>
+    <a href="#s11">7. Step 5 — Value: A Public Health Breakthrough — or a Job Killer?</a>
+    <a href="#s3">8. The AI Factory at Waymo</a>
+    <a href="#s11b">9. Deep Learning as Competitive Advantage</a>
+    <div class="toc-part">Implications</div>
+    <a href="#s12">10. Responsible AI: What Happens When the Car Is Wrong?</a>
+    <a href="#s12b">11. Waymo in the Wild: What Actually Goes Wrong</a>
+    <a href="#s13">12. Summary Table &amp; Discussion Questions</a>
   </div>
 
   <!-- SECTION 1 -->
@@ -467,191 +463,47 @@
     <div class="insight-text">In the 2012 ImageNet competition — a benchmark where systems compete to correctly label images from a set of 1,000 categories — a deep neural network called AlexNet reduced the error rate by nearly half compared to the previous year's best non-deep-learning system. The gap was so large that within two years, every top competitor was using deep learning. That moment is now considered the unofficial start of the modern AI era. Waymo, which had been running as the Google Self-Driving Car project since 2009, was well-positioned to absorb this shift immediately.</div>
   </div>
 
-  <!-- SECTION 3 -->
-  <h2 id="s3"><span class="section-num">3</span> The AI Factory at Waymo</h2>
+  <!-- STEP 1: DATA -->
+  <h2 id="s3"><span class="section-num">3</span> <span class="part-badge">Step 1</span> Data: Sensors, Miles, and the Long-Tail Problem</h2>
 
-  <div class="stats-row">
-    <div class="stat-card"><div class="stat-num">200M+</div><div class="stat-label">Autonomous miles driven</div></div>
-    <div class="stat-card"><div class="stat-num">20B+</div><div class="stat-label">Simulated miles</div></div>
-    <div class="stat-card"><div class="stat-num">450K+</div><div class="stat-label">Weekly paid rides (2025)</div></div>
-    <div class="stat-card"><div class="stat-num">3.5×</div><div class="stat-label">Safer than human drivers (injury crashes)</div></div>
-    <div class="stat-card"><div class="stat-num">29</div><div class="stat-label">Cameras per vehicle</div></div>
-  </div>
+  <p>Every deep learning system starts with data — and for Waymo, data means two things happening simultaneously. There is the real-time stream: every vehicle on the road processes millions of sensor readings per second, from 29 cameras, multiple lidar units, and radar arrays. And there is the historical record: over 200 million miles of real-world driving, every moment of which produced labeled training examples that Waymo's models learned from. No competitor can buy that history. It was built mile by mile, city by city, starting in 2009.</p>
 
-  <p>Now that you have a mental model of what deep learning is — layered networks that learn from examples, adjusting billions of dials until they reliably get things right — we can look at how it actually runs inside a self-driving car. We have applied the AI Factory framework to healthcare (EveryCure), experimentation (Netflix), recommendation systems (Spotify), and forecasting (Uber). Waymo is a different kind of case. For most companies in this course, AI is a feature — a system that improves the core product. Uber is the closest exception: its surge pricing, dispatch matching, and demand forecasting are deeply AI-driven, and you could argue the product barely works without them. But Uber's underlying business — connecting riders to drivers — existed before the algorithms, and a cruder version of it could still function without them. For Waymo, there is no cruder version. AI <em>is</em> the product, completely and irreducibly. There is no Waymo Driver without deep learning. The car that picks you up in San Francisco is, in a meaningful sense, a deep neural network on wheels.</p>
-
-  <p>The AI Factory at Waymo runs in three stages that happen simultaneously, thousands of times per second, in every vehicle on the road. And it is fed by a second, slower loop that runs in parallel — a simulation system that generates training data for scenarios the car has never encountered and might never encounter in ordinary driving.</p>
-
-  <div style="overflow-x:auto; margin: 1rem 0 1.5rem;">
-    <table class="factory-table">
-      <thead>
-        <tr>
-          <th>Step</th>
-          <th>What happens</th>
-          <th>Deep learning's role</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td><span class="step-badge">Data</span></td><td>Cameras, lidar, and radar produce millions of data points per second</td><td>Raw sensor data is the input to every model in the stack</td></tr>
-        <tr><td><span class="step-badge">Model</span></td><td>Convolutional neural networks classify and locate objects; motion models predict where they will go</td><td>CNNs learned from millions of labeled driving examples</td></tr>
-        <tr><td><span class="step-badge">Prediction</span></td><td>3D map of the environment: every car, pedestrian, cyclist, sign, and lane — with predicted trajectories</td><td>The output of the deep learning perception stack</td></tr>
-        <tr><td><span class="step-badge">Decision</span></td><td>Planning system chooses speed, lane, and steering — must be safe, comfortable, and legal</td><td>Increasingly learned via reinforcement learning, not just rules</td></tr>
-        <tr><td><span class="step-badge">Value</span></td><td>Passenger arrives safely; no human driver required</td><td>Deep learning is what makes the entire value proposition possible</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- PART I -->
-  <h2 id="s4"><span class="section-num">4</span> <span class="part-badge">Part I</span> The Perception Problem</h2>
-
-  <p>Before Waymo can plan a route or make a driving decision, it has to understand what is happening around the vehicle. That task — <strong>perception</strong> — is the job of making sense of raw sensor data. It sounds simple until you think about what it actually requires.</p>
-
-  <p>A human driver glances at an intersection and, in a fraction of a second, simultaneously understands: there is a red light; there are two cars stopped ahead; a cyclist is approaching from the right; a pedestrian is about to step off the curb; a truck is partially blocking the lane on the left; and the road surface is wet from rain. None of that understanding required conscious effort. It is the product of decades of visual learning, accumulated from the moment you first opened your eyes.</p>
-
-  <p>For a computer, every one of those inferences has to be built from scratch. The camera produces a grid of pixel values — numbers representing color and brightness at each point. Nothing in that grid is labeled "cyclist" or "red light." The computer has to learn, from training data, what patterns of pixel values correspond to which real-world objects, at what distances, in what lighting conditions, from what angles, with what kinds of motion. That is the perception problem, and it is genuinely hard.</p>
-
-  <div class="concept-box">
-    <div class="concept-label">Key Concept</div>
-    <div class="concept-term">Perception in autonomous driving</div>
-    <div class="concept-def">Perception is the process of converting raw sensor data — camera images, lidar point clouds, radar reflections — into a structured understanding of the environment. A complete perception output tells the planning system: what objects are present (their class: car, pedestrian, cyclist, sign), where they are (their 3D position and orientation), how big they are, how fast they are moving, and in what direction. Perception is the hardest part of autonomous driving — it is the problem that separates a self-driving car from a car with GPS. And it is a problem where deep learning, specifically convolutional neural networks, produced the breakthrough that made commercial-scale autonomy possible.</div>
-  </div>
-
-  <p>Waymo uses three types of sensors in parallel — cameras, lidar, and radar — each with different strengths. Cameras capture rich visual detail: color, texture, the text on a sign, the posture of a pedestrian. Lidar (Light Detection and Ranging) fires laser pulses in 360 degrees and measures how long they take to bounce back, producing precise 3D point clouds — exact distances to every object in the environment, up to 300 meters away, regardless of lighting. Radar detects the velocity of objects even through fog or heavy rain when cameras and lidar struggle.</p>
-
-  <div class="insight-box">
-    <div class="insight-label">Why lidar matters</div>
-    <div class="insight-text">A camera, like a human eye, loses depth information — you can't tell from a photograph alone whether a pedestrian is 10 meters away or 30. Lidar gives you that depth precisely. Think of it as the camera giving you "what" and the lidar giving you "where." A deep learning system trained to fuse both modalities together sees the world more completely than any single sensor could alone. Waymo uses lidar as one of its core advantages — more consumer-grade autonomous systems that rely primarily on cameras face significantly harder perception challenges in poor lighting or adverse weather.</div>
-  </div>
-
-  <!-- SECTION 5 -->
-  <h2 id="s5"><span class="section-num">5</span> Convolutional Neural Networks: Teaching Machines to See</h2>
-
-  <p>So how does a deep learning system actually solve the perception problem — converting a raw grid of pixel values into "that's a pedestrian about to step off a curb"? The answer is a specific type of neural network purpose-built for images, called a <strong>convolutional neural network</strong>, or CNN. To understand why it works, you need one key idea: locality.</p>
-
-  <p>When you look at a photograph, you don't analyze all the pixels at once. Your visual system first detects local patterns — an edge here, a curve there, a particular texture in one corner — and then assembles those local observations into higher-level structures: a wheel, a headlight, a face. CNNs replicate that hierarchical process algorithmically.</p>
-
-  <div class="concept-box">
-    <div class="concept-label">Key Concept</div>
-    <div class="concept-term">Convolutional neural networks (CNNs)</div>
-    <div class="concept-def">A CNN is a type of neural network designed specifically for processing data with a grid-like structure — most commonly images. Its defining feature is the <strong>convolutional layer</strong>: instead of connecting every neuron to every pixel (which would be computationally impossible for large images), it applies small learned filters — called kernels — that slide across the image and detect local patterns. An early layer might learn to detect horizontal edges, another detects corners, another detects circular shapes. Each successive layer combines the outputs of the layer before it, building up to increasingly complex detections: first edges, then shapes, then object parts, then whole objects. The final layers classify the full image or locate specific objects within it. For driving, CNNs trained on millions of labeled images can detect pedestrians, vehicles, traffic lights, lane markings, and hundreds of other categories in real time.</div>
-  </div>
-
-  <figure>
-    <svg width="100%" viewBox="0 0 680 240" role="img" style="max-width:680px;display:block;margin:0 auto;">
-      <title>CNN hierarchy: pixels to edges to shapes to objects</title>
-      <!-- Stage 1: raw pixels -->
-      <rect x="20" y="60" width="100" height="100" rx="6" fill="#e6f2ff" stroke="#0078ff" stroke-width="1.5"/>
-      <text font-family="Arial,sans-serif" font-size="10" fill="#005fcc" x="70" y="48" text-anchor="middle" font-weight="700">RAW INPUT</text>
-      <text font-family="Arial,sans-serif" font-size="10" fill="#6b7280" x="70" y="172" text-anchor="middle">Camera pixels</text>
-      <!-- grid inside -->
-      <line x1="53" y1="60" x2="53" y2="160" stroke="#b3d4ff" stroke-width="0.8"/>
-      <line x1="87" y1="60" x2="87" y2="160" stroke="#b3d4ff" stroke-width="0.8"/>
-      <line x1="20" y1="93" x2="120" y2="93" stroke="#b3d4ff" stroke-width="0.8"/>
-      <line x1="20" y1="127" x2="120" y2="127" stroke="#b3d4ff" stroke-width="0.8"/>
-      <!-- Arrow 1 -->
-      <line x1="130" y1="110" x2="168" y2="110" stroke="#80b8f8" stroke-width="1.5" marker-end="url(#arr)"/>
-      <!-- Stage 2: edges -->
-      <rect x="175" y="60" width="100" height="100" rx="6" fill="#e0fdf4" stroke="#00e89d" stroke-width="1.5"/>
-      <text font-family="Arial,sans-serif" font-size="10" fill="#00a870" x="225" y="48" text-anchor="middle" font-weight="700">LAYER 1</text>
-      <text font-family="Arial,sans-serif" font-size="10" fill="#6b7280" x="225" y="172" text-anchor="middle">Edges &amp; gradients</text>
-      <line x1="195" y1="80" x2="255" y2="80" stroke="#00e89d" stroke-width="2"/>
-      <line x1="195" y1="100" x2="255" y2="130" stroke="#00e89d" stroke-width="2"/>
-      <line x1="195" y1="140" x2="255" y2="140" stroke="#00e89d" stroke-width="2"/>
-      <!-- Arrow 2 -->
-      <line x1="285" y1="110" x2="323" y2="110" stroke="#80b8f8" stroke-width="1.5" marker-end="url(#arr)"/>
-      <!-- Stage 3: shapes -->
-      <rect x="330" y="60" width="100" height="100" rx="6" fill="#e0fdf4" stroke="#00e89d" stroke-width="1.5"/>
-      <text font-family="Arial,sans-serif" font-size="10" fill="#00a870" x="380" y="48" text-anchor="middle" font-weight="700">LAYER 2</text>
-      <text font-family="Arial,sans-serif" font-size="10" fill="#6b7280" x="380" y="172" text-anchor="middle">Shapes &amp; textures</text>
-      <rect x="350" y="75" width="30" height="40" rx="3" fill="none" stroke="#00e89d" stroke-width="1.5"/>
-      <circle cx="400" cy="120" r="15" fill="none" stroke="#00e89d" stroke-width="1.5"/>
-      <!-- Arrow 3 -->
-      <line x1="440" y1="110" x2="478" y2="110" stroke="#80b8f8" stroke-width="1.5" marker-end="url(#arr)"/>
-      <!-- Stage 4: output -->
-      <rect x="485" y="60" width="100" height="100" rx="6" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
-      <text font-family="Arial,sans-serif" font-size="10" fill="#b45309" x="535" y="48" text-anchor="middle" font-weight="700">OUTPUT</text>
-      <text font-family="Arial,sans-serif" font-size="10" fill="#6b7280" x="535" y="172" text-anchor="middle">Object classification</text>
-      <text font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#0a1628" x="535" y="98" text-anchor="middle">🚶 Pedestrian</text>
-      <text font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#0a1628" x="535" y="118" text-anchor="middle">🚗 Car</text>
-      <text font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#0a1628" x="535" y="138" text-anchor="middle">🚦 Traffic light</text>
-      <!-- Bottom label -->
-      <text font-family="Arial,sans-serif" font-size="11" fill="#6b7280" x="340" y="220" text-anchor="middle" font-style="italic">Each layer builds on the last — no human programs what to look for at each level</text>
-    </svg>
-    <figcaption><strong>Figure 2: How a CNN builds understanding from pixels.</strong> Raw pixel values are transformed layer by layer: early layers detect basic edges and gradients; middle layers detect shapes and textures; later layers recognize specific objects. The network learns what to detect at each level entirely from labeled training data — no programmer specifies "look for wheels" or "look for headlights."</figcaption>
-  </figure>
-
-  <p>For Waymo, this kind of vision model runs on both camera images and lidar data simultaneously. The camera tells the system what things look like — color, texture, the words on a sign. The lidar tells it exactly how far away every object is. The two streams are eventually combined into a single, richer understanding of the environment through a process called <strong>sensor fusion</strong>.</p>
-
-  <div class="concept-box">
-    <div class="concept-label">Key Concept</div>
-    <div class="concept-term">Sensor fusion</div>
-    <div class="concept-def">Sensor fusion is the process of combining data from multiple different sensors into a single, more reliable understanding of the environment than any single sensor could provide. At Waymo, cameras detect rich visual features but lack depth; lidar provides precise 3D geometry but no color; radar detects velocity through rain and fog. The deep learning system learns to combine all three — associating a camera detection of a pedestrian with the lidar return that confirms their 3D position, then using radar to track their velocity across frames. Each sensor's weakness is covered by another's strength. A pedestrian walking across the street at night in fog is detectable by this fused system even when no individual sensor could reliably identify them alone.</div>
-  </div>
-
-  <!-- SECTION 6 -->
-  <h2 id="s6"><span class="section-num">6</span> From Pixels to Decisions: The Full Perception Stack</h2>
-
-  <p>Identifying what objects are present is only half the perception problem. The other half is predicting what they will do next. A parked car and a car about to pull into traffic look almost identical in a single frame. A pedestrian standing on the sidewalk and a pedestrian about to step off the curb look the same if you only have one snapshot. Making good driving decisions requires predicting future states, not just classifying current ones.</p>
-
-  <p>Waymo's system processes the environment across multiple frames simultaneously — tracking how objects have moved over the last half-second and projecting that movement forward. For each vehicle, pedestrian, and cyclist in the scene, the system generates a set of likely future paths: where is this person probably going to be in the next two, five, and ten seconds? Not a single answer, but a range of possibilities — because the goal is to plan a route that is safe no matter which way the cyclist turns.</p>
-
-  <div class="concept-box">
-    <div class="concept-label">Key Concept</div>
-    <div class="concept-term">Motion prediction and behavior forecasting</div>
-    <div class="concept-def">Once the perception system knows where every object is, a second deep learning system predicts where each one is going. This is called <strong>motion prediction</strong>. Knowing a cyclist is 10 meters ahead is not enough — the car needs to anticipate whether that cyclist is going to continue straight, turn right, or stop. The system looks at the history of each object's movement over the past few seconds, considers the context around them (where the road goes, what the traffic signal says, what other vehicles are doing), and produces a range of likely futures. Not one prediction — a set of possibilities ranked by likelihood, so the planning system can choose a path that stays safe across all of them. This is essentially what an experienced human driver does intuitively when they think "that car might pull out, I should leave room."</div>
-  </div>
-
-  <p>The output of the full perception and prediction stack is something like a live, annotated 3D model of the world around the car: every object located, classified, and tagged with its most probable trajectory. This is what a human driver's brain does automatically. For Waymo, it is the output of dozens of deep learning models running simultaneously, processing sensor data faster than the human eye blinks.</p>
-
-  <div class="insight-box">
-    <div class="insight-label">Why this is still hard</div>
-    <div class="insight-text">Despite remarkable progress, perception in edge cases remains one of the hardest problems in AI. A construction worker in an unusual outfit. A child's tricycle. A traffic cone in an unexpected location. A car covered with reflective equipment. A pedestrian on a ladder in the middle of the road. The real world generates an essentially infinite variety of objects and situations. Deep learning systems trained on historical data can classify the things they've seen frequently and accurately. They are less reliable on things they've seen rarely — what the industry calls the <strong>long tail</strong> of uncommon scenarios. This is precisely the problem that Waymo's simulation system was built to solve.</div>
-  </div>
-
-  <p>Part I showed how Waymo's car sees the world — the sensors, the neural networks, the live annotated picture of everything around the vehicle. But knowing how the system works raises a harder question: where did all that capability come from? How do you train a deep learning system to handle a real city street, with all its unpredictability, when the very scenarios that matter most — the dangerous ones, the rare ones — almost never happen in ordinary driving?</p>
-
-  <!-- PART II -->
-  <h2 id="s7"><span class="section-num">7</span> <span class="part-badge">Part II</span> The Data Problem: You Can't Drive a Million Miles of Catastrophe</h2>
-
-  <p>All of the deep learning systems described so far share a fundamental requirement: they need labeled training data. To train a CNN to detect pedestrians, you need millions of images with pedestrians labeled in them. To train a motion prediction model, you need millions of sequences of labeled trajectories. To train a behavior forecasting model to handle a car running a red light, you need training examples of cars running red lights.</p>
-
-  <p>Here is the problem: most of driving is boring. The vast majority of miles — on any road, in any city — involve uneventful lane-keeping, normal intersections, and ordinary traffic. That is exactly the data Waymo has in abundance from its fleet. But the scenarios that are hardest to handle and most safety-critical — near-misses, unusual objects in the road, dangerous weather, unpredictable pedestrian behavior — are rare by definition. You cannot drive to a tornado. You cannot stage an elephant encounter on Market Street. You cannot safely generate millions of examples of cars about to crash.</p>
+  <p>But real-world miles have a fundamental problem, and it is the same problem that AlphaGo's successor solved by abandoning human game data entirely: <em>the distribution of what actually happens is not the distribution you need to train on</em>.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key Concept</div>
     <div class="concept-term">The long-tail problem in safety-critical AI</div>
-    <div class="concept-def">In any large dataset of real-world events, a small number of common scenarios account for most of the data, while an enormous number of rare scenarios together account for very little. This distribution — heavy at the common end, trailing off to uncommon events — is called a <strong>long tail</strong>. For autonomous driving, the long tail is disproportionately dangerous: the scenarios that appear least in the training data are often the ones where a mistake is most catastrophic. A deep learning model trained only on data from normal drives will be well-calibrated for normal drives and poorly calibrated for emergencies. Addressing the long tail is one of the central challenges of deploying deep learning in safety-critical applications. Waymo's solution — and one of its most significant technical advantages — is to generate synthetic training data for long-tail scenarios through simulation.</div>
+    <div class="concept-def">In any large dataset of real-world events, a small number of common scenarios account for most of the data, while an enormous number of rare scenarios together account for very little. This distribution — heavy at the common end, trailing off into uncommon events — is called a <strong>long tail</strong>. For autonomous driving, the long tail is disproportionately dangerous: the scenarios that appear least in training data are often the ones where a mistake is most catastrophic. Most of driving is boring — normal lanes, normal intersections, normal weather. The data that Waymo's cars generate in abundance is exactly the data it doesn't need most urgently. The data it needs most — near-misses, severe weather, animals in the road, wrong-way drivers — appears rarely or not at all. You could drive for 10,000 years and still not accumulate enough examples of a driver going the wrong way on a freeway to train a reliable response model.</div>
   </div>
 
-  <p>This is not a solvable problem by driving more miles. You could drive for 10,000 years and still not accumulate enough naturally-occurring examples of a driver going the wrong way on the freeway to train a reliable response model. The math doesn't work. The only practical solution is <em>simulation</em>.</p>
+  <h3>Sensors: what the car actually sees</h3>
 
-  <!-- SECTION 8 -->
-  <h2 id="s8"><span class="section-num">8</span> Simulation and Synthetic Data</h2>
+  <p>Before the data problem can be solved, the data has to be collected. Waymo uses three types of sensors in parallel, each capturing a different dimension of the world. Cameras produce rich visual images — color, texture, the text on a sign, the posture of a pedestrian. Lidar (Light Detection and Ranging) fires laser pulses in 360 degrees and measures how long they take to bounce back, producing precise 3D point clouds at distances up to 300 meters, regardless of lighting. Radar detects the velocity of objects even through fog or heavy rain when cameras and lidar struggle.</p>
 
-  <p>Waymo runs what it describes as billions of simulated miles per year — more than any other autonomous vehicle developer. These are not video game-quality approximations. They are high-fidelity digital reproductions of real streets, with physically accurate sensor models, accurate weather and lighting effects, and realistic behavior from simulated agents. A car trained in simulation and then deployed on real streets is doing something that would be impossible to do with real-world data alone: it has encountered situations that don't happen very often, many times, at scale.</p>
+  <div class="insight-box">
+    <div class="insight-label">Why lidar matters</div>
+    <div class="insight-text">A camera, like a human eye, loses depth information — you can't tell from a photograph alone whether a pedestrian is 10 meters away or 30. Lidar gives you that depth precisely. Think of it as the camera giving you "what" and the lidar giving you "where." Waymo uses lidar as one of its core competitive advantages — systems that rely primarily on cameras face significantly harder perception challenges in poor lighting or adverse weather. This is the central disagreement between Waymo and Tesla, which argues that human drivers navigate with cameras alone, so cameras should be sufficient for machines too.</div>
+  </div>
+
+  <h3>Simulation: generating the data you can't collect</h3>
+
+  <p>The solution to the long-tail problem is simulation — generating synthetic training data for scenarios too rare, too dangerous, or simply impossible to observe at scale in the real world. Waymo runs more than 20 billion simulated miles per year, vastly more than any other autonomous vehicle developer. These are not video-game approximations; they are high-fidelity digital reproductions of real streets, with physically accurate sensor models, accurate weather, and realistic simulated agents.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key Concept</div>
     <div class="concept-term">Simulation and synthetic data</div>
-    <div class="concept-def">Synthetic data is training data generated by a computer rather than collected from the real world. For autonomous driving, a simulation environment can produce labeled training examples for any scenario engineers want: extreme weather, unusual objects in the road, dangerous driver behavior. The critical requirement is that the simulation be <strong>realistic enough</strong> that a model trained inside it actually performs well when deployed on real streets. If the simulation is too simple — if real streets look or behave differently enough from the simulation — the model learns to handle the simulation well but fails in reality. This gap between simulation and the real world is called the <strong>sim-to-real gap</strong>, and closing it is one of the hardest problems in building AI for physical environments. It is exactly the problem the Waymo World Model was designed to shrink.</div>
+    <div class="concept-def">Synthetic data is training data generated by a computer rather than collected from the real world. For autonomous driving, a simulation environment can produce labeled training examples for any scenario engineers want: extreme weather, unusual objects in the road, dangerous driver behavior. The critical requirement is that the simulation be realistic enough that a model trained inside it actually performs well when deployed on real streets. If the simulation is too simple — if real streets look or behave differently from the simulation — the model learns to handle the simulation well but fails in reality. This gap is called the <strong>sim-to-real gap</strong>, and closing it is one of the hardest problems in building AI for physical environments.</div>
   </div>
 
-  <p>Traditional simulation approaches have a fundamental limitation: they can only realistically simulate scenarios that are built explicitly by engineers, or reconstructed from scenarios the car has actually seen. A 3D reconstruction of a street segment that Waymo's car drove through is highly realistic for that specific segment — but if you move the car off the recorded path, or introduce an object that wasn't in the original recording, the simulation quickly breaks down. Generating an elephant on Market Street was, until recently, essentially impossible in a way that looked realistic enough to train a self-driving perception system.</p>
+  <h3>The Waymo World Model: simulating what never happened</h3>
 
-  <!-- SECTION 9 -->
-  <h2 id="s9"><span class="section-num">9</span> The Waymo World Model: Simulating What Never Happened</h2>
-
-  <p>In February 2026, Waymo announced something that represents a significant step beyond traditional simulation: the <strong>Waymo World Model</strong>. It is a generative AI system — built on Google DeepMind's Genie 3 foundation model — capable of producing photorealistic, physically coherent simulations of driving scenarios that have never occurred in the real world.</p>
-
-  <p>What makes this different from earlier simulation is the underlying approach. Earlier simulation systems were largely <em>reconstructive</em> — they rebuilt existing reality from sensor recordings. The Waymo World Model is <em>generative</em> — it can create scenes from scratch, based on a description, a layout, or a language prompt. An engineer can type "heavy snow on the Golden Gate Bridge at night, with a cyclist approaching from the wrong direction" and get back a realistic multi-sensor simulation — complete with lidar point clouds and camera imagery — of exactly that scenario.</p>
+  <p>In February 2026, Waymo announced a step beyond traditional simulation: the <strong>Waymo World Model</strong>, built on Google DeepMind's Genie 3 foundation model. Earlier simulation systems were reconstructive — they rebuilt existing reality from sensor recordings. The World Model is generative — it can create scenes from scratch, based on a description or a language prompt. An engineer can type "heavy snow on the Golden Gate Bridge at night, with a cyclist approaching from the wrong direction" and get back a realistic multi-sensor simulation of exactly that scenario.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key Concept</div>
     <div class="concept-term">World models in AI</div>
-    <div class="concept-def">A <strong>world model</strong> is an AI system that has learned a deep enough understanding of how the world works — how objects move, how light changes, how physical events unfold — that it can generate realistic new scenarios it has never directly seen. Rather than just recreating reality, it can <em>imagine</em> plausible variations. The Waymo World Model does this for driving: it can create a realistic simulation of a tornado, a flooded street, or a wrong-way driver from scratch, because it has learned enough about how the physical world behaves to fill in those details convincingly. It was built by adapting Google DeepMind's Genie 3 — a foundation model trained on an enormous amount of real-world video — to Waymo's specific needs, including generating outputs for Waymo's lidar sensors, not just cameras.</div>
+    <div class="concept-def">A <strong>world model</strong> is an AI system that has learned a deep enough understanding of how the world works — how objects move, how light changes, how physical events unfold — that it can generate realistic new scenarios it has never directly seen. The Waymo World Model does this for driving: it can create a realistic simulation of a tornado, a flooded street, or a wrong-way driver from scratch, because it has learned enough about how the physical world behaves to fill in those details convincingly. Engineers can also run <strong>counterfactuals</strong> — replay the same scenario with the car making different decisions, and evaluate which response was safest. That is something that can never be done with real-world data: you cannot rewind a near-miss and try again.</def>
   </div>
-
-  <p>The practical payoff is enormous. Waymo can now generate training examples for rare scenarios at massive scale. An elephant on the road, a tornado, a submerged cul-de-sac, a truck facing the wrong direction, a construction worker in an unexpected location — all of these can be simulated, in any combination, and used to train and test the car's perception and response systems. The engineers can also generate <strong>counterfactuals</strong>: run the same scenario multiple times with the car taking different actions, and evaluate which response is safest. That is something that cannot be done with real-world data, ever — you cannot rewind a near-miss and play it again with a different decision.</p>
 
   <figure>
     <svg width="100%" viewBox="0 0 680 220" role="img" style="max-width:680px;display:block;margin:0 auto;">
@@ -661,75 +513,121 @@
           <path d="M2 1L8 5L2 9" fill="none" stroke="#6b7280" stroke-width="1.5"/>
         </marker>
       </defs>
-      <!-- Node 1: Real-world fleet data -->
       <rect x="30" y="70" width="150" height="60" rx="8" fill="#e6f2ff" stroke="#0078ff" stroke-width="1.5"/>
       <text font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#005fcc" x="105" y="97" text-anchor="middle">Real-world fleet</text>
       <text font-family="Arial,sans-serif" font-size="11" fill="#0a1628" x="105" y="115" text-anchor="middle">200M+ miles of data</text>
-      <!-- Arrow 1 -->
       <path d="M180 100 Q230 100 250 100" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr2)"/>
-      <!-- Node 2: World Model -->
       <rect x="255" y="50" width="170" height="100" rx="8" fill="#e0fdf4" stroke="#00e89d" stroke-width="2"/>
       <text font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#00a870" x="340" y="85" text-anchor="middle">Waymo World Model</text>
       <text font-family="Arial,sans-serif" font-size="10" fill="#0a1628" x="340" y="103" text-anchor="middle">Generates rare &amp; extreme</text>
       <text font-family="Arial,sans-serif" font-size="10" fill="#0a1628" x="340" y="118" text-anchor="middle">scenarios on demand</text>
       <text font-family="Arial,sans-serif" font-size="10" fill="#6b7280" x="340" y="135" text-anchor="middle">(built on Genie 3)</text>
-      <!-- Arrow 2 -->
       <path d="M425 100 Q445 100 460 100" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr2)"/>
-      <!-- Node 3: Synthetic training data -->
       <rect x="465" y="70" width="150" height="60" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
       <text font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#b45309" x="540" y="97" text-anchor="middle">Synthetic training</text>
       <text font-family="Arial,sans-serif" font-size="11" fill="#0a1628" x="540" y="115" text-anchor="middle">20B+ simulated miles</text>
-      <!-- Arrow 3 (back to model improvement) -->
       <path d="M540 130 Q540 185 340 185 Q140 185 105 130" fill="none" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arr2)"/>
       <text font-family="Arial,sans-serif" font-size="10" fill="#6b7280" x="340" y="198" text-anchor="middle" font-style="italic">Synthetic data retrains and improves the perception models</text>
     </svg>
-    <figcaption><strong>Figure 3: The simulation flywheel.</strong> Real-world fleet data trains the World Model's understanding of driving physics and geometry. The World Model then generates synthetic training data for rare and extreme scenarios. That synthetic data retrains and improves Waymo's perception and planning models — completing a loop that produces a safer car even before it encounters dangerous situations on real roads.</figcaption>
+    <figcaption><strong>Figure: The simulation flywheel.</strong> Real-world fleet data trains the World Model's understanding of driving physics. The World Model generates synthetic training data for rare and extreme scenarios. That data retrains Waymo's models — completing a loop that produces a safer car before it ever encounters dangerous situations on real roads.</figcaption>
   </figure>
 
   <div class="danger-box">
-    <div class="danger-label">The sim-to-real gap: the unsolved problem</div>
-    <div class="danger-text">No matter how realistic a simulation becomes, there is always a gap between the simulated world and the real one. A model trained on synthetic data may learn to rely on subtle visual details that exist in the simulation but look slightly different in reality — and those small differences can cause unexpected failures. Closing this gap is an active research challenge. The Waymo team argues that building the World Model on Genie 3 — a foundation model trained on an enormous and diverse set of real-world video — gives the simulation a richer, more realistic baseline than systems built from scratch. But "better" is not "solved." Responsibly deploying models trained on synthetic data requires extensive real-world testing before those models go into live vehicles, and honesty about where the limits are.</div>
+    <div class="danger-label">The sim-to-real gap: still unsolved</div>
+    <div class="danger-text">No matter how realistic a simulation becomes, there is always a gap between the simulated world and the real one. A model trained on synthetic data may learn to rely on subtle visual cues that exist in the simulation but look slightly different in reality — and those differences can cause unexpected failures. The Waymo team argues that building the World Model on Genie 3 — trained on an enormous set of real-world video — gives the simulation a richer baseline. But "better" is not "solved." Deploying models trained on synthetic data still requires extensive real-world testing before they go into live vehicles.</div>
   </div>
 
-  <!-- SECTION 9b -->
-  <h2 id="s9b"><span class="section-num">9b</span> World Models Beyond Waymo: Who Else Is Doing This?</h2>
+  <!-- STEP 2: MODEL -->
+  <h2 id="s5"><span class="section-num">4</span> <span class="part-badge">Step 2</span> Model: Teaching Machines to See</h2>
 
-  <p>The sim-to-real gap is a real and unsolved challenge — but it has not slowed investment. The Waymo World Model is one high-profile application of a much broader idea that is spreading rapidly across industries: if you can build an AI that understands how the world works well enough to imagine scenarios it has never seen, you can generate training data for almost anything. Here are three other examples worth knowing.</p>
+  <p>The data — real and synthetic — feeds a stack of deep learning models whose job is to understand the world around the vehicle. The most fundamental of these is the perception model: the system that converts raw sensor readings into a structured understanding of what is present, where it is, and what it is likely to do next.</p>
 
-  <div class="two-col" style="margin-bottom:1rem;">
-    <div class="col-card col-blue">
-      <div class="col-label">NVIDIA Cosmos · Factory Robotics</div>
-      <div class="col-title">Teaching robots without expensive real-world data</div>
-      <div class="col-body">Announced at CES 2025, NVIDIA's Cosmos is a family of world foundation models designed for any company building physical AI — robots, autonomous vehicles, industrial inspection systems. NVIDIA CEO Jensen Huang framed it directly: "The ChatGPT moment for robotics is coming. World foundation models are fundamental to advancing robot development." Agility Robotics, which builds humanoid robots for warehouse work, is using Cosmos to generate photorealistic simulations of tasks its robots need to perform — rather than staging expensive real-world collection sessions. The core problem is identical to Waymo's: data scarcity. Getting a robot arm to handle an unfamiliar object in a new warehouse layout requires training examples. Cosmos generates those examples synthetically.</div>
-    </div>
-    <div class="col-card col-teal">
-      <div class="col-label">Meta V-JEPA 2 · Warehouse &amp; Manipulation</div>
-      <div class="col-title">Learning physics from watching the internet</div>
-      <div class="col-body">Released in June 2025, Meta's V-JEPA 2 is a world model trained on over one million hours of ordinary internet video. By watching how objects move and interact in everyday footage — someone pushing a cup across a table, a ball bouncing, a hand picking up a book — it developed an internal model of how the physical world works. With just 62 hours of additional robot-specific footage, it could direct a robot arm to pick up and place unfamiliar objects in environments it had never seen before, achieving 65–80% success rates. The business implication: you don't need to train a robot from scratch for every new task or environment. A world model that already understands physics can generalize.</div>
-    </div>
+  <p>A human driver glances at an intersection and instantly understands: red light, two stopped cars, cyclist on the right, pedestrian about to step off the curb, wet road. That recognition is effortless — the product of decades of visual learning. For a computer, every inference has to be built from scratch. The camera produces a grid of pixel values. Nothing in that grid is labeled "cyclist." The model has to learn, from training data, what patterns correspond to which real-world objects — at what distances, in what lighting, from what angles, in what motion.</p>
+
+  <h3>Convolutional neural networks: how machines learn to see</h3>
+
+  <div class="concept-box">
+    <div class="concept-label">Key Concept</div>
+    <div class="concept-term">Convolutional neural networks (CNNs)</div>
+    <div class="concept-def">A CNN is a type of neural network designed specifically for images. Its defining feature is the <strong>convolutional layer</strong>: instead of connecting every neuron to every pixel (computationally impossible for large images), it applies small learned filters — called kernels — that slide across the image and detect local patterns. Early layers detect edges and gradients. Middle layers detect shapes and textures. Later layers detect whole objects. Nobody programs what each layer should look for — the network learns it from training data. For driving, CNNs trained on millions of labeled images can detect pedestrians, vehicles, traffic lights, lane markings, and hundreds of other categories in real time.</div>
   </div>
 
-  <div class="insight-box" style="margin-bottom:1.5rem;">
-    <div class="insight-label">World models in weather forecasting</div>
-    <div class="insight-text">The same logic applies far outside robotics. Climate scientists are now combining AI world models with traditional physics-based weather models to simulate extreme weather events — storms, floods, and heat waves that might only occur once every 1,000 years. Historical data contains very few examples of these events by definition, which means traditional models are poorly calibrated for the scenarios that cause the most damage. AI world models can generate thousands of simulated rare-event examples to train better forecasting systems, using exactly the same "simulate what you can't observe" strategy as Waymo. The problem is structurally identical across domains: rare events matter most, and you can't wait for them to happen.</div>
+  <figure>
+    <svg width="100%" viewBox="0 0 680 240" role="img" style="max-width:680px;display:block;margin:0 auto;">
+      <title>CNN hierarchy: pixels to edges to shapes to objects</title>
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#80b8f8" stroke-width="1.5"/>
+        </marker>
+      </defs>
+      <rect x="20" y="60" width="100" height="100" rx="6" fill="#e6f2ff" stroke="#0078ff" stroke-width="1.5"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#005fcc" x="70" y="48" text-anchor="middle" font-weight="700">RAW INPUT</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#6b7280" x="70" y="172" text-anchor="middle">Camera pixels</text>
+      <line x1="53" y1="60" x2="53" y2="160" stroke="#b3d4ff" stroke-width="0.8"/>
+      <line x1="87" y1="60" x2="87" y2="160" stroke="#b3d4ff" stroke-width="0.8"/>
+      <line x1="20" y1="93" x2="120" y2="93" stroke="#b3d4ff" stroke-width="0.8"/>
+      <line x1="20" y1="127" x2="120" y2="127" stroke="#b3d4ff" stroke-width="0.8"/>
+      <line x1="130" y1="110" x2="168" y2="110" stroke="#80b8f8" stroke-width="1.5" marker-end="url(#arr)"/>
+      <rect x="175" y="60" width="100" height="100" rx="6" fill="#e0fdf4" stroke="#00e89d" stroke-width="1.5"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#00a870" x="225" y="48" text-anchor="middle" font-weight="700">LAYER 1</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#6b7280" x="225" y="172" text-anchor="middle">Edges &amp; gradients</text>
+      <line x1="195" y1="80" x2="255" y2="80" stroke="#00e89d" stroke-width="2"/>
+      <line x1="195" y1="100" x2="255" y2="130" stroke="#00e89d" stroke-width="2"/>
+      <line x1="195" y1="140" x2="255" y2="140" stroke="#00e89d" stroke-width="2"/>
+      <line x1="285" y1="110" x2="323" y2="110" stroke="#80b8f8" stroke-width="1.5" marker-end="url(#arr)"/>
+      <rect x="330" y="60" width="100" height="100" rx="6" fill="#e0fdf4" stroke="#00e89d" stroke-width="1.5"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#00a870" x="380" y="48" text-anchor="middle" font-weight="700">LAYER 2</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#6b7280" x="380" y="172" text-anchor="middle">Shapes &amp; textures</text>
+      <rect x="350" y="75" width="30" height="40" rx="3" fill="none" stroke="#00e89d" stroke-width="1.5"/>
+      <circle cx="400" cy="120" r="15" fill="none" stroke="#00e89d" stroke-width="1.5"/>
+      <line x1="440" y1="110" x2="478" y2="110" stroke="#80b8f8" stroke-width="1.5" marker-end="url(#arr)"/>
+      <rect x="485" y="60" width="100" height="100" rx="6" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#b45309" x="535" y="48" text-anchor="middle" font-weight="700">OUTPUT</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#6b7280" x="535" y="172" text-anchor="middle">Object classification</text>
+      <text font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#0a1628" x="535" y="98" text-anchor="middle">🚶 Pedestrian</text>
+      <text font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#0a1628" x="535" y="118" text-anchor="middle">🚗 Car</text>
+      <text font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#0a1628" x="535" y="138" text-anchor="middle">🚲 Cyclist</text>
+    </svg>
+    <figcaption><strong>Figure: CNN hierarchy.</strong> Raw camera pixels enter on the left. Each layer learns to detect increasingly complex patterns — edges first, then shapes, then whole objects. The output classifies what the model sees. No human programs what each layer looks for; the network learns it from labeled training examples.</figcaption>
+  </figure>
+
+  <h3>Sensor fusion: combining what each sensor knows</h3>
+
+  <div class="concept-box">
+    <div class="concept-label">Key Concept</div>
+    <div class="concept-term">Sensor fusion</div>
+    <div class="concept-def">Sensor fusion is the process of combining data from multiple different sensors into a single, more reliable understanding of the environment than any single sensor could provide. At Waymo, cameras detect rich visual features but lack depth; lidar provides precise 3D geometry but no color; radar detects velocity through rain and fog. The deep learning system learns to combine all three — associating a camera detection of a pedestrian with the lidar return that confirms their 3D position, then using radar to track their velocity across frames. Each sensor's weakness is covered by another's strength.</div>
   </div>
 
-  <p>The common thread across all three cases — autonomous vehicles, factory robots, and weather forecasting — is the same problem the Waymo World Model was built to solve: <em>the most important scenarios are the ones you see least often</em>. Deep learning systems need examples to learn from. World models are a way to generate those examples for anything too rare, too dangerous, or too expensive to observe at scale in the real world. That is why every major AI lab — Google DeepMind, NVIDIA, Meta, and others — is investing heavily in world model research right now.</p>
+  <h3>Motion prediction: where is everything going?</h3>
 
-  <!-- PART III -->
-  <h2 id="s10"><span class="section-num">10</span> <span class="part-badge">Part III</span> Reinforcement Learning and the Go Connection</h2>
+  <p>Knowing where every object is right now is not enough — the planning system needs to know where everything will be in the next two, five, ten seconds. A dedicated motion prediction model takes the classified, located objects from the perception system and forecasts their likely future trajectories. Because the future is uncertain — a pedestrian at the curb might step into the road or might not — the model produces a <em>probability distribution</em> over possible futures, not a single prediction. The planning system then has to make decisions that are safe across the full range of what might happen next.</p>
+
+  <!-- STEP 3: PREDICTION -->
+  <h2 id="s6"><span class="section-num">5</span> <span class="part-badge">Step 3</span> Prediction: A 3D Picture of the World</h2>
+
+  <p>The output of the model stack — the perception system's combined, fused understanding of everything around the vehicle — is what Waymo engineers call the <strong>world representation</strong>: a live, continuously updated 3D map of the environment that the planning system can act on.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key Concept</div>
+    <div class="concept-term">Perception in autonomous driving</div>
+    <div class="concept-def">Perception is the process of converting raw sensor data — camera images, lidar point clouds, radar reflections — into a structured understanding of the environment. A complete perception output tells the planning system: what objects are present (car, pedestrian, cyclist, sign), where they are in 3D space, how big they are, how fast they are moving, in what direction, and where they are likely to go next. This is the prediction step in Waymo's factory: it is what the deep learning models produce, and it is what the decision system consumes. Perception is the hardest part of autonomous driving — it is the problem that separates a self-driving car from a car with GPS.</div>
+  </div>
+
+  <p>This representation is produced thousands of times per second. Every cycle, the system re-reads incoming sensor data, updates its understanding of each tracked object, generates fresh trajectory distributions, and hands a new world representation to the planner. The planner is making decisions — speed, lane, steering — based on information that is milliseconds old. The latency of this pipeline is itself a safety parameter: a system that takes too long to update its world representation is operating on stale information, which becomes increasingly dangerous at highway speeds.</p>
+
+  <!-- STEP 4: DECISION -->
+  <h2 id="s10"><span class="section-num">6</span> <span class="part-badge">Step 4</span> Decision: Learning to Drive</h2>
 
   <p>We opened this chapter with AlphaGo. Now we can close the loop.</p>
 
-  <p>AlphaGo did not learn Go by studying examples of human moves. It learned by playing millions of games against itself and updating its strategy based on whether it won or lost. The feedback signal — win or lose — is simple. But the sequence of decisions that led to that outcome is long and complex, and figuring out which decisions were responsible for the win or loss is a deep problem. This approach — learning from rewards or penalties rather than labeled examples — is called <strong>reinforcement learning</strong>.</p>
+  <p>AlphaGo did not learn Go by studying human moves. It learned by playing millions of games against itself, updating its strategy based on whether it won or lost. That approach — learning from rewards and penalties rather than labeled examples — is called <strong>reinforcement learning</strong>. Waymo uses the same approach for its planning system: not to identify objects (that is the perception system's job), but to learn <em>how to drive</em>.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key Concept</div>
     <div class="concept-term">Reinforcement learning (RL)</div>
-    <div class="concept-def">Reinforcement learning is a way of teaching an AI system through trial, error, and feedback — rather than by showing it labeled examples of correct answers. The system tries something, gets a signal saying whether the outcome was good or bad, and gradually adjusts its behavior toward the things that earned good signals. Think of how a toddler learns not to touch a hot stove: no one programs the rule explicitly; the feedback itself does the teaching. In AlphaGo's case, the feedback was simply whether the game was won or lost. The system played millions of games against itself, learned which moves tended to lead to wins, and eventually developed strategies no human expert had discovered. Waymo increasingly uses the same approach for its <em>planning</em> system — not to identify objects (that is the perception system's job), but to learn <em>how to drive</em>: when to yield, when to proceed confidently, how to handle an unusual intersection. The feedback signal in Waymo's case is whether the resulting behavior was safe, smooth, and legal.</div>
+    <div class="concept-def">Reinforcement learning is a way of teaching an AI system through trial, error, and feedback — rather than by showing it labeled examples of correct answers. The system tries something, gets a signal saying whether the outcome was good or bad, and gradually adjusts its behavior toward the things that earned good signals. In AlphaGo's case, the feedback was simply whether the game was won or lost. The system played millions of games, learned which moves led to wins, and eventually developed strategies no human expert had discovered. Waymo uses the same approach for its planning system — the feedback signal is whether the resulting driving behavior was safe, smooth, and legal. The environment in which this learning happens is the World Model simulation, which provides the practice environment that makes it safe to try millions of decisions before any of them happen on a real road.</def>
   </div>
-
-  <p>The connection between AlphaGo and Waymo is not just analogical. The team that built AlphaGo — DeepMind, now Google DeepMind — is the same team that built Genie 3, the foundation model on which the Waymo World Model is built. The research lineage is direct: a technique developed to play an ancient board game produced insights that are now being applied to one of the hardest engineering problems in the world. This is a common pattern in deep learning — fundamental research on games, language, or images produces architectures and training methods that transfer to applied problems that weren't the original goal at all.</p>
 
   <div class="two-col">
     <div class="col-card col-blue">
@@ -744,26 +642,97 @@
     </div>
   </div>
 
-  <p>The key difference is the environment. AlphaGo's world was clean and fully specified — a Go board with fixed rules and a clear win condition. Driving is messier in every way: the rules are complex, the number of possible situations is essentially infinite, and a mistake can't be undone. Using reinforcement learning for driving at scale required the World Model — a simulation realistic enough that behavior learned inside it actually transfers to real streets. That is why the World Model is not just a tool for generating training data; it is the practice environment in which Waymo's driving system learns how to handle the situations it will eventually face in the real world.</p>
+  <p>The connection between AlphaGo and Waymo is not just analogical. The team that built AlphaGo — Google DeepMind — is the same team that built Genie 3, the foundation model underlying the Waymo World Model. The research lineage is direct: a technique developed to play an ancient board game is now being applied to one of the hardest engineering problems in the world. This is a common pattern in deep learning — fundamental research on games or language produces architectures that transfer to applied problems nobody originally intended.</p>
 
-  <!-- SECTION 11 -->
-  <h2 id="s11"><span class="section-num">11</span> Deep Learning as Competitive Advantage</h2>
-
-  <p>We have now seen the full arc of Waymo's deep learning stack: perception models that see the world, simulation systems that generate training data, and a planning system that learns through trial and error how to drive. The obvious next question is a business one: does any of this actually translate into a durable advantage? Waymo has been public about its technology and has published extensive research. Its architectures are not secret. Other companies — Tesla, Cruise, Motional, and dozens of startups — are working on the same problem with access to many of the same published techniques. So where does the competitive advantage actually come from?</p>
-
-  <ul>
-    <li><strong>Data at scale, over time.</strong> Waymo has been collecting real-world driving data since 2009. That data — particularly the rare and difficult scenarios accumulated over 200 million miles — is not replicable. Every near-miss, every unusual pedestrian, every rare weather event in that dataset is a training signal that competitors cannot buy.</li>
-    <li><strong>The World Model as a data-generation engine.</strong> Once you have enough real-world data to build a realistic world model, you can generate synthetic scenarios at essentially infinite scale. A competitor who has driven fewer real miles starts with a weaker foundation for their world model, which produces lower-quality synthetic data, which produces a less capable model, which makes it harder to accumulate good data. The compounding is structural.</li>
-    <li><strong>Vertical integration of hardware and software.</strong> Waymo designs its own sensors, its own chips, and its own models — all optimized to work together. A model trained to work with Waymo's specific lidar hardware can exploit that hardware's specific characteristics. This kind of hardware-software co-design is hard to replicate quickly.</li>
-    <li><strong>Safety as trust.</strong> Waymo reports a safety record roughly 3.5 times better than human drivers in injury crashes. That record is a commercial asset — regulators, cities, and riders respond to it. The deep learning quality that underlies the safety record is not the only input, but it is the primary one.</li>
-  </ul>
-
-  <div class="callout-quote">
-    "The companies best positioned to benefit from deep learning are often those that already invested in earlier generations of ML — because the infrastructure, the data pipelines, the culture of experimentation, and the institutional knowledge about what works compound over time."
+  <div class="danger-box">
+    <div class="danger-label">The specification problem</div>
+    <div class="danger-text">Reinforcement learning optimizes for whatever outcome you tell it to optimize for. But specifying "drive safely and comfortably" as a clear, measurable objective is harder than it sounds. A system that minimizes travel time might cut corners on safety margins. A system that avoids all risk might stop in the middle of traffic rather than make a difficult merge. Early Waymo vehicles were famously polite — they always yielded, always waited. This created its own problems: overly deferential cars disrupt traffic flow, and other drivers learn to exploit a car that will always wait. In 2025, Waymo updated its vehicles to be "more confidently assertive" — which shortly resulted in a police officer pulling over a Waymo for an illegal U-turn. Defining good driving as a clear specification for a machine turns out to be genuinely hard.</div>
   </div>
 
+  <!-- STEP 5: VALUE -->
+  <h2 id="s11"><span class="section-num">7</span> <span class="part-badge">Step 5</span> Value: A Public Health Breakthrough — or a Job Killer?</h2>
+
+  <p>Every AI Factory eventually has to answer the same question: what is this actually worth, and to whom? For Waymo, the answer depends entirely on who you ask — and the gap between those answers is wide enough that people have started setting cars on fire.</p>
+
+  <h3>The case for value: a trauma surgeon's view</h3>
+
+  <p>Dr. Jonathan Slotkin is a trauma surgeon who has spent his career watching people die from car crashes. In December 2025, he wrote an op-ed in the New York Times after reviewing Waymo's 100-million-mile safety dataset. His conclusion: autonomous vehicles are not primarily a technology story. They are a public health breakthrough.</p>
+
+  <div class="callout-quote">"How do we let the equivalent of one plane full of people — more than 100 lives — be lost every single day as the cost of driving? If this was a disease, we would have declared war." — Dr. Jonathan Slotkin, trauma surgeon</div>
+
+  <p>What the data showed him was a greater than 90% reduction in the most serious types of crashes — pedestrians struck, T-bone collisions at intersections — the injuries he sees most often in the trauma bay. Waymo's own data reports its vehicles are 3.5 times safer than human drivers in injury-producing crashes. More than 38,000 Americans die in car crashes every year. A technology 3.5 times safer than human drivers, deployed at scale, would prevent tens of thousands of deaths annually — more than most medical breakthroughs ever achieve.</p>
+
+  <p style="font-size:13px; color:#6b7280;"><a href="https://www.npr.org/2025/12/12/nx-s1-5634879/why-one-trauma-doctor-sees-self-driving-cars-as-a-public-health-breakthrough" target="_blank">→ NPR: Why one trauma doctor sees self-driving cars as a public health breakthrough (December 2025)</a></p>
+
+  <h3>The case against: whose value, exactly?</h3>
+
+  <p>The people most affected by Waymo's expansion are not reading trauma surgery statistics. They are professional drivers — rideshare drivers, taxi drivers, delivery workers — who are watching their livelihoods be automated away in real time. There are approximately 4.4 million professional driving jobs in the United States. A Pew Research Center survey found that 85% of Americans believe the rollout of driverless cars will lead to job losses. They are not wrong.</p>
+
+  <p>Organized labor has responded. Uber and Lyft drivers rallied in San Francisco demanding regulations on autonomous vehicles. In Seattle, chants of "Waymo? Hell no!" echoed outside a building where Waymo lobbyists were hosting a private party. Boston's city council held a four-hour hearing and passed legislation effectively banning driverless vehicles without a human present. New York's Governor Hochul withdrew a robotaxi proposal entirely after taxi driver opposition — her spokesperson cited "insufficient stakeholder support," which translated roughly to: the Teamsters have votes. In London, the App Drivers and Couriers Union declared a "state of emergency" as Waymo prepared to launch there, warning that up to 100,000 licensed private hire drivers could face displacement.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">The argument that doesn't get resolved</div>
+    <div class="insight-text">Waymo's defenders point out that the same argument — "this technology will destroy jobs" — was made about elevators, ATMs, automatic looms, and self-checkout machines. In each case, the economy eventually created new jobs elsewhere, even if not for the same workers. Waymo's critics point out that "eventually" is not a plan, and that the workers displaced are real people with real families right now, not economic abstractions. Both of these things are true simultaneously. This is not a debate with a clean answer — it is the central tension of AI at scale, and it will recur in every chapter that follows.</div>
+  </div>
+
+  <h3>When the tension turns physical</h3>
+
+  <p>In February 2024, a Waymo in San Francisco's Chinatown was surrounded by a crowd during Lunar New Year celebrations. Someone threw a lit firework inside. The car burned. In June 2025, during protests against ICE immigration raids in downtown Los Angeles, protesters summoned Waymo vehicles using the app, then smashed their windows, spray-painted anti-ICE slogans, and set five cars on fire. Witnesses reported that protesters called them "spy cars" — a reference to the fact that Waymo vehicles collect data that can be shared with law enforcement.</p>
+
+  <p>There is something particularly revealing about how the fires happened: the cars were programmed not to hit pedestrians. Surrounded by a crowd with no escape route, they could not move. They were, as one observer put it, "sitting ducks." The cars' core safety feature — their absolute refusal to endanger pedestrians — made them defenseless.</p>
+
+  <p style="font-size:13px; color:#6b7280;"><a href="https://time.com/7292652/waymo-self-driving-cars-vandalized-fire-protests-los-angeles-why/" target="_blank">→ TIME: Why Waymos Have Been Vandalized by Protesters (June 2025)</a></p>
+
+  <p>The value of any technology is not just what it produces — it is who captures that value and who bears the cost. Waymo's deep learning stack may save tens of thousands of lives. That is real value. But if that value flows to Alphabet shareholders while the cost falls on millions of workers with no transition plan, the political response will reflect that imbalance. The cars on fire in Los Angeles are not a technology story. They are an economics story.</p>
+
+  <!-- AI FACTORY -->
+  <h2 id="s3"><span class="section-num">8</span> The AI Factory at Waymo</h2>
+
+  <p>We have now seen the full stack: sensor data feeding deep learning models, models producing a real-time prediction of the world, a planning system using reinforcement learning to decide how to drive, and value that is real but deeply contested. The AI Factory framework gives us a way to see how those pieces connect as a business system — the same lens we applied to EveryCure, Netflix, Spotify, and Uber.</p>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">200M+</div><div class="stat-label">Autonomous miles driven</div></div>
+    <div class="stat-card"><div class="stat-num">20B+</div><div class="stat-label">Simulated miles</div></div>
+    <div class="stat-card"><div class="stat-num">450K+</div><div class="stat-label">Weekly paid rides (2025)</div></div>
+    <div class="stat-card"><div class="stat-num">3.5×</div><div class="stat-label">Safer than human drivers (injury crashes)</div></div>
+    <div class="stat-card"><div class="stat-num">29</div><div class="stat-label">Cameras per vehicle</div></div>
+  </div>
+
+  <div style="overflow-x:auto; margin: 1rem 0 1.5rem;">
+    <table class="factory-table">
+      <thead>
+        <tr>
+          <th>Step</th>
+          <th>What happens</th>
+          <th>Deep learning's role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="step-badge">Data</span></td><td>Cameras, lidar, and radar produce millions of data points per second; 200M+ real-world miles and 20B+ simulated miles form the training set</td><td>Raw sensor data is the input to every model; historical and synthetic miles are what the models learned from</td></tr>
+        <tr><td><span class="step-badge">Model</span></td><td>CNNs classify and locate objects in camera images; sensor fusion combines lidar and radar; motion prediction models forecast where each object will go</td><td>CNNs learned from millions of labeled examples; sensor fusion learned to combine modalities; all models retrained on synthetic data from the World Model</td></tr>
+        <tr><td><span class="step-badge">Prediction</span></td><td>A live 3D world representation: every object classified, located, sized, and given a probability distribution over its future trajectories</td><td>The output of the deep learning perception stack — what the planning system receives as input, updated thousands of times per second</td></tr>
+        <tr><td><span class="step-badge">Decision</span></td><td>The planning system chooses speed, lane position, and steering — decisions that must be safe, comfortable, and legal simultaneously</td><td>Increasingly learned via reinforcement learning in the World Model simulation, not hand-coded rules</td></tr>
+        <tr><td><span class="step-badge">Value</span></td><td>3.5× safer than human drivers; potential to eliminate car crashes as a leading cause of US death — but contested by workers facing displacement and communities questioning who captures the benefit</td><td>Deep learning is what makes the entire value proposition possible — and also what makes the scale of disruption possible</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- COMPETITIVE ADVANTAGE -->
+  <h2 id="s11b"><span class="section-num">9</span> Deep Learning as Competitive Advantage</h2>
+
+  <p>Waymo has been public about its technology and has published extensive research. Its architectures are not secret. So where does the competitive advantage actually come from?</p>
+
+  <ul>
+    <li><strong>Data at scale, over time.</strong> Waymo has been collecting real-world driving data since 2009. Every near-miss, every rare weather event, every unusual pedestrian in that 200-million-mile dataset is a training signal competitors cannot buy.</li>
+    <li><strong>The World Model as a data-generation engine.</strong> A competitor who has driven fewer real miles starts with a weaker foundation for their world model, which produces lower-quality synthetic data, which produces a less capable model. The compounding is structural.</li>
+    <li><strong>Hardware-software co-design.</strong> Waymo designs its own sensors, chips, and models — all optimized to work together. This kind of vertical integration is hard to replicate quickly.</li>
+    <li><strong>Safety as trust.</strong> The 3.5× safety record is a commercial and regulatory asset. The deep learning quality underlying it is the primary input — but trust, once lost, is very hard to rebuild.</li>
+  </ul>
+
+  <div class="callout-quote">"The companies best positioned to benefit from deep learning are often those that already invested in earlier generations of ML — because the infrastructure, the data pipelines, the culture of experimentation, and the institutional knowledge about what works compound over time."</div>
+
   <!-- SECTION 12 -->
-  <h2 id="s12"><span class="section-num">12</span> Responsible AI: What Happens When the Car Is Wrong?</h2>
+  <h2 id="s12"><span class="section-num">10</span> Responsible AI: What Happens When the Car Is Wrong?</h2>
 
   <p>The competitive advantages above are real — but they are built on a system that, like every deep learning system, makes mistakes. The safety record Waymo cites is genuine and impressive, but it sits alongside a growing public record of specific failures that tell a more complicated story. The question for this section is not whether Waymo's models ever misclassify an object or make a wrong decision — they do. The question is: what happens when they do, who is responsible, and what does that mean for the companies and managers deploying AI in physical environments?</p>
 
@@ -802,7 +771,7 @@
   </div>
 
   <!-- SECTION 12b -->
-  <h2 id="s12b"><span class="section-num">12b</span> Waymo in the Wild: What Actually Goes Wrong</h2>
+  <h2 id="s12b"><span class="section-num">11</span> Waymo in the Wild: What Actually Goes Wrong</h2>
 
   <p>The NPR stories above were serious. But Waymo's public record also includes a growing collection of incidents that are, depending on your perspective, funny, alarming, or both — and all of them raise genuine questions about what it means to put an AI system in a context it wasn't fully designed for. These are not cherry-picked failures; they represent a real category of problem that engineers working on physical AI systems face constantly: the world is stranger than your training data.</p>
 
@@ -850,7 +819,7 @@
   </div>
 
   <!-- SECTION 13 -->
-  <h2 id="s13"><span class="section-num">13</span> Summary Table &amp; Discussion Questions</h2>
+  <h2 id="s13"><span class="section-num">12</span> Summary Table &amp; Discussion Questions</h2>
 
   <h3>The AI Factory model: Waymo mapped</h3>
   <div style="overflow-x:auto;">
@@ -913,16 +882,14 @@
   </div>
 
   <h3>Discussion questions</h3>
-  <p style="font-size:13px; color:#6b7280; margin-bottom:0.75rem;">These work well as written assignments or in-class discussion prompts. Questions 3, 5, and 8 tend to generate the most debate.</p>
+  <p style="font-size:13px; color:#6b7280; margin-bottom:0.75rem;">These work well as written assignments or in-class discussion prompts.</p>
   <ol class="discussion-list">
     <li><strong>What AlphaGo actually proved.</strong> AlphaGo's victory over Lee Sedol was widely reported as a milestone for AI. But what exactly did it demonstrate — and what did it not demonstrate? A Go champion is not a self-driving car, and a self-driving car is not a general-purpose AI. What are the limits of the analogy, and what should a business professional take away from the 2016 match?</li>
-    <li><strong>The rules vs. learning tradeoff.</strong> Earlier AI systems for driving were built around explicit rules: "if the light is red, stop." Deep learning replaces rule-writing with learning from data. What does that tradeoff mean in practice for a safety-critical system? When would you want rules, and when would you want a learned model?</li>
+    <li><strong>The rules vs. learning tradeoff.</strong> Earlier AI systems for driving were built around explicit rules: "if the light is red, stop." Deep learning replaces rule-writing with learning from data. What does that tradeoff mean in practice for a safety-critical system? When would you want explicit rules, and when would you want a learned model?</li>
     <li><strong>Who is responsible when the car is wrong?</strong> When a human driver causes a crash, the accountability framework is established law. When a Waymo vehicle is involved in a collision, the liability picture is genuinely unclear. How should responsibility be distributed between the vehicle manufacturer, the software team, the company deploying the service, and the regulator who permitted it? Does your answer change if the crash involved a long-tail scenario the model had never seen?</li>
-    <li><strong>Simulating the dangerous.</strong> Waymo uses the World Model to simulate scenarios like tornadoes, floods, and wrong-way drivers. What are the advantages and the risks of training primarily on simulated data for rare events? What could go wrong if a model trained on simulated floods behaves differently when it encounters a real one?</li>
-    <li><strong>The data moat question.</strong> Waymo has 200 million real-world miles and a corresponding advantage in training data. Tesla has more miles but a different sensor architecture. A new entrant has neither. Is the data moat in autonomous driving permanent, or can a well-funded competitor close the gap? What would it take?</li>
-    <li><strong>Waymo vs. Tesla: two theories of autonomy.</strong> Waymo relies heavily on lidar and high-definition maps. Tesla relies primarily on cameras and argues that humans drive with vision alone, so cameras should be sufficient. Both companies have deep learning at the core. What are the arguments for each approach — and what does each theory imply about what "enough data" means?</li>
-    <li><strong>Is 3.5× safer good enough?</strong> Waymo reports its vehicles are roughly 3.5 times safer than human drivers in injury crashes. Human drivers kill over 35,000 people per year in the U.S. A technology 3.5× safer than that is, in aggregate, enormously beneficial. But individual crashes are not statistics. If you were a regulator, what safety standard would you require before authorizing broad deployment — and how would you measure it?</li>
-    <li><strong>The school bus and the U-turn.</strong> In December 2025, Waymo issued a software recall after its vehicles repeatedly drove past stopped school buses, and separately updated its driving style to be "more assertive" — resulting in a police officer pulling over a driverless car for an illegal U-turn. These happened within days of each other. What do these two incidents, taken together, reveal about the challenges of deploying AI in public spaces? Do they change how you evaluate Waymo's overall safety record?</li>
+    <li><strong>The data moat question.</strong> Waymo has 200 million real-world miles and a structural advantage in training data. A new entrant has neither. Is the data moat in autonomous driving permanent, or can a well-funded competitor close the gap? What would it take?</li>
+    <li><strong>The school bus and the U-turn.</strong> In December 2025, Waymo issued a software recall after its vehicles repeatedly drove past stopped school buses, and separately updated its driving style to be "more assertive" — resulting in a police officer pulling over a driverless car for an illegal U-turn. What do these two incidents reveal about the gap between "the model works" and "the product is ready"?</li>
+    <li><strong>Who captures the value?</strong> A trauma surgeon reviewed Waymo's safety data and concluded that autonomous vehicles could eliminate car crashes as a leading cause of death in the United States. Rideshare drivers and taxi unions are calling it an existential threat to their livelihoods. Both are right. How should society think about a technology that saves tens of thousands of lives but displaces millions of workers? Who should decide — and how?</li>
   </ol>
 
   <hr>
