@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 6: Build a Demand-Based Pricing Model — Airbnb | MIS 432</title>
+<style>
+  /* ── Airbnb palette (matches chapter 5) ──────────────────
+     Primary:    #ff385c  Airbnb pink-red
+     Dark:       #222222  Charcoal — text & nav
+     White:      #ffffff  Backgrounds
+     Deep red:   #c41d48  Hover / label emphasis
+     Light pink: #fff0f3  Concept-box tint
+     Neutral:    #767676  Secondary text
+  ────────────────────────────────────────────────────────────*/
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #ffffff; color: #222222; min-height: 100vh; display: flex; flex-direction: column; }
+
+  nav { background: #222222; padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+  .nav-brand { color: #ffffff; font-size: 15px; font-weight: 700; text-decoration: none; }
+  .nav-links { display: flex; gap: 1.25rem; align-items: center; }
+  .nav-links a { color: #b0b0b0; font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: #ff385c; }
+  .nav-badge { background: #ff385c; color: #ffffff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+
+  .hero { background: linear-gradient(135deg, #ff385c 0%, #c41d48 45%, #222222 100%); padding: 3rem 2rem; }
+  .hero-inner { max-width: 760px; margin: 0 auto; }
+  .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #ffc5d0; margin-bottom: 0.6rem; }
+  .hero h1 { font-size: 30px; font-weight: 800; color: #ffffff; line-height: 1.25; margin-bottom: 0.6rem; }
+  .hero-sub { font-size: 15px; color: #ffd4dc; max-width: 580px; line-height: 1.6; }
+
+  main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 3rem 1.5rem; }
+
+  .construction-card {
+    max-width: 640px;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-top: 4px solid #ff385c;
+    border-radius: 8px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  }
+
+  .construction-badge {
+    display: inline-block;
+    background: #fff0f3;
+    border: 1px solid #ffc5d0;
+    color: #c41d48;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.9rem;
+    border-radius: 20px;
+    margin-bottom: 1.25rem;
+  }
+
+  .construction-icon {
+    font-size: 44px;
+    margin-bottom: 1rem;
+    line-height: 1;
+  }
+
+  .construction-card h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #222222;
+    margin-bottom: 0.75rem;
+    line-height: 1.25;
+  }
+
+  .construction-card > p {
+    font-size: 15px;
+    color: #484848;
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+
+  .preview-box {
+    background: #fff0f3;
+    border-left: 4px solid #ff385c;
+    border-radius: 0 6px 6px 0;
+    padding: 1rem 1.2rem;
+    margin: 1.5rem 0;
+    text-align: left;
+  }
+  .preview-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    color: #c41d48;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .preview-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .preview-list li {
+    font-size: 14px;
+    color: #222;
+    line-height: 1.6;
+    padding: 4px 0 4px 20px;
+    position: relative;
+  }
+  .preview-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #ff385c;
+    font-weight: 700;
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+  .btn {
+    display: inline-block;
+    padding: 0.65rem 1.3rem;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.88; }
+  .btn-primary { background: #ff385c; color: #ffffff; }
+  .btn-secondary { background: #ffffff; color: #222222; border: 1.5px solid #e2e8f0; }
+
+  .meta-note {
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #e2e8f0;
+    font-size: 13px;
+    color: #767676;
+    line-height: 1.6;
+  }
+
+  footer { background: #222222; padding: 1.5rem 2rem; text-align: center; }
+  footer p { font-size: 13px; color: #909090; }
+  footer a { color: #ff385c; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 432 · AI in Business</a>
+  <div class="nav-links">
+    <span class="nav-badge">Lab 6</span>
+    <a href="chapter6-airbnb.html">← Chapter 6</a>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Lab 6 · Hands-on Python Exercise</div>
+    <h1>Build a Demand-Based Pricing Model</h1>
+    <p class="hero-sub">A Python lab where you build a simplified version of Airbnb's Smart Pricing — fitting a lead time distribution and turning it into a nightly price suggestion.</p>
+  </div>
+</div>
+
+<main>
+  <div class="construction-card">
+    <div class="construction-badge">🚧 Under Construction</div>
+    <div class="construction-icon">🏗️</div>
+    <h2>This lab is coming soon</h2>
+    <p>Lab 6 is still being built. When it's ready, you'll work through a simplified version of Airbnb's Smart Pricing system using Python in Google Colab — no prior coding experience required.</p>
+
+    <div class="preview-box">
+      <div class="preview-label">What you'll build when it's ready</div>
+      <ul class="preview-list">
+        <li>Simulate a dataset of bookings with realistic lead time patterns</li>
+        <li>Visualize a lead time distribution for a high-demand vs. last-minute market</li>
+        <li>Cluster similar listings into demand aggregations</li>
+        <li>Fit a simple hybrid model (ML + structural form) to predict prices</li>
+        <li>Compare your hybrid predictions to a pure ML baseline</li>
+      </ul>
+    </div>
+
+    <p>In the meantime, go read the full Chapter 6 case study — it covers everything the lab will ask you to build, including the business context that makes the technical work make sense.</p>
+
+    <div class="actions">
+      <a href="chapter6-airbnb.html" class="btn btn-primary">Read Chapter 6 →</a>
+      <a href="index.html" class="btn btn-secondary">← Back to all chapters</a>
+    </div>
+
+    <div class="meta-note">
+      <strong style="color:#222;">Instructor note:</strong> This lab page is a placeholder. Check back before the next assignment is due, or email the instructor if you need this lab content urgently.
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>MIS 432 · AI in Business · Western Washington University · College of Business and Economics</p>
+  <p style="margin-top:0.5rem;"><a href="index.html">Home</a> · <a href="https://cbe.wwu.edu/people/califfc" target="_blank">Contact</a> · <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a> · Free to use for educational purposes</p>
+</footer>
+
+</body>
+</html>

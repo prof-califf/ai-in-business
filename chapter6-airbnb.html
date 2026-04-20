@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 6: Dynamic Pricing & Generative AI in a Two-Sided Marketplace — Airbnb | MIS 432</title>
+<style>
+  /* ── Airbnb palette (official brand) ──────────────────────
+     Primary:    #ff385c  Airbnb pink-red
+     Dark:       #222222  Charcoal — text & nav
+     White:      #ffffff  Backgrounds
+     Accent:     #008489  Muted teal (used sparingly)
+     Deep red:   #c41d48  Hover / label emphasis
+     Light pink: #fff0f3  Concept-box tint
+     Neutral:    #767676  Secondary text
+  ────────────────────────────────────────────────────────────*/
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #ffffff; color: #222222; }
+
+  nav { background: #222222; padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+  .nav-brand { color: #ffffff; font-size: 15px; font-weight: 700; text-decoration: none; }
+  .nav-links { display: flex; gap: 1.25rem; align-items: center; }
+  .nav-links a { color: #b0b0b0; font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: #ff385c; }
+  .nav-badge { background: #ff385c; color: #ffffff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+
+  .hero { background: linear-gradient(135deg, #ff385c 0%, #c41d48 45%, #222222 100%); padding: 3.5rem 2rem 3rem; }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+  .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #ffc5d0; margin-bottom: 0.75rem; }
+  .hero h1 { font-size: 34px; font-weight: 800; color: #ffffff; line-height: 1.25; margin-bottom: 0.75rem; }
+  .hero-sub { font-size: 16px; color: #ffd4dc; max-width: 640px; line-height: 1.65; margin-bottom: 1.5rem; }
+  .hero-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .hero-meta span { font-size: 13px; color: #ffc5d0; }
+  .hero-meta strong { color: #ffffff; }
+  .hero-nav { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+  .btn { display: inline-block; padding: 0.55rem 1.2rem; border-radius: 6px; font-size: 13px; font-weight: 700; text-decoration: none; }
+  .btn-coral { background: #ff385c; color: #ffffff; }
+  .btn-outline { background: transparent; border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; }
+  .btn:hover { opacity: 0.88; }
+
+  .lab-strip { background: #ffffff; padding: 1rem 2rem; border-bottom: 1px solid #e2e8f0; }
+  .lab-strip-inner { max-width: 860px; margin: 0 auto; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+
+  .doc { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  .cover { border-bottom: 3px solid #ff385c; padding-bottom: 1.5rem; margin-bottom: 2rem; }
+  .cover-tag { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #ff385c; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .cover h1 { font-size: 28px; font-weight: 600; color: #222; line-height: 1.3; margin-bottom: 0.5rem; }
+  .cover-sub { font-size: 15px; color: #555; }
+  .cover-meta { display: flex; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; }
+  .cover-meta span { font-size: 13px; color: #888; }
+  .cover-meta strong { color: #555; }
+
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin: 1.5rem 0; }
+  .stat-card { background: #ffffff; border-radius: 8px; padding: 1rem; text-align: center; border: 1px solid #e2e8f0; }
+  .stat-num { font-size: 22px; font-weight: 800; color: #ff385c; }
+  .stat-label { font-size: 12px; color: #767676; margin-top: 3px; }
+
+  h2 { font-size: 20px; font-weight: 700; color: #222; margin: 2rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 3px solid #ff385c; }
+  h3 { font-size: 16px; font-weight: 700; color: #222; margin: 1.5rem 0 0.5rem; }
+  h4 { font-size: 14px; font-weight: 600; color: #555; margin: 1.2rem 0 0.4rem; }
+  p { font-size: 15px; line-height: 1.75; color: #222222; margin-bottom: 0.9rem; }
+  ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+  li { font-size: 15px; line-height: 1.7; color: #222222; margin-bottom: 0.3rem; }
+  strong { color: #222; font-weight: 700; }
+  em { font-style: italic; }
+
+  .section-num { display: inline-block; background: #ff385c; color: #ffffff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-right: 6px; vertical-align: middle; }
+  .part-badge { display: inline-block; background: #008489; color: #ffffff; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 3px; margin-right: 8px; vertical-align: middle; text-transform: uppercase; }
+
+  .concept-box { background: #fff0f3; border-left: 4px solid #ff385c; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .concept-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #c41d48; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .concept-term { font-size: 15px; font-weight: 700; color: #222; margin-bottom: 0.3rem; }
+  .concept-def { font-size: 14px; color: #222222; line-height: 1.6; margin: 0; }
+
+  .insight-box { background: #f0f7f8; border-left: 4px solid #008489; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .insight-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #006b6f; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .insight-text { font-size: 14px; color: #222222; line-height: 1.6; margin: 0; }
+
+  .danger-box { background: #FDECEC; border-left: 4px solid #B0323E; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .danger-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #B0323E; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .danger-text { font-size: 14px; color: #222222; line-height: 1.6; margin: 0; }
+
+  .pipeline-row { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin: 1rem 0 1.5rem; }
+  .pipe-step { background: #fff0f3; border: 1px solid #ff385c; border-radius: 6px; padding: 0.5rem 0.9rem; font-size: 13px; font-weight: 700; color: #c41d48; }
+  .pipe-arrow { font-size: 14px; color: #a0aec0; padding: 0 2px; }
+  .pipe-loop { background: #f0f7f8; border: 1px solid #008489; border-radius: 6px; padding: 0.5rem 0.9rem; font-size: 13px; font-weight: 700; color: #006b6f; }
+
+  .two-track { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.25rem 0 1.5rem; }
+  .track-card { border-radius: 8px; padding: 1rem 1.1rem; }
+  .track-guest { background: #fff0f3; border: 1px solid #ffa3b3; }
+  .track-host { background: #f0f7f8; border: 1px solid #a8d7d9; }
+  .track-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .track-guest .track-label { color: #c41d48; }
+  .track-host .track-label { color: #006b6f; }
+  .track-title { font-size: 14px; font-weight: 700; color: #222; margin-bottom: 0.4rem; }
+  .track-body { font-size: 13px; color: #222222; line-height: 1.55; }
+  @media (max-width: 600px) { .two-track { grid-template-columns: 1fr; } }
+
+  .factory-table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 13px; }
+  .factory-table th { background: #222222; color: #ffffff; font-weight: 700; padding: 10px 12px; text-align: left; }
+  .factory-table td { padding: 9px 12px; border-bottom: 1px solid #e2e8f0; vertical-align: top; color: #222222; line-height: 1.5; }
+  .factory-table tr:nth-child(even) td { background: #fff5f7; }
+  .step-badge { display: inline-block; background: #ff385c; color: #ffffff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.75rem; margin: 1rem 0 1.5rem; }
+  .vocab-card { background: #ffffff; border: 1px solid #e2e8f0; border-top: 3px solid #ff385c; border-radius: 6px; padding: 0.8rem 1rem; }
+  .vocab-term { font-size: 13px; font-weight: 700; color: #222; margin-bottom: 0.25rem; }
+  .vocab-def { font-size: 13px; color: #555; line-height: 1.55; }
+
+  .discussion-list { counter-reset: dq; list-style: none; margin: 0 0 1rem; padding: 0; }
+  .discussion-list li { counter-increment: dq; padding: 0.7rem 0.7rem 0.7rem 2.5rem; position: relative; border-bottom: 1px solid #e2e8f0; font-size: 15px; color: #222222; line-height: 1.65; }
+  .discussion-list li::before { content: counter(dq); position: absolute; left: 0.5rem; top: 0.75rem; background: #ff385c; color: #ffffff; font-size: 11px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+  .toc { background: #fff5f7; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 2rem; border: 1px solid #ffc5d0; }
+  .toc-title { font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #ff385c; margin-bottom: 0.6rem; }
+  .toc a { display: block; font-size: 14px; color: #222222; text-decoration: none; padding: 3px 0; }
+  .toc a:hover { color: #ff385c; }
+  .toc-part { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #008489; margin-top: 0.6rem; margin-bottom: 0.2rem; }
+
+  .chapter-nav-bar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-top: 1px solid #e2e8f0; margin-top: 2rem; flex-wrap: wrap; gap: 0.75rem; }
+  .chapter-nav-bar a { font-size: 14px; color: #ff385c; text-decoration: none; font-weight: 700; }
+  .chapter-nav-bar a:hover { text-decoration: underline; }
+
+  hr { border: none; border-top: 1px solid #e2e8f0; margin: 2rem 0; }
+  footer { background: #222222; padding: 1.5rem 2rem; text-align: center; }
+  footer p { font-size: 13px; color: #909090; }
+  footer a { color: #ff385c; text-decoration: none; }
+
+  figure { margin: 1.5rem 0; }
+  figcaption { margin-top: 0.75rem; font-size: 13px; color: #767676; line-height: 1.65; font-style: italic; text-align: center; }
+
+  .callout-quote { border-left: 4px solid #008489; padding: 0.5rem 0 0.5rem 1rem; margin: 1.25rem 0; font-size: 15px; color: #222; font-style: italic; line-height: 1.6; }
+
+  /* NAV DROPDOWN */
+  .nav-dropdown { position: relative; }
+  .nav-dropdown-toggle {
+    color: #b0b0b0; font-size: 13px; font-weight: 500;
+    text-decoration: none; background: none; border: none; cursor: pointer; padding: 0;
+    display: inline-flex; align-items: center; gap: 4px;
+    transition: color 0.15s; font-family: inherit;
+  }
+  .nav-dropdown-toggle:hover,
+  .nav-dropdown:hover .nav-dropdown-toggle,
+  .nav-dropdown.open .nav-dropdown-toggle { color: #ffffff; }
+  .nav-dropdown-toggle .caret {
+    display: inline-block; width: 0; height: 0;
+    border-left: 4px solid transparent; border-right: 4px solid transparent;
+    border-top: 4px solid currentColor; transition: transform 0.15s;
+  }
+  .nav-dropdown:hover .nav-dropdown-toggle .caret,
+  .nav-dropdown.open .nav-dropdown-toggle .caret { transform: rotate(180deg); }
+  .nav-dropdown-menu {
+    position: absolute; top: calc(100% + 12px); left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    background: #222222; border: 1px solid rgba(255,56,92,0.25); border-radius: 4px;
+    min-width: 220px; padding: 0.4rem 0; opacity: 0; visibility: hidden;
+    transition: opacity 0.15s, visibility 0.15s, transform 0.15s;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4); z-index: 200;
+  }
+  .nav-dropdown:hover .nav-dropdown-menu,
+  .nav-dropdown.open .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+  .nav-dropdown::after { content: ''; position: absolute; top: 100%; left: 0; right: 0; height: 12px; }
+  .nav-dropdown-menu a {
+    display: block; padding: 0.5rem 1rem; color: rgba(255,255,255,0.65);
+    font-size: 13px; font-weight: 500; text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: color 0.12s, background 0.12s, border-color 0.12s;
+  }
+  .nav-dropdown-menu a:hover { color: #ff385c; background: rgba(255,56,92,0.07); border-left-color: #ff385c; }
+  .nav-dropdown-menu .menu-num { display: inline-block; font-size: 11px; color: #ff385c; margin-right: 7px; min-width: 24px; font-weight: 700; }
+  .nav-dropdown-menu .menu-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 0.3rem 0.75rem; }
+  .menu-divider-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 0.4rem 1rem 0.2rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 432 · AI in Business</a>
+  <div class="nav-links">
+    <span class="nav-badge">Chapter 6</span>
+    <a href="chapter6-airbnb-lab.html">Lab 6 &rarr;</a>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Chapters &amp; Labs <span class="caret"></span></button>
+      <div class="nav-dropdown-menu" role="menu">
+        <div class="menu-divider-label">Chapters</div>
+        <a href="chapter1-everycure.html" role="menuitem"><span class="menu-num">01</span>EveryCure</a>
+        <a href="chapter2-netflix.html" role="menuitem"><span class="menu-num">02</span>Netflix</a>
+        <a href="chapter3-spotify.html" role="menuitem"><span class="menu-num">03</span>Spotify</a>
+        <a href="chapter4-uber.html" role="menuitem"><span class="menu-num">04</span>Uber</a>
+        <a href="chapter5-waymo.html" role="menuitem"><span class="menu-num">05</span>Waymo</a>
+        <a href="chapter6-airbnb.html" role="menuitem"><span class="menu-num">06</span>Airbnb</a>
+        <div class="menu-divider"></div>
+        <div class="menu-divider-label">Labs</div>
+        <a href="chapter1-everycure-lab.html" role="menuitem"><span class="menu-num">L1</span>EveryCure Lab</a>
+        <a href="chapter2-netflix-lab.html" role="menuitem"><span class="menu-num">L2</span>Netflix Lab</a>
+        <a href="chapter3-spotify-lab.html" role="menuitem"><span class="menu-num">L3</span>Spotify Lab</a>
+        <a href="chapter4-uber-lab.html" role="menuitem"><span class="menu-num">L4</span>Uber Lab</a>
+        <a href="chapter5-waymo-lab.html" role="menuitem"><span class="menu-num">L5</span>Waymo Lab</a>
+        <a href="chapter6-airbnb-lab.html" role="menuitem"><span class="menu-num">L6</span>Airbnb Lab</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Student Resources <span class="caret"></span></button>
+      <div class="nav-dropdown-menu" role="menu">
+        <a href="good-prompts.html" role="menuitem"><span class="menu-num">✦</span>Writing Good Prompts</a>
+        <a href="ai-job-interview.html" role="menuitem"><span class="menu-num">✦</span>AI in Job Interviews</a>
+        <a href="ai-news-and-sources.html" role="menuitem"><span class="menu-num">✦</span>AI News + Sources</a>
+      </div>
+    </div>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Chapter 6 · Two-Sided Marketplaces · Dynamic Pricing · Generative AI</div>
+    <h1>Dynamic Pricing &amp; Generative AI<br>in a Two-Sided Marketplace</h1>
+    <p class="hero-sub">Airbnb runs a two-sided marketplace where guests need to find destinations and hosts need to price homes — two problems most of the industry solves badly. It uses one AI system to help guests, a very different one to help hosts, and a third system, built on a large language model, that is now quietly rewiring how Airbnb's engineers build everything else.</p>
+    <div class="hero-meta">
+      <span><strong>Company:</strong> Airbnb</span>
+      <span><strong>Industry:</strong> Travel / Two-Sided Marketplace</span>
+      <span><strong>Core concept:</strong> Marketplace matching, dynamic pricing, generative AI in production</span>
+    </div>
+    <div class="hero-nav">
+      <a href="chapter6-airbnb-lab.html" class="btn btn-coral">Go to Lab 6 →</a>
+      <a href="index.html" class="btn btn-outline">← All Chapters</a>
+    </div>
+  </div>
+</div>
+
+<div class="lab-strip">
+  <div class="lab-strip-inner">
+    <span style="font-size:13px; color:#767676;">Also in this chapter:</span>
+    <a href="chapter6-airbnb-lab.html" style="font-size:13px; color:#ff385c; text-decoration:none; font-weight:700;">Lab 6: Build a Demand-Based Pricing Model in Python →</a>
+  </div>
+</div>
+
+<div class="doc">
+
+  <div class="cover">
+    <div class="cover-tag">MIS 432 &middot; AI in Business &middot; Case Study</div>
+    <h1>Airbnb:<br>Dynamic Pricing &amp; Generative AI in a Two-Sided Marketplace</h1>
+    <div class="cover-sub">From destination recommendations to Smart Pricing to LLM-driven engineering &mdash; how one company uses three very different AI systems to reduce friction for three very different kinds of users</div>
+    <div class="cover-meta">
+      <span><strong>Level:</strong> Upper-division undergraduate</span>
+      <span><strong>Topics:</strong> Two-sided marketplaces, dynamic pricing, hybrid ML + structural modeling, generative AI in the enterprise</span>
+      <span><strong>Concepts introduced:</strong> 18 key business AI terms</span>
+    </div>
+    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+      <p style="font-size: 13px; color: #888; margin: 0;">
+        <strong style="color: #555;">Primary sources:</strong> This case study is based on three Airbnb Engineering blog posts:
+        <a href="https://medium.com/airbnb-engineering/recommending-travel-destinations-to-help-users-explore-5fa7a81654fb" target="_blank" style="color: #ff385c; text-decoration: none; font-style: italic;">Recommending Travel Destinations to Help Users Explore</a> (2026),
+        <a href="https://medium.com/airbnb-engineering/learning-market-dynamics-for-optimal-pricing-97cffbcc53e3" target="_blank" style="color: #ff385c; text-decoration: none; font-style: italic;">Learning Market Dynamics for Optimal Pricing</a> (2018),
+        and <a href="https://medium.com/airbnb-engineering/accelerating-large-scale-test-migration-with-llms-9565c208023b" target="_blank" style="color: #ff385c; text-decoration: none; font-style: italic;">Accelerating Large-Scale Test Migration with LLMs</a> (2025).
+      </p>
+    </div>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <a href="#s1">1. Company Background</a>
+    <a href="#s2">2. The Big Idea: Two Sides, One Platform</a>
+    <a href="#s3">3. The AI Factory at Airbnb</a>
+    <div class="toc-part">Part I &mdash; The Guest Side</div>
+    <a href="#s4">4. Data: The Language of Travel Intent</a>
+    <a href="#s5">5. Model: Embeddings, Transformers, and Region/City Prediction</a>
+    <a href="#s6">6. From Dormant Users to Autosuggest: Closing the Prediction&ndash;Decision Gap</a>
+    <div class="toc-part">Part II &mdash; The Host Side</div>
+    <a href="#s7">7. Dynamic Pricing and Lead Time</a>
+    <a href="#s8">8. Why Pure ML Wasn&rsquo;t Enough: Hybrid Models &amp; Demand Aggregations</a>
+    <a href="#s9">9. The Prediction&ndash;Decision Gap on the Host Side</a>
+    <div class="toc-part">Part III &mdash; Turning AI Inward</div>
+    <a href="#s10">10. LLMs for Test Migration: 1.5 Years to 6 Weeks</a>
+    <div class="toc-part">Synthesis</div>
+    <a href="#s11">11. Responsible AI at Airbnb</a>
+    <a href="#s12">12. Competitive Advantage: The Two-Sided Data Moat</a>
+    <a href="#s13">13. Summary Table &amp; Discussion Questions</a>
+  </div>
+
+  <!-- SECTION 1 -->
+  <h2 id="s1"><span class="section-num">1</span> Company Background</h2>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">2008</div><div class="stat-label">Founded in San Francisco</div></div>
+    <div class="stat-card"><div class="stat-num">5M+</div><div class="stat-label">Hosts worldwide</div></div>
+    <div class="stat-card"><div class="stat-num">8M+</div><div class="stat-label">Active listings</div></div>
+    <div class="stat-card"><div class="stat-num">220+</div><div class="stat-label">Countries &amp; regions</div></div>
+    <div class="stat-card"><div class="stat-num">2 sides</div><div class="stat-label">Guests &amp; hosts</div></div>
+  </div>
+
+  <p>Airbnb was founded in 2008 by Brian Chesky, Joe Gebbia, and Nathan Blecharczyk. The original pitch was absurdly simple &mdash; rent out an air mattress in your apartment during a design conference when hotels were sold out. That idea grew into one of the largest travel platforms in the world, with more than 8 million active listings in over 220 countries and regions, and more than 5 million hosts who earn income by renting space to travelers.</p>
+
+  <p>What makes Airbnb different from a hotel chain, an airline, or even a platform like Booking.com is the shape of the business. Airbnb owns no properties. It does not employ the people who clean the rooms, answer the doors, or set the prices. Every one of its listings is a unique home offered by an independent host, and every booking is a transaction between two people who may never meet. Airbnb&rsquo;s job is to be the layer in the middle that makes those transactions happen.</p>
+
+  <p>That middle-layer position turns out to be an enormous AI problem. Every night, millions of potential guests are trying to figure out where to go, and millions of hosts are trying to figure out what to charge. Neither side fully knows what they want, and neither side can be expected to. The guest has a vague idea of a trip; the host has a vague sense of what similar homes nearby are charging. Airbnb&rsquo;s job is to turn those two vague signals into a specific match at a specific price on a specific date &mdash; hundreds of thousands of times a day.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">Strategic context</div>
+    <div class="insight-text">Netflix uses AI to pick the best image for a show. Spotify uses AI to pick the next song. Uber uses AI to forecast demand. Airbnb has to do all of those kinds of things &mdash; <strong>but on two sides of a marketplace at the same time.</strong> That is the defining challenge of the business, and it is the lens through which every AI decision in this chapter should be read.</div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <h2 id="s2"><span class="section-num">2</span> The Big Idea: Two Sides, One Platform</h2>
+
+  <p>Every business in this course so far has had one primary customer. Netflix has subscribers. Spotify has listeners. Uber has riders (yes, drivers matter, but the business problem is framed around getting a rider a ride). Airbnb is structurally different. Airbnb has two customers who need completely different things from the same platform &mdash; and the platform only works when both sides get what they need.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Two-sided marketplace and the matching problem</div>
+    <div class="concept-def">A two-sided marketplace is a platform whose value depends on bringing together two distinct user groups who need each other &mdash; buyers and sellers, riders and drivers, guests and hosts. The platform&rsquo;s core job is <em>matching</em>: connecting a specific person on one side to the right specific person on the other side, at the right moment, at a price both sides will accept. Airbnb is a two-sided marketplace for stays. If there are no hosts, guests have nothing to book. If there are no guests, hosts have no income. If the matching is slow, wrong, or priced badly, both sides leave. Every major AI system Airbnb builds is ultimately in service of better matching.</div>
+  </div>
+
+  <p>Now here is the twist that shapes the rest of the chapter: <strong>neither side of the Airbnb marketplace fully knows what it wants.</strong> That might sound strange &mdash; aren&rsquo;t people who visit a travel website the ones with an idea of where they want to go? Sometimes. But often, no.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">User intent modeling: exploratory vs. transactional users</div>
+    <div class="concept-def">Every person who lands on a product has some level of <em>intent</em> &mdash; some combination of what they want, how urgently, and how specifically. <strong>Transactional users</strong> know what they&rsquo;re doing: they&rsquo;re searching for a specific city on specific dates because their trip is already planned. <strong>Exploratory users</strong> don&rsquo;t. They&rsquo;re thinking &ldquo;I want to go somewhere in France this summer&rdquo; or just &ldquo;I need a vacation.&rdquo; Both types open the same app and click the same search bar &mdash; but the right experience to show them is completely different. A good recommendation for a transactional user is a listing; a good recommendation for an exploratory user is a destination. A business that can&rsquo;t tell these users apart will frustrate both of them.</div>
+  </div>
+
+  <p>Exploratory users introduce an even harder problem for any recommendation system: if the user doesn&rsquo;t know where they want to go, how is the system supposed to know what to suggest? This is a classic problem in recommender systems, and it shows up whenever a user has very little history for the system to learn from.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">The cold-start problem</div>
+    <div class="concept-def">The cold-start problem is what happens when a recommendation system is asked to personalize for someone it doesn&rsquo;t know much about. A brand-new user has no viewing history, no listening history, no previous bookings &mdash; so standard &ldquo;people like you also liked&rdquo; logic has nothing to work with. At Airbnb, cold-start also includes a subtler version of itself: a user who has booked before but only returns to the platform every few months, or a user who knows only that they want to travel but hasn&rsquo;t decided where. The cold-start problem on the <em>demand</em> side is the main problem Airbnb&rsquo;s destination recommendation system is built to solve. The cold-start problem on the <em>supply</em> side shows up too &mdash; a brand-new listing has no booking history, which is one reason Smart Pricing leans heavily on patterns from similar listings rather than the listing itself.</div>
+  </div>
+
+  <p>On the host side, the parallel is nearly exact. A host has a home, a calendar, and an approximate sense of what to charge. But they don&rsquo;t know what a Thursday in early October will actually be worth three months from now &mdash; nobody does. Markets move. Big events pull demand forward. Weather shifts bookings around. A host trying to price by intuition is guessing against information the platform already has in aggregate. That is the supply-side version of the same fundamental problem: <em>the person on this side of the marketplace does not fully know what they want (or what they should charge), and the platform is better positioned to help them figure it out than they are on their own.</em></p>
+
+  <div class="callout-quote">Guests need help discovering destinations. Hosts need help pricing listings. Both problems are really the same problem &mdash; understanding demand patterns at scale &mdash; viewed from opposite ends.</div>
+
+  <!-- SECTION 3 -->
+  <h2 id="s3"><span class="section-num">3</span> The AI Factory at Airbnb</h2>
+
+  <p>We introduced the <strong>AI Factory</strong> framework in Chapter 3 with Spotify and applied it again with Uber in Chapter 4. The same five steps organize Airbnb&rsquo;s AI systems too &mdash; data, model, prediction, decision, value &mdash; with one important twist. Airbnb runs <em>parallel</em> AI Factories: one on the guest side, one on the host side, both drawing from the same underlying data layer, and in the last few years, a third running inside the engineering organization itself.</p>
+
+  <div class="pipeline-row">
+    <div class="pipe-step">1. Data</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">2. Model</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">3. Prediction</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">4. Decision</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-loop">5. Value</div>
+  </div>
+
+  <div class="two-track">
+    <div class="track-card track-guest">
+      <div class="track-label">Guest-side factory</div>
+      <div class="track-title">Destination Recommendations</div>
+      <div class="track-body">Uses guests&rsquo; browsing, searching, and booking history to suggest <em>where to go</em> &mdash; in the search bar and in re-engagement emails. Covered in Part I.</div>
+    </div>
+    <div class="track-card track-host">
+      <div class="track-label">Host-side factory</div>
+      <div class="track-title">Smart Pricing</div>
+      <div class="track-body">Uses demand patterns, lead times, and similar-listing data to suggest <em>how much to charge</em> for each night on a host&rsquo;s calendar. Covered in Part II.</div>
+    </div>
+  </div>
+
+  <p>Each track has its own data, its own model, and its own deployment surfaces &mdash; but they share a foundation. Every search a guest does becomes training data for the destination recommender, but it is also evidence about demand that feeds Smart Pricing. Every booking a host accepts teaches Smart Pricing about what prices clear the market, but it is also a signal the destination recommender uses to infer where travelers actually want to go. <strong>The two factories compound each other.</strong> The more guests Airbnb has, the better it can price for hosts. The better prices hosts offer, the more guests convert. This is the marketplace flywheel, and AI is what keeps it spinning.</p>
+
+  <p>Part III of this chapter looks at a third, newer use of AI at Airbnb: not customer-facing at all, but pointed at Airbnb&rsquo;s own engineering organization. That will raise a different set of questions &mdash; but the fundamental framework stays the same.</p>
+
+  <!-- ======================================================== -->
+  <!-- PART I — GUEST SIDE                                      -->
+  <!-- ======================================================== -->
+
+  <!-- SECTION 4 -->
+  <h2 id="s4"><span class="part-badge">Part I</span><span class="section-num">4</span> Data: The Language of Travel Intent</h2>
+
+  <p>Here is a problem. A user opens the Airbnb app. They have done four things in the last three months: booked a home in Lisbon, searched twice for &ldquo;Tokyo&rdquo; without booking, clicked on a listing in Mexico City, and opened the app today without typing anything. What does that tell you about where they want to go next?</p>
+
+  <p>A human looking at that list can probably spot a pattern &mdash; an adventurous traveler who likes cities, maybe thinking about somewhere warm. But a machine cannot reason that way unless the data is structured to let it. The central insight in Airbnb&rsquo;s destination recommendation system is that <em>a user&rsquo;s actions can be treated the way a language model treats words</em>.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Behavioral sequences as training data</div>
+    <div class="concept-def">In a language model, each word in a sentence is a token, and the model learns that certain tokens tend to follow certain other tokens &mdash; &ldquo;peanut butter and&rdquo; is usually followed by &ldquo;jelly.&rdquo; Airbnb applies the same idea to user behavior. Each action a user takes &mdash; a booking in Lisbon, a search for Tokyo, a click on a Mexico City listing &mdash; is treated as a token in the user&rsquo;s personal travel history. Sequences of those tokens become training data. The model learns that certain patterns of past actions tend to lead to certain future destinations, in the same way a language model learns that certain sequences of words tend to lead to certain next words. This is a powerful reframe, because it means Airbnb can reuse the architecture of modern language models (transformers) to understand travel intent &mdash; a problem that has nothing to do with language on its face.</div>
+  </div>
+
+  <p>But not every action carries the same meaning. A booking three years ago and a search three minutes ago are both data points, but they say very different things about what a user wants right now. Airbnb&rsquo;s system is explicitly designed to pull two different kinds of signal out of the same behavioral sequence.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Short-term vs. long-term interest signals</div>
+    <div class="concept-def">A user&rsquo;s behavior on Airbnb carries two kinds of information. <strong>Short-term signals</strong> &mdash; views and searches in the last few days &mdash; reveal what the user is actively considering <em>right now</em>. They&rsquo;re urgent, specific, and fragile (the user could change their mind tomorrow). <strong>Long-term signals</strong> &mdash; historical bookings &mdash; reveal durable preferences: this person likes coastal cities, books in summer, tends toward mid-range prices. Neither signal alone is enough. If Airbnb only looks at recent searches, it overreacts to momentary curiosity. If it only looks at history, it ignores the fact that the user is actively researching Tokyo <em>right now</em>. The model explicitly combines both &mdash; short-term signals to catch active interest, long-term signals to ground it in durable taste. This is why the model looks at booking history, view history, and search history separately rather than mashing them into one giant list.</div>
+  </div>
+
+  <p>On top of these behavioral sequences, Airbnb layers <strong>contextual signals</strong> &mdash; things like what time of year it is. A user&rsquo;s long-term pattern might say &ldquo;beach destinations,&rdquo; but if they&rsquo;re searching in December, the model should probably weight warm-weather beaches over Cape Cod. The current date is an input to the model in the same way a word&rsquo;s position in a sentence is an input to a language model.</p>
+
+  <!-- SECTION 5 -->
+  <h2 id="s5"><span class="section-num">5</span> Model: Embeddings, Transformers, and Region/City Prediction</h2>
+
+  <p>Once you&rsquo;ve decided to treat user actions as tokens, you need a way to represent each token as something a model can actually do math with. Spotify&rsquo;s chapter introduced the answer: embeddings.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Embeddings (at Airbnb)</div>
+    <div class="concept-def">Recall from Chapter 3: an embedding is a compact list of numbers that represents everything the system has learned about an item. Similar items get similar embeddings and end up close together in a mathematical space; very different items end up far apart. Spotify uses embeddings for songs and users. Airbnb uses them for <em>cities, regions, and dates</em>. Lisbon gets an embedding, Porto gets an embedding, and if they co-appear in enough guests&rsquo; travel patterns, the two embeddings end up close together &mdash; meaning someone who shows interest in one is likely to be interested in the other. Each user action in the sequence is represented as the sum of three embeddings: the city it involved, the region that city sits inside, and how many days ago it happened. That single compact representation captures both <em>what</em> the user did and <em>when</em>.</div>
+  </div>
+
+  <p>Once each action is an embedding, the model processes the whole sequence of actions with a <strong>transformer</strong> &mdash; the same class of architecture that powers modern language models like the ones behind ChatGPT and Claude. The technical details are beyond the scope of this course, but the business intuition is straightforward: a transformer is very good at looking at a sequence and figuring out which parts of it matter most for predicting what comes next. When the user&rsquo;s history is &ldquo;booked Lisbon two years ago, searched Tokyo three times last week, clicked Mexico City yesterday,&rdquo; the transformer learns which of those actions deserves the most weight in predicting today&rsquo;s destination.</p>
+
+  <p>But there is one more wrinkle. The model is not just trying to predict a city. It is trying to predict geography at multiple levels at once.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Multi-task learning</div>
+    <div class="concept-def">Multi-task learning is a design choice where one model is trained to predict several related things simultaneously instead of just one. At Airbnb, the destination model predicts both <em>which region</em> a user is interested in (say, the San Francisco Bay Area) and <em>which specific city within that region</em> (San Francisco, Oakland, San Jose). The two predictions share almost all of the same underlying structure and are forced to be consistent with each other. This matters for two reasons. First, users who like San Francisco often end up booking in San Jose or Oakland &mdash; the system shouldn&rsquo;t treat those as unrelated. Second, training on both tasks together gives the model more signal to learn from than training on either one alone &mdash; the patterns that help predict regions also help predict cities, and vice versa. Multi-task learning is a common and practical way to squeeze more value out of the same dataset.</div>
+  </div>
+
+  <figure>
+    <svg width="100%" viewBox="0 0 680 280" role="img" style="max-width:680px;display:block;margin:0 auto;">
+      <title>Multi-task learning for region and city prediction</title>
+      <desc>A diagram showing a shared model trunk with two prediction heads for region and city</desc>
+      <rect x="40" y="110" width="200" height="60" rx="8" fill="#fff0f3" stroke="#ff385c" stroke-width="1.5"/>
+      <text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#c41d48" x="140" y="138" text-anchor="middle">User action</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#222222" x="140" y="156" text-anchor="middle">sequence (tokens)</text>
+      <line x1="240" y1="140" x2="285" y2="140" stroke="#767676" stroke-width="1.5" marker-end="url(#a1)"/>
+      <defs><marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M2 1L8 5L2 9" fill="none" stroke="#767676" stroke-width="1.5"/></marker></defs>
+      <rect x="290" y="100" width="150" height="80" rx="8" fill="#f0f7f8" stroke="#008489" stroke-width="1.5"/>
+      <text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#006b6f" x="365" y="128" text-anchor="middle">Transformer</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#222222" x="365" y="146" text-anchor="middle">(shared trunk)</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="365" y="164" text-anchor="middle">learns sequence patterns</text>
+      <line x1="440" y1="125" x2="490" y2="75" stroke="#767676" stroke-width="1.5" marker-end="url(#a1)"/>
+      <line x1="440" y1="155" x2="490" y2="205" stroke="#767676" stroke-width="1.5" marker-end="url(#a1)"/>
+      <rect x="495" y="45" width="145" height="55" rx="8" fill="#fff0f3" stroke="#ff385c" stroke-width="1.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#c41d48" x="567" y="70" text-anchor="middle">Region head</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#222222" x="567" y="86" text-anchor="middle">&ldquo;Bay Area&rdquo;</text>
+      <rect x="495" y="180" width="145" height="55" rx="8" fill="#fff0f3" stroke="#ff385c" stroke-width="1.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#c41d48" x="567" y="205" text-anchor="middle">City head</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#222222" x="567" y="221" text-anchor="middle">&ldquo;San Francisco&rdquo;</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="340" y="265" text-anchor="middle" font-style="italic">One model, two predictions &mdash; forced to be consistent with each other</text>
+    </svg>
+    <figcaption><strong>Figure 1: Multi-task learning in Airbnb&rsquo;s destination model.</strong> A single transformer processes the user&rsquo;s action sequence and feeds two prediction heads &mdash; one for region, one for city. The two heads share their underlying understanding of geography, which produces richer and more consistent predictions than training two separate models would.</figcaption>
+  </figure>
+
+  <!-- SECTION 6 -->
+  <h2 id="s6"><span class="section-num">6</span> From Dormant Users to Autosuggest: Closing the Prediction&ndash;Decision Gap</h2>
+
+  <p>Here is a training-data puzzle worth sitting with. Airbnb wants the destination model to work for <em>everyone</em> &mdash; not just the user who just searched five times in the last week, but also the user who booked once in 2024 and hasn&rsquo;t logged in since. If you train the model only on users who are currently active, you get a model that is great at the obvious case and useless for the harder, more valuable case of bringing back a lapsed user. If you train it only on dormant users, you can&rsquo;t serve the active ones well. Airbnb&rsquo;s answer is to <em>design</em> the training data to include both.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Active vs. dormant users as a training-data design choice</div>
+    <div class="concept-def">Most ML decisions happen in the modeling step &mdash; what architecture to use, what features to include, how to train. But some of the most consequential decisions happen one step earlier, in how the training data itself is constructed. At Airbnb, every past booking generates not one but <strong>fourteen</strong> training examples: seven examples that look as if the booking were made by an &ldquo;active user&rdquo; in the final week of planning (using recent searches and views), and seven examples that look as if the booking were made by a &ldquo;dormant user&rdquo; who hasn&rsquo;t been on the platform for months (using only the user&rsquo;s historical booking data, not their recent activity, because a dormant user <em>has</em> no recent activity). This deliberately teaches the model how to behave in both situations. It is a reminder that the people designing AI systems make decisions about <em>who the system is being built for</em> before any code is written &mdash; and those decisions are ethically and commercially consequential.</div>
+  </div>
+
+  <p>Once the model is trained, Airbnb has a predicted region and a predicted city for each user. But a prediction is not a decision. What should the business actually <em>do</em> with it?</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">The prediction&ndash;decision gap (guest side)</div>
+    <div class="concept-def">We met the prediction&ndash;decision gap in Chapter 2 with Netflix. A model tells you what a user is likely to do; a decision tells you what the business should actually <em>do about it</em>. The model here predicts &ldquo;this user is interested in Tokyo, Osaka, and Kyoto,&rdquo; but that prediction on its own does nothing. Airbnb has to turn it into specific actions at specific moments: which three cities to show in autosuggest when the user taps the search bar, which destination to feature in the subject line of an abandoned-search email, how prominently to surface each one. Different decisions will follow from the same prediction depending on the surface, the user&rsquo;s recent behavior, and what Airbnb is trying to accomplish (drive a booking today? re-engage a dormant user? encourage discovery?). The destination model is the inference engine. The product decisions around it are where the business value actually lives.</div>
+  </div>
+
+  <p>Airbnb has deployed the destination model in two places so far, and the two deployments illustrate opposite ends of the user-intent spectrum:</p>
+
+  <ul>
+    <li><strong>Autosuggest.</strong> When a user taps the search bar, the system shows a ranked list of suggested destinations before they&rsquo;ve typed anything. This is the active user case &mdash; someone who just opened the app is in a decision-making moment, and the right three suggestions can shave real time and friction off the trip-planning process. Airbnb reports that this feature drives the largest booking gains in regions where English is not the primary language &mdash; suggesting it is especially helpful for users who have a harder time typing and spelling unfamiliar destination names.</li>
+    <li><strong>Abandoned-search emails.</strong> When a user searches but doesn&rsquo;t book, Airbnb sends a follow-up email featuring listings in destinations the model predicts the user is most likely to want &mdash; not necessarily the exact destination they searched. This is the dormant-user case: the user has shown some interest and then left, and the email is an attempt to re-engage them with something a little broader than what they searched for.</li>
+  </ul>
+
+  <div class="insight-box">
+    <div class="insight-label">Business insight</div>
+    <div class="insight-text">Notice how the same model powers two completely different product experiences. Autosuggest is a <em>real-time, high-intent</em> surface &mdash; the user is literally about to type. Abandoned-search email is a <em>delayed, low-intent</em> surface &mdash; the user has left and may or may not come back. One model, trained once on cleverly designed data, now serves both. This is the economics of AI that matures: the most expensive part of an AI system is usually not the model itself &mdash; it&rsquo;s assembling the data and infrastructure. Once that&rsquo;s done, the same prediction can be deployed across many surfaces at low marginal cost.</div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- PART II — HOST SIDE                                      -->
+  <!-- ======================================================== -->
+
+  <!-- SECTION 7 -->
+  <h2 id="s7"><span class="part-badge">Part II</span><span class="section-num">7</span> Dynamic Pricing and Lead Time</h2>
+
+  <p>Now flip the marketplace around. A host has just listed a two-bedroom apartment in San Diego. They need to decide what to charge for every single night on their calendar &mdash; not just tonight, but six months from now, twelve months from now. Prices that are too high leave the calendar empty. Prices that are too low leave money on the table. And the &ldquo;right&rdquo; price for a Thursday in early October is different in July than it is in September, because the market keeps moving.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Dynamic pricing</div>
+    <div class="concept-def">Dynamic pricing is the practice of adjusting the price of a product or service in near-real-time as market conditions change &mdash; demand rises, supply tightens, competitors move. Airlines have done this for decades; hotels and ride-sharing platforms do it now; Airbnb does it through a feature called <strong>Smart Pricing</strong>, which suggests a nightly price for each date on a host&rsquo;s calendar and updates those suggestions as the booking date approaches. For Airbnb hosts specifically, dynamic pricing is harder than it is for a hotel, because every listing is unique. There&rsquo;s no &ldquo;standard double room&rdquo; to benchmark against &mdash; every home has its own size, quality, location, and personality. That uniqueness is the heart of the problem the pricing model has to solve.</div>
+  </div>
+
+  <p>One of the most important variables in dynamic pricing has nothing to do with the listing itself. It has to do with time &mdash; specifically, <em>when</em> a booking is made relative to the check-in date.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Lead time distribution</div>
+    <div class="concept-def">The <em>lead time</em> of a booking is the gap between when it was made and when the guest actually checks in. A guest booking New Year&rsquo;s Eve on December 1st has a lead time of 30 days. A guest booking a last-minute stay for tonight has a lead time of zero. The <em>lead time distribution</em> is the full shape of how bookings spread out across those gaps for a given check-in date and location: what share are booked 90 days out, what share 30 days out, what share last-minute. This matters enormously for pricing, because the shape differs. High-demand dates like New Year&rsquo;s Eve see a lot of early bookings &mdash; people plan ahead. A beach town like South Beach sees a lot of last-minute bookings. A supply-constrained city like San Francisco during a conference gets booked weeks ahead. If a host prices a peak date as if most bookings will come in the last two weeks, they will leave the calendar open too long and miss the early wave. Understanding the lead time distribution lets Smart Pricing tell the host when to raise prices, when to lower them, and by how much.</div>
+  </div>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Stochastic arrival process</div>
+    <div class="concept-def">The word <em>stochastic</em> just means &ldquo;random with a pattern.&rdquo; A stochastic arrival process is the technical name for what bookings do: they arrive over time in a way that looks random at any single moment, but has clear patterns when you zoom out. You can&rsquo;t predict exactly when the next booking for a specific listing will come in &mdash; but across thousands of listings and check-in dates, the overall pattern is highly predictable. Smart Pricing&rsquo;s job is not to guess the next individual booking. It&rsquo;s to forecast the <em>shape</em> of that arrival pattern for each check-in date, so hosts can price appropriately as the date gets closer. Framed this way, dynamic pricing becomes a forecasting problem (Uber&rsquo;s chapter is worth re-reading here) with a pricing decision bolted onto the end.</div>
+  </div>
+
+  <figure>
+    <svg width="100%" viewBox="0 0 680 280" role="img" style="max-width:680px;display:block;margin:0 auto;">
+      <title>Lead time distribution for two types of markets</title>
+      <desc>Two curves showing bookings over lead time: high-demand dates peak early, last-minute markets peak near zero</desc>
+      <line x1="60" y1="230" x2="640" y2="230" stroke="#767676" stroke-width="1"/>
+      <line x1="60" y1="30" x2="60" y2="230" stroke="#767676" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="350" y="255" text-anchor="middle">Days before check-in (lead time) &mdash; check-in is at 0, far in advance is to the right</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767986" x="45" y="135" text-anchor="end" transform="rotate(-90 45 135)">Share of bookings</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#aaa" x="60" y="245" text-anchor="middle">0</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#aaa" x="345" y="245" text-anchor="middle">45 days</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#aaa" x="635" y="245" text-anchor="middle">90+ days</text>
+      <path d="M 60 228 Q 130 100 220 80 Q 310 70 400 130 Q 500 210 640 225" fill="none" stroke="#ff385c" stroke-width="2.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#c41d48" x="310" y="75">High-demand date (e.g. NYE)</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="310" y="90" font-style="italic">bookings skew early</text>
+      <path d="M 60 85 Q 110 95 170 140 Q 240 190 340 215 Q 470 225 640 228" fill="none" stroke="#008489" stroke-width="2.5" stroke-dasharray="6 3"/>
+      <text font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#006b6f" x="105" y="75">Last-minute market</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="105" y="90" font-style="italic">bookings skew late</text>
+    </svg>
+    <figcaption><strong>Figure 2: Two different lead time distributions.</strong> The same nightly rate is wrong for both of these dates. A high-demand date like New Year&rsquo;s Eve needs prices to rise early, because most bookings will happen far in advance. A last-minute market needs prices held back, because holding out longer yields better returns. The lead time distribution is what tells Smart Pricing which regime each night on the calendar is in.</figcaption>
+  </figure>
+
+  <!-- SECTION 8 -->
+  <h2 id="s8"><span class="section-num">8</span> Why Pure ML Wasn&rsquo;t Enough: Hybrid Models &amp; Demand Aggregations</h2>
+
+  <p>Here is where the Smart Pricing story gets interesting &mdash; and where it connects directly back to Uber. The obvious move for a company like Airbnb is to throw a powerful machine learning model at the problem. Collect every feature you can find about each listing and each check-in date, train a huge model to predict the optimal price, and deploy it. Airbnb&rsquo;s data science team considered exactly that approach, and rejected it.</p>
+
+  <p>The reasons were specific. With millions of listings, each with its own characteristics, and each checkin date getting booked at most once, the data is desperately sparse at the individual-listing level. The prediction problem has three dimensions at once (listings &times; check-in dates &times; lead days), which makes it computationally unwieldy. And perhaps most importantly, Airbnb&rsquo;s team had good domain intuition about the <em>shape</em> of the lead time distribution &mdash; they could see that bookings tended to accumulate in a pattern that matched a well-known family of statistical distributions. A pure ML approach would ignore all of that intuition.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Structural modeling vs. pure machine learning</div>
+    <div class="concept-def">A <strong>structural model</strong> is one where a human expert specifies the general shape of the relationship between the inputs and the outputs, and the model&rsquo;s job is just to fill in the parameters. A <strong>pure machine learning model</strong> specifies no shape &mdash; it learns the entire relationship from data. Each approach has a strength and a weakness that mirror each other. ML models tend to be more accurate when there&rsquo;s enough data; structural models tend to be more <em>interpretable</em> when you need to explain what&rsquo;s happening and why. Chapter 4 framed this as the black-box-vs.-interpretable tradeoff at Uber. Airbnb&rsquo;s Smart Pricing team framed it as a choice: accept the accuracy of pure ML and lose the ability to explain it to hosts, or accept the interpretability of a structural model and lose some accuracy. They refused to pick one. Instead, they built a hybrid.</div>
+  </div>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Hybrid models: ML + domain knowledge</div>
+    <div class="concept-def">A hybrid model combines the best of both approaches: a human expert specifies the <em>structure</em> of the relationship (say, &ldquo;we believe bookings arrive in a pattern that matches a known statistical distribution&rdquo;), and an ML model&rsquo;s job is reduced to predicting just the handful of parameters that define that pattern. This is exactly what Smart Pricing does. The team knew from both theory and data that lead time distributions had a specific mathematical shape. So instead of asking the ML model to predict a full curve for every listing and every date, they ask it to predict just five parameters that define the curve. The ML model does what ML is good at (learning from lots of features), and the structural assumption does what expert knowledge is good at (imposing a shape that prevents nonsense predictions and makes the outputs interpretable). In Airbnb&rsquo;s own reporting, this hybrid approach cut forecast error roughly in half compared to a pure ML baseline &mdash; and, crucially, produced predictions the team could actually explain.</div>
+  </div>
+
+  <p>But there&rsquo;s still one problem left. Airbnb has millions of listings, and each one is unique. Even with a hybrid model, trying to fit five parameters for every individual listing would run into the same sparsity wall &mdash; most listings simply don&rsquo;t have enough bookings to estimate reliable numbers. The workaround is an idea that should feel familiar from Spotify.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Clustering and demand aggregations</div>
+    <div class="concept-def">Recall from Chapter 3 that <em>clustering</em> is what happens when a system groups similar items together without being told what the groups should be &mdash; it&rsquo;s an unsupervised learning technique. Spotify uses clustering to discover that certain songs appeal to the same kinds of listeners even when those songs sound nothing alike. Airbnb uses the same idea on listings. By looking at which listings guests tend to consider together in a single search session &mdash; what the team calls the &ldquo;path to purchase&rdquo; &mdash; the system learns which homes share similar audiences. Listings that frequently co-appear in guests&rsquo; browsing end up grouped together into clusters Airbnb calls <strong>demand aggregations</strong>. Each cluster then shares a lead time distribution, which fixes the sparsity problem: instead of fitting parameters for a single listing with three bookings a year, the model fits them for a cluster of thousands of listings that share a common audience. The lesson travels: when the data is too thin at the individual level, group intelligently and model at the group level.</div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-label">Why this matters for managers</div>
+    <div class="insight-text">Pure ML is not always the best answer &mdash; even when you have lots of data and lots of compute. Smart Pricing is a case where combining a human intuition about the shape of the problem with an ML model produced <em>better</em> results than pure ML alone. This is a recurring pattern in applied AI. Teams that know their domain well enough to say &ldquo;the answer has to take this form&rdquo; often beat teams that just throw bigger models at the problem. AI does not replace expertise; it amplifies it. A manager evaluating an AI proposal should ask not just &ldquo;what model?&rdquo; but &ldquo;what do we know about this problem that the model doesn&rsquo;t need to learn from scratch?&rdquo;</div>
+  </div>
+
+  <!-- SECTION 9 -->
+  <h2 id="s9"><span class="section-num">9</span> The Prediction&ndash;Decision Gap on the Host Side</h2>
+
+  <p>Smart Pricing takes the predicted lead time distribution for each cluster, combines it with information about the specific listing and the specific check-in date, and produces a <em>suggested</em> nightly price. That suggestion gets displayed in the host&rsquo;s calendar view. The host can accept it, override it, or ignore it entirely.</p>
+
+  <p>That single design choice &mdash; <em>suggest, don&rsquo;t set</em> &mdash; is worth pausing on, because it&rsquo;s a live example of a tension this course has been tracking since Chapter 2.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Automation vs. augmentation (on the host side)</div>
+    <div class="concept-def">Chapter 2 defined this tradeoff: an AI system can <em>automate</em> a decision (the machine chooses and acts) or <em>augment</em> a human decision (the machine recommends and the human chooses). Netflix automated artwork selection. EveryCure augmented drug researchers. Smart Pricing is explicitly augmentation, not automation. Airbnb <em>could</em> set the price directly &mdash; it has the data and the models to do it &mdash; but it chose not to. Hosts keep final control over their own calendars. Why? Partly legal (Airbnb doesn&rsquo;t own the home), partly ethical (the host bears the consequences of a bad price, not Airbnb), and partly strategic (hosts who feel coerced into pricing decisions churn off the platform). The same AI capability that could have been automation is deployed as augmentation because of a business judgment about the relationship between platform and host.</div>
+  </div>
+
+  <p>That design choice does not make the ethical questions go away. When Smart Pricing suggests lowering a nightly rate to match an apparent market softening, the host is under real pressure to accept &mdash; the alternative is a dark calendar. The suggestion is not a command, but it is not neutral either. A suggestion from an algorithm that sees the entire market is hard to argue with from a position of seeing just your own property. We&rsquo;ll return to this in §11.</p>
+
+  <!-- ======================================================== -->
+  <!-- PART III — AI INWARD                                     -->
+  <!-- ======================================================== -->
+
+  <!-- SECTION 10 -->
+  <h2 id="s10"><span class="part-badge">Part III</span><span class="section-num">10</span> LLMs for Test Migration: 1.5 Years to 6 Weeks</h2>
+
+  <p>The first two parts of this chapter looked at AI systems Airbnb built to serve its customers. This third part is different. It is about a system Airbnb built to serve <em>itself</em> &mdash; and it is the clearest example in this course so far of how generative AI is actually being integrated into companies that already have deep ML capability.</p>
+
+  <p>The problem: Airbnb had about 3,500 React component test files written with a testing framework called Enzyme, which had gone out of fashion. They needed to rewrite those test files using a newer framework called React Testing Library. The tests had to preserve the original testing behavior &mdash; you can&rsquo;t just throw out tests without losing coverage of the code. Engineers originally estimated this rewrite at <strong>about 1.5 years</strong> of engineering time if done by hand. In 2025, Airbnb completed it using a pipeline built around a large language model in <strong>six weeks</strong>.</p>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">3,500</div><div class="stat-label">Test files to migrate</div></div>
+    <div class="stat-card"><div class="stat-num">1.5 yrs</div><div class="stat-label">Original manual estimate</div></div>
+    <div class="stat-card"><div class="stat-num">6 weeks</div><div class="stat-label">Actual time with LLMs</div></div>
+    <div class="stat-card"><div class="stat-num">75%</div><div class="stat-label">Files migrated in first 4 hours</div></div>
+    <div class="stat-card"><div class="stat-num">97%</div><div class="stat-label">Files migrated after 4 days of tuning</div></div>
+  </div>
+
+  <p>That is not a small result, and the underlying mechanics matter more than the headline number. To understand what Airbnb actually did, you first need a clear distinction between the kind of AI we&rsquo;ve been discussing in this course and the kind of AI that handled this migration.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Generative AI vs. predictive AI</div>
+    <div class="concept-def">Every AI system in this course until now has been <strong>predictive</strong>. A predictive model is trained to answer a specific question (what&rsquo;s the click-through rate? what&rsquo;s the demand? where does this user want to travel?) by learning patterns in historical data. The output is usually a number or a ranked list. <strong>Generative AI</strong> is different. It produces new content &mdash; text, code, images &mdash; that didn&rsquo;t exist before, by learning patterns from huge collections of unstructured data. Large language models (LLMs) like the ones behind ChatGPT and Claude are generative. Airbnb&rsquo;s destination recommender is predictive: it takes a user&rsquo;s history and predicts a destination. An LLM is generative: it takes a prompt and produces new code. The two kinds of AI are built differently, scale differently, fail differently, and should be governed differently &mdash; but an increasing number of real production systems (including the one in this section) stitch them together.</div>
+  </div>
+
+  <p>Why was this problem a good fit for an LLM and not for the kind of custom model built in Parts I and II? Three reasons. First, the task is <em>code, not behavior</em> &mdash; there&rsquo;s an enormous amount of public JavaScript code in the world that an LLM has already been trained on. Second, the task is <em>generative, not predictive</em> &mdash; the output is a new test file, not a score or a ranking. Third, the task has an <em>objective correctness check</em> &mdash; the migrated test either passes or fails when you run it. You don&rsquo;t need a human to rate the output; the machine can tell immediately whether it worked. That third property is crucial, and it led directly to the most important design decision in the whole project.</p>
+
+  <h3>The pipeline: the LLM is the engine; the workflow is the engineering</h3>
+
+  <p>Here is the part that business students should pay closest attention to. Airbnb&rsquo;s engineers did <em>not</em> just hand 3,500 files to a language model and hope for the best. They built an automated pipeline around the model that looked more like a factory than a chatbot. The structure was roughly:</p>
+
+  <ol>
+    <li><strong>Break the job into small, checkable steps.</strong> Each file was pushed through a sequence of distinct stages &mdash; refactor the Enzyme code, fix any issues in the test framework, fix linting and type errors, then mark complete. Each stage had a validation check: did the output actually work?</li>
+    <li><strong>When a step fails, retry with better context.</strong> If a stage failed, the system automatically re-prompted the LLM &mdash; this time including the specific error message and the most recent broken version of the file. Most files that failed the first attempt succeeded within about 10 retries.</li>
+    <li><strong>For the hard cases, give the model more to work with.</strong> On complex files, the prompts grew to include up to 50 related files from the same project &mdash; sibling test files written in the right style, the source code of the component being tested, examples of well-written tests. Prompts ballooned to 40,000&ndash;100,000 tokens each.</li>
+    <li><strong>Run the loop at industrial scale.</strong> Files ran in parallel, progress was tracked by automatically inserting a comment into each file recording its migration status, and engineers could re-run any specific step against any specific subset of files. After the first bulk run, 75% of files were done in four hours.</li>
+    <li><strong>Chip away at the long tail.</strong> For the remaining 25%, the team ran a &ldquo;sample, tune, sweep&rdquo; loop: look at a handful of stuck files, figure out the common issue, update the prompts to fix it, re-run everything. Four days of this got them to 97%. The last 3% were fixed by hand.</li>
+  </ol>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Human-in-the-loop engineering workflows</div>
+    <div class="concept-def">The most important lesson from Airbnb&rsquo;s test migration is not about the LLM. It&rsquo;s about everything around the LLM. The language model itself is one component in a much larger system: a validation pipeline, a retry loop, a context-gathering mechanism, a progress-tracking system, and a human-directed tuning loop. The LLM provides <em>capability</em>; the engineering around it provides <em>reliability</em>. You could swap in a different LLM tomorrow and the system would keep working &mdash; but if you removed the validation, retry, and context machinery, the raw LLM would be unusable at scale. This is the same lesson from Spotify&rsquo;s chapter applied to a different generation of AI: the model is not the moat. The infrastructure around the model is the moat.</div>
+  </div>
+
+  <h3>The business math</h3>
+
+  <p>Now the arithmetic. The original estimate was 1.5 years of engineering time. The actual cost was six weeks of engineering time plus the LLM API bill. Airbnb reports the total came in at a fraction of the original estimate. But a careful student should not just celebrate the headline number &mdash; they should think about <em>what those six weeks of engineer time were spent on.</em> Almost none of it was &ldquo;writing tests.&rdquo; It was building the pipeline, tuning the prompts, reviewing the failures, and fixing the last 3% by hand. The LLM did the typing. The engineers did the architecting.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">AI as labor substitution vs. labor augmentation</div>
+    <div class="concept-def">When an AI system takes over a task that used to be done by a person, two things can happen. In <strong>substitution</strong>, the work that was previously done by humans is now done by the machine, and fewer humans are needed. In <strong>augmentation</strong>, the same humans still do the work, but the machine makes them much more productive. The Airbnb test migration looks like substitution at first &mdash; the LLM wrote code that engineers would otherwise have written &mdash; but looked at more closely, it&rsquo;s augmentation. The engineers didn&rsquo;t go away. They moved up the stack: from writing individual test files (what the LLM did) to designing a pipeline, selecting context, and debugging edge cases (what the engineers did). The total output was dramatically higher, but the engineers were still there. A recurring business question as generative AI spreads through companies will be: does this deployment substitute for a role, or augment the people in it &mdash; and which does the company actually want?</div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-label">What this says about GenAI in established businesses</div>
+    <div class="insight-text">Notice which kind of company pulled this off. Airbnb was not a startup tinkering with a chatbot. It was a company with more than a decade of ML experience, a mature engineering culture, well-developed monitoring and testing discipline, and engineers who already knew how to build production pipelines. The LLM was a new ingredient, but everything around it &mdash; the validation infrastructure, the retry logic, the progress tracking &mdash; was built using the same skills Airbnb&rsquo;s engineers had been practicing for years. The companies best positioned to benefit quickly from generative AI are often the same ones that already invested in predictive AI. Generative AI doesn&rsquo;t replace the AI Factory. It plugs into it.</div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- SYNTHESIS                                                -->
+  <!-- ======================================================== -->
+
+  <!-- SECTION 11 -->
+  <h2 id="s11"><span class="section-num">11</span> Responsible AI at Airbnb</h2>
+
+  <p>Every chapter in this course circles back to the same basic question: what happens when the algorithm is wrong, or right in a way the business didn&rsquo;t intend? Airbnb&rsquo;s version of this question is especially sharp because it touches three different constituencies &mdash; guests, hosts, and now the engineering organization itself.</p>
+
+  <h3>On the guest side: geographic bias and the filter bubble</h3>
+
+  <p>The destination recommender is trained on guests&rsquo; past bookings. If a user has only ever booked in Europe, the model will tend to recommend European destinations. That might be exactly what the user wants. But it might also narrow their world in ways neither they nor Airbnb would choose deliberately. A destination model that learns from past behavior will systematically underweight places where the user has never been &mdash; which is, by definition, where exploration would actually take them.</p>
+
+  <p>A subtler version of the same issue is geographic coverage. Airbnb reports that autosuggest drives the biggest booking gains in regions where English is not the primary language &mdash; which is great, but also tells you that the feature was helping users in non-English markets more than users in English-speaking ones. That might be equity; it might also mean the underlying dataset was tilted toward English-language markets in a way that made the baseline worse there. A responsible team monitors for both.</p>
+
+  <h3>On the host side: whose margin is Smart Pricing optimizing?</h3>
+
+  <div class="danger-box">
+    <div class="danger-label">Risk: algorithmic price nudging</div>
+    <div class="danger-text">When Smart Pricing suggests lowering a host&rsquo;s nightly rate to match an apparent market softening, the host faces a real choice: accept the suggestion and take a lower margin, or reject it and risk an empty calendar. A suggestion from an algorithm that sees the entire market is hard to argue against from the position of seeing just your own home. Over time, hosts who consistently override Smart Pricing may find their listings ranked lower in search results, which makes overriding the suggestion feel more costly. The &ldquo;suggestion&rdquo; frame is not neutral &mdash; and a host reading this chapter should be thinking about whose interests the algorithm is optimizing when its recommendations also happen to increase booking volume on the platform.</div>
+  </div>
+
+  <p>There is a structural reason to ask this question. Airbnb&rsquo;s revenue depends on completed bookings. Lower prices produce more bookings. A pricing algorithm that very slightly biases toward &ldquo;lower&rdquo; produces more bookings at every individual decision, produces more revenue for Airbnb, and produces slightly less revenue per night for each host. None of this requires bad faith from anyone. It just requires that the objective function the algorithm optimizes is aligned with the platform&rsquo;s interests rather than the hosts&rsquo;. Asking <em>whose</em> interests a suggestion serves is one of the most basic questions of responsible AI, and it&rsquo;s a question hosts have a legitimate right to ask.</p>
+
+  <h3>On the pricing side: price discrimination</h3>
+
+  <p>Dynamic pricing at scale raises a broader question that airlines have been living with for decades: is charging different prices to different people for the same service <em>fair</em>? At Airbnb, two guests booking the same home for the same dates will generally see the same price &mdash; but prices move dramatically across dates, and hosts in certain neighborhoods may be nudged toward systematically different price curves than hosts in other neighborhoods. When the data reflects a city&rsquo;s history, the algorithm can reflect that history too. A responsible pricing team monitors for this, particularly at the intersection of neighborhood demographics and dynamic pricing suggestions.</p>
+
+  <h3>On the engineering side: the LLM&rsquo;s code was correct, but was it right?</h3>
+
+  <p>The test migration in §10 is a governance story in miniature. The engineers built validation into every stage &mdash; a test either passes or it doesn&rsquo;t, a file either compiles or it doesn&rsquo;t. That worked because the task had hard, objective correctness checks. Not every LLM deployment does. When a generative model is used to draft a customer email, summarize a legal document, or write code that will ship to production, the question &ldquo;did it work?&rdquo; becomes much harder to answer mechanically. The discipline Airbnb applied to this project &mdash; validation at every step, automated retries, human review of the long tail &mdash; should be the default assumption for how LLMs get deployed in serious business contexts. It is not how they are currently deployed in most companies.</p>
+
+  <!-- SECTION 12 -->
+  <h2 id="s12"><span class="section-num">12</span> Competitive Advantage: The Two-Sided Data Moat</h2>
+
+  <p>Why can&rsquo;t a competitor just copy all of this? Airbnb&rsquo;s engineering team has published detailed descriptions of every system in this chapter. The models are not secret. The architectures are not proprietary. And yet the advantage compounds.</p>
+
+  <ul>
+    <li><strong>Two-sided data, not one-sided.</strong> Hotels.com knows about rooms. Booking.com knows about commoditized supply. Social platforms know about users. Airbnb knows about <em>both</em> sides of a matching problem at once &mdash; millions of unique homes and hundreds of millions of guests interacting with them. Both streams of data feed every model in this chapter, and neither stream can be bought or shortcut by a competitor.</li>
+    <li><strong>Every interaction is training data for multiple systems.</strong> A single search session teaches the destination recommender about travel intent, the clustering algorithm about which homes compete for similar audiences, and Smart Pricing about how demand is evolving. The marginal cost of generating this compound signal is zero; it happens automatically, on every visit.</li>
+    <li><strong>Mature AI infrastructure makes new AI cheap to add.</strong> Part III of this chapter is only possible because Parts I and II already exist. Airbnb&rsquo;s engineers knew how to build validation pipelines, monitor model behavior, and run tuning loops because they had been doing it with predictive models for a decade. A newcomer can buy an LLM subscription tomorrow; they cannot buy that decade of institutional learning.</li>
+    <li><strong>The flywheel runs in both directions.</strong> More guests make the destination recommender smarter, which converts better, which brings more hosts, who supply more listings, which attracts more guests. Competitors trying to break into either side face a cold-start problem of their own: they can&rsquo;t serve guests well until they have hosts, and they can&rsquo;t attract hosts until they have guests.</li>
+  </ul>
+
+  <p>The moat is not the algorithm. It is the data, the infrastructure, the organizational learning, and the compounding feedback loop between two sides of a marketplace that reinforce each other. Everything else is copyable. That combination is not.</p>
+
+  <!-- SECTION 13 -->
+  <h2 id="s13"><span class="section-num">13</span> Summary Table &amp; Discussion Questions</h2>
+
+  <h3>AI Factory model: Airbnb mapped</h3>
+  <table class="factory-table">
+    <thead>
+      <tr>
+        <th>Step</th>
+        <th>Guest side (recommendations)</th>
+        <th>Host side (Smart Pricing)</th>
+        <th>Internal (test migration)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="step-badge">Data</span></td>
+        <td>Booking, view, and search history as action sequences</td>
+        <td>Historical bookings, calendar data, market context</td>
+        <td>3,500 test files plus sibling files and examples</td>
+      </tr>
+      <tr>
+        <td><span class="step-badge">Model</span></td>
+        <td>Transformer on behavioral sequences with multi-task heads</td>
+        <td>Hybrid: ML predicts 5 parameters of a structural distribution</td>
+        <td>Frontier LLM with retry loops and dynamic prompting</td>
+      </tr>
+      <tr>
+        <td><span class="step-badge">Prediction</span></td>
+        <td>Predicted region and city for each user</td>
+        <td>Predicted lead time distribution per cluster &amp; date</td>
+        <td>Generated replacement code for each test file</td>
+      </tr>
+      <tr>
+        <td><span class="step-badge">Decision</span></td>
+        <td>Autosuggest rankings; abandoned-search email content</td>
+        <td>Suggested nightly price; host keeps final control</td>
+        <td>Accept if validation passes; retry if not; human fix at tail</td>
+      </tr>
+      <tr>
+        <td><span class="step-badge">Value</span></td>
+        <td>Higher conversion; re-engagement of dormant users</td>
+        <td>Better calendar utilization; higher host earnings</td>
+        <td>1.5 years of engineering compressed into 6 weeks</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Key vocabulary introduced in this chapter</h3>
+  <div class="vocab-grid">
+    <div class="vocab-card"><div class="vocab-term">Two-sided marketplace</div><div class="vocab-def">A platform whose value depends on matching two distinct user groups that need each other &mdash; guests &amp; hosts, riders &amp; drivers</div></div>
+    <div class="vocab-card"><div class="vocab-term">Matching problem</div><div class="vocab-def">The core operational job of a two-sided marketplace: getting the right person on one side to the right person on the other at the right price and moment</div></div>
+    <div class="vocab-card"><div class="vocab-term">User intent modeling</div><div class="vocab-def">Distinguishing transactional users (know what they want) from exploratory users (still figuring it out) and serving each differently</div></div>
+    <div class="vocab-card"><div class="vocab-term">Cold-start problem</div><div class="vocab-def">What happens when a recommender has very little history to personalize from &mdash; new users, dormant users, or users with ambiguous intent</div></div>
+    <div class="vocab-card"><div class="vocab-term">Behavioral sequences as tokens</div><div class="vocab-def">Treating each user action like a word in a sentence so language-model architectures can learn patterns in travel behavior</div></div>
+    <div class="vocab-card"><div class="vocab-term">Short-term vs. long-term signals</div><div class="vocab-def">Active searches and views reveal current intent; historical bookings reveal durable preference &mdash; both needed for good recommendations</div></div>
+    <div class="vocab-card"><div class="vocab-term">Embeddings</div><div class="vocab-def">Compact numeric representations of items (cities, regions, dates) where similar items end up close together in space</div></div>
+    <div class="vocab-card"><div class="vocab-term">Multi-task learning</div><div class="vocab-def">Training one model to predict several related things at once &mdash; at Airbnb, both region and city &mdash; for richer shared understanding</div></div>
+    <div class="vocab-card"><div class="vocab-term">Active vs. dormant users</div><div class="vocab-def">A deliberate training-data design choice that teaches one model to handle both recently active and long-lapsed users</div></div>
+    <div class="vocab-card"><div class="vocab-term">Prediction&ndash;decision gap</div><div class="vocab-def">The gap between what a model predicts and what a business should actually do &mdash; closed differently on each side of a two-sided marketplace</div></div>
+    <div class="vocab-card"><div class="vocab-term">Dynamic pricing</div><div class="vocab-def">Adjusting prices in near-real-time as demand, supply, and time to check-in change</div></div>
+    <div class="vocab-card"><div class="vocab-term">Lead time distribution</div><div class="vocab-def">The shape of how far in advance bookings arrive &mdash; different for peak dates vs. last-minute markets, and central to good pricing</div></div>
+    <div class="vocab-card"><div class="vocab-term">Stochastic arrival process</div><div class="vocab-def">&ldquo;Random with a pattern&rdquo; &mdash; bookings arrive unpredictably one at a time but follow clear patterns in aggregate</div></div>
+    <div class="vocab-card"><div class="vocab-term">Structural vs. pure ML</div><div class="vocab-def">Structural models specify a shape; pure ML learns the whole thing &mdash; each has strengths. Hybrid combines both</div></div>
+    <div class="vocab-card"><div class="vocab-term">Hybrid models</div><div class="vocab-def">Combining domain knowledge about the structure of a problem with ML&rsquo;s ability to learn parameters &mdash; halved Smart Pricing error</div></div>
+    <div class="vocab-card"><div class="vocab-term">Demand aggregations</div><div class="vocab-def">Clusters of listings grouped by shared guest audiences (not physical features), solving the sparsity problem for per-listing pricing</div></div>
+    <div class="vocab-card"><div class="vocab-term">Generative vs. predictive AI</div><div class="vocab-def">Predictive AI produces scores or rankings from historical patterns; generative AI produces new content (text, code) from huge unstructured training sets</div></div>
+    <div class="vocab-card"><div class="vocab-term">Human-in-the-loop workflows</div><div class="vocab-def">Wrapping an AI model in validation, retries, and human-directed tuning to make unreliable capability into reliable production output</div></div>
+    <div class="vocab-card"><div class="vocab-term">Substitution vs. augmentation</div><div class="vocab-def">Does an AI deployment replace people doing a task or make those same people dramatically more productive? Rarely as clear-cut as it sounds</div></div>
+  </div>
+
+  <h3>Discussion questions</h3>
+  <p style="font-size:13px; color:#767676; margin-bottom:0.75rem;">These work well as written assignments or in-class discussion prompts. Questions 2, 3, and 7 tend to generate the most debate.</p>
+  <ol class="discussion-list">
+    <li><strong>Two sides, one platform &mdash; advantage or risk?</strong> Is Airbnb&rsquo;s decision to optimize for both sides of its marketplace simultaneously a competitive advantage or an ethical risk? Take a position and defend it using specific evidence from the destination recommender, Smart Pricing, or both.</li>
+    <li><strong>Whose margin is Smart Pricing optimizing?</strong> When Smart Pricing suggests a lower price to a host during a quiet period, whose interests is that algorithm actually serving? Argue it through &mdash; is it the host&rsquo;s, Airbnb&rsquo;s, the guest&rsquo;s, or some combination? Would a host-first version of the algorithm look different?</li>
+    <li><strong>Who was underserved before the model?</strong> Airbnb&rsquo;s destination recommender performs best in regions where English is not the primary language. What does that tell you about which users were <em>underserved</em> before the model existed &mdash; and what does it say about how Airbnb should measure the success of a recommender like this?</li>
+    <li><strong>When is interpretability worth losing accuracy?</strong> Smart Pricing could have used pure ML and likely would have been somewhat more accurate than its hybrid approach. Instead, Airbnb chose a hybrid that gave up some raw accuracy in exchange for interpretability. Where is the line? Pick a business context where a manager should insist on interpretability even at a real cost to accuracy, and one where they shouldn&rsquo;t.</li>
+    <li><strong>Travel intent as text.</strong> Airbnb treats user actions as &ldquo;tokens&rdquo; the way a language model treats words. What are the risks of borrowing a framework designed for text and applying it to human travel intent? Where could this abstraction break &mdash; and what would the failure mode look like in the product?</li>
+    <li><strong>1.5 years to 6 weeks.</strong> Airbnb&rsquo;s engineers originally estimated the test migration at 1.5 years of work. They finished it in 6 weeks with LLMs. What should managers conclude from that number &mdash; and what should they <em>not</em> conclude? Under what conditions would you generalize this result to other teams or other kinds of work, and when would you resist?</li>
+    <li><strong>Filter bubble or personalization?</strong> The destination model learns from a user&rsquo;s past bookings. A user who has only ever booked in Europe will see mostly European recommendations. Is the model personalizing correctly &mdash; or narrowing the user&rsquo;s world? Argue both sides.</li>
+  </ol>
+
+  <hr>
+  <p style="font-size: 13px; color: #999; text-align: center; margin-top: 1rem;">MIS 432 &middot; AI in Business &middot; Case Study &middot; For classroom discussion purposes.</p>
+
+  <div class="chapter-nav-bar">
+    <a href="chapter5-waymo.html">← Chapter 5: Waymo</a>
+    <a href="chapter6-airbnb-lab.html">Lab 6: Build a Demand-Based Pricing Model &rarr;</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>MIS 432 &middot; AI in Business &middot; Western Washington University &middot; College of Business and Economics</p>
+  <p style="margin-top:0.5rem;"><a href="index.html">Home</a> &middot; <a href="https://cbe.wwu.edu/people/califfc" target="_blank">Contact</a> &middot; <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a> &middot; Free to use for educational purposes</p>
+</footer>
+
+<script>
+  (function () {
+    var dropdowns = document.querySelectorAll('.nav-dropdown');
+    dropdowns.forEach(function (dropdown) {
+      var toggle = dropdown.querySelector('.nav-dropdown-toggle');
+      toggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        var isOpen = !dropdown.classList.contains('open');
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        if (isOpen) { dropdown.classList.add('open'); toggle.setAttribute('aria-expanded', 'true'); }
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        document.activeElement.blur();
+      }
+    });
+  })();
+</script>
+</body>
+</html>
