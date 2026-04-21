@@ -696,13 +696,15 @@ Add plain-English comments throughout.</div>
       <p>Instead of writing code for this step, use the simulator below. It has the same forecast model you built in Step 3 already built in — the same baseline of ~850 predicted Friday night trips, 25 drivers online, and 3 trips per driver per hour. Those are the exact assumptions from your Step 3 memo. Now change them and watch what happens to the recommendation in real time.</p>
 
       <div class="concept-box">
-        <div class="concept-label">How the simulator works</div>
-        <div class="concept-text">The simulator has three sliders, each representing one assumption from your forecast. <strong>Drivers online at 10pm</strong> is how many Uber drivers you expect to be active near campus when the show lets out — your Step 3 baseline was 25. <strong>Trips per driver per hour</strong> is how efficiently each driver can move through the demand — 3 is realistic on a normal night, but traffic after a sold-out show could push this lower. <strong>Demand scenario</strong> lets you shift between the lower bound (−15%), your base prediction, and the upper bound (+15%) from your forecast interval. As you move any slider, the driver capacity, drivers needed, and surge recommendation all update instantly. Watch for the moment the SURGE indicator at the top right flips from blue to red — that is the exact threshold where your assumptions tip the decision.</div>
-      </div>
-
-      <div class="insight-box">
-        <div class="insight-label">What this reveals about every forecast</div>
-        <div class="insight-text">If the surge call flips in some scenarios but not others, you now know exactly which assumption is driving the decision — and you can tell your boss that directly. A forecast that produces the same recommendation across all scenarios is robust. One where a small change in driver availability flips the surge call is fragile, and your boss needs to know that before committing resources. This is not a failure of the model — it is the model doing its job honestly. The worst outcome is sending a single number without knowing how sensitive it is.</div>
+        <div class="concept-label">How the stress-test simulator works</div>
+        <div class="concept-text">
+          <ul style="margin: 0.25rem 0 0 1.25rem; padding: 0;">
+            <li style="margin-bottom:0.5rem;"><strong>Drivers online at 10pm</strong> — how many Uber drivers you expect to be active near campus when the show lets out. Your Step 3 baseline was 25.</li>
+            <li style="margin-bottom:0.5rem;"><strong>Trips per driver per hour</strong> — how efficiently each driver can move through the demand. 3 is realistic on a normal night, but traffic after a sold-out show could push this lower.</li>
+            <li style="margin-bottom:0.5rem;"><strong>Demand scenario</strong> — shift between the lower bound (−15%), your base prediction, and the upper bound (+15%) from your forecast interval.</li>
+            <li>As you move any slider, the driver capacity, drivers needed, and surge recommendation all update instantly. Watch for the moment the SURGE indicator at the top right flips from blue to red — that is the exact threshold where your assumptions tip the decision.</li>
+          </ul>
+        </div>
       </div>
 
       <!-- ░░░░░ INTERACTIVE STRESS-TEST SIMULATOR ░░░░░ -->
