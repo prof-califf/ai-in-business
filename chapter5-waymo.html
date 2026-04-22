@@ -352,7 +352,7 @@
 
   <h3>The Match: March 2016</h3>
 
-  <p>In March 2016, DeepMind's AlphaGo faced Lee Sedol — then considered the world's best player — in a five-game match held in Seoul and broadcast globally. Over 200 million people watched. Most expected Lee Sedol to win; he had predicted a 5-0 sweep. AlphaGo won the first three games. Then came Game 2, and Move 37.</p>
+  <p>In March 2016, DeepMind's AlphaGo faced Lee Sedol — then considered the world's best player — in a five-game match held in Seoul and broadcast globally. Over 200 million people watched. Most expected Lee Sedol to win; he had predicted a 5-0 sweep. AlphaGo won Game 1. Then came Game 2, and Move 37.</p>
 
   <div class="danger-box" style="border-color: #0078ff; background: #e6f2ff;">
     <div class="danger-label" style="color: #005fcc;">The Move That Changed Everything</div>
@@ -503,7 +503,7 @@
   <div class="concept-box">
     <div class="concept-label">Key Concept</div>
     <div class="concept-term">World models in AI</div>
-    <div class="concept-def">A <strong>world model</strong> is an AI system that has learned a deep enough understanding of how the world works — how objects move, how light changes, how physical events unfold — that it can generate realistic new scenarios it has never directly seen. The Waymo World Model does this for driving: it can create a realistic simulation of a tornado, a flooded street, or a wrong-way driver from scratch, because it has learned enough about how the physical world behaves to fill in those details convincingly. Engineers can also run <strong>counterfactuals</strong> — replay the same scenario with the car making different decisions, and evaluate which response was safest. That is something that can never be done with real-world data: you cannot rewind a near-miss and try again.</def>
+    <div class="concept-def">A <strong>world model</strong> is an AI system that has learned a deep enough understanding of how the world works — how objects move, how light changes, how physical events unfold — that it can generate realistic new scenarios it has never directly seen. The Waymo World Model does this for driving: it can create a realistic simulation of a tornado, a flooded street, or a wrong-way driver from scratch, because it has learned enough about how the physical world behaves to fill in those details convincingly. Engineers can also run <strong>counterfactuals</strong> — replay the same scenario with the car making different decisions, and evaluate which response was safest. That is something that can never be done with real-world data: you cannot rewind a near-miss and try again.</div>
   </div>
 
   <figure>
@@ -627,7 +627,7 @@
   <div class="concept-box">
     <div class="concept-label">Key Concept</div>
     <div class="concept-term">Reinforcement learning (RL)</div>
-    <div class="concept-def">Reinforcement learning is a way of teaching an AI system through trial, error, and feedback — rather than by showing it labeled examples of correct answers. The system tries something, gets a signal saying whether the outcome was good or bad, and gradually adjusts its behavior toward the things that earned good signals. In AlphaGo's case, the feedback was simply whether the game was won or lost. The system played millions of games, learned which moves led to wins, and eventually developed strategies no human expert had discovered. Waymo uses the same approach for its planning system — the feedback signal is whether the resulting driving behavior was safe, smooth, and legal. The environment in which this learning happens is the World Model simulation, which provides the practice environment that makes it safe to try millions of decisions before any of them happen on a real road.</def>
+    <div class="concept-def">Reinforcement learning is a way of teaching an AI system through trial, error, and feedback — rather than by showing it labeled examples of correct answers. The system tries something, gets a signal saying whether the outcome was good or bad, and gradually adjusts its behavior toward the things that earned good signals. In AlphaGo's case, the feedback was simply whether the game was won or lost. The system played millions of games, learned which moves led to wins, and eventually developed strategies no human expert had discovered. Waymo uses the same approach for its planning system — the feedback signal is whether the resulting driving behavior was safe, smooth, and legal. The environment in which this learning happens is the World Model simulation, which provides the practice environment that makes it safe to try millions of decisions before any of them happen on a real road.</div>
   </div>
 
   <div class="two-col">
