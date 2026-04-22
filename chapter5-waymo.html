@@ -321,9 +321,10 @@
     <a href="#s3">8. The AI Factory at Waymo</a>
     <a href="#s11b">9. Deep Learning as Competitive Advantage</a>
     <div class="toc-part">Implications</div>
-    <a href="#s12">10. Responsible AI: What Happens When the Car Is Wrong?</a>
-    <a href="#s12b">11. Waymo in the Wild: What Actually Goes Wrong</a>
-    <a href="#s13">12. Summary Table &amp; Discussion Questions</a>
+    <a href="#s-physical-ai">10. Beyond the Road: Deep Learning and Physical AI</a>
+    <a href="#s12">11. Responsible AI: What Happens When the Car Is Wrong?</a>
+    <a href="#s12b">12. Waymo in the Wild: What Actually Goes Wrong</a>
+    <a href="#s13">13. Summary Table &amp; Discussion Questions</a>
   </div>
 
   <!-- SECTION 1 -->
@@ -731,8 +732,36 @@
 
   <div class="callout-quote">"The companies best positioned to benefit from deep learning are often those that already invested in earlier generations of ML — because the infrastructure, the data pipelines, the culture of experimentation, and the institutional knowledge about what works compound over time."</div>
 
+  <!-- SECTION PHYSICAL AI -->
+  <h2 id="s-physical-ai"><span class="section-num">10</span> Beyond the Road: Deep Learning and the Future of Physical AI</h2>
+
+  <p>Waymo is one application of a broader shift that researchers and engineers sometimes call <strong>physical AI</strong> — deep learning systems that don't just process text or images on a screen, but perceive the real world and act in it. The same stack described in this chapter — sensor-based perception, motion prediction, and behavior learned from data — is now being applied to humanoid robots, surgical assistants, warehouse automation, and home robotics. Understanding where Waymo fits in that larger picture helps clarify both the opportunity and the risk.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key Concept</div>
+    <div class="concept-term">Imitation learning</div>
+    <div class="concept-def">A technique in which a robot or AI system learns a behavior by observing a human (or another agent) perform it, then generalizes that behavior to its own body and context. Unlike reinforcement learning — where the agent learns by trial and error in an environment — imitation learning starts from demonstrated examples. The challenge is <em>transfer</em>: the robot's body, sensors, and physical constraints are different from the human's, so it can't simply copy movements. It has to abstract the underlying goal from the demonstration and re-derive how to achieve it with its own capabilities.</div>
+  </div>
+
+  <p>In April 2026, NPR reported on research published in <em>Science Robotics</em> by Swiss scientists who demonstrated a significant step forward in this direction. Their system allowed robots to watch a human perform a task — picking up a ball and tossing it into a container — and then reproduce that task while automatically compensating for the robot's own physical differences. Crucially, the robots could also self-correct, and transfer learned skills to other robots with different designs.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">The tennis metaphor</div>
+    <div class="insight-text">Researcher Sthithpragya Gupta describes the core challenge this way: an instructor can demonstrate a tennis backhand, and a human student will eventually learn it. But when conditions change — the opponent moves, the light shifts — a human can adapt fluidly. Robots, trained on a fixed demonstration, historically could not. The new approach uses machine learning to let robots adjust their movements based on their own physical capabilities, not just copy a recorded motion. This is the same structural problem Waymo faces with the long tail: a system trained on what it has seen struggles precisely when reality diverges from that training distribution.</div>
+  </div>
+
+  <p>The parallel to Waymo is direct. Waymo's World Model extends the car's experience through simulation, allowing it to encounter scenarios it hasn't seen in the real world. Imitation learning for robots attempts something similar: instead of programming explicit movements for every task, you let the robot derive behavior from observation and generalize it. Both approaches are trying to solve the same fundamental problem — how do you build a system that handles the full range of situations the world will throw at it, when you can never enumerate every situation in advance?</p>
+
+  <div class="danger-box">
+    <div class="danger-label">New capabilities, new risks</div>
+    <div class="danger-text">The same NPR report notes that self-improving robots raise immediate questions for AI safety researchers. If a robot can adjust and improve its own behavior autonomously, what constraints ensure it won't be directed — or drift — toward harmful actions? The researchers included safety protocols designed to prevent robots from hurting people, and they acknowledge the risk openly. As AI philosopher Susan Schneider notes, the absence of consciousness doesn't resolve the safety question — it may actually sharpen it. A system that has no inner experience also has no values, no reluctance, and no instinct to refuse. The constraints have to be entirely external, built into the system by design. This is not a hypothetical for the distant future; it is an engineering and governance problem being worked on right now.
+    <br><br><a href="https://www.npr.org/2026/04/20/nx-s1-5785241/these-robots-can-figure-out-how-to-do-a-task-after-watching-humans-do-it" target="_blank" style="color:#b45309; font-weight:700;">Read the full NPR story →</a></div>
+  </div>
+
+  <p>For business students, the takeaway is not that robots are about to replace everything — the researchers themselves estimate we are years away from reliable home robots. The takeaway is that the deep learning capabilities described throughout this chapter are not confined to self-driving cars. They are a general-purpose technology that is moving, systematically, into any domain where a machine needs to perceive the physical world and act in it. The companies and managers who understand the underlying logic — what this technology can do, where it fails, and what governance it requires — will be better positioned to evaluate these developments as they arrive.</p>
+
   <!-- SECTION 12 -->
-  <h2 id="s12"><span class="section-num">10</span> Responsible AI: What Happens When the Car Is Wrong?</h2>
+  <h2 id="s12"><span class="section-num">11</span> Responsible AI: What Happens When the Car Is Wrong?</h2>
 
   <p>The competitive advantages above are real — but they are built on a system that, like every deep learning system, makes mistakes. The safety record Waymo cites is genuine and impressive, but it sits alongside a growing public record of specific failures that tell a more complicated story. The question for this section is not whether Waymo's models ever misclassify an object or make a wrong decision — they do. The question is: what happens when they do, who is responsible, and what does that mean for the companies and managers deploying AI in physical environments?</p>
 
@@ -771,7 +800,7 @@
   </div>
 
   <!-- SECTION 12b -->
-  <h2 id="s12b"><span class="section-num">11</span> Waymo in the Wild: What Actually Goes Wrong</h2>
+  <h2 id="s12b"><span class="section-num">12</span> Waymo in the Wild: What Actually Goes Wrong</h2>
 
   <p>The NPR stories above were serious. But Waymo's public record also includes a growing collection of incidents that are, depending on your perspective, funny, alarming, or both — and all of them raise genuine questions about what it means to put an AI system in a context it wasn't fully designed for. These are not cherry-picked failures; they represent a real category of problem that engineers working on physical AI systems face constantly: the world is stranger than your training data.</p>
 
@@ -819,7 +848,7 @@
   </div>
 
   <!-- SECTION 13 -->
-  <h2 id="s13"><span class="section-num">12</span> Summary Table &amp; Discussion Questions</h2>
+  <h2 id="s13"><span class="section-num">13</span> Summary Table &amp; Discussion Questions</h2>
 
   <h3>The AI Factory model: Waymo mapped</h3>
   <div style="overflow-x:auto;">
