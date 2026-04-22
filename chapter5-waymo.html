@@ -277,7 +277,7 @@
     <div class="hero-meta">
       <span><strong>Company:</strong> Waymo (Alphabet)</span>
       <span><strong>Industry:</strong> Autonomous Vehicles / Transportation</span>
-      <span><strong>Core concept:</strong> Deep learning, computer vision, simulation</span>
+      <span><strong>Core concept:</strong> Deep learning, reinforcement learning, computer vision, simulation</span>
     </div>
     <div class="hero-nav">
       <a href="chapter5-waymo-lab.html" class="btn btn-blue">Go to Lab 5 &rarr;</a>
@@ -312,19 +312,20 @@
     <div class="toc-part">Origin Story</div>
     <a href="#s1">1. AlphaGo and the Moment Everything Changed</a>
     <a href="#s2">2. What Deep Learning Actually Is</a>
+    <a href="#s-waymo">3. Why Waymo? Deep Learning in the Real World</a>
     <div class="toc-part">The AI Factory</div>
-    <a href="#s3">3. Step 1 — Data: Sensors, Miles, and the Long-Tail Problem</a>
-    <a href="#s5">4. Step 2 — Model: Teaching Machines to See</a>
-    <a href="#s6">5. Step 3 — Prediction: A 3D Picture of the World</a>
-    <a href="#s10">6. Step 4 — Decision: Learning to Drive</a>
-    <a href="#s11">7. Step 5 — Value: A Public Health Breakthrough — or a Job Killer?</a>
-    <a href="#s3">8. The AI Factory at Waymo</a>
-    <a href="#s11b">9. Deep Learning as Competitive Advantage</a>
+    <a href="#s3">4. Step 1 — Data: Sensors, Miles, and the Long-Tail Problem</a>
+    <a href="#s5">5. Step 2 — Model: Teaching Machines to See</a>
+    <a href="#s6">6. Step 3 — Prediction: A 3D Picture of the World</a>
+    <a href="#s10">7. Step 4 — Decision: Learning to Drive</a>
+    <a href="#s11">8. Step 5 — Value: A Public Health Breakthrough — or a Job Killer?</a>
+    <a href="#s3">9. The AI Factory at Waymo</a>
+    <a href="#s11b">10. Deep Learning as Competitive Advantage</a>
     <div class="toc-part">Implications</div>
-    <a href="#s-physical-ai">10. Beyond the Road: Deep Learning and Physical AI</a>
-    <a href="#s12">11. Responsible AI: What Happens When the Car Is Wrong?</a>
-    <a href="#s12b">12. Waymo in the Wild: What Actually Goes Wrong</a>
-    <a href="#s13">13. Summary Table &amp; Discussion Questions</a>
+    <a href="#s-physical-ai">11. Beyond the Road: Deep Learning and Physical AI</a>
+    <a href="#s12">12. Responsible AI: What Happens When the Car Is Wrong?</a>
+    <a href="#s12b">13. Waymo in the Wild: What Actually Goes Wrong</a>
+    <a href="#s13">14. Summary Table &amp; Discussion Questions</a>
   </div>
 
   <!-- SECTION 1 -->
@@ -366,7 +367,15 @@
     <div class="insight-text">Lee Sedol's Game 4 victory wasn't a fluke. He found a move — later called "the divine move" by the Go community — that sent AlphaGo into a kind of confusion, making a string of weak plays it would normally never attempt. The lesson: AlphaGo had learned to play brilliantly within the distribution of situations it had seen, but an unexpected enough position could push it outside that distribution. This is a pattern that shows up throughout AI deployment — systems that perform at superhuman levels in normal conditions can behave erratically when pushed into territory they haven't encountered before. You'll see this problem again in Section 7 when we discuss Waymo's long-tail problem.</div>
   </div>
 
-  <p>Why does any of this matter for a business course? Because AlphaGo was not a rules-based program. It did not have a lookup table of Go positions or a set of if-then instructions. It learned to play Go by playing millions of games against itself, using a technique called <strong>deep learning</strong> combined with <strong>reinforcement learning</strong>. Its ability to play Go was entirely <em>learned from experience</em> — nobody programmed it to be creative. DeepMind later built a successor called AlphaGo Zero that skipped human game data entirely and learned only by playing itself from scratch; it surpassed the version that beat Lee Sedol in three days. The architecture that made all of this possible — the deep neural network — is the same family of technology powering facial recognition, medical imaging, fraud detection, content moderation, recommendation systems, and, as the rest of this chapter will show, self-driving cars.</p>
+  <p>Why does any of this matter for a business course? Because AlphaGo was not a rules-based program. It did not have a lookup table of Go positions or a set of if-then instructions. It learned to play Go by playing millions of games against itself, using a technique called <strong>deep learning</strong> combined with <strong>reinforcement learning</strong>. Its ability to play Go was entirely <em>learned from experience</em> — nobody programmed it to be creative.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key Concept</div>
+    <div class="concept-term">Reinforcement learning — a quick primer</div>
+    <div class="concept-def">Deep learning trains a model on <em>labeled examples</em> — show it a million images tagged "stop sign" and it learns to recognise stop signs. <strong>Reinforcement learning</strong> (RL) is different: instead of labeled examples, the system learns from <em>outcomes</em>. It tries an action, receives a reward or penalty signal, and gradually adjusts its strategy to earn better outcomes. For AlphaGo, the signal was simple: win the game or lose it. Play enough games against yourself and the system discovers strategies nobody programmed. RL is how AlphaGo developed Move 37 — and, as you will see in Section 6, it is how Waymo teaches its vehicles to drive. The two techniques are complementary: deep learning handles perception (what am I looking at?), while reinforcement learning handles decisions (what should I do about it?).</div>
+  </div>
+
+  <p>DeepMind later built a successor called AlphaGo Zero that skipped human game data entirely and learned only by playing itself from scratch; it surpassed the version that beat Lee Sedol in three days. The architecture that made all of this possible — the deep neural network — is the same family of technology powering facial recognition, medical imaging, fraud detection, content moderation, recommendation systems, and, as the rest of this chapter will show, self-driving cars.</p>
 
   <!-- SECTION 2 -->
   <h2 id="s2"><span class="section-num">2</span> What Deep Learning Actually Is</h2>
@@ -464,8 +473,22 @@
     <div class="insight-text">In the 2012 ImageNet competition — a benchmark where systems compete to correctly label images from a set of 1,000 categories — a deep neural network called AlexNet reduced the error rate by nearly half compared to the previous year's best non-deep-learning system. The gap was so large that within two years, every top competitor was using deep learning. That moment is now considered the unofficial start of the modern AI era. Waymo, which had been running as the Google Self-Driving Car project since 2009, was well-positioned to absorb this shift immediately.</div>
   </div>
 
+  <!-- WAYMO BRIDGE -->
+  <h2 id="s-waymo"><span class="section-num">3</span> Why Waymo? Deep Learning in the Real World</h2>
+
+  <p>The rest of this chapter uses Waymo as its primary case study — and the choice is deliberate. Autonomous vehicles are the most demanding deployment of deep learning in the physical world. Every problem the technology runs into in a laboratory setting gets amplified on a public road: the data is messier, the edge cases are rarer and more dangerous, the cost of failure is measured in lives rather than benchmark scores, and the system has to work in real time on hardware that fits inside a car. If you want to understand what deep learning can and cannot do, Waymo is the right place to look.</p>
+
+  <p>Waymo began as Google's self-driving car project in 2009 — before AlphaGo, before the 2012 ImageNet breakthrough that ignited the deep learning era. The project was founded on a simple but radical bet: that the sensors and computing power needed for truly autonomous driving would eventually arrive, and that when they did, the teams with the most real-world miles, the most engineering depth, and the most carefully built data infrastructure would win. That bet has largely paid out. By 2025, Waymo had completed over 50 million fully autonomous passenger rides — no human in the driver's seat — across San Francisco, Phoenix, and Austin, with Los Angeles and other cities in expansion. No other company is close to that scale of commercial deployment.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">The AI Factory model</div>
+    <div class="insight-text">Waymo's business is best understood as an <strong>AI Factory</strong> — a system that continuously converts raw experience into improving intelligence. Real-world miles generate data. Data trains better models. Better models produce safer, more capable vehicles. Safer vehicles earn more miles and more trust. The flywheel compounds over time, and the gap between Waymo and later entrants grows with every lap. This structure — data feeding models feeding performance feeding more data — is the defining pattern of how deep learning creates competitive advantage. You will see it again in pharmaceutical discovery, financial fraud detection, content recommendation, and every other domain where deep learning has taken hold.</div>
+  </div>
+
+  <p>To understand how Waymo works, it helps to break it into five steps: <strong>Data</strong> (what the car sees and learns from), <strong>Model</strong> (how it learns to perceive the world), <strong>Prediction</strong> (how it builds a 3D picture of its environment), <strong>Decision</strong> (how it chooses what to do), and <strong>Value</strong> (what it is worth and to whom). Each step maps onto a deeper concept in deep learning — and each reveals a limit as well as a capability.</p>
+
   <!-- STEP 1: DATA -->
-  <h2 id="s3"><span class="section-num">3</span> <span class="part-badge">Step 1</span> Data: Sensors, Miles, and the Long-Tail Problem</h2>
+  <h2 id="s3"><span class="section-num">4</span> <span class="part-badge">Step 1</span> Data: Sensors, Miles, and the Long-Tail Problem</h2>
 
   <p>Every deep learning system starts with data — and for Waymo, data means two things happening simultaneously. There is the real-time stream: every vehicle on the road processes millions of sensor readings per second, from 29 cameras, multiple lidar units, and radar arrays. And there is the historical record: over 200 million miles of real-world driving, every moment of which produced labeled training examples that Waymo's models learned from. No competitor can buy that history. It was built mile by mile, city by city, starting in 2009.</p>
 
@@ -539,7 +562,7 @@
   </div>
 
   <!-- STEP 2: MODEL -->
-  <h2 id="s5"><span class="section-num">4</span> <span class="part-badge">Step 2</span> Model: Teaching Machines to See</h2>
+  <h2 id="s5"><span class="section-num">5</span> <span class="part-badge">Step 2</span> Model: Teaching Machines to See</h2>
 
   <p>The data — real and synthetic — feeds a stack of deep learning models whose job is to understand the world around the vehicle. The most fundamental of these is the perception model: the system that converts raw sensor readings into a structured understanding of what is present, where it is, and what it is likely to do next.</p>
 
@@ -605,7 +628,7 @@
   <p>Knowing where every object is right now is not enough — the planning system needs to know where everything will be in the next two, five, ten seconds. A dedicated motion prediction model takes the classified, located objects from the perception system and forecasts their likely future trajectories. Because the future is uncertain — a pedestrian at the curb might step into the road or might not — the model produces a <em>probability distribution</em> over possible futures, not a single prediction. The planning system then has to make decisions that are safe across the full range of what might happen next.</p>
 
   <!-- STEP 3: PREDICTION -->
-  <h2 id="s6"><span class="section-num">5</span> <span class="part-badge">Step 3</span> Prediction: A 3D Picture of the World</h2>
+  <h2 id="s6"><span class="section-num">6</span> <span class="part-badge">Step 3</span> Prediction: A 3D Picture of the World</h2>
 
   <p>The output of the model stack — the perception system's combined, fused understanding of everything around the vehicle — is what Waymo engineers call the <strong>world representation</strong>: a live, continuously updated 3D map of the environment that the planning system can act on.</p>
 
@@ -618,7 +641,7 @@
   <p>This representation is produced thousands of times per second. Every cycle, the system re-reads incoming sensor data, updates its understanding of each tracked object, generates fresh trajectory distributions, and hands a new world representation to the planner. The planner is making decisions — speed, lane, steering — based on information that is milliseconds old. The latency of this pipeline is itself a safety parameter: a system that takes too long to update its world representation is operating on stale information, which becomes increasingly dangerous at highway speeds.</p>
 
   <!-- STEP 4: DECISION -->
-  <h2 id="s10"><span class="section-num">6</span> <span class="part-badge">Step 4</span> Decision: Learning to Drive</h2>
+  <h2 id="s10"><span class="section-num">7</span> <span class="part-badge">Step 4</span> Decision: Learning to Drive</h2>
 
   <p>We opened this chapter with AlphaGo. Now we can close the loop.</p>
 
@@ -651,7 +674,7 @@
   </div>
 
   <!-- STEP 5: VALUE -->
-  <h2 id="s11"><span class="section-num">7</span> <span class="part-badge">Step 5</span> Value: A Public Health Breakthrough — or a Job Killer?</h2>
+  <h2 id="s11"><span class="section-num">8</span> <span class="part-badge">Step 5</span> Value: A Public Health Breakthrough — or a Job Killer?</h2>
 
   <p>Every AI Factory eventually has to answer the same question: what is this actually worth, and to whom? For Waymo, the answer depends entirely on who you ask — and the gap between those answers is wide enough that people have started setting cars on fire.</p>
 
@@ -687,7 +710,7 @@
   <p>The value of any technology is not just what it produces — it is who captures that value and who bears the cost. Waymo's deep learning stack may save tens of thousands of lives. That is real value. But if that value flows to Alphabet shareholders while the cost falls on millions of workers with no transition plan, the political response will reflect that imbalance. The cars on fire in Los Angeles are not a technology story. They are an economics story.</p>
 
   <!-- AI FACTORY -->
-  <h2 id="s3"><span class="section-num">8</span> The AI Factory at Waymo</h2>
+  <h2 id="s3"><span class="section-num">9</span> The AI Factory at Waymo</h2>
 
   <p>We have now seen the full stack: sensor data feeding deep learning models, models producing a real-time prediction of the world, a planning system using reinforcement learning to decide how to drive, and value that is real but deeply contested. The AI Factory framework gives us a way to see how those pieces connect as a business system — the same lens we applied to EveryCure, Netflix, Spotify, and Uber.</p>
 
@@ -719,7 +742,7 @@
   </div>
 
   <!-- COMPETITIVE ADVANTAGE -->
-  <h2 id="s11b"><span class="section-num">9</span> Deep Learning as Competitive Advantage</h2>
+  <h2 id="s11b"><span class="section-num">10</span> Deep Learning as Competitive Advantage</h2>
 
   <p>Waymo has been public about its technology and has published extensive research. Its architectures are not secret. So where does the competitive advantage actually come from?</p>
 
@@ -733,7 +756,7 @@
   <div class="callout-quote">"The companies best positioned to benefit from deep learning are often those that already invested in earlier generations of ML — because the infrastructure, the data pipelines, the culture of experimentation, and the institutional knowledge about what works compound over time."</div>
 
   <!-- SECTION PHYSICAL AI -->
-  <h2 id="s-physical-ai"><span class="section-num">10</span> Beyond the Road: Deep Learning and the Future of Physical AI</h2>
+  <h2 id="s-physical-ai"><span class="section-num">11</span> Beyond the Road: Deep Learning and the Future of Physical AI</h2>
 
   <p>Waymo is one application of a broader shift that researchers and engineers sometimes call <strong>physical AI</strong> — deep learning systems that don't just process text or images on a screen, but perceive the real world and act in it. The same stack described in this chapter — sensor-based perception, motion prediction, and behavior learned from data — is now being applied to humanoid robots, surgical assistants, warehouse automation, and home robotics. Understanding where Waymo fits in that larger picture helps clarify both the opportunity and the risk.</p>
 
@@ -761,7 +784,7 @@
   <p>For business students, the takeaway is not that robots are about to replace everything — the researchers themselves estimate we are years away from reliable home robots. The takeaway is that the deep learning capabilities described throughout this chapter are not confined to self-driving cars. They are a general-purpose technology that is moving, systematically, into any domain where a machine needs to perceive the physical world and act in it. The companies and managers who understand the underlying logic — what this technology can do, where it fails, and what governance it requires — will be better positioned to evaluate these developments as they arrive.</p>
 
   <!-- SECTION 12 -->
-  <h2 id="s12"><span class="section-num">11</span> Responsible AI: What Happens When the Car Is Wrong?</h2>
+  <h2 id="s12"><span class="section-num">12</span> Responsible AI: What Happens When the Car Is Wrong?</h2>
 
   <p>The competitive advantages above are real — but they are built on a system that, like every deep learning system, makes mistakes. The safety record Waymo cites is genuine and impressive, but it sits alongside a growing public record of specific failures that tell a more complicated story. The question for this section is not whether Waymo's models ever misclassify an object or make a wrong decision — they do. The question is: what happens when they do, who is responsible, and what does that mean for the companies and managers deploying AI in physical environments?</p>
 
@@ -800,7 +823,7 @@
   </div>
 
   <!-- SECTION 12b -->
-  <h2 id="s12b"><span class="section-num">12</span> Waymo in the Wild: What Actually Goes Wrong</h2>
+  <h2 id="s12b"><span class="section-num">13</span> Waymo in the Wild: What Actually Goes Wrong</h2>
 
   <p>The NPR stories above were serious. But Waymo's public record also includes a growing collection of incidents that are, depending on your perspective, funny, alarming, or both — and all of them raise genuine questions about what it means to put an AI system in a context it wasn't fully designed for. These are not cherry-picked failures; they represent a real category of problem that engineers working on physical AI systems face constantly: the world is stranger than your training data.</p>
 
@@ -848,7 +871,7 @@
   </div>
 
   <!-- SECTION 13 -->
-  <h2 id="s13"><span class="section-num">13</span> Summary Table &amp; Discussion Questions</h2>
+  <h2 id="s13"><span class="section-num">14</span> Summary Table &amp; Discussion Questions</h2>
 
   <h3>The AI Factory model: Waymo mapped</h3>
   <div style="overflow-x:auto;">
