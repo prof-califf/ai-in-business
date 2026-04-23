@@ -369,11 +369,7 @@
 
   <p>Why does any of this matter for a business course? Because AlphaGo was not a rules-based program. It did not have a lookup table of Go positions or a set of if-then instructions. It learned to play Go by playing millions of games against itself, using a technique called <strong>deep learning</strong> combined with <strong>reinforcement learning</strong>. Its ability to play Go was entirely <em>learned from experience</em> — nobody programmed it to be creative.</p>
 
-  <div class="concept-box">
-    <div class="concept-label">Key Concept</div>
-    <div class="concept-term">Reinforcement learning — a quick primer</div>
-    <div class="concept-def">Deep learning trains a model on <em>labeled examples</em> — show it a million images tagged "stop sign" and it learns to recognise stop signs. <strong>Reinforcement learning</strong> (RL) is different: instead of labeled examples, the system learns from <em>outcomes</em>. It tries an action, receives a reward or penalty signal, and gradually adjusts its strategy to earn better outcomes. For AlphaGo, the signal was simple: win the game or lose it. Play enough games against yourself and the system discovers strategies nobody programmed. RL is how AlphaGo developed Move 37 — and, as you will see in Section 6, it is how Waymo teaches its vehicles to drive. The two techniques are complementary: deep learning handles perception (what am I looking at?), while reinforcement learning handles decisions (what should I do about it?).</div>
-  </div>
+  <p>Deep learning trains a model on <em>labeled examples</em> — show it a million images tagged "stop sign" and it learns to recognise stop signs. <strong>Reinforcement learning</strong> (RL) works differently: instead of labeled examples, the system learns from <em>outcomes</em>. It tries an action, receives a reward or penalty signal, and gradually adjusts its strategy to earn better outcomes. For AlphaGo, the signal was simple: win the game or lose it. Play enough games against yourself and the system discovers strategies nobody programmed. RL is how AlphaGo developed Move 37 — and, as you will see in Section 7, it is how Waymo teaches its vehicles to drive. The two techniques are complementary: deep learning handles perception (what am I looking at?), while reinforcement learning handles decisions (what should I do about it?).</p>
 
   <p>DeepMind later built a successor called AlphaGo Zero that skipped human game data entirely and learned only by playing itself from scratch; it surpassed the version that beat Lee Sedol in three days. The architecture that made all of this possible — the deep neural network — is the same family of technology powering facial recognition, medical imaging, fraud detection, content moderation, recommendation systems, and, as the rest of this chapter will show, self-driving cars.</p>
 
@@ -387,6 +383,64 @@
     <div class="concept-term">Neural networks</div>
     <div class="concept-def">A neural network is a computational structure loosely inspired by how biological brains process information. It consists of layers of simple units called <strong>neurons</strong> or nodes. Each neuron looks at what it receives from the previous layer, does a small calculation, and passes a result forward to the next layer. The first layer receives raw input — say, the pixel values of a camera image. The last layer produces an output — "this is a stop sign" or "this is a pedestrian." The layers in between are called <strong>hidden layers</strong> — they are where the network gradually builds up its understanding of the problem. A <strong>deep</strong> neural network simply has many of these hidden layers, sometimes dozens or hundreds. The depth is what gives deep learning its power and its name.</div>
   </div>
+
+  <p>The diagram below shows what a single one of those nodes looks like — and where the biological analogy comes from. On its own, a single node is almost useless: it receives some numbers, does a small calculation, and passes a result forward. The key word is <em>almost</em>. Connect millions of these nodes into layers, and something remarkable happens.</p>
+
+  <figure>
+    <svg width="100%" viewBox="0 0 680 310" role="img" style="max-width:680px;display:block;margin:0 auto;">
+      <title>Biological neuron vs artificial node — a side-by-side comparison</title>
+      <desc>Left side shows a biological neuron with dendrites, cell body, axon, and synapse. Right side shows an artificial node with weighted inputs, a summation step, and an output. Both follow the same pattern: receive signals, integrate them, pass a result forward.</desc>
+      <defs>
+        <marker id="arr-cmp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#6b7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+      <text font-family="Arial,sans-serif" font-size="14" font-weight="700" fill="#005fcc" x="162" y="28" text-anchor="middle">Biological neuron</text>
+      <path d="M40 90 Q70 100 100 118" fill="none" stroke="#6b7280" stroke-width="1.5" opacity=".55"/>
+      <path d="M38 130 Q70 130 100 130" fill="none" stroke="#6b7280" stroke-width="1.5" opacity=".55"/>
+      <path d="M40 170 Q70 160 100 142" fill="none" stroke="#6b7280" stroke-width="1.5" opacity=".55"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#6b7280" x="32" y="94" text-anchor="end">signal</text>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#6b7280" x="32" y="134" text-anchor="end">signal</text>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#6b7280" x="32" y="174" text-anchor="end">signal</text>
+      <ellipse cx="130" cy="130" rx="32" ry="32" fill="#e6f2ff" stroke="#0078ff" stroke-width="1.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#005fcc" x="130" y="126" text-anchor="middle">Cell</text>
+      <text font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#005fcc" x="130" y="141" text-anchor="middle">body</text>
+      <path d="M162 130 L228 130" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr-cmp)" opacity=".55"/>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#6b7280" x="195" y="122" text-anchor="middle">axon</text>
+      <circle cx="240" cy="130" r="12" fill="#e6f2ff" stroke="#0078ff" stroke-width="1.5"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#005fcc" x="240" y="134" text-anchor="middle">syn</text>
+      <path d="M252 130 L290 130" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr-cmp)" opacity=".55"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#6b7280" x="292" y="123" text-anchor="start">output</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#6b7280" x="68" y="190" text-anchor="middle">dendrites</text>
+      <line x1="340" y1="44" x2="340" y2="270" stroke="#6b7280" stroke-width="0.5" stroke-dasharray="4 4" opacity=".3"/>
+      <text font-family="Arial,sans-serif" font-size="14" font-weight="700" fill="#00a870" x="518" y="28" text-anchor="middle">Artificial node</text>
+      <path d="M396 90 Q426 100 456 118" fill="none" stroke="#6b7280" stroke-width="1.5" opacity=".55"/>
+      <path d="M394 130 Q426 130 456 130" fill="none" stroke="#6b7280" stroke-width="1.5" opacity=".55"/>
+      <path d="M396 170 Q426 160 456 142" fill="none" stroke="#6b7280" stroke-width="1.5" opacity=".55"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#6b7280" x="388" y="94" text-anchor="end">x&#x2081;</text>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#6b7280" x="388" y="134" text-anchor="end">x&#x2082;</text>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#6b7280" x="388" y="174" text-anchor="end">x&#x2083;</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#6b7280" x="424" y="100" text-anchor="middle">w&#x2081;</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#6b7280" x="424" y="124" text-anchor="middle">w&#x2082;</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#6b7280" x="424" y="158" text-anchor="middle">w&#x2083;</text>
+      <ellipse cx="486" cy="130" rx="32" ry="32" fill="#e0fdf4" stroke="#00e89d" stroke-width="1.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#00a870" x="486" y="126" text-anchor="middle">Sum</text>
+      <text font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#00a870" x="486" y="141" text-anchor="middle">+ fn</text>
+      <path d="M518 130 L580 130" fill="none" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr-cmp)" opacity=".55"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#6b7280" x="582" y="123" text-anchor="start">output</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#6b7280" x="424" y="190" text-anchor="middle">inputs &#xd7; weights</text>
+      <rect x="40" y="228" width="260" height="54" rx="6" fill="none" stroke="#6b7280" stroke-width="0.5" stroke-dasharray="3 3" opacity=".3"/>
+      <rect x="380" y="228" width="260" height="54" rx="6" fill="none" stroke="#6b7280" stroke-width="0.5" stroke-dasharray="3 3" opacity=".3"/>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#6b7280" x="170" y="246" text-anchor="middle">Dendrites receive signals</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#6b7280" x="170" y="261" text-anchor="middle">Cell body integrates them</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#6b7280" x="170" y="276" text-anchor="middle">Axon carries output forward</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#6b7280" x="510" y="246" text-anchor="middle">Inputs arrive with weights</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#6b7280" x="510" y="261" text-anchor="middle">Node sums and transforms</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#6b7280" x="510" y="276" text-anchor="middle">Result passes to next layer</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#6b7280" x="340" y="300" text-anchor="middle" opacity=".6">The analogy is structural, not functional &#x2014; biological neurons are far more complex</text>
+    </svg>
+    <figcaption><strong>Figure: One node, two versions.</strong> A biological neuron and an artificial node follow the same basic pattern — receive inputs, combine them, pass a result forward. The weights (w&#x2081;, w&#x2082;, w&#x2083;) control how much each input matters. A single node can only do trivial things. The power of a neural network comes from arranging millions of these nodes into layers, so that each layer can detect progressively more complex patterns in the data.</figcaption>
+  </figure>
 
   <p>Here is the key insight that makes neural networks useful: the way each layer processes information is <em>learned from data</em>, not set by a programmer. Before training, a neural network knows nothing — its starting point is essentially random. You feed it thousands or millions of examples (images labeled "stop sign" or "not stop sign," games of Go labeled "won" or "lost"), and the network gradually adjusts itself until it gets better at producing the right answer. Nobody programs the network to look for round shapes or red colors. It figures out what matters entirely on its own, from the examples.</p>
 
@@ -513,21 +567,13 @@
 
   <p>The solution to the long-tail problem is simulation — generating synthetic training data for scenarios too rare, too dangerous, or simply impossible to observe at scale in the real world. Waymo runs more than 20 billion simulated miles per year, vastly more than any other autonomous vehicle developer. These are not video-game approximations; they are high-fidelity digital reproductions of real streets, with physically accurate sensor models, accurate weather, and realistic simulated agents.</p>
 
-  <div class="concept-box">
-    <div class="concept-label">Key Concept</div>
-    <div class="concept-term">Simulation and synthetic data</div>
-    <div class="concept-def">Synthetic data is training data generated by a computer rather than collected from the real world. For autonomous driving, a simulation environment can produce labeled training examples for any scenario engineers want: extreme weather, unusual objects in the road, dangerous driver behavior. The critical requirement is that the simulation be realistic enough that a model trained inside it actually performs well when deployed on real streets. If the simulation is too simple — if real streets look or behave differently from the simulation — the model learns to handle the simulation well but fails in reality. This gap is called the <strong>sim-to-real gap</strong>, and closing it is one of the hardest problems in building AI for physical environments.</div>
-  </div>
+  <p>Synthetic data — training data generated by a computer rather than collected from the real world — can produce labeled examples for any scenario engineers need: extreme weather, unusual road objects, dangerous driver behavior. The critical requirement is realism: a model trained in simulation has to perform well when deployed on real streets. If the simulation is too simple, the model learns to handle the simulation but fails in reality. This gap, called the <strong>sim-to-real gap</strong>, is one of the hardest problems in building AI for physical environments.</p>
 
   <h3>The Waymo World Model: simulating what never happened</h3>
 
   <p>In February 2026, Waymo announced a step beyond traditional simulation: the <strong>Waymo World Model</strong>, built on Google DeepMind's Genie 3 foundation model. Earlier simulation systems were reconstructive — they rebuilt existing reality from sensor recordings. The World Model is generative — it can create scenes from scratch, based on a description or a language prompt. An engineer can type "heavy snow on the Golden Gate Bridge at night, with a cyclist approaching from the wrong direction" and get back a realistic multi-sensor simulation of exactly that scenario. This is an example of <strong>transfer learning</strong>: Genie 3 was originally trained on an enormous set of general video — not driving footage — so it already understood how snow falls, how fire spreads, how animals move. Waymo then adapted that broad knowledge specifically for driving simulation. Rather than building a world model from scratch using only driving data, Waymo inherited a richer foundation than any fleet of cars could accumulate on its own.</p>
 
-  <div class="concept-box">
-    <div class="concept-label">Key Concept</div>
-    <div class="concept-term">World models in AI</div>
-    <div class="concept-def">A <strong>world model</strong> is an AI system that has learned a deep enough understanding of how the world works — how objects move, how light changes, how physical events unfold — that it can generate realistic new scenarios it has never directly seen. The Waymo World Model does this for driving: it can create a realistic simulation of a tornado, a flooded street, or a wrong-way driver from scratch, because it has learned enough about how the physical world behaves to fill in those details convincingly. Engineers can also run <strong>counterfactuals</strong> — replay the same scenario with the car making different decisions, and evaluate which response was safest. That is something that can never be done with real-world data: you cannot rewind a near-miss and try again.</div>
-  </div>
+  <p>A <strong>world model</strong> is an AI system that has learned a deep enough understanding of how the world works — how objects move, how light changes, how physical events unfold — that it can generate realistic new scenarios it has never directly seen. The Waymo World Model does this for driving: it can conjure a tornado, a flooded street, or a wrong-way driver from scratch. Engineers can also run <strong>counterfactuals</strong> — replay the same scenario with the car making different decisions, and evaluate which response was safest. That is something real-world data can never provide: you cannot rewind a near-miss and try again.</p>
 
   <div class="danger-box" style="border-color:#00e89d;background:#e0fdf4;">
     <div class="danger-label" style="color:#007a50;">The World Model in action: scenarios no real fleet could safely collect</div>
@@ -774,26 +820,23 @@
 
   <h3>Sensor fusion: combining what each sensor knows</h3>
 
-  <div class="concept-box">
-    <div class="concept-label">Key Concept</div>
-    <div class="concept-term">Sensor fusion</div>
-    <div class="concept-def">Sensor fusion is the process of combining data from multiple different sensors into a single, more reliable understanding of the environment than any single sensor could provide. At Waymo, cameras detect rich visual features but lack depth; lidar provides precise 3D geometry but no color; radar detects velocity through rain and fog. The deep learning system learns to combine all three — associating a camera detection of a pedestrian with the lidar return that confirms their 3D position, then using radar to track their velocity across frames. Each sensor's weakness is covered by another's strength.</div>
-  </div>
+  <p><strong>Sensor fusion</strong> is the process of combining data from multiple sensors into a more reliable picture than any one sensor could provide. At Waymo, cameras detect rich visual features but lack depth; lidar provides precise 3D geometry but no color; radar detects velocity through rain and fog. The deep learning system learns to combine all three — associating a camera detection of a pedestrian with the lidar return that confirms their 3D position, then using radar to track their velocity across frames. Each sensor's weakness is covered by another's strength.</p>
 
   <h3>Motion prediction: where is everything going?</h3>
 
   <p>Knowing where every object is right now is not enough — the planning system needs to know where everything will be in the next two, five, ten seconds. A dedicated motion prediction model takes the classified, located objects from the perception system and forecasts their likely future trajectories. Because the future is uncertain — a pedestrian at the curb might step into the road or might not — the model produces a <em>probability distribution</em> over possible futures, not a single prediction. The planning system then has to make decisions that are safe across the full range of what might happen next.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">Deep learning vs. reinforcement learning: the division of labor</div>
+    <div class="insight-text">Everything described in this section — the CNNs that classify objects, the sensor fusion that merges camera and lidar, the motion prediction models that forecast trajectories — is deep learning. It works by learning patterns from labeled training data. The output is the world representation: a structured picture of what is out there. That is the job of the <em>perception system</em>. The job of the <em>planning system</em> — choosing what to actually do with that information — is handled differently. Rather than learning from labeled examples, the planning system learns from trial and error in simulation: it tries a driving decision, gets a signal saying whether the outcome was safe and comfortable, and gradually improves. That is reinforcement learning. The two techniques are not alternatives; they are a pipeline. Deep learning handles "what am I looking at?" Reinforcement learning handles "what should I do about it?" Section 7 explains how Waymo uses RL for planning — and why the World Model is what makes it possible.</div>
+  </div>
 
   <!-- STEP 3: PREDICTION -->
   <h2 id="s6"><span class="section-num">6</span> <span class="part-badge">Step 3</span> Prediction: A 3D Picture of the World</h2>
 
   <p>The output of the model stack — the perception system's combined, fused understanding of everything around the vehicle — is what Waymo engineers call the <strong>world representation</strong>: a live, continuously updated 3D map of the environment that the planning system can act on.</p>
 
-  <div class="concept-box">
-    <div class="concept-label">Key Concept</div>
-    <div class="concept-term">Perception in autonomous driving</div>
-    <div class="concept-def">Perception is the process of converting raw sensor data — camera images, lidar point clouds, radar reflections — into a structured understanding of the environment. A complete perception output tells the planning system: what objects are present (car, pedestrian, cyclist, sign), where they are in 3D space, how big they are, how fast they are moving, in what direction, and where they are likely to go next. This is the prediction step in Waymo's factory: it is what the deep learning models produce, and it is what the decision system consumes. Perception is the hardest part of autonomous driving — it is the problem that separates a self-driving car from a car with GPS.</div>
-  </div>
+  <p>Perception is the process of converting raw sensor data into a structured understanding of the environment. A complete perception output tells the planning system: what objects are present, where they are in 3D space, how fast they are moving, and where they are likely to go next. This is what the deep learning models produce, and what the decision system consumes. Perception is the hardest part of autonomous driving — it is what separates a self-driving car from a car with GPS.</p>
 
   <p>This representation is produced thousands of times per second. Every cycle, the system re-reads incoming sensor data, updates its understanding of each tracked object, generates fresh trajectory distributions, and hands a new world representation to the planner. The planner is making decisions — speed, lane, steering — based on information that is milliseconds old. The latency of this pipeline is itself a safety parameter: a system that takes too long to update its world representation is operating on stale information, which becomes increasingly dangerous at highway speeds.</p>
 
@@ -842,6 +885,8 @@
       <div class="col-body">Drives billions of simulated miles. Each scenario produces a safety/comfort signal. RL updates the policy to favor driving behaviors that are safe, smooth, and legal. Result: robust responses to rare and dangerous scenarios before encountering them on real roads.</div>
     </div>
   </div>
+
+  <p>This is where the World Model from Section 4 closes the loop. RL requires an environment to practice in — somewhere the agent can try millions of decisions, fail safely, and receive feedback. For AlphaGo, that environment was a Go simulator. For Waymo, it is the World Model: a generative simulator that can conjure any scenario on demand, run the car through it, score the result, and repeat billions of times. Without the World Model, the RL agent would have to learn from real-world miles alone — and dangerous scenarios, by definition, are too rare to encounter enough times to learn from safely. Simulation makes RL viable at scale. The World Model is not just a data generator; it is the practice court.</p>
 
   <p>The connection between AlphaGo and Waymo is not just analogical. The team that built AlphaGo — Google DeepMind — is the same team that built Genie 3, the foundation model underlying the Waymo World Model. The research lineage is direct: a technique developed to play an ancient board game is now being applied to one of the hardest engineering problems in the world. This is a common pattern in deep learning — fundamental research on games or language produces architectures that transfer to applied problems nobody originally intended.</p>
 
@@ -937,11 +982,7 @@
 
   <p>Waymo is one application of a broader shift that researchers and engineers sometimes call <strong>physical AI</strong> — deep learning systems that don't just process text or images on a screen, but perceive the real world and act in it. The same stack described in this chapter — sensor-based perception, motion prediction, and behavior learned from data — is now being applied to humanoid robots, surgical assistants, warehouse automation, and home robotics. Understanding where Waymo fits in that larger picture helps clarify both the opportunity and the risk.</p>
 
-  <div class="concept-box">
-    <div class="concept-label">Key Concept</div>
-    <div class="concept-term">Imitation learning</div>
-    <div class="concept-def">A technique in which a robot or AI system learns a behavior by observing a human (or another agent) perform it, then generalizes that behavior to its own body and context. Unlike reinforcement learning — where the agent learns by trial and error in an environment — imitation learning starts from demonstrated examples. The challenge is <em>transfer</em>: the robot's body, sensors, and physical constraints are different from the human's, so it can't simply copy movements. It has to abstract the underlying goal from the demonstration and re-derive how to achieve it with its own capabilities.</div>
-  </div>
+  <p>The technique on display is <strong>imitation learning</strong>: the robot observes a human perform a task, then generalizes that behavior to its own body. Unlike reinforcement learning — where the agent discovers behavior through trial and error — imitation learning starts from demonstrated examples. The challenge is <em>transfer</em>: the robot's body, sensors, and physical constraints differ from the human's, so it cannot simply copy movements. It has to abstract the underlying goal and re-derive how to achieve it with its own capabilities.</p>
 
   <p>In April 2026, NPR reported on research published in <em>Science Robotics</em> by Swiss scientists who demonstrated a significant step forward in this direction. Their system allowed robots to watch a human perform a task — picking up a ball and tossing it into a container — and then reproduce that task while automatically compensating for the robot's own physical differences. Crucially, the robots could also self-correct, and transfer learned skills to other robots with different designs.</p>
 
