@@ -555,6 +555,67 @@
     <div class="concept-def">In any large dataset of real-world events, a small number of common scenarios account for most of the data, while an enormous number of rare scenarios together account for very little. This distribution — heavy at the common end, trailing off into uncommon events — is called a <strong>long tail</strong>. For autonomous driving, the long tail is disproportionately dangerous: the scenarios that appear least in training data are often the ones where a mistake is most catastrophic. Most of driving is boring — normal lanes, normal intersections, normal weather. The data that Waymo's cars generate in abundance is exactly the data it doesn't need most urgently. The data it needs most — near-misses, severe weather, animals in the road, wrong-way drivers — appears rarely or not at all. You could drive for 10,000 years and still not accumulate enough examples of a driver going the wrong way on a freeway to train a reliable response model.</div>
   </div>
 
+  <figure style="margin:1.5rem 0;">
+    <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:1.25rem 1rem 1rem;">
+      <div style="font-size:13px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#0078ff; margin-bottom:0.25rem;">The long tail of driving scenarios</div>
+      <div style="font-size:13px; color:#6b7280; margin-bottom:0.75rem;">How often does each kind of driving scenario actually happen?</div>
+      <svg id="tailChart" viewBox="0 0 700 260" preserveAspectRatio="xMidYMid meet" style="width:100%; height:auto; display:block;"></svg>
+      <div style="display:flex; gap:1.25rem; margin-top:0.75rem; font-size:12px; color:#475569; justify-content:center; flex-wrap:wrap;">
+        <div style="display:flex; align-items:center; gap:0.4rem;"><span style="display:inline-block; width:12px; height:12px; border-radius:2px; background:#10b981;"></span>Common scenarios (the "head")</div>
+        <div style="display:flex; align-items:center; gap:0.4rem;"><span style="display:inline-block; width:12px; height:12px; border-radius:2px; background:#f59e0b;"></span>Rare scenarios (the "long tail")</div>
+      </div>
+    </div>
+    <figcaption><strong>Figure: The long tail of driving scenarios.</strong> A handful of common scenarios (stopped at a red light, pedestrian in a crosswalk, following a car on the freeway) make up roughly 80% of every mile driven. The remaining 20% is a huge collection of rare events — Halloween-costumed kids, mattresses in the road, first snow in Phoenix — each one unlikely, but collectively common enough to matter. Deep learning systems are trained on what they see most; they are <em>least</em> reliable on exactly the cases where the stakes are highest. This is why Waymo can't rely on real-world miles alone.</figcaption>
+  </figure>
+
+  <script>
+  (function() {
+    var svg = document.getElementById('tailChart');
+    if (!svg) return;
+    // 60 bars decaying exponentially
+    var bars = [];
+    for (var i = 0; i < 60; i++) bars.push(Math.max(2, 200 * Math.exp(-i / 7)));
+    var width = 700, height = 260, padL = 60, padR = 20, padT = 40, padB = 50;
+    var chartW = width - padL - padR, chartH = height - padT - padB;
+    var barW = chartW / bars.length;
+    var content = '';
+    // Y axis labels
+    content += '<text x="' + (padL - 6) + '" y="' + (padT + 10) + '" text-anchor="end" fill="#94a3b8" font-size="10" font-family="Arial">very often</text>';
+    content += '<text x="' + (padL - 6) + '" y="' + (padT + chartH) + '" text-anchor="end" fill="#94a3b8" font-size="10" font-family="Arial">rare</text>';
+    content += '<text x="' + (padL - 42) + '" y="' + (padT + chartH / 2) + '" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="Arial" transform="rotate(-90 ' + (padL - 42) + ' ' + (padT + chartH / 2) + ')">how often it happens</text>';
+    // X axis label
+    content += '<text x="' + (padL + chartW / 2) + '" y="' + (height - 8) + '" text-anchor="middle" fill="#64748b" font-size="11" font-weight="700" font-family="Arial">Driving scenarios, sorted from most common to rarest &#8594;</text>';
+    // Bars
+    bars.forEach(function(h, i) {
+      var x = padL + i * barW;
+      var y = padT + chartH - h * (chartH / 200);
+      var bh = h * (chartH / 200);
+      var isHead = i < 8;
+      var color = isHead ? '#10b981' : '#f59e0b';
+      var op = isHead ? 0.85 : 0.75;
+      content += '<rect x="' + (x + 1) + '" y="' + y + '" width="' + (barW - 2) + '" height="' + bh + '" fill="' + color + '" fill-opacity="' + op + '"/>';
+    });
+    // Head/tail divider
+    var dividerX = padL + 8 * barW;
+    content += '<line x1="' + dividerX + '" y1="' + padT + '" x2="' + dividerX + '" y2="' + (padT + chartH) + '" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4 3"/>';
+    content += '<text x="' + (dividerX - 6) + '" y="' + (padT - 12) + '" text-anchor="end" fill="#047857" font-size="12" font-weight="700" font-family="Arial">"Head" (~80% of miles)</text>';
+    content += '<text x="' + (dividerX + 6) + '" y="' + (padT - 12) + '" fill="#92400e" font-size="12" font-weight="700" font-family="Arial">"Long tail" (the other 20%)</text>';
+    // Annotations
+    var annotations = [
+      { pos: 25, label: 'Halloween costume kid' },
+      { pos: 40, label: 'Mattress on road' },
+      { pos: 54, label: 'First snow in Phoenix' }
+    ];
+    annotations.forEach(function(a) {
+      var x = padL + a.pos * barW + barW / 2;
+      var y = padT + chartH - bars[a.pos] * (chartH / 200);
+      content += '<line x1="' + x + '" y1="' + y + '" x2="' + x + '" y2="' + (y - 20) + '" stroke="#92400e" stroke-width="1" stroke-dasharray="2 2"/>';
+      content += '<text x="' + x + '" y="' + (y - 24) + '" text-anchor="middle" fill="#92400e" font-size="9" font-family="Arial">' + a.label + '</text>';
+    });
+    svg.innerHTML = content;
+  })();
+  </script>
+
   <h3>Sensors: what the car actually sees</h3>
 
   <p>Before the data problem can be solved, the data has to be collected. Waymo uses three types of sensors in parallel, each capturing a different dimension of the world. Cameras produce rich visual images — color, texture, the text on a sign, the posture of a pedestrian. Lidar (Light Detection and Ranging) fires laser pulses in 360 degrees and measures how long they take to bounce back, producing precise 3D point clouds at distances up to 300 meters, regardless of lighting. Radar detects the velocity of objects even through fog or heavy rain when cameras and lidar struggle.</p>
@@ -866,13 +927,42 @@
 
   <p>We opened this chapter with AlphaGo. Now we can close the loop.</p>
 
+  <p>The planner is the part of the car that actually <em>decides</em> what to do — speed up, slow down, change lanes, hold for the cyclist, take the gap. It receives the live world representation from the perception system (what's around the car right now, where everything is, where things are likely to go next) and outputs an action thirty-plus times a second. That's the decision step of the AI Factory.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">Two "world" things, easy to mix up</div>
+    <div class="insight-text">The planner relies on something Waymo engineers call the <strong>world representation</strong> — that's the live 3D picture of what's around the car right now, rebuilt from sensor data thirty times per second. <strong>Don't confuse this with the Waymo World Model from Section 4.</strong> The World Model is a generative AI system that lives in Waymo's data centers and creates synthetic driving scenes for training. The world representation is what the planner uses <em>now</em>, while driving. The World Model is where the planner <em>learned</em> how to drive, before it ever hit a real road. Think of it this way: the World Model is the training simulator. The world representation is what shows up on the windshield-equivalent display while driving. Same word, very different jobs.</div>
+  </div>
+
+  <h3>How does the planner learn?</h3>
+
   <p>AlphaGo did not learn Go by studying human moves. It learned by playing millions of games against itself, updating its strategy based on whether it won or lost. That approach — learning from rewards and penalties rather than labeled examples — is called <strong>reinforcement learning</strong>. Waymo uses the same approach for its planning system: not to identify objects (that is the perception system's job), but to learn <em>how to drive</em>.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key Concept</div>
     <div class="concept-term">Reinforcement learning (RL)</div>
-    <div class="concept-def">Reinforcement learning is a way of teaching an AI system through trial, error, and feedback — rather than by showing it labeled examples of correct answers. The system tries something, gets a signal saying whether the outcome was good or bad, and gradually adjusts its behavior toward the things that earned good signals. In AlphaGo's case, the feedback was simply whether the game was won or lost. The system played millions of games, learned which moves led to wins, and eventually developed strategies no human expert had discovered. Waymo uses the same approach for its planning system — the feedback signal is whether the resulting driving behavior was safe, smooth, and legal. The environment in which this learning happens is the World Model simulation, which provides the practice environment that makes it safe to try millions of decisions before any of them happen on a real road.</div>
+    <div class="concept-def">Reinforcement learning is a way of teaching an AI system through trial, error, and feedback — rather than by showing it labeled examples of correct answers. The system tries something, gets a signal saying whether the outcome was good or bad, and gradually adjusts its behavior toward the things that earned good signals. In AlphaGo's case, the feedback was simply whether the game was won or lost. The system played millions of games, learned which moves led to wins, and eventually developed strategies no human expert had discovered. Waymo uses the same approach for its planning system — the feedback signal is whether the resulting driving behavior was safe, smooth, and legal.</div>
   </div>
+
+  <p>Why use reinforcement learning for driving instead of the same supervised approach used for perception? Because there is no "correct answer" to label. With perception, an engineer can show the model a million images and say "that's a pedestrian, that's a stop sign, that's a brake light" — there's a single right answer for each example. But with driving decisions, what should the car have done at this exact intersection, with this exact pedestrian, this exact oncoming car, this exact weather? There are many reasonable answers, and infinitely many possible scenarios. You can't label your way out of that. RL is what you reach for when the problem doesn't have a single right answer — only outcomes that are better or worse.</p>
+
+  <h3>The reward function: business strategy in numbers</h3>
+
+  <p>The most important piece of any RL system is the <strong>reward function</strong> — the literal list of behaviors and the points the system earns or loses for each. For Waymo's planner, a (vastly simplified) reward function might look like:</p>
+
+  <div class="concept-box" style="background:#f8fafc; border-left-color:#0078ff;">
+    <div class="concept-def" style="font-family:Consolas, monospace; font-size:13px; line-height:1.9;">
+      Complete a turn successfully &nbsp;&nbsp;&nbsp;&nbsp;<strong style="color:#047857;">+10</strong><br>
+      Hard brake (jolts the passenger) &nbsp;&nbsp;&nbsp;&nbsp;<strong style="color:#b45309;">−5</strong><br>
+      Close call (under 3-foot gap) &nbsp;&nbsp;&nbsp;&nbsp;<strong style="color:#b45309;">−15</strong><br>
+      Each second of waiting at intersection &nbsp;&nbsp;&nbsp;&nbsp;<strong style="color:#b45309;">−1</strong><br>
+      Collision &nbsp;&nbsp;&nbsp;&nbsp;<strong style="color:#991b1b;">−1000</strong>
+    </div>
+  </div>
+
+  <p>The car runs the same scenario over and over in simulation. Each attempt produces a score based on what happened. After millions of attempts across billions of simulated miles, the system has learned which actions tend to score highest in which situations — and that learned strategy is called the <strong>policy</strong>. The policy is essentially the planner's playbook: "in this kind of situation, do this kind of thing."</p>
+
+  <p>What looks like a technical detail is actually the most consequential business decision in the whole stack. <strong>The reward function is corporate strategy written in numbers.</strong> A car whose reward function heavily penalizes hard braking will drive smoothly but might cut close calls. A car whose reward function heavily penalizes any close call will be safer but slower. A car that strongly penalizes waiting will be aggressive — possibly dangerous. The reward function is where Waymo's product, safety, and engineering teams encode their judgment about what kind of driver the company wants to build. Getting the numbers right is the hard part.</p>
 
   <div class="two-col">
     <div class="col-card col-blue">
@@ -883,17 +973,19 @@
     <div class="col-card col-teal">
       <div class="col-label">Waymo Driver (2020s)</div>
       <div class="col-title">Learning through simulation</div>
-      <div class="col-body">Drives billions of simulated miles. Each scenario produces a safety/comfort signal. RL updates the policy to favor driving behaviors that are safe, smooth, and legal. Result: robust responses to rare and dangerous scenarios before encountering them on real roads.</div>
+      <div class="col-body">Drives billions of simulated miles inside the World Model. Each scenario produces a reward score based on safety, comfort, and progress. RL updates the policy toward driving behaviors that score highest. Result: robust responses to rare and dangerous scenarios before encountering them on real roads.</div>
     </div>
   </div>
 
-  <p>This is where the World Model from Section 4 closes the loop. RL requires an environment to practice in — somewhere the agent can try millions of decisions, fail safely, and receive feedback. For AlphaGo, that environment was a Go simulator. For Waymo, it is the World Model: a generative simulator that can conjure any scenario on demand, run the car through it, score the result, and repeat billions of times. Without the World Model, the RL agent would have to learn from real-world miles alone — and dangerous scenarios, by definition, are too rare to encounter enough times to learn from safely. Simulation makes RL viable at scale. The World Model is not just a data generator; it is the practice court.</p>
+  <h3>Why simulation matters: the World Model as practice court</h3>
+
+  <p>This is where the World Model from Section 4 closes the loop. RL requires an environment to practice in — somewhere the agent can try millions of decisions, fail safely, and receive feedback. For AlphaGo, that environment was a Go simulator. For Waymo, it is the World Model: a generative simulator that can conjure any scenario on demand, run the car through it, score the result, and repeat billions of times. Without the World Model, the RL agent would have to learn from real-world miles alone — and dangerous scenarios, by definition, are too rare to encounter enough times to learn from safely. Simulation makes RL viable at scale. <strong>The World Model is not just a data generator; it is the practice court.</strong></p>
 
   <p>The connection between AlphaGo and Waymo is not just analogical. The team that built AlphaGo — Google DeepMind — is the same team that built Genie 3, the foundation model underlying the Waymo World Model. The research lineage is direct: a technique developed to play an ancient board game is now being applied to one of the hardest engineering problems in the world. This is a common pattern in deep learning — fundamental research on games or language produces architectures that transfer to applied problems nobody originally intended.</p>
 
   <div class="danger-box">
     <div class="danger-label">The "be careful what you ask for" problem</div>
-    <div class="danger-text">Reinforcement learning optimizes for exactly what you tell it to optimize for — no more, no less. The catch is that "drive safely and comfortably" is surprisingly hard to translate into a clear, measurable goal. A system told to minimize travel time might learn to cut corners on safety margins. A system told to avoid all risk might freeze in the middle of traffic rather than make a difficult merge. Early Waymo vehicles were famously polite — they always yielded, always waited. That created its own problems: overly deferential cars slow down traffic for everyone, and other drivers learn to take advantage of a car that will always wait. In 2025, Waymo retuned its vehicles to be "more confidently assertive" — which shortly resulted in a police officer pulling one over for an illegal U-turn. Writing down what "good driving" means, precisely enough that a machine can optimize for it, turns out to be genuinely hard. Engineers call this the <strong>specification problem</strong>: the gap between what you asked the system to do and what you actually wanted.</div>
+    <div class="danger-text">Reinforcement learning optimizes for exactly what you tell it to optimize for — no more, no less. The catch is that "drive safely and comfortably" is surprisingly hard to translate into a clear, measurable goal. A system told to minimize travel time might learn to cut corners on safety margins. A system told to avoid all risk might freeze in the middle of traffic rather than make a difficult merge. Early Waymo vehicles were famously polite — they always yielded, always waited. That created its own problems: overly deferential cars slow down traffic for everyone, and other drivers learn to take advantage of a car that will always wait. In 2025, Waymo retuned its vehicles to be "more confidently assertive" — which shortly resulted in a police officer pulling one over for an illegal U-turn. Writing down what "good driving" means, precisely enough that a machine can optimize for it, turns out to be genuinely hard. Engineers call this the <strong>specification problem</strong>: the gap between what you asked the system to do and what you actually wanted. Tweaking a reward function is how you fix it — and how you sometimes break it again. Lab 5 lets you feel this directly: you'll design a reward function for the same Austin-style left turn and see what happens when one number changes.</div>
   </div>
 
   <!-- STEP 5: VALUE -->
@@ -1204,6 +1296,8 @@
     <div class="vocab-card"><div class="vocab-term">Sensor fusion</div><div class="vocab-def">Combining data from multiple sensors (camera, lidar, radar) so each sensor's weakness is covered by another's strength</div></div>
     <div class="vocab-card"><div class="vocab-term">Motion prediction</div><div class="vocab-def">A deep learning model that forecasts where every object in the environment is likely to go next — and because the future isn't certain, outputs a range of possibilities with a likelihood on each one rather than a single guess</div></div>
     <div class="vocab-card"><div class="vocab-term">Reinforcement learning (RL)</div><div class="vocab-def">A learning approach where an agent takes actions in an environment and learns a policy that maximizes cumulative reward — used by AlphaGo for game moves and by Waymo for driving behavior</div></div>
+    <div class="vocab-card"><div class="vocab-term">Reward function</div><div class="vocab-def">The literal list of behaviors and the points an RL system earns or loses for each — e.g., "+10 for completing a turn, −1000 for a collision." This is where company judgment about what "good driving" means gets encoded as numbers</div></div>
+    <div class="vocab-card"><div class="vocab-term">Policy</div><div class="vocab-def">The learned strategy an RL agent ends up with after training — essentially its playbook: "in this kind of situation, do this kind of thing." For Waymo, the policy is what actually drives the car</div></div>
     <div class="vocab-card"><div class="vocab-term">The long-tail problem</div><div class="vocab-def">In safety-critical AI, the rare scenarios that appear least in training data are often the most dangerous — and deep learning systems are least reliable precisely where reliability matters most</div></div>
     <div class="vocab-card"><div class="vocab-term">Synthetic data</div><div class="vocab-def">Training data generated by a computer simulation rather than collected from the real world — essential for teaching autonomous vehicles how to handle scenarios that are too rare or dangerous to observe at scale</div></div>
     <div class="vocab-card"><div class="vocab-term">Sim-to-real transfer</div><div class="vocab-def">The degree to which a model trained on synthetic data actually performs well when deployed in the real world — closing this gap is one of the central challenges of simulation-based training</div></div>
