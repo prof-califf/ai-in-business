@@ -322,11 +322,12 @@
     <a href="#s11" style="padding-left:1.25rem; font-size:0.95em;">4.5 AI Factory: Step 5 — Value: A Public Health Breakthrough — or a Job Killer?</a>
     <a href="#s9-recap">5. Recap: The AI Factory at Waymo</a>
     <a href="#s11b">6. Deep Learning as Competitive Advantage</a>
+    <div class="toc-part">Reality Check</div>
+    <a href="#s12">7. Responsible AI: What Happens When the Car Is Wrong?</a>
+    <a href="#s12b">8. Waymo in the Wild: What Actually Goes Wrong</a>
     <div class="toc-part">Implications</div>
-    <a href="#s-physical-ai">7. Beyond the Road: Deep Learning and Physical AI</a>
-    <a href="#s-world-models">8. World Models: AI's Next Frontier</a>
-    <a href="#s12">9. Responsible AI: What Happens When the Car Is Wrong?</a>
-    <a href="#s12b">10. Waymo in the Wild: What Actually Goes Wrong</a>
+    <a href="#s-physical-ai">9. Beyond the Road: Deep Learning and Physical AI</a>
+    <a href="#s-world-models">10. World Models: AI's Next Frontier</a>
     <a href="#s13">11. Summary Table &amp; Discussion Questions</a>
   </div>
 
@@ -1123,10 +1124,99 @@
 
   <div class="callout-quote">"The companies best positioned to benefit from deep learning are often those that already invested in earlier generations of ML — because the infrastructure, the data pipelines, the culture of experimentation, and the institutional knowledge about what works compound over time."</div>
 
-  <!-- SECTION PHYSICAL AI -->
-  <h2 id="s-physical-ai"><span class="section-num">7</span> Beyond the Road: Deep Learning and Physical AI</h2>
+  <!-- SECTION 13 -->
+  <h2 id="s12"><span class="section-num">7</span> Responsible AI: What Happens When the Car Is Wrong?</h2>
 
-  <p>Everything you've learned about Waymo applies to a much larger story than self-driving cars. Researchers and industry analysts have started using a specific term for it: <strong>physical AI</strong>. The distinction matters. Most of the AI you've used — ChatGPT, Claude, Gemini, image generators — lives entirely in software. It reads text, generates text, manipulates pixels. It never has to know that gravity pulls things down, that glass breaks, that a coffee cup tipped 30 degrees will spill. Physical AI is different. It's AI that has to <em>act in the actual world</em> — perceive its surroundings, predict what happens next, and produce real movements that have real consequences. Waymo is just the most visible deployment. The same playbook is now being run on humanoid robots, surgical assistants, warehouse machines, agricultural drones, and home robotics.</p>
+  <p>The competitive advantages above are real — but they are built on a system that, like every deep learning system, makes mistakes. The safety record Waymo cites is genuine and impressive, but it sits alongside a growing public record of specific failures that tell a more complicated story. The question for this section is not whether Waymo's models ever misclassify an object or make a wrong decision — they do. The question is: what happens when they do, who is responsible, and what does that mean for the companies and managers deploying AI in physical environments?</p>
+
+  <h3>The opacity problem</h3>
+  <p>Deep neural networks are black boxes. A CNN that classifies a stop sign as a speed-limit sign because of an unusual shadow can rarely tell you why it made that mistake. The internal representations learned during training are not human-interpretable — they are distributed across billions of parameters in ways that resist simple explanation. This creates a real challenge for safety validation: how do you certify that a system is safe when you can't fully explain why it makes the decisions it does?</p>
+
+  <p>Waymo's approach is to rely on empirical safety records rather than theoretical guarantees. Instead of proving that the system will always behave correctly, they demonstrate that it has behaved correctly across hundreds of millions of miles and tens of billions of simulated miles, with a resulting safety record better than human drivers. This is a pragmatic answer — but it is not the same as understanding the system, and it does not predict how the system will behave in genuinely novel situations it has never encountered before.</p>
+
+  <h3>The long-tail failure mode</h3>
+  <p>Deep learning systems learn from the examples they were trained on. By construction, they are less reliable on situations they have never encountered. The Waymo World Model is a direct response to this problem — it extends what the car has "seen" by generating synthetic examples of rare scenarios. But a generative model can only simulate what its own experience has prepared it to imagine. A truly novel event — something that has never appeared in any video the model was trained on — could still produce a failure. This is not a hypothetical concern; it is the defining hard problem of deploying AI in open-ended physical environments, and it is not fully solved.</p>
+
+  <h3>Liability and accountability</h3>
+  <p>When a Waymo vehicle is involved in a collision, the liability questions are genuinely new. There is no human driver to blame. Waymo, the manufacturer, and potentially the software engineers whose models made the decision all enter the legal picture in ways that existing law was not designed to address. Several U.S. states have passed autonomous vehicle legislation, but the legal framework is still evolving. For business students, this is not an abstract legal question — it is a material risk for any company deploying AI in physical, safety-critical environments.</p>
+
+  <h3>When the algorithm meets the real world: two recent cases</h3>
+
+  <p>Abstract discussions of AI risk become concrete quickly when you look at what has actually happened with Waymo on real streets. Two stories from December 2025 illustrate the gap between a model that works well on average and a system that is ready for everything.</p>
+
+  <div class="danger-box">
+    <div class="danger-label">Case 1: The school bus recall (NPR, December 2025)</div>
+    <div class="danger-text">In fall 2025, multiple Waymo vehicles were caught on video driving around stopped school buses — a serious safety failure, since children may be crossing the road when a school bus has its stop arm deployed. The Austin Independent School District documented 19 such incidents with Waymo vehicles; in one case, a Waymo drove past only moments after a student had crossed in front of it, while the student was still in the road. Waymo filed a voluntary software recall with the National Highway Traffic Safety Administration. No injuries occurred — but the episode is a direct illustration of the long-tail problem in practice. A stopped school bus with a crossing arm is a relatively rare scenario. The model had not been adequately calibrated for it, and the gap only became visible once the fleet accumulated enough miles in cities where school buses are common.
+    <br><br><a href="https://www.npr.org/2025/12/06/nx-s1-5635614/waymo-school-buses-recall" target="_blank" style="color:#b45309; font-weight:700;">Read the full NPR story →</a></div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-label">Case 2: Teaching a car to drive like a human — the assertiveness update (NPR, December 2025)</div>
+    <div class="insight-text">Early Waymo vehicles were famously polite — they always yielded at four-way stops, always waited for a gap rather than asserting themselves in traffic. This created its own problems: overly deferential vehicles disrupt traffic flow, and other drivers learn to exploit an autonomous car that will always wait. In 2025, Waymo deliberately updated its vehicles to be "more confidently assertive." The result: vehicles were observed not signaling before lane changes and making what turned out to be an illegal U-turn in San Bruno — a police officer on patrol actually pulled the Waymo over. With no driver present, the window rolled down and a remote operator came on the speaker, apologized, and promised to look into it. Waymo's senior director of product management acknowledged that overly passive cars are themselves disruptive to traffic. This is a genuine design dilemma with no clean answer: a car that follows every rule precisely may be safer by one metric and worse by another. Defining "good driving" as a clear specification for an AI system turns out to be harder than it looks.
+    <br><br><a href="https://www.npr.org/2025/12/07/nx-s1-5630888/do-waymo-self-driving-vehicles-need-way-more-driving-ettiquete" target="_blank" style="color:#006b6f; font-weight:700;">Read the full NPR story →</a></div>
+  </div>
+
+  <p>Together these two cases illustrate a theme that runs through every responsible AI discussion in this course: the gap between a system that performs well on average and one that is trustworthy across the full range of situations it will actually encounter. The school bus case is about the long tail — a rare scenario the model wasn't ready for. The assertiveness case is about specification — what does "correct behavior" even mean for a machine driving in human traffic? Both are business problems as much as technical ones. They require ongoing human judgment, public accountability, and a willingness to issue a recall when the model falls short.</p>
+
+  <div class="danger-box">
+    <div class="danger-label">When the goal and the values aren't the same thing</div>
+    <div class="danger-text">Reinforcement learning optimizes for whatever outcome you tell it to optimize for. But specifying "drive safely and comfortably" as a clear, measurable objective is harder than it sounds. A system that minimizes travel time might cut corners on safety margins. A system that avoids all risk might stop in the middle of traffic rather than make a difficult merge. The gap between the outcome you measured in testing and the values you actually care about in the full range of real-world situations is one of the deepest challenges in deploying AI for physical decisions. It requires ongoing human judgment — not just at the design stage, but throughout the life of the system.</div>
+  </div>
+
+  <!-- SECTION 12b -->
+  <h2 id="s12b"><span class="section-num">8</span> Waymo in the Wild: What Actually Goes Wrong</h2>
+
+  <p>Most of this chapter has treated Waymo as a technical system — sensors, models, simulations, decisions. But the moment you take a technical system out of the lab and put it on a public street, it stops being purely technical. It enters a world made of <em>people</em> — drivers with their own habits, pedestrians with their own assumptions, neighbors who'd rather sleep than listen to robotaxis honk at each other, regulators with elections to win, journalists looking for a story, protesters with their own grievances about who benefits from the technology and who doesn't. Real-world deployment is never just about whether the AI works. It's about whether the AI works <em>inside an existing fabric of culture, community, institutions, and individual opinions</em> — none of which the engineers controlled, and most of which weren't represented in the training data.</p>
+
+  <p>The incidents below illustrate that pattern. Some are funny, some are alarming, some are both. None of them are cherry-picked failures — they represent a real category of problem that engineers working on physical AI systems face constantly: <strong>the world is stranger than your training data, and the people in it are stranger still.</strong></p>
+
+  <div class="wild-grid">
+
+    <div class="wild-card">
+      <div class="wild-icon">🔄</div>
+      <div class="wild-title">"Why is this thing going in circles?"</div>
+      <div class="wild-body">In late 2024, a passenger named Mike Johns hailed a Waymo for a ride to the airport. The car began looping a parking lot repeatedly. Johns called Waymo support from the back seat: <em>"Why is this thing going in a circle? I'm getting dizzy. Has this been hacked? What's going on? I feel like I'm in the movies."</em> He had a plane to catch. The incident — captured on video and shared on LinkedIn — went nationally viral. Waymo identified a software glitch. No injuries, significant embarrassment.</div>
+      <div class="wild-lesson">📌 The lesson: A bug that is merely inconvenient in a phone app can strand a person with a flight to catch. Physical AI failures have physical consequences, even when nobody gets hurt.</div>
+      <div class="wild-source"><a href="https://www.tiktok.com/@news.com.au/video/7457018055961398536" target="_blank">▶ Watch the TikTok video →</a></div>
+    </div>
+
+    <div class="wild-card">
+      <div class="wild-icon">📣</div>
+      <div class="wild-title">A parking lot full of Waymos honking at each other all night</div>
+      <div class="wild-body">In August 2024, a San Francisco resident named Randol White noticed his neighborhood was filling with the sound of car horns — day and night. The source: a Waymo staging lot nearby, where a fleet of autonomous vehicles had developed a software glitch that caused them to confuse each other and begin honking. They continued until Waymo patched the bug. "I could not be more cranky today," said a neighbor. Waymo acknowledged the issue and said it was working on a fix.</div>
+      <div class="wild-lesson">📌 The lesson: Autonomous systems interact with each other in ways that weren't anticipated. A behavior that is correct for a single vehicle (honk when confused) becomes a problem at fleet scale.</div>
+      <div class="wild-source"><a href="https://packaged-media.redd.it/xvw5uur0dkid1/pb/m2-res_720p.mp4?m=DASHPlaylist.mpd&var=sgpssan&v=1&e=1776736800&s=f95d429cbcb03b871bc71aebf15ea546df22e51f" target="_blank">▶ Watch the video →</a></div>
+    </div>
+
+    <div class="wild-card">
+      <div class="wild-icon">🚓</div>
+      <div class="wild-title">Pulled over near a DUI checkpoint — no one to ticket</div>
+      <div class="wild-body">In September 2024, a Phoenix police officer on patrol noticed a Waymo making an illegal U-turn near a DUI checkpoint. The officer activated lights and pulled the car over. There was no driver. The window rolled down, a remote Waymo operator came on the speaker, and the operator apologized. Under California (and Arizona) law at the time, there was no one to ticket. The incident was widely shared, including by Elon Musk, who called it "straight out of the Silicon Valley show."</div>
+      <div class="wild-lesson">📌 The lesson: Existing legal and enforcement infrastructure assumes a human driver is responsible. Autonomous vehicles create genuine gaps in accountability that laws haven't caught up to yet.</div>
+      <div class="wild-source"><a href="https://www.ktvu.com/news/police-stumped-when-waymo-makes-illegal-u-turn-san-bruno" target="_blank">📰 Read the KTVU news story →</a></div>
+    </div>
+
+    <div class="wild-card">
+      <div class="wild-icon">🪄</div>
+      <div class="wild-title">A man in the trunk</div>
+      <div class="wild-body">In 2025, a woman in Los Angeles summoned a Waymo for her daughter. When the car arrived, she discovered a man had hidden himself in the trunk. The encounter — filmed and posted to TikTok — shows the woman confronting him ("Why are you in the trunk?") while the man claims he is stuck. Police were called. Waymo called it "unacceptable" and said it would review its protocols. The incident raised a question the perception engineers almost certainly never modeled: what happens when a person hides in a compartment the car's sensors don't monitor?</div>
+      <div class="wild-lesson">📌 The lesson: AI systems are designed around anticipated use cases. When reality produces scenarios outside that design envelope — not just rare driving events, but human behavior that wasn't considered — the system has no answer.</div>
+      <div class="wild-source"><a href="https://www.cbsnews.com/losangeles/news/man-in-waymo-trunk-westlake-district-investigation/" target="_blank">📰 Read the CBS News story →</a></div>
+    </div>
+
+  </div>
+
+  <p>These incidents have something important in common: none of them involved a failure of the core deep learning perception system. The car wasn't confused about whether the parking lot wall was a pedestrian. The honking wasn't caused by a misidentified object. The man in the trunk wasn't a sensor failure. They were failures of <em>system design</em> — the broader set of decisions about how an AI-powered product behaves in the full messiness of the real world. Deep learning makes the car able to drive. It does not automatically make the whole system ready for everything.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">Growing pains or deeper signal?</div>
+    <div class="insight-text">It is worth noting that Waymo's overall safety record — 91% fewer serious-injury crashes than human drivers — remains strong despite these incidents. The question for a business student is not whether these problems disqualify the technology, but what they reveal about the gap between "the model works" and "the product is ready." Every one of these failures is a product design problem as much as an AI problem. And all of them became public, went viral, and shaped public trust — which is ultimately what determines whether the technology gets to keep operating.</div>
+  </div>
+
+  <!-- SECTION PHYSICAL AI -->
+  <h2 id="s-physical-ai"><span class="section-num">9</span> Beyond the Road: Deep Learning and Physical AI</h2>
+
+  <p>The failures in Section 8 are the price of operating a complex AI system in the real world — and that price is being paid right now, every day, by Waymo and its riders. But step back, and a bigger question becomes visible. Everything you've learned about Waymo — the failures included — applies to a much larger story than self-driving cars. Researchers and industry analysts have started using a specific term for it: <strong>physical AI</strong>. The distinction matters. Most of the AI you've used — ChatGPT, Claude, Gemini, image generators — lives entirely in software. It reads text, generates text, manipulates pixels. It never has to know that gravity pulls things down, that glass breaks, that a coffee cup tipped 30 degrees will spill. Physical AI is different. It's AI that has to <em>act in the actual world</em> — perceive its surroundings, predict what happens next, and produce real movements that have real consequences. Waymo is just the most visible deployment. The same playbook is now being run on humanoid robots, surgical assistants, warehouse machines, agricultural drones, and home robotics.</p>
 
   <h3>Why the Waymo playbook transfers</h3>
 
@@ -1170,7 +1260,7 @@
   </div>
 
   <!-- SECTION 12: WORLD MODELS — AI'S NEXT FRONTIER -->
-  <h2 id="s-world-models"><span class="section-num">8</span> World Models: AI's Next Frontier</h2>
+  <h2 id="s-world-models"><span class="section-num">10</span> World Models: AI's Next Frontier</h2>
 
   <p>In Section 4 you met the Waymo World Model — the system that lets the car practice driving in scenarios that have never happened on a real road. That technology isn't only a Waymo story. A growing number of AI researchers argue that <strong>world models</strong> — AI systems that learn how the physical world actually <em>works</em>, rather than just what it looks like in pixels or reads like in text — are the next major direction for the whole field. Understanding why matters, because world models reshape what AI can do outside self-driving cars too.</p>
 
@@ -1243,93 +1333,6 @@
     <div class="danger-label" style="color:#005fcc;">What to watch, as a business student</div>
     <div class="danger-text">This is one of those moments where a new AI architecture — still mostly in research labs and frontier companies — is about to reshape which AI companies win in the next five years. A few questions worth asking when you read any AI-company announcement from now on: <em>(1) Is this an LLM or a world model?</em> (LLMs are mature; world models are earlier and more valuable if they work.) <em>(2) Does the company have access to multimodal video data at scale?</em> (If not, they probably can't build a serious world model.) <em>(3) Does their use case actually need a world model, or would an LLM suffice?</em> (Customer-service bots don't need one; anything that touches the physical world might.) The honest answer is that LLMs are not going away — text and code tasks will still use them — but the AI stories of the next few years will increasingly be world-model stories.
     <br><br><a href="https://www.infoworld.com/article/4162635/why-world-models-are-ais-next-frontier.html" target="_blank" style="color:#005fcc; font-weight:700;">Read the full InfoWorld article →</a></div>
-  </div>
-
-  <!-- SECTION 13 -->
-  <h2 id="s12"><span class="section-num">9</span> Responsible AI: What Happens When the Car Is Wrong?</h2>
-
-  <p>The competitive advantages above are real — but they are built on a system that, like every deep learning system, makes mistakes. The safety record Waymo cites is genuine and impressive, but it sits alongside a growing public record of specific failures that tell a more complicated story. The question for this section is not whether Waymo's models ever misclassify an object or make a wrong decision — they do. The question is: what happens when they do, who is responsible, and what does that mean for the companies and managers deploying AI in physical environments?</p>
-
-  <h3>The opacity problem</h3>
-  <p>Deep neural networks are black boxes. A CNN that classifies a stop sign as a speed-limit sign because of an unusual shadow can rarely tell you why it made that mistake. The internal representations learned during training are not human-interpretable — they are distributed across billions of parameters in ways that resist simple explanation. This creates a real challenge for safety validation: how do you certify that a system is safe when you can't fully explain why it makes the decisions it does?</p>
-
-  <p>Waymo's approach is to rely on empirical safety records rather than theoretical guarantees. Instead of proving that the system will always behave correctly, they demonstrate that it has behaved correctly across hundreds of millions of miles and tens of billions of simulated miles, with a resulting safety record better than human drivers. This is a pragmatic answer — but it is not the same as understanding the system, and it does not predict how the system will behave in genuinely novel situations it has never encountered before.</p>
-
-  <h3>The long-tail failure mode</h3>
-  <p>Deep learning systems learn from the examples they were trained on. By construction, they are less reliable on situations they have never encountered. The Waymo World Model is a direct response to this problem — it extends what the car has "seen" by generating synthetic examples of rare scenarios. But a generative model can only simulate what its own experience has prepared it to imagine. A truly novel event — something that has never appeared in any video the model was trained on — could still produce a failure. This is not a hypothetical concern; it is the defining hard problem of deploying AI in open-ended physical environments, and it is not fully solved.</p>
-
-  <h3>Liability and accountability</h3>
-  <p>When a Waymo vehicle is involved in a collision, the liability questions are genuinely new. There is no human driver to blame. Waymo, the manufacturer, and potentially the software engineers whose models made the decision all enter the legal picture in ways that existing law was not designed to address. Several U.S. states have passed autonomous vehicle legislation, but the legal framework is still evolving. For business students, this is not an abstract legal question — it is a material risk for any company deploying AI in physical, safety-critical environments.</p>
-
-  <h3>When the algorithm meets the real world: two recent cases</h3>
-
-  <p>Abstract discussions of AI risk become concrete quickly when you look at what has actually happened with Waymo on real streets. Two stories from December 2025 illustrate the gap between a model that works well on average and a system that is ready for everything.</p>
-
-  <div class="danger-box">
-    <div class="danger-label">Case 1: The school bus recall (NPR, December 2025)</div>
-    <div class="danger-text">In fall 2025, multiple Waymo vehicles were caught on video driving around stopped school buses — a serious safety failure, since children may be crossing the road when a school bus has its stop arm deployed. The Austin Independent School District documented 19 such incidents with Waymo vehicles; in one case, a Waymo drove past only moments after a student had crossed in front of it, while the student was still in the road. Waymo filed a voluntary software recall with the National Highway Traffic Safety Administration. No injuries occurred — but the episode is a direct illustration of the long-tail problem in practice. A stopped school bus with a crossing arm is a relatively rare scenario. The model had not been adequately calibrated for it, and the gap only became visible once the fleet accumulated enough miles in cities where school buses are common.
-    <br><br><a href="https://www.npr.org/2025/12/06/nx-s1-5635614/waymo-school-buses-recall" target="_blank" style="color:#b45309; font-weight:700;">Read the full NPR story →</a></div>
-  </div>
-
-  <div class="insight-box">
-    <div class="insight-label">Case 2: Teaching a car to drive like a human — the assertiveness update (NPR, December 2025)</div>
-    <div class="insight-text">Early Waymo vehicles were famously polite — they always yielded at four-way stops, always waited for a gap rather than asserting themselves in traffic. This created its own problems: overly deferential vehicles disrupt traffic flow, and other drivers learn to exploit an autonomous car that will always wait. In 2025, Waymo deliberately updated its vehicles to be "more confidently assertive." The result: vehicles were observed not signaling before lane changes and making what turned out to be an illegal U-turn in San Bruno — a police officer on patrol actually pulled the Waymo over. With no driver present, the window rolled down and a remote operator came on the speaker, apologized, and promised to look into it. Waymo's senior director of product management acknowledged that overly passive cars are themselves disruptive to traffic. This is a genuine design dilemma with no clean answer: a car that follows every rule precisely may be safer by one metric and worse by another. Defining "good driving" as a clear specification for an AI system turns out to be harder than it looks.
-    <br><br><a href="https://www.npr.org/2025/12/07/nx-s1-5630888/do-waymo-self-driving-vehicles-need-way-more-driving-ettiquete" target="_blank" style="color:#006b6f; font-weight:700;">Read the full NPR story →</a></div>
-  </div>
-
-  <p>Together these two cases illustrate a theme that runs through every responsible AI discussion in this course: the gap between a system that performs well on average and one that is trustworthy across the full range of situations it will actually encounter. The school bus case is about the long tail — a rare scenario the model wasn't ready for. The assertiveness case is about specification — what does "correct behavior" even mean for a machine driving in human traffic? Both are business problems as much as technical ones. They require ongoing human judgment, public accountability, and a willingness to issue a recall when the model falls short.</p>
-
-  <div class="danger-box">
-    <div class="danger-label">When the goal and the values aren't the same thing</div>
-    <div class="danger-text">Reinforcement learning optimizes for whatever outcome you tell it to optimize for. But specifying "drive safely and comfortably" as a clear, measurable objective is harder than it sounds. A system that minimizes travel time might cut corners on safety margins. A system that avoids all risk might stop in the middle of traffic rather than make a difficult merge. The gap between the outcome you measured in testing and the values you actually care about in the full range of real-world situations is one of the deepest challenges in deploying AI for physical decisions. It requires ongoing human judgment — not just at the design stage, but throughout the life of the system.</div>
-  </div>
-
-  <!-- SECTION 12b -->
-  <h2 id="s12b"><span class="section-num">10</span> Waymo in the Wild: What Actually Goes Wrong</h2>
-
-  <p>The NPR stories above were serious. But Waymo's public record also includes a growing collection of incidents that are, depending on your perspective, funny, alarming, or both — and all of them raise genuine questions about what it means to put an AI system in a context it wasn't fully designed for. These are not cherry-picked failures; they represent a real category of problem that engineers working on physical AI systems face constantly: the world is stranger than your training data.</p>
-
-  <div class="wild-grid">
-
-    <div class="wild-card">
-      <div class="wild-icon">🔄</div>
-      <div class="wild-title">"Why is this thing going in circles?"</div>
-      <div class="wild-body">In late 2024, a passenger named Mike Johns hailed a Waymo for a ride to the airport. The car began looping a parking lot repeatedly. Johns called Waymo support from the back seat: <em>"Why is this thing going in a circle? I'm getting dizzy. Has this been hacked? What's going on? I feel like I'm in the movies."</em> He had a plane to catch. The incident — captured on video and shared on LinkedIn — went nationally viral. Waymo identified a software glitch. No injuries, significant embarrassment.</div>
-      <div class="wild-lesson">📌 The lesson: A bug that is merely inconvenient in a phone app can strand a person with a flight to catch. Physical AI failures have physical consequences, even when nobody gets hurt.</div>
-      <div class="wild-source"><a href="https://www.tiktok.com/@news.com.au/video/7457018055961398536" target="_blank">▶ Watch the TikTok video →</a></div>
-    </div>
-
-    <div class="wild-card">
-      <div class="wild-icon">📣</div>
-      <div class="wild-title">A parking lot full of Waymos honking at each other all night</div>
-      <div class="wild-body">In August 2024, a San Francisco resident named Randol White noticed his neighborhood was filling with the sound of car horns — day and night. The source: a Waymo staging lot nearby, where a fleet of autonomous vehicles had developed a software glitch that caused them to confuse each other and begin honking. They continued until Waymo patched the bug. "I could not be more cranky today," said a neighbor. Waymo acknowledged the issue and said it was working on a fix.</div>
-      <div class="wild-lesson">📌 The lesson: Autonomous systems interact with each other in ways that weren't anticipated. A behavior that is correct for a single vehicle (honk when confused) becomes a problem at fleet scale.</div>
-      <div class="wild-source"><a href="https://packaged-media.redd.it/xvw5uur0dkid1/pb/m2-res_720p.mp4?m=DASHPlaylist.mpd&var=sgpssan&v=1&e=1776736800&s=f95d429cbcb03b871bc71aebf15ea546df22e51f" target="_blank">▶ Watch the video →</a></div>
-    </div>
-
-    <div class="wild-card">
-      <div class="wild-icon">🚓</div>
-      <div class="wild-title">Pulled over near a DUI checkpoint — no one to ticket</div>
-      <div class="wild-body">In September 2024, a Phoenix police officer on patrol noticed a Waymo making an illegal U-turn near a DUI checkpoint. The officer activated lights and pulled the car over. There was no driver. The window rolled down, a remote Waymo operator came on the speaker, and the operator apologized. Under California (and Arizona) law at the time, there was no one to ticket. The incident was widely shared, including by Elon Musk, who called it "straight out of the Silicon Valley show."</div>
-      <div class="wild-lesson">📌 The lesson: Existing legal and enforcement infrastructure assumes a human driver is responsible. Autonomous vehicles create genuine gaps in accountability that laws haven't caught up to yet.</div>
-      <div class="wild-source"><a href="https://www.ktvu.com/news/police-stumped-when-waymo-makes-illegal-u-turn-san-bruno" target="_blank">📰 Read the KTVU news story →</a></div>
-    </div>
-
-    <div class="wild-card">
-      <div class="wild-icon">🪄</div>
-      <div class="wild-title">A man in the trunk</div>
-      <div class="wild-body">In 2025, a woman in Los Angeles summoned a Waymo for her daughter. When the car arrived, she discovered a man had hidden himself in the trunk. The encounter — filmed and posted to TikTok — shows the woman confronting him ("Why are you in the trunk?") while the man claims he is stuck. Police were called. Waymo called it "unacceptable" and said it would review its protocols. The incident raised a question the perception engineers almost certainly never modeled: what happens when a person hides in a compartment the car's sensors don't monitor?</div>
-      <div class="wild-lesson">📌 The lesson: AI systems are designed around anticipated use cases. When reality produces scenarios outside that design envelope — not just rare driving events, but human behavior that wasn't considered — the system has no answer.</div>
-      <div class="wild-source"><a href="https://www.cbsnews.com/losangeles/news/man-in-waymo-trunk-westlake-district-investigation/" target="_blank">📰 Read the CBS News story →</a></div>
-    </div>
-
-  </div>
-
-  <p>These incidents have something important in common: none of them involved a failure of the core deep learning perception system. The car wasn't confused about whether the parking lot wall was a pedestrian. The honking wasn't caused by a misidentified object. The man in the trunk wasn't a sensor failure. They were failures of <em>system design</em> — the broader set of decisions about how an AI-powered product behaves in the full messiness of the real world. Deep learning makes the car able to drive. It does not automatically make the whole system ready for everything.</p>
-
-  <div class="insight-box">
-    <div class="insight-label">Growing pains or deeper signal?</div>
-    <div class="insight-text">It is worth noting that Waymo's overall safety record — 91% fewer serious-injury crashes than human drivers — remains strong despite these incidents. The question for a business student is not whether these problems disqualify the technology, but what they reveal about the gap between "the model works" and "the product is ready." Every one of these failures is a product design problem as much as an AI problem. And all of them became public, went viral, and shaped public trust — which is ultimately what determines whether the technology gets to keep operating.</div>
   </div>
 
   <!-- SECTION 13 -->
