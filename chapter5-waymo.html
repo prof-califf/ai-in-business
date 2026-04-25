@@ -312,7 +312,7 @@
     <div class="toc-part">Origin Story</div>
     <a href="#s1">1. AlphaGo and the Moment Everything Changed</a>
     <a href="#s2">2. What Deep Learning Actually Is</a>
-    <a href="#s-waymo">3. Why Waymo? Deep Learning in the Real World</a>
+    <a href="#s-waymo">3. Deep Learning in the Real World: Meet Waymo</a>
     <div class="toc-part">The AI Factory</div>
     <a href="#s-factory-walk">4. Walking Waymo Through the AI Factory</a>
     <a href="#s3" style="padding-left:1.25rem; font-size:0.95em;">4.1 AI Factory: Step 1 — Data: Sensors, Miles, and the Long-Tail Problem</a>
@@ -536,13 +536,7 @@
   </div>
 
   <!-- WAYMO BRIDGE -->
-  <h2 id="s-waymo"><span class="section-num">3</span> Why Waymo? Deep Learning in the Real World</h2>
-
-  <p>The rest of this chapter uses Waymo as its primary case study — and the choice is deliberate. Autonomous vehicles are the most demanding deployment of deep learning in the physical world. Every problem the technology runs into in a laboratory setting gets amplified on a public road: the data is messier, the edge cases are rarer and more dangerous, the cost of failure is measured in lives rather than benchmark scores, and the system has to work in real time on hardware that fits inside a car. If you want to understand what deep learning can and cannot do, Waymo is the right place to look.</p>
-
-  <p>Waymo began as Google's self-driving car project in 2009 — before AlphaGo, before the 2012 ImageNet breakthrough that ignited the deep learning era. The project was founded on a simple but radical bet: that the sensors and computing power needed for truly autonomous driving would eventually arrive, and that when they did, the teams with the most real-world miles, the most engineering depth, and the most carefully built data infrastructure would win. That bet has largely paid out. By 2025, Waymo had completed over 50 million fully autonomous passenger rides — no human in the driver's seat — across San Francisco, Phoenix, and Austin, with Los Angeles and other cities in expansion. No other company is close to that scale of commercial deployment.</p>
-
-  <p>Before we walk through how it works, here is the company at a glance.</p>
+  <h2 id="s-waymo"><span class="section-num">3</span> Deep Learning in the Real World: Meet Waymo</h2>
 
   <div class="stats-row">
     <div class="stat-card"><div class="stat-num">200M+</div><div class="stat-label">Autonomous miles driven</div></div>
@@ -551,6 +545,10 @@
     <div class="stat-card"><div class="stat-num">3.5×</div><div class="stat-label">Safer than human drivers (injury crashes)</div></div>
     <div class="stat-card"><div class="stat-num">29</div><div class="stat-label">Cameras per vehicle</div></div>
   </div>
+
+  <p>The rest of this chapter uses Waymo as its primary case study — and the choice is deliberate. Autonomous vehicles are the most demanding deployment of deep learning in the physical world. Every problem the technology runs into in a laboratory setting gets amplified on a public road: the data is messier, the edge cases are rarer and more dangerous, the cost of failure is measured in lives rather than benchmark scores, and the system has to work in real time on hardware that fits inside a car. If you want to understand what deep learning can and cannot do, Waymo is the right place to look.</p>
+
+  <p>Waymo began as Google's self-driving car project in 2009 — before AlphaGo, before the 2012 ImageNet breakthrough that ignited the deep learning era. The project was founded on a simple but radical bet: that the sensors and computing power needed for truly autonomous driving would eventually arrive, and that when they did, the teams with the most real-world miles, the most engineering depth, and the most carefully built data infrastructure would win. That bet has largely paid out. By 2025, Waymo had completed over 50 million fully autonomous passenger rides — no human in the driver's seat — across San Francisco, Phoenix, and Austin, with Los Angeles and other cities in expansion. No other company is close to that scale of commercial deployment.</p>
 
   <div class="insight-box">
     <div class="insight-label">The AI Factory model</div>
@@ -561,8 +559,6 @@
 
   <!-- WALKING WAYMO THROUGH THE AI FACTORY -->
   <h2 id="s-factory-walk"><span class="section-num">4</span> Walking Waymo Through the AI Factory</h2>
-
-  <p>The next five sub-sections walk through each step of the AI Factory in turn. Read it as one continuous tour of how Waymo works — from the sensors on the car to the value the system creates and contests.</p>
 
   <!-- STEP 1: DATA -->
   <h3 id="s3"><span class="part-badge">AI Factory: Step 1</span> Data: Sensors, Miles, and the Long-Tail Problem</h3>
