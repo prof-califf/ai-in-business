@@ -1087,8 +1087,8 @@
       </div>
 
       <div class="takeaway">
-        <div class="takeaway-label">Step 1 takeaway</div>
-        <p>Three things to remember about deep learning: <strong>(1)</strong> neural networks learn by seeing lots of labeled examples — you just felt this in the <em>cat simulator</em>, where accuracy climbed as you labeled more images. <strong>(2)</strong> A CNN builds understanding layer by layer — raw pixels → edges → shapes → objects, each layer a bit smarter than the last, as you saw in the four-stage CNN visualization. <strong>(3)</strong> The model is only as good as what you showed it — the long tail chart made this vivid: common scenarios dominate the training data while rare, high-stakes scenarios are wildly underrepresented. In the real world, that gap is what causes AI products to fail dramatically.</p>
+        <div class="takeaway-label">What you just did</div>
+        <p>You learned the three big ideas behind <strong>deep learning</strong> — the kind of AI that powers self-driving cars, image recognition, and most modern AI products. <strong>(1)</strong> A <strong>neural network</strong> learns by seeing lots of labeled examples — you felt this in the cat simulator, where the model got better at spotting cats every time you labeled another image. The more examples it sees, the smarter it gets. <strong>(2)</strong> A <strong>CNN (convolutional neural network)</strong> — the type of model used for images — builds up understanding in layers. Raw pixels become edges, edges become shapes, shapes become objects. Each layer is a little smarter than the one before it, like a kid learning to read by first recognizing letters, then words, then sentences. <strong>(3)</strong> The model is only as good as what you showed it. The long-tail chart made this clear: common situations are everywhere in the training data, but rare, dangerous ones (a kid in a Halloween costume, a deer at dusk) barely show up. That gap is what causes AI products to fail in the real world.</p>
       </div>
 
       <div class="reflection">
@@ -1320,8 +1320,8 @@
       </div>
 
       <div class="takeaway">
-        <div class="takeaway-label">Step 2 takeaway</div>
-        <p>An AI product is only as good as what you trained it on. Two identical systems trained on different data will behave in completely different ways. When you evaluate any AI company, don't ask "how smart is your model?" — ask "what data trained it, and does that match where you'll deploy it?" For Waymo, this is exactly why they spend billions on simulation: it's the only way to manufacture the rare scenarios fast enough to stay ahead.</p>
+        <div class="takeaway-label">What you just did</div>
+        <p>You picked a training dataset for Waymo's <strong>perception system</strong> — the part of the car that "sees" pedestrians, cars, and stop signs — and saw firsthand that the dataset matters just as much as the code itself. Dataset A made the car great at sunny Phoenix days but terrible at edge cases. Dataset C cost three times as much but caught the rare scenarios that actually cause crashes. The big lesson: two AI systems built with the same code but trained on different data will behave in completely different ways. So when you evaluate any AI company, don't ask "how smart is your model?" — ask "what data trained it, and does that match the real world where it'll be used?" This is exactly why Waymo spends billions on simulation: it's the only way to create enough rare scenarios for the model to actually learn from them.</p>
       </div>
 
       <div class="reflection">
@@ -1533,8 +1533,8 @@ Tone: direct, CFO-appropriate, confident but not hype-y.</pre>
       </div>
 
       <div class="takeaway">
-        <div class="takeaway-label">Step 3 takeaway</div>
-        <p>You just felt the <strong>alignment problem</strong> firsthand. You had 20 penalty points to spend, three bars to hit, and no way to max out everything — every slider you moved created a problem somewhere else. That's not a flaw in the simulator; that's the actual daily work of RL engineering at any autonomous-vehicle company. The Austin hesitation and the late-2025 NPR case about Waymo's assertive retune are the <em>same story</em> at different ends of the dial: fix one failure mode, risk another. A good analyst doesn't find the "right" reward function — they pick a defensible tradeoff, document why, and stay ready to retune when conditions change.</p>
+        <div class="takeaway-label">What you just did</div>
+        <p>You designed a <strong>reward function</strong> — the rules that tell a self-driving car what to value and what to avoid. This is how <strong>reinforcement learning</strong> works: the AI tries actions, gets rewarded for good ones and penalized for bad ones, and slowly learns what to do. You had 20 penalty points to spend across crashes, close calls, and waiting too long, plus three goals to hit — and no way to max out everything. Every slider you moved fixed one problem and created another. That's the <strong>alignment problem</strong>: making an AI's goals line up with what humans actually want is way harder than it sounds. Waymo lived this in late 2025 — the NPR article showed they retuned their cars to be more assertive, which fixed the hesitation problem but created new risks like illegal U-turns and abrupt lane changes. Real engineers don't find the "right" reward function — they pick a defensible tradeoff, document why, and stay ready to retune when conditions change.</p>
       </div>
 
       <div class="reflection">
@@ -1593,7 +1593,7 @@ Help me draft a one-paragraph defense of this reward function for our safety boa
         <li>In <strong>Step 2</strong>, you watched a perception model fail on exactly those rare cases — costumed kids, wheelchair users, murals on trucks.</li>
         <li>In <strong>Step 3</strong>, you tuned a reward function and felt the <em>alignment problem</em> — how narrow the defensible zone is between too-cautious and too-aggressive.</li>
       </ul>
-      <p>All three of those are fundamentally <strong>data problems</strong>. The Austin hesitation wasn't caused by bad code — it was caused by a data pipeline that didn't contain enough of the right examples. Every autonomous vehicle company has similar algorithms. The companies that pull ahead are the ones that build the better <strong>data pipeline</strong>.</p>
+      <p>All three of those are fundamentally <strong>data problems</strong>. The Austin hesitation wasn't caused by bad code — it was caused by a data pipeline that didn't contain enough of the right examples. Fixing it means generating more unprotected left turns in simulation, paying human labelers to mark up real-world turn footage, or upgrading sensors to capture more detail next time the situation comes up. Every autonomous vehicle company has similar algorithms. The companies that pull ahead are the ones that build the better <strong>data pipeline</strong> — and that's a question of how they spend their money.</p>
 
       <div class="concept">
         <div class="concept-label">Core Concept: The Data Moat &amp; Compounding Advantage</div>
@@ -1601,7 +1601,7 @@ Help me draft a one-paragraph defense of this reward function for our safety boa
         <p>And here's the key idea: in AI, data moats create <strong>compounding advantage</strong>. That means the lead grows on itself over time. Better data → better model → more usage → more data → even better model. Every quarter, the leader pulls slightly further ahead. Competitors who start later never catch up — they'd have to run faster <em>and</em> make up lost ground at the same time. It's why Google won search, why Amazon won e-commerce recommendations, and why the AI company with the best data pipeline usually wins the market.</p>
       </div>
 
-      <p style="background: #f8fafc; border-left: 4px solid #0078ff; padding: 0.85rem 1.1rem; border-radius: 0 6px 6px 0; margin: 1.25rem 0;"><strong>What you'll walk away with from Step 4:</strong> a framework for evaluating the business side of <em>any</em> AI company. After this step, you should be able to look at an AI startup and ask three things: <em>(1) where does their data come from? (2) does that data pipeline keep getting better on its own? (3) can competitors replicate it with money alone?</em> Those three questions tell you more about whether an AI company will be around in five years than any product roadmap will.</p>
+      <p style="background: #f8fafc; border-left: 4px solid #0078ff; padding: 0.85rem 1.1rem; border-radius: 0 6px 6px 0; margin: 1.25rem 0;"><strong>What you'll walk away with from Step 4:</strong> three questions you can ask about the business side of <em>any</em> AI company. After this step, you should be able to look at an AI startup and ask: <em>(1) where does their data come from? (2) does that data pipeline keep getting better on its own? (3) can competitors replicate it with money alone?</em> Those three questions tell you more about whether an AI company will be around in five years than any product roadmap will.</p>
 
       <p>Which brings you to the question the CFO wants your recommendation on: <strong>how should Waymo spend $1 billion on data next year?</strong> This is effectively asking: <em>what kind of data moat should we be building?</em></p>
 
@@ -1770,14 +1770,14 @@ Help me draft a one-paragraph defense of this reward function for our safety boa
       </div>
 
       <div class="takeaway">
-        <div class="takeaway-label">Step 4 takeaway</div>
-        <p>You just built a framework for evaluating the business side of any AI company. Next time you hear about a hot AI startup — in the news, on LinkedIn, in a pitch deck — run it through the three questions:</p>
+        <div class="takeaway-label">What you just did</div>
+        <p>You learned how AI companies actually spend their money — and why some spending creates a lasting advantage while other spending doesn't. You allocated Waymo's $1B data budget across five real categories (fleet expansion, simulation capacity, human labelers, sensor upgrades, and data partnerships) and saw that not all spending is equal. Connect this back to the Austin left turn from the start of the lab: the car hesitated because it hadn't seen enough unprotected left turns to know what to do. That's not a code problem — it's a <em>data</em> problem. Fixing it means generating more examples (simulation), labeling more real-world turns (human labelers), or capturing more detail when they happen (sensors). Some of these choices compound — every Waymo car driving today is making tomorrow's car smarter. Other choices are one-shot purchases a competitor could match by writing a check. That difference is what's called a <strong>data moat</strong>: the company with the best <em>data</em> usually beats the company with the best code, because code can be copied but unique data can't. Three questions to ask about any AI company:</p>
         <ol style="margin: 0.5rem 0 0 1.25rem; color: #cbd5e1; font-size: 14.5px;">
-          <li style="margin-bottom: 0.4rem;"><strong style="color: #ffffff;">Where does their data come from?</strong> (proprietary? public? bought? scraped?)</li>
-          <li style="margin-bottom: 0.4rem;"><strong style="color: #ffffff;">Does that pipeline keep getting better on its own?</strong> (compounding flywheel, or one-shot dataset?)</li>
-          <li style="margin-bottom: 0.4rem;"><strong style="color: #ffffff;">Can a competitor replicate it with money alone?</strong> (if yes, there's no moat)</li>
+          <li style="margin-bottom: 0.4rem;"><strong style="color: #ffffff;">Where does their data come from?</strong> (Do they own it? Did they buy it? Is it free public data anyone can grab?)</li>
+          <li style="margin-bottom: 0.4rem;"><strong style="color: #ffffff;">Does the data keep getting better on its own?</strong> (Compounding advantage, or one-time purchase?)</li>
+          <li style="margin-bottom: 0.4rem;"><strong style="color: #ffffff;">Could a competitor replicate it just by spending money?</strong> (If yes, there's no real moat.)</li>
         </ol>
-        <p style="margin-top: 0.75rem;">Those three questions tell you more about whether an AI company will still exist in five years than any product roadmap will. That's the business skill behind AI — and it's the one most MBAs and strategy hires <em>don't</em> have. You do now.</p>
+        <p style="margin-top: 0.75rem;">Those three questions tell you more about whether an AI company will still exist in five years than any product roadmap will.</p>
       </div>
 
       <div class="reflection">
@@ -1786,25 +1786,25 @@ Help me draft a one-paragraph defense of this reward function for our safety boa
       </div>
 
       <div class="ai-prompt-block">
-        <div class="aip-label">Step 4 Prompt &middot; Apply the framework to another AI company</div>
-        <h5>Test whether you actually own this skill — use the framework on a company that isn't Waymo</h5>
-        <p>The three-question framework is only useful if you can apply it outside this lab. Pick any AI-driven company you know of — <strong>OpenAI, Anthropic, Perplexity, GitHub Copilot, Duolingo, Spotify, Grammarly, an AI healthcare startup, whoever</strong> — and use the prompt below to produce a short evaluation of their data moat. This becomes a portfolio piece that shows recruiters you can think about AI business strategy, not just one company.</p>
+        <div class="aip-label">Step 4 Prompt &middot; Apply the three questions to another AI company</div>
+        <h5>Test whether you actually own this skill — use the three questions on a company that isn't Waymo</h5>
+        <p>The three questions are only useful if you can apply them outside this lab. Pick any AI-driven company you know of — <strong>OpenAI, Anthropic, Perplexity, GitHub Copilot, Duolingo, Spotify, Grammarly, an AI healthcare startup, whoever</strong> — and use the prompt below to produce a short evaluation of their data moat. This becomes a portfolio piece that shows recruiters you can think about AI business strategy, not just one company.</p>
 
         <div class="promptbox">
           <button class="promptbox-copy" data-target="promptStep4" type="button">Copy prompt</button>
-<pre id="promptStep4">I just learned a three-question framework for evaluating the business side of AI companies:
+<pre id="promptStep4">I just learned three questions for evaluating the business side of AI companies:
 (1) Where does their data come from?
 (2) Does the data pipeline keep getting better on its own (compounding), or is it a one-shot dataset?
 (3) Can a competitor replicate it with money alone?
 
-Help me apply this framework to [COMPANY NAME — pick an AI-driven company you know something about: OpenAI, Anthropic, Perplexity, GitHub Copilot, Duolingo, Spotify, Grammarly, Waymo, Tesla, Notion, or another].
+Help me apply these three questions to [COMPANY NAME — pick an AI-driven company you know something about: OpenAI, Anthropic, Perplexity, GitHub Copilot, Duolingo, Spotify, Grammarly, Waymo, Tesla, Notion, or another].
 
 Write three short paragraphs — one per question — with specifics about their actual data sources, not generic AI-company talking points. End with a one-sentence verdict: is their data moat strong, medium, or weak, and why?
 
 Tone: sharp, analytical, written the way a junior strategy analyst would present to a VP.</pre>
         </div>
 
-        <div class="save-note"><strong>Save this output.</strong> You'll include the evaluation (after your edits) in your portfolio webpage — this is the piece that shows recruiters you can transfer the framework to other companies, not just Waymo.</div>
+        <div class="save-note"><strong>Save this output.</strong> You'll include the evaluation (after your edits) in your portfolio webpage — this is the piece that shows recruiters you can apply these questions to other companies, not just Waymo.</div>
       </div>
 
     </div>
@@ -1921,8 +1921,8 @@ Tone: sharp, analytical, written the way a junior strategy analyst would present
       <div class="city-feedback" id="cityFeedback"></div>
 
       <div class="takeaway">
-        <div class="takeaway-label">Step 5 takeaway</div>
-        <p>Autonomous vehicles are one of the rare businesses where the technology roadmap <em>is</em> the geographic rollout plan — and where the geographic rollout plan <em>is</em> a political and social strategy. Every new city is a new training set, a new capital expenditure, <em>and</em> a new community relations challenge. The companies that win will treat engineering, operations, market expansion, and community trust as a single unified plan — not as handoffs between four separate teams.</p>
+        <div class="takeaway-label">What you just did</div>
+        <p>You picked Waymo's next city — and learned that AI strategy isn't just about the technology. You weighed real incidents from real cities (protesters putting traffic cones on cars in San Francisco, a Waymo blocking a fire truck in Austin, taxi unions opposing the launch in Miami) against what each new city would mean for Waymo's data, costs, and public trust. This is what's called <strong>social license</strong> — the unofficial permission a community gives a company to operate. You can have the best self-driving technology in the world, but if a city's residents don't trust you or its government won't let you in, none of it matters. Self-driving cars are one of the rare businesses where the technology plan, the city expansion plan, and the community trust plan all have to be one unified strategy — not four separate teams handing things off to each other.</p>
       </div>
 
       <div class="reflection">
@@ -2046,7 +2046,7 @@ MY STEP 3 ARTIFACT (SAFETY-BOARD DEFENSE — paste your Claude output here):
 
 -------------------------------------------
 STEP 4 — DATA STRATEGY & THE AI BUSINESS
-What I did: I shifted from technical concepts to business strategy. I studied the contrast between Waymo's simulation-first data strategy and Tesla's fleet-first approach, and built a framework for evaluating AI companies: (1) Where does their data come from? (2) Does the pipeline keep getting better on its own — does it compound? (3) Can a competitor replicate it with money alone? I then allocated a $1B Waymo data budget across five investment categories and saw the strategic tradeoffs play out. To test whether I'd actually internalized the framework, I used Claude to apply the three data-moat questions to a different AI company of my choice.
+What I did: I shifted from technical concepts to business strategy. I studied the contrast between Waymo's simulation-first data strategy and Tesla's fleet-first approach, and learned three questions for evaluating AI companies: (1) Where does their data come from? (2) Does the pipeline keep getting better on its own — does it compound? (3) Can a competitor replicate it with money alone? I then allocated a $1B Waymo data budget across five investment categories and saw the strategic tradeoffs play out. To test whether I'd actually internalized the questions, I used Claude to apply them to a different AI company of my choice.
 
 MY STEP 4 ARTIFACT (DATA-MOAT EVALUATION OF ANOTHER AI COMPANY — paste your Claude output here):
 [PASTE YOUR FINAL STEP 4 COMPANY EVALUATION HERE]
@@ -2079,6 +2079,11 @@ DESIGN REQUIREMENTS:
         </div>
 
         <div class="save-note"><strong>This is your submission.</strong> Run this prompt with your four artifacts pasted in, save Claude's output as <code>index.html</code>, and publish it to GitHub Pages.</div>
+      </div>
+
+      <div class="takeaway">
+        <div class="takeaway-label">What you just did</div>
+        <p>You used <strong>AI prototyping</strong> to build something real — a recruiter-facing portfolio page. The pattern: describe what you want in plain English, let Claude write the code, run it, look at what came out, ask for changes, and repeat. You've actually been doing this all lab — at every step you described a goal, Claude drafted the artifact, and you edited it until it sounded like you. The whole lab was built this way too, every chart and simulator on this page came from the same back-and-forth. The technical work matters, but so does this skill: turning a fuzzy idea into a real working thing in hours instead of weeks. That's what makes someone valuable in a job that uses AI tools.</p>
       </div>
 
     </div>
