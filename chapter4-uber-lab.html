@@ -68,6 +68,11 @@
   .concept-box { background: #f5f5f5; border-left: 4px solid #1fbad6; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1rem 0; }
   .concept-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #1fbad6; text-transform: uppercase; margin-bottom: 0.3rem; }
   .concept-text { font-size: 14px; color: #444; line-height: 1.65; margin: 0; }
+  .didit-box { background: #0d1b1d; border: 1px solid #1fbad6; border-radius: 8px; padding: 0.95rem 1.15rem; margin: 1.25rem 0; }
+  .didit-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #1fbad6; margin-bottom: 0.45rem; display: flex; align-items: center; gap: 6px; }
+  .didit-label::before { content: '✓'; display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; background: #1fbad6; color: #000; border-radius: 50%; font-size: 10px; font-weight: 900; }
+  .didit-text { font-size: 14px; color: #d6eef2; line-height: 1.7; margin: 0; }
+  .didit-text strong { color: #fff; font-weight: 700; }
 
   /* ── Factory pipeline ── */
   .factory-row { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin: 1rem 0; }
@@ -478,6 +483,11 @@ Please write complete Python code for Google Colab that does the following:
 Add a plain-English comment above each section explaining what it does and why. Do not build any forecast model yet — this step is data exploration only.</div>
       </div>
 
+      <div class="didit-box">
+        <div class="didit-label">What you just did</div>
+        <div class="didit-text">You did <strong>exploratory data analysis</strong> — a fancy name for a simple idea: before you build anything, look at your data and see what's in it. You pulled two years of Friday night trip history, plotted it on a chart, and looked for patterns. Three things stood out: trips grew over time (from about 280 to about 380 a night), summers were busier than winters, and there was a huge spike every New Year's Eve. Those are the patterns your model will learn from later. The point: if you skip this step and just feed numbers to a model, you'll never catch a problem in the forecast that was really a problem in the data. Real analysts always look first.</div>
+      </div>
+
       <div class="reflect-box">
         <div class="reflect-label">Step 1 Reflection &mdash; answer two questions</div>
         <div class="reflect-text">Now that you have the data plotted in Colab, answer these two questions:<br><br>1. Look at your chart. Which of the four data signals — trend, seasonality, school-year effect, or the NYE spike — would matter most for predicting a Friday night after a WWU concert? Why that one over the others?<br><br>2. What would happen to your forecast if you had skipped this step and just handed raw trip counts directly to a model without understanding what was in the data first? Name one specific thing you would have missed.</div>
@@ -554,6 +564,11 @@ Add plain-English comments throughout. No ARIMA, no LSTM — linear regression o
       <div class="insight-box">
         <div class="insight-label">What you are looking for in the output</div>
         <div class="insight-text">The most important thing on your chart is how closely the dashed orange line tracks the solid cyan line in weeks 79–104. Those are weeks the model never trained on — it is making genuine predictions about a period it never saw. Where the lines stay close, the model understood the pattern. Where they diverge, the model missed something. Pay particular attention to the school-year ramp-up in September and any event spikes — those are the same kinds of signals you will be relying on for the concert forecast in Step 3.<br><br><strong>What is MAE?</strong> MAE stands for Mean Absolute Error — it is simply the average size of the model's mistakes across the test period. If the MAE is 25, it means that on a typical Friday night in the test window, the model's prediction was off by about 25 trips. Whether that is acceptable depends entirely on what you are using the forecast for. Being off by 25 trips on a normal Bellingham Friday is manageable. Being off by 25 on a show night where precision matters is a much bigger problem. Always read the MAE in context, not in isolation.</div>
+      </div>
+
+      <div class="didit-box">
+        <div class="didit-label">What you just did</div>
+        <div class="didit-text">You built and tested a forecasting model. Three things happened. First, <strong>feature engineering</strong> — a fancy name for turning raw dates into useful labels the model can use (is it summer? is it New Year's Eve? is school in session?). The model can't do anything with a date by itself, but it can learn from labels like these. Second, you split your data — you taught the model on the first 18 months and hid the last 6 months so you could test it on weeks it had never seen. Third, you trained a <strong>linear regression</strong> — a model that looks at how each input (summer, school year, etc.) connects to what you're trying to predict (trips), then uses those connections to make new forecasts. For example, the model might learn that "school year" adds about 50 trips and "summer" adds about 60 — so for a school-year Friday in October, it adds the school-year boost but not the summer one. Then you checked how well it did using <strong>MAE (Mean Absolute Error)</strong> — the average size of its mistakes, measured in trips. If MAE is 25, the model was off by about 25 trips on a typical Friday. The big idea: never trust a model with real decisions until you've proven it works on data it didn't get to peek at first.</div>
       </div>
 
       <div class="reflect-box">
@@ -653,6 +668,11 @@ Add plain-English comments throughout.</div>
       <div class="insight-box">
         <div class="insight-label">What makes this different from the backtest</div>
         <div class="insight-text">In the backtest, you already knew the right answers — you were checking whether the model could find them. Here, nobody knows the right answer yet. The prediction interval matters more now than it did in Step 2: the lower bound is the minimum you should staff for, and the upper bound is what happens if demand runs hot. An operations manager who only plans for the middle number and ignores the upper bound will get caught short on a night like this. Your driver recommendation should be based on the upper bound — it is always cheaper to have a driver who isn't needed than a rider who can't get a car.</div>
+      </div>
+
+      <div class="didit-box">
+        <div class="didit-label">What you just did</div>
+        <div class="didit-text">You used your tested model to make a real forecast for a Friday it had never seen. Two things to notice. First, you didn't just give your boss one number — you gave them a <strong>range</strong> (a low end and a high end, plus or minus 15%). Every forecast has some uncertainty, and pretending it doesn't is how teams get caught off guard. Saying "between 720 and 980 trips, plan for the high end" is more honest and more useful than just "850 trips." Second — and this is the part that actually matters in business — you turned a prediction into a decision. Predicted trips became "drivers needed." Demand vs. supply became "surge: yes or no." A forecast that doesn't lead to an action is just a number on a slide. The memo you printed is what real analyst work looks like: a prediction, a range, a recommendation, and the assumptions behind it, all in one place a manager can act on.</div>
       </div>
 
       <div class="reflect-box">
@@ -889,6 +909,11 @@ Add plain-English comments throughout.</div>
       })();
       </script>
 
+      <div class="didit-box">
+        <div class="didit-label">What you just did</div>
+        <div class="didit-text">You ran a <strong>stress test</strong> (also called a sensitivity analysis) — a fancy phrase for asking "what if I'm wrong?" Instead of trusting one forecast, you changed your assumptions one at a time and watched what happened. For example, dropping the number of drivers from 25 to 20 might flip the surge call from OFF to ON, while changing trips per hour barely matters. That tells you driver count is the thing your boss most needs to track — that's where the biggest risk is. Why change one thing at a time? Because if you change everything at once, you can't tell which change caused the result. It's the same logic as a science experiment: hold everything else still so you know what's actually doing the work.</div>
+      </div>
+
       <div class="reflect-box">
         <div class="reflect-label">Step 4 Reflection &mdash; answer both</div>
         <div class="reflect-text">
@@ -999,6 +1024,11 @@ Add plain-English comments throughout.</div>
       </div>
       <!-- end surge sim -->
 
+      <div class="didit-box">
+        <div class="didit-label">What you just did</div>
+        <div class="didit-text">You watched the <strong>prediction-decision gap</strong> — the moment a forecast stops being information and becomes an automatic decision. Normally a model spits out a number and a person decides what to do with it. Uber's surge engine doesn't work that way: forecast → surge price → rider's screen, all in milliseconds, no person in the middle. For example, when the earthquake scenario set surge to 4.8×, no Uber employee approved that price — the algorithm just did it. That's helpful when the model is right and harmful when it's wrong. The four scenarios show why: the same algorithm can produce a fair result (concert) or an unfair one (earthquake) depending on whether the situation looks like the data it learned from. Knowing where to put a <strong>human in the loop</strong> — a checkpoint where a person reviews the decision before it goes live — is one of the most important choices in any AI system.</div>
+      </div>
+
       <div class="reflect-box">
         <div class="reflect-label">Step 5 Reflection &mdash; answer both using the simulator above</div>
         <div class="reflect-text">
@@ -1099,6 +1129,11 @@ Add plain-English comments throughout.</div>
         </div>
       </div>
       <!-- end simulator -->
+
+      <div class="didit-box">
+        <div class="didit-label">What you just did</div>
+        <div class="didit-text">You watched <strong>distribution shift</strong> happen — the technical name for "the world changed, but the model doesn't know it yet." The model isn't broken. The code didn't change. What changed is real life: WWU enrollment dropped, new apartments opened, Lyft came to town. The model still confidently (but wrongly) predicts drivers based on a Bellingham that doesn't exist anymore. For example, in the Lyft scenario the model still predicts about 380 Friday night trips because that's what its training data showed — but the real number is closer to 320 because 15% of drivers are now on Lyft. The model has no way to know that. This is why real AI systems need <strong>monitoring</strong> — automatic checks that compare what the model predicted to what actually happened, and send an alert when the gap gets too big (in your simulator, when the error crosses 20%). Without monitoring, the model can be wrong for weeks while drivers earn less and riders wait longer, and nobody knows why. And the cutoff — what counts as "wrong enough to act on" — is a business decision, not a technical one.</div>
+      </div>
 
       <div class="reflect-box">
         <div class="reflect-label">Step 6 Reflection &mdash; answer both using the simulator</div>
@@ -1240,6 +1275,11 @@ Add plain-English comments throughout.</div>
       </div>
       <!-- end game -->
 
+      <div class="didit-box">
+        <div class="didit-label">What you just did</div>
+        <div class="didit-text">You felt distribution shift from the <strong>driver's side</strong> instead of the analyst's side. In Step 6, the gap between what the model predicted and what actually happened was just a line on a chart. In Step 7, that same gap was your earnings dropping and your rider waiting in the rain. Same problem, seen from a different place. For example, in round 5 the algorithm sent you to a "high demand" zone with a 2.5× surge — but the demand wasn't actually there, so you only earned $9 on a trip you expected to pay $25. The number on a chart was your paycheck. This is what <strong>algorithmic accountability</strong> really means: forecast errors aren't just numbers, they're real money lost by real drivers and real riders left waiting. The hard question is who pays the cost when the model is quietly wrong — and whether the people affected can even tell that's what happened.</div>
+      </div>
+
       <div class="reflect-box">
         <div class="reflect-label">Step 7 Reflection &mdash; answer both after completing all 6 rounds</div>
         <div class="reflect-text">
@@ -1326,6 +1366,11 @@ DESIGN:
 - Single .html file ready to upload to GitHub Pages
 
 Generate the complete HTML file with all placeholders clearly marked so I know exactly where to paste my content.</div>
+      </div>
+
+      <div class="didit-box">
+        <div class="didit-label">What you just did</div>
+        <div class="didit-text">You used <strong>AI prototyping</strong> to build something real. The pattern: describe what you want in plain English, let Claude write the code, run it, look at what came out, ask for changes, and repeat. For example, in Step 1 you didn't write the data simulation yourself — you described the patterns you wanted (trend, seasonality, school-year effect), Claude wrote the Python, and if anything looked off you could ask it to fix it. You did that same loop eight times in this lab, all the way to a finished portfolio page. The whole lab was built this way too — every chart, simulator, and game on this page came from the same back-and-forth. The technical work matters, but so does this skill: turning a fuzzy idea into a real working thing in hours instead of weeks. That's what makes someone valuable in a job that uses AI tools.</div>
       </div>
 
       <div class="reflect-box">
