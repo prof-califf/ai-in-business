@@ -548,6 +548,12 @@
 
   <p>The rest of this chapter uses Waymo as its primary case study — and the choice is deliberate. Autonomous vehicles are the most demanding deployment of deep learning in the physical world. Every problem the technology runs into in a laboratory setting gets amplified on a public road: the data is messier, the edge cases are rarer and more dangerous, the cost of failure is measured in lives rather than benchmark scores, and the system has to work in real time on hardware that fits inside a car. If you want to understand what deep learning can and cannot do, Waymo is the right place to look.</p>
 
+  <div class="concept-box">
+    <div class="concept-label">Key Concept</div>
+    <div class="concept-term">Embodied AI</div>
+    <div class="concept-def">Most AI you've used — ChatGPT, Claude, Gemini, Netflix's recommender, Spotify's playlist generator — lives entirely in software. It reads text or pixels, produces text or pixels, and never has to know that gravity pulls things down or that a wet road takes longer to brake on. <strong>Embodied AI</strong> is different: it's AI that has a "body" — sensors and actuators — and has to perceive the real world, predict what happens next, and produce physical movements that have real consequences. A Waymo vehicle is a textbook example. So is a humanoid robot on a factory floor, a surgical assistant, an agricultural drone. The defining challenge of embodied AI is that the real world is messier than any training dataset, and mistakes don't just produce a wrong answer — they produce a collision, a dropped patient, or a damaged crop. This is why Waymo is the right case study for this chapter: it is the most mature, most heavily deployed example of embodied AI on the planet. (You'll also see this called <em>physical AI</em> — same idea, different label.)</div>
+  </div>
+
   <p>Waymo began as Google's self-driving car project in 2009 — before AlphaGo, before the 2012 ImageNet breakthrough that ignited the deep learning era. The project was founded on a simple but radical bet: that the sensors and computing power needed for truly autonomous driving would eventually arrive, and that when they did, the teams with the most real-world miles, the most engineering depth, and the most carefully built data infrastructure would win. That bet has largely paid out. By 2025, Waymo had completed over 50 million fully autonomous passenger rides — no human in the driver's seat — across San Francisco, Phoenix, and Austin, with Los Angeles and other cities in expansion. No other company is close to that scale of commercial deployment.</p>
 
   <div class="insight-box">
@@ -1395,6 +1401,7 @@
     <div class="vocab-card"><div class="vocab-term">Transfer learning</div><div class="vocab-def">Applying knowledge learned in one domain (Genie 3 trained on general video) to a different but related domain (Waymo's driving simulation) — one of deep learning's most powerful properties</div></div>
     <div class="vocab-card"><div class="vocab-term">Counterfactual simulation</div><div class="vocab-def">Replaying the same scenario with different decisions to evaluate which action is safest — possible only in simulation, not in real-world data</div></div>
     <div class="vocab-card"><div class="vocab-term">Hardware-software co-design</div><div class="vocab-def">Designing sensors, chips, and AI models together so each is optimized for the others — a source of competitive advantage that is difficult to replicate</div></div>
+    <div class="vocab-card"><div class="vocab-term">Embodied AI (Physical AI)</div><div class="vocab-def">AI that has a "body" — sensors and actuators — and must perceive and act in the physical world, rather than just processing text or pixels in software. Self-driving cars, humanoid robots, surgical assistants, and warehouse machines are all forms of embodied AI. The defining challenge is that mistakes have physical consequences and the real world is messier than any training dataset</div></div>
   </div>
 
   <h3>Discussion questions</h3>
