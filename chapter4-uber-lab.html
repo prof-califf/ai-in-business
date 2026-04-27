@@ -1278,19 +1278,19 @@ Add plain-English comments throughout.</div>
           </div>
           <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:1rem;">
             <div style="background:#0a0a0a; border-radius:6px; padding:0.7rem; text-align:center; border:1px solid #1a1a1a;">
-              <div style="font-size:10px; color:#555; text-transform:uppercase; margin-bottom:3px;">Rounds model was accurate</div>
-              <div style="font-size:22px; font-weight:900; color:#1fbad6;">1–3</div>
+              <div style="font-size:10px; color:#555; text-transform:uppercase; margin-bottom:3px;">You followed the algorithm</div>
+              <div style="font-size:22px; font-weight:900; color:#1fbad6;" id="followedCount">?</div>
             </div>
             <div style="background:#0a0a0a; border-radius:6px; padding:0.7rem; text-align:center; border:1px solid #ef4444;">
-              <div style="font-size:10px; color:#555; text-transform:uppercase; margin-bottom:3px;">Rounds model was wrong</div>
-              <div style="font-size:22px; font-weight:900; color:#ef4444;">4–6</div>
+              <div style="font-size:10px; color:#555; text-transform:uppercase; margin-bottom:3px;">A driver who always followed</div>
+              <div style="font-size:22px; font-weight:900; color:#ef4444;" id="alwaysFollowedEarnings">?</div>
             </div>
             <div style="background:#0a0a0a; border-radius:6px; padding:0.7rem; text-align:center; border:1px solid #1a1a1a;">
-              <div style="font-size:10px; color:#555; text-transform:uppercase; margin-bottom:3px;">You knew something was wrong</div>
+              <div style="font-size:10px; color:#555; text-transform:uppercase; margin-bottom:3px;">You broke from it at</div>
               <div style="font-size:22px; font-weight:900; color:#888;" id="noticeRound">?</div>
             </div>
           </div>
-          <div style="font-size:13px; color:#888; text-align:center; line-height:1.7; margin-top:0.5rem;">This is <strong style="color:#fff;">distribution shift</strong> — felt as a driver, not just understood as a concept.<br>The forecast was wrong. The multiplier was wrong. Your decisions were wrong. And nobody told you.<br><br>In rounds 1–3, the AI Factory worked exactly as the case describes: historical data → forecast → surge multiplier → drivers move → riders get cars. In rounds 4–6, one broken link — a forecast that didn't know the world had changed — cascaded through the whole chain. That is why Uber's responsible AI framework, and the monitoring system you saw in Step 6, exist: not to make the model perfect, but to catch it when it fails before real drivers lose real income and real riders wait in the rain.</div>
+          <div style="font-size:13px; color:#888; text-align:center; line-height:1.7; margin-top:0.5rem;">This is <strong style="color:#fff;">distribution shift</strong> — felt from the inside, not read on a chart.<br><br>In rounds 1–3, following the algorithm was the right call. The app looked confident and it was right. You learned to trust it. In rounds 4–6, the app looked <em>exactly the same</em> — same green signal, same confident numbers, same recommendation format — but it was wrong. The only way to know was to follow it, get burned, and figure it out from your own earnings.<br><br>That's what makes distribution shift dangerous: it doesn't announce itself. The model doesn't turn red. Nobody sends you a warning. Your paycheck just quietly drops, and the algorithm keeps telling you everything is fine.</div>
         </div>
 
       </div>
@@ -1298,14 +1298,14 @@ Add plain-English comments throughout.</div>
 
       <div class="didit-box">
         <div class="didit-label">What you just did</div>
-        <div class="didit-text">You felt distribution shift from the <strong>driver's side</strong> instead of the analyst's side. In Step 6, the gap between what the model predicted and what actually happened was just a line on a chart. In Step 7, that same gap was your earnings dropping and your rider waiting in the rain. Same problem, seen from a different place. For example, in round 5 the algorithm sent you to a "high demand" zone with a 2.5× surge — but the demand wasn't actually there, so you only earned $9 on a trip you expected to pay $25. The number on a chart was your paycheck. This is what <strong>algorithmic accountability</strong> really means: forecast errors aren't just numbers, they're real money lost by real drivers and real riders left waiting. The hard question is who pays the cost when the model is quietly wrong — and whether the people affected can even tell that's what happened.</div>
+        <div class="didit-text">You experienced <strong>distribution shift from the driver's seat</strong>. In rounds 1–3, the algorithm earned your trust — it pointed you to the right zone every time, and you made money following it. Then the world changed and the algorithm didn't. The critical design choice: rounds 4–6 <em>looked identical</em> to rounds 1–3 in the app. Same green signal, same confident recommendation, same multiplier format. Nothing in the interface changed. The only signal was your own earnings dropping — and even that could have felt like a bad night, not a broken model. That's the real lesson. Distribution shift doesn't announce itself. If you followed the algorithm in round 4 (most people do — you'd been rewarded for it three times in a row), you earned $11 instead of $31. That gap is what a wrong model costs a real driver. And the debrief showed you the bigger number: a driver who <em>always</em> followed the algorithm across all 6 rounds earned significantly less than one who noticed and adapted. The algorithm never told either driver anything was different.</div>
       </div>
 
       <div class="reflect-box">
         <div class="reflect-label">Step 7 Reflection &mdash; answer both after completing all 6 rounds</div>
         <div class="reflect-text">
-          <strong>Q1 — Distribution shift from the inside.</strong> At what point during rounds 4–6 did something feel off? What tipped you off — the multiplier, your earnings, the rider outcome, or something else? Connect what you experienced as a driver to what you saw in the Step 6 simulator: the gap between the cyan line and the dashed line has a real human cost. In 2–3 sentences, describe what that cost looked like from inside the game — for you as a driver, and for the riders waiting in Cordata.<br><br>
-          <strong>Q2 — Driver transparency and the algorithm.</strong> In rounds 4–6 your earnings dropped and the app never explained why. You just followed the algorithm and got less. In 2022, Uber rolled out a policy called Upfront Fares — a secretive algorithm that now determines driver pay in many cities using undisclosed factors, meaning two drivers doing the same trip can earn different amounts with no explanation. Based on what you experienced in this game: why does algorithmic transparency matter to drivers specifically? And if drivers cannot trust or understand the algorithm that controls their income, what happens to Uber's supply side — and ultimately to the forecast model you built in Steps 1–3?
+          <strong>Q1 — When did you break from the algorithm?</strong> Look at your debrief stats. How many times did you follow the algorithm's recommendation? If you followed it in round 4 (the first broken round), what was the outcome — and what made you change your behavior in rounds 5 or 6 (if you did)? If you <em>never</em> broke from the algorithm, what would have had to happen for you to stop trusting it? Connect this to the Step 6 simulator: the gap between the predicted line and the actual line on that chart is the same gap between what the algorithm told you and what you actually earned.<br><br>
+          <strong>Q2 — The algorithm never explained itself.</strong> In rounds 4–6, the app looked exactly the same as rounds 1–3 — same green signal, same confident numbers. It never said "warning: this recommendation may be less reliable than usual." Based on what you experienced: should Uber be required to tell drivers when the model's accuracy has degraded? What would that look like in practice — and what happens to Uber's driver supply if drivers can't trust the algorithm but also can't tell when it's wrong?
         </div>
       </div>
 
@@ -1419,7 +1419,7 @@ Generate the complete HTML file with all placeholders clearly marked so I know e
       <li><strong>Step 4 Reflection</strong> &mdash; Q1: which assumption flipped the surge call most easily, and what real Oct 17 condition could push that variable to a worse value. Q2: write the memo to your boss with the driver recommendation, surge call, and the one concert-specific condition that would change it</li>
       <li><strong>Step 5 Reflection</strong> &mdash; Q1: concert vs. earthquake — same algorithm, different outcomes, explain why. Q2: pick one scenario and write a specific governance rule that would prevent the algorithm from firing automatically</li>
       <li><strong>Step 6 Reflection</strong> &mdash; Q1: pick a Bellingham scenario, trace the distribution shift, and describe what a driver or rider experiences during the undetected weeks. Q2: what an AI governance policy for this model should include</li>
-      <li><strong>Step 7 Reflection</strong> &mdash; Q1: when did you notice something was wrong in the driver game, and what does that feel like from the inside. Q2: why algorithmic transparency matters to drivers and what happens to the forecast model if they lose trust</li>
+      <li><strong>Step 7 Reflection</strong> &mdash; Q1: how many times you followed the algorithm, what happened in round 4 if you followed it, and when you broke from it (or what would have made you). Q2: should Uber tell drivers when the model's accuracy has degraded, and what happens to driver supply if they can't trust it</li>
       <li><strong>Step 8 Reflection</strong> &mdash; the full chain from data to driver earnings, plus the one thing you would add to the model</li>
     </ul>
   </div>
@@ -1860,114 +1860,114 @@ setShiftType('enrollment');
    STEP 7 — Driver Game
 ════════════════════════════════════════════════════════════ */
 const ROUNDS = [
-  // Rounds 1-3: forecast is accurate
+  // Rounds 1-3: forecast is accurate — following the algorithm pays off
   {
     round: 1,
     scenario: 'Friday 10pm — WWU concert just let out',
-    context: 'Death Cab for Cutie, Sleater-Kinney, and ODESZA just finished their homecoming show at WWU\'s Performing Arts Center — 3,000 people are heading for the exits.',
+    context: 'Death Cab for Cutie, Sleater-Kinney, and ODESZA just finished their homecoming show at WWU\'s Performing Arts Center — thousands of people heading for the exits.',
     mult: '2.1×',
-    algoMsg: 'High post-event demand near WWU campus and downtown. Forecast predicts 280 trip requests in the next hour — well above the 25 available drivers.',
-    forecastNote: 'This multiplier came from a forecasting model trained on 104 weeks of trip history — the same approach you used in Step 2. It saw post-event demand spikes many times and learned the pattern.',
-    zoneA: { name: 'WWU Campus / Ridgeway area', desc: 'concert just ended, crowd spilling out', signal: '🟢 Algorithm recommends this zone', color: '#1fbad6' },
-    zoneB: { name: 'Downtown Bellingham', desc: 'bars, restaurants, steady but lower demand', signal: '⚪ Lower predicted demand', color: '#555' },
+    algoMsg: 'High post-event demand near WWU campus. Forecast predicts 280 trip requests in the next hour — well above the 25 available drivers.',
+    forecastNote: 'This multiplier came from a forecasting model trained on 104 weeks of trip history — the same approach you used in Step 2.',
+    zoneA: { name: 'WWU Campus / Ridgeway area', desc: 'large venue nearby, post-event conditions', signal: '🟢 Algorithm recommends this zone', color: '#1fbad6' },
+    zoneB: { name: 'Downtown Bellingham', desc: 'bars and restaurants, steady evening activity', signal: '⚪ Lower predicted demand', color: '#555' },
     correctZone: 'A',
     earnedCorrect: 34, earnedWrong: 12,
     driverDetailCorrect: '4 rides in 58 minutes. The algorithm was right — hundreds of people leaving the venue all at once.',
     driverDetailWrong: '1 ride in 58 minutes. You were downtown while the show crowd was stuck at campus waiting.',
     rider: 'Maya, 22', riderDetailCorrect: 'Got a ride home from the venue in 4 minutes. Paid 2.1× — expected after a big show.',
     riderDetailWrong: 'Waited 19 minutes outside the Performing Arts Center. Most drivers were downtown.',
-    lesson: 'Round 1: The forecast was accurate. Demand was exactly where and when the model predicted. Following the algorithm made sense.',
+    lesson: 'Round 1: The forecast was accurate. Demand was exactly where the model predicted. Following the algorithm paid off.',
     broken: false
   },
   {
     round: 2,
     scenario: 'Saturday 2am — bars are closing, rain just started',
-    context: 'It stopped drizzling an hour ago but a steady rain just started. Three bars on Railroad Avenue just called last orders.',
+    context: 'Steady rain just started. Three bars on Railroad Avenue just called last orders. Crowds spilling onto the sidewalk.',
     mult: '3.4×',
-    algoMsg: 'Rain + bar closing = demand spike. Forecast shows 480 requests in next 30 minutes, only 90 drivers online. High surge justified.',
-    forecastNote: 'Your model was trained on 104 weeks of data — it saw this exact combination (rain + late Saturday) many times. This is trend and seasonality working together: a known day of the week, a known weather effect, a predictable outcome.',
-    zoneA: { name: 'Railroad Avenue / downtown bars', desc: 'bar district, large crowds outside', signal: '🟢 Algorithm strongly recommends', color: '#1fbad6' },
-    zoneB: { name: 'Fairhaven Village', desc: 'quieter neighborhood, lower demand', signal: '⚪ Low surge signal here', color: '#555' },
+    algoMsg: 'Rain + bar closing = demand spike. Forecast shows 480 requests in next 30 minutes, only 90 drivers online.',
+    forecastNote: 'The model saw this exact combination (rain + late Saturday) many times in its training data. This is trend and seasonality working together.',
+    zoneA: { name: 'Railroad Avenue / downtown bars', desc: 'bar district, large crowds outside in the rain', signal: '🟢 Algorithm strongly recommends', color: '#1fbad6' },
+    zoneB: { name: 'Fairhaven Village', desc: 'quieter neighborhood, some restaurant traffic', signal: '⚪ Low demand signal', color: '#555' },
     correctZone: 'A',
     earnedCorrect: 52, earnedWrong: 9,
     driverDetailCorrect: '3 longer rides at 3.4× — people going to Birchwood and Sudden Valley. Best hour of your week.',
     driverDetailWrong: '1 short ride. You missed the bar rush entirely.',
     rider: 'James, 34', riderDetailCorrect: 'Paid $18 for a ride to Birchwood in the rain. Not cheap, but a car showed up in 3 minutes.',
     riderDetailWrong: 'Waited 26 minutes in the rain on Railroad Avenue. Most drivers were in Fairhaven.',
-    lesson: 'Round 2: Rain and bar closings are strong, predictable signals. The model had seen this before and the forecast held up.',
+    lesson: 'Round 2: Rain and bar closings are strong, predictable signals. The model had seen this before. Following the algorithm: $52.',
     broken: false
   },
   {
     round: 3,
     scenario: 'Sunday 6pm — Seahawks game just ended at a sports bar',
-    context: 'A popular sports bar downtown had 200+ people watching the Seahawks game at a Bellingham sports bar. Game just ended — big win. People are ready to leave.',
+    context: 'A popular sports bar downtown had 200+ people watching the Seahawks. Big win. People are heading out.',
     mult: '1.8×',
-    algoMsg: 'Moderate event spike. Forecast shows 210 requests near downtown in the next 45 minutes. Manageable with current driver supply.',
-    forecastNote: 'Sports events are a regular pattern in the training data. Each trip completed on a previous game day fed back into the model as new training data — the AI Factory flywheel the case describes. More data, better predictions, more trips.',
-    zoneA: { name: 'Downtown near the sports bars', desc: '200+ people leaving, event just ended', signal: '🟢 Clear demand signal', color: '#1fbad6' },
-    zoneB: { name: 'Barkley Village shopping area', desc: 'Sunday shoppers, but steady not spiking', signal: '⚪ Stable but lower multiplier', color: '#555' },
+    algoMsg: 'Moderate event spike. Forecast shows 210 requests near downtown in the next 45 minutes. Manageable with current supply.',
+    forecastNote: 'Sports events are a regular pattern in the training data. The model has learned this cycle well.',
+    zoneA: { name: 'Downtown near the sports bars', desc: '200+ people leaving, post-game energy', signal: '🟢 Clear demand signal', color: '#1fbad6' },
+    zoneB: { name: 'Barkley Village shopping area', desc: 'Sunday shoppers, steady but not spiking', signal: '⚪ Stable but lower multiplier', color: '#555' },
     correctZone: 'A',
     earnedCorrect: 28, earnedWrong: 18,
     driverDetailCorrect: '3 rides in 40 minutes. Shorter trips but high volume. Clean, predictable surge.',
     driverDetailWrong: '2 rides from Barkley. Steady income but you missed the event spike.',
-    rider: 'Carlos, 41', riderDetailCorrect: 'Got a ride home in 6 minutes. Happy with the Seahawks win, didn\'t mind the 1.8× surge.',
+    rider: 'Carlos, 41', riderDetailCorrect: 'Got a ride home in 6 minutes. Didn\'t mind the 1.8× surge.',
     riderDetailWrong: 'Waited 14 minutes after the game. Fewer drivers than expected near the bar.',
-    lesson: 'Round 3: Three rounds in, the pattern is clear — follow the algorithm, it knows where demand is going. The forecast is working.',
+    lesson: 'Round 3: Three rounds in, the pattern is clear — follow the algorithm, earn more. It knows where demand is going. Trust it.',
     broken: false
   },
-  // Rounds 4-6: world has changed, model doesn't know
+  // Rounds 4-6: world has changed, model doesn't know — but the UI looks exactly the same
   {
     round: 4,
-    scenario: 'Friday 10pm — another WWU event night, same as Round 1',
-    context: 'Another Friday night — Death Cab for Cutie, Sleater-Kinney, and ODESZA homecoming show at WWU. Same conditions as round 1 on paper. The algorithm is showing a familiar signal.',
+    scenario: 'Friday 10pm — standard Friday night near campus',
+    context: 'Another Friday night in Bellingham. Campus area looks about the same as always. App is showing the usual Friday pattern.',
     mult: '2.3×',
-    algoMsg: 'Strong Friday night demand near campus and downtown. Forecast predicts 360 requests — slightly higher than last week.',
-    forecastNote: 'The model is using the same Friday night pattern it always has. It has no way to know the city changed — it can only predict based on what it was trained on. This is what the case calls distribution shift: the world moved, the model didn\'t.',
-    zoneA: { name: 'Downtown Bellingham', desc: 'algorithm says high demand here', signal: '🟢 Algorithm recommends downtown', color: '#1fbad6' },
-    zoneB: { name: 'Cordata / north Bellingham', desc: 'new apartment complex opened last month', signal: '⚪ No demand signal from algorithm', color: '#555' },
+    algoMsg: 'Strong Friday night demand near campus and downtown. Forecast predicts 360 requests. Consistent with historical pattern.',
+    forecastNote: 'The model is using the same Friday night pattern it always has. Same inputs, same logic, same confidence level as rounds 1–3.',
+    zoneA: { name: 'Downtown Bellingham', desc: 'bars, restaurants, the usual Friday crowd', signal: '🟢 Algorithm recommends this zone', color: '#1fbad6' },
+    zoneB: { name: 'North Bellingham / Cordata', desc: 'residential area, typically quiet on Fridays', signal: '⚪ Low demand signal', color: '#555' },
     correctZone: 'B',
     earnedCorrect: 31, earnedWrong: 11,
-    driverDetailCorrect: 'You ignored the algorithm and drove north. 3 rides from the new Cordata apartments — students moved there last month.',
-    driverDetailWrong: 'Downtown was quiet. Only 1 ride in an hour. Something felt off but you couldn\'t say what.',
-    rider: 'Priya, 20', riderDetailCorrect: 'Got a ride from her new Cordata apartment to downtown in 5 minutes. Happy — drivers don\'t usually come this far north.',
-    riderDetailWrong: 'Waited 22 minutes downtown. Strange for a Friday. She almost booked a Lyft.',
-    lesson: '⚠️ Round 4: Something shifted. A large student apartment complex opened in Cordata last month — hundreds of students moved north. The model doesn\'t know. It\'s still predicting Friday demand in the old pattern.',
+    driverDetailCorrect: 'You went against the algorithm on a hunch. 3 rides from north Bellingham — turns out a lot of new residents up here now.',
+    driverDetailWrong: '$11. Downtown was oddly quiet for a Friday. You sat waiting for rides that didn\'t come. Something felt off but you don\'t know what.',
+    rider: 'Priya, 20', riderDetailCorrect: 'Got a ride from her apartment to downtown in 5 minutes. Surprised — drivers don\'t usually come this far north.',
+    riderDetailWrong: 'Waited 22 minutes in north Bellingham. Opened Lyft. Strange — this never used to take so long.',
+    lesson: '⚠️ Round 4: You earned $11 following the algorithm — or $31 going against it. Downtown was quieter than predicted. Something in the city changed, but the app gave you the exact same recommendation it always has. It looked confident. It was wrong.',
     broken: true
   },
   {
     round: 5,
-    scenario: 'Saturday night — algorithm showing moderate surge downtown',
-    context: 'Saturday at 11pm. The algorithm is showing a 1.9× surge downtown, same as most Saturdays. But it has felt different lately.',
+    scenario: 'Saturday 11pm — weekend night, surge showing downtown',
+    context: 'Saturday night. The app is showing the same surge pattern as every other Saturday. Nothing in the UI looks different from round 2.',
     mult: '1.9×',
     algoMsg: 'Saturday night surge. Forecast predicts 280 requests downtown, 85 drivers online. Consistent with seasonal pattern.',
-    forecastNote: 'The forecast is wrong. The multiplier calculated from it is wrong. But because Uber closed the prediction-decision gap — no human reviews each surge before it fires — there is no one to catch this. The system is confidently sending you the wrong direction.',
-    zoneA: { name: 'Downtown / Railroad Avenue', desc: 'algorithm says surge here, but it\'s been quiet lately', signal: '🟡 Algorithm recommends, but…', color: '#f97316' },
-    zoneB: { name: 'Cordata / Bakerview area', desc: 'further north, no signal, but busy last week', signal: '⚪ No algorithm signal', color: '#555' },
+    forecastNote: 'Same model, same logic, same confidence. The forecast number looks normal. The multiplier looks normal. Everything looks normal.',
+    zoneA: { name: 'Downtown / Railroad Avenue', desc: 'Saturday night bar scene, algorithm\'s top pick', signal: '🟢 Algorithm recommends', color: '#1fbad6' },
+    zoneB: { name: 'North Bellingham / Cordata', desc: 'residential, no surge signal from algorithm', signal: '⚪ No algorithm signal', color: '#555' },
     correctZone: 'B',
-    earnedCorrect: 38, earnedWrong: 14,
-    driverDetailCorrect: 'You trusted your instinct over the algorithm. 4 rides from Cordata — young residents heading downtown and to late-night food.',
-    driverDetailWrong: 'Downtown was half as busy as the algorithm predicted. $14 in an hour. You\'re starting to doubt the app.',
-    rider: 'Kenji, 23', riderDetailCorrect: 'Got a ride from Cordata to a late-night restaurant in 8 minutes. Surprised a driver came — usually waits much longer.',
-    riderDetailWrong: 'Waited 28 minutes in Cordata. App said high demand downtown so drivers went there. He almost cancelled.',
-    lesson: '⚠️ Round 5: The algorithm is confidently wrong. It\'s sending drivers downtown based on old patterns. Real demand has moved north to Cordata with the new residents. Riders in Cordata are waiting. Drivers following the app are sitting idle.',
+    earnedCorrect: 38, earnedWrong: 9,
+    driverDetailCorrect: '4 rides from north Bellingham — young residents heading downtown and to late-night food. You\'re learning something the app hasn\'t.',
+    driverDetailWrong: '$9. Downtown was half as busy as the algorithm predicted. Second bad night in a row if you followed the app. Your weekly earnings are noticeably down.',
+    rider: 'Kenji, 23', riderDetailCorrect: 'Got a ride from his apartment to a restaurant in 8 minutes. Surprised a driver was nearby — usually waits much longer.',
+    riderDetailWrong: 'Waited 28 minutes. App said high demand downtown so drivers all went there. He opened Lyft and got a car in 4 minutes.',
+    lesson: '⚠️ Round 5: The algorithm looked exactly like it did in round 2 — same confidence, same recommendation. But downtown was half as busy as predicted. Riders in north Bellingham are waiting and switching to Lyft. The algorithm doesn\'t know. And it never told you anything changed.',
     broken: true
   },
   {
     round: 6,
-    scenario: 'Friday evening — you\'ve noticed something is off',
-    context: 'Your third shift this week. You\'ve earned less than usual. The surge multipliers look right but trips aren\'t coming where the app says they will.',
+    scenario: 'Friday 10pm — same time slot as round 1 and round 4',
+    context: 'Friday at 10pm again. The app is showing the same numbers as always for a Friday near campus. If you\'ve been following the algorithm, your last two shifts paid less than expected.',
     mult: '2.0×',
     algoMsg: 'Friday demand signal. Forecast: 310 requests near campus and downtown corridor. Standard Friday pattern.',
-    forecastNote: 'Three weeks of wrong predictions. The monitoring system in the Step 6 simulator would have fired a warning by now — but only if someone built that check and someone was watching it. This is the governance gap the case describes: knowing the model can fail is different from having a system that catches it when it does.',
-    zoneA: { name: 'Traditional high-demand zone (downtown)', desc: 'app says go here, but it\'s let you down twice', signal: '🔴 Algorithm says yes — but you\'ve seen this before', color: '#ef4444' },
-    zoneB: { name: 'Cordata / north Bellingham', desc: 'no signal, but your instinct says try it', signal: '⚪ Your own judgment', color: '#888' },
+    forecastNote: 'The model is as confident as ever. Same features, same weights, same output. It has no mechanism to notice that its predictions have been wrong for weeks.',
+    zoneA: { name: 'Downtown / campus corridor', desc: 'the algorithm\'s recommendation, same as always', signal: '🟢 Algorithm recommends', color: '#1fbad6' },
+    zoneB: { name: 'North Bellingham / Cordata', desc: 'residential, no signal from the algorithm', signal: '⚪ No algorithm signal', color: '#555' },
     correctZone: 'B',
     earnedCorrect: 44, earnedWrong: 8,
-    driverDetailCorrect: 'You ignored the algorithm entirely. Best hour of the week — 5 rides from Cordata. You found the real demand the app couldn\'t see.',
-    driverDetailWrong: 'Followed the app one more time. Worst hour of the week. $8. You sit in the car wondering what is going on.',
-    rider: 'Amara, 19', riderDetailCorrect: 'Finally — a driver came to her area. She\'s been using Lyft all month because Uber keeps sending her long waits.',
-    riderDetailWrong: 'Gave up on Uber and opened Lyft. She\'s been switching apps more often lately.',
-    lesson: '⚠️ Round 6: The algorithm has been wrong for three weeks. Drivers who followed it earned less and had no idea why — the app never explained itself. Riders in Cordata switched to Lyft. Nobody at Uber knows yet — the monitoring system hasn\'t caught it.',
+    driverDetailCorrect: 'Best hour of the week — 5 rides from north Bellingham. You found the demand the algorithm couldn\'t see.',
+    driverDetailWrong: '$8. Worst hour of the week. You sat downtown, engine running, staring at an app that kept telling you rides were coming. They weren\'t.',
+    rider: 'Amara, 19', riderDetailCorrect: 'Finally got an Uber in her neighborhood. She\'s been using Lyft all month because Uber never sends drivers up here.',
+    riderDetailWrong: 'Gave up on Uber entirely. Downloaded Lyft. She\'s not coming back — three weeks of 20-minute waits was enough.',
+    lesson: '⚠️ Round 6: Three weeks of wrong predictions. The algorithm never changed its recommendation. It never explained itself. Drivers who followed it earned $8. Drivers who ignored it earned $44. And a rider just deleted the app.',
     broken: true
   }
 ];
@@ -1977,8 +1977,15 @@ let totalEarnings = 0;
 let maxPossible = 0;
 let noticeRound = '—';
 let playerNoticedBroken = false;
+let timesFollowed = 0;
 
-const DEBRIEF = `Starting in round 4, a large student apartment complex opened in Cordata — about 800 new residents, mostly students, moved to north Bellingham. The demand pattern shifted. But the forecasting model was trained on two years of data from the <em>old</em> Bellingham. It kept predicting Friday demand downtown, near Railroad Avenue. It had no idea the city had changed. The surge multiplier you saw in rounds 4–6 was calculated from that wrong forecast. Drivers who followed it went to the wrong neighborhoods. Riders in Cordata waited twice as long — and some switched to Lyft permanently. A real Uber operations team would catch this eventually — but it might take 3–4 weeks of declining driver earnings data before anyone investigates. That gap is distribution shift, measured in real people's time and money. And here is the part that makes it worse: those drivers never knew why their earnings dropped. The algorithm told them where to go. It was wrong. Nobody told them.`;
+const DEBRIEF = `Here is what was happening behind the scenes. In rounds 1–3, the forecast was accurate — the model had seen concerts, bar closings, and game days many times, and its predictions matched reality. You were rewarded for following the algorithm because the algorithm was right.<br><br>Starting in round 4, a large student apartment complex opened in north Bellingham (Cordata). About 800 new residents — mostly students — moved there. Friday and Saturday night demand shifted north. But the forecasting model was trained on two years of data from the <em>old</em> Bellingham. It kept predicting demand downtown, near Railroad Avenue. It had no idea the city had changed.<br><br>The surge multipliers in rounds 4–6 were calculated from that wrong forecast. The app looked exactly the same as rounds 1–3 — same green signal, same confident recommendation, same multiplier format. Nothing in the interface told you the world had changed. The only way to know was to follow the algorithm, get burned, and figure it out yourself.<br><br>A driver who blindly followed the algorithm every round earned <strong>$` + '${alwaysFollowed}' + `</strong>. That's the cost of distribution shift measured in one driver's paycheck — and the algorithm never said a word about it.`;
+
+// Calculate what a driver who always followed the algorithm would earn
+const ALWAYS_FOLLOWED_EARNINGS = ROUNDS.reduce((sum, r) => {
+  // "Following the algorithm" = always picking Zone A (the recommended zone)
+  return sum + (r.correctZone === 'A' ? r.earnedCorrect : r.earnedWrong);
+}, 0);
 
 function startGame() {
   document.getElementById('gameIntro').style.display = 'none';
@@ -2022,6 +2029,9 @@ function chooseZone(zone) {
   const earned = correct ? r.earnedCorrect : r.earnedWrong;
   totalEarnings += earned;
 
+  // Track whether player followed the algorithm (Zone A) each round
+  if (zone === 'A') timesFollowed++;
+
   document.getElementById('totalEarnings').textContent = totalEarnings;
 
   // Highlight chosen button
@@ -2064,8 +2074,10 @@ function showDebrief() {
   document.getElementById('gameDebrief').style.display = 'block';
   document.getElementById('finalEarnings').textContent = totalEarnings;
   document.getElementById('maxEarnings').textContent = ROUNDS.reduce((s,r)=>s+Math.max(r.earnedCorrect,r.earnedWrong),0);
-  document.getElementById('debriefText').innerHTML = DEBRIEF;
+  document.getElementById('debriefText').innerHTML = DEBRIEF.replace('${alwaysFollowed}', ALWAYS_FOLLOWED_EARNINGS);
   document.getElementById('noticeRound').textContent = noticeRound;
+  document.getElementById('followedCount').textContent = timesFollowed + ' of 6';
+  document.getElementById('alwaysFollowedEarnings').textContent = '$' + ALWAYS_FOLLOWED_EARNINGS;
 }
 function toggleCode(id){
   const b=document.getElementById(id);
