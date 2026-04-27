@@ -638,7 +638,7 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
         <strong>The show crowd doesn't behave like a typical Friday crowd — and the model has no way to know.</strong> This is the assumption that matters most. Your model was trained on 104 ordinary Fridays plus a handful of past event nights it couldn't really learn from. It has no feature for events, no signal for ticket sales, no memory of past concerts as a category. Its raw prediction for tomorrow will be a confident number based on a world without a concert in it. Whatever the model says, you — the analyst — are the only one in the chain who knows what's actually happening at 10pm.<br><br>
         <strong>The 2.2× event multiplier is your team's best estimate, not a fact.</strong> Past WWU events ran roughly 2.2× a normal school-year Friday. That number comes from a senior analyst who has staffed past events. It's reasonable, but it's a single number applied to a 7,500-person sold-out indie/electronic homecoming show that may not look exactly like past events.<br><br>
         <strong>1 driver handles ~3 trips per hour.</strong> Average. Post-concert traffic on Bill McDonald Pkwy could push it lower. Short rides could push it higher.<br><br>
-        <strong>25 drivers are typically online on a Friday night near campus.</strong> Could be more if drivers see the concert and come online. Could be less if a competing event pulls them away.<br><br>
+        <strong>250 drivers is an estimate for the concert — not a guarantee.</strong> On a normal Friday, only about 25 drivers are online near campus. Uber would push incentives to attract 250+ for a known event, but that depends on how many drivers see the notification, whether competing events pull them elsewhere, and whether the weather makes driving appealing. Your surge recommendation is sensitive to this number.<br><br>
         <strong>The ±15% prediction interval is fixed.</strong> The real uncertainty is higher on a night the model has never seen.</div>
       </div>
 
@@ -678,9 +678,9 @@ Using the adjusted prediction, calculate how many drivers are needed to cover pr
 Print these three numbers clearly.
 
 Step D — Make the surge pricing call:
-Assume Uber has approximately 25 drivers typically online in the Bellingham/WWU area on a Friday night.
-If the adjusted predicted demand requires more than 25 drivers, recommend activating surge pricing.
-Print a clear YES or NO on surge, with a one-sentence reason.
+On a normal Friday night, about 25 drivers are online near campus. For a known concert, Uber would push notifications and incentives to attract more — assume approximately 250 drivers online for this event.
+If the adjusted predicted demand requires more capacity than 250 drivers × 3 trips/hr can handle, recommend activating surge pricing.
+Print a clear YES or NO on surge, with a one-sentence reason showing the demand vs. capacity math.
 
 Step E — Print an operations memo:
 Format the output as a short memo the analyst could send to their manager about Friday Oct 17, including:
@@ -731,7 +731,7 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
 
       <p>You have a concert-night forecast. You have a driver number. You are not ready to send it yet.</p>
 
-      <p>Tomorrow's recommendation rests on assumptions that are all <em>concert-specific</em>: the 2.2× event multiplier from Step 3, the ~25 drivers typically online on a Bellingham Friday, the 3 trips per driver per hour you assumed for the post-show rush, and the ±15% prediction interval you carried over from the backtest. Each could be wrong in ways that matter <em>because it's a concert</em>. The 2.2× came from past WWU events that may or may not match a sold-out indie/electronic homecoming show. The 25-driver baseline is true on normal Fridays — but if Bellingham drivers know about the concert, more might come online; if a competing event pulls them away, fewer. Trips per hour drops if traffic around campus seizes up after the show. None of this would worry you on an ordinary October Friday. Tomorrow night — October 17 — it should.</p>
+      <p>Tomorrow's recommendation rests on assumptions that are all <em>concert-specific</em>: the 2.2× event multiplier from Step 3, the ~250 drivers Uber expects to attract for the concert, the 3 trips per driver per hour you assumed for the post-show rush, and the ±15% prediction interval you carried over from the backtest. Each could be wrong in ways that matter <em>because it's a concert</em>. The 2.2× came from past WWU events that may or may not match a sold-out indie/electronic homecoming show. The 250-driver target depends on how many drivers respond to Uber's incentive push — if only 200 show up, the math changes fast. Trips per hour drops if traffic around campus seizes up after the show. None of this would worry you on an ordinary October Friday. Tomorrow night — October 17 — it should.</p>
 
       <p>This is called <strong>stress-testing</strong>. At Uber, analysts run scenario models before every major event — not because they expect the worst case, but because they need to know what the worst case looks like so operations can plan for it. The question is never "will our forecast be exactly right?" It's "how wrong could we be tomorrow night, and can we still handle it?"</p>
 
@@ -740,16 +740,16 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
         <div class="concept-text">If you change everything at once, you cannot tell which assumption drove the change in the output. Real analysts isolate variables — change one thing, hold everything else constant, observe the effect. This is the same logic as a controlled experiment. It also makes it much easier to explain to your boss: "if driver availability drops to 15 tomorrow, the surge recommendation flips — here's why."</div>
       </div>
 
-      <p>Instead of writing code for this step, use the simulator below. It has the same baseline you produced in Step 3 already built in — your adjusted concert-night forecast around 850 predicted trips, 25 drivers online, 3 trips per driver per hour. Change them one at a time. Watch what happens to the recommendation. The point isn't to find the "right" answer — there isn't one yet, the concert hasn't happened. The point is to know which assumption your recommendation is <em>most fragile to</em>, so you can tell your boss specifically: "if X happens tomorrow night, the answer changes to Y."</p>
+      <p>Instead of writing code for this step, use the simulator below. It starts with the same baseline from your Step 3 adjusted forecast: ~850 predicted trips on October 17, roughly 250 drivers expected online near campus at 10pm (Uber would push notifications to attract drivers for a known event), and 3 trips per driver per hour. At those defaults, the recommendation is fragile — small changes flip the surge call. Change them one at a time and watch what happens.</p>
 
       <div class="concept-box">
         <div class="concept-label">How the stress-test simulator works</div>
         <div class="concept-text">
           <ul style="margin: 0.25rem 0 0 1.25rem; padding: 0;">
-            <li style="margin-bottom:0.5rem;"><strong>Drivers online at 10pm</strong> — how many Uber drivers you expect to be active near campus when the show lets out. Your Step 3 baseline was 25.</li>
-            <li style="margin-bottom:0.5rem;"><strong>Trips per driver per hour</strong> — how efficiently each driver can move through the demand. 3 is realistic on a normal night, but traffic after a sold-out show could push this lower.</li>
+            <li style="margin-bottom:0.5rem;"><strong>Drivers online at 10pm</strong> — how many Uber drivers you expect to be active near campus when the show lets out. The baseline is 250 — Uber would push notifications and incentives to attract drivers for a known concert. Drop it to 200 (some drivers stay home) or raise it to 350 (surge draws them in) and watch the gap move.</li>
+            <li style="margin-bottom:0.5rem;"><strong>Trips per driver per hour</strong> — how efficiently each driver moves through demand. 3 is realistic on a normal night. Post-concert traffic on Bill McDonald Pkwy could drop this to 2 or lower — and that alone can flip the surge call.</li>
             <li style="margin-bottom:0.5rem;"><strong>Demand scenario</strong> — shift between the lower bound (−15%), your base prediction, and the upper bound (+15%) from your forecast interval.</li>
-            <li>As you move any slider, the driver capacity, drivers needed, and surge recommendation all update instantly. Watch for the moment the SURGE indicator at the top right flips from blue to red — that is the exact threshold where your assumptions tip the decision.</li>
+            <li>As you move any slider, the supply gap, estimated rider wait, and surge recommendation all update instantly. Watch for the moment the SURGE indicator at the top right flips from blue to red — that is the exact threshold where your assumptions tip the decision.</li>
           </ul>
         </div>
       </div>
@@ -776,13 +776,13 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
             <div style="margin-bottom:0.85rem;">
               <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
                 <span style="font-size:12px;color:#aaa;">Drivers online at 10pm</span>
-                <span style="font-size:12px;font-weight:700;color:#fff;" id="stDriversVal">25</span>
+                <span style="font-size:12px;font-weight:700;color:#fff;" id="stDriversVal">250</span>
               </div>
-              <input type="range" id="stDrivers" min="10" max="60" value="25" step="5"
+              <input type="range" id="stDrivers" min="150" max="400" value="250" step="10"
                 style="width:100%;accent-color:#1fbad6;cursor:pointer;">
               <div style="display:flex;justify-content:space-between;margin-top:2px;">
-                <span style="font-size:10px;color:#444;">10 (low)</span>
-                <span style="font-size:10px;color:#444;">60 (high)</span>
+                <span style="font-size:10px;color:#444;">150 (low turnout)</span>
+                <span style="font-size:10px;color:#444;">400 (surge draws more)</span>
               </div>
             </div>
 
@@ -815,21 +815,27 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
 
           <!-- Output panel -->
           <div style="background:#0a0a0a;border:1px solid #1a1a1a;border-radius:8px;padding:0.9rem;">
-            <div style="font-size:11px;font-weight:700;color:#7dd8e8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.75rem;">Recommendation</div>
+            <div style="font-size:11px;font-weight:700;color:#7dd8e8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.75rem;">What happens on October 17</div>
 
             <div style="margin-bottom:0.6rem;">
-              <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;">Predicted trips</div>
+              <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;">Predicted demand</div>
               <div style="font-size:22px;font-weight:900;color:#1fbad6;" id="stPredTrips">850</div>
+              <div style="font-size:10px;color:#888;margin-top:1px;">trips in the hour after the show</div>
             </div>
             <div style="margin-bottom:0.6rem;">
-              <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;">Driver capacity (supply)</div>
-              <div style="font-size:22px;font-weight:900;color:#fff;" id="stCapacity">75</div>
-              <div style="font-size:10px;color:#888;margin-top:1px;" id="stCapacityNote">25 drivers × 3.0 trips/hr</div>
+              <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;">Your drivers can handle</div>
+              <div style="font-size:22px;font-weight:900;color:#fff;" id="stCapacity">750</div>
+              <div style="font-size:10px;color:#888;margin-top:1px;" id="stCapacityNote">250 drivers × 3.0 trips/hr</div>
             </div>
             <div style="margin-bottom:0.6rem;">
-              <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;">Drivers needed</div>
-              <div style="font-size:22px;font-weight:900;color:#fff;" id="stDriversNeeded">284</div>
-              <div style="font-size:10px;color:#888;margin-top:1px;" id="stGapNote"></div>
+              <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;">Supply gap</div>
+              <div style="font-size:28px;font-weight:900;" id="stGapPct">−91%</div>
+              <div style="font-size:11px;margin-top:2px;" id="stGapNote" style="color:#888;"></div>
+            </div>
+            <div style="margin-bottom:0.6rem;">
+              <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;">Estimated rider wait</div>
+              <div style="font-size:22px;font-weight:900;" id="stWaitTime">25+ min</div>
+              <div style="font-size:10px;color:#888;margin-top:1px;" id="stWaitNote">Most riders will cancel or switch to Lyft</div>
             </div>
             <div id="stSurgeBox" style="margin-top:0.75rem;border-radius:6px;padding:0.6rem 0.75rem;background:rgba(31,186,214,0.08);border:1px solid rgba(31,186,214,0.25);">
               <div style="font-size:11px;font-weight:700;color:#1fbad6;" id="stSurgeRec">✓ No surge needed</div>
@@ -854,7 +860,7 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
             <div>
               <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
                 <span style="font-size:11px;color:#aaa;">Driver capacity (trips handled)</span>
-                <span style="font-size:11px;font-weight:700;color:#888;" id="stBarSupplyVal">75</span>
+                <span style="font-size:11px;font-weight:700;color:#888;" id="stBarSupplyVal">750</span>
               </div>
               <div style="height:10px;background:#1a1a1a;border-radius:5px;overflow:hidden;">
                 <div id="stBarSupply" style="height:100%;background:#888;border-radius:5px;transition:width 0.4s ease;width:40%;"></div>
@@ -870,7 +876,7 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
         const BASE_TRIPS = 850;
         const DEMAND_LEVELS = [BASE_TRIPS * 0.85, BASE_TRIPS, BASE_TRIPS * 1.15];
         const DEMAND_LABELS = ['Low (720)', 'Base (850)', 'High (980)'];
-        const MAX_BAR = 1200;
+        const MAX_BAR = 1400;
 
         function update(){
           const drivers = parseInt(document.getElementById('stDrivers').value);
@@ -878,10 +884,9 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
           const demandIdx = parseInt(document.getElementById('stDemand').value);
           const demand = Math.round(DEMAND_LEVELS[demandIdx]);
           const capacity = Math.round(drivers * tripsPerDriver);
-          const driversNeeded = Math.ceil(demand / tripsPerDriver);
           const gap = capacity - demand;
-          const surgeThreshold = capacity * 1.20;
-          const surgeOn = demand > surgeThreshold;
+          const gapPct = Math.round(((capacity - demand) / demand) * 100);
+          const surgeOn = demand > capacity * 1.20;
 
           document.getElementById('stDriversVal').textContent = drivers;
           document.getElementById('stTripsVal').textContent = tripsPerDriver.toFixed(1);
@@ -889,10 +894,45 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
           document.getElementById('stPredTrips').textContent = demand.toLocaleString();
           document.getElementById('stCapacity').textContent = capacity.toLocaleString();
           document.getElementById('stCapacityNote').textContent = `${drivers} drivers × ${tripsPerDriver.toFixed(1)} trips/hr`;
-          document.getElementById('stDriversNeeded').textContent = driversNeeded.toLocaleString();
-          document.getElementById('stGapNote').textContent = gap >= 0
-            ? `${gap.toLocaleString()} trips of spare capacity`
-            : `${Math.abs(gap).toLocaleString()} trip shortfall`;
+
+          // Supply gap percentage — the number that moves dramatically
+          const gapEl = document.getElementById('stGapPct');
+          if (gapPct >= 0) {
+            gapEl.textContent = '+' + gapPct + '%';
+            gapEl.style.color = '#1fbad6';
+          } else {
+            gapEl.textContent = gapPct + '%';
+            gapEl.style.color = gapPct <= -50 ? '#ef4444' : '#f97316';
+          }
+          const gapNoteEl = document.getElementById('stGapNote');
+          if (gap >= 0) {
+            gapNoteEl.textContent = capacity.toLocaleString() + ' trips covered, ' + gap.toLocaleString() + ' spare';
+            gapNoteEl.style.color = '#888';
+          } else {
+            gapNoteEl.textContent = Math.abs(gap).toLocaleString() + ' trips with no driver available';
+            gapNoteEl.style.color = '#f87171';
+          }
+
+          // Estimated rider wait — makes the impact human-readable
+          const waitEl = document.getElementById('stWaitTime');
+          const waitNoteEl = document.getElementById('stWaitNote');
+          if (gap >= 0) {
+            waitEl.textContent = '3–5 min';
+            waitEl.style.color = '#1fbad6';
+            waitNoteEl.textContent = 'Enough drivers — riders get cars quickly';
+          } else if (gapPct >= -30) {
+            waitEl.textContent = '8–12 min';
+            waitEl.style.color = '#f97316';
+            waitNoteEl.textContent = 'Moderate shortfall — some riders wait, surge draws more drivers';
+          } else if (gapPct >= -60) {
+            waitEl.textContent = '15–20 min';
+            waitEl.style.color = '#ef4444';
+            waitNoteEl.textContent = 'Major shortfall — riders waiting in the cold outside the venue';
+          } else {
+            waitEl.textContent = '25+ min';
+            waitEl.style.color = '#ef4444';
+            waitNoteEl.textContent = 'Most riders will cancel or switch to Lyft';
+          }
 
           // Surge box
           const surgeBox = document.getElementById('stSurgeBox');
@@ -904,7 +944,7 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
             surgeBox.style.border = '1px solid rgba(220,38,38,0.35)';
             surgeRec.style.color = '#f87171';
             surgeRec.textContent = '⚡ Activate surge pricing';
-            surgeReason.textContent = `Demand exceeds supply by ${Math.abs(gap).toLocaleString()} trips — drivers cannot cover the load.`;
+            surgeReason.textContent = `Demand exceeds supply by ${Math.abs(gap).toLocaleString()} trips — surge needed to attract more drivers.`;
             surgeStatus.style.background = 'rgba(220,38,38,0.2)';
             surgeStatus.style.color = '#f87171';
             surgeStatus.style.border = '1px solid rgba(220,38,38,0.4)';
@@ -914,7 +954,7 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
             surgeBox.style.border = '1px solid rgba(31,186,214,0.25)';
             surgeRec.style.color = '#1fbad6';
             surgeRec.textContent = '✓ No surge needed';
-            surgeReason.textContent = `Supply meets demand — ${gap.toLocaleString()} trips of spare capacity available.`;
+            surgeReason.textContent = `Supply meets demand — ${gap.toLocaleString()} trips of spare capacity.`;
             surgeStatus.style.background = 'rgba(31,186,214,0.15)';
             surgeStatus.style.color = '#1fbad6';
             surgeStatus.style.border = '1px solid rgba(31,186,214,0.3)';
