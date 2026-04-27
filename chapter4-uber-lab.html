@@ -1419,7 +1419,7 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
       <p>Here is what to collect before you start:</p>
 
       <ul>
-        <li><strong>Your backtest chart description</strong> — from Step 2, look at your chart and write 2–3 sentences describing what you see: where the model's predictions tracked reality well, and especially how it handled the event Fridays (the red dots). You cannot paste an image directly into the prompt, so describe it in words — Claude will recreate a chart in the same style.</li>
+        <li><strong>Your two MAE numbers</strong> — from Step 2, copy the two numbers your code printed: the overall MAE and the event-Friday MAE. Example: "Overall MAE: 24 trips. Event-Friday MAE: 89 trips." Claude will build a simple visual comparison directly in the HTML — no image file needed.</li>
         <li><strong>Your October 17 memo</strong> — from Step 3, copy the exact plain-English operations memo your code printed. It should include both the raw model prediction and the analyst-adjusted forecast (with the 2.2× event multiplier), the driver recommendation, and the surge call.</li>
         <li><strong>Your stress-test finding</strong> — from Step 4, recall what you saw in the simulator. Write 2–3 sentences naming the assumption whose slider had the biggest impact on the surge call, and the concert-specific condition tomorrow night that could push that variable in the wrong direction. (Examples: rain, post-show traffic, drivers pulled away, show running long.)</li>
         <li><strong>Your Step 8 reflection</strong> — write it now, before you send the prompt. It goes in last.</li>
@@ -1434,10 +1434,10 @@ The page should showcase my actual work from the lab — not a generic summary. 
 SECTION 1 — THE BUSINESS PROBLEM (you write this)
 One punchy paragraph explaining why demand forecasting is the foundation of Uber's entire business. No jargon. Direct. A recruiter who has never heard of Uber's AI system should understand it in 30 seconds.
 
-SECTION 2 — THE DATA AND THE MODEL (I will provide my chart)
-Write 3–4 sentences explaining what I did in Steps 1 and 2: I pulled two years of historical Friday night trip data near WWU campus in Bellingham (Oct 2023 – Oct 2025), identified trend, seasonality, and a handful of past event nights, and used the calendar features to train a linear regression forecasting model. I backtested it two ways: overall MAE on the test window, and MAE specifically on event-like Fridays. Then insert this placeholder where I will paste my backtest chart image:
-[PASTE YOUR BACKTEST CHART DESCRIPTION HERE — 2-3 sentences describing where the model tracked reality and where it diverged, especially on event nights]
-Below the chart, write one sentence: "The dashed line is what the model predicted. The solid line is what actually happened. The gap between them — especially on event Fridays — is the honest measure of how much to trust the model on a concert night."
+SECTION 2 — THE DATA AND THE MODEL (I will provide my numbers)
+Write 3–4 sentences explaining what I did in Steps 1 and 2: I pulled two years of historical Friday night trip data near WWU campus in Bellingham (Oct 2023 – Oct 2025), identified trend, seasonality, and a handful of past event nights, and used the calendar features to train a linear regression forecasting model. I backtested it two ways: overall MAE on the test window, and MAE specifically on event-like Fridays. Then create a simple HTML/CSS bar chart or visual directly in the page showing my two MAE numbers side by side — here are my actual results:
+[PASTE YOUR TWO MAE NUMBERS HERE — e.g. "Overall MAE: 24 trips. Event-Friday MAE: 89 trips."]
+Below the chart, write one sentence: "The overall MAE looked acceptable. The event-Friday MAE — the number that matters for a concert night — was significantly larger. That gap is why the analyst had to step in."
 
 SECTION 3 — THE OCTOBER 17 PREDICTION (my actual memo)
 Write one sentence introducing this section: "Here is the actual operations recommendation I produced for the Death Cab for Cutie, Sleater-Kinney, and ODESZA homecoming concert at WWU on Friday, October 17, 2025 — the raw model number and the analyst-adjusted forecast." Then insert this placeholder where I will paste my memo:
