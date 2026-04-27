@@ -837,6 +837,11 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
               <div style="font-size:22px;font-weight:900;" id="stWaitTime">25+ min</div>
               <div style="font-size:10px;color:#888;margin-top:1px;" id="stWaitNote">Most riders will cancel or switch to Lyft</div>
             </div>
+            <div style="margin-bottom:0.6rem;">
+              <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;">Driver earnings per hour</div>
+              <div style="font-size:22px;font-weight:900;" id="stDriverPay">$18</div>
+              <div style="font-size:10px;margin-top:1px;" id="stDriverPayNote" style="color:#888;">Normal Friday rate</div>
+            </div>
             <div id="stSurgeBox" style="margin-top:0.75rem;border-radius:6px;padding:0.6rem 0.75rem;background:rgba(31,186,214,0.08);border:1px solid rgba(31,186,214,0.25);">
               <div style="font-size:11px;font-weight:700;color:#1fbad6;" id="stSurgeRec">✓ No surge needed</div>
               <div style="font-size:11px;color:#aaa;margin-top:3px;" id="stSurgeReason">Supply meets demand at current driver levels.</div>
@@ -932,6 +937,34 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
             waitEl.textContent = '25+ min';
             waitEl.style.color = '#ef4444';
             waitNoteEl.textContent = 'Most riders will cancel or switch to Lyft';
+          }
+
+          // Driver earnings per hour
+          // Base fare ~$6/trip, driver keeps ~75% = ~$4.50/trip net
+          // On a normal Friday: 3 trips/hr × $6 = $18/hr
+          // Surge multiplier increases fare; shortfall means each driver stays busy
+          const baseFare = 6;
+          const surgeMultiplier = surgeOn ? Math.min(3.5, 1.0 + (Math.abs(gapPct) / 100) * 2) : 1.0;
+          const effectiveTrips = Math.min(tripsPerDriver + 0.5, demand / drivers); // capped by demand per driver
+          const hourlyPay = Math.round(effectiveTrips * baseFare * surgeMultiplier);
+          const normalPay = 18; // baseline: 3 trips × $6
+
+          const payEl = document.getElementById('stDriverPay');
+          const payNoteEl = document.getElementById('stDriverPayNote');
+          payEl.textContent = '$' + hourlyPay;
+
+          if (hourlyPay <= normalPay) {
+            payEl.style.color = '#888';
+            payNoteEl.textContent = 'Normal Friday rate — no surge boost';
+            payNoteEl.style.color = '#888';
+          } else if (hourlyPay <= normalPay * 2) {
+            payEl.style.color = '#1fbad6';
+            payNoteEl.textContent = surgeMultiplier.toFixed(1) + '× surge — drivers earn more per trip';
+            payNoteEl.style.color = '#888';
+          } else {
+            payEl.style.color = '#34d399';
+            payNoteEl.textContent = surgeMultiplier.toFixed(1) + '× surge — great money, but riders are paying for it';
+            payNoteEl.style.color = '#888';
           }
 
           // Surge box
