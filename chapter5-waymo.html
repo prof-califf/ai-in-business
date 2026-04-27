@@ -982,12 +982,12 @@
 
       <line x1="600" y1="130" x2="635" y2="130" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow-pipeline)"/>
 
-      <text font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="660" y="130" text-anchor="middle" dominant-baseline="central">Action</text>
+      <text font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#2C2C2A" x="640" y="130" text-anchor="start" dominant-baseline="central">Action</text>
 
       <path d="M 660 115 Q 660 50 615 50" fill="none" stroke="#0F6E56" stroke-width="1.5" stroke-dasharray="5 4"/>
       <rect x="495" y="30" width="120" height="42" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
-      <text font-family="Arial,sans-serif" font-size="13" font-weight="500" fill="#085041" x="555" y="48" text-anchor="middle" dominant-baseline="central">Score the outcome</text>
-      <text font-family="Arial,sans-serif" font-size="11" fill="#0F6E56" x="555" y="62" text-anchor="middle" dominant-baseline="central">Update the policy</text>
+      <text font-family="Arial,sans-serif" font-size="13" font-weight="500" fill="#085041" x="555" y="48" text-anchor="middle" dominant-baseline="central">Reward function</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#0F6E56" x="555" y="62" text-anchor="middle" dominant-baseline="central">Scores the outcome</text>
       <path d="M 495 60 Q 460 60 460 95" fill="none" stroke="#0F6E56" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-feedback)"/>
 
       <rect x="160" y="240" width="280" height="50" rx="8" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
@@ -1003,9 +1003,9 @@
       <line x1="540" y1="160" x2="540" y2="240" stroke="#0F6E56" stroke-width="0.5" stroke-dasharray="3 3"/>
 
       <text font-family="Arial,sans-serif" font-size="12" fill="#6b7280" x="70" y="320" text-anchor="middle" dominant-baseline="central">Raw input</text>
-      <text font-family="Arial,sans-serif" font-size="12" fill="#6b7280" x="660" y="320" text-anchor="middle" dominant-baseline="central">Drives car</text>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#6b7280" x="660" y="320" text-anchor="end" dominant-baseline="central">Drives car</text>
     </svg>
-    <figcaption><strong>Figure: The Waymo AI pipeline.</strong> Sensors feed raw data into perception, which identifies objects. Prediction takes those objects and forecasts where they're going. The planner takes the complete picture and decides what the car should do. <strong>The dashed green loop at top is the heart of reinforcement learning</strong>: every action the planner takes gets scored — was it safe? smooth? legal? — and that score updates the planner's policy so it makes better decisions next time. This loop runs billions of times in simulation before the planner ever drives on a real road. The dashed lines below show which AI technique trains each stage: perception and prediction both use <strong>deep learning</strong> (because there's a right answer to learn from). The planner uses <strong>reinforcement learning</strong> (because there's no single right answer — only outcomes that are better or worse). This division of labor is the same architecture DeepMind first proved with AlphaGo, now applied to driving.</figcaption>
+    <figcaption><strong>Figure: The Waymo AI pipeline.</strong> Sensors feed raw data into perception, which identifies objects. Prediction takes those objects and forecasts where they're going. The planner takes the complete picture and decides what the car should do. <strong>The dashed green loop at top is the heart of reinforcement learning</strong>: every action the planner takes gets scored by a <strong>reward function</strong> — was it safe? smooth? legal? — and that score updates the planner's policy so it makes better decisions next time. This loop runs billions of times in simulation before the planner ever drives on a real road. (You'll see the reward function defined in detail in Step 4 below.) The dashed lines below show which AI technique trains each stage: perception and prediction both use <strong>deep learning</strong> (because there's a right answer to learn from). The planner uses <strong>reinforcement learning</strong> (because there's no single right answer — only outcomes that are better or worse). This division of labor is the same architecture DeepMind first proved with AlphaGo, now applied to driving.</figcaption>
   </figure>
 
   <figure>
