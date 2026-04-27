@@ -487,7 +487,9 @@ Since I don't have direct access to the production trip database for this exerci
    - Summary stats: min, max, and average Friday night trip count, plus which week had the highest demand
    - A separate summary just for event nights: how many event Fridays are in the dataset, the average trips on event nights vs. normal school-year Fridays, and one printed sentence: "Tomorrow's concert (Friday Oct 17, 2025) is most similar to these N event nights in the dataset."
 
-Add a plain-English comment above each section explaining what it does and why it matters for the October 17 forecast I need to build next. Don't build the forecast model yet — my manager is waiting, but I need to see the data clearly before I can trust anything I build on top of it.</div>
+Add a plain-English comment above each section explaining what it does and why it matters for the October 17 forecast I need to build next. Don't build the forecast model yet — my manager is waiting, but I need to see the data clearly before I can trust anything I build on top of it.
+
+Important: this code runs in Google Colab. Do not use plt.savefig() or save any files to disk — just use plt.show() to display charts inline.</div>
       </div>
 
       <div class="didit-box">
@@ -575,7 +577,9 @@ Plot the full 104 weeks showing:
 - Vertical line at week 78 labeled "Model trained on everything left of this line"
 - Title: "Friday Night Demand — Backtest Results (Concert is Week 105)"
 
-Add plain-English comments throughout. No ARIMA, no LSTM — linear regression only. I need something I can defend to my manager in plain English, not a black box.</div>
+Add plain-English comments throughout. No ARIMA, no LSTM — linear regression only. I need something I can defend to my manager in plain English, not a black box.
+
+Important: this code runs in Google Colab. Do not use plt.savefig() or save any files to disk — just use plt.show() to display charts inline.</div>
       </div>
 
       <div class="insight-box">
@@ -685,7 +689,9 @@ Format the output as a short memo the analyst could send to their manager about 
 - Surge recommendation (YES/NO)
 - One sentence on what assumption could push actual demand outside the predicted range tomorrow night
 
-Add plain-English comments throughout.</div>
+Add plain-English comments throughout.
+
+Important: this code runs in Google Colab. Do not use plt.savefig() or save any files to disk — just use plt.show() to display charts inline.</div>
       </div>
 
       <div class="insight-box">
