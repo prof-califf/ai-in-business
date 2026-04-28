@@ -437,21 +437,21 @@
 
       <p>It's Thursday, October 16, 2025. You're a data analyst on Uber's Bellingham operations team and your manager just asked you to forecast Friday night demand near WWU campus — there's a Death Cab for Cutie, Sleater-Kinney, and ODESZA homecoming concert tomorrow night, <strong>Friday October 17</strong>, and operations needs to know how many drivers to deploy at 10pm when the show lets out. Tomorrow is the prediction. Today's job is data.</p>
 
-      <p>Here's the catch: you can't pull data on tomorrow's concert because tomorrow hasn't happened. What you can do is pull every Friday night near campus for the last two years and look hard at the <em>closest things to a concert night</em> in that history — past homecoming weekends, graduation Friday, the basketball playoffs in March. Those past high-demand Fridays are the only evidence you have for what tomorrow might look like. If your data doesn't contain anything that resembles a concert, your model has no business predicting one.</p>
+      <p>Here's the catch: you can't pull data on tomorrow's concert because tomorrow hasn't happened. What you can do is pull every Friday night near campus for the last two years and look hard at the <em>closest things to a concert night</em> in that history — homecoming weekends, welcome week in September, graduation Friday, the basketball playoffs in March. Those past high-demand Fridays are the only evidence you have for what tomorrow might look like. If your data doesn't contain anything that resembles a concert, your model has no business predicting one.</p>
 
       <p>From that historical data you need three things:</p>
 
       <p><strong>1. Trend.</strong> Has Friday night demand been growing over time? Over the past two years, Friday night trips near campus have risen steadily from around 280 trips to around 380 per Friday night. That's Uber's market expanding — more drivers, more riders, more trips every month. Your model needs to know this so it doesn't predict tomorrow based on what Friday looked like two years ago.</p>
 
-      <p><strong>2. Seasonality.</strong> How does Friday night demand vary by time of year? Summers run about 20% busier as activity picks up. Late December drops sharply. New Year's Eve produces a massive spike. And WWU's academic calendar matters too — when students are on campus, Friday nights are busier. These cycles repeat on a schedule, which means a model trained on enough history can learn to anticipate them.</p>
+      <p><strong>2. Seasonality.</strong> How does Friday night demand vary by time of year? When WWU students are on campus (late September through mid-June), Friday nights are noticeably busier — more people going out, more rides needed. Summer Fridays are quieter with students gone. Late December drops sharply during finals and break. And New Year's Eve produces a massive spike every year. These cycles repeat on a schedule, which means a model trained on enough history can learn to anticipate them.</p>
 
-      <p><strong>3. Past event nights.</strong> Hidden inside the two years of history are the high-demand Fridays — homecoming weekends, graduation, big basketball games. These are the only data points in your dataset that resemble what tomorrow might be. A model trained on the average Friday will underpredict an event Friday. Knowing where those event nights are in your data is how you spot whether the model has anything useful to say about October 17.</p>
+      <p><strong>3. Past event nights.</strong> Hidden inside the two years of history are the high-demand Fridays — homecoming weekends, welcome week, graduation, basketball games. These are the only data points in your dataset that resemble what tomorrow might be. A model trained on the average Friday will underpredict an event Friday. Knowing where those event nights are in your data is how you spot whether the model has anything useful to say about October 17.</p>
 
       <p>The chart below shows what that historical Friday night data looks like. Take a minute to read it before running the prompt — you will be generating this same chart in Colab.</p>
 
       <!-- Live chart -->
       <div class="chart-wrap">
-        <div class="chart-title">Friday Night Uber Trips Near WWU Campus (Simulated, Year 1: Oct 2023 – Oct 2024)</div>
+        <div class="chart-title">Friday Night Uber Trips Near WWU Campus (Year 1: Oct 2023 – Oct 2024) · <span style="color:#ef4444;">● Event nights</span></div>
         <canvas id="chartTrips" height="220"></canvas>
       </div>
 
@@ -460,9 +460,9 @@
       <ul>
         <li><strong>2-year Friday night trip counts</strong> — 104 weeks of how many Uber trips were taken on Friday nights near WWU campus. This is the core signal the model will learn from.</li>
         <li><strong>Trend</strong> — the steady growth from ~280 to ~380 Friday night trips over two years. Without this, the model predicts tomorrow based on what Friday looked like two years ago and consistently undershoots.</li>
-        <li><strong>Seasonal pattern</strong> — summers run ~20% busier, late December drops, New Year's Eve spikes hard. The model needs to know these cycles so it doesn't confuse a slow winter Friday with a busy fall Friday.</li>
-        <li><strong>School-year effect</strong> — WWU's academic calendar (Sept–May) makes Friday nights ~15% busier than summer Fridays. October 17 sits on top of an already-elevated school-year baseline.</li>
-        <li><strong>Past event nights</strong> — about 4 high-demand Fridays per year in the data (homecoming, graduation, basketball playoffs) that ran roughly 2x a normal school-year Friday. These are the closest analogs to October 17 and the only event-night evidence your model will have.</li>
+        <li><strong>School-year effect</strong> — WWU's academic calendar (late September through mid-June) makes Friday nights busier with students on campus. Summer Fridays are quieter. The model needs to know the difference.</li>
+        <li><strong>NYE spike</strong> — New Year's Eve produces a massive demand spike every year. It's a one-night pattern the model needs to recognize so it doesn't confuse a normal December Friday with NYE.</li>
+        <li><strong>Past event nights</strong> — about 4–5 high-demand Fridays per year (homecoming, welcome week, graduation, basketball playoffs) that ran roughly 1.6–1.8× a normal school-year Friday. These are the closest analogs to October 17 and the only event-night evidence your model will have.</li>
       </ul>
 
       <p>Once you have the data in Colab, you will plot it so you can see these patterns yourself before handing it to a model. That is what a real analyst does — the chart is not decoration, it is how you catch problems in the data before they become problems in the forecast.</p>
@@ -475,12 +475,13 @@ Since I don't have direct access to the production trip database for this exerci
 
 1. Simulate two years of historical Friday night Uber trip data (104 consecutive Fridays) near WWU campus with patterns we'd actually expect to see in Bellingham:
    - A realistic upward trend (growing from ~280 Friday night trips to ~380 over 2 years as Uber's market expands locally)
-   - Seasonality: summer Fridays roughly 20% busier than the spring/fall baseline, late December drops sharply, a spike every New Year's Eve
-   - A school-year effect: Fridays during WWU's academic calendar (Sept–May) run ~15% busier than summer Fridays
-   - About 4 "event nights" per year mixed into the school-year data — homecoming weekend, graduation Friday, two basketball playoff Fridays — where trips run roughly 2x a normal school-year Friday
+   - A school-year effect: Fridays during WWU's academic calendar (late September through mid-June) are busier with students on campus — add roughly 55 more trips on school-year Fridays compared to summer Fridays
+   - Summer Fridays (Jun–Aug) are the quiet period — students are gone, fewer people going out
+   - Late December drops sharply during finals and break, but New Year's Eve spikes hard (add ~175 trips)
+   - About 4–5 "event nights" per year mixed into the data — homecoming weekend, a welcome week Friday in September, graduation Friday, and 1–2 basketball playoff Fridays — where trips run roughly 1.6–1.8× a normal school-year Friday
    - Store as a pandas DataFrame called df with columns: week (date, starting Friday 2023-10-20 and ending Friday 2025-10-10 — exactly 104 consecutive Fridays), friday_night_trips (integer), and is_event_night (1 on event Fridays, 0 otherwise)
 
-2. Plot the data as a clean line chart titled "Friday Night Uber Trips Near WWU — 2 Years of History" with the X axis labeled "Week" and Y axis labeled "Friday Night Trips". Mark the start of each summer with a vertical dashed line. Highlight every event night in red and label the highest one — those are the closest historical analogs to tomorrow's concert.
+2. Plot the data as a clean line chart titled "Friday Night Uber Trips Near WWU — 2 Years of History" with the X axis labeled "Week" and Y axis labeled "Friday Night Trips". Mark the start of each summer with a vertical dashed line. Highlight every event night as a red dot and label each one with what it was (e.g. "Homecoming", "Basketball", "Graduation", "Welcome Wk") — those are the closest historical analogs to tomorrow's concert.
 
 3. Print three things:
    - First and last 10 rows of the dataset
@@ -489,12 +490,12 @@ Since I don't have direct access to the production trip database for this exerci
 
 Add a plain-English comment above each section explaining what it does and why it matters for the October 17 forecast I need to build next. Don't build the forecast model yet — my manager is waiting, but I need to see the data clearly before I can trust anything I build on top of it.
 
-Important: this code runs in Google Colab. Do not use plt.savefig() or save any files to disk — just use plt.show() to display charts inline.</div>
+Important: this code runs in Google Colab. Display all charts and output directly in the notebook — do not save any files to disk.</div>
       </div>
 
       <div class="didit-box">
         <div class="didit-label">What you just did</div>
-        <div class="didit-text">You did <strong>exploratory data analysis</strong> — a fancy name for a simple idea: before you build anything, look at your data and see what's in it. You pulled two years of Friday night trip history, plotted it, and looked for patterns. Trend (~280 to ~380 trips), seasonality, the school-year boost, the NYE spike — and most importantly for tomorrow night, the handful of past <strong>event Fridays</strong> hidden in the data. Those event nights are the only things in your two years of history that look anything like October 17. They're rare — maybe 8 of them in 104 weeks — which already tells you something important: a model trained on this data is going to be much better at predicting an ordinary Friday than a concert Friday. Real analysts notice that gap before they ever train a model.</div>
+        <div class="didit-text">You did <strong>exploratory data analysis</strong> — a fancy name for a simple idea: before you build anything, look at your data and see what's in it. You pulled two years of Friday night trip history, plotted it, and looked for patterns. Demand is growing over time (~280 to ~380 trips). School-year Fridays are busier than summer Fridays — students on campus means more nightlife. NYE spikes hard every year. And most importantly for tomorrow night, there are a handful of past <strong>event Fridays</strong> hidden in the data — homecoming, welcome week, basketball playoffs, graduation — that spiked well above the normal line. Those event nights are the only things in your two years of history that look anything like October 17. They're rare — roughly 4–5 per year, maybe 8–10 across the full dataset — which already tells you something important: a model trained on this data is going to be much better at predicting an ordinary Friday than a concert Friday. Real analysts notice that gap before they ever train a model.</div>
       </div>
 
       <div class="reflect-box">
@@ -530,12 +531,28 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
 
       <div class="concept-box">
         <div class="concept-label">Why cut off at week 78?</div>
-        <div class="concept-text">The 78/26 split gives the model 18 months to learn from and 6 months to be tested on. That 6-month test window is long enough to include seasonal variation and at least 1–2 event nights — exactly the kind of Friday you're trying to predict tomorrow. If the model can't handle the event nights in the test window, you have your answer about October 17 before you ever run the forecast.</p>
+        <div class="concept-text">The 78/26 split gives the model 18 months to learn from and 6 months to be tested on. That 6-month test window is long enough to include seasonal variation and at least 1–2 event nights — exactly the kind of Friday you're trying to predict tomorrow. If the model can't handle the event nights in the test window, you have your answer about October 17 before you ever run the forecast.</div>
       </div>
 
       <p>Your boss is still waiting for an answer about tomorrow night. You're not ready to give it yet — but this step is how you get there.</p>
 
-      <p>In the prompt below, you ask Claude to take the same dataset you built in Step 1 and split it. <strong>Weeks 1–78</strong> is your training window — about 18 months ending around April 2025. The model learns from that. <strong>Weeks 79–104</strong> is your test window — about 6 months ending Friday, October 10, 2025 (the Friday before the concert). The model never sees this period during training. Once it has learned from weeks 1–78, you ask it to predict weeks 79–104 as if they haven't happened yet. Then you compute two MAE numbers: one for the whole test window, and one for just the high-demand Fridays in that window. Those two numbers, side by side, are how you decide whether to trust this model with October 17.</p>
+      <div class="concept-box">
+        <div class="concept-label">How the forecast actually works (and why we're keeping it simple)</div>
+        <div class="concept-text">Real Uber uses sophisticated models — gradient-boosted trees, neural networks, real-time GPS signals, weather feeds, event calendars. You can't read those models. You can't open them up and see why they predicted 910 trips instead of 400. For this lab, we use <strong>linear regression</strong> instead — the simplest forecasting model that actually works — because you <em>can</em> read it. The tradeoff: it's less accurate than what Uber really uses, but you can see every piece of the prediction and explain it to your boss in one sentence. That transparency is the point of this step.<br><br>
+        Here's how it works. The model learns a recipe. It starts with a <strong>base number</strong> — think of it as "how many trips on a completely average Friday with nothing special going on." Then it looks at what kind of Friday this is and adjusts up or down:<br><br>
+        <div style="background:#111;border-radius:6px;padding:0.75rem 1rem;margin:0.5rem 0;font-size:13px;line-height:1.8;">
+        <strong style="color:#1fbad6;">Start with the base:</strong> <span style="color:#ccc;">~321 trips (a generic Friday with nothing special going on)</span><br>
+        <strong style="color:#1fbad6;">How far into the future?</strong> <span style="color:#ccc;">Add ~1 trip per week (demand grows slowly over time)</span><br>
+        <strong style="color:#1fbad6;">Is it summer?</strong> <span style="color:#ccc;">If yes, subtract ~45 trips (students gone, quieter)</span><br>
+        <strong style="color:#1fbad6;">Is it New Year's Eve?</strong> <span style="color:#ccc;">If yes, add ~137 trips (big spike)</span><br>
+        <strong style="color:#1fbad6;">Are students on campus?</strong> <span style="color:#ccc;">If yes, add ~45 trips (school year = busier nightlife)</span><br>
+        <strong style="color:#1fbad6;">= Predicted trips for that Friday</strong>
+        </div><br>
+        That's the entire model. Notice how the recipe makes intuitive sense for Bellingham: students on campus means more Friday night activity (+33 trips), summer means students are gone (−33 trips), NYE is a big spike (+150), and demand grows a little each week as Uber's market expands. Your exact numbers may differ slightly from your classmates' because the simulated data has some randomness, but the pattern should be similar.<br><br>
+        Most importantly, look at what's <em>not</em> on the list. There's no step that says "Is it a concert night?" The model can only adjust for questions it has. October 17 is a concert night, but the model doesn't have a question for that — so it can't adjust.</div>
+      </div>
+
+      <p>In the prompt below, you ask Claude to take the same dataset you built in Step 1 and split it. <strong>Weeks 1–78</strong> is your training window — about 18 months ending around April 2025. The model learns from that. <strong>Weeks 79–104</strong> is your test window — about 6 months ending Friday, October 10, 2025 (the Friday before the concert). The model never sees this period during training. Once it has learned from weeks 1–78, you ask it to predict weeks 79–104 as if they haven't happened yet. But first — before any MAE or backtest chart — the prompt asks Claude to print the model's actual equation and walk through a worked example. You need to see how the forecast works before you can judge whether to trust it. Then you compute two MAE numbers: one for the whole test window, and one for just the high-demand Fridays in that window. Those two numbers, side by side, are how you decide whether to trust this model with October 17.</p>
 
       <div class="prompt-box">
         <div class="prompt-label">Prompt 2 &mdash; paste into Claude to build and backtest your model</div>
@@ -548,7 +565,7 @@ Add these columns to df:
 - week_num: integer index of each week (1 through 104)
 - is_summer: 1 if the week falls in June/July/August, 0 otherwise
 - is_nye: 1 if the week contains December 31st, 0 otherwise
-- is_school_year: 1 if the week falls in WWU's academic calendar (Sept–May), 0 otherwise
+- is_school_year: 1 if the week falls in WWU's academic calendar (late September through mid-June), 0 otherwise
 Add a plain-English comment explaining why each feature matters for predicting Friday night demand near campus. Note: do NOT use is_event_night as a model feature — the model should not get to cheat by looking at whether a week was an event night. We want to see how well a model trained only on calendar features handles event-like demand.
 
 Step B — Train/test split:
@@ -556,19 +573,36 @@ Step B — Train/test split:
 - Weeks 79–104 are the test set (6 months the model never sees during training — ending Friday, October 10, 2025, the Friday before the concert)
 - Print a plain-English explanation of what this split means and why an analyst always does it before trusting a model with a real prediction.
 
-Step C — Train and evaluate the overall MAE:
+Step C — Show me how the model makes a prediction:
+After training the linear regression, print the model's recipe in plain English. Don't just print the math equation — explain it as a step-by-step recipe that a non-technical manager could follow:
+
+"Here is how the model predicts Friday night trips:
+1. Start with the base: ___ trips (this is the starting point — a hypothetical Friday with nothing special about it)
+2. Adjust for time: add ___ trips for each week that has passed (demand grows as Uber's market expands)
+3. Is it summer? If yes, add ___ trips. If no, add nothing.
+4. Is it New Year's Eve? If yes, add ___ trips. If no, add nothing.
+5. Are students on campus (school year)? If yes, add ___ trips. If no, add nothing.
+6. Add it all up = predicted trips for that Friday."
+
+After the recipe, print the actual mathematical equation too (predicted_trips = intercept + coef×week_num + ...) so students can see both formats.
+
+Then show a worked example: pick one school-year Friday from the training data around week 50. Walk through the recipe step by step with that week's actual values — show what gets added and what doesn't. Print the model's predicted trips next to the actual trips for that week so the student can see how close it was.
+
+Print one sentence at the end: "Notice there is no step that asks 'Is it a concert night?' The model can only adjust for questions it was trained to ask."
+
+Step D — Evaluate the overall MAE:
 - Train a linear regression model on the training set using the four calendar features (week_num, is_summer, is_nye, is_school_year)
 - Generate predictions for the test set (weeks 79–104)
 - Calculate the overall Mean Absolute Error (MAE) and print: "Overall MAE on the test window: the model was off by X trips per Friday on average."
 
-Step C2 — The concert-relevant MAE:
+Step D2 — The concert-relevant MAE:
 - Within the test window, identify the high-demand Fridays — use is_event_night == 1 from the original data to flag them. (These are the historical event Fridays the model just tried to predict using only calendar features.)
 - Compute MAE on JUST those event Fridays in the test window.
 - Print both numbers side by side: "MAE on normal Fridays: Y trips. MAE on event Fridays: X trips."
 - If the event-Friday MAE is meaningfully larger than the normal-Friday MAE, print one sentence acknowledging that the model is more reliable on ordinary Fridays than on the kind of Friday I'm trying to predict tomorrow.
 - Print one final line: "Whether this error level is good enough to forecast October 17 is a judgment call the analyst has to make — not the model."
 
-Step D — Visualize the backtest:
+Step E — Visualize the backtest:
 Plot the full 104 weeks showing:
 - Solid cyan line: actual Friday night trips (all 104 weeks)
 - Dashed orange line: model predictions for weeks 79–104 only
@@ -579,17 +613,29 @@ Plot the full 104 weeks showing:
 
 Add plain-English comments throughout. No ARIMA, no LSTM — linear regression only. I need something I can defend to my manager in plain English, not a black box.
 
-Important: this code runs in Google Colab. Do not use plt.savefig() or save any files to disk — just use plt.show() to display charts inline.</div>
+Important: this code runs in Google Colab. Display all charts and output directly in the notebook — do not save any files to disk.</div>
       </div>
 
       <div class="insight-box">
         <div class="insight-label">What you are looking for in the output</div>
-        <div class="insight-text">The most important comparison on your chart is how the dashed orange line tracks the solid cyan line during the test window — and especially how it handles the red dots (the event Fridays). Where the orange line lands far below a red dot, the model is underpredicting an event night. That's exactly the failure mode you're trying to detect before tomorrow.<br><br><strong>What is MAE?</strong> Mean Absolute Error is the average size of the model's mistakes. If MAE is 25, the model was off by about 25 trips on a typical Friday. Whether that's acceptable depends on which Friday: 25 trips on an ordinary night is fine, 25 trips on a concert night where you're staffing drivers is a much bigger problem. That's why the two-MAE check matters — the overall number can hide a model that's failing exactly on the nights you care about.</div>
+        <div class="insight-text">Three things to pay attention to. First, <strong>the recipe</strong>: the model will print its step-by-step prediction process — "start with the base, adjust for time, is it summer, is it NYE, are students on campus, add it up." Read each step and the number it adds. The worked example shows the recipe in action on a real week — you'll see the model predict a number, and then see what actually happened that week, side by side. Second, <strong>the backtest chart</strong>: how closely the dashed orange line tracks the solid cyan line in weeks 79–104, and especially how it handles the red dots (event Fridays). Where the orange line lands far below a red dot, the model is underpredicting an event night — the recipe has no step for it. Third, <strong>the two MAE numbers</strong>: the overall MAE and the event-Friday MAE. The gap between them tells you whether your model is ready for October 17 or only ready for an ordinary Friday.<br><br><strong>What is MAE?</strong> Mean Absolute Error is the average size of the model's mistakes. If MAE is 25, the model was off by about 25 trips on a typical Friday. Whether that's acceptable depends on which Friday: 25 trips on an ordinary night is fine, 25 trips on a concert night where you're staffing drivers is a much bigger problem.</div>
       </div>
 
       <div class="didit-box">
         <div class="didit-label">What you just did</div>
-        <div class="didit-text">You built and tested a forecasting model — and you tested it twice. First, <strong>feature engineering</strong>: turning raw dates into useful calendar labels (is it summer? school year? NYE?) the model can actually learn from. Second, you split your data and trained a <strong>linear regression</strong> on the first 18 months only. Third, and most importantly for tomorrow, you computed MAE two ways: across the whole test window, and across just the event Fridays in that window. The gap between those two numbers is the part that matters. The model's overall MAE may have looked acceptable, but the event-Friday MAE almost certainly didn't — because the model has no feature for events and no way to learn an event-night pattern from a handful of red dots in the training data. That gap is exactly what you'll have to deal with in Step 3.</div>
+        <div class="didit-text">You built a model and checked whether it actually works — not just on average, but on the kind of Friday that matters for tomorrow.<br><br>First you did <strong>feature engineering</strong> — that just means giving the model useful yes/no questions it can learn from. Instead of handing it a raw date like "March 15, 2024" (which means nothing to a model), you translated it into questions a driver would actually care about: <em>Is it summer? Are students on campus? Is it New Year's Eve?</em> Those are the features. The model can't think — it can only count patterns in the answers to those questions.<br><br>Then you trained a <strong>linear regression</strong> — a model that looks at 78 weeks of answered questions and figures out a recipe: "start with 321 trips, add 1 per week for growth, add 45 if students are on campus, subtract 45 if it's summer, add 137 if it's NYE." Each number in the recipe is called a <strong>coefficient</strong> — it's just how much each answer adds to or subtracts from the prediction. Think of it like a tip calculator: the base fare is fixed, and each condition adjusts the total up or down.<br><br>Then you <strong>backtested</strong> it — you hid the last 26 weeks and asked the model to predict them blind. You checked the results two ways:<br><br>
+
+        <div style="background:#111;border-radius:6px;padding:0.75rem 1rem;margin:0.5rem 0;">
+        <strong style="color:#1fbad6;">Check 1 — Overall accuracy (all 26 Fridays)</strong><br>
+        <span style="color:#ccc;">The model was off by about <strong>21 trips</strong> on a typical Friday. So if it predicts 370 trips, reality is probably around 349–391. That's close enough to staff drivers correctly. On a normal Friday, this model works.</span>
+        </div>
+
+        <div style="background:#111;border-radius:6px;padding:0.75rem 1rem;margin:0.5rem 0;">
+        <strong style="color:#ef4444;">Check 2 — Event Friday accuracy (just the event nights)</strong><br>
+        <span style="color:#ccc;">The model was off by about <strong>313 trips</strong> on event Fridays. For example, there was a graduation Friday in the test window — a past event night the model had to predict blind. The model predicted 349 trips for that night. The actual number that Friday was 662. The model was off by almost double because its recipe has no way to account for an event. <strong>If you trusted that same recipe for tomorrow's concert, you'd send about half the drivers you actually need.</strong> Riders would be standing outside the venue for 20+ minutes waiting for a car that isn't coming.</span>
+        </div>
+
+        <br>The overall average hid a big problem: the model works fine on normal Fridays but completely misses event nights. Why? Look at the recipe — there's no question that asks "Is it a concert night?" The model can only adjust for questions it has. No question, no adjustment, wrong answer.</div>
       </div>
 
       <div class="reflect-box">
@@ -612,103 +658,111 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
       <div class="step-num">3</div>
       <div>
         <div class="step-title">Make the Friday Night Forecast</div>
-        <div class="step-subtitle">The model passed the backtest — now answer your boss's question</div>
+        <div class="step-subtitle">The model works on normal Fridays — but tomorrow isn't a normal Friday</div>
       </div>
     </div>
     <div class="step-body">
 
-      <p>Your backtest results just came in. The overall MAE looked acceptable. The event-Friday MAE — the one that actually matters for tomorrow — was meaningfully larger. Look at both numbers. Look at your chart. Decide: is this model good enough, on its own, to forecast Friday, October 17?</p>
+      <p>In Step 2, you tested the model and learned two things: it's solid on normal Fridays (off by about 21 trips), and it completely misses event nights (off by about 313 trips on the graduation Friday). Tomorrow's concert is the same kind of night. Now you're going to use the model for real — knowing where it breaks.</p>
 
-      <p>This is the gate. You pulled the data in Step 1. You validated the model in Step 2. You don't get to forecast the concert night until you've done both — and until you've decided, based on the numbers in front of you, what the model can and cannot tell you. A real analyst doesn't get this decision made for them. Neither do you.</p>
+      <div class="concept-box">
+        <div class="concept-label">Backtest vs. forecast — what's different now?</div>
+        <div class="concept-text">In Step 2, you were <strong>testing</strong> — you already knew the right answers and were checking whether the model could find them. In Step 3, you are <strong>predicting</strong> — nobody knows the right answer yet. The concert hasn't happened. The number you produce will decide how many real drivers show up tomorrow night.</div>
+      </div>
 
-      <p>Then your boss emails you:</p>
+      <p>Your boss emails you:</p>
 
       <div class="prompt-box" style="margin: 1rem 0;">
         <div class="prompt-label">From: Operations Manager &mdash; Thursday Oct 16, 9:14am</div>
         <div class="prompt-text" style="font-style: italic;">"Hey — is the forecast ready? Concert's tomorrow night. I need to know how many drivers to put on near campus at 10pm and whether we're activating surge. Let me know ASAP."</div>
       </div>
 
-      <p>You reply: <em>"Backtest's done — running the October 17 forecast now, will have a number for you within the hour."</em></p>
+      <p>You reply: <em>"Model's backtested and validated — running the October 17 forecast now, will have a number for you within the hour."</em></p>
 
-      <p>Now pay close attention to what you're about to do. You will take the model from Step 2 and give it the features for this specific Friday — a school-year week, not summer, not NYE, week 105 in the sequence. The model will return a predicted trip count. But look at those features again: school-year, not summer, not NYE. <strong>The model knows it's a school-year October Friday. It does not know it's October 17, 2025 — the night Death Cab, Sleater-Kinney, and ODESZA send 7,500 people pouring out of the WWU pavilion at 10pm.</strong> None of the four features your model was trained on can tell it that. So you'll do this in two stages: first see what the raw model says, then apply the analyst judgment the model can't.</p>
+      <p>Notice what your boss is asking for: <strong>drivers</strong>, not trips. But to figure out how many drivers to deploy, you first need to know how many <strong>trips</strong> to expect — that's what the model predicts. Then you convert trips into drivers (if you expect 910 trips and each driver handles about 3 trips per hour, you need roughly 304 drivers). The trip forecast is the input. The driver recommendation is the output your boss acts on.</p>
 
-      <div class="danger-box">
-        <div class="danger-label">Assumptions baked into this forecast</div>
-        <div class="danger-text">Every recommendation tomorrow rests on assumptions. Before you trust it, know what they are.<br><br>
-        <strong>The show crowd doesn't behave like a typical Friday crowd — and the model has no way to know.</strong> This is the assumption that matters most. Your model was trained on 104 ordinary Fridays plus a handful of past event nights it couldn't really learn from. It has no feature for events, no signal for ticket sales, no memory of past concerts as a category. Its raw prediction for tomorrow will be a confident number based on a world without a concert in it. Whatever the model says, you — the analyst — are the only one in the chain who knows what's actually happening at 10pm.<br><br>
-        <strong>The 2.2× event multiplier is your team's best estimate, not a fact.</strong> Past WWU events ran roughly 2.2× a normal school-year Friday. That number comes from a senior analyst who has staffed past events. It's reasonable, but it's a single number applied to a 7,500-person sold-out indie/electronic homecoming show that may not look exactly like past events.<br><br>
-        <strong>1 driver handles ~3 trips per hour.</strong> Average. Post-concert traffic on Bill McDonald Pkwy could push it lower. Short rides could push it higher.<br><br>
-        <strong>250 drivers is an estimate for the concert — not a guarantee.</strong> On a normal Friday, only about 25 drivers are online near campus. Uber would push incentives to attract 250+ for a known event, but that depends on how many drivers see the notification, whether competing events pull them elsewhere, and whether the weather makes driving appealing. Your surge recommendation is sensitive to this number.<br><br>
-        <strong>The ±15% prediction interval is fixed.</strong> The real uncertainty is higher on a night the model has never seen.</div>
+      <p>Here's what you're about to do. You'll run the model's recipe on October 17 and it will produce a number. But you already know that number will be too low — the graduation Friday in Step 2 proved the model can't handle events. So after seeing the raw prediction, you'll adjust it based on what your data says about past event nights. The model gives you the math. You add the judgment.</p>
+
+      <p>Here's what the model's recipe looks like when you plug in October 17:</p>
+
+      <div style="background:#0d1b1d;border:1px solid #1fbad6;border-radius:8px;padding:1rem 1.15rem;margin:1.25rem 0;">
+        <div style="font-size:12px;font-weight:700;color:#1fbad6;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.75rem;">The model's recipe for Friday, October 17, 2025</div>
+        <div style="font-size:14px;line-height:2.2;color:#ccc;padding-left:0.5rem;">
+          Start with the base: <strong style="color:#fff;">~321 trips</strong><br>
+          Week 105 (demand has been growing): <strong style="color:#fff;">+~95 trips</strong><br>
+          Is it summer? No: <strong style="color:#fff;">+0</strong><br>
+          Is it NYE? No: <strong style="color:#fff;">+0</strong><br>
+          Are students on campus? Yes: <strong style="color:#fff;">+~45 trips</strong><br>
+          <span style="border-top:1px solid #333;display:inline-block;padding-top:0.3rem;margin-top:0.2rem;"><strong style="color:#1fbad6;">Raw prediction: ~455 trips</strong></span>
+        </div>
+        <div style="margin-top:0.75rem;padding:0.6rem 0.75rem;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.3);border-radius:6px;font-size:13px;color:#ccc;">
+          <strong style="color:#ef4444;">What's missing:</strong> There is no current data for "Is it a concert night?" — so the model treats October 17 like any other school-year Friday. It has no idea 7,500 people are about to pour out of the WWU pavilion at 10pm.
+        </div>
+        <div style="margin-top:0.6rem;padding:0.6rem 0.75rem;background:rgba(249,115,22,0.08);border:1px solid rgba(249,115,22,0.3);border-radius:6px;font-size:13px;color:#ccc;">
+          <strong style="color:#f97316;">The analyst adjustment:</strong> Remember the event night summary from Step 1? Event Fridays had ~1.6–1.8× more trips than normal school-year Fridays. This concert is even bigger than those past events, so you'll multiply the raw prediction by 2.0×. → <strong style="color:#fff;">455 × 2.0 = ~910 trips</strong>
+        </div>
       </div>
 
       <div class="prompt-box">
         <div class="prompt-label">Prompt 3 &mdash; paste into Claude to generate the concert night forecast</div>
-        <div class="prompt-text">It's Thursday morning, October 16, 2025. Yesterday I validated this Friday-night forecasting model against the last 6 months of data. The overall MAE was acceptable, but the model performs noticeably worse on event-like Fridays — which is exactly what tomorrow is. Now I need to use the model to answer a real business question, carefully.
+        <div class="prompt-text">I just backtested my Friday-night forecasting model. The overall MAE was about 21 trips — fine for normal Fridays. But on event Fridays the error jumped to about 313 trips — the model predicted 349 for a graduation Friday that actually had 662 trips. The model works on normal Fridays but misses event nights because it has no feature for events.
+
+Now I need to use this model to forecast a real event — carefully, knowing where it breaks.
 
 Scenario: there is a Death Cab for Cutie, Sleater-Kinney, and ODESZA homecoming concert at WWU tomorrow night — Friday, October 17, 2025. The show ends at 10pm and the crowd will be looking for rides. My operations manager needs to know: how many drivers should we have online near campus at 10pm, and should we activate surge pricing?
-
-The catch: my model has no feature for events. It was trained on calendar features only. So I need to run it carefully — see what the raw model says first, then apply analyst judgment the model can't.
 
 Please add Python code that does the following:
 
 Step A — Build the concert Friday feature row:
 Create a single-row DataFrame for October 17, 2025 with these values:
-- week_num: 105 (the Friday after our dataset ends — October 17, 2025)
+- week_num: 105 (the first Friday after our dataset ends — October 17, 2025)
 - is_summer: 0 (it's mid-October)
 - is_nye: 0 (not New Year's Eve)
 - is_school_year: 1 (WWU is in fall term)
-Print a plain-English explanation of what each value means — and a note pointing out what these features cannot capture about tomorrow.
 
-Step B1 — The raw model prediction:
-Use the trained model from Step 2 to predict friday_night_trips for the concert Friday using the feature row from Step A.
-Print: "Raw model prediction for Friday Oct 17: X trips."
-Then print this exact sentence: "The model is treating October 17 as an ordinary school-year October Friday. It has no way to know there's a 7,500-person concert letting out at 10pm."
+Step B — The raw model prediction (show your work):
+Use the trained model to predict friday_night_trips for October 17. Walk through the recipe step by step:
 
-Step B2 — The analyst adjustment:
-The model has never seen a concert night, but my team has. Based on past WWU events near campus — sold-out shows letting out around 10pm — Friday night demand on event nights has historically run about 2.2× a normal school-year Friday. (This 2.2× is a team estimate from a senior analyst, not a number the model produced.)
-Calculate the adjusted prediction: raw_prediction × 2.2
-Calculate lower bound (adjusted × 0.85) and upper bound (adjusted × 1.15)
-Print: "Adjusted forecast for Friday Oct 17: X trips (range: Y to Z)."
-Print one sentence explaining what just happened: the model produced one number, the analyst produced another, and the gap between them is what the model couldn't see.
+"Here is what the model predicts for Friday, October 17, 2025:
+1. Start with the base: ___ trips
+2. Adjust for time: week 105 → add ___ trips
+3. Is it summer? No → add nothing
+4. Is it New Year's Eve? No → add nothing
+5. Are students on campus? Yes → add ___ trips
+6. Total: ___ trips"
 
-Step C — Calculate the driver recommendation:
-Assume each driver handles approximately 3 trips per hour during the post-concert rush.
-Using the adjusted prediction, calculate how many drivers are needed to cover predicted demand, the lower bound, and the upper bound.
-Print these three numbers clearly.
+Then print: "The model is treating October 17 as an ordinary school-year Friday. It has no way to know there's a concert."
 
-Step D — Make the surge pricing call:
-On a normal Friday night, about 25 drivers are online near campus. For a known concert, Uber would push notifications and incentives to attract more — assume approximately 250 drivers online for this event.
-If the adjusted predicted demand requires more capacity than 250 drivers × 3 trips/hr can handle, recommend activating surge pricing.
-Print a clear YES or NO on surge, with a one-sentence reason showing the demand vs. capacity math.
+Step C — The analyst adjustment:
+Calculate the ratio of event-night average trips to normal school-year average trips from the Step 1 data (it should be roughly 1.6–1.8×). Since this concert is bigger than a typical past event, round up to 2.0× as a conservative staffing estimate.
 
-Step E — Print an operations memo:
-Format the output as a short memo the analyst could send to their manager about Friday Oct 17, including:
-- BOTH numbers — the raw model prediction AND the adjusted forecast (the manager deserves to see what the model said and what the analyst did)
-- Driver range (low to high)
-- Surge recommendation (YES/NO)
-- One sentence on what assumption could push actual demand outside the predicted range tomorrow night
+Calculate: adjusted prediction = raw prediction × 2.0
+Calculate: lower bound = adjusted × 0.85, upper bound = adjusted × 1.15
+Print: "Event nights averaged X× a normal Friday. For a sold-out concert, using 2.0×."
+Print: "Adjusted forecast for Oct 17: X trips (range: Y to Z)."
 
-Add plain-English comments throughout.
+Step D — Driver recommendation:
+Assume 3 trips per driver per hour. Calculate drivers needed for the adjusted prediction, lower bound, and upper bound.
 
-Important: this code runs in Google Colab. Do not use plt.savefig() or save any files to disk — just use plt.show() to display charts inline.</div>
-      </div>
+Step E — Surge pricing call:
+Assume 250 drivers online for this event (Uber would push incentives). If adjusted demand exceeds 250 drivers × 3 trips/hr capacity, recommend surge. Print YES or NO with the math.
 
-      <div class="insight-box">
-        <div class="insight-label">What makes this different from the backtest</div>
-        <div class="insight-text">In the backtest, you already knew the right answers — you were checking whether the model could find them. For October 17, nobody knows the right answer yet. And the prediction interval matters more now than it did in Step 2: the lower bound is the minimum you should staff for, and the upper bound is what happens if demand runs hot. A manager who only plans for the middle number gets caught short on a night like tomorrow. Your driver recommendation should be built off the upper bound — it's cheaper to have a driver who isn't needed than a rider who can't get a car.</div>
+Step F — Operations memo:
+Print a short memo for the manager with: both the raw and adjusted predictions, driver range, surge call, and one sentence on what could push demand outside the range.
+
+Important: this code runs in Google Colab. Display all charts and output directly in the notebook — do not save any files to disk.</div>
       </div>
 
       <div class="didit-box">
         <div class="didit-label">What you just did</div>
-        <div class="didit-text">You produced a forecast for October 17 the right way: model first, then analyst. The raw model gave you one number based only on calendar features. You then applied a 2.2× event multiplier — a piece of human knowledge the model didn't have access to — and the gap between those two numbers is exactly the part of the world your model can't see. You also did something honest: the memo shows your boss <em>both</em> numbers, not just the adjusted one. That's not a quirk; it's how the analyst-in-the-loop is supposed to work. The model shows what the math says. You show what the math missed. The manager gets to act on a recommendation that has both signals in it. The harder lesson, though: the analyst adjustment is a patch. The real fix isn't here in Step 3 — it's back in Step 1, pulling event data the model could actually learn from. Patches scale poorly. Better data scales.</div>
+        <div class="didit-text">You made a real forecast for a Friday that hasn't happened yet. The model ran its recipe on October 17 and predicted ~455 trips — treating it like any other school-year Friday. You knew that was wrong because the graduation Friday in Step 2 proved the model can't handle events. So you adjusted: your data showed event nights average about 1.7× a normal Friday, you rounded up to 2.0× for a bigger concert, and got ~910 trips.<br><br>The memo you sent your boss shows <em>both</em> numbers. That's honest forecasting — here's what the math says, here's what the math missed, here's my recommendation.<br><br>The harder lesson: the 2.0× adjustment is a patch. It works for tomorrow, but it doesn't scale. The real fix is back in Step 1 — adding an "Is it a concert night?" question to the recipe so the model can learn the answer itself next time.</div>
       </div>
 
       <div class="reflect-box">
         <div class="reflect-label">Step 3 Reflection &mdash; answer both</div>
         <div class="reflect-text">
-          <strong>Q1 — The gap.</strong> Look at your memo. The raw model predicted around ___ trips. The adjusted forecast was around ___ trips. That gap is the part of the world your model couldn't see. Which of those two numbers would you have sent to your boss if nobody had told you about the concert? Be honest.<br><br>
-          <strong>Q2 — Fixing it for next time.</strong> The 2.2× analyst adjustment in Step B2 is a patch — a number applied on top of a model that didn't know any better. If you wanted to retrain this model so it could handle event nights without an analyst stepping in, what data would you need to add to the training set in Step 1, and what would you call the new feature? Be specific. (This is the moment the lesson loops back: the fix isn't in Step 3 — it's in Step 1, going back for different data.)
+          <strong>Q1 — The gap.</strong> Look at your memo. The raw model predicted around ___ trips. The adjusted forecast was around ___ trips. Which of those two numbers would you have sent to your boss if nobody had told you about the concert?<br><br>
+          <strong>Q2 — Fixing it for next time.</strong> The 2.0× adjustment is a patch. If you wanted the model to handle event nights on its own, what question would you add to the recipe, and what data would you need in Step 1 to teach the model the answer?
         </div>
       </div>
 
@@ -731,7 +785,7 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
 
       <p>You have a concert-night forecast. You have a driver number. You are not ready to send it yet.</p>
 
-      <p>Tomorrow's recommendation rests on assumptions that are all <em>concert-specific</em>: the 2.2× event multiplier from Step 3, the ~250 drivers Uber expects to attract for the concert, the 3 trips per driver per hour you assumed for the post-show rush, and the ±15% prediction interval you carried over from the backtest. Each could be wrong in ways that matter <em>because it's a concert</em>. The 2.2× came from past WWU events that may or may not match a sold-out indie/electronic homecoming show. The 250-driver target depends on how many drivers respond to Uber's incentive push — if only 200 show up, the math changes fast. Trips per hour drops if traffic around campus seizes up after the show. None of this would worry you on an ordinary October Friday. Tomorrow night — October 17 — it should.</p>
+      <p>Tomorrow's recommendation rests on assumptions that are all <em>concert-specific</em>: the 2.0× event multiplier from Step 3, the ~250 drivers Uber expects to attract for the concert, the 3 trips per driver per hour you assumed for the post-show rush, and the ±15% prediction interval you carried over from the backtest. Each could be wrong in ways that matter <em>because it's a concert</em>. The 2.0× came from your data on past WWU events, rounded up for a bigger show — a different analyst might use 1.8× or 2.5×. The 250-driver target depends on how many drivers respond to Uber's incentive push — if only 200 show up, the math changes fast. Trips per hour drops if traffic around campus seizes up after the show. None of this would worry you on an ordinary October Friday. Tomorrow night — October 17 — it should.</p>
 
       <p>This is called <strong>stress-testing</strong>. At Uber, analysts run scenario models before every major event — not because they expect the worst case, but because they need to know what the worst case looks like so operations can plan for it. The question is never "will our forecast be exactly right?" It's "how wrong could we be tomorrow night, and can we still handle it?"</p>
 
@@ -740,7 +794,7 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
         <div class="concept-text">If you change everything at once, you cannot tell which assumption drove the change in the output. Real analysts isolate variables — change one thing, hold everything else constant, observe the effect. This is the same logic as a controlled experiment. It also makes it much easier to explain to your boss: "if driver availability drops to 15 tomorrow, the surge recommendation flips — here's why."</div>
       </div>
 
-      <p>Instead of writing code for this step, use the simulator below. It starts with the same baseline from your Step 3 adjusted forecast: ~850 predicted trips on October 17, roughly 250 drivers expected online near campus at 10pm (Uber would push notifications to attract drivers for a known event), and 3 trips per driver per hour. At those defaults, the recommendation is fragile — small changes flip the surge call. Change them one at a time and watch what happens.</p>
+      <p>Instead of writing code for this step, use the simulator below. It starts with the same baseline from your Step 3 adjusted forecast: ~910 predicted trips on October 17, roughly 250 drivers expected online near campus at 10pm (Uber would push notifications to attract drivers for a known event), and 3 trips per driver per hour. At those defaults, the recommendation is fragile — small changes flip the surge call. Change them one at a time and watch what happens.</p>
 
       <div class="concept-box">
         <div class="concept-label">How the stress-test simulator works</div>
@@ -802,7 +856,7 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
             <div>
               <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
                 <span style="font-size:12px;color:#aaa;">Demand scenario</span>
-                <span style="font-size:12px;font-weight:700;color:#fff;" id="stDemandLabel">Base (850)</span>
+                <span style="font-size:12px;font-weight:700;color:#fff;" id="stDemandLabel">Base (910)</span>
               </div>
               <input type="range" id="stDemand" min="0" max="2" value="1" step="1"
                 style="width:100%;accent-color:#1fbad6;cursor:pointer;">
@@ -818,9 +872,9 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
             <div style="font-size:11px;font-weight:700;color:#7dd8e8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.75rem;">What happens on October 17</div>
 
             <div style="margin-bottom:0.6rem;">
-              <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;">Predicted demand</div>
-              <div style="font-size:22px;font-weight:900;color:#1fbad6;" id="stPredTrips">850</div>
-              <div style="font-size:10px;color:#888;margin-top:1px;">trips in the hour after the show</div>
+              <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;">Your forecast</div>
+              <div style="font-size:22px;font-weight:900;color:#1fbad6;" id="stPredTrips">910</div>
+              <div style="font-size:10px;color:#888;margin-top:1px;">trips in the hour after the show (from Step 3)</div>
             </div>
             <div style="margin-bottom:0.6rem;">
               <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;">Your drivers can handle</div>
@@ -856,7 +910,7 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
             <div>
               <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
                 <span style="font-size:11px;color:#aaa;">Predicted demand (trips)</span>
-                <span style="font-size:11px;font-weight:700;color:#1fbad6;" id="stBarDemandVal">850</span>
+                <span style="font-size:11px;font-weight:700;color:#1fbad6;" id="stBarDemandVal">910</span>
               </div>
               <div style="height:10px;background:#1a1a1a;border-radius:5px;overflow:hidden;">
                 <div id="stBarDemand" style="height:100%;background:#1fbad6;border-radius:5px;transition:width 0.4s ease;width:63%;"></div>
@@ -878,9 +932,9 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
 
       <script>
       (function(){
-        const BASE_TRIPS = 850;
+        const BASE_TRIPS = 910;
         const DEMAND_LEVELS = [BASE_TRIPS * 0.85, BASE_TRIPS, BASE_TRIPS * 1.15];
-        const DEMAND_LABELS = ['Low (720)', 'Base (850)', 'High (980)'];
+        const DEMAND_LABELS = ['Low (774)', 'Base (910)', 'High (1047)'];
         const MAX_BAR = 1400;
 
         function update(){
@@ -1039,9 +1093,11 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
     </div>
     <div class="step-body">
 
-      <p>You just sent your boss a driver recommendation based on your forecast. But here is what you did not see happen on Uber's side: the moment your predicted trip count exists, it flows directly into Uber's pricing engine. No human reviews it. No one decides whether this is the right moment to surge. The algorithm reads the forecast, compares demand to available supply, calculates a multiplier, and pushes it to every rider's screen in milliseconds.</p>
+      <p>In Step 3, you produced a forecast — ~910 trips — and sent it to your boss. But at Uber, the forecast doesn't stop at the boss's inbox. The moment your predicted trip count enters the system, the algorithm takes over. It compares predicted demand to available driver supply, calculates a surge multiplier, and pushes a price to every rider's screen — all in milliseconds. <strong>No human reviews it. No one approves it. The algorithm just does it.</strong></p>
 
-      <p>You were the analyst who built the forecast. Now flip to the other side and watch what the algorithm does with it. The simulator below loads four scenarios — starting with the Death Cab for Cutie, Sleater-Kinney, and ODESZA concert you just forecasted, then three others that get progressively harder for the algorithm to handle. Each time, you decide: trust it, override it, or pause it. The outcomes are not equal.</p>
+      <p>That's fine when the forecast is right. But what happens when it's wrong? What if the model predicts a normal Friday and it's actually an earthquake? What if surge pricing fires at 4.8× while people are trying to evacuate? There's no human in the loop to say "wait — this doesn't feel right." The algorithm can't feel. It just multiplies.</p>
+
+      <p>The simulator below lets you be that human. For each scenario, the algorithm sets a surge price automatically. Then <strong>you make the call</strong> — do you trust it, override it, or pause it? Click one of the three decision buttons and see what happens. The outcomes are not equal.</p>
 
       <!-- ░░░░░ SURGE SIMULATOR ░░░░░ -->
       <div class="surge-sim">
@@ -1109,11 +1165,11 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
                 <div class="mult-val" id="multVal">1.0×</div>
                 <div class="mult-sub" id="multSub">Normal pricing</div>
               </div>
-              <div style="font-size:11px; color:#555; margin-bottom: 6px;">Your decision:</div>
+              <div style="font-size:12px; font-weight:700; color:#1fbad6; margin-bottom: 8px; text-transform:uppercase; letter-spacing:0.06em;">👇 Your decision — click one:</div>
               <div class="decision-btns">
-                <button class="btn-decision btn-trust" onclick="decide('trust')">Trust the Algorithm</button>
-                <button class="btn-decision btn-override" onclick="decide('override')">Override — Cap Price</button>
-                <button class="btn-decision btn-pause" onclick="decide('pause')">Pause Surge</button>
+                <button class="btn-decision btn-trust" onclick="decide('trust')" style="font-size:13px;padding:10px 14px;">✓ Trust the Algorithm</button>
+                <button class="btn-decision btn-override" onclick="decide('override')" style="font-size:13px;padding:10px 14px;">✋ Override — Cap Price</button>
+                <button class="btn-decision btn-pause" onclick="decide('pause')" style="font-size:13px;padding:10px 14px;">⏸ Pause Surge</button>
               </div>
             </div>
           </div>
@@ -1420,7 +1476,7 @@ Important: this code runs in Google Colab. Do not use plt.savefig() or save any 
 
       <ul>
         <li><strong>Your two MAE numbers</strong> — from Step 2, copy the two numbers your code printed: the overall MAE and the event-Friday MAE. Example: "Overall MAE: 24 trips. Event-Friday MAE: 89 trips." Claude will build a simple visual comparison directly in the HTML — no image file needed.</li>
-        <li><strong>Your October 17 memo</strong> — from Step 3, copy the exact plain-English operations memo your code printed. It should include both the raw model prediction and the analyst-adjusted forecast (with the 2.2× event multiplier), the driver recommendation, and the surge call.</li>
+        <li><strong>Your October 17 memo</strong> — from Step 3, copy the exact plain-English operations memo your code printed. It should include both the raw model prediction and the analyst-adjusted forecast (with the 2.0× event multiplier), the driver recommendation, and the surge call.</li>
         <li><strong>Your stress-test finding</strong> — from Step 4, recall what you saw in the simulator. Write 2–3 sentences naming the assumption whose slider had the biggest impact on the surge call, and the concert-specific condition tomorrow night that could push that variable in the wrong direction. (Examples: rain, post-show traffic, drivers pulled away, show running long.)</li>
         <li><strong>Your Step 8 reflection</strong> — write it now, before you send the prompt. It goes in last.</li>
       </ul>
@@ -1441,7 +1497,7 @@ Below the chart, write one sentence: "The overall MAE looked acceptable. The eve
 
 SECTION 3 — THE OCTOBER 17 PREDICTION (my actual memo)
 Write one sentence introducing this section: "Here is the actual operations recommendation I produced for the Death Cab for Cutie, Sleater-Kinney, and ODESZA homecoming concert at WWU on Friday, October 17, 2025 — the raw model number and the analyst-adjusted forecast." Then insert this placeholder where I will paste my memo:
-[PASTE YOUR CONCERT NIGHT MEMO HERE — copy the exact text your Step 3 code printed, including BOTH the raw model prediction and the adjusted forecast with the 2.2× event multiplier]
+[PASTE YOUR CONCERT NIGHT MEMO HERE — copy the exact text your Step 3 code printed, including BOTH the raw model prediction and the adjusted forecast with the 2.0× event multiplier]
 
 SECTION 4 — STRESS-TESTING THE FORECAST (my actual finding)
 Write one sentence: "Before sending that memo, I stress-tested the key assumptions in a simulator to understand how fragile the recommendation was on a concert night." Then insert this placeholder:
@@ -1522,22 +1578,18 @@ Generate the complete HTML file with all placeholders clearly marked so I know e
 (function(){
   const W = 52;
   const labels = [];
-  const data = [];
+  // Actual data from the simulation (school year busier, summer quieter, events spaced apart)
+  const data = [342, 572, 347, 362, 335, 336, 366, 354, 310, 327, 512, 338, 350, 317, 570, 340, 334, 356, 337, 330, 377, 607, 357, 334, 349, 361, 341, 367, 352, 358, 354, 394, 560, 365, 326, 294, 318, 284, 295, 321, 330, 322, 318, 316, 299, 312, 372, 674, 387, 354, 388, 378];
+  // Which weeks are event nights
+  const events = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0];
   const startMs = new Date('2023-10-20').getTime();
   const msPerWeek = 7*24*3600*1000;
   for(let i=0;i<W;i++){
-    const d = new Date(startMs + i*msPerWeek);
     labels.push('W'+(i+1));
-    const mo = d.getMonth(); // 0-indexed
-    const trend = 3000 + (i/W)*1000;
-    const summer = (mo>=5&&mo<=7)?0.2:0;
-    const xmas = (mo===11&&d.getDate()>=20&&d.getDate()<30)?-0.12:0;
-    const nye = (mo===11&&d.getDate()>=30)?0.7:0;
-    const noise = (Math.random()-0.5)*200;
-    data.push(Math.round(trend*(1+summer+xmas+nye)+noise));
   }
 
   const ctx = document.getElementById('chartTrips').getContext('2d');
+  window._eventFlags = events;
   // Minimal canvas chart — no external libs
   const canvas = document.getElementById('chartTrips');
   canvas.width = canvas.offsetWidth || 800;
@@ -1580,9 +1632,7 @@ Generate the complete HTML file with all placeholders clearly marked so I know e
       ctx.fillRect(xs,pad.t,xe-xs,ch);
     });
 
-    // Summer label
-    ctx.fillStyle='#1fbad6'; ctx.font='10px Arial'; ctx.textAlign='center';
-    ctx.fillText('Summer 2024 ☀',xS(38),pad.t+10);
+    // Summer shading speaks for itself
 
     // Line
     ctx.strokeStyle=color; ctx.lineWidth=2; ctx.lineJoin='round';
@@ -1591,6 +1641,29 @@ Generate the complete HTML file with all placeholders clearly marked so I know e
       i===0?ctx.moveTo(xS(i),yS(v)):ctx.lineTo(xS(i),yS(v));
     });
     ctx.stroke();
+
+    // Event night red dots with labels
+    if(window._eventFlags){
+      const eventLabels = {
+        1: 'Homecoming',
+        14: 'Basketball',
+        21: 'Basketball',
+        32: 'Graduation',
+        47: 'Welcome Wk'
+      };
+      ctx.fillStyle='#ef4444';
+      window._eventFlags.forEach((e,i)=>{
+        if(e && i < vals.length){
+          ctx.beginPath();
+          ctx.arc(xS(i), yS(vals[i]), 4, 0, Math.PI*2);
+          ctx.fill();
+          if(eventLabels[i]){
+            ctx.font='9px Arial'; ctx.textAlign='center';
+            ctx.fillText(eventLabels[i], xS(i), yS(vals[i])-10);
+          }
+        }
+      });
+    }
 
     // NYE 2023 marker (≈ week 11 from Oct 20 2023 start)
     const nyeIdx = 10;
