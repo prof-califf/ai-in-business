@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lab 5: Deep Learning, Reinforcement Learning, and Data Strategy | MIS 432</title>
+<title>Lab 5: Deep Learning, Reinforcement Learning, World Models, and AI Strategy | MIS 432</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Arial, sans-serif; background: #ffffff; color: #0a1628; line-height: 1.6; }
@@ -120,8 +120,8 @@
   /* Roadmap */
   .roadmap { background: #0a1628; color: #ffffff; border-radius: 8px; padding: 2rem; margin-bottom: 3rem; }
   .roadmap h3 { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #00e89d; margin-bottom: 1.25rem; }
-  .roadmap-steps { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.75rem; }
-  @media (max-width: 1000px) { .roadmap-steps { grid-template-columns: repeat(3, 1fr); } }
+  .roadmap-steps { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.75rem; }
+  @media (max-width: 1100px) { .roadmap-steps { grid-template-columns: repeat(4, 1fr); } }
   @media (max-width: 600px) { .roadmap-steps { grid-template-columns: repeat(2, 1fr); } }
   .roadmap-step { background: rgba(255,255,255,0.06); border-radius: 6px; padding: 1rem; border-left: 3px solid #00e89d; }
   .roadmap-step .step-num { font-size: 10px; font-weight: 700; color: #00e89d; letter-spacing: 0.1em; }
@@ -712,6 +712,105 @@
   .footer-nav a:hover { opacity: 0.75; }
 
   .hl { background: #fef3c7; padding: 0.1em 0.3em; border-radius: 3px; font-weight: 600; }
+
+  /* ======================================
+     WORLD MODEL SIMULATOR 3B
+     ====================================== */
+  .wm-gen { background: #f8fafc; border: 2px solid #0078ff; border-radius: 8px; padding: 1.75rem; margin: 1.5rem 0; }
+  .sim-desc { font-size: 14px; color: #64748b; margin-bottom: 1.25rem; line-height: 1.55; }
+
+  .ingredient-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
+  @media (max-width: 650px) { .ingredient-grid { grid-template-columns: 1fr; } }
+  .ingredient { background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 0.85rem 1rem; transition: border-color 0.15s; }
+  .ingredient:focus-within { border-color: #0078ff; }
+  .ing-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #64748b; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.35rem; }
+  .ing-icon { font-size: 16px; }
+  .ing-select { width: 100%; padding: 0.5rem 0.6rem; border: 1px solid #e2e8f0; border-radius: 5px; font-size: 14px; font-family: Arial, sans-serif; color: #0a1628; background: #f8fafc; cursor: pointer; appearance: auto; }
+  .ing-select:focus { outline: none; border-color: #0078ff; }
+
+  .wm-generate-wrap { text-align: center; margin: 0.5rem 0 1.25rem; }
+  .wm-generate-wrap .btn { font-size: 15px; padding: 0.75rem 2rem; }
+
+  .wm-build-area { display: none; }
+  .wm-build-area.active { display: block; }
+
+  .wm-canvas { background: #0a1628; border-radius: 8px; overflow: hidden; position: relative; width: 100%; height: 260px; margin-bottom: 0.75rem; }
+
+  .scene-layer { position: absolute; left: 0; right: 0; transition: opacity 0.6s ease, transform 0.6s ease; opacity: 0; transform: translateY(8px); }
+  .scene-layer.visible { opacity: 1; transform: translateY(0); }
+
+  .sl-sky { top: 0; height: 45%; z-index: 1; }
+  .sl-weather { top: 0; height: 45%; z-index: 2; overflow: hidden; }
+  .sl-road3b { bottom: 0; height: 55%; z-index: 3; background: #334155; }
+  .sl-road3b::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: repeating-linear-gradient(90deg, #fbbf24 0 16px, transparent 16px 32px); }
+  .sl-road-fx { bottom: 0; height: 55%; z-index: 4; pointer-events: none; }
+  .sl-actors { top: 0; bottom: 0; z-index: 5; }
+  .sl-actor { position: absolute; font-size: 34px; transition: opacity 0.4s; }
+  .sl-ego { position: absolute; bottom: 16px; left: 18%; z-index: 6; }
+  .ego-car3b { width: 28px; height: 44px; background: #0078ff; border-radius: 4px; position: relative; }
+  .ego-car3b::before { content: ""; position: absolute; top: 4px; left: 4px; right: 4px; height: 10px; background: #bfdbfe; border-radius: 2px; }
+  .ego-label { position: absolute; bottom: -14px; left: 50%; transform: translateX(-50%); font-size: 8px; font-weight: 700; color: #60a5fa; white-space: nowrap; letter-spacing: 0.05em; }
+
+  .wm-build-log { background: #0a1628; border-radius: 0 0 8px 8px; margin-top: -8px; padding: 0.75rem 1rem 0.85rem; margin-bottom: 1rem; }
+  .build-log-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #00e89d; margin-bottom: 0.4rem; }
+  .build-log-entries { font-family: 'Courier New', monospace; font-size: 12px; color: #94afc8; line-height: 1.7; min-height: 86px; }
+  .build-log-entries .ble { opacity: 0; transition: opacity 0.3s; }
+  .build-log-entries .ble.visible { opacity: 1; }
+  .build-log-entries .ble .checkmark { color: #00e89d; font-weight: 700; }
+  .build-log-entries .ble .layer-name { color: #ffffff; font-weight: 700; }
+
+  .wm-result { display: none; }
+  .wm-result.active { display: block; }
+
+  .wm-recipe-card { background: #ffffff; border: 1.5px solid #bfdbfe; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1rem; }
+  .wm-recipe-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #0078ff; margin-bottom: 0.5rem; }
+  .wm-recipe-pills { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .wm-recipe-pill { font-size: 12px; font-weight: 700; padding: 0.3rem 0.7rem; border-radius: 20px; }
+  .pill-weather { background: #dbeafe; color: #1e40af; }
+  .pill-time { background: #fef3c7; color: #92400e; }
+  .pill-actor { background: #dcfce7; color: #166534; }
+  .pill-wild { background: #fce7f3; color: #9d174d; }
+
+  .wm-versus { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  @media (max-width: 650px) { .wm-versus { grid-template-columns: 1fr; } }
+  .wm-v-panel { border-radius: 8px; padding: 1.15rem 1.25rem; }
+  .wm-v-real { background: #fef2f2; border: 1.5px solid #fecaca; }
+  .wm-v-sim  { background: #ecfdf5; border: 1.5px solid #86efac; }
+  .wm-v-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem; }
+  .wm-v-real .wm-v-tag { color: #991b1b; }
+  .wm-v-sim  .wm-v-tag { color: #047857; }
+  .wm-v-big { font-size: 26px; font-weight: 800; font-family: 'Courier New', monospace; margin-bottom: 0.15rem; }
+  .wm-v-real .wm-v-big { color: #dc2626; }
+  .wm-v-sim  .wm-v-big { color: #059669; }
+  .wm-v-unit { font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; }
+  .wm-v-explain { font-size: 13px; line-height: 1.55; }
+  .wm-v-real .wm-v-explain { color: #7f1d1d; }
+  .wm-v-sim  .wm-v-explain { color: #065f46; }
+
+  .wm-insight { background: linear-gradient(135deg, #0a1628 0%, #1e3a5f 100%); border-radius: 8px; padding: 1.1rem 1.35rem; margin-bottom: 1rem; }
+  .wm-insight-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #00e89d; margin-bottom: 0.35rem; }
+  .wm-insight p { color: #e2e8f0; font-size: 14px; line-height: 1.6; margin: 0; }
+  .wm-insight strong { color: #ffffff; }
+
+  .wm3b-tally { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1rem; }
+  .wm3b-tally-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #64748b; margin-bottom: 0.65rem; }
+  .wm3b-tally-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+  @media (max-width: 600px) { .wm3b-tally-grid { grid-template-columns: 1fr; } }
+  .wm3b-tally-stat { text-align: center; }
+  .wm3b-tally-stat .wts-value { font-size: 24px; font-weight: 800; color: #0078ff; font-family: 'Courier New', monospace; }
+  .wm3b-tally-stat .wts-label { font-size: 11px; color: #64748b; font-weight: 600; }
+
+  .wm3b-aha { margin-top: 1rem; padding: 1rem 1.25rem; background: linear-gradient(135deg, #0a1628 0%, #1e3a5f 100%); color: #ffffff; border-radius: 6px; display: none; }
+  .wm3b-aha.active { display: block; }
+  .wm3b-aha-label { font-size: 10px; letter-spacing: 0.1em; color: #00e89d; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .wm3b-aha p { font-size: 14px; color: #e2e8f0; margin: 0; line-height: 1.6; }
+  .wm3b-aha strong { color: #ffffff; }
+
+  @keyframes rain-fall { from { transform: translateY(-20px); } to { transform: translateY(130px); } }
+  @keyframes snow-fall { from { transform: translateY(-20px) rotate(0deg); } to { transform: translateY(130px) rotate(360deg); } }
+  .rain-drop { position: absolute; width: 2px; background: rgba(147,197,253,0.5); border-radius: 1px; animation: rain-fall linear infinite; }
+  .snow-flake { position: absolute; color: rgba(255,255,255,0.7); font-size: 10px; animation: snow-fall linear infinite; }
+  .fog-layer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(148,163,184,0.55); }
 </style>
 </head>
 <body>
@@ -757,8 +856,8 @@
 
 <div class="hero">
   <div class="hero-inner">
-    <div class="hero-tag">Lab 5 &middot; Waymo &middot; Deep Learning &middot; Reinforcement Learning &middot; AI Strategy</div>
-    <h1>Lab 5: Deep Learning,<br>Reinforcement Learning, and Data Strategy</h1>
+    <div class="hero-tag">Lab 5 &middot; Waymo &middot; Deep Learning &middot; World Models &middot; Reinforcement Learning &middot; AI Strategy</div>
+    <h1>Lab 5: Deep Learning,<br>Reinforcement Learning, World Models,<br>and AI Strategy</h1>
     <p class="hero-sub">You're a strategy analyst at Waymo. There's a real problem on your desk that spans engineering and business, and a recommendation due to your VP. You'll build intuition for deep learning and reinforcement learning through hands-on simulators — then make the call your boss is waiting for.</p>
     <div class="hero-claude-note">
       <p><strong>Built collaboratively with Claude.</strong> Every simulator, chart, and interactive piece in this lab was built by your instructor working with Claude — describing what was needed, evaluating the output, and iterating until it was right. That's the same workflow you'll use in the lab's Claude prompts. Pay attention to what it produced. That capability is available to you too.</p>
@@ -778,11 +877,12 @@
   <!-- SECTION JUMP CARDS -->
   <div class="overview-grid">
     <a href="#step1" class="overview-card-link"><div class="overview-card"><div class="overview-icon">🧠</div><div class="overview-label">Step 1</div><div class="overview-val">DL Basics</div></div></a>
-    <a href="#step2" class="overview-card-link"><div class="overview-card"><div class="overview-icon">👁️</div><div class="overview-label">Step 2</div><div class="overview-val">Perception at Waymo</div></div></a>
-    <a href="#step3" class="overview-card-link"><div class="overview-card"><div class="overview-icon">🎯</div><div class="overview-label">Step 3</div><div class="overview-val">Planning with RL</div></div></a>
-    <a href="#step4" class="overview-card-link"><div class="overview-card"><div class="overview-icon">💰</div><div class="overview-label">Step 4</div><div class="overview-val">Data Strategy</div></div></a>
-    <a href="#step5" class="overview-card-link"><div class="overview-card"><div class="overview-icon">📋</div><div class="overview-label">Step 5</div><div class="overview-val">The Recommendation</div></div></a>
-    <a href="#step6" class="overview-card-link"><div class="overview-card"><div class="overview-icon">🌐</div><div class="overview-label">Step 6</div><div class="overview-val">Publish to GitHub</div></div></a>
+    <a href="#step2" class="overview-card-link"><div class="overview-card"><div class="overview-icon">👁️</div><div class="overview-label">Step 2</div><div class="overview-val">DL at Waymo</div></div></a>
+    <a href="#step3" class="overview-card-link"><div class="overview-card"><div class="overview-icon">🌐</div><div class="overview-label">Step 3</div><div class="overview-val">World Models</div></div></a>
+    <a href="#step4" class="overview-card-link"><div class="overview-card"><div class="overview-icon">🎯</div><div class="overview-label">Step 4</div><div class="overview-val">Planning with RL</div></div></a>
+    <a href="#step5" class="overview-card-link"><div class="overview-card"><div class="overview-icon">💰</div><div class="overview-label">Step 5</div><div class="overview-val">Data Strategy</div></div></a>
+    <a href="#step6" class="overview-card-link"><div class="overview-card"><div class="overview-icon">📋</div><div class="overview-label">Step 6</div><div class="overview-val">The Recommendation</div></div></a>
+    <a href="#step7" class="overview-card-link"><div class="overview-card"><div class="overview-icon">🚀</div><div class="overview-label">Step 7</div><div class="overview-val">Publish to GitHub</div></div></a>
   </div>
 
   <!-- SCENARIO -->
@@ -790,21 +890,12 @@
     <h2>The scenario</h2>
     <p>Imagine you're a new strategy analyst at Waymo. You've been there two weeks. Your boss, the VP of Strategy, wants your recommendation on the company's next major decision: <strong>which city should Waymo launch in next?</strong></p>
     <p>The catalyst is a recent incident. Two weeks ago in Austin, TX, a Waymo car hesitated for 14 seconds at an unprotected left turn before completing it. No safety issue. But the rider gave the trip 2 stars and tweeted about it. Engineering tells her it's a <em>perception</em> problem and a <em>planner</em> problem. <strong>Perception</strong> is how the car sees and makes sense of what's on the road — pedestrians, cyclists, other vehicles. <strong>Planner</strong> is how the car decides what to do with what it sees — brake, slow, turn, go. Her gut says this was a planner problem (the car saw fine, it just froze on the decision), but she needs you to understand both pieces — and figure out if Waymo is really ready to expand to a fifth city.</p>
-    <p>You can't just answer "which city?" off the top of your head. You need to build up the right thinking step by step. Here's the path:</p>
-    <ul style="margin: 0.5rem 0 1rem 1.5rem; color: #334155; font-size: 15px; line-height: 1.7;">
-      <li><strong>Step 1 — DL Basics.</strong> Start with how deep learning actually works. You'll train a tiny neural network, see how a CNN builds up from pixels to objects, and meet the <em>long tail problem</em> that every AI company has to wrestle with.</li>
-      <li><strong>Step 2 — Perception at Waymo.</strong> Apply what you learned to Waymo's cameras. You'll label driving scenes, see how the model fails on edge cases, and recommend which training dataset Waymo should invest in.</li>
-      <li><strong>Step 3 — Planning at Waymo.</strong> Move to the decision side. You'll design a reward function to solve the exact Austin-style left turn and feel the <em>alignment problem</em> firsthand.</li>
-      <li><strong>Step 4 — Data strategy.</strong> Shift from technical to business: how does Waymo build a <em>data moat</em> that compounds against competitors like Tesla? You'll allocate a $1B data budget.</li>
-      <li><strong>Step 5 — The recommendation.</strong> Bring everything together. You'll think through social license risks in different cities, pick city #5, and draft the memo to your VP.</li>
-      <li><strong>Step 6 — Publish your portfolio.</strong> Wrap your four Claude-generated artifacts into a single recruiter-facing webpage, and publish it to GitHub Pages. This is your submission.</li>
-    </ul>
-    <p>At each step you'll (1) use an interactive simulator to build the concept in your head, (2) answer a short reflection question, and (3) use a Claude prompt to draft a short business artifact — a memo, a defense, an evaluation. <strong>By the end, you'll have everything you need to make a defensible recommendation and publish it as a portfolio webpage on GitHub Pages.</strong></p>
+    <p>You can't just answer "which city?" off the top of your head. You need to build up the right thinking step by step — from understanding the technology, to evaluating the business strategy, to making the recommendation. At each step you'll (1) use an interactive simulator to build the concept in your head, (2) answer a short reflection question, and (3) use a Claude prompt to draft a short business artifact — a memo, a defense, an evaluation. <strong>By the end, you'll have everything you need to make a defensible recommendation and publish it as a portfolio webpage on GitHub Pages.</strong></p>
   </div>
 
   <!-- ROADMAP -->
   <div class="roadmap">
-    <h3>Your Plan &middot; Six Steps to the Recommendation</h3>
+    <h3>Your Plan &middot; Seven Steps to the Recommendation</h3>
     <div class="roadmap-steps">
       <div class="roadmap-step">
         <div class="step-num">STEP 1</div>
@@ -813,26 +904,31 @@
       </div>
       <div class="roadmap-step">
         <div class="step-num">STEP 2</div>
-        <div class="step-title">Perception</div>
-        <div class="step-concept">DL applied to Waymo</div>
+        <div class="step-title">Deep Learning</div>
+        <div class="step-concept">DL applied at Waymo</div>
       </div>
       <div class="roadmap-step">
         <div class="step-num">STEP 3</div>
-        <div class="step-title">Planning</div>
-        <div class="step-concept">RL &amp; the car's decisions</div>
+        <div class="step-title">World Models</div>
+        <div class="step-concept">Where the car practices</div>
       </div>
       <div class="roadmap-step">
         <div class="step-num">STEP 4</div>
+        <div class="step-title">Planning + RL</div>
+        <div class="step-concept">RL &amp; the car's decisions</div>
+      </div>
+      <div class="roadmap-step">
+        <div class="step-num">STEP 5</div>
         <div class="step-title">Data Strategy</div>
         <div class="step-concept">The data moat vs. Tesla</div>
       </div>
       <div class="roadmap-step">
-        <div class="step-num">STEP 5</div>
+        <div class="step-num">STEP 6</div>
         <div class="step-title">The Recommendation</div>
         <div class="step-concept">Social license &amp; city #5</div>
       </div>
       <div class="roadmap-step">
-        <div class="step-num">STEP 6</div>
+        <div class="step-num">STEP 7</div>
         <div class="step-title">Publish</div>
         <div class="step-concept">Build the portfolio page</div>
       </div>
@@ -850,7 +946,8 @@
     <div class="exercise-body">
 
       <h4>Part 1 &middot; What is deep learning?</h4>
-      <p>Before we can talk about how Waymo's car sees, you need to understand a bit more about how deep learning works at all. Forget cars for a minute. Let's teach a computer to recognize <strong>cats</strong>.</p>
+      <p>First things first — before you can evaluate Waymo's technology, you need to understand how deep learning actually works under the hood. You remember discussing it in your AI in Business course back in college, so the concept isn't totally new. But "I've heard of neural networks" isn't the same as "I can explain to my VP why this matters." Time to go deeper.</p>
+      <p>Forget cars for a minute. Let's start with something simpler: teaching a computer to recognize <strong>cats</strong>.</p>
 
       <div class="concept">
         <div class="concept-label">Core Concept: Deep Learning</div>
@@ -864,7 +961,7 @@
         <ol>
           <li>You'll see a picture. Click <strong>"Cat"</strong> or <strong>"Not a cat"</strong> to label it.</li>
           <li>Watch the panel to the right called <strong>"What the network has learned"</strong>. As you label images, the neural network updates what it thinks matters (ears, whiskers, size, fur pattern). This simulator shows you <strong>feature engineering</strong> — where a human (in this case, the person who built the simulator) decides which characteristics of each image the network should pay attention to. This is how classical machine learning worked for decades. The network's only job was to figure out how much each hand-picked feature mattered. <em>(In Part 2 you'll see how modern deep learning flipped this: today's networks learn their own features directly from raw pixels, no human feature-picking required. But the core idea — a network assigning importance to features — is the same.)</em></li>
-          <li>Below the image, you'll also see <strong>"The neural network, visualized"</strong> — a simple three-layer diagram. The circles on the left are the <em>input features</em> (the characteristics of the current image). The circles in the middle are <em>hidden layer neurons</em> where the network combines features into higher-level patterns like "face shape" or "body shape." The circles on the right are the <em>outputs</em> (cat / not cat). Lines between them represent the learned weights — thicker lines mean stronger connections. Watch the lines strengthen or fade as you label more examples.</li>
+          <li>Below the image, you'll also see <strong>"The neural network, visualized"</strong> — a four-layer diagram. The circles on the left are the <em>input features</em> (the characteristics of the current image). The next column is <em>hidden layer 1</em>, where the network combines raw features into patterns like "face shape" or "body shape." The column after that is <em>hidden layer 2</em>, where those patterns get combined into even higher-level concepts — this is what makes it "deep." The circles on the right are the <em>outputs</em> (cat / not cat). Lines between them represent the learned weights — thicker lines mean stronger connections. Watch the lines strengthen or fade as you label more examples.</li>
           <li>Accuracy of the neural network increases as you give it more labeled examples. Keep going until you reach 10 examples.</li>
           <li>After training, the neural network will try to learn on its own from the data you gave it — this is a simple way to understand how machines learn from data. Once you've labeled 10 images, a <strong>"Train the network"</strong> button will appear. Click it to have the network try to label 8 new pictures it's never seen. Check how it does.</li>
         </ol>
@@ -922,13 +1019,14 @@
         <!-- Classic NN diagram — shows the network's forward pass -->
         <div class="cat-nn-wrap">
           <div class="cat-nn-label">The neural network, visualized</div>
-          <div class="cat-nn-subtitle">Input features → hidden neurons → output decision</div>
+          <div class="cat-nn-subtitle">Input features → hidden layer 1 → hidden layer 2 → output decision</div>
           <div class="cat-nn-scroll">
-            <svg class="cat-nn-canvas" id="catNNCanvas" viewBox="0 0 700 260" preserveAspectRatio="xMidYMid meet"></svg>
+            <svg class="cat-nn-canvas" id="catNNCanvas" viewBox="0 0 860 260" preserveAspectRatio="xMidYMid meet"></svg>
           </div>
           <div class="cat-nn-legend">
             <div class="lg-item"><span class="lg-dot" style="background:#0078ff;"></span>Input (feature detected in image)</div>
-            <div class="lg-item"><span class="lg-dot" style="background:#a78bfa;"></span>Hidden neuron (pattern detector)</div>
+            <div class="lg-item"><span class="lg-dot" style="background:#a78bfa;"></span>Hidden layer 1 (low-level pattern)</div>
+            <div class="lg-item"><span class="lg-dot" style="background:#c084fc;"></span>Hidden layer 2 (high-level concept)</div>
             <div class="lg-item"><span class="lg-dot" style="background:#00e89d;"></span>Output (guess)</div>
             <div class="lg-item"><span class="lg-line" style="background:#10b981;"></span>Positive weight</div>
             <div class="lg-item"><span class="lg-line" style="background:#ef4444;"></span>Negative weight</div>
@@ -959,7 +1057,7 @@
       <p>The cat simulator had a human pick the features ahead of time — "pointy ears, whiskers, small size" were given to the network. That's called <strong>feature engineering</strong>, and it's how machine learning worked for decades. It still works for simple problems, but it has a big limitation: humans can only think of so many features, and for complex tasks like recognizing a pedestrian in any pose, in any lighting, in any outfit — the features a human would come up with just aren't enough.</p>
       <p>Modern perception networks don't need anyone to hand them features. They <em>learn</em> their own features directly from raw pixels. The architecture that made this possible is called a <strong>convolutional neural network</strong>, or CNN. It's what powers every self-driving perception system today.</p>
 
-      <p>Here's the connection back to what you just did: the CNN is still a neural network with input, hidden, and output layers — just a much deeper one. The stages you're about to see below are essentially the <strong>hidden layers</strong> of the network, each one doing its own little job and passing the result to the next layer. Instead of three hidden-layer neurons like in the cat simulator, a real CNN has dozens of layers with millions of connections.</p>
+      <p>Here's the connection back to what you just did: the CNN is still a neural network with input, hidden, and output layers — just a much deeper one. The stages you're about to see below are essentially the <strong>hidden layers</strong> of the network, each one doing its own little job and passing the result to the next layer. Instead of two hidden layers with a handful of neurons like in the cat simulator, a real CNN has dozens of layers with millions of connections.</p>
 
       <div class="concept">
         <div class="concept-label">Core Concept: Convolutional Neural Network (CNN)</div>
@@ -969,9 +1067,8 @@
       </div>
 
       <div class="callout-aside">
-        <div class="callout-aside-label">💡 So why is it called "convolutional"?</div>
-        <p>Now that you've seen what filters do, the name makes sense. <strong>Convolution</strong> is a math term for <em>sliding one thing across another and measuring how well they match at each position</em> — which is exactly what a filter does as it scans the image. The operation was borrowed from signal processing back in the 1980s, and the networks that used it got stuck with the name <strong>convolutional neural networks</strong>.</p>
-        <p>Why the word actually matters: because the <em>same</em> filter scans the whole image, a CNN recognizes a pedestrian whether they're on the left, right, or center of the frame. Older neural networks had to learn the pedestrian pattern separately for every possible position. Convolution is what made image recognition actually work.</p>
+        <div class="callout-aside-label">💡 Why is it called "convolutional"?</div>
+        <p>"Convolutional" means the network uses the <strong>same small filter</strong> and slides it across the entire image, checking for a match at every position. Think of it like a magnifying glass scanning a photo: the magnifying glass doesn't change — it just moves. That's why a CNN can spot a pedestrian whether they're on the left side of the frame, the right side, or dead center. It's running the same "does this look like a person?" check everywhere.</p>
       </div>
 
       <div class="instructions">
@@ -999,16 +1096,16 @@
             <div class="cnn-image" id="cnnStage2">
               <!-- filled by JS: edge detection grid -->
             </div>
-            <div class="cnn-label">Edge detection</div>
-            <div class="cnn-detects"><strong>What's happening:</strong> The first layer of filters activates on simple things — edges, lines, and color transitions. The network now knows where the outlines of things are, but still doesn't know what those things <em>are</em>.</div>
+            <div class="cnn-label">Edge detection <span style="font-weight:400; color:#a78bfa; font-size:11px;">(hidden layer 1)</span></div>
+            <div class="cnn-detects"><strong>What's happening:</strong> The first hidden layer's filters activate on simple things — edges, lines, and color transitions. The network now knows where the outlines of things are, but still doesn't know what those things <em>are</em>.</div>
           </div>
           <div class="cnn-layer" data-stage="2">
             <div class="cnn-stage-num">STAGE 3</div>
             <div class="cnn-image" id="cnnStage3">
               <!-- filled by JS: shape detection -->
             </div>
-            <div class="cnn-label">Shape detection</div>
-            <div class="cnn-detects"><strong>What's happening:</strong> A deeper layer combines those edges into shapes. The network now recognizes a round head, a rectangular torso, two long legs — body parts, but still not a whole person.</div>
+            <div class="cnn-label">Shape detection <span style="font-weight:400; color:#c084fc; font-size:11px;">(hidden layer 2)</span></div>
+            <div class="cnn-detects"><strong>What's happening:</strong> A deeper hidden layer combines those edges into shapes. The network now recognizes a round head, a rectangular torso, two long legs — body parts, but still not a whole person.</div>
           </div>
           <div class="cnn-layer" data-stage="3">
             <div class="cnn-stage-num">STAGE 4</div>
@@ -1105,7 +1202,7 @@
        ============================================================ -->
   <div class="exercise" id="step2">
     <div class="exercise-header">
-      <div class="exercise-number">Step 2 &middot; Applying DL to Waymo</div>
+      <div class="exercise-number">Step 2 &middot; Deep Learning at Waymo</div>
       <div class="exercise-title">Train Waymo's perception model</div>
     </div>
     <div class="exercise-body">
@@ -1354,12 +1451,232 @@ Tone: direct, CFO-appropriate, confident but not hype-y.</pre>
     </div>
   </div>
 
+
   <!-- ============================================================
-       ANALYSIS 2 — RL WITH VISUAL TRAINING
+       STEP 3 — WORLD MODELS
        ============================================================ -->
   <div class="exercise" id="step3">
     <div class="exercise-header">
-      <div class="exercise-number">Step 3 &middot; Planning</div>
+      <div class="exercise-number">Step 3 &middot; World Models</div>
+      <div class="exercise-title">Where does the car practice?</div>
+    </div>
+    <div class="exercise-body">
+
+      <h4>The simulation problem</h4>
+
+      <p>In Step 1 you saw the long tail — thousands of rare scenarios that almost never happen but cause the worst failures when they do. In Step 2 you watched a perception model fail on exactly those rare cases. Now the question is: <strong>how does Waymo get enough practice on scenarios that barely exist in real life?</strong></p>
+
+      <p>You can't let an AI learn by crashing real cars into real people. So the car has to practice inside a <strong>simulation</strong>. But old-fashioned simulators were hand-built by engineers — every tree, every car, every raindrop placed manually. That works for common situations, but it can't keep up with the long tail. No engineering team can hand-build every possible combination of weather, lighting, road conditions, and weird things that can happen.</p>
+
+      <p>This is the problem <strong>world models</strong> solve.</p>
+
+      <div class="concept">
+        <div class="concept-label">Core Concept: World Models</div>
+        <p>A <strong>world model</strong> is an AI that has learned how the real world works — how rain falls, how cars move, how light looks at sunset — and can use that knowledge to <em>create</em> realistic driving scenarios that have never actually been recorded.</p>
+        <p>Think of it like this: a world model is a <strong>video game engine trained on reality</strong>. Instead of a programmer coding "rain makes roads shiny," the AI <em>learned</em> that from watching millions of hours of video. So when you ask it for "night rain on a four-lane highway," it doesn't look up a recording — it <em>builds</em> the scene from what it knows about night, rain, and highways.</p>
+        <p>Waymo's world model is built on top of Google DeepMind's <strong>Genie 3</strong> — a foundation model that was trained on a huge amount of general video, not just driving footage. Genie 3 already understood how snow falls, how fire spreads, how animals move. Waymo then adapted it for driving. This technique is called <strong>transfer learning</strong> — instead of starting from scratch, Waymo borrowed knowledge that took years to build.</p>
+        <p><span class="hl">Here's the key idea:</span> the world model doesn't need to have <em>seen</em> a specific scenario to create it. It understands the <em>ingredients</em> — weather, lighting, people, vehicles, road types — and can mix them together in any combination. That's what makes it powerful: it can create scenarios that have never happened before.</p>
+      </div>
+
+      <div class="instructions">
+        <div class="instructions-label">Simulator 3 &middot; Build a scenario the world model's way</div>
+        <h5>Pick four ingredients. Watch the world model compose them into a scene.</h5>
+        <ol>
+          <li>Choose one option from each of the four ingredient boxes: <strong>weather</strong>, <strong>time of day</strong>, <strong>who's on the road</strong>, and <strong>the wildcard</strong> (the weird thing that makes it rare).</li>
+          <li>Click <strong>"Build this scenario."</strong> Watch the world model layer each ingredient into the scene one at a time — that's how it actually works. It doesn't pull a pre-made video from a library. It <em>composes</em> the scene from parts it understands separately.</li>
+          <li>After the scene builds, you'll see a comparison: how would Waymo get this training data <em>without</em> a world model vs. <em>with</em> one?</li>
+          <li><strong>Try at least 3 different combinations.</strong> The weirder, the better — that's the whole point.</li>
+        </ol>
+        <div class="goal"><strong>Your goal:</strong> understand that a world model doesn't just save time. It lets Waymo practice for things that <em>can't be collected by driving</em> — because they're too rare, too dangerous, or have literally never happened in the cities where Waymo operates.</div>
+      </div>
+
+      <!-- SIMULATOR 3B — WORLD MODEL SCENARIO GENERATOR -->
+      <div class="wm-gen" id="wmGen3b">
+        <div class="sim-title">Simulator 3 &middot; World Model</div>
+        <div class="sim-subtitle">Build a driving scenario the way Waymo's AI does</div>
+        <div class="sim-desc">A world model creates scenes by combining ingredients it understands separately. Pick four ingredients — the world model will compose them into a scene it's never seen before.</div>
+
+        <div class="ingredient-grid">
+          <div class="ingredient">
+            <div class="ing-label"><span class="ing-icon">🌦️</span> Weather</div>
+            <select class="ing-select" id="ingWeather">
+              <option value="clear">Clear skies</option>
+              <option value="rain">Heavy rain</option>
+              <option value="fog">Dense fog</option>
+              <option value="snow">Snow / ice</option>
+              <option value="sun-glare">Blinding sun glare</option>
+            </select>
+          </div>
+          <div class="ingredient">
+            <div class="ing-label"><span class="ing-icon">🕐</span> Time of Day</div>
+            <select class="ing-select" id="ingTime">
+              <option value="day">Daytime</option>
+              <option value="dusk">Dusk (sun setting)</option>
+              <option value="night">Nighttime</option>
+              <option value="dawn">Dawn (sun rising)</option>
+            </select>
+          </div>
+          <div class="ingredient">
+            <div class="ing-label"><span class="ing-icon">🚶</span> Who's on the Road</div>
+            <select class="ing-select" id="ingActor">
+              <option value="pedestrian">Pedestrian at crosswalk</option>
+              <option value="cyclist">Cyclist in the bike lane</option>
+              <option value="kids">Kids playing near the street</option>
+              <option value="wheelchair">Person in a wheelchair</option>
+              <option value="dog">Dog running loose</option>
+              <option value="scooter">E-scooter rider</option>
+            </select>
+          </div>
+          <div class="ingredient">
+            <div class="ing-label"><span class="ing-icon">⚡</span> The Wildcard</div>
+            <select class="ing-select" id="ingWild">
+              <option value="costume">They're wearing a Halloween costume</option>
+              <option value="wrong-way">They're going the wrong direction</option>
+              <option value="hidden">They're hidden behind a parked truck</option>
+              <option value="debris">There's a mattress in the road</option>
+              <option value="construction">There's a confusing construction zone</option>
+              <option value="emergency">An ambulance is approaching with sirens</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="wm-generate-wrap">
+          <button class="btn btn-primary" id="wmBuildBtn">Build this scenario</button>
+        </div>
+
+        <div class="wm-build-area" id="wmBuildArea">
+          <div class="wm-canvas" id="wmCanvas">
+            <div class="scene-layer sl-sky" id="slSky"></div>
+            <div class="scene-layer sl-weather" id="slWeather3b"></div>
+            <div class="scene-layer sl-road3b" id="slRoad3b"></div>
+            <div class="scene-layer sl-road-fx" id="slRoadFx"></div>
+            <div class="scene-layer sl-actors" id="slActors3b"></div>
+            <div class="scene-layer sl-ego visible">
+              <div class="ego-car3b"></div>
+              <div class="ego-label">WAYMO</div>
+            </div>
+          </div>
+
+          <div class="wm-build-log" id="wmBuildLog">
+            <div class="build-log-label">World model — composing scene from learned knowledge</div>
+            <div class="build-log-entries" id="wmLogEntries">
+              <div class="ble" id="logStep1"><span class="checkmark">✓</span> <span class="layer-name">Time of day</span> — <span class="log-detail" id="logDetail1">…</span></div>
+              <div class="ble" id="logStep2"><span class="checkmark">✓</span> <span class="layer-name">Weather</span> — <span class="log-detail" id="logDetail2">…</span></div>
+              <div class="ble" id="logStep3"><span class="checkmark">✓</span> <span class="layer-name">Road &amp; surfaces</span> — <span class="log-detail" id="logDetail3">…</span></div>
+              <div class="ble" id="logStep4"><span class="checkmark">✓</span> <span class="layer-name">Actor &amp; behavior</span> — <span class="log-detail" id="logDetail4">…</span></div>
+              <div class="ble" id="logStep5"><span class="checkmark">✓</span> <span class="layer-name">Wildcard element</span> — <span class="log-detail" id="logDetail5">…</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wm-result" id="wmResult3b">
+          <div class="wm-recipe-card">
+            <div class="wm-recipe-label">Your scenario — composed from 4 ingredients</div>
+            <div class="wm-recipe-pills" id="wmRecipePills"></div>
+          </div>
+
+          <div class="wm-versus">
+            <div class="wm-v-panel wm-v-real">
+              <div class="wm-v-tag">🚗 Without a world model</div>
+              <div class="wm-v-big" id="vRealMiles">—</div>
+              <div class="wm-v-unit">estimated miles of driving to see this once</div>
+              <div class="wm-v-explain" id="vRealExplain">—</div>
+            </div>
+            <div class="wm-v-panel wm-v-sim">
+              <div class="wm-v-tag">🧠 With the world model</div>
+              <div class="wm-v-big">On demand</div>
+              <div class="wm-v-unit">generated from learned knowledge in seconds</div>
+              <div class="wm-v-explain" id="vSimExplain">—</div>
+            </div>
+          </div>
+
+          <div class="wm-insight">
+            <div class="wm-insight-label">Why this matters</div>
+            <p id="wmInsightText">—</p>
+          </div>
+
+          <div class="wm3b-tally">
+            <div class="wm3b-tally-label">Your session — scenarios you've created so far</div>
+            <div class="wm3b-tally-grid">
+              <div class="wm3b-tally-stat"><div class="wts-value" id="tallyCount3b">0</div><div class="wts-label">Scenarios built</div></div>
+              <div class="wm3b-tally-stat"><div class="wts-value" id="tallyMiles3b">0</div><div class="wts-label">Real-world miles you'd need</div></div>
+              <div class="wm3b-tally-stat"><div class="wts-value" id="tallyCombos3b">—</div><div class="wts-label">Total possible combinations</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wm3b-aha" id="wmAha3b">
+          <div class="wm3b-aha-label">What you just saw</div>
+          <p>You built <strong id="ahaCount3b">3</strong> rare scenarios by picking ingredients from a menu. The world model composed each one from parts it understood separately — it didn't need a recording of that exact situation. To encounter those same scenarios through real-world driving, Waymo would need roughly <strong id="ahaMiles3b">—</strong> miles. That's why Waymo has run <strong>20+ billion simulated miles</strong> but only ~200 million real ones. The world model isn't a shortcut — for rare scenarios, it's the <em>only</em> option.</p>
+        </div>
+      </div>
+
+      <!-- STAKE QUESTION — unlocks after 3 world model scenarios -->
+      <div class="stake" id="wmStake3b" style="display:none;">
+        <div class="stake-q">Tesla has 6 million cars collecting real driving data every day. Waymo has a few hundred cars plus a world model. <strong>Which company is better prepared for the long tail of rare scenarios?</strong></div>
+        <div class="stake-opts">
+          <button class="stake-opt" data-val="tesla">Tesla — their fleet will eventually see everything just because there are so many cars.</button>
+          <button class="stake-opt" data-val="waymo">Waymo — they can target specific rare scenarios on demand instead of waiting for them to happen.</button>
+          <button class="stake-opt" data-val="both">Both are fine — they'll end up in the same place eventually.</button>
+          <button class="stake-opt" data-val="neither">Neither — the long tail is infinite, and no approach can fully solve it.</button>
+        </div>
+        <div class="stake-feedback" id="stakeFb3b"></div>
+      </div>
+
+      <div class="callout-aside">
+        <div class="callout-aside-label">📐 How are the mile estimates calculated?</div>
+        <p>Each ingredient in the simulator has a <strong>rarity multiplier</strong> based on how often that condition occurs during normal urban driving. Clear skies = 1×, snow in a Waymo city = 8×, nighttime = 4×, a wheelchair user = 6×, a Halloween costume = 12×. The multipliers are multiplied together against a base of 500,000 miles — because any <em>specific</em> scenario is uncommon even in good conditions.</p>
+        <p>These are <strong>order-of-magnitude estimates</strong>, not exact figures from a specific dataset. The exact numbers aren't the point — the point is that <em>multiplying rare conditions together</em> is what creates the long tail. Each ingredient alone might be common. All four at the same time? That's where the millions of miles come from.</p>
+      </div>
+
+      <div class="takeaway">
+        <div class="takeaway-label">What you just did</div>
+        <p>You built rare driving scenarios by mixing ingredients — weather, lighting, people, and wildcards — and watched a world model compose them into scenes it had never seen before. This is the direct answer to the long tail problem from Step 1. That chart showed thousands of rare scenarios that no amount of normal driving will cover. The world model solves it by <em>generating</em> those scenarios on demand instead of waiting to stumble onto them. It doesn't need a recording of "foggy night with a wheelchair user hidden behind a truck" — it knows fog, it knows night, it knows wheelchairs, it knows occlusion, and it can combine them. That's transfer learning in action: knowledge learned from general video, adapted for driving. Waymo has run 20+ billion simulated miles this way, compared to ~200 million real ones. In Step 5, you'll decide how much of Waymo's $1B data budget should go to building this simulation capacity — and now you have a concrete sense of what that money actually buys.</p>
+      </div>
+
+      <div class="reflection" id="wmReflection3b">
+        <div class="reflection-label">Step 3 Reflection</div>
+        <div class="reflection-q">Go back to the long tail chart from Step 1 — the one with "Halloween costume kid," "Mattress on road," and "First snow in Phoenix" labeled on the far right. <strong>Pick one of those scenarios (or one you built in the simulator). Explain in 2–3 sentences why a world model is the only realistic way to get enough training data for it.</strong> Your answer should touch on two things: why real-world driving can't solve it (the probability math), and what the world model does differently (composition from ingredients).</div>
+      </div>
+
+      <div class="ai-prompt-block">
+        <div class="aip-label">Step 3 Prompt &middot; Draft the world model investment brief</div>
+        <h5>Make the business case for simulation spending</h5>
+        <p>Your VP just asked: "Why are we spending hundreds of millions on simulation when Tesla gets real-world data for free from 6 million cars?" Copy the prompt below into Claude. Fill in the bracketed sections with your actual simulator results and your reasoning from the stake question above. The AI will draft the brief; edit it until it reflects your thinking.</p>
+
+        <div class="promptbox">
+          <button class="promptbox-copy" data-target="promptStep3wm" type="button">Copy prompt</button>
+<pre id="promptStep3wm">I'm a strategy analyst at Waymo. My VP asked me to explain why our investment in world model simulation capacity is a competitive advantage — not just an engineering cost.
+
+Here's what I know from my analysis:
+- I built [NUMBER] rare driving scenarios in the world model simulator (e.g., [DESCRIBE 1–2 OF YOUR SCENARIOS — like "snow + night + wheelchair user hidden behind a truck"])
+- Those scenarios would require roughly [TOTAL MILES FROM YOUR SESSION] miles of real-world driving to encounter naturally
+- The world model generated each one on demand in seconds by composing ingredients it understood separately
+- Waymo's world model is built on Genie 3 (transfer learning from general video), meaning it didn't need driving-specific recordings of these scenarios
+
+On the Tesla comparison, here's my position: [PASTE YOUR REASONING FROM THE STAKE QUESTION — do you think Tesla's fleet volume or Waymo's targeted generation is the stronger advantage, and why?]
+
+Help me draft a short internal brief (200 words or less) to my VP arguing that world model investment is a strategic moat, not just an R&D expense. The brief should:
+- Open with the core argument: what can the world model do that fleet driving cannot?
+- Use one specific scenario as a concrete example
+- Address the Tesla comparison directly — acknowledge their volume advantage, then explain why it's not enough for the long tail
+- Close with what happens if we STOP investing in simulation (what advantage do we lose?)
+
+Tone: analytical, confident, executive-level — no hype, no jargon.</pre>
+        </div>
+
+        <div class="save-note"><strong>Save this output.</strong> You'll include the final brief (after your edits) in your portfolio webpage at the end of the lab.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ANALYSIS 2 — RL WITH VISUAL TRAINING
+       ============================================================ -->
+  <div class="exercise" id="step4">
+    <div class="exercise-header">
+      <div class="exercise-number">Step 4 &middot; Planning with Reinforcement Learning</div>
       <div class="exercise-title">How does the car decide what to do?</div>
     </div>
     <div class="exercise-body">
@@ -1382,26 +1699,10 @@ Tone: direct, CFO-appropriate, confident but not hype-y.</pre>
         <p><strong>Waymo's planner works the same way.</strong> Instead of a board game with a win/loss signal, the environment is a simulated intersection, and the signal is your reward function (points for completing a turn, penalties for crashes, close calls, and hesitation). The car "plays" the unprotected left turn thousands of times in simulation, and gradually learns the behaviors that earn the highest score. The lineage is direct: the research team that built AlphaGo at DeepMind is part of the same Google organization whose simulation tools (including Genie 3) power Waymo's training environment. A technique developed to master an ancient board game is now learning to drive.</p>
       </div>
 
-      <p><strong>And here's where the Austin incident comes back in.</strong> The 14-second hesitation wasn't a random pothole in the road — it was specifically an <em>unprotected left turn</em>, one of the hardest driving tasks in urban autonomy. An unprotected left is a left turn across oncoming traffic with no green arrow — you have to judge oncoming-car speed, pick a gap, and commit. Human drivers do it thousands of times a day. For a self-driving car, it's one of the highest-stakes decisions it has to make: go too early and you crash; go too late and you hold up traffic, frustrate your rider, and end up as a viral tweet. <strong>That's exactly what Simulator 3 trains the car to do.</strong> Your goal is to make the car drive <strong>as "normally" as possible</strong> — not too timid (which is what caused the Austin incident), not too aggressive (which is how people get hurt), just a car that behaves the way a good human driver would at that kind of intersection.</p>
-
-      <div class="concept">
-        <div class="concept-label">Core Concept: Reinforcement Learning</div>
-        <p>You'll teach the car by telling it <strong>which behaviors are good and which are bad</strong>. Think of it like giving a new driver feedback: "great, you waited for that gap" (good behavior) or "please don't slam on the brakes like that" (bad behavior). In AI, this feedback system is called a <strong>reward function</strong> — but it's really just a performance review for the car.</p>
-        <p>In this simulator you'll use four sliders. One is a <strong>reward</strong> — points the car earns for completing a turn successfully. The other three are <strong>penalties</strong> — points the car loses for collisions, close calls, and time spent waiting. The car will practice that same Austin-style unprotected left turn <strong>1,000 times in simulation</strong> and gradually learn to behave in whatever way earns the highest net score.</p>
-        <p><span class="hl">The points are just relative priorities.</span> They only matter relative to each other — if everything is equally bad, nothing gets prioritized. That's why you'll only have a <strong>fixed budget of 20 penalty points</strong> to distribute across the three negative outcomes. Just like a real safety committee, you have finite attention, and spending it on one outcome means spending less on the others. This is what forces the tradeoffs to be real.</p>
-        <p>Here's the famous trap: the car will optimize <em>exactly</em> what you set — no more, no less. Set the close-call penalty too low and the car will learn that cutting it close is fine. Set the wait penalty too high and the car becomes reckless to avoid any delay. This gap between "what you asked for" and "what you actually wanted" is the <strong>alignment problem</strong>, and it's the daily headache of RL engineering.</p>
-      </div>
-
-      <div class="concept">
-        <div class="concept-label">Core Concept: The Waymo World Model — RL's Practice Court</div>
-        <p>Pause on one word in that last concept box: <em>simulation</em>. AlphaGo's practice environment was a Go board — simple, cheap, infinitely repeatable. A self-driving car doesn't have that luxury. You can't let the planner learn by crashing 1,000 times on a real street. So where does Waymo's practice actually happen?</p>
-        <p>The answer is the <strong>Waymo World Model</strong>, announced in February 2026. It's a generative AI system that can conjure any driving scenario on demand — "heavy snow on the Golden Gate Bridge at night with a cyclist approaching from the wrong direction" — and produce a realistic, physically accurate multi-sensor simulation of exactly that. The planner trains inside it. Billions of simulated miles a year, most of them covering the long-tail scenarios you saw in Step 1.</p>
-        <p>The technical piece that makes this work is <strong>transfer learning</strong>. The World Model is built on top of Google DeepMind's <strong>Genie 3</strong> — a <em>foundation model</em> that was originally trained on an enormous amount of general video (not driving footage). Genie 3 already understood how snow falls, how fire spreads, how animals move. Waymo then <em>adapted</em> that broad knowledge for driving simulation. Instead of building a world model from scratch using only its own fleet data, Waymo inherited a richer foundation than any fleet of cars could accumulate on its own.</p>
-        <p><span class="hl">Why this matters for what you're about to do:</span> when the simulator trains the car 1,000 times on an unprotected left, you're using a tiny toy version of exactly this pipeline. Waymo's full stack is RL training inside a generative world model built on a transferred foundation model. The World Model is the reason RL is even viable for driving — without it, you'd need real miles for every scenario, and the long tail would bankrupt you.</p>
-      </div>
+      <p><strong>And here's where the Austin incident comes back in.</strong> The 14-second hesitation wasn't a random pothole in the road — it was specifically an <em>unprotected left turn</em>, one of the hardest driving tasks in urban autonomy. An unprotected left is a left turn across oncoming traffic with no green arrow — you have to judge oncoming-car speed, pick a gap, and commit. Human drivers do it thousands of times a day. For a self-driving car, it's one of the highest-stakes decisions it has to make: go too early and you crash; go too late and you hold up traffic, frustrate your rider, and end up as a viral tweet. <strong>That's exactly what Simulator 4 trains the car to do.</strong> Your goal is to make the car drive <strong>as "normally" as possible</strong> — not too timid (which is what caused the Austin incident), not too aggressive (which is how people get hurt), just a car that behaves the way a good human driver would at that kind of intersection. Here's the trap: the car will optimize <em>exactly</em> what you tell it to — no more, no less. If you tell it "avoid crashes above all else," it will freeze at every intersection. If you tell it "don't waste time," it will gun through gaps that are too small. This gap between what you asked for and what you actually wanted is called the <strong>alignment problem</strong>, and you're about to feel it firsthand.</p>
 
       <div class="instructions">
-        <div class="instructions-label">Simulator 3 &middot; Your task as the analyst</div>
+        <div class="instructions-label">Simulator 4 &middot; Your task as the analyst</div>
         <h5>Design a reward function that's <em>defensible</em> to Waymo's safety board</h5>
         <p>You're the analyst. Your job is to bring a reward function to Monday's safety review — one you can stand behind. The safety board evaluates your proposal on a <strong>300-attempt test set</strong> separate from the 1,000 training attempts (this is how real ML evaluation works — train the model, then test it on fresh data it hasn't seen). Success means meeting all three bars:</p>
         <ol>
@@ -1414,7 +1715,7 @@ Tone: direct, CFO-appropriate, confident but not hype-y.</pre>
       </div>
 
       <div class="rf-lab" id="rfLab">
-        <div class="sim-title">Simulator 3 &middot; Reinforcement Learning</div>
+        <div class="sim-title">Simulator 4 &middot; Reinforcement Learning</div>
         <div class="sim-subtitle">Design a defensible reward function for the Austin-style left turn</div>
 
         <div style="margin-bottom: 0.5rem; font-size: 13px; color: #64748b; font-weight: 600;">Quick presets:</div>
@@ -1538,14 +1839,14 @@ Tone: direct, CFO-appropriate, confident but not hype-y.</pre>
       </div>
 
       <div class="reflection">
-        <div class="reflection-label">Step 3 Reflection</div>
+        <div class="reflection-label">Step 4 Reflection</div>
         <div class="reflection-q">Describe how you set up your reward function. Where did you spend the most penalty points (crash, close call, or wait), and why? Which of the three bars — completion, collisions, or wait time — was hardest to hit, and what tradeoff did you have to explicitly accept to get a defensible result?</div>
       </div>
 
       <div class="ai-prompt-block">
-        <div class="aip-label">Step 3 Prompt &middot; Draft the safety-board defense</div>
+        <div class="aip-label">Step 4 Prompt &middot; Draft the safety-board defense</div>
         <h5>Write the paragraph you'd actually walk into Monday's safety review with</h5>
-        <p>Copy the prompt below into Claude. Fill in your actual penalty weights and your actual test-set results from Simulator 3 (the numbers shown in the "Safety board evaluation" panel). The AI will draft the defense paragraph; edit it until it matches your judgment.</p>
+        <p>Copy the prompt below into Claude. Fill in your actual penalty weights and your actual test-set results from Simulator 4 (the numbers shown in the "Safety board evaluation" panel). The AI will draft the defense paragraph; edit it until it matches your judgment.</p>
 
         <div class="promptbox">
           <button class="promptbox-copy" data-target="promptStep3" type="button">Copy prompt</button>
@@ -1564,7 +1865,7 @@ On a 300-attempt test set, the trained policy produced:
 - [X] collisions (need ≤1)
 - [X] second average wait time (need <8)
 
-My reasoning for the penalty distribution: [PASTE YOUR STEP 3 REFLECTION ANSWER HERE — which bar was hardest and what tradeoff you accepted].
+My reasoning for the penalty distribution: [PASTE YOUR STEP 4 REFLECTION ANSWER HERE — which bar was hardest and what tradeoff you accepted].
 
 Help me draft a one-paragraph defense of this reward function for our safety board. The paragraph should name the three bars, state whether I hit each one, and be specific about the tradeoff I explicitly accepted to land where I did. Tone: serious, measured, no hype.</pre>
         </div>
@@ -1578,22 +1879,23 @@ Help me draft a one-paragraph defense of this reward function for our safety boa
   <!-- ============================================================
        ANALYSIS 3 — DATA STRATEGY STAKES
        ============================================================ -->
-  <div class="exercise" id="step4">
+  <div class="exercise" id="step5">
     <div class="exercise-header">
-      <div class="exercise-number">Step 4 &middot; Data Strategy</div>
+      <div class="exercise-number">Step 5 &middot; Data Strategy</div>
       <div class="exercise-title">Are we ahead or behind on data?</div>
     </div>
     <div class="exercise-body">
 
       <h4>Now for the business question: how does data become a moat?</h4>
-      <p>Steps 1, 2, and 3 taught you <em>how the AI works</em>. Step 4 is different — it's about <em>how the company wins</em>. You're shifting registers, from "how does the model work?" to "how does the company that owns the model build a lead that keeps growing?"</p>
+      <p>Steps 1 through 4 taught you <em>how the AI works</em>. Step 5 is different — it's about <em>how the company wins</em>. You're shifting registers, from "how does the model work?" to "how does the company that owns the model build a lead that keeps growing?"</p>
       <p>Here's why the shift matters. Look back at what you did:</p>
       <ul>
         <li>In <strong>Step 1</strong>, you trained a simple neural network on the cat simulator, watched a CNN build up understanding layer by layer, and saw the <em>long tail</em> — the curve of rare scenarios that no amount of normal data will cover.</li>
         <li>In <strong>Step 2</strong>, you watched a perception model fail on exactly those rare cases — costumed kids, wheelchair users, murals on trucks.</li>
-        <li>In <strong>Step 3</strong>, you tuned a reward function and felt the <em>alignment problem</em> — how narrow the defensible zone is between too-cautious and too-aggressive.</li>
+        <li>In <strong>Step 3</strong>, you saw how Waymo's world model solves the long tail by <em>generating</em> rare scenarios on demand — composing them from ingredients it understands separately, instead of waiting to encounter them in real life.</li>
+        <li>In <strong>Step 4</strong>, you tuned a reward function and felt the <em>alignment problem</em> — how narrow the defensible zone is between too-cautious and too-aggressive.</li>
       </ul>
-      <p>All three of those are fundamentally <strong>data problems</strong>. The Austin hesitation wasn't caused by bad code — it was caused by a data pipeline that didn't contain enough of the right examples. Fixing it means generating more unprotected left turns in simulation, paying human labelers to mark up real-world turn footage, or upgrading sensors to capture more detail next time the situation comes up. Every autonomous vehicle company has similar algorithms. The companies that pull ahead are the ones that build the better <strong>data pipeline</strong> — and that's a question of how they spend their money.</p>
+      <p>All four of those are fundamentally <strong>data problems</strong>. The Austin hesitation wasn't caused by bad code — it was caused by a data pipeline that didn't contain enough of the right examples. Fixing it means generating more unprotected left turns in simulation, paying human labelers to mark up real-world turn footage, or upgrading sensors to capture more detail next time the situation comes up. Every autonomous vehicle company has similar algorithms. The companies that pull ahead are the ones that build the better <strong>data pipeline</strong> — and that's a question of how they spend their money.</p>
 
       <div class="concept">
         <div class="concept-label">Core Concept: The Data Moat &amp; Compounding Advantage</div>
@@ -1601,7 +1903,7 @@ Help me draft a one-paragraph defense of this reward function for our safety boa
         <p>And here's the key idea: in AI, data moats create <strong>compounding advantage</strong>. That means the lead grows on itself over time. Better data → better model → more usage → more data → even better model. Every quarter, the leader pulls slightly further ahead. Competitors who start later never catch up — they'd have to run faster <em>and</em> make up lost ground at the same time. It's why Google won search, why Amazon won e-commerce recommendations, and why the AI company with the best data pipeline usually wins the market.</p>
       </div>
 
-      <p style="background: #f8fafc; border-left: 4px solid #0078ff; padding: 0.85rem 1.1rem; border-radius: 0 6px 6px 0; margin: 1.25rem 0;"><strong>What you'll walk away with from Step 4:</strong> three questions you can ask about the business side of <em>any</em> AI company. After this step, you should be able to look at an AI startup and ask: <em>(1) where does their data come from? (2) does that data pipeline keep getting better on its own? (3) can competitors replicate it with money alone?</em> Those three questions tell you more about whether an AI company will be around in five years than any product roadmap will.</p>
+      <p style="background: #f8fafc; border-left: 4px solid #0078ff; padding: 0.85rem 1.1rem; border-radius: 0 6px 6px 0; margin: 1.25rem 0;"><strong>What you'll walk away with from Step 5:</strong> three questions you can ask about the business side of <em>any</em> AI company. After this step, you should be able to look at an AI startup and ask: <em>(1) where does their data come from? (2) does that data pipeline keep getting better on its own? (3) can competitors replicate it with money alone?</em> Those three questions tell you more about whether an AI company will be around in five years than any product roadmap will.</p>
 
       <p>Which brings you to the question the CFO wants your recommendation on: <strong>how should Waymo spend $1 billion on data next year?</strong> This is effectively asking: <em>what kind of data moat should we be building?</em></p>
 
@@ -1632,7 +1934,7 @@ Help me draft a one-paragraph defense of this reward function for our safety boa
             <li>Cameras only — no LiDAR (Elon's bet: humans drive with eyes alone)</li>
             <li>Nationwide software rollouts via over-the-air updates</li>
           </ul>
-          <p style="font-size: 12.5px; color: #7f1d1d; line-height: 1.6; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #fecaca;"><strong>The compounding bet:</strong> nobody else can collect miles this fast. Every Tesla sold adds to the flywheel automatically. By the time Waymo simulates a scenario, Tesla has already seen it happen 10,000 times in the real world — and the gap keeps widening every month.</p>
+          <p style="font-size: 12.5px; color: #7f1d1d; line-height: 1.6; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #fecaca;"><strong>The compounding bet:</strong> nobody else can collect miles this fast. Every Tesla sold adds to the compounding advantage automatically. By the time Waymo simulates a scenario, Tesla has already seen it happen 10,000 times in the real world — and the gap keeps widening every month.</p>
         </div>
       </div>
 
@@ -1650,7 +1952,7 @@ Help me draft a one-paragraph defense of this reward function for our safety boa
       </div>
 
       <div class="budget-lab" id="budgetLab">
-        <div class="sim-title">Simulator 4 &middot; Data Budget Allocation</div>
+        <div class="sim-title">Simulator 5 &middot; Data Budget Allocation</div>
         <div class="sim-subtitle">You're Waymo's Chief Data Officer. Spend $1B.</div>
 
         <div style="margin-bottom: 0.5rem; font-size: 13px; color: #64748b; font-weight: 600;">Preset strategies:</div>
@@ -1781,12 +2083,12 @@ Help me draft a one-paragraph defense of this reward function for our safety boa
       </div>
 
       <div class="reflection">
-        <div class="reflection-label">Step 4 Reflection</div>
-        <div class="reflection-q"><strong>First, write down your final allocation</strong> — what percentage did you give to fleet expansion, simulation capacity, human labelers, sensor upgrades, and data partnerships?<br><br>Now the harder question: a competitor just raised $2B and hired away three of your engineers. They can copy your exact budget allocation tomorrow. <strong>What's the one thing in your data moat that they can't copy with money alone?</strong> In other words — what's the part of your strategy that will keep <em>compounding</em> even after they match your spend?</div>
+        <div class="reflection-label">Step 5 Reflection</div>
+        <div class="reflection-q"><strong>First, write down your final allocation</strong> — what percentage did you give to fleet expansion, simulation capacity, human labelers, sensor upgrades, and data partnerships?<br><br>Now apply the three data moat questions to <em>Waymo itself</em> based on what you've seen in this lab:<br><br><strong>1. Where does Waymo's data come from?</strong> (Fleet driving, simulation, partnerships — which matters most?)<br><strong>2. Does their data pipeline keep getting better on its own?</strong> (What part of it compounds — and what part is a one-time purchase?)<br><strong>3. Could a competitor replicate it just by spending money?</strong> (A rival just raised $2B. What can they copy, and what can't they?)<br><br>In the next step, you'll apply these same three questions to a completely different AI company — so make sure you can use them, not just recite them.</div>
       </div>
 
       <div class="ai-prompt-block">
-        <div class="aip-label">Step 4 Prompt &middot; Apply the three questions to another AI company</div>
+        <div class="aip-label">Step 5 Prompt &middot; Apply the three questions to another AI company</div>
         <h5>Test whether you actually own this skill — use the three questions on a company that isn't Waymo</h5>
         <p>The three questions are only useful if you can apply them outside this lab. Pick any AI-driven company you know of — <strong>OpenAI, Anthropic, Perplexity, GitHub Copilot, Duolingo, Spotify, Grammarly, an AI healthcare startup, whoever</strong> — and use the prompt below to produce a short evaluation of their data moat. This becomes a portfolio piece that shows recruiters you can think about AI business strategy, not just one company.</p>
 
@@ -1813,16 +2115,16 @@ Tone: sharp, analytical, written the way a junior strategy analyst would present
   <!-- ============================================================
        STEP 5 — THE RECOMMENDATION
        ============================================================ -->
-  <div class="exercise" id="step5">
+  <div class="exercise" id="step6">
     <div class="exercise-header">
-      <div class="exercise-number">Step 5 &middot; The Recommendation</div>
+      <div class="exercise-number">Step 6 &middot; The Recommendation</div>
       <div class="exercise-title">Make the call your VP asked for</div>
     </div>
     <div class="exercise-body">
 
       <h4>Everything you've done leads here</h4>
-      <p>Steps 1–4 prepared you. Now it's time to actually answer the question your VP asked on page one: <strong>which city should Waymo launch in next?</strong></p>
-      <p>The recommendation will draw from everything you've done. Your understanding of perception (Step 2) tells you which cities throw the hardest visual conditions at the model. Your reward-function experience (Step 3) tells you which driving cultures fit which reward styles. Your data-moat thinking (Step 4) tells you which cities grow the flywheel fastest. <strong>But there's one more piece you haven't considered yet</strong> — and it's the one that kills more AV launches than any technical failure: <em>social license</em>.</p>
+      <p>Steps 1–5 prepared you. Now it's time to actually answer the question your VP asked on page one: <strong>which city should Waymo launch in next?</strong></p>
+      <p>The recommendation will draw from everything you've done. Your understanding of perception (Step 2) tells you which cities throw the hardest visual conditions at the model. Your world model experience (Step 3) tells you how much simulation investment each city's rare scenarios demand. Your reward-function experience (Step 4) tells you which driving cultures fit which reward styles. Your data-moat thinking (Step 5) tells you which cities build the strongest compounding advantage. <strong>But there's one more piece you haven't considered yet</strong> — and it's the one that kills more AV launches than any technical failure: <em>social license</em>.</p>
 
       <h4>Part 1 &middot; Social license — the problem money can't solve</h4>
       <p>The technology working is necessary but not sufficient. The other half of a successful launch is whether communities actually <em>want</em> Waymo in their neighborhoods. Over the past two years, a real backlash has emerged: in San Francisco, residents started placing traffic cones on Waymo hoods to disable them (it became an organized protest tactic). In Phoenix, a Waymo was attacked and set on fire. Across multiple cities, Waymos have blocked fire trucks, confused police officers, and clogged intersections during shift changes. Taxi driver unions are lobbying city councils to ban autonomous fleets outright.</p>
@@ -1888,7 +2190,7 @@ Tone: sharp, analytical, written the way a junior strategy analyst would present
       <div class="instructions">
         <div class="instructions-label">Part 2 &middot; Directions for the city pick</div>
         <h5>Click one city to recommend it</h5>
-        <p>Read the facts on each card. Click the one you'd recommend. Feedback appears below — not because there's one right answer, but because each choice commits you to a specific story about what matters most. Remember: this recommendation needs to account for the full picture — perception readiness (Step 2), planner fit (Step 3), data-moat growth (Step 4), and social license dynamics (Part 1 above).</p>
+        <p>Read the facts on each card. Click the one you'd recommend. Feedback appears below — not because there's one right answer, but because each choice commits you to a specific story about what matters most. Remember: this recommendation needs to account for the full picture — perception readiness (Step 2), planner fit (Step 4), data-moat growth (Step 5), and social license dynamics (Part 1 above).</p>
       </div>
 
       <div class="city-grid">
@@ -1926,15 +2228,15 @@ Tone: sharp, analytical, written the way a junior strategy analyst would present
       </div>
 
       <div class="reflection">
-        <div class="reflection-label">Step 5 Reflection</div>
-        <div class="reflection-q">Look back at the three incidents in Part 1 — coning, blocked fire trucks, taxi union opposition. <strong>Pick the one that would scare you the most if it happened in the city you just recommended</strong>, and say why. What would it threaten about Waymo's business that the other two wouldn't?</div>
+        <div class="reflection-label">Step 6 Reflection</div>
+        <div class="reflection-q"><strong>Which city did you pick — Miami, Seattle, Atlanta, or New York?</strong> In 2–3 sentences, explain why it's the right choice for Waymo right now. Your reasoning should pull from at least two earlier steps (perception challenges, world model needs, planner style, data moat, or social license).<br><br>Now the stress test: look back at the three incidents in Part 1 — coning, blocked fire trucks, taxi union opposition. <strong>Pick the one that would scare you the most if it happened in your chosen city</strong>, and say why. What would it threaten about Waymo's launch that the other two wouldn't? <em>You'll paste both answers into the prompt below — they become the backbone of your recommendation memo.</em></div>
       </div>
 
       <h4>Draft your recommendation memo</h4>
       <p>You've picked a city. Now draft the memo to your VP that defends it — pulling evidence from every step of the lab.</p>
 
       <div class="ai-prompt-block">
-        <div class="aip-label">Step 5 Prompt &middot; The final recommendation memo</div>
+        <div class="aip-label">Step 6 Prompt &middot; The final recommendation memo</div>
         <h5>The one-page memo your VP will actually read Monday morning</h5>
         <p>This prompt pulls from everything you did in the lab. Fill in the bracketed sections with your actual choices from earlier steps. Claude drafts the memo; you edit it into something you'd be proud to send.</p>
 
@@ -1950,15 +2252,19 @@ Here's what informs my reasoning — pulled from my full lab analysis:
    The dataset I'd invest in for this launch: [Dataset A / B / C]
    The kinds of edge cases my chosen city will throw at the perception model: [e.g., heavy rain + flooding for Miami, constant rain + hills for Seattle, complex urban driving for Atlanta, extreme pedestrian density for NYC]
 
-2. PLANNER BEHAVIOR (Step 3 work):
+2. WORLD MODEL NEEDS (Step 3 work):
+   The rare scenarios my chosen city is most likely to produce: [e.g., hurricane debris for Miami, black ice + steep hills for Seattle, school zones for Atlanta, jaywalking density for NYC]
+   How important simulation investment is for this city vs. others: [1 sentence — does this city need more or fewer world-model-generated scenarios than a typical Waymo city?]
+
+3. PLANNER BEHAVIOR (Step 4 work):
    The driving style my reward function produced: [e.g., cautious / balanced / assertive]
    Why that driving style fits this city: [1 sentence]
 
-3. DATA MOAT (Step 4 work):
+4. DATA MOAT (Step 5 work):
    My $1B budget allocation: Fleet [X]% / Simulation [X]% / Labelers [X]% / Sensors [X]% / Partnerships [X]%
    The kind of data moat this city grows: [e.g., weather edge cases, dense urban perception data, regulatory goodwill]
 
-4. SOCIAL LICENSE (Step 5 work):
+5. SOCIAL LICENSE (Step 6 work):
    The specific real-world social-license risk in my chosen city:
    - If Miami: less-organized taxi opposition, but hurricane-season incidents would define the narrative
    - If Seattle: strong transit worker unions (ATU), organized disability and bike-access advocates
@@ -1967,7 +2273,7 @@ Here's what informs my reasoning — pulled from my full lab analysis:
 
    My preemptive community-relations plan: [2 sentences — what stakeholders do you engage with first, what concrete commitments do you make?]
 
-5. THE SAFETY DEFENSE I'LL LEAN ON:
+6. THE SAFETY DEFENSE I'LL LEAN ON:
    Use this public-health frame where appropriate: Waymo's own data shows its vehicles are about 3.5× safer than human drivers in injury-producing crashes, with a greater than 90% reduction in the most serious categories (pedestrians struck, intersection T-bones). Trauma surgeon Dr. Jonathan Slotkin, writing in the NYT after reviewing Waymo's 100M-mile safety dataset, called AVs "a public-health breakthrough." Reframe the debate from "is this dangerous?" to "compared to what?" — the honest comparison is human drivers, who kill ~38,000 Americans a year. This is a data-backed rebuttal to the "too dangerous" narrative — but it shouldn't be the ONLY argument in the memo (a safety stat alone won't satisfy a fire chief or a union).
 
 Structure the memo as:
@@ -1979,7 +2285,7 @@ Structure the memo as:
 Tone: confident, concrete, written for a VP of Strategy. Keep it to roughly one page.</pre>
         </div>
 
-        <div class="save-note"><strong>Save this output.</strong> You'll paste it into the Step 6 prompt, which builds your full portfolio webpage.</div>
+        <div class="save-note"><strong>Save this output.</strong> You'll paste it into the Step 7 prompt, which builds your full portfolio webpage.</div>
       </div>
 
     </div>
@@ -1988,21 +2294,21 @@ Tone: confident, concrete, written for a VP of Strategy. Keep it to roughly one 
   <!-- ============================================================
        STEP 6 — PUBLISH YOUR PORTFOLIO
        ============================================================ -->
-  <div class="exercise" id="step6">
+  <div class="exercise" id="step7">
     <div class="exercise-header">
-      <div class="exercise-number">Step 6 &middot; Publish your portfolio</div>
+      <div class="exercise-number">Step 7 &middot; Publish your portfolio</div>
       <div class="exercise-title">Package everything into a recruiter-facing webpage</div>
     </div>
     <div class="exercise-body">
 
       <h4>Ship what you built</h4>
-      <p>You now have four Claude-generated artifacts from across the lab — the CFO email (Step 2), the safety-board defense (Step 3), the AI-company evaluation (Step 4), and the recommendation memo (Step 5). This final prompt wraps all four into a single recruiter-facing webpage you can publish on GitHub Pages.</p>
-      <p>You'll just <em>paste your four artifacts</em> — no need to rewrite them or answer more questions. The prompt has baked-in descriptions of what you did at each step, so Claude assembles the whole page for you.</p>
+      <p>You now have five Claude-generated artifacts from across the lab — the CFO email (Step 2), the world model investment brief (Step 3), the safety-board defense (Step 4), the AI-company evaluation (Step 5), and the recommendation memo (Step 6). This final prompt wraps all five into a single recruiter-facing webpage you can publish on GitHub Pages.</p>
+      <p>You'll just <em>paste your five artifacts</em> — no need to rewrite them or answer more questions. The prompt has baked-in descriptions of what you did at each step, so Claude assembles the whole page for you.</p>
 
       <div class="ai-prompt-block">
-        <div class="aip-label">Step 6 Prompt &middot; Build the portfolio webpage</div>
+        <div class="aip-label">Step 7 Prompt &middot; Build the portfolio webpage</div>
         <h5>Assemble everything into a single HTML page for GitHub Pages</h5>
-        <p>Copy the prompt below, paste your four Claude artifacts into the four clearly-marked sections, then run it. Claude will return a complete HTML file you can save as <code>index.html</code> and publish to GitHub Pages.</p>
+        <p>Copy the prompt below, paste your five Claude artifacts into the clearly-marked sections, then run it. Claude will return a complete HTML file you can save as <code>index.html</code> and publish to GitHub Pages.</p>
 
         <div class="promptbox">
           <button class="promptbox-copy" data-target="promptPortfolio" type="button">Copy prompt</button>
@@ -2031,31 +2337,38 @@ What I did: I trained a small neural network by hand, labeling images as "cat" o
 (This step had no Claude artifact. Just write a strong 2-paragraph section describing what I did and the 3 key concepts I came away with: neural networks learn from labeled examples, CNNs build understanding layer by layer, and the long-tail problem means models are only as good as the edge cases in their training data.)
 
 -------------------------------------------
-STEP 2 — WAYMO PERCEPTION
+STEP 2 — DEEP LEARNING AT WAYMO
 What I did: I played the role of a Waymo ML analyst evaluating three training-dataset vendors: Dataset A ("Easy Miles" — sunny Phoenix frames, $100M), Dataset B ("Balanced" — mixed conditions, $180M), and Dataset C ("Edge-Case Heavy" — rare scenarios, $300M). I trained a simulated perception network on each and observed how its accuracy differed on routine vs. edge-case test scenes. I then drafted a CFO-facing email defending my dataset choice.
 
 MY STEP 2 ARTIFACT (CFO EMAIL — paste your Claude output here):
 [PASTE YOUR FINAL STEP 2 CFO EMAIL HERE]
 
 -------------------------------------------
-STEP 3 — REINFORCEMENT LEARNING & THE PLANNER
+STEP 3 — WORLD MODELS
+What I did: I explored how Waymo uses a world model — an AI trained on reality that can generate driving scenarios that have never been recorded — to solve the long-tail problem from Step 1. I built rare scenarios by composing four ingredients (weather, time of day, actors, and wildcards) and saw how the world model assembles them from learned knowledge rather than recorded footage. I compared how many real-world miles it would take to encounter each scenario naturally vs. generating it on demand, and examined the strategic implications: Tesla collects data passively from 6 million cars, but Waymo can target specific rare scenarios the car is weakest on. I then drafted an internal brief arguing that world model investment is a strategic moat, not just an R&D expense.
+
+MY STEP 3 ARTIFACT (WORLD MODEL INVESTMENT BRIEF — paste your Claude output here):
+[PASTE YOUR FINAL STEP 3 WORLD MODEL BRIEF HERE]
+
+-------------------------------------------
+STEP 4 — PLANNING WITH REINFORCEMENT LEARNING
 What I did: I designed a reward function to teach Waymo's planner how to handle the Austin-style unprotected left turn. The simulator gave me four sliders — one reward (completing a turn) and three penalties (collisions, close calls, wait time) — with a 20-point penalty budget that forced real tradeoffs. I then ran 1,000 simulated training attempts followed by a 300-attempt held-out test set, and evaluated the result against three defensibility bars: ≥95% completion, ≤1 collision, and average wait under 8 seconds. I drafted a paragraph defending my final reward function to Waymo's safety board.
 
-MY STEP 3 ARTIFACT (SAFETY-BOARD DEFENSE — paste your Claude output here):
-[PASTE YOUR FINAL STEP 3 SAFETY-BOARD DEFENSE HERE]
+MY STEP 4 ARTIFACT (SAFETY-BOARD DEFENSE — paste your Claude output here):
+[PASTE YOUR FINAL STEP 4 SAFETY-BOARD DEFENSE HERE]
 
 -------------------------------------------
-STEP 4 — DATA STRATEGY & THE AI BUSINESS
+STEP 5 — DATA STRATEGY & THE AI BUSINESS
 What I did: I shifted from technical concepts to business strategy. I studied the contrast between Waymo's simulation-first data strategy and Tesla's fleet-first approach, and learned three questions for evaluating AI companies: (1) Where does their data come from? (2) Does the pipeline keep getting better on its own — does it compound? (3) Can a competitor replicate it with money alone? I then allocated a $1B Waymo data budget across five investment categories and saw the strategic tradeoffs play out. To test whether I'd actually internalized the questions, I used Claude to apply them to a different AI company of my choice.
 
-MY STEP 4 ARTIFACT (DATA-MOAT EVALUATION OF ANOTHER AI COMPANY — paste your Claude output here):
-[PASTE YOUR FINAL STEP 4 COMPANY EVALUATION HERE]
+MY STEP 5 ARTIFACT (DATA-MOAT EVALUATION OF ANOTHER AI COMPANY — paste your Claude output here):
+[PASTE YOUR FINAL STEP 5 COMPANY EVALUATION HERE]
 
 -------------------------------------------
-STEP 5 — THE RECOMMENDATION
-What I did: I brought everything together. I analyzed three real-world Waymo social-license incidents (protest "coning" in San Francisco, a blocked fire truck in Austin, taxi-union opposition in Miami) and picked a response strategy for each. I weighed the specific social-license environment in four candidate cities — Miami, Seattle, Atlanta, New York — against what I knew about perception, planner behavior, and data-moat growth. Then I wrote the recommendation memo to the VP of Strategy.
+STEP 6 — THE RECOMMENDATION
+What I did: I brought everything together. I analyzed three real-world Waymo social-license incidents (protest "coning" in San Francisco, a blocked fire truck in Austin, taxi-union opposition in Miami) and picked a response strategy for each. I weighed the specific social-license environment in four candidate cities — Miami, Seattle, Atlanta, New York — against what I knew about perception, world model needs, planner behavior, and data-moat growth. Then I wrote the recommendation memo to the VP of Strategy.
 
-MY STEP 5 ARTIFACT (RECOMMENDATION MEMO TO PRIYA — paste your Claude output here):
+MY STEP 6 ARTIFACT (RECOMMENDATION MEMO — paste your Claude output here):
 [PASTE YOUR FINAL RECOMMENDATION MEMO HERE]
 
 ==========================================
@@ -2063,7 +2376,7 @@ CLOSING SECTIONS:
 ==========================================
 
 WHAT I LEARNED
-A 3-5 bullet list of the AI business concepts I can now apply to any AI company, not just Waymo. Pull from: the long-tail problem, the alignment problem, the prediction-decision gap, the data moat, compounding advantage, social license.
+A 3-5 bullet list of the AI business concepts I can now apply to any AI company, not just Waymo. Pull from: the long-tail problem, world models and transfer learning, the alignment problem, the prediction-decision gap, the data moat, compounding advantage, social license.
 
 CONTACT
 My contact info at the bottom, styled cleanly.
@@ -2072,13 +2385,13 @@ My contact info at the bottom, styled cleanly.
 DESIGN REQUIREMENTS:
 ==========================================
 - Single self-contained HTML file (inline CSS, no external dependencies, no JavaScript)
-- Professional, restrained color palette — navy, white space, a single accent color
-- Readable typography, clear section hierarchy, mobile-responsive
-- No stock photos or icons — let clean typography carry the visual weight
+- Use Waymo's brand color palette: primary white (#FFFFFF) background, Waymo green (#00BFA5) as the main accent color for headings, borders, and highlights, dark charcoal (#1A1A2E or #263238) for body text, and light gray (#F5F5F5) for section backgrounds or cards. Use the green sparingly — it should feel professional, not overwhelming.
+- Readable typography (system fonts are fine — Arial, Helvetica, or sans-serif), clear section hierarchy, mobile-responsive
+- No stock photos or icons — let clean typography and the Waymo green accent carry the visual weight
 - Output the complete HTML file, ready to save and deploy to GitHub Pages.</pre>
         </div>
 
-        <div class="save-note"><strong>This is your submission.</strong> Run this prompt with your four artifacts pasted in, save Claude's output as <code>index.html</code>, and publish it to GitHub Pages.</div>
+        <div class="save-note"><strong>This is your submission.</strong> Run this prompt with your five artifacts pasted in, save Claude's output as <code>index.html</code>, and publish it to GitHub Pages.</div>
       </div>
 
       <div class="takeaway">
@@ -2093,21 +2406,21 @@ DESIGN REQUIREMENTS:
   <div class="deliverable-final">
     <div class="deliverable-label">What to turn in</div>
     <h3>🎓 Submission checklist</h3>
-    <p>You've worked through Waymo's core strategy problems — trained perception models, designed reward functions, allocated a billion-dollar data budget, and thought through social license in real cities. Now it's time to submit.</p>
+    <p>You've worked through Waymo's core strategy problems — trained perception models, built world model scenarios, designed reward functions, allocated a billion-dollar data budget, and thought through social license in real cities. Now it's time to submit.</p>
 
     <div class="deliverable-items">
       <div class="deliverable-item">
         <div class="di-num">1</div>
         <div class="di-body">
           <div class="di-title">Your GitHub Pages URL</div>
-          <div class="di-desc">The webpage you built using <strong>the Step 6 prompt</strong>, hosted on GitHub Pages. Make sure your four Claude artifacts are visible and readable on the page: the CFO email (Step 2), the safety-board defense (Step 3), the AI-company evaluation (Step 4), and the recommendation memo (Step 5).</div>
+          <div class="di-desc">The webpage you built using <strong>the Step 7 prompt</strong>, hosted on GitHub Pages. Make sure your five Claude artifacts are visible and readable on the page: the CFO email (Step 2), the world model investment brief (Step 3), the safety-board defense (Step 4), the AI-company evaluation (Step 5), and the recommendation memo (Step 6).</div>
         </div>
       </div>
       <div class="deliverable-item">
         <div class="di-num">2</div>
         <div class="di-body">
-          <div class="di-title">Your five reflection answers</div>
-          <div class="di-desc">One per step (Steps 1–5). These are the questions a real VP of Strategy would quiz you on. You can include them in your portfolio webpage as a "Strategic Reflections" section, or submit them alongside — whichever you prefer.</div>
+          <div class="di-title">Your reflection answers (Steps 1–6)</div>
+          <div class="di-desc">One per step. These are the questions a real VP of Strategy would quiz you on. You can include them in your portfolio webpage as a "Strategic Reflections" section, or submit them alongside — whichever you prefer.</div>
         </div>
       </div>
     </div>
@@ -2204,9 +2517,9 @@ DESIGN REQUIREMENTS:
     wFur.style.width = fVal + '%'; pFur.textContent = fVal + '%';
   }
 
-  // Fixed input→hidden wiring: groups features into conceptual patterns
+  // Fixed input→hidden1 wiring: groups features into conceptual patterns
   // inputs: [pointy ears, whiskers, small size, fur pattern]
-  // hiddens: [face shape, body shape, texture]
+  // hidden1: [face shape, body shape, texture]
   const IH_WEIGHTS = [
     [0.7, 0.1, 0.2],  // pointy ears → mostly face
     [0.8, 0.1, 0.1],  // whiskers → mostly face
@@ -2214,44 +2527,64 @@ DESIGN REQUIREMENTS:
     [0.1, 0.1, 0.8]   // fur pattern → texture
   ];
 
+  // Fixed hidden1→hidden2 wiring: combines low-level patterns into higher concepts
+  // hidden2: [cat-like overall, ambiguous/mixed]
+  // "Cat-like overall" responds strongly when face shape AND body shape are active
+  // "Ambiguous" responds when features conflict (e.g. cat face but wrong body)
+  const H1H2_WEIGHTS = [
+    [0.6, 0.4],  // face shape → cat-like (strong), ambiguous (some)
+    [0.5, 0.3],  // body shape → cat-like (medium), ambiguous (some)
+    [0.4, 0.5]   // texture → cat-like (some), ambiguous (medium)
+  ];
+
   function computeActivations(features) {
-    // hidden[h] = sum(input[i] * IH[i][h]), clipped 0..1
-    const hidden = [0, 0, 0];
+    // hidden1[h] = sum(input[i] * IH[i][h]), clipped 0..1
+    const hidden1 = [0, 0, 0];
     for (let h = 0; h < 3; h++) {
-      for (let i = 0; i < 4; i++) hidden[h] += features[i] * IH_WEIGHTS[i][h];
-      hidden[h] = Math.min(1, hidden[h]);
+      for (let i = 0; i < 4; i++) hidden1[h] += features[i] * IH_WEIGHTS[i][h];
+      hidden1[h] = Math.min(1, hidden1[h]);
     }
-    // output weights come from the learned `weights` array
-    // hidden→output: we map each hidden to cat-ness using average of its contributing feature weights
-    // Then catScore = sum(hidden[h] * HO_cat[h])
+
+    // hidden2[j] = sum(hidden1[h] * H1H2[h][j]), clipped 0..1
+    const hidden2 = [0, 0];
+    for (let j = 0; j < 2; j++) {
+      for (let h = 0; h < 3; h++) hidden2[j] += hidden1[h] * H1H2_WEIGHTS[h][j];
+      hidden2[j] = Math.min(1, hidden2[j] / 1.2); // normalize
+    }
+
+    // hidden2→output: weights come from learned weights[]
+    // "Cat-like overall" neuron is weighted by avg of all learned weights
+    // "Ambiguous" neuron inversely contributes
+    const avgWeight = (weights[0] + weights[1] + weights[2] + weights[3]) / 4;
     const HO_CAT = [
-      (weights[0] + weights[1]) / 2,   // face shape → driven by ear + whisker weights
-      weights[2],                        // body shape → size weight
-      weights[3]                         // texture → fur pattern weight
+      avgWeight * 1.2,       // cat-like overall → cat (strong)
+      (1 - avgWeight) * 0.5  // ambiguous → cat (inverse, weak)
     ];
+
     let catScore = 0;
-    for (let h = 0; h < 3; h++) catScore += hidden[h] * HO_CAT[h];
-    // Normalize roughly 0..1
-    const catActivation = Math.min(1, catScore / 1.5);
-    const notCatActivation = Math.min(1, (1 - catScore / 1.5));
-    return { hidden, HO_CAT, outputs: [catActivation, notCatActivation] };
+    for (let j = 0; j < 2; j++) catScore += hidden2[j] * HO_CAT[j];
+    const catActivation = Math.min(1, catScore / 0.9);
+    const notCatActivation = Math.min(1, (1 - catScore / 0.9));
+    return { hidden1, hidden2, HO_CAT, outputs: [catActivation, notCatActivation] };
   }
 
   function drawNetwork(features, activeExample) {
     const canvas = document.getElementById('catNNCanvas');
     if (!canvas) return;
 
-    // Layout coordinates (viewBox 700 x 260)
-    const inputX = 90, hiddenX = 350, outputX = 610;
+    // Layout coordinates (viewBox 860 x 260)
+    const inputX = 80, h1X = 270, h2X = 460, outputX = 700;
     const inputY = [40, 100, 160, 220];
-    const hiddenY = [70, 130, 190];
+    const h1Y = [60, 130, 200];
+    const h2Y = [100, 170];
     const outputY = [90, 170];
     const inputLabels = ['Pointy ears', 'Whiskers', 'Small size', 'Fur pattern'];
-    const hiddenLabels = ['Face shape', 'Body shape', 'Texture'];
+    const h1Labels = ['Face shape', 'Body shape', 'Texture'];
+    const h2Labels = ['Cat-like?', 'Mixed?'];
     const outputLabels = ['CAT', 'NOT CAT'];
 
     // Compute activations (0 if no example yet)
-    let act = { hidden: [0, 0, 0], HO_CAT: [0, 0, 0], outputs: [0, 0] };
+    let act = { hidden1: [0, 0, 0], hidden2: [0, 0], HO_CAT: [0, 0], outputs: [0, 0] };
     let inputActs = [0, 0, 0, 0];
     if (features) {
       act = computeActivations(features);
@@ -2261,60 +2594,79 @@ DESIGN REQUIREMENTS:
     let svg = '';
 
     // Layer header labels
-    svg += '<text x="' + inputX + '" y="20" text-anchor="middle" fill="#94afc8" font-size="10" font-weight="700" letter-spacing="1" font-family="Arial">INPUTS</text>';
-    svg += '<text x="' + hiddenX + '" y="20" text-anchor="middle" fill="#94afc8" font-size="10" font-weight="700" letter-spacing="1" font-family="Arial">HIDDEN LAYER</text>';
-    svg += '<text x="' + outputX + '" y="20" text-anchor="middle" fill="#94afc8" font-size="10" font-weight="700" letter-spacing="1" font-family="Arial">OUTPUT</text>';
+    svg += '<text x="' + inputX + '" y="18" text-anchor="middle" fill="#94afc8" font-size="9" font-weight="700" letter-spacing="1" font-family="Arial">INPUTS</text>';
+    svg += '<text x="' + h1X + '" y="18" text-anchor="middle" fill="#94afc8" font-size="9" font-weight="700" letter-spacing="1" font-family="Arial">HIDDEN 1</text>';
+    svg += '<text x="' + h2X + '" y="18" text-anchor="middle" fill="#94afc8" font-size="9" font-weight="700" letter-spacing="1" font-family="Arial">HIDDEN 2</text>';
+    svg += '<text x="' + outputX + '" y="18" text-anchor="middle" fill="#94afc8" font-size="9" font-weight="700" letter-spacing="1" font-family="Arial">OUTPUT</text>';
 
-    // Lines: input → hidden (fixed structural wiring, thickness = weight strength, color = neutral blue if not learned, green once activated)
+    // ── Lines: input → hidden1 ──
     for (let i = 0; i < 4; i++) {
       for (let h = 0; h < 3; h++) {
         const w = IH_WEIGHTS[i][h];
-        if (w < 0.15) continue; // hide near-zero connections
+        if (w < 0.15) continue;
         const thickness = w * 3 + 0.3;
         const active = inputActs[i] === 1 && w > 0.3;
         const color = active ? '#10b981' : '#475569';
         const opacity = active ? 0.85 : 0.35;
-        svg += '<line x1="' + inputX + '" y1="' + inputY[i] + '" x2="' + hiddenX + '" y2="' + hiddenY[h] + '" stroke="' + color + '" stroke-width="' + thickness + '" stroke-opacity="' + opacity + '"/>';
+        svg += '<line x1="' + inputX + '" y1="' + inputY[i] + '" x2="' + h1X + '" y2="' + h1Y[h] + '" stroke="' + color + '" stroke-width="' + thickness + '" stroke-opacity="' + opacity + '"/>';
       }
     }
 
-    // Lines: hidden → output (these encode what was learned — weights[] values)
+    // ── Lines: hidden1 → hidden2 ──
     for (let h = 0; h < 3; h++) {
-      const catW = act.HO_CAT[h];
-      // Positive weight (learned that this pattern predicts cat)
+      for (let j = 0; j < 2; j++) {
+        const w = H1H2_WEIGHTS[h][j];
+        if (w < 0.15) continue;
+        const thickness = w * 3 + 0.3;
+        const active = act.hidden1[h] > 0.3 && w > 0.3;
+        const color = active ? '#c084fc' : '#475569';
+        const opacity = active ? 0.8 : 0.3;
+        svg += '<line x1="' + h1X + '" y1="' + h1Y[h] + '" x2="' + h2X + '" y2="' + h2Y[j] + '" stroke="' + color + '" stroke-width="' + thickness + '" stroke-opacity="' + opacity + '"/>';
+      }
+    }
+
+    // ── Lines: hidden2 → output ──
+    for (let j = 0; j < 2; j++) {
+      const catW = act.HO_CAT[j];
       if (catW > 0.05) {
         const thickness = catW * 4 + 0.3;
-        const active = act.hidden[h] > 0.3;
-        svg += '<line x1="' + hiddenX + '" y1="' + hiddenY[h] + '" x2="' + outputX + '" y2="' + outputY[0] + '" stroke="#10b981" stroke-width="' + thickness + '" stroke-opacity="' + (active ? 0.85 : 0.4) + '"/>';
+        const active = act.hidden2[j] > 0.3;
+        svg += '<line x1="' + h2X + '" y1="' + h2Y[j] + '" x2="' + outputX + '" y2="' + outputY[0] + '" stroke="#10b981" stroke-width="' + thickness + '" stroke-opacity="' + (active ? 0.85 : 0.4) + '"/>';
       }
-      // Inverse weight to "not-cat" (lower weights mean stronger not-cat signal — visualize as red tinted line)
       const notCatW = Math.max(0, 0.7 - catW);
       if (notCatW > 0.1) {
         const thickness = notCatW * 3 + 0.3;
-        const active = act.hidden[h] > 0.3;
-        svg += '<line x1="' + hiddenX + '" y1="' + hiddenY[h] + '" x2="' + outputX + '" y2="' + outputY[1] + '" stroke="#ef4444" stroke-width="' + thickness + '" stroke-opacity="' + (active ? 0.7 : 0.3) + '" stroke-dasharray="4 2"/>';
+        const active = act.hidden2[j] > 0.3;
+        svg += '<line x1="' + h2X + '" y1="' + h2Y[j] + '" x2="' + outputX + '" y2="' + outputY[1] + '" stroke="#ef4444" stroke-width="' + thickness + '" stroke-opacity="' + (active ? 0.7 : 0.3) + '" stroke-dasharray="4 2"/>';
       }
     }
 
-    // Input nodes
+    // ── Input nodes ──
     for (let i = 0; i < 4; i++) {
       const a = inputActs[i];
       const fillOp = 0.3 + a * 0.7;
       const stroke = a > 0 ? '#ffffff' : '#64748b';
       svg += '<circle cx="' + inputX + '" cy="' + inputY[i] + '" r="18" fill="#0078ff" fill-opacity="' + fillOp + '" stroke="' + stroke + '" stroke-width="2"/>';
-      // Label to the left of the node
-      svg += '<text x="' + (inputX - 26) + '" y="' + (inputY[i] + 4) + '" text-anchor="end" fill="#ffffff" font-size="11" font-weight="600" font-family="Arial">' + inputLabels[i] + '</text>';
+      svg += '<text x="' + (inputX - 26) + '" y="' + (inputY[i] + 4) + '" text-anchor="end" fill="#ffffff" font-size="10" font-weight="600" font-family="Arial">' + inputLabels[i] + '</text>';
     }
 
-    // Hidden nodes
+    // ── Hidden layer 1 nodes ──
     for (let h = 0; h < 3; h++) {
-      const a = act.hidden[h];
+      const a = act.hidden1[h];
       const fillOp = 0.3 + a * 0.7;
-      svg += '<circle cx="' + hiddenX + '" cy="' + hiddenY[h] + '" r="22" fill="#a78bfa" fill-opacity="' + fillOp + '" stroke="#ffffff" stroke-width="2"/>';
-      svg += '<text x="' + hiddenX + '" y="' + (hiddenY[h] + 4) + '" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="700" font-family="Arial">' + hiddenLabels[h] + '</text>';
+      svg += '<circle cx="' + h1X + '" cy="' + h1Y[h] + '" r="20" fill="#a78bfa" fill-opacity="' + fillOp + '" stroke="#ffffff" stroke-width="2"/>';
+      svg += '<text x="' + h1X + '" y="' + (h1Y[h] + 4) + '" text-anchor="middle" fill="#ffffff" font-size="9" font-weight="700" font-family="Arial">' + h1Labels[h] + '</text>';
     }
 
-    // Output nodes
+    // ── Hidden layer 2 nodes ──
+    for (let j = 0; j < 2; j++) {
+      const a = act.hidden2[j];
+      const fillOp = 0.3 + a * 0.7;
+      svg += '<circle cx="' + h2X + '" cy="' + h2Y[j] + '" r="22" fill="#c084fc" fill-opacity="' + fillOp + '" stroke="#ffffff" stroke-width="2"/>';
+      svg += '<text x="' + h2X + '" y="' + (h2Y[j] + 4) + '" text-anchor="middle" fill="#ffffff" font-size="9" font-weight="700" font-family="Arial">' + h2Labels[j] + '</text>';
+    }
+
+    // ── Output nodes ──
     const winningIdx = act.outputs[0] > act.outputs[1] ? 0 : 1;
     for (let o = 0; o < 2; o++) {
       const a = act.outputs[o];
@@ -3788,6 +4140,238 @@ DESIGN REQUIREMENTS:
   });
 
   svg.innerHTML = svgContent;
+})();
+
+
+/* =========================================================
+   WORLD MODEL SIMULATOR 3B
+   ========================================================= */
+(function() {
+  var WEATHER = {
+    clear:      { label:'Clear skies',        sky:'#87CEEB', particles:null,   roadFx:null,     rarityMult:1,  logMsg:'applying clear-sky lighting model',              emoji:'☀️' },
+    rain:       { label:'Heavy rain',         sky:'#4a5568', particles:'rain', roadFx:'puddles', rarityMult:3,  logMsg:'generating rain physics + wet reflections',       emoji:'🌧️' },
+    fog:        { label:'Dense fog',          sky:'#94a3b8', particles:'fog',  roadFx:null,     rarityMult:5,  logMsg:'simulating fog density + LiDAR scatter',          emoji:'🌫️' },
+    snow:       { label:'Snow / ice',         sky:'#cbd5e1', particles:'snow', roadFx:'ice',    rarityMult:8,  logMsg:'generating snowfall + black ice on surfaces',     emoji:'❄️' },
+    'sun-glare':{ label:'Blinding sun glare', sky:'#fef3c7', particles:null,   roadFx:'glare',  rarityMult:3,  logMsg:'modeling sun angle + camera lens flare',          emoji:'🔆' }
+  };
+  var TIME = {
+    day:  { label:'Daytime',   overlay:null,                    rarityMult:1, logMsg:'setting daytime ambient light' },
+    dusk: { label:'Dusk',      overlay:'rgba(139,92,246,0.2)',  rarityMult:2, logMsg:'blending sunset lighting + long shadows' },
+    night:{ label:'Nighttime', overlay:'rgba(10,22,40,0.55)',   rarityMult:4, logMsg:'switching to headlight + streetlight illumination' },
+    dawn: { label:'Dawn',      overlay:'rgba(251,191,36,0.15)', rarityMult:2, logMsg:'generating low-angle sunrise lighting' }
+  };
+  var ACTORS = {
+    pedestrian:{ label:'Pedestrian at crosswalk',     emoji:'🚶',  rarityMult:1, logMsg:'placing pedestrian with walking gait model' },
+    cyclist:   { label:'Cyclist in the bike lane',    emoji:'🚴',  rarityMult:2, logMsg:'adding cyclist with variable speed model' },
+    kids:      { label:'Kids playing near the street',emoji:'👧',  rarityMult:4, logMsg:'modeling unpredictable child movement patterns' },
+    wheelchair:{ label:'Person in a wheelchair',      emoji:'🧑‍🦽', rarityMult:6, logMsg:'adding wheelchair with low-profile motion model' },
+    dog:       { label:'Dog running loose',           emoji:'🐕',  rarityMult:5, logMsg:'generating off-leash animal with erratic trajectory' },
+    scooter:   { label:'E-scooter rider',             emoji:'🛴',  rarityMult:2, logMsg:'placing e-scooter with weaving behavior model' }
+  };
+  var WILDS = {
+    costume:     { label:'Halloween costume',           emoji:'🎃', rarityMult:12, logMsg:'altering actor silhouette — costume changes visual profile',
+                   explain:'Costumes change how a person looks to the camera. The model was trained on people in normal clothes — a 4-foot ghost or a reflective robot suit is something it may never have seen.' },
+    'wrong-way': { label:'Going the wrong direction',   emoji:'⛔', rarityMult:8,  logMsg:'reversing actor trajectory — counter-flow movement',
+                   explain:'The model expects people and bikes to move in predictable directions. Wrong-way movement breaks those assumptions and can confuse the prediction system.' },
+    hidden:      { label:'Hidden behind a parked truck', emoji:'🚛', rarityMult:10, logMsg:'adding occlusion — actor hidden behind large vehicle',
+                   explain:'The actor is invisible until they step out from behind the truck. The car has to react with almost no warning — this tests how fast the perception and planner work together.' },
+    debris:      { label:'Mattress in the road',        emoji:'🛏️', rarityMult:7,  logMsg:'placing road debris with soft-body bounce physics',
+                   explain:'A mattress doesn\'t look like any object in the training data. The model has to figure out that it\'s a hazard even though it\'s never seen one on a road before.' },
+    construction:{ label:'Confusing construction zone',  emoji:'🚧', rarityMult:6,  logMsg:'generating construction zone with non-standard signage',
+                   explain:'Construction zones change the road layout and use hand signals from flaggers. The car can\'t rely on painted lines or standard signs — it has to interpret a temporary, messy situation.' },
+    emergency:   { label:'Ambulance approaching',       emoji:'🚑', rarityMult:4,  logMsg:'adding emergency vehicle with siren audio + light pattern',
+                   explain:'The car needs to detect the siren (audio) and flashing lights (visual), figure out which direction the ambulance is coming from, and pull over — all in a few seconds.' }
+  };
+
+  var TOTAL_COMBOS = Object.keys(WEATHER).length * Object.keys(TIME).length * Object.keys(ACTORS).length * Object.keys(WILDS).length;
+  var totalScenarios = 0, totalMiles = 0;
+
+  var selWeather = document.getElementById('ingWeather');
+  var selTime    = document.getElementById('ingTime');
+  var selActor   = document.getElementById('ingActor');
+  var selWild    = document.getElementById('ingWild');
+  var buildBtn   = document.getElementById('wmBuildBtn');
+  var buildArea  = document.getElementById('wmBuildArea');
+  var result     = document.getElementById('wmResult3b');
+
+  if (!buildBtn) return;
+
+  buildBtn.addEventListener('click', function() {
+    var w = WEATHER[selWeather.value];
+    var t = TIME[selTime.value];
+    var a = ACTORS[selActor.value];
+    var wild = WILDS[selWild.value];
+
+    buildBtn.disabled = true;
+    buildBtn.textContent = 'Building…';
+    result.classList.remove('active');
+    buildArea.classList.add('active');
+
+    document.querySelectorAll('#wmGen3b .scene-layer:not(.sl-ego)').forEach(function(l) {
+      l.classList.remove('visible'); l.innerHTML = '';
+    });
+    document.querySelectorAll('#wmGen3b .ble').forEach(function(e) { e.classList.remove('visible'); });
+    buildArea.scrollIntoView({ behavior:'smooth', block:'start' });
+
+    var slSky     = document.getElementById('slSky');
+    var slWeather = document.getElementById('slWeather3b');
+    var slRoad    = document.getElementById('slRoad3b');
+    var slRoadFx  = document.getElementById('slRoadFx');
+    var slActors  = document.getElementById('slActors3b');
+
+    // Step 1 — Time of day
+    setTimeout(function() {
+      var skyBg = w.sky;
+      if (t.overlay) {
+        slSky.style.background = skyBg;
+        slSky.innerHTML = '<div style="position:absolute;inset:0;background:' + t.overlay + ';"></div>';
+      } else { slSky.style.background = skyBg; }
+      slSky.classList.add('visible');
+      document.getElementById('logDetail1').textContent = t.logMsg;
+      document.getElementById('logStep1').classList.add('visible');
+    }, 400);
+
+    // Step 2 — Weather particles
+    setTimeout(function() {
+      slWeather.innerHTML = '';
+      if (w.particles === 'rain') {
+        for (var i = 0; i < 40; i++) {
+          var d = document.createElement('div'); d.className = 'rain-drop';
+          d.style.left = (Math.random()*100)+'%'; d.style.height = (8+Math.random()*14)+'px';
+          d.style.animationDuration = (0.4+Math.random()*0.4)+'s'; d.style.animationDelay = (Math.random()*0.8)+'s';
+          slWeather.appendChild(d);
+        }
+      } else if (w.particles === 'snow') {
+        for (var i = 0; i < 30; i++) {
+          var f = document.createElement('div'); f.className = 'snow-flake'; f.textContent = '•';
+          f.style.left = (Math.random()*100)+'%'; f.style.fontSize = (6+Math.random()*8)+'px';
+          f.style.animationDuration = (1.5+Math.random()*2)+'s'; f.style.animationDelay = (Math.random()*2)+'s';
+          slWeather.appendChild(f);
+        }
+      } else if (w.particles === 'fog') {
+        slWeather.innerHTML = '<div class="fog-layer"></div>';
+      }
+      slWeather.classList.add('visible');
+      document.getElementById('logDetail2').textContent = w.logMsg;
+      document.getElementById('logStep2').classList.add('visible');
+    }, 1200);
+
+    // Step 3 — Road surface
+    setTimeout(function() {
+      slRoad.classList.add('visible');
+      slRoadFx.innerHTML = '';
+      if (w.roadFx === 'puddles') {
+        for (var i = 0; i < 5; i++) {
+          var p = document.createElement('div');
+          p.style.cssText = 'position:absolute;border-radius:50%;background:rgba(96,165,250,0.2);width:'+(30+Math.random()*50)+'px;height:'+(8+Math.random()*6)+'px;left:'+(Math.random()*85)+'%;top:'+(15+Math.random()*70)+'%;';
+          slRoadFx.appendChild(p);
+        }
+      } else if (w.roadFx === 'ice') {
+        for (var i = 0; i < 4; i++) {
+          var ic = document.createElement('div');
+          ic.style.cssText = 'position:absolute;border-radius:40%;background:rgba(203,213,225,0.25);width:'+(40+Math.random()*60)+'px;height:'+(6+Math.random()*5)+'px;left:'+(Math.random()*80)+'%;top:'+(20+Math.random()*60)+'%;';
+          slRoadFx.appendChild(ic);
+        }
+      } else if (w.roadFx === 'glare') {
+        slRoadFx.innerHTML = '<div style="position:absolute;top:0;left:30%;width:40%;height:100%;background:linear-gradient(180deg,rgba(253,224,71,0.3),transparent);border-radius:0 0 50% 50%;"></div>';
+      }
+      slRoadFx.classList.add('visible');
+      document.getElementById('logDetail3').textContent = w.roadFx ? 'applying ' + w.roadFx + ' surface effects to road geometry' : 'standard dry pavement — no surface modifications';
+      document.getElementById('logStep3').classList.add('visible');
+    }, 2000);
+
+    // Step 4 — Actor
+    setTimeout(function() {
+      slActors.innerHTML = '';
+      var ac = document.createElement('div'); ac.className = 'sl-actor'; ac.textContent = a.emoji;
+      ac.style.right = '30%'; ac.style.top = '52%';
+      slActors.appendChild(ac);
+      slActors.classList.add('visible');
+      document.getElementById('logDetail4').textContent = a.logMsg;
+      document.getElementById('logStep4').classList.add('visible');
+    }, 2800);
+
+    // Step 5 — Wildcard
+    setTimeout(function() {
+      var we = document.createElement('div'); we.className = 'sl-actor'; we.textContent = wild.emoji;
+      we.style.right = '20%'; we.style.top = '44%'; we.style.fontSize = '28px';
+      slActors.appendChild(we);
+      document.getElementById('logDetail5').textContent = wild.logMsg;
+      document.getElementById('logStep5').classList.add('visible');
+    }, 3500);
+
+    // Show results
+    setTimeout(function() {
+      showWmResult(w, t, a, wild);
+      buildBtn.disabled = false;
+      buildBtn.textContent = 'Build another scenario';
+    }, 4300);
+  });
+
+  function showWmResult(w, t, a, wild) {
+    result.classList.add('active');
+    var pills = document.getElementById('wmRecipePills');
+    pills.innerHTML =
+      '<span class="wm-recipe-pill pill-weather">' + w.emoji + ' ' + w.label + '</span>' +
+      '<span class="wm-recipe-pill pill-time">' + t.label + '</span>' +
+      '<span class="wm-recipe-pill pill-actor">' + a.emoji + ' ' + a.label + '</span>' +
+      '<span class="wm-recipe-pill pill-wild">' + wild.emoji + ' ' + wild.label + '</span>';
+
+    var baseMiles = 500000;
+    var miles = Math.round(baseMiles * w.rarityMult * t.rarityMult * a.rarityMult * wild.rarityMult / 100) * 100;
+    document.getElementById('vRealMiles').textContent = fmtMi(miles) + ' miles';
+    var yearsEquiv = miles / 235000;
+    var timeStr = yearsEquiv < 1 ? Math.round(yearsEquiv * 12) + ' months' : Math.round(yearsEquiv) + ' year' + (Math.round(yearsEquiv) !== 1 ? 's' : '');
+    document.getElementById('vRealExplain').textContent = 'Each ingredient alone might be common. But all four at the same time? A fleet would need to drive roughly ' + fmtMi(miles) + ' miles — about ' + timeStr + ' of nonstop driving — to stumble onto this exact combination by chance.';
+    document.getElementById('vSimExplain').textContent = 'The world model knows each ingredient separately and combines them — no recording needed. ' + wild.explain;
+
+    var insight = document.getElementById('wmInsightText');
+    if (miles >= 5000000)
+      insight.innerHTML = 'This scenario is so rare that <strong>no fleet on Earth would encounter it reliably</strong> through normal driving. It\'s not a question of driving more miles — it\'s a question of whether you can <em>create</em> the training data you need. That\'s what a world model is for.';
+    else if (miles >= 1000000)
+      insight.innerHTML = 'A fleet <em>might</em> eventually record something like this — but it could take years, and <strong>you can\'t control when or where it happens.</strong> The world model lets Waymo say "I need 500 examples of this by Thursday" and get them.';
+    else
+      insight.innerHTML = 'This combination isn\'t impossibly rare, but <strong>waiting to encounter it naturally means you can\'t control your training schedule.</strong> The world model turns "we\'ll get to it when it happens" into "we\'re practicing this today."';
+
+    totalScenarios++;
+    totalMiles += miles;
+    document.getElementById('tallyCount3b').textContent = totalScenarios;
+    document.getElementById('tallyMiles3b').textContent = fmtMi(totalMiles);
+    document.getElementById('tallyCombos3b').textContent = TOTAL_COMBOS.toLocaleString();
+
+    if (totalScenarios >= 3) {
+      var aha = document.getElementById('wmAha3b');
+      aha.classList.add('active');
+      document.getElementById('ahaCount3b').textContent = totalScenarios;
+      document.getElementById('ahaMiles3b').textContent = fmtMi(totalMiles);
+      document.getElementById('wmStake3b').style.display = '';
+      document.getElementById('wmReflection3b').style.display = '';
+    }
+    result.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+
+  function fmtMi(n) {
+    if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+    if (n >= 1000) return Math.round(n/1000) + 'K';
+    return n.toLocaleString();
+  }
+
+  var WM_FEEDBACK = {
+    tesla:"<strong>Not quite.</strong> Tesla's fleet is huge, and it records whatever happens in front of 6 million cars. That's great for common scenarios. But for the long tail, there's a problem: Tesla can't <em>choose</em> what rare event to see next. If a specific scenario only happens once every 5 million miles, even Tesla's fleet might take months to record it — and they can't say \"give me 200 more examples of that.\" The world model can. The difference isn't just speed — it's the ability to <strong>target</strong> exactly what you need.",
+    waymo:"<strong>This is the strongest case.</strong> Tesla's fleet sees rare events whenever they happen — but it can't request specific ones. Waymo's world model can build exactly the scenario the car is weakest on, generate hundreds of variations, and retrain overnight. Tesla has a <strong>volume advantage</strong> (nobody can match their total miles). Waymo has a <strong>targeting advantage</strong> (nobody can match their ability to practice specific weaknesses). Both are real — but they're different kinds of strength.",
+    both:"<strong>They won't end up in the same place — because their advantages compound differently.</strong> Tesla's approach gets better in proportion to the number of cars sold: more cars, more data. Waymo's approach gets better as the world model improves: a better model generates more realistic scenarios across <em>all</em> situations at once. These are different growth curves, and over time they pull the two companies in different strategic directions.",
+    neither:"<strong>You're right that the long tail is effectively infinite — nobody will ever see everything.</strong> But the goal isn't perfection. It's \"safer than a human driver.\" Waymo's own data shows their cars are roughly 3.5× safer than humans in serious crashes. The world model doesn't need to cover <em>every</em> scenario — it needs to cover <em>enough</em> of them to keep that safety advantage growing."
+  };
+
+  document.querySelectorAll('#wmStake3b .stake-opt').forEach(function(opt) {
+    opt.addEventListener('click', function() {
+      document.querySelectorAll('#wmStake3b .stake-opt').forEach(function(o) { o.classList.remove('selected'); });
+      opt.classList.add('selected');
+      var fb = document.getElementById('stakeFb3b');
+      fb.innerHTML = WM_FEEDBACK[opt.dataset.val];
+      fb.classList.add('active');
+    });
+  });
 })();
 
 </script>
