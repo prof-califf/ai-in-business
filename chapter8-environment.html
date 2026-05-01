@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Environmental Cost of AI: Training, Inference & the Disclosure Gap | MIS 432</title>
+<style>
+  /* ── ENVIRONMENT palette ─────────────────────────────────────
+     Forest Green:  #1a7a4c  — primary brand green
+     Earth Amber:   #d4870e  — signature warm accent
+     Dark:          #0f1f15  — deep forest dark (nav, footer)
+     Mid green:     #15694a  — hover / label emphasis
+     Light green:   #e8f5ee  — concept-box tint
+     Light amber:   #fef6e6  — insight-box tint
+     Neutral:       #6b7280  — secondary text
+     Coral:         #d94f4f  — warning / caution accent
+  ──────────────────────────────────────────────────────────────*/
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #ffffff; color: #0f1f15; }
+
+  nav { background: #0f1f15; padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+  .nav-brand { color: #ffffff; font-size: 15px; font-weight: 700; text-decoration: none; }
+  .nav-links { display: flex; gap: 1.25rem; align-items: center; }
+  .nav-links a { color: #94c8a8; font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: #1a7a4c; }
+  .nav-badge { background: #1a7a4c; color: #ffffff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+
+  .hero { background: linear-gradient(135deg, #0f1f15 0%, #1a7a4c 40%, #d4870e 100%); padding: 3.5rem 2rem 3rem; }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+  .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #ffffff; margin-bottom: 0.75rem; opacity: 0.85; }
+  .hero h1 { font-size: 34px; font-weight: 800; color: #ffffff; line-height: 1.25; margin-bottom: 0.75rem; }
+  .hero-sub { font-size: 16px; color: rgba(255,255,255,0.88); max-width: 640px; line-height: 1.65; margin-bottom: 1.5rem; }
+  .hero-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .hero-meta span { font-size: 13px; color: rgba(255,255,255,0.75); }
+  .hero-meta strong { color: #ffffff; }
+  .hero-nav { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+  .btn { display: inline-block; padding: 0.55rem 1.2rem; border-radius: 6px; font-size: 13px; font-weight: 700; text-decoration: none; }
+  .btn-green { background: #ffffff; color: #1a7a4c; }
+  .btn-outline { background: transparent; border: 1.5px solid rgba(255,255,255,0.55); color: #ffffff; }
+  .btn:hover { opacity: 0.88; }
+
+  .doc { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  .cover { border-bottom: 3px solid #1a7a4c; padding-bottom: 1.5rem; margin-bottom: 2rem; }
+  .cover-tag { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #1a7a4c; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .cover h1 { font-size: 28px; font-weight: 600; color: #0f1f15; line-height: 1.3; margin-bottom: 0.5rem; }
+  .cover-sub { font-size: 15px; color: #555; }
+  .cover-meta { display: flex; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; }
+  .cover-meta span { font-size: 13px; color: #888; }
+  .cover-meta strong { color: #555; }
+
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin: 1.5rem 0; }
+  .stat-card { background: #ffffff; border-radius: 8px; padding: 1rem; text-align: center; border: 1px solid #d0e4d8; }
+  .stat-num { font-size: 22px; font-weight: 800; color: #1a7a4c; }
+  .stat-label { font-size: 12px; color: #6b7280; margin-top: 3px; }
+
+  h2 { font-size: 20px; font-weight: 700; color: #0f1f15; margin: 2rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 3px solid #1a7a4c; }
+  h3 { font-size: 16px; font-weight: 700; color: #0f1f15; margin: 1.5rem 0 0.5rem; }
+  h4 { font-size: 14px; font-weight: 600; color: #555; margin: 1.2rem 0 0.4rem; }
+  p { font-size: 15px; line-height: 1.75; color: #0f1f15; margin-bottom: 0.9rem; }
+  ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+  li { font-size: 15px; line-height: 1.7; color: #0f1f15; margin-bottom: 0.3rem; }
+  strong { color: #0f1f15; font-weight: 700; }
+  em { font-style: italic; }
+
+  .section-num { display: inline-block; background: #1a7a4c; color: #ffffff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-right: 6px; vertical-align: middle; }
+  .part-badge { display: inline-block; background: #d4870e; color: #ffffff; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 3px; margin-right: 8px; vertical-align: middle; text-transform: uppercase; }
+
+  .concept-box { background: #e8f5ee; border-left: 4px solid #1a7a4c; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .concept-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #15694a; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .concept-term { font-size: 15px; font-weight: 700; color: #0f1f15; margin-bottom: 0.3rem; }
+  .concept-def { font-size: 14px; color: #0f1f15; line-height: 1.6; margin: 0; }
+
+  .insight-box { background: #fef6e6; border-left: 4px solid #d4870e; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .insight-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #b06e00; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .insight-text { font-size: 14px; color: #0f1f15; line-height: 1.6; margin: 0; }
+
+  .danger-box { background: #fdf0f0; border-left: 4px solid #d94f4f; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .danger-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #a83232; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .danger-text { font-size: 14px; color: #0f1f15; line-height: 1.6; margin: 0; }
+
+  .callout-quote { border-left: 4px solid #d4870e; padding: 0.5rem 0 0.5rem 1rem; margin: 1.25rem 0; font-size: 15px; color: #0f1f15; font-style: italic; line-height: 1.6; }
+
+  .toc { background: #e8f5ee; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 2rem; border: 1px solid #b3d9c4; }
+  .toc-title { font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #1a7a4c; margin-bottom: 0.6rem; }
+  .toc a { display: block; font-size: 14px; color: #0f1f15; text-decoration: none; padding: 3px 0; }
+  .toc a:hover { color: #1a7a4c; }
+  .toc-part { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #b06e00; margin-top: 0.6rem; margin-bottom: 0.2rem; }
+
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.75rem; margin: 1rem 0 1.5rem; }
+  .vocab-card { background: #ffffff; border: 1px solid #d0e4d8; border-top: 3px solid #1a7a4c; border-radius: 6px; padding: 0.8rem 1rem; }
+  .vocab-term { font-size: 13px; font-weight: 700; color: #0f1f15; margin-bottom: 0.25rem; }
+  .vocab-def { font-size: 13px; color: #555; line-height: 1.55; }
+
+  .factory-table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 13px; }
+  .factory-table th { background: #0f1f15; color: #ffffff; font-weight: 700; padding: 10px 12px; text-align: left; }
+  .factory-table td { padding: 9px 12px; border-bottom: 1px solid #d0e4d8; vertical-align: top; color: #0f1f15; line-height: 1.5; }
+  .factory-table tr:nth-child(even) td { background: #f0f7f2; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.25rem 0; }
+  .col-card { border-radius: 8px; padding: 1rem 1.1rem; }
+  .col-green { background: #e8f5ee; border: 1px solid #b3d9c4; }
+  .col-amber { background: #fef6e6; border: 1px solid #f0d9a8; }
+  .col-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .col-green .col-label { color: #15694a; }
+  .col-amber .col-label { color: #b06e00; }
+  .col-title { font-size: 14px; font-weight: 700; color: #0f1f15; margin-bottom: 0.4rem; }
+  .col-body { font-size: 13px; color: #0f1f15; line-height: 1.55; }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+  .discussion-list { counter-reset: dq; list-style: none; margin: 0 0 1rem; padding: 0; }
+  .discussion-list li { counter-increment: dq; padding: 0.7rem 0.7rem 0.7rem 2.5rem; position: relative; border-bottom: 1px solid #d0e4d8; font-size: 15px; color: #0f1f15; line-height: 1.65; }
+  .discussion-list li::before { content: counter(dq); position: absolute; left: 0.5rem; top: 0.75rem; background: #1a7a4c; color: #ffffff; font-size: 11px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+  .chapter-nav-bar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-top: 1px solid #d0e4d8; margin-top: 2rem; flex-wrap: wrap; gap: 0.75rem; }
+  .chapter-nav-bar a { font-size: 14px; color: #1a7a4c; text-decoration: none; font-weight: 700; }
+  .chapter-nav-bar a:hover { text-decoration: underline; }
+
+  hr { border: none; border-top: 1px solid #d0e4d8; margin: 2rem 0; }
+  footer { background: #0f1f15; padding: 1.5rem 2rem; text-align: center; }
+  footer p { font-size: 13px; color: #94c8a8; }
+  footer a { color: #d4870e; text-decoration: none; }
+
+  figure { margin: 1.5rem 0; }
+  figcaption { margin-top: 0.75rem; font-size: 13px; color: #6b7280; line-height: 1.65; font-style: italic; text-align: center; }
+
+  .wild-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1.25rem 0 1.5rem; }
+  .wild-card { background: #ffffff; border: 1px solid #d0e4d8; border-radius: 10px; padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .wild-icon { font-size: 24px; }
+  .wild-title { font-size: 14px; font-weight: 700; color: #0f1f15; line-height: 1.4; }
+  .wild-body { font-size: 13px; color: #374151; line-height: 1.6; }
+  .wild-source { font-size: 12px; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #d0e4d8; }
+  .wild-source a { color: #1a7a4c; font-weight: 700; text-decoration: none; }
+  .wild-source a:hover { text-decoration: underline; }
+
+  .meta-box { background: #f7f7f7; border: 1px dashed #bbb; border-radius: 6px; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .meta-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #888; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .meta-text { font-size: 14px; color: #555; line-height: 1.6; margin: 0; }
+
+  /* NAV DROPDOWN */
+  .nav-dropdown { position: relative; }
+  .nav-dropdown-toggle {
+    color: #94c8a8; font-size: 13px; font-weight: 500;
+    text-decoration: none; background: none; border: none; cursor: pointer; padding: 0;
+    display: inline-flex; align-items: center; gap: 4px;
+    transition: color 0.15s; font-family: inherit;
+  }
+  .nav-dropdown-toggle:hover,
+  .nav-dropdown:hover .nav-dropdown-toggle,
+  .nav-dropdown.open .nav-dropdown-toggle { color: #ffffff; }
+  .nav-dropdown-toggle .caret {
+    display: inline-block; width: 0; height: 0;
+    border-left: 4px solid transparent; border-right: 4px solid transparent;
+    border-top: 4px solid currentColor; transition: transform 0.15s;
+  }
+  .nav-dropdown:hover .nav-dropdown-toggle .caret,
+  .nav-dropdown.open .nav-dropdown-toggle .caret { transform: rotate(180deg); }
+  .nav-dropdown-menu {
+    position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(-4px);
+    background: #0f1f15; border: 1px solid rgba(26,122,76,0.25); border-radius: 4px;
+    min-width: 220px; padding: 0.4rem 0; opacity: 0; visibility: hidden;
+    transition: opacity 0.15s, visibility 0.15s, transform 0.15s;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4); z-index: 200;
+  }
+  .nav-dropdown:hover .nav-dropdown-menu,
+  .nav-dropdown.open .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+  .nav-dropdown::after { content: ''; position: absolute; top: 100%; left: 0; right: 0; height: 12px; }
+  .nav-dropdown-menu a {
+    display: block; padding: 0.5rem 1rem; color: rgba(255,255,255,0.65);
+    font-size: 13px; font-weight: 500; text-decoration: none;
+    border-left: 2px solid transparent; transition: color 0.12s, background 0.12s, border-color 0.12s;
+  }
+  .nav-dropdown-menu a:hover { color: #d4870e; background: rgba(212,135,14,0.07); border-left-color: #d4870e; }
+  .nav-dropdown-menu .menu-num { display: inline-block; font-size: 11px; color: #1a7a4c; margin-right: 7px; min-width: 24px; font-weight: 700; }
+  .nav-dropdown-menu .menu-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 0.3rem 0.75rem; }
+  .menu-divider-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 0.4rem 1rem 0.2rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 432 &middot; AI in Business</a>
+  <div class="nav-links">
+    <span class="nav-badge">Chapter 8</span>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Chapters &amp; Labs <span class="caret"></span></button>
+      <div class="nav-dropdown-menu" role="menu">
+        <div class="menu-divider-label">Chapters</div>
+        <a href="chapter1-everycure.html" role="menuitem"><span class="menu-num">01</span>EveryCure</a>
+        <a href="chapter2-netflix.html" role="menuitem"><span class="menu-num">02</span>Netflix</a>
+        <a href="chapter3-spotify.html" role="menuitem"><span class="menu-num">03</span>Spotify</a>
+        <a href="chapter4-uber.html" role="menuitem"><span class="menu-num">04</span>Uber</a>
+        <a href="chapter5-waymo.html" role="menuitem"><span class="menu-num">05</span>Waymo</a>
+        <a href="chapter6-airbnb.html" role="menuitem"><span class="menu-num">06</span>Airbnb</a>
+        <a href="chapter7-epic.html" role="menuitem"><span class="menu-num">07</span>Epic</a>
+        <a href="chapter8-environment.html" role="menuitem"><span class="menu-num">08</span>AI &amp; Environment</a>
+        <div class="menu-divider"></div>
+        <div class="menu-divider-label">Labs</div>
+        <a href="chapter1-everycure-lab.html" role="menuitem"><span class="menu-num">L1</span>EveryCure Lab</a>
+        <a href="chapter2-netflix-lab.html" role="menuitem"><span class="menu-num">L2</span>Netflix Lab</a>
+        <a href="chapter3-spotify-lab.html" role="menuitem"><span class="menu-num">L3</span>Spotify Lab</a>
+        <a href="chapter4-uber-lab.html" role="menuitem"><span class="menu-num">L4</span>Uber Lab</a>
+        <a href="chapter5-waymo-lab.html" role="menuitem"><span class="menu-num">L5</span>Waymo Lab</a>
+        <a href="chapter6-airbnb-lab.html" role="menuitem"><span class="menu-num">L6</span>Airbnb Lab</a>
+        <a href="chapter7-epic-lab.html" role="menuitem"><span class="menu-num">L7</span>Epic Lab</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Student Resources <span class="caret"></span></button>
+      <div class="nav-dropdown-menu" role="menu">
+        <a href="good-prompts.html" role="menuitem"><span class="menu-num">&#10022;</span>Writing Good Prompts</a>
+        <a href="ai-job-interview.html" role="menuitem"><span class="menu-num">&#10022;</span>AI in Job Interviews</a>
+        <a href="ai-news-and-sources.html" role="menuitem"><span class="menu-num">&#10022;</span>AI News + Sources</a>
+      </div>
+    </div>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Chapter 8 &middot; AI Infrastructure &middot; Environmental Impact &middot; ESG &amp; Disclosure</div>
+    <h1>The Environmental Cost of AI:<br>Training, Inference &amp; the Disclosure Gap</h1>
+    <p class="hero-sub">AI consumes water, energy, and carbon at industrial scale &mdash; but the industry only reports the parts that look like progress. This chapter is a business student&rsquo;s guide to what the numbers actually say, what they hide, and what the market is doing about it.</p>
+    <div class="hero-meta">
+      <span><strong>Industry:</strong> AI Infrastructure / Cloud Computing</span>
+      <span><strong>Core concepts:</strong> Inference costs, Scope 1/2/3 carbon, lifecycle assessment, externalities</span>
+      <span><strong>Companies:</strong> OpenAI, Microsoft, Google, Anthropic, TikTok, Netflix, Panthalassa, Kairos Power</span>
+    </div>
+    <div class="hero-nav">
+      <a href="#calculator" class="btn btn-green">AI Emissions Calculator &darr;</a>
+      <a href="#exam" class="btn btn-outline">Exam Questions &darr;</a>
+      <a href="index.html" class="btn btn-outline">&larr; All Chapters</a>
+    </div>
+  </div>
+</div>
+
+<div class="doc">
+
+  <div class="cover">
+    <div class="cover-tag">Chapter 8 &middot; AI &amp; the Environment Case Study</div>
+    <h1>The Environmental Cost of AI: Training, Inference &amp; the Disclosure Gap</h1>
+    <p class="cover-sub">What AI actually costs in water, energy, and carbon &mdash; why the industry&rsquo;s preferred numbers tell the wrong story &mdash; and what emerging solutions mean for business strategy</p>
+    <div class="cover-meta">
+      <span><strong>Level:</strong> Upper-division undergraduate</span>
+      <span><strong>Topics:</strong> Inference vs. training, carbon accounting (Scope 1/2/3), lifecycle assessment, energy externalities</span>
+      <span><strong>Concepts introduced:</strong> 15 key terms</span>
+    </div>
+    <p style="font-size:13px; color:#6b7280; margin-top:1rem;">
+      <strong>Primary source:</strong> This chapter draws on
+      <a href="https://theslowai.substack.com/p/is-ai-bad-for-the-environment" target="_blank">&ldquo;The Actual Environmental Cost of AI&rdquo;</a> by Dr. Sam Illingworth (<em>Slow AI</em>, May 2026),
+      with supplementary reporting from
+      <a href="https://www.cbsnews.com/news/using-wave-energy-to-power-sea-based-ai-data-centers/" target="_blank">CBS News (wave energy)</a>,
+      <a href="https://www.cbsnews.com/news/how-ai-driven-data-center-boom-leading-to-skyrocketing-energy-bills/" target="_blank">CBS News (energy bills)</a>,
+      <a href="https://www.cbsnews.com/news/big-techs-big-bet-on-nuclear-power-to-fuel-artificial-intelligence/" target="_blank">CBS News (nuclear)</a>, and
+      <a href="https://www.npr.org/2026/03/07/nx-s1-5727698/ai-and-power-generation" target="_blank">NPR (off-grid power)</a>.
+      Academic sources: <a href="https://arxiv.org/abs/2304.03271" target="_blank">Li et al.</a> (arXiv:2304.03271), <a href="https://arxiv.org/abs/2311.16863" target="_blank">Luccioni et al.</a> (arXiv:2311.16863), <a href="https://www.iea.org/reports/electricity-2024" target="_blank">IEA Electricity 2024&ndash;2025</a>.
+    </p>
+  </div>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <div class="toc-part">The Bigger Picture</div>
+    <a href="#s0">1. Technology Has Always Had an Environmental Cost</a>
+    <div class="toc-part">The Problem</div>
+    <a href="#s1">2. The Number Everyone Quotes &mdash; and Why It&rsquo;s the Wrong One</a>
+    <a href="#s2">3. Training Is the Headline. Inference Is the Bill.</a>
+    <a href="#s3">4. The Carbon Accounting Gap: Scopes 1, 2, and 3</a>
+    <a href="#s4">5. The Missing Lifecycle Assessment</a>
+    <a href="#s5">6. The Waste Question: Not All Prompts Are Equal</a>
+    <div class="toc-part">Try It Yourself</div>
+    <a href="#calculator">6.5 Interactive Tool: AI Prompt Footprint Calculator</a>
+    <div class="toc-part">The Response</div>
+    <a href="#s6">7. Emerging Solutions: How the Market Is Responding</a>
+    <a href="#s6a" style="padding-left:1.25rem; font-size:0.95em;">7.1 Wave-Powered Floating Data Centers</a>
+    <a href="#s6b" style="padding-left:1.25rem; font-size:0.95em;">7.2 Nuclear: Restarts and Small Modular Reactors</a>
+    <a href="#s6c" style="padding-left:1.25rem; font-size:0.95em;">7.3 Off-Grid Private Power Plants</a>
+    <a href="#s6d" style="padding-left:1.25rem; font-size:0.95em;">7.4 Grid + Renewables</a>
+    <a href="#s6e" style="padding-left:1.25rem; font-size:0.95em;">7.5 The Consumer Cost Problem</a>
+    <div class="toc-part">Business Implications</div>
+    <a href="#s-regulation">8. The Regulatory Landscape</a>
+    <a href="#s-model-selection">9. Model Selection as a Business Decision</a>
+    <a href="#s-vendor">10. What to Ask in a Vendor Meeting</a>
+    <a href="#s-conclusion">11. Where This Is Going</a>
+    <div class="toc-part">Your Turn</div>
+    <a href="#s-terms">12. Key Terms</a>
+    <a href="#exam">13. Exam Questions</a>
+  </div>
+
+  <!-- BY THE NUMBERS -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">62M</div><div class="stat-label">Tonnes of e-waste generated globally in 2022</div></div>
+    <div class="stat-card"><div class="stat-num">50M</div><div class="stat-label">Tonnes of CO&#8322; from TikTok annually (est.)</div></div>
+    <div class="stat-card"><div class="stat-num">10&times;</div><div class="stat-label">More electricity per ChatGPT query vs. a Google search</div></div>
+    <div class="stat-card"><div class="stat-num">267%</div><div class="stat-label">Energy bill increase for Americans near data centers</div></div>
+    <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">Independent lifecycle assessments of any frontier AI model</div></div>
+  </div>
+
+  <!-- ═══════════════════════════ PART I: THE PROBLEM ═══════════════════════════ -->
+
+  <!-- ═══════════════════════════ SECTION 1: BIGGER PICTURE ═══════════════════════════ -->
+
+  <h2 id="s0"><span class="section-num">1</span> Technology Has Always Had an Environmental Cost</h2>
+
+  <p>This chapter is about AI and the environment. But to understand why AI&rsquo;s environmental footprint matters, we need to go back a bit &mdash; because the tech industry&rsquo;s environmental cost didn&rsquo;t start with ChatGPT. It has been growing for decades, and we&rsquo;re all part of it whether we realize it or not.</p>
+
+  <h3>E-waste: the cost of constant upgrades</h3>
+
+  <p>Every phone we&rsquo;ve traded in, every laptop that stopped getting updates, every pair of earbuds with a dead battery &mdash; those are e-waste. In 2022, the world generated a record <strong>62 million tonnes</strong> of electronic waste, up 82% from 2010. That&rsquo;s enough to fill 1.55 million trucks in a line around the equator. Only about 22% was properly recycled. The rest went to landfills or unregulated dump sites &mdash; often in lower-income countries &mdash; where toxic materials like lead and mercury leach into soil and water. By 2030, e-waste is projected to hit <strong>82 million tonnes</strong> per year, and the pace of generation is growing five times faster than recycling capacity.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Source</div>
+    <div class="concept-term">The Global E-waste Monitor 2024</div>
+    <div class="concept-def">Published by <a href="https://ewastemonitor.info/the-global-e-waste-monitor-2024/" target="_blank">UNITAR and the ITU</a>, this is the definitive global report on electronic waste. The AI buildout is adding to this problem: every server, GPU, and networking component in a data center eventually becomes e-waste, and the current replacement cycle for AI hardware is accelerating as newer, more powerful chips come out.</div>
+  </div>
+
+  <h3>Streaming and social media: the footprint you already have</h3>
+
+  <p>Here&rsquo;s something most students don&rsquo;t think about: every TikTok video we scroll past, every Netflix episode we binge, every Spotify playlist we stream &mdash; all of that runs on the same data center infrastructure that powers AI. And it&rsquo;s not just the video file being sent to your phone. When you open TikTok, the app isn&rsquo;t showing you a simple list of videos. It&rsquo;s running a massive recommendation engine that processes your watch time, likes, shares, scroll speed, and hundreds of other signals &mdash; in real time, for every single user, on every single swipe &mdash; to decide what to show you next. <a href="https://fortune.com/2024/12/13/tiktok-carbon-footprint-emissions-doomscrolling-greece-greenly/" target="_blank">TikTok&rsquo;s estimated annual carbon footprint is roughly 50 million tonnes of CO&#8322;</a> &mdash; comparable to the entire country of Greece. And TikTok users spend an average of 46 minutes per day on the app, all of it feeding that recommendation engine.</p>
+
+  <p>Netflix is similar but better documented. <a href="https://about.netflix.com/en/news/the-true-climate-impact-of-streaming" target="_blank">Netflix&rsquo;s own estimate</a>, based on Carbon Trust research, puts the footprint of one hour of streaming at roughly <strong>55 grams of CO&#8322;</strong>. The <a href="https://www.iea.org/commentaries/the-carbon-footprint-of-streaming-video-fact-checking-the-headlines" target="_blank">IEA&rsquo;s analysis</a> puts it lower, around 36 grams per hour. That sounds small &mdash; until you multiply it across hundreds of millions of subscribers. Netflix alone produced over <strong>5 million tonnes of CO&#8322;</strong> from streaming in 2024.</p>
+
+  <p>The point isn&rsquo;t to make anyone feel guilty about watching Netflix or scrolling TikTok. It&rsquo;s to recognize that <strong>we all already have a data center footprint</strong>. The infrastructure was built for us long before generative AI came along. AI is adding to it.</p>
+
+  <h3>So what changed with generative AI?</h3>
+
+  <p>The key difference is <strong>how hard the computers have to work</strong>. When you stream a Netflix show, the data center pulls a pre-recorded video file from storage and sends it to your device. That&rsquo;s relatively simple. When TikTok runs its recommendation engine, it&rsquo;s doing more work &mdash; processing signals and ranking content in real time. But when you ask ChatGPT a question, the data center is running <em>billions</em> of calculations to generate a completely new response that has never existed before. A single ChatGPT query uses roughly <strong>10 times more electricity</strong> than a Google search. An AI-generated image uses roughly <strong>the same energy as charging your phone</strong>.</p>
+
+  <p>Think of it as a spectrum of computational intensity: streaming a cached video &lt; running a recommendation algorithm &lt; generating a novel AI response. Generative AI sits at the heavy end. It didn&rsquo;t create the data center energy problem &mdash; but it dramatically accelerated it by adding a workload that is far more compute-intensive per request than anything the infrastructure was originally built for. That&rsquo;s the context for everything that follows.</p>
+
+  <!-- ═══════════════════════════ SECTION 2 (was 1) ═══════════════════════════ -->
+
+  <h2 id="s1"><span class="section-num">2</span> The Number Everyone Quotes &mdash; and Why It&rsquo;s the Wrong One</h2>
+
+  <p>When critics talk about AI&rsquo;s environmental footprint, they almost always start with <strong>training</strong> &mdash; the upfront cost of building a model. And the numbers sound scary. Training GPT-3 used about 5.4 million liters of water. About 700,000 liters evaporated cooling the servers; the rest went to generating the electricity that kept them running.</p>
+
+  <p>But here&rsquo;s the thing: California&rsquo;s almond industry uses 1&ndash;2 trillion liters of water every year. U.S. golf courses use a similar amount. One day of almond production could cover the water cost of training GPT-3 hundreds of thousands of times over. So if you only look at training, AI doesn&rsquo;t seem that bad.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key Concept</div>
+    <div class="concept-term">Training vs. Inference</div>
+    <div class="concept-def"><strong>Training</strong> is the one-time process of building an AI model &mdash; feeding it data and adjusting it until it works. Think of it like constructing a factory. <strong>Inference</strong> is what happens every time someone uses that model &mdash; every prompt, every query, every image request. Think of it like running the factory 24/7. Training is a one-time capital expense. Inference is the electric bill that never stops. The industry prefers to talk about training because it&rsquo;s a fixed, known cost. Inference is the part that grows without any ceiling.</div>
+  </div>
+
+  <p>If the environmental critique of AI stops at training, the almond comparison wins. The honest answer is that training costs, for the models where published figures exist, are not categorically worse than several things society accepts without a public reckoning.</p>
+
+  <p>But training is a one-time expense. What happens <em>after</em> training &mdash; the part you interact with every day &mdash; is a different story entirely.</p>
+
+  <h2 id="s2"><span class="section-num">3</span> Training Is the Headline. Inference Is the Bill.</h2>
+
+  <p>Every time someone asks ChatGPT to write a poem, draft a cover letter, summarize a meeting, or generate an image, the meter runs. One query uses a tiny amount of water and energy. But when hundreds of millions of people do it every day, those tiny amounts add up fast. The IEA (International Energy Agency) flagged data-center electricity as one of the fastest-growing energy demands on Earth this decade.</p>
+
+  <p>Here&rsquo;s the math:</p>
+
+  <div class="insight-box">
+    <div class="insight-label">Inference at Scale</div>
+    <div class="insight-text">ChatGPT has roughly <strong>800 million weekly users</strong>. Picture each one asking the model ten short text questions a day for a year. At OpenAI&rsquo;s own published figure of ~0.3 mL of water per query, that is approximately <strong>880 million liters of water a year</strong>. Researchers estimate the true figure is 5&ndash;50&times; higher once off-site cooling for electricity generation is included, yielding a range of <strong>4.4 to 44 billion liters per year</strong> &mdash; from one product alone.</div>
+  </div>
+
+  <p>The almond comparison works if you only look at training. It falls apart the moment you factor in inference at scale. Training happens once. Inference happens every second of every day, and the companies are building more capacity as fast as they can. Anthropic&rsquo;s April 2026 multi-gigawatt compute deal with Google and Broadcom &mdash; scheduled to start in 2027 &mdash; is pre-committing infrastructure for demand that hasn&rsquo;t even arrived yet.</p>
+
+  <h3>The same math works for carbon</h3>
+
+  <p>Take ChatGPT&rsquo;s 800 million weekly users again. Imagine each one generates a single AI image, just once. One AI image takes about 11.5 watt-hours of electricity &mdash; roughly what it takes to charge your phone. Multiply that by 800 million people and you get <strong>9.2 gigawatt-hours</strong> of electricity for one round of images. At global average grid emissions (~400g of CO&#8322; per kWh), that&rsquo;s roughly <strong>3,700 tonnes of CO&#8322;</strong> &mdash; the same as 2,500 cars driving for a full year. For one round of pictures.</p>
+
+  <p>So if the real cost is this large, why don&rsquo;t the companies&rsquo; sustainability reports say so? Because of how carbon accounting works &mdash; and what it lets you leave out.</p>
+
+  <h2 id="s3"><span class="section-num">4</span> The Carbon Accounting Gap: Scopes 1, 2, and 3</h2>
+
+  <p>When companies report their environmental impact, carbon emissions get sorted into three &ldquo;scopes.&rdquo; If you go into any career that touches sustainability, ESG reporting, or corporate responsibility, you&rsquo;ll use this framework. Here&rsquo;s how it works:</p>
+
+  <table class="factory-table">
+    <thead>
+      <tr><th>Scope</th><th>What it covers</th><th>AI example</th><th>Typically reported?</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Scope 1</strong></td><td>Direct emissions from owned sources</td><td>Diesel backup generators at a data center</td><td>Yes</td></tr>
+      <tr><td><strong>Scope 2</strong></td><td>Indirect emissions from purchased energy</td><td>Electricity bought to run servers</td><td>Yes</td></tr>
+      <tr><td><strong>Scope 3</strong></td><td>All other supply chain emissions</td><td>Embodied carbon in chips, servers, buildings, construction materials</td><td>Selectively</td></tr>
+    </tbody>
+  </table>
+
+  <p>Scopes 1 and 2 are the numbers companies like to highlight &mdash; and they&rsquo;re making real progress there, investing billions in wind and solar. Scope 3 is where the uncomfortable truth lives. It&rsquo;s harder to measure, harder to control, and much harder to spin as a success story. It&rsquo;s also where most of AI&rsquo;s environmental impact actually is.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key Concept</div>
+    <div class="concept-term">Embodied Carbon</div>
+    <div class="concept-def">The emissions released to <em>make</em> something before it&rsquo;s ever turned on. A server has embodied carbon from mining metals, manufacturing chips, assembling components, and shipping the finished product. A data center has embodied carbon from all the concrete, steel, and hardware inside it. Embodied carbon is a Scope 3 emission. It&rsquo;s real, it&rsquo;s large, and it&rsquo;s the part most companies leave out of their headline numbers.</div>
+  </div>
+
+  <p>Here&rsquo;s a real example. Microsoft&rsquo;s 2024 Environmental Sustainability Report showed Scope 3 emissions up <strong>30.9% from 2020</strong>. Why? Their own explanation: building more data centers, plus all the embodied carbon in the building materials, semiconductors, servers, and racks that go inside them. Microsoft doesn&rsquo;t directly blame AI for the increase &mdash; but the data center buildout is clearly tracking AI demand.</p>
+
+  <div class="danger-box">
+    <div class="danger-label">The UK Revision</div>
+    <div class="danger-text">The UK government&rsquo;s original projection put AI data center emissions at <strong>0.05%</strong> of Britain&rsquo;s total carbon output. After a Foxglove and Carbon Brief investigation in early 2026, the revised projection jumped to <strong>34&ndash;123 million tonnes of CO&#8322; by 2035</strong> &mdash; hundreds of times higher than the original estimate. That is the pattern: the industry reports what can be framed as achievement. It omits what can only be framed as cost.</div>
+  </div>
+
+  <p>The Scope 1/2/3 framework tells you where to look. But even with the best accounting, there&rsquo;s a more fundamental gap: nobody has done a complete environmental audit of any major AI model. Period.</p>
+
+  <h2 id="s4"><span class="section-num">5</span> The Missing Lifecycle Assessment</h2>
+
+  <p>No independent, full lifecycle assessment of any current frontier AI model exists.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key Concept</div>
+    <div class="concept-term">Lifecycle Assessment (LCA)</div>
+    <div class="concept-def">A standardized environmental audit that tracks a product&rsquo;s total impact from cradle to grave &mdash; raw materials, manufacturing, use, and disposal. It&rsquo;s the gold standard for answering &ldquo;what does this thing <em>actually</em> cost the environment?&rdquo; For AI, a proper LCA would cover everything from mining the metals for chips to shutting down the servers at end of life, including the water and energy of every single query over the model&rsquo;s lifetime. No one has done this for any current frontier AI model.</div>
+  </div>
+
+  <p>Some researchers &mdash; like Alexandra Sasha Luccioni, Emma Strubell, and Pengfei Li &mdash; have done partial assessments of smaller or older models. But for the big models that are actually driving the current building boom (GPT-4, Claude, Gemini), the companies have either partially cooperated or declined to participate in independent assessments.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">Why This Matters for Business</div>
+    <div class="insight-text">The absence of lifecycle assessments is not just a research gap &mdash; it is a <strong>procurement risk</strong>. Organizations purchasing AI services at scale are making vendor selection decisions without the environmental cost data they would demand for any other major infrastructure investment. Until credible independent LCAs exist, every critic argues from partial figures and every defender argues from selective ones.</div>
+  </div>
+
+  <p>Even without a full LCA, though, there&rsquo;s one question we can answer right now: is all this usage even worth the cost? That depends on what the AI is actually being used for.</p>
+
+  <h2 id="s5"><span class="section-num">6</span> The Waste Question: Not All Prompts Are Equal</h2>
+
+  <p>The <em>Slow AI</em> article points out something that should bother anyone thinking about this problem: a huge amount of AI usage produces output that nobody ever reads. AI writes LinkedIn posts. Other AI summarizes those posts. The &ldquo;readers&rdquo; are bots. The content is fake. But the water, electricity, and carbon emissions are completely real.</p>
+
+  <div class="callout-quote">&ldquo;The most resource-intensive technology ever built is being used in large part to generate content nobody asked for, read by nobody, saved by nobody, remembered by nobody. An air-conditioned graveyard of text.&rdquo; &mdash; Dr. Sam Illingworth, <em>Slow AI</em></div>
+
+  <p>This framing introduces what we might call a <strong>waste factor</strong> &mdash; the proportion of AI-generated output that is never meaningfully read, used, or acted upon. Consider the difference:</p>
+
+  <div class="two-col">
+    <div class="col-card col-green">
+      <div class="col-label">Low Waste Factor</div>
+      <div class="col-title">High-value use cases</div>
+      <div class="col-body">
+        <strong>Accessibility tools</strong> that let a disabled user navigate the internet. <strong>Medical research</strong> that accelerates drug discovery. <strong>Climate modeling</strong> that improves prediction accuracy. <strong>Student learning</strong> that deepens understanding of course material. Same water, same energy, same carbon per query &mdash; but the output is read, used, and matters.
+      </div>
+    </div>
+    <div class="col-card col-amber">
+      <div class="col-label">High Waste Factor</div>
+      <div class="col-title">Low-value use cases</div>
+      <div class="col-body">
+        <strong>Auto-generated marketing emails</strong> opened by no one. <strong>AI-written LinkedIn posts</strong> summarized by AI for AI. <strong>Decorative image generation</strong> viewed once and forgotten. <strong>Bulk content</strong> produced to fill SEO-optimized pages that humans never visit. Same water, same energy, same carbon per query &mdash; but the output evaporates.
+      </div>
+    </div>
+  </div>
+
+  <div class="danger-box">
+    <div class="danger-label">The Caveat That Matters</div>
+    <div class="danger-text">The <em>Slow AI</em> article is careful to note: the critique is aimed at companies, infrastructure, and policy &mdash; <strong>not individual users</strong>. Disabled users, for whom AI tools remove real barriers that society has never funded through any other route, are the last people anyone should blame for a system they did not build. The structural question is whether companies should be required to disclose per-query environmental costs so that organizations and individuals can make informed choices.</div>
+  </div>
+
+  <h3>Carbon by use case: not all AI usage is equal</h3>
+
+  <p>The chart below shows the estimated carbon footprint of seven different AI usage patterns over one quarter (90 days). Each scenario has its own assumptions about how many prompts per day, what kind (text vs. image), and what model size. The numbers come from the same published research cited throughout this chapter.</p>
+
+  <figure>
+  <table class="factory-table">
+    <thead>
+      <tr><th>Use case</th><th>Daily usage</th><th>Model</th><th>CO&#8322; per quarter</th><th>Waste factor</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>&#128188; LinkedIn post nobody reads</td><td>5 text + 1 image</td><td>Medium</td><td>468g</td><td style="color:#d94f4f;">High &mdash; rarely read</td></tr>
+      <tr><td>&#128049; AI-generated cat pictures</td><td>2 text + 10 images</td><td>Large</td><td>4,205g</td><td style="color:#d94f4f;">Very high &mdash; viewed once, forgotten</td></tr>
+      <tr><td>&#128218; Studying &amp; homework help</td><td>15 text + 2 images</td><td>Medium</td><td>990g</td><td style="color:#1a7a4c;">Low &mdash; supports learning</td></tr>
+      <tr><td>&#9855; Accessibility tools</td><td>20 text + 0 images</td><td>Small</td><td>65g</td><td style="color:#1a7a4c;">Near zero &mdash; essential need</td></tr>
+      <tr><td>&#128300; Academic research</td><td>25 text + 2 images</td><td>Large</td><td>1,638g</td><td style="color:#1a7a4c;">Low &mdash; advances knowledge</td></tr>
+      <tr><td>&#9993;&#65039; Emails you could write yourself</td><td>8 text + 0 images</td><td>Medium</td><td>86g</td><td style="color:#d4870e;">High &mdash; saves effort, not time</td></tr>
+      <tr><td>&#128241; 20 min TikTok scrolling</td><td>~40 videos (= 13 AI images equivalent)</td><td>Medium</td><td>~5,400g</td><td style="color:#d94f4f;">High &mdash; recommendation engine, not generative AI</td></tr>
+    </tbody>
+  </table>
+  <figcaption><strong>Worked example:</strong> The &ldquo;AI-generated cat pictures&rdquo; scenario assumes 2 text prompts + 10 image generations per day on a large model. Over 90 days, that&rsquo;s 900 images. Each image uses ~11.5 Wh, so 900 &times; 11.5 = 10,350 Wh. At 400g CO&#8322; per kWh, that&rsquo;s about 4,200g of CO&#8322;. Compare that to &ldquo;Accessibility tools&rdquo;: 20 text prompts per day on a small model, zero images, producing only ~65g over the same period &mdash; roughly 65&times; less carbon for a use case with far more value. The &ldquo;waste factor&rdquo; column isn&rsquo;t a precise measurement &mdash; it&rsquo;s a judgment call about how likely the output is to be read, used, and acted upon.</figcaption>
+  </figure>
+
+  <div class="meta-box">
+    <div class="meta-label">&#128218; A Note on This Textbook</div>
+    <div class="meta-text">This chapter was produced with AI assistance. The interactive calculator below was generated by a large language model. The irony is real: we&rsquo;re examining AI&rsquo;s environmental cost using a tool that itself has an environmental cost. That&rsquo;s not a reason to skip the examination &mdash; it&rsquo;s a reason to be honest about what every use of the technology costs, including educational ones.</div>
+  </div>
+
+  <!-- ═══════════════════════════ INTERACTIVE CALCULATOR ═══════════════════════════ -->
+
+  <h2 id="calculator"><span class="section-num">6.5</span> Interactive Tool: AI Prompt Footprint Calculator</h2>
+  <p>Use this calculator to estimate the water, energy, and carbon cost of different AI usage patterns. The numbers are drawn from <a href="https://theslowai.substack.com/p/is-ai-bad-for-the-environment" target="_blank" style="color:#1a7a4c;">&ldquo;The Actual Environmental Cost of AI&rdquo;</a> by Dr. Sam Illingworth (<em>Slow AI</em>, May 2026) and the published research it cites. Try the quick scenarios first, then adjust the sliders to model your own usage.</p>
+
+  <div id="calc-root" style="background:#0f1f15; border-radius:12px; padding:24px 20px; margin:1.5rem 0; color:#e8f5ee; font-family:Arial,sans-serif;">
+
+    <!-- Directions -->
+    <div style="margin-bottom:20px; padding:14px 16px; background:rgba(26,122,76,0.08); border-radius:10px; border:1px solid rgba(26,122,76,0.2);">
+      <div style="font-size:13px; color:#c8ddd0; line-height:1.65;">
+        <strong style="color:#e8f5ee;">&#128736;&#65039; How to use:</strong> Choose a quick scenario or adjust the sliders to match your AI usage. Select a model size and timeframe. Your water, energy, and carbon footprint updates instantly below. Then scroll down to compare against real-world benchmarks and see what happens at scale.
+      </div>
+    </div>
+
+    <!-- YOUR USAGE — one unified section -->
+    <div style="background:#162a1e; border-radius:10px; padding:20px; margin-bottom:24px; border:1px solid #2a4a35;">
+      <div style="font-size:15px; letter-spacing:0.5px; color:#e8f5ee; margin-bottom:14px; font-weight:700;">&#127919; Your Usage</div>
+
+      <!-- Quick scenarios -->
+      <div style="font-size:12px; color:#c8ddd0; margin-bottom:8px;">Click a scenario to load a preset, or set your own below:</div>
+      <div id="presets" style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px;"></div>
+      <div id="preset-desc" style="margin-bottom:14px; font-size:13px; color:#94c8a8; line-height:1.55; min-height:40px; padding:8px 12px; background:rgba(26,122,76,0.12); border-radius:6px; display:none;"></div>
+
+      <!-- Divider -->
+      <div style="border-top:1px solid #2a4a35; margin:14px 0;"></div>
+
+      <!-- Sliders -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+        <div>
+          <label style="font-size:12px; color:#c8ddd0; display:block; margin-bottom:6px;">Text prompts / day: <strong id="txt-val" style="color:#e8f5ee;">10</strong></label>
+          <input type="range" id="txt-slider" min="0" max="100" value="10" style="width:100%; accent-color:#1a7a4c;">
+        </div>
+        <div>
+          <label style="font-size:12px; color:#c8ddd0; display:block; margin-bottom:6px;">Image generations / day: <strong id="img-val" style="color:#e8f5ee;">1</strong></label>
+          <input type="range" id="img-slider" min="0" max="50" value="1" style="width:100%; accent-color:#1a7a4c;">
+        </div>
+        <div>
+          <div style="font-size:13px; color:#e8f5ee; margin-bottom:4px; font-weight:700;">&#9881;&#65039; Model size</div>
+          <div style="font-size:11px; color:#b0ccba; margin-bottom:8px;">Bigger models use more energy per query</div>
+          <div id="tier-btns" style="display:flex; gap:6px;"></div>
+        </div>
+        <div>
+          <div style="font-size:13px; color:#e8f5ee; margin-bottom:4px; font-weight:700;">&#128197; Timeframe</div>
+          <div style="font-size:11px; color:#b0ccba; margin-bottom:8px;">How long to calculate over</div>
+          <div id="time-btns" style="display:flex; gap:6px;"></div>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div style="border-top:1px solid #2a4a35; margin:14px 0;"></div>
+
+      <!-- Results cards -->
+      <div style="font-size:12px; color:#c8ddd0; margin-bottom:10px;">Your estimated footprint:</div>
+      <div id="results" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;"></div>
+    </div>
+
+    <!-- Context: How does AI compare? -->
+    <div style="background:#162a1e; border-radius:10px; padding:20px; margin-bottom:24px; border:1px solid #2a4a35;">
+      <div style="font-size:15px; letter-spacing:0.5px; color:#e8f5ee; margin-bottom:4px; font-weight:700;">&#128200; How does your usage compare?</div>
+      <div style="font-size:12px; color:#c8ddd0; margin-bottom:16px; line-height:1.5;">Your settings above produce a real environmental cost. Here&rsquo;s how it stacks up against familiar benchmarks.</div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;" id="context-cards"></div>
+      <div id="context-math" style="font-size:11px; color:#b0ccba; padding-top:10px; border-top:1px solid #2a4a35; line-height:1.6;"></div>
+    </div>
+
+    <!-- Scale it up -->
+    <div style="background:#162a1e; border-radius:10px; padding:20px; margin-bottom:24px; border:1px solid #2a4a35;">
+      <div style="font-size:15px; letter-spacing:0.5px; color:#e8f5ee; margin-bottom:4px; font-weight:700;">&#127758; Scale it up: From you to everyone</div>
+      <div style="font-size:12px; color:#c8ddd0; margin-bottom:14px; line-height:1.5;">Your individual footprint is small. The <em>Slow AI</em> article&rsquo;s point is what happens when you multiply it. Click a scale to see your current settings applied across an entire user base.</div>
+
+      <div id="scale-btns" style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px;"></div>
+      <div id="scale-results" style="display:none; background:#0f1f15; border-radius:8px; padding:16px; border:1px solid #1e3a28;">
+        <div id="scale-title" style="font-size:13px; font-weight:700; color:#e8f5ee; margin-bottom:10px;"></div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;" id="scale-cards"></div>
+        <div id="scale-note" style="font-size:11px; color:#b0ccba; margin-top:12px; line-height:1.5; padding-top:10px; border-top:1px solid #1e3a28;"></div>
+      </div>
+    </div>
+
+    <!-- Assumptions toggle -->
+    <details style="border-radius:10px; border:1px solid #1e3a28; overflow:hidden; margin-bottom:6px;">
+      <summary style="padding:12px 16px; background:#162a1e; color:#94c8a8; cursor:pointer; font-size:12px; font-weight:700; letter-spacing:0.5px;">Sources &amp; assumptions</summary>
+      <div style="padding:14px 16px; font-size:12px; line-height:1.7; background:#0f1f15;">
+        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Water per text query:</strong> 0.3 mL direct (<a href="https://blog.samaltman.com/the-gentle-singularity" target="_blank" style="color:#94c8a8;">OpenAI&rsquo;s published figure via Sam Altman</a>). Researchers estimate 5&ndash;50&times; higher when including off-site cooling for electricity generation. Source: <a href="https://arxiv.org/abs/2304.03271" target="_blank" style="color:#94c8a8;">Li et al., &ldquo;Making AI Less Thirsty&rdquo;</a>.</p>
+        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Energy per image generation:</strong> ~11.5 Wh at the high end, roughly one smartphone charge. Source: <a href="https://arxiv.org/abs/2311.16863" target="_blank" style="color:#94c8a8;">Luccioni et al., &ldquo;Power Hungry Processing&rdquo;</a>.</p>
+        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Grid carbon intensity:</strong> ~400g CO&#8322;/kWh global average. Source: <a href="https://www.iea.org/reports/electricity-2025/emissions" target="_blank" style="color:#94c8a8;">IEA Electricity 2025</a>.</p>
+        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Model size multipliers:</strong> Estimated. Small models use roughly 0.3&times; the compute of a mid-tier model; large frontier models use roughly 3&times;. No standardized per-query benchmarks exist &mdash; this is itself part of the disclosure problem.</p>
+        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Comparisons:</strong> Household water ~1,140 liters/day US average (<a href="https://www.usgs.gov/mission-areas/water-resources/science/water-use-united-states" target="_blank" style="color:#94c8a8;">USGS</a>). Car emissions ~404g CO&#8322;/mile (<a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle" target="_blank" style="color:#94c8a8;">EPA</a>). Smartphone charge ~12 Wh.</p>
+        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Golf course benchmark:</strong> A typical US 18-hole golf course uses ~312,000 gallons/day (~1,181,000 liters/day). Source: <a href="https://www.usga.org/content/dam/usga/pdf/Water%20Resource%20Center/how-much-water-does-golf-use.pdf" target="_blank" style="color:#94c8a8;">USGA &ldquo;How Much Water Does Golf Use&rdquo;</a>; confirmed by <a href="https://www.gcsaa.org/docs/default-source/Environment/phase-2-water-use-survey-full-report.pdf" target="_blank" style="color:#94c8a8;">GCSAA Phase II Water Use report</a>.</p>
+        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Flight benchmark:</strong> A round-trip passenger flight from New York to Los Angeles is ~4,900 miles. At ~0.41 lbs CO&#8322; per passenger-mile (<a href="https://css.umich.edu/publications/factsheets/sustainability-indicators/carbon-footprint-factsheet" target="_blank" style="color:#94c8a8;">U. of Michigan CSS</a>), that&rsquo;s ~2,010 lbs &rarr; ~912 kg, rounded to <strong style="color:#e8f5ee;">~900 kg (0.9 tonnes) per passenger per round trip</strong>. For context, that&rsquo;s roughly half the weight of a small car in CO&#8322;, produced by one seat on one flight.</p>
+        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">TikTok benchmark:</strong> 20 minutes of TikTok scrolling (~40 short videos) produces roughly the same carbon as generating 13 AI images on a medium model. This equivalence is derived from <a href="https://fortune.com/2024/12/13/tiktok-carbon-footprint-emissions-doomscrolling-greece-greenly/" target="_blank" style="color:#94c8a8;">Greenly&rsquo;s estimate</a> of ~50 million tonnes CO&#8322;/year for ~1 billion users averaging ~92 videos/day. Per video: ~1.49g CO&#8322;. 40 videos = ~59.6g CO&#8322;/day. One AI image at ~11.5 Wh = ~4.6g CO&#8322;. So 59.6 &divide; 4.6 &asymp; 13 images. Included so you can compare your generative AI usage to something you already do every day.</p>
+        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">What&rsquo;s NOT included:</strong> Embodied carbon in hardware manufacturing, water used in chip fabrication, Scope 3 supply chain emissions, data center construction. These could multiply the figures by 10&times; or more.</p>
+        <p style="margin:0; color:#c8ddd0;"><strong style="color:#e8f5ee;">Source article:</strong> <a href="https://theslowai.substack.com/p/is-ai-bad-for-the-environment" target="_blank" style="color:#94c8a8;">&ldquo;The Actual Environmental Cost of AI&rdquo;</a> by Dr. Sam Illingworth, <em>Slow AI</em> (May 2026).</p>
+      </div>
+    </details>
+
+    <!-- Transparency note — at the bottom -->
+    <div style="background:rgba(26,122,76,0.08); border-radius:10px; padding:14px 16px; margin-top:16px; border:1px solid rgba(26,122,76,0.2);">
+      <div style="font-size:13px; color:#1a7a4c; font-weight:700; margin-bottom:6px;">&#129668; A note on transparency</div>
+      <p style="font-size:12.5px; color:#c8ddd0; margin:0; line-height:1.6;">This calculator was built with AI assistance. The prompts used to create it, the server that generated the code, and the energy powering the device you&rsquo;re reading it on all have environmental costs. We&rsquo;re not hiding that &mdash; it&rsquo;s the point. The question isn&rsquo;t whether to use AI. It&rsquo;s whether each use justifies its cost, and whether the companies providing it should be required to tell you what that cost is.</p>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    // ── Data ──
+    var PRESETS = [
+      { id:'linkedin', label:'LinkedIn post nobody reads', icon:'\uD83D\uDCBC', text:5, img:1, tier:'medium', waste:0.9,
+        desc:'Using AI to draft social media posts that get minimal engagement. The content is generated, posted, and forgotten \u2014 a high waste factor because the output rarely gets read or acted upon.' },
+      { id:'catpics', label:'AI-generated cat pictures', icon:'\uD83D\uDC31', text:2, img:10, tier:'large', waste:0.95,
+        desc:'Generating decorative AI images for fun. Image generation uses roughly 38\u00D7 more energy than a text prompt. Most generated images are viewed once and never saved \u2014 the highest waste factor of any scenario here.' },
+      { id:'homework', label:'Studying & homework help', icon:'\uD83D\uDCDA', text:15, img:2, tier:'medium', waste:0.1,
+        desc:'Using AI as a study aid \u2014 explaining concepts, working through practice problems, getting feedback on drafts, and occasionally generating diagrams or visual aids. Low waste factor because the output directly supports learning.' },
+      { id:'accessibility', label:'Accessibility tools', icon:'\u267F', text:20, img:0, tier:'small', waste:0.0,
+        desc:'Screen readers, accurate captions, translation tools that remove barriers for disabled users. Waste factor is effectively zero \u2014 every output serves a real need that society has not funded through other means.' },
+      { id:'research', label:'Academic research', icon:'\uD83D\uDD2C', text:25, img:2, tier:'large', waste:0.15,
+        desc:'Literature review, data analysis, hypothesis testing, and generating charts or figures for papers. Uses a large model because research tasks require deep reasoning. Low waste factor \u2014 but high energy per query because of the model size.' },
+      { id:'email', label:'Emails you could write yourself', icon:'\u2709\uFE0F', text:8, img:0, tier:'medium', waste:0.7,
+        desc:'Using AI to draft routine emails you already know how to write. High waste factor because the AI is replacing a task you could do in the same time \u2014 the output saves effort but at an environmental cost that may not be justified.' },
+      { id:'tiktok', label:'20 min TikTok scrolling', icon:'\uD83D\uDCF1', text:0, img:13, tier:'medium', waste:0.85,
+        desc:'This isn\u2019t generative AI \u2014 but it\u2019s still artificial intelligence at work. Scrolling TikTok for 20 minutes (~40 short videos) runs one of the most sophisticated recommendation engines ever built, processing your behavior in real time. Each video produces ~1.49g of CO\u2082, so 40 videos = ~59.6g CO\u2082 per day. One AI-generated image produces ~4.6g CO\u2082. So 59.6 \u00F7 4.6 \u2248 13 images \u2014 that\u2019s why the slider is set to 13. Your 20 minutes of TikTok costs the same carbon as generating 13 AI images. TikTok\u2019s total platform footprint is ~50 million tonnes CO\u2082/year, comparable to the entire country of Greece. Source: <a href="https://fortune.com/2024/12/13/tiktok-carbon-footprint-emissions-doomscrolling-greece-greenly/" target="_blank" style="color:#94c8a8;">Fortune/Greenly</a>' }
+    ];
+    var TIERS = { small:{mult:0.3,label:'Small'}, medium:{mult:1,label:'Medium'}, large:{mult:3,label:'Large'} };
+    var TIMES = [{d:1,l:'Day'},{d:7,l:'Week'},{d:30,l:'Month'},{d:90,l:'Quarter'},{d:365,l:'Year'}];
+
+    var state = { text:10, img:1, tier:'medium', days:90, preset:null, scale:null };
+
+    // ── Helpers ──
+    function fmt(n) {
+      if (n >= 1e9) return (n/1e9).toFixed(1)+'B';
+      if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
+      if (n >= 1e3) return (n/1e3).toFixed(1)+'K';
+      if (n >= 10) return Math.round(n).toLocaleString();
+      if (n >= 0.1) return n.toFixed(1);
+      return n.toFixed(2);
+    }
+    function calc(txt, img, tierKey, days) {
+      var m = TIERS[tierKey].mult;
+      var totalTxt = txt * days, totalImg = img * days;
+      var wLow = ((totalTxt * 0.3 * m * 5) + (totalImg * 11.5 * 5)) / 1000;
+      var wHigh = ((totalTxt * 0.3 * m * 50) + (totalImg * 11.5 * 50)) / 1000;
+      var energy = (totalTxt * 0.3 * m) + (totalImg * 11.5);
+      var carbon = (energy / 1000) * 400;
+      return { wLow:wLow, wHigh:wHigh, energy:energy, carbon:carbon };
+    }
+    // TikTok: ~1.49g CO2 per video, ~3.7 Wh per video, ~6.7 ml water per video
+    // Based on Greenly/Fortune estimate of ~50M tonnes CO2/year for ~1B users at ~92 videos/day
+    function calcTikTok(days) {
+      var videosPerDay = 40;
+      var totalVideos = videosPerDay * days;
+      var energy = totalVideos * 3.7;
+      var carbon = totalVideos * 1.49;
+      var wLow = (totalVideos * 6.7 * 5) / 1000;
+      var wHigh = (totalVideos * 6.7 * 50) / 1000;
+      return { wLow:wLow, wHigh:wHigh, energy:energy, carbon:carbon };
+    }
+
+    // ── Render presets ──
+    var presetsEl = document.getElementById('presets');
+    var descEl = document.getElementById('preset-desc');
+    PRESETS.forEach(function(p) {
+      var btn = document.createElement('button');
+      btn.textContent = p.icon + ' ' + p.label;
+      btn.dataset.id = p.id;
+      btn.style.cssText = 'padding:6px 12px; border-radius:20px; border:1px solid #1e3a28; background:#162a1e; color:#94c8a8; cursor:pointer; font-size:12px; transition:all 0.15s;';
+      btn.addEventListener('click', function() {
+        state.text = p.text; state.img = p.img; state.tier = p.tier; state.preset = p.id;
+        document.getElementById('txt-slider').value = p.text;
+        document.getElementById('img-slider').value = p.img;
+        descEl.style.display = 'block';
+        descEl.innerHTML = '<strong style="color:#e8f5ee;">' + p.icon + ' ' + p.label + ':</strong> ' + p.desc;
+        render();
+      });
+      presetsEl.appendChild(btn);
+    });
+
+    // ── Render tier buttons ──
+    var tierEl = document.getElementById('tier-btns');
+    ['small','medium','large'].forEach(function(k) {
+      var btn = document.createElement('button');
+      btn.textContent = TIERS[k].label;
+      btn.dataset.tier = k;
+      btn.style.cssText = 'flex:1; padding:10px 6px; border-radius:8px; cursor:pointer; font-size:13px; font-weight:600; transition:all 0.15s;';
+      btn.addEventListener('click', function() { state.tier = k; state.preset = null; render(); });
+      tierEl.appendChild(btn);
+    });
+
+    // ── Render time buttons ──
+    var timeEl = document.getElementById('time-btns');
+    TIMES.forEach(function(t) {
+      var btn = document.createElement('button');
+      btn.textContent = t.l;
+      btn.dataset.days = t.d;
+      btn.style.cssText = 'flex:1; padding:10px 4px; border-radius:8px; cursor:pointer; font-size:13px; font-weight:600; transition:all 0.15s;';
+      btn.addEventListener('click', function() { state.days = t.d; render(); });
+      timeEl.appendChild(btn);
+    });
+
+    // ── Sliders ──
+    document.getElementById('txt-slider').addEventListener('input', function(e) {
+      state.text = +e.target.value; state.preset = null; render();
+    });
+    document.getElementById('img-slider').addEventListener('input', function(e) {
+      state.img = +e.target.value; state.preset = null; render();
+    });
+
+    // ── Main render ──
+    function render() {
+      document.getElementById('txt-val').textContent = state.text;
+      document.getElementById('img-val').textContent = state.img;
+
+      // Style buttons
+      document.querySelectorAll('#tier-btns button').forEach(function(b) {
+        var active = b.dataset.tier === state.tier;
+        b.style.border = active ? '2px solid #1a7a4c' : '1px solid #1e3a28';
+        b.style.background = active ? 'rgba(26,122,76,0.35)' : '#162a1e';
+        b.style.color = active ? '#e8f5ee' : '#b0ccba';
+      });
+      document.querySelectorAll('#time-btns button').forEach(function(b) {
+        var active = +b.dataset.days === state.days;
+        b.style.border = active ? '2px solid #1a7a4c' : '1px solid #1e3a28';
+        b.style.background = active ? 'rgba(26,122,76,0.35)' : '#162a1e';
+        b.style.color = active ? '#e8f5ee' : '#b0ccba';
+      });
+      document.querySelectorAll('#presets button').forEach(function(b) {
+        var active = b.dataset.id === state.preset;
+        b.style.border = active ? '1px solid #1a7a4c' : '1px solid #1e3a28';
+        b.style.background = active ? 'rgba(26,122,76,0.2)' : '#162a1e';
+        b.style.color = active ? '#1a7a4c' : '#94c8a8';
+      });
+
+      // Calculate user footprint
+      var fp = calc(state.text, state.img, state.tier, state.days);
+      var wMid = (fp.wLow + fp.wHigh) / 2;
+
+      // Results cards
+      var resultsEl = document.getElementById('results');
+      resultsEl.innerHTML = ''
+        + makeCard('\uD83D\uDCA7 Water usage', fmt(fp.wLow)+'&ndash;'+fmt(fp.wHigh), 'liters', '\u2248 '+fmt(wMid/1140)+' days of household water', '#94c8a8')
+        + makeCard('\u26A1 Energy', fmt(fp.energy), 'Wh', '\u2248 '+fmt(fp.energy/12)+' smartphone charges', '#94c8a8')
+        + makeCard('\uD83C\uDF2B\uFE0F Carbon', fmt(fp.carbon), 'g CO\u2082', '\u2248 '+fmt(fp.carbon/404)+' miles driven', '#94c8a8');
+
+      // Context cards — dynamic comparisons based on user's footprint
+      var ctx = document.getElementById('context-cards');
+      var userWaterMid = (fp.wLow + fp.wHigh) / 2;
+      var contextItems = [
+        {
+          icon: '\uD83D\uDCA7', title: 'Household water',
+          value: fmt(userWaterMid / 1140) + ' days',
+          detail: 'Your usage equals ' + fmt(userWaterMid / 1140) + ' days of average US household water use (~1,140 L/day).',
+          color: '#94c8a8'
+        },
+        {
+          icon: '\uD83D\uDE97', title: 'Miles driven',
+          value: fmt(fp.carbon / 404) + ' miles',
+          detail: 'Same carbon as driving a car ' + fmt(fp.carbon / 404) + ' miles (EPA avg: 404g CO\u2082/mile).',
+          color: '#94c8a8'
+        },
+        {
+          icon: '\u26F3', title: 'Golf course water',
+          value: fmt(userWaterMid / 1181000 * 100) + '%',
+          detail: 'Your water use is ' + fmt(userWaterMid / 1181000 * 100) + '% of what one US golf course uses in a day (~1.18M liters).',
+          color: '#94c8a8'
+        },
+        {
+          icon: '\u2708\uFE0F', title: 'NY \u2194 LA flights',
+          value: fmt(fp.carbon / 900000) + ' flights',
+          detail: 'Same carbon as ' + fmt(fp.carbon / 900000) + ' round-trip flights, New York to Los Angeles (~900kg CO\u2082 each).',
+          color: '#94c8a8'
+        }
+      ];
+      ctx.innerHTML = contextItems.map(function(c) {
+        return '<div style="background:#0f1f15; border-radius:8px; padding:14px; border-left:3px solid '+c.color+';">'
+          + '<div style="font-size:20px; margin-bottom:4px;">'+c.icon+'</div>'
+          + '<div style="font-size:18px; font-weight:700; color:#e8f5ee; margin-bottom:2px;">'+c.value+'</div>'
+          + '<div style="font-size:11px; font-weight:600; color:#94c8a8; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">'+c.title+'</div>'
+          + '<div style="font-size:11px; color:#b0ccba; line-height:1.45;">'+c.detail+'</div>'
+          + '</div>';
+      }).join('');
+
+      // Show your work for context comparisons
+      var ctxMath = document.getElementById('context-math');
+      if (ctxMath) {
+        ctxMath.innerHTML = '<strong style="color:#e8f5ee;">Show your work:</strong> '
+          + state.text + ' text prompts/day &times; ' + state.days + ' days = ' + (state.text * state.days) + ' total text queries. '
+          + state.img + ' images/day &times; ' + state.days + ' days = ' + (state.img * state.days) + ' total images. '
+          + 'Text energy: ' + (state.text * state.days) + ' &times; 0.3 Wh &times; ' + TIERS[state.tier].mult + ' (model multiplier) = ' + fmt((state.text * state.days) * 0.3 * TIERS[state.tier].mult) + ' Wh. '
+          + 'Image energy: ' + (state.img * state.days) + ' &times; 11.5 Wh = ' + fmt((state.img * state.days) * 11.5) + ' Wh. '
+          + 'Total energy: <strong style="color:#e8f5ee;">' + fmt(fp.energy) + ' Wh</strong>. '
+          + 'Carbon: ' + fmt(fp.energy) + ' Wh &divide; 1,000 &times; 400g/kWh = <strong style="color:#e8f5ee;">' + fmt(fp.carbon) + 'g CO\u2082</strong>. '
+          + 'Water (midpoint): <strong style="color:#e8f5ee;">' + fmt(wMid) + ' liters</strong>.';
+      }
+
+      // Render scale-up section
+      renderScale(fp);
+    }
+
+    function makeCard(label, value, unit, comparison, color) {
+      return '<div style="background:#162a1e; border-radius:10px; padding:16px 14px; border:1px solid #1e3a28; position:relative; overflow:hidden;">'
+        + '<div style="position:absolute; top:0; left:0; right:0; height:3px; background:'+color+';"></div>'
+        + '<div style="font-size:11px; text-transform:uppercase; letter-spacing:1.2px; color:#b0ccba; margin-bottom:6px;">'+label+'</div>'
+        + '<div style="font-size:24px; font-weight:700; color:#e8f5ee; line-height:1.1;">'+value+' <span style="font-size:12px; font-weight:400; color:#b0ccba;">'+unit+'</span></div>'
+        + '<div style="font-size:11px; color:#b0ccba; margin-top:8px; line-height:1.4;">'+comparison+'</div>'
+        + '</div>';
+    }
+
+    // ── Scale-up section ──
+    var SCALES = [
+      { id:'company', label:'500-person company', icon:'\uD83C\uDFE2', users:500,
+        note:'A mid-sized company deploying AI assistants to every employee \u2014 the procurement scenario from the exam questions.' },
+      { id:'claude', label:'30M Claude users', icon:'\uD83E\uDDE0', users:30e6,
+        note:'Claude has ~30 million monthly active consumer users (web + mobile, early 2026). Sources: <a href="https://backlinko.com/claude-users" target="_blank" style="color:#94c8a8;">Backlinko</a>, <a href="https://www.demandsage.com/claude-ai-statistics/" target="_blank" style="color:#94c8a8;">DemandSage</a>.' },
+      { id:'chatgpt', label:'800M ChatGPT users', icon:'\uD83D\uDCAC', users:800e6,
+        note:'ChatGPT has ~800 million weekly active users (Sam Altman, October 2025). Source: <a href="https://techcrunch.com/2025/10/06/sam-altman-says-chatgpt-has-hit-800m-weekly-active-users/" target="_blank" style="color:#94c8a8;">TechCrunch</a>.' },
+      { id:'tiktokscale', label:'1B TikTok users', icon:'\uD83D\uDCF1', users:1e9,
+        note:'TikTok has ~1 billion global users. <a href="https://fortune.com/2024/12/13/tiktok-carbon-footprint-emissions-doomscrolling-greece-greenly/" target="_blank" style="color:#94c8a8;">Greenly/Fortune estimate</a> the platform\u2019s total annual carbon footprint at ~50 million tonnes CO\u2082 \u2014 comparable to the entire country of Greece. The average user watches ~92 short videos per day. Try selecting the TikTok doomscrolling preset above, then clicking this button to see how it scales.' },
+      { id:'spotify', label:'1.4B Spotify Wrapped', icon:'\uD83C\uDFB5', users:1.4e9,
+        note:'For Spotify\u2019s 2025 Wrapped Archive, LLMs generated <a href="https://www.zenml.io/llmops-database/generating-14-billion-personalized-music-narratives-for-wrapped-archive" target="_blank" style="color:#94c8a8;">~1.4 billion personalized narrative reports</a> for ~350 million users (up to 5 reports each). <strong style="color:#e8f5ee;">Important:</strong> This button applies <em>your current slider settings</em> to 1.4 billion users \u2014 it does NOT model what Spotify actually did. A real Wrapped summary is ~5 short LLM calls per user (much less than 10 prompts/day for a quarter). The point is to show the scale of enterprise AI deployment, not to estimate Spotify\u2019s actual footprint.' },
+    ];
+    var scaleBtnsEl = document.getElementById('scale-btns');
+    SCALES.forEach(function(s) {
+      var btn = document.createElement('button');
+      btn.textContent = s.icon + ' ' + s.label;
+      btn.dataset.id = s.id;
+      btn.style.cssText = 'padding:6px 12px; border-radius:20px; border:1px solid #1e3a28; background:#0f1f15; color:#94c8a8; cursor:pointer; font-size:12px; transition:all 0.15s;';
+      btn.addEventListener('click', function() {
+        state.scale = (state.scale === s.id) ? null : s.id;
+        render();
+      });
+      scaleBtnsEl.appendChild(btn);
+    });
+
+    function renderScale(fp) {
+      // Style buttons
+      document.querySelectorAll('#scale-btns button').forEach(function(b) {
+        var active = b.dataset.id === state.scale;
+        b.style.border = active ? '1px solid #d4870e' : '1px solid #1e3a28';
+        b.style.background = active ? 'rgba(212,135,14,0.15)' : '#0f1f15';
+        b.style.color = active ? '#d4870e' : '#94c8a8';
+      });
+
+      var panel = document.getElementById('scale-results');
+      if (!state.scale) { panel.style.display = 'none'; return; }
+
+      var sc = SCALES.find(function(s) { return s.id === state.scale; });
+      if (!sc) return;
+
+      panel.style.display = 'block';
+
+      // If user has zero usage, apply a minimum baseline: 1 text prompt/day on small model
+      // Because even if YOU don't use AI, the platform's users still do
+      var scaleFp = fp;
+      var usingBaseline = false;
+      if (fp.carbon === 0 && fp.energy === 0) {
+        scaleFp = calc(1, 0, 'small', state.days);
+        usingBaseline = true;
+      }
+
+      var sWaterMid = ((scaleFp.wLow + scaleFp.wHigh) / 2) * sc.users;
+      var sEnergy = scaleFp.energy * sc.users;
+      var sCarbon = scaleFp.carbon * sc.users;
+
+      // Format large numbers nicely
+      function fmtBig(n, unit) {
+        if (unit === 'water') {
+          if (n >= 1e12) return fmt(n/1e12) + ' trillion liters';
+          if (n >= 1e9) return fmt(n/1e9) + ' billion liters';
+          if (n >= 1e6) return fmt(n/1e6) + ' million liters';
+          return fmt(n) + ' liters';
+        }
+        if (unit === 'energy') {
+          if (n >= 1e9) return fmt(n/1e9) + ' GWh';
+          if (n >= 1e6) return fmt(n/1e6) + ' MWh';
+          if (n >= 1e3) return fmt(n/1e3) + ' kWh';
+          return fmt(n) + ' Wh';
+        }
+        if (unit === 'carbon') {
+          if (n >= 1e12) return fmt(n/1e6) + ' tonnes';
+          if (n >= 1e9) return fmt(n/1e6) + ' tonnes';
+          if (n >= 1e6) return fmt(n/1e6) + ' tonnes';
+          if (n >= 1e3) return fmt(n/1e3) + ' kg';
+          return fmt(n) + ' g';
+        }
+      }
+
+      // Context sentences
+      var waterCtx = sWaterMid >= 1181000 ? '\u2248 ' + fmt(sWaterMid / 1181000) + ' golf courses\u2019 daily water' : '';
+      var carbonCtx = sCarbon >= 900000 ? '\u2248 ~' + Math.round(sCarbon / 900000).toLocaleString() + ' NY\u2194LA round-trip flights' : '\u2248 ~' + Math.round(sCarbon / 404).toLocaleString() + ' miles driven';
+
+      document.getElementById('scale-title').innerHTML = '<span style="color:#e8f5ee;">' + sc.icon + ' If every ' + (sc.id === 'spotify' ? 'Wrapped summary' : 'user') + ' had your settings: </span><span style="color:#d4870e; font-weight:700;">' + fmt(sc.users) + (sc.id === 'spotify' ? ' summaries' : ' users') + '</span><span style="color:#e8f5ee;"> &times; your daily usage &times; ' + state.days + ' days</span>';
+
+      document.getElementById('scale-cards').innerHTML =
+        '<div style="background:#162a1e; border-radius:8px; padding:14px; text-align:center; border-top:2px solid #1a7a4c;">'
+        + '<div style="font-size:16px; margin-bottom:2px;">\uD83D\uDCA7</div>'
+        + '<div style="font-size:11px; color:#94c8a8; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Water</div>'
+        + '<div style="font-size:16px; font-weight:700; color:#e8f5ee; line-height:1.2;">' + fmtBig(sWaterMid, 'water') + '</div>'
+        + (waterCtx ? '<div style="font-size:10px; color:#b0ccba; margin-top:4px;">' + waterCtx + '</div>' : '')
+        + '</div>'
+        + '<div style="background:#162a1e; border-radius:8px; padding:14px; text-align:center; border-top:2px solid #d4870e;">'
+        + '<div style="font-size:16px; margin-bottom:2px;">\u26A1</div>'
+        + '<div style="font-size:11px; color:#94c8a8; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Energy</div>'
+        + '<div style="font-size:16px; font-weight:700; color:#e8f5ee; line-height:1.2;">' + fmtBig(sEnergy, 'energy') + '</div>'
+        + '</div>'
+        + '<div style="background:#162a1e; border-radius:8px; padding:14px; text-align:center; border-top:2px solid #d94f4f;">'
+        + '<div style="font-size:16px; margin-bottom:2px;">\uD83C\uDF2B\uFE0F</div>'
+        + '<div style="font-size:11px; color:#94c8a8; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Carbon</div>'
+        + '<div style="font-size:16px; font-weight:700; color:#e8f5ee; line-height:1.2;">' + fmtBig(sCarbon, 'carbon') + '</div>'
+        + (carbonCtx ? '<div style="font-size:10px; color:#b0ccba; margin-top:4px;">' + carbonCtx + '</div>' : '')
+        + '</div>';
+
+      // Build the settings description
+      var settingsDesc = usingBaseline
+        ? '1 text prompt/day, small model (minimum baseline)'
+        : state.text + ' text prompts + ' + state.img + ' images/day, ' + state.tier + ' model';
+
+      // Baseline notice
+      var baselineNotice = usingBaseline
+        ? '<div style="padding:8px 10px; background:rgba(212,135,14,0.12); border-radius:6px; margin-bottom:10px; font-size:11px; color:#d4870e; line-height:1.45;">'
+          + '\u26A0\uFE0F Your sliders are at zero, but that doesn\u2019t mean AI isn\u2019t running. We\u2019re showing a minimum baseline (1 text prompt/day, small model) because even if you don\u2019t use AI, the other ' + fmt(sc.users) + ' users on this platform still do.'
+          + '</div>'
+        : '';
+
+      // Build the carbon conversion chain for the math table
+      var totalCarbonG = scaleFp.carbon * sc.users;
+      var totalTonnes = totalCarbonG / 1e6;
+      var totalKg = totalCarbonG / 1e3;
+      var conversionRows = '';
+      if (totalCarbonG >= 1e6) {
+        conversionRows = '<tr style="border-bottom:1px solid #1e3a28;">'
+          + '<td style="padding:4px 0; color:#94c8a8;">Convert to tonnes</td>'
+          + '<td style="padding:4px 0; text-align:right; color:#c8ddd0;">' + fmt(totalCarbonG) + 'g \u00F7 1,000,000 = <strong style="color:#e8f5ee;">' + fmt(totalTonnes) + ' tonnes</strong></td></tr>'
+          + '<tr style="border-bottom:1px solid #1e3a28;">'
+          + '<td style="padding:4px 0; color:#94c8a8;">Convert to kg</td>'
+          + '<td style="padding:4px 0; text-align:right; color:#c8ddd0;">' + fmt(totalTonnes) + ' tonnes \u00D7 1,000 = <strong style="color:#e8f5ee;">' + fmt(totalKg) + ' kg</strong></td></tr>';
+      } else if (totalCarbonG >= 1e3) {
+        conversionRows = '<tr style="border-bottom:1px solid #1e3a28;">'
+          + '<td style="padding:4px 0; color:#94c8a8;">Convert to kg</td>'
+          + '<td style="padding:4px 0; text-align:right; color:#c8ddd0;">' + fmt(totalCarbonG) + 'g \u00F7 1,000 = <strong style="color:#e8f5ee;">' + fmt(totalKg) + ' kg</strong></td></tr>';
+      }
+
+      document.getElementById('scale-note').innerHTML = baselineNotice
+        + '<strong style="color:#e8f5ee;">Show your work \u2014 the math:</strong>'
+        + '<table style="width:100%; margin:8px 0 12px; border-collapse:collapse; font-size:11px; color:#c8ddd0;">'
+        + '<tr style="border-bottom:1px solid #1e3a28;">'
+        + '<td style="padding:4px 0; color:#94c8a8;">Your settings</td>'
+        + '<td style="padding:4px 0; text-align:right;">' + settingsDesc + ', ' + state.days + ' days</td></tr>'
+        + '<tr style="border-bottom:1px solid #1e3a28;">'
+        + '<td style="padding:4px 0; color:#94c8a8;">Carbon per user</td>'
+        + '<td style="padding:4px 0; text-align:right;">' + fmt(scaleFp.carbon) + 'g CO\u2082</td></tr>'
+        + '<tr style="border-bottom:1px solid #1e3a28;">'
+        + '<td style="padding:4px 0; color:#94c8a8;">\u00D7 users</td>'
+        + '<td style="padding:4px 0; text-align:right;">\u00D7 ' + fmt(sc.users) + ' ' + (sc.id === 'spotify' ? 'summaries' : 'users') + '</td></tr>'
+        + '<tr style="border-bottom:1px solid #1e3a28;">'
+        + '<td style="padding:4px 0; color:#94c8a8;"><strong style="color:#e8f5ee;">= Total carbon</strong></td>'
+        + '<td style="padding:4px 0; text-align:right;"><strong style="color:#e8f5ee;">' + fmt(sCarbon) + 'g CO\u2082</strong></td></tr>'
+        + conversionRows
+        + (sCarbon >= 900000
+          ? '<tr><td style="padding:4px 0; color:#94c8a8;">\u00F7 900 kg per NY\u2194LA flight</td>'
+          + '<td style="padding:4px 0; text-align:right;"><strong style="color:#d4870e;">~' + Math.round(sCarbon / 900000).toLocaleString() + ' round-trip flights</strong></td></tr>'
+          : '<tr><td style="padding:4px 0; color:#94c8a8;">\u00F7 404g per mile driven</td>'
+          + '<td style="padding:4px 0; text-align:right;"><strong style="color:#d4870e;">~' + Math.round(sCarbon / 404).toLocaleString() + ' miles driven</strong></td></tr>')
+        + '</table>'
+        + '<strong style="color:#e8f5ee;">Source:</strong> ' + sc.note
+        + '<br><span style="color:#b0ccba;">This assumes every ' + (sc.id === 'spotify' ? 'summary' : 'user')
+        + ' has the same usage pattern \u2014 a simplification, but it shows how individual usage compounds at scale.</span>';
+    }
+
+    render();
+  })();
+  </script>
+
+  <!-- ═══════════════════════════ PART II: THE RESPONSE ═══════════════════════════ -->
+
+  <p>The calculator above makes the problem concrete: even modest individual usage adds up fast at platform scale. So what is the industry actually doing about it? The answer is a mix of genuinely innovative engineering and some approaches that trade one environmental problem for another.</p>
+
+  <h2 id="s6"><span class="section-num">7</span> Emerging Solutions: How the Market Is Responding</h2>
+
+  <p>Pointing out the problem is important, but it&rsquo;s only half the story. The market is already responding with several different approaches to powering AI more sustainably. Each one involves real tradeoffs. As a business student, the question to ask isn&rsquo;t &ldquo;which solution is best?&rdquo; but &ldquo;what is each approach betting on, and what risks does it leave on the table?&rdquo;</p>
+
+  <h3 id="s6a"><span class="part-badge">Solution 1</span> Wave-Powered Floating Data Centers</h3>
+
+  <p><a href="https://www.cbsnews.com/news/using-wave-energy-to-power-sea-based-ai-data-centers/" target="_blank">Panthalassa</a>, based in Vancouver, Washington, is developing self-propelled floating data centers that generate electricity from wave energy, process AI workloads onboard, and transmit results by satellite. No anchor, no undersea cable, no municipal water supply. The units navigate autonomously &mdash; &ldquo;like a little Roomba, except it&rsquo;s enormous.&rdquo; Construction of the Ocean-3 units is underway with an expected launch around August 2026.</p>
+
+  <p>The business case is straightforward: AI companies get power faster than land-based data center construction allows, with zero carbon emissions during operation and no competition for grid capacity. Panthalassa says it has all the private funding it needs because the value proposition to AI companies is speed and cleanliness.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key question</div>
+    <div class="concept-term">Can wave-powered data centers actually work at scale?</div>
+    <div class="concept-def">Cost per compute-hour is unproven. Reliability in adverse ocean conditions is untested at commercial scale. Satellite transmission adds latency for time-sensitive workloads. Maintenance logistics in open ocean are unknown. The technology is pre-revenue &mdash; promising, but with no track record.</div>
+  </div>
+
+  <h3 id="s6b"><span class="part-badge">Solution 2</span> Nuclear: Restarts and Small Modular Reactors</h3>
+
+  <div class="two-col">
+    <div class="col-card col-green">
+      <div class="col-label">Restart Path</div>
+      <div class="col-title">Microsoft &amp; Three Mile Island</div>
+      <div class="col-body">Microsoft is paying <strong>$1.6 billion</strong> to restart Three Mile Island&rsquo;s Unit 1 reactor (now renamed the Crane Clean Energy Center), securing 20 years of steady, always-on carbon-free power. Constellation Energy estimates reopening the existing facility is at least <strong>10&times; cheaper</strong> than building new, with a ~3-year timeline vs. the decade typically required for new nuclear. The reactor ran safely from 1974 to 2019; only Unit 2 had the 1979 partial meltdown.</div>
+    </div>
+    <div class="col-card col-amber">
+      <div class="col-label">New Build Path</div>
+      <div class="col-title">Google &amp; Kairos Power SMRs</div>
+      <div class="col-body">Google is funding Kairos Power to build <strong>small modular reactors (SMRs)</strong> that use fuel pebbles instead of traditional fuel rods. Each pebble &mdash; roughly golf-ball sized &mdash; contains as much energy capacity as four tons of coal, with zero CO&#8322; during operation. Google anticipates the first reactor online by <strong>2030</strong>. Kairos is building three demonstration plants in Oak Ridge, Tennessee.</div>
+    </div>
+  </div>
+
+  <div class="danger-box">
+    <div class="danger-label">The Skeptic&rsquo;s Case</div>
+    <div class="danger-text">Sharon Squassoni, a George Washington University professor who spent 15 years researching nuclear safety for the federal government, argues that SMRs remain commercially unproven: &ldquo;There&rsquo;s only one problem with small modular reactors: they don&rsquo;t really exist.&rdquo; She predicts tech companies will find the timeline too long and the cost too high, and will ultimately turn to burning fossil fuels. Nuclear also still produces waste requiring long-term storage.</div>
+  </div>
+
+  <h3 id="s6c"><span class="part-badge">Solution 3</span> Off-Grid Private Power Plants</h3>
+
+  <p>The Trump administration has encouraged tech companies to build their own power plants with expedited permitting. Several executives have pledged to do so. The appeal is speed: when Elon Musk was told connecting his xAI Colossus facility in Tennessee to the grid would take years, he brought in mobile natural gas generators and had the world&rsquo;s largest AI training data center operational in <strong>four months</strong>.</p>
+
+  <div class="danger-box">
+    <div class="danger-label">The Tradeoff</div>
+    <div class="danger-text">Speed and clean power are, at present, in direct tension. According to Cleanview, a single OpenAI data center planned for New Mexico would emit <strong>14 million tons of CO&#8322; per year</strong> if powered by natural gas &mdash; equivalent to the entire state&rsquo;s emissions reductions over the previous 20 years. As Cleanview&rsquo;s CEO told NPR: &ldquo;A single data center would wipe out 20 years of climate progress.&rdquo;</div>
+  </div>
+
+  <h3 id="s6d"><span class="part-badge">Solution 4</span> Grid + Renewables</h3>
+
+  <p>The less dramatic but potentially most impactful solution is simply building more renewable energy and connecting it to the grid. And here, AI companies are spending enormous amounts of money. <a href="https://sustainabilitymag.com/news/energy-sovereignty-powering-sustainable-ai-infrastructure" target="_blank">Amazon is now the world&rsquo;s largest corporate buyer of renewable energy</a>, with more than 500 solar and wind projects globally. Google signed a <strong>$20 billion partnership</strong> with Intersect Power and TPG Rise Climate to build data centers co-located with solar, wind, and battery storage, with the first phase expected to be operational by 2026. Microsoft has added hundreds of megawatts of solar capacity across Illinois, Michigan, and Missouri specifically for AI data centers.</p>
+
+  <p>By the end of Q3 2024, the U.S. data center sector alone had contracted <strong>50 gigawatts of clean energy</strong> &mdash; 29 GW from solar and 13 GW from wind. Data center capital expenditure reached $770 billion in 2025, surpassing investment in upstream oil and gas for the first time.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">The catch</div>
+    <div class="concept-term">Renewables are intermittent. AI is not.</div>
+    <div class="concept-def">Solar doesn&rsquo;t work at night. Wind doesn&rsquo;t blow on demand. But AI data centers need constant, uninterrupted power &mdash; 24/7, 365 days a year. The gap is being filled by grid-scale battery storage (companies like Fluence Energy are building systems specifically for this), but storage technology is still catching up to the scale of demand. Until it does, natural gas remains the most common backup &mdash; which is why even &ldquo;renewable-powered&rdquo; data centers often still have a carbon footprint.</div>
+  </div>
+
+  <h3 id="s6e"><span class="part-badge">Externality</span> The Consumer Cost Problem</h3>
+
+  <p>The energy question is not abstract for communities near data centers. Data centers are contributing to rising utility bills in at least <strong>13 U.S. states</strong>, according to the Institute for Energy Economics and Financial Analysis. In Georgia, average residential electricity bills have climbed from roughly $150 to $225 per month during the same period that data center construction accelerated. A Bloomberg analysis found Americans living near data centers are paying up to <strong>267% more per month</strong> for energy than five years ago.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key Concept</div>
+    <div class="concept-term">Externality</div>
+    <div class="concept-def">A cost (or benefit) that lands on someone who didn&rsquo;t choose it. If a data center moves into your town and your electricity bill doubles, that&rsquo;s a <strong>negative externality</strong> &mdash; you&rsquo;re paying part of the cost of AI infrastructure you didn&rsquo;t ask for and may not benefit from. When Georgia Power gives data centers discounted rates, the gap gets filled by residential customers. That&rsquo;s a textbook example of cost externalization &mdash; and a concept you&rsquo;ll see in every economics and strategy class.</div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-label">Policy in Motion</div>
+    <div class="insight-text">In April 2026, Maine&rsquo;s Governor Janet Mills vetoed what would have been the first state-level ban on new data center construction. Georgia Power announced a rate freeze and agreed to use revenue from large customers to offset residential costs. The regulatory landscape is actively forming &mdash; and business students entering the workforce in the next two years will be making decisions inside it.</div>
+  </div>
+
+  <!-- Solution Comparison — subsection of Section 7 -->
+
+  <h3>Comparing the solutions</h3>
+
+  <table class="factory-table">
+    <thead>
+      <tr><th>Solution</th><th>Timeline</th><th>Carbon impact</th><th>Scalability</th><th>Key risk</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Wave-powered floating data centers</strong> (Panthalassa)</td><td>2026&ndash;2027</td><td>Zero operational</td><td>Thousands of units planned</td><td>Unproven at scale; latency</td></tr>
+      <tr><td><strong>Nuclear restart</strong> (Three Mile Island)</td><td>~3 years</td><td>Zero operational</td><td>Limited to existing sites</td><td>Regulatory; waste storage</td></tr>
+      <tr><td><strong>Small modular reactors</strong> (Kairos Power)</td><td>2030+</td><td>Zero operational</td><td>Modular by design</td><td>Commercially unproven</td></tr>
+      <tr><td><strong>Off-grid private power plants</strong></td><td>Months</td><td>Very high</td><td>Fast</td><td>Massive emissions; local pollution</td></tr>
+      <tr><td><strong>Grid + renewables</strong></td><td>Years</td><td>Moderate&ndash;low</td><td>Depends on grid capacity</td><td>Transmission bottlenecks</td></tr>
+    </tbody>
+  </table>
+
+  <p>Notice what all of these solutions have in common: they change where the energy comes from, but none of them slows down how fast inference demand is growing. Even if every data center ran on perfectly clean energy, the water, hardware, and construction costs would remain. The deeper question &mdash; should companies be required to tell you the environmental cost of each query, regardless of the power source? &mdash; stays unanswered.</p>
+
+  <p>That question leads directly to regulation. If the market isn&rsquo;t going to solve disclosure on its own &mdash; and so far it hasn&rsquo;t &mdash; then policy has to. Here&rsquo;s where things stand.</p>
+
+  <!-- ═══════════════════════════ REGULATION ═══════════════════════════ -->
+
+  <h2 id="s-regulation"><span class="section-num">8</span> The Regulatory Landscape</h2>
+
+  <p>AI regulation in general has been slow. Environmental regulation of AI specifically is even further behind. But things are moving in three places your careers will intersect with.</p>
+
+  <h3>United States: Proposed but stalled</h3>
+
+  <p>The most significant proposal is Senator Ed Markey&rsquo;s <a href="https://www.congress.gov/bill/118th-congress/senate-bill/3732/text" target="_blank"><strong>Artificial Intelligence Environmental Impacts Act</strong></a>, introduced in February 2024. The bill would direct NIST to develop standards for measuring AI&rsquo;s environmental impact, create a voluntary reporting framework for AI developers, and require the EPA to conduct a comprehensive study. It has bipartisan support in concept, but has not been enacted. A <a href="https://www.markey.senate.gov/news/press-releases/senator-markey-applauds-gaos-report-on-the-environmental-impacts-of-generative-artificial-intelligence" target="_blank">GAO report released in April 2025</a> confirmed the bill&rsquo;s premise &mdash; that AI poses significant environmental impacts and that information gaps need to be addressed &mdash; but momentum has stalled.</p>
+
+  <p>Meanwhile, the regulatory direction has moved the opposite way. In January 2025, an executive order titled &ldquo;Removing Barriers to American AI Innovation&rdquo; called for agencies to rescind policies that might slow AI development. Senator Markey <a href="https://www.markey.senate.gov/news/press-releases/markey-presses-epa-administrator-lee-zeldin-on-decision-to-undermine-clean-air-act-to-prop-up-ai-data-centers" target="_blank">wrote to EPA Administrator Lee Zeldin</a> in September 2025 opposing a decision to let major polluting facilities &mdash; including data centers &mdash; begin pre-construction without air quality permits. A separate bill, the <a href="https://www.congress.gov/bill/119th-congress/house-bill/8037/text" target="_blank">Protect American AI Act of 2026</a>, would limit the ability of environmental lawsuits to block data center construction.</p>
+
+  <div class="danger-box">
+    <div class="danger-label">The Tension</div>
+    <div class="danger-text">The US regulatory picture is a tug-of-war: one side wants environmental disclosure and accountability for AI infrastructure; the other wants to remove environmental review requirements to accelerate AI buildout. Business students should understand that this tension is not going away &mdash; and procurement decisions made today will be judged against whichever framework wins.</div>
+  </div>
+
+  <h3>European Union: Ahead, but with gaps</h3>
+
+  <p>The EU is further along. Its approach combines two tracks:</p>
+
+  <p><strong>The Energy Efficiency Directive (EED)</strong> already requires data centers with 500+ kW of IT power to report energy consumption, water footprint, capacity utilization, and renewable energy usage annually to a European database. The next reporting deadline is May 15, 2026. Germany went further in its national implementation: data centers opening after July 2026 must achieve minimum waste heat recovery thresholds, and 100% renewable electricity is required from January 2027.</p>
+
+  <p><strong>The EU AI Act</strong> (entered into force August 2024) lists environmental protection as a stated goal and requires providers of general-purpose AI models to report energy consumption during training. It also calls for voluntary codes of conduct covering energy-efficient programming and AI&rsquo;s environmental impact. However, environmental provisions were significantly weakened during negotiations &mdash; mandatory sustainability impact assessments were dropped from the final text. The European Commission&rsquo;s first report on progress toward energy-efficient AI standards is not due until August 2028.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">Coming in 2026</div>
+    <div class="insight-text">The European Commission is preparing a <strong>Data Centre Energy Efficiency Package</strong> and a <strong>Cloud and AI Development Act</strong>, both expected in 2026. The goal: carbon-neutral data centers by 2030, with a plan to triple EU data center capacity in 5&ndash;7 years &mdash; but only if new facilities meet requirements on energy efficiency, water efficiency, and recycling of materials. The EU is trying to expand AI infrastructure and regulate its environmental impact at the same time. Whether those two goals are compatible is one of the central policy questions of the next decade.</div>
+  </div>
+
+  <h3>State and local level</h3>
+
+  <p>In the absence of federal action in the US, states are stepping in. Maine&rsquo;s governor vetoed what would have been the first state-level ban on new data center construction in April 2026. Oregon&rsquo;s POWER Act (August 2025) established special electricity rates for data centers that incentivize efficiency. Multiple states are considering disclosure requirements. For business students, the takeaway is that regulatory compliance for AI infrastructure is becoming a patchwork &mdash; similar to data privacy before GDPR &mdash; and companies operating across jurisdictions will need to plan for the most restrictive requirements.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">The Scale of What&rsquo;s Coming</div>
+    <div class="insight-text">A <a href="https://www.npr.org/2025/11/14/nx-s1-5608188/data-center-ai-space-lizards" target="_blank">Cornell University study covered by NPR</a> mapped AI&rsquo;s projected environmental impact state by state. Their findings: by 2030, AI growth in the US would add <strong>24 to 44 million metric tons of CO&#8322;</strong> to the atmosphere and consume as much water as <strong>6 to 10 million Americans</strong> use in a year. Their conclusion: this trajectory puts the tech industry&rsquo;s own climate goals out of reach. As the lead researcher noted, &ldquo;If we build AI in the right place, on a clean power grid and with efficient cooling technologies, it could really grow without blowing past water and climate limits.&rdquo; Location and infrastructure choices matter &mdash; and those are business decisions.</div>
+  </div>
+
+  <p>Regulation will shape the rules over time. But you don&rsquo;t have to wait for policy to catch up &mdash; some of the most impactful decisions are ones you can make right now.</p>
+
+  <!-- ═══════════════════════════ MODEL SELECTION ═══════════════════════════ -->
+
+  <h2 id="s-model-selection"><span class="section-num">9</span> Model Selection as a Business Decision</h2>
+
+  <p>One of the most practical decisions you&rsquo;ll make in your career is which AI model to use for which task. This is both a cost decision and an environmental one &mdash; and the two point in the same direction.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key Concept</div>
+    <div class="concept-term">Right-sizing your model</div>
+    <div class="concept-def">You don&rsquo;t charter a 747 to fly across town. You don&rsquo;t need a frontier model to autocomplete a Slack message. <strong>Right-sizing</strong> means matching the model&rsquo;s capability to the task&rsquo;s actual requirements. A small model (like Claude Haiku or GPT-4o mini) uses roughly one-tenth the energy of a large model (like Claude Opus or GPT-4.5) per query. For routine tasks &mdash; drafting emails, summarizing meetings, answering FAQ-style questions &mdash; the smaller model gives equivalent results at a fraction of the environmental and financial cost.</div>
+  </div>
+
+  <p>This isn&rsquo;t just about being green &mdash; it&rsquo;s a competitive advantage. Companies that run inference more efficiently have lower operating costs <em>and</em> a better ESG story. Microsoft, Google, and Anthropic are all investing in inference efficiency not primarily because they&rsquo;re environmentalists, but because cheaper inference means higher margins. When your company evaluates AI tools, the environmental argument and the budget argument are the same argument.</p>
+
+  <div class="two-col">
+    <div class="col-card col-green">
+      <div class="col-label">Use a small model when</div>
+      <div class="col-title">The task is routine</div>
+      <div class="col-body">Autocompleting messages, simple Q&amp;A, formatting text, translating short passages, classifying support tickets, generating standard reports. These tasks don&rsquo;t benefit from a larger model&rsquo;s reasoning depth &mdash; and a small model is 3&ndash;10&times; cheaper and faster.</div>
+    </div>
+    <div class="col-card col-amber">
+      <div class="col-label">Use a large model when</div>
+      <div class="col-title">The task requires deep reasoning</div>
+      <div class="col-body">Complex analysis, multi-step research, creative strategy, code architecture, legal document review, scientific reasoning. These tasks genuinely benefit from the larger model&rsquo;s capability &mdash; and the higher cost per query is justified by the quality of the output.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ VENDOR MEETING ═══════════════════════════ -->
+
+  <h2 id="s-vendor"><span class="section-num">10</span> What to Ask in a Vendor Meeting</h2>
+
+  <p>Within a few years of graduating, many of you will be in meetings where your company is evaluating AI vendors. Right now, almost nobody asks about environmental cost in those meetings. There&rsquo;s no standard checklist. Here are five questions that would change that &mdash; and that you can bring to any procurement conversation:</p>
+
+  <div class="wild-grid">
+    <div class="wild-card">
+      <div class="wild-icon">1&#65039;&#8419;</div>
+      <div class="wild-title">Do you publish per-query energy and water data?</div>
+      <div class="wild-body">If the vendor can&rsquo;t tell you the energy cost of a single query on their platform, they either don&rsquo;t measure it or don&rsquo;t want to share it. Either answer is a red flag. Ask for the number by model tier and by region.</div>
+    </div>
+    <div class="wild-card">
+      <div class="wild-icon">2&#65039;&#8419;</div>
+      <div class="wild-title">What percentage of your energy comes from renewable sources?</div>
+      <div class="wild-body">Watch for the difference between &ldquo;we buy renewable energy certificates&rdquo; (which can be purchased separately from actual clean power) and &ldquo;our data centers are powered by renewables 24/7.&rdquo; The first is accounting. The second is physics.</div>
+    </div>
+    <div class="wild-card">
+      <div class="wild-icon">3&#65039;&#8419;</div>
+      <div class="wild-title">Where are your data centers located?</div>
+      <div class="wild-body">A data center in a water-stressed region (Arizona, parts of Texas) has a fundamentally different environmental profile than one in the Pacific Northwest. Siting is a policy choice, and it matters.</div>
+    </div>
+    <div class="wild-card">
+      <div class="wild-icon">4&#65039;&#8419;</div>
+      <div class="wild-title">Do you report Scope 3 emissions?</div>
+      <div class="wild-body">If the vendor only reports Scope 1 and 2, they&rsquo;re leaving out the biggest part of their footprint &mdash; the embodied carbon in hardware, construction, and their supply chain. Ask specifically about Scope 3.</div>
+    </div>
+    <div class="wild-card">
+      <div class="wild-icon">5&#65039;&#8419;</div>
+      <div class="wild-title">Can you help us right-size our model usage?</div>
+      <div class="wild-body">A good vendor will offer tiered model access and help you route simple tasks to smaller models. If the vendor&rsquo;s pricing only incentivizes using the largest model for everything, they&rsquo;re not aligned with your cost or environmental goals.</div>
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-label">Why This List Matters</div>
+    <div class="insight-text">These questions don&rsquo;t exist in most procurement checklists today. That&rsquo;s the disclosure gap in action. By asking them, you signal to vendors that environmental cost is a factor in your purchasing decision &mdash; and over time, that changes what vendors choose to measure and report. Procurement is where individual choice becomes structural pressure.</div>
+  </div>
+
+  <!-- ═══════════════════════════ CONCLUSION ═══════════════════════════ -->
+
+  <h2 id="s-conclusion"><span class="section-num">11</span> Where This Is Going</h2>
+
+  <p>It would be easy to finish this chapter feeling paralyzed. The numbers are big, the disclosure is poor, and the regulatory landscape is fragmented. But the honest picture is more complicated than &ldquo;AI is bad for the environment.&rdquo;</p>
+
+  <h3>Individual responsibility is real but limited</h3>
+
+  <p>The <em>Slow AI</em> article&rsquo;s advice &mdash; refuse unnecessary prompts, use the smallest model that does the job, ask your employer what they procure &mdash; is sound. You should do those things. But as Sam Illingworth writes, &ldquo;the fight is structural. It lives with procurement departments, with policy, and with the companies that still will not tell us the numbers.&rdquo; Your personal prompt footprint is a fraction of a fraction. The decisions that matter are made by the companies building the infrastructure, the policymakers setting the rules, and the procurement officers signing the contracts. That&rsquo;s the level where your business education becomes relevant.</p>
+
+  <h3>We are at the beginning</h3>
+
+  <p>Everything in this chapter describes a technology and an industry that is less than a decade old and scaling faster than any infrastructure buildout in history. The solutions we covered &mdash; wave-powered floating data centers, nuclear restarts, small modular reactors, off-grid renewable microgrids &mdash; did not exist as serious commercial propositions two years ago. Some will fail. Others will reshape the energy landscape.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">AI as a catalyst for clean energy</div>
+    <div class="insight-text">There is a genuine possibility that AI&rsquo;s energy appetite becomes the forcing function that accelerates renewable energy adoption. The <a href="https://www.iea.org/reports/energy-and-ai/executive-summary" target="_blank">IEA&rsquo;s 2025 <em>Energy and AI</em> report</a> projects that <strong>half of global data center demand growth will be met by renewables</strong> by 2035, supported by storage and grid improvements. Data centers now account for <a href="https://press.spglobal.com/2025-12-09-S-P-Global-Energy-Releases-Key-Clean-Energy-Trends-for-2026-as-AI-Growth-and-Geopolitical-Shifts-Reshape-Global-Energy-Markets" target="_blank">43% of all corporate clean energy procurement</a>. AI itself is also being used to optimize grids, forecast renewable generation, and reduce energy waste &mdash; the IEA estimates that AI-based fault detection can reduce grid outage durations by 30&ndash;50%. The irony would be remarkable: the technology creating the energy problem could become the technology that solves it.</div>
+  </div>
+
+  <h3>The question for business students</h3>
+
+  <p>The question this chapter asks is not &ldquo;should we use AI?&rdquo; &mdash; that question has already been answered by the market. The question is: <strong>under what conditions, at what cost, with what disclosure, and with what accountability?</strong> You are entering careers where these decisions will be on your desk. The companies that get the answers right will have a competitive advantage. The ones that don&rsquo;t will face regulatory, reputational, and financial risk.</p>
+
+  <p>The environmental cost of AI is not a reason to stop using it. It is a reason to demand that the companies building it tell you what it costs &mdash; and a reason to make that cost part of every business decision you make.</p>
+
+  <!-- ═══════════════════════════ KEY TERMS ═══════════════════════════ -->
+
+  <h2 id="s-terms"><span class="section-num">12</span> Key Terms</h2>
+  <p style="font-size:13px; color:#6b7280; margin-bottom:0.75rem;">Terms introduced in this chapter, in the order they appear.</p>
+
+  <div class="vocab-grid">
+    <div class="vocab-card"><div class="vocab-term">Training</div><div class="vocab-def">The one-time process of building an AI model by feeding it data and adjusting its parameters. Think of it as a capital expense &mdash; you pay it once, and then every future query runs on what you built.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Inference</div><div class="vocab-def">The ongoing process of running a trained model every time someone submits a prompt. The recurring operating cost &mdash; per query it is tiny, in aggregate it compounds without ceiling.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Scope 1 emissions</div><div class="vocab-def">Direct emissions from sources a company owns or controls, such as diesel generators on site.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Scope 2 emissions</div><div class="vocab-def">Indirect emissions from purchased energy &mdash; the electricity a data center buys from the grid.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Scope 3 emissions</div><div class="vocab-def">All other supply chain emissions: embodied carbon in hardware, construction materials, logistics, and everything upstream and downstream of direct operations.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Embodied carbon</div><div class="vocab-def">The total carbon emissions released to manufacture something before it is ever used &mdash; from mining rare earth metals to assembling servers to pouring concrete for data center foundations.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Lifecycle assessment (LCA)</div><div class="vocab-def">A standardized environmental audit that tracks a product&rsquo;s total impact from raw materials through manufacturing, use, and disposal &mdash; the gold standard for answering &ldquo;what does this actually cost the planet?&rdquo; No independent LCA exists for any current frontier AI model.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Waste factor</div><div class="vocab-def">The proportion of AI-generated output that is never meaningfully read, used, or acted upon. An accessibility tool has a waste factor near zero; an auto-generated marketing email opened by nobody has a waste factor near one.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Externality</div><div class="vocab-def">A cost (or benefit) imposed on a party who did not choose to incur it. Rising energy bills for communities near data centers are a negative externality of AI infrastructure buildout.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Small modular reactor (SMR)</div><div class="vocab-def">A nuclear reactor designed to be smaller, factory-built, and deployable in modular configurations. Proposed as carbon-free baseload power for data centers, but not yet commercially operational.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Power Purchase Agreement (PPA)</div><div class="vocab-def">A long-term contract where a company commits to buying electricity from a specific power source &mdash; such as a wind farm or nuclear plant &mdash; often at a fixed price. Used by tech companies to claim renewable energy use.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Per-query disclosure</div><div class="vocab-def">The idea that AI companies should report the energy, water, and carbon cost of each query, broken down by region and model size. Currently proposed in the U.S. AI Environmental Impacts Act and UK AI (Regulation) Bill.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Right-sizing</div><div class="vocab-def">Matching the AI model&rsquo;s capability to the task&rsquo;s actual requirements. Using a small model for routine tasks and reserving large models for complex reasoning reduces both cost and environmental impact.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Energy Efficiency Directive (EED)</div><div class="vocab-def">An EU law requiring large data centers (500+ kW) to report their energy use, water footprint, and renewable energy percentage every year. Currently the most comprehensive mandatory environmental reporting rule for AI infrastructure anywhere in the world.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Renewable Energy Certificate (REC)</div><div class="vocab-def">A tradable certificate representing one megawatt-hour of renewable electricity generated. Companies can buy RECs to claim renewable energy use without physically receiving clean power &mdash; an accounting distinction that matters for evaluating vendor sustainability claims.</div></div>
+  </div>
+
+  <!-- ═══════════════════════════ EXAM QUESTIONS ═══════════════════════════ -->
+
+  <h2 id="exam"><span class="section-num">13</span> Exam Questions</h2>
+  <p style="font-size:13px; color:#6b7280; margin-bottom:0.75rem;">Use this chapter, the original <a href="https://theslowai.substack.com/p/is-ai-bad-for-the-environment" target="_blank"><em>Slow AI</em> article</a>, the supplementary news sources, and the <strong>AI Prompt Footprint Calculator</strong> as evidence for your answers.</p>
+
+  <h3>Section A: Analysis (choose 2 of 3)</h3>
+
+  <ol class="discussion-list">
+    <li><strong>The inference problem.</strong> A mid-sized company (500 employees) is considering deploying AI assistants company-wide. Each employee would make approximately 20 prompts per day using a medium-tier model. Using the footprint calculator and the figures from this chapter, estimate the annual water and carbon cost of this deployment. Then construct a business memo recommending a model-size policy that balances capability with environmental cost. What data would you need from the AI vendor that currently does not exist?</li>
+    <li><strong>The disclosure gap.</strong> Using Microsoft&rsquo;s Scope 3 emissions increase and the UK government&rsquo;s revised data center projections as evidence, evaluate the current state of AI environmental disclosure. What specific reporting requirements would you recommend for inclusion in federal AI legislation? How would these requirements change vendor selection in enterprise procurement?</li>
+    <li><strong>The waste factor.</strong> The <em>Slow AI</em> article describes AI-generated content consumed by no one as &ldquo;an air-conditioned graveyard of text.&rdquo; Using the calculator&rsquo;s scenario presets, compare the carbon footprint of high-waste use cases (LinkedIn posts, decorative images) with high-value ones (accessibility tools, research). Draft a one-page organizational AI usage policy that accounts for environmental cost without restricting legitimate high-value use &mdash; particularly accessibility applications.</li>
+  </ol>
+
+  <h3>Section B: Strategy (choose 1 of 2)</h3>
+
+  <ol class="discussion-list" style="counter-reset: dq 3;">
+    <li><strong>Evaluating emerging solutions.</strong> You are advising a Fortune 500 company that has committed to net-zero emissions by 2035 and is planning a major AI infrastructure investment. Using the solution comparison table, recommend a power strategy. Address: timeline to deployment, total cost of ownership, environmental profile, reputational risk, and regulatory landscape. Which solution &mdash; or combination &mdash; best serves the company&rsquo;s stated goals?</li>
+    <li><strong>The externality problem.</strong> Data centers are driving up electricity costs for nearby residents by up to 267%. A state legislature is considering requiring data center operators to either build dedicated off-grid power or compensate affected ratepayers. Prepare a two-page brief arguing either <em>for</em> or <em>against</em> the proposed regulation, using economic externality theory and evidence from this chapter. Address the counterargument to your position.</li>
+  </ol>
+
+  <hr>
+  <p style="font-size: 13px; color: #999; text-align: center; margin-top: 1rem;">MIS 432 &middot; AI in Business &middot; Case Study &middot; For classroom discussion purposes.</p>
+
+  <div class="chapter-nav-bar">
+    <a href="chapter7-epic.html">&larr; Chapter 7: Epic</a>
+    <a href="index.html">All Chapters &rarr;</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>MIS 432 &middot; AI in Business &middot; Western Washington University &middot; College of Business and Economics</p>
+  <p style="margin-top:0.5rem;"><a href="index.html">Home</a> &middot; <a href="https://cbe.wwu.edu/people/califfc" target="_blank">Contact</a> &middot; <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a> &middot; Free to use for educational purposes</p>
+</footer>
+
+<script>
+  (function () {
+    var dropdowns = document.querySelectorAll('.nav-dropdown');
+    dropdowns.forEach(function (dropdown) {
+      var toggle = dropdown.querySelector('.nav-dropdown-toggle');
+      toggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        var isOpen = !dropdown.classList.contains('open');
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        if (isOpen) { dropdown.classList.add('open'); toggle.setAttribute('aria-expanded', 'true'); }
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        document.activeElement.blur();
+      }
+    });
+  })();
+</script>
+</body>
+</html>
