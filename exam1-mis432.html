@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exam 1 — MIS 435 · AI in Business</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0e0e0d;
+    --off-black: #1a1a18;
+    --magenta: #e8197d;
+    --magenta-dark: #c0146a;
+    --white: #ffffff;
+    --off-white: #f6f4f1;
+    --text-dark: #0e0e0d;
+    --text-muted: #3a3a38;
+    --text-light: #6b6b68;
+    --border: #e0ddd8;
+    --ec: #7c3aed;
+    --nf: #e50914;
+    --sp: #1db954;
+    --ub: #1fbad6;
+    --wm: #0078ff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Space Grotesk', sans-serif; background: var(--white); color: var(--text-dark); line-height: 1.7; }
+
+  nav { background: var(--black); padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; position: sticky; top: 0; z-index: 100; }
+  .nav-brand { color: var(--magenta); font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.08em; text-decoration: none; text-transform: uppercase; }
+  .nav-brand span { color: rgba(255,255,255,0.25); font-weight: 400; }
+  .nav-links { display: flex; gap: 1.75rem; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.5); font-size: 13px; text-decoration: none; font-weight: 500; transition: color 0.15s; letter-spacing: 0.02em; }
+  .nav-links a:hover { color: var(--magenta); }
+  .nav-badge { background: var(--magenta); color: #fff; font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600; padding: 3px 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .hero { position: relative; background: var(--black); padding: 5rem 2rem 4rem; text-align: center; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(232,25,125,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(232,25,125,0.06) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; }
+  .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 5px; background: var(--magenta); }
+  .hero-inner { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; }
+  .hero-stamp { display: inline-block; font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.15); padding: 0.3rem 0.9rem; margin-bottom: 2rem; }
+  .hero h1 { font-family: 'Oswald', sans-serif; font-size: clamp(48px, 8vw, 88px); font-weight: 700; color: #fff; line-height: 0.95; margin-bottom: 1.25rem; letter-spacing: -0.01em; text-transform: uppercase; }
+  .hero h1 .line2 { display: block; color: var(--magenta); font-size: 0.88em; }
+  .hero h1 .line3 { display: block; font-size: 0.72em; color: rgba(255,255,255,0.35); }
+  .hero-sub { font-size: 17px; color: rgba(255,255,255,0.75); font-weight: 300; max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.65; }
+  .hero-meta { display: flex; justify-content: center; gap: 0; flex-wrap: wrap; border: 1px solid rgba(232,25,125,0.3); max-width: 560px; margin: 0 auto; }
+  .hero-meta-item { flex: 1; min-width: 100px; padding: 1rem; text-align: center; border-right: 1px solid rgba(232,25,125,0.2); background: rgba(232,25,125,0.05); }
+  .hero-meta-item:last-child { border-right: none; }
+  .hero-meta-num { font-family: 'Oswald', sans-serif; font-size: 26px; font-weight: 700; color: var(--magenta); }
+  .hero-meta-label { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
+
+  .doc { max-width: 900px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+  .section-block { margin: 3rem 0 1.5rem; padding-bottom: 0.75rem; border-bottom: 4px solid var(--magenta); display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .section-label-small { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--magenta); display: block; margin-bottom: 0.2rem; }
+  .section-block h2 { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.02em; }
+  .section-pts { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(232,25,125,0.7); white-space: nowrap; }
+
+  p { font-size: 15px; line-height: 1.8; color: var(--text-muted); margin-bottom: 0.9rem; font-weight: 400; }
+  p:last-child { margin-bottom: 0; }
+  ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+  li { font-size: 15px; line-height: 1.75; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 400; }
+  strong { color: var(--text-dark); font-weight: 600; }
+  h3 { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dark); margin: 1.75rem 0 0.6rem; }
+
+  .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 2.5rem; }
+  .ov-card { background: var(--white); padding: 1.1rem; text-align: center; }
+  .ov-icon { font-size: 20px; margin-bottom: 0.3rem; }
+  .ov-label { font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.2rem; }
+  .ov-val { font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 700; color: var(--text-dark); }
+
+  .policy-block { background: var(--off-black); border-top: 4px solid var(--magenta); padding: 1.75rem 2rem; margin: 1.5rem 0; }
+  .policy-title { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--magenta); margin-bottom: 1.25rem; }
+  .policy-rule { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06); align-items: flex-start; }
+  .policy-rule:last-child { border-bottom: none; }
+  .policy-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+  .policy-text { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.6); font-weight: 400; }
+  .policy-text strong { color: #fff; font-weight: 600; }
+
+  .q-card { background: var(--white); border: 1px solid var(--border); border-left: 4px solid var(--magenta); margin-bottom: 1.25rem; }
+  .q-card.ch-ec { border-left-color: var(--ec); }
+  .q-card.ch-nf { border-left-color: var(--nf); }
+  .q-card.ch-sp { border-left-color: var(--sp); }
+  .q-card.ch-ub { border-left-color: var(--ub); }
+  .q-card.ch-wm { border-left-color: var(--wm); }
+  .q-header { padding: 0.9rem 1.25rem; display: flex; align-items: flex-start; gap: 12px; border-bottom: 1px solid var(--border); background: var(--off-white); }
+  .q-num { background: var(--black); color: var(--magenta); font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; min-width: 38px; height: 34px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; letter-spacing: 0.05em; }
+  .q-text { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 600; color: var(--text-dark); line-height: 1.35; flex: 1; text-transform: uppercase; letter-spacing: 0.02em; }
+  .q-pts { margin-left: 8px; font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; color: var(--text-light); white-space: nowrap; flex-shrink: 0; padding-top: 3px; letter-spacing: 0.05em; }
+  .q-body { padding: 1.1rem 1.25rem; }
+  .q-body p { font-size: 14px; color: var(--text-muted); margin-bottom: 0.65rem; }
+  .q-body ul, .q-body ol { margin-top: 0.4rem; }
+  .q-body li { font-size: 14px; color: var(--text-muted); margin-bottom: 0.35rem; }
+
+  .ch-label { display: inline-flex; align-items: center; gap: 5px; font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 2px 8px; margin-bottom: 10px; border: 1px solid; text-decoration: none; transition: opacity 0.15s; }
+  .ch-label:hover { opacity: 0.75; }
+  .ch-label.ec { background: #f5f3ff; color: var(--ec); border-color: #ddd6fe; }
+  .ch-label.nf { background: #fff5f5; color: var(--nf); border-color: #fca5a5; }
+  .ch-label.sp { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+  .ch-label.ub { background: #ecfeff; color: #0891b2; border-color: #a5f3fc; }
+  .ch-label.wm { background: #eff6ff; color: var(--wm); border-color: #bfdbfe; }
+
+  .concept-tags { margin-top: 10px; }
+  .concept-tag { display: inline-block; font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: var(--off-white); color: var(--text-light); border: 1px solid var(--border); padding: 2px 8px; margin-right: 4px; margin-bottom: 4px; }
+
+  .info-box { border-left: 4px solid var(--magenta); background: #fff0f7; padding: 1rem 1.25rem; margin: 1.25rem 0; }
+  .info-box-label { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--magenta); margin-bottom: 0.4rem; }
+  .info-box p { font-size: 14px; color: var(--text-dark); margin-bottom: 0; }
+
+  .warn-box { border-left: 4px solid #d97706; background: #fffbeb; padding: 1rem 1.25rem; margin: 1.25rem 0; }
+  .warn-box-label { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #d97706; margin-bottom: 0.4rem; }
+  .warn-box p { font-size: 14px; color: #78350f; margin-bottom: 0; }
+
+  .success-box { border-left: 4px solid #059669; background: #ecfdf5; padding: 1rem 1.25rem; margin: 1.25rem 0; }
+  .success-box-label { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #059669; margin-bottom: 0.4rem; }
+  .success-box p { font-size: 14px; color: #064e3b; margin-bottom: 0; }
+
+  .pick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin: 1.25rem 0 1.75rem; }
+  .pick-card { background: var(--white); padding: 1rem 1.1rem; }
+  .pick-card:hover { background: var(--off-white); }
+  .pick-icon { font-size: 20px; margin-bottom: 0.35rem; }
+  .pick-title { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 0.2rem; text-transform: uppercase; letter-spacing: 0.03em; }
+  .pick-hint { font-size: 12px; color: var(--text-light); line-height: 1.5; font-weight: 400; }
+
+  .scenario-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin: 1.25rem 0 1.75rem; }
+  .scenario-card { background: var(--white); padding: 1rem 1.1rem; }
+  .scenario-card:hover { background: var(--off-white); }
+  .scenario-icon { font-size: 20px; margin-bottom: 0.35rem; }
+  .scenario-title { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 0.2rem; text-transform: uppercase; letter-spacing: 0.03em; }
+  .scenario-hint { font-size: 12px; color: var(--text-light); line-height: 1.5; font-weight: 400; }
+
+  .checklist { background: var(--white); border: 2px solid #059669; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+  .checklist-title { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #059669; margin-bottom: 0.9rem; }
+  .check-item { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; border-bottom: 1px solid #d1fae5; font-size: 14px; color: var(--text-muted); font-weight: 400; }
+  .check-item:last-child { border-bottom: none; }
+  .check-box { width: 18px; height: 18px; border: 2px solid #6ee7b7; flex-shrink: 0; margin-top: 1px; background: var(--white); }
+
+  .score-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 1.25rem 0; border: 1px solid var(--border); }
+  .score-table th { background: var(--black); color: var(--magenta); font-family: 'Oswald', sans-serif; font-weight: 600; padding: 9px 14px; text-align: left; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .score-table td { padding: 9px 14px; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text-muted); font-weight: 400; }
+  .score-table tr:last-child td { border-bottom: none; background: #fff0f7; font-weight: 600; color: var(--text-dark); }
+  .score-table td.right { text-align: right; font-weight: 700; font-family: 'Oswald', sans-serif; }
+
+  .rubric-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 1.25rem 0; border: 1px solid var(--border); }
+  .rubric-table th { background: var(--off-white); color: var(--text-dark); font-family: 'Oswald', sans-serif; font-weight: 600; padding: 9px 12px; text-align: left; font-size: 11px; border-bottom: 2px solid var(--border); letter-spacing: 0.08em; text-transform: uppercase; }
+  .rubric-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; font-size: 13px; color: var(--text-muted); font-weight: 400; }
+  .rubric-table tr:last-child td { border-bottom: none; }
+  .pts-badge { display: inline-block; background: var(--off-white); color: var(--text-dark); font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 700; padding: 4px 12px; letter-spacing: 0.05em; border: 2px solid var(--border); }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+
+  footer { background: var(--black); padding: 2rem; text-align: center; border-top: 5px solid var(--magenta); }
+  footer p { font-size: 13px; color: rgba(255,255,255,0.28); }
+  footer a { color: var(--magenta); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .hero { padding: 3rem 1.25rem 2.5rem; }
+    .doc { padding: 1.5rem 1rem 3rem; }
+    .section-pts { display: none; }
+    .q-pts { display: none; }
+  }
+  @media print { nav { position: static; } .q-card, .checklist { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 435 <span>·</span> AI in Business</a>
+  <div class="nav-links">
+    <span class="nav-badge">Exam 1</span>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-stamp">MIS 435 : Exam 1</div>
+    <h1>MIS 435<br><span class="line2">Exam 1</span></h1>
+    <p class="hero-sub">Four parts. Prove you understand the concepts. Show you can interpret and build with AI. Make a business case and build a working prototype. Reflect on what AI costs the environment.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><div class="hero-meta-num">9</div><div class="hero-meta-label">Days</div></div>
+      <div class="hero-meta-item"><div class="hero-meta-num">100</div><div class="hero-meta-label">Points</div></div>
+      <div class="hero-meta-item"><div class="hero-meta-num">Open</div><div class="hero-meta-label">Notes & Materials</div></div>
+      <div class="hero-meta-item"><div class="hero-meta-num">Solo</div><div class="hero-meta-label">Individual</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="doc">
+
+  <!-- OVERVIEW -->
+  <div class="overview-grid">
+    <a href="#part1a" class="ov-card" style="text-decoration:none; color:inherit;"><div class="ov-icon">🧠</div><div class="ov-label">Part 1A</div><div class="ov-val">Conceptual Understanding</div></a>
+    <a href="#part1b" class="ov-card" style="text-decoration:none; color:inherit;"><div class="ov-icon">💻</div><div class="ov-label">Part 1B</div><div class="ov-val">Code Interpretation</div></a>
+    <a href="#part2" class="ov-card" style="text-decoration:none; color:inherit;"><div class="ov-icon">🔬</div><div class="ov-label">Part 2</div><div class="ov-val">Apply Lab Skills</div></a>
+    <a href="#part3" class="ov-card" style="text-decoration:none; color:inherit;"><div class="ov-icon">🏗️</div><div class="ov-label">Part 3</div><div class="ov-val">Business Case + AI Prototype</div></a>
+    <a href="#part4" class="ov-card" style="text-decoration:none; color:inherit;"><div class="ov-icon">🌍</div><div class="ov-label">Part 4</div><div class="ov-val">AI & the Environment</div></a>
+  </div>
+
+  <!-- GENAI POLICY -->
+  <p><strong>This is a take-home, open-notes exam.</strong> You have from <strong>Friday, May 1st at 5:00 PM</strong> to <strong>Sunday, May 10th at 11:59 PM</strong> to complete it — that's 9 days. You may use your notes, the chapter texts, the course website, external sources, and GenAI tools. The only restriction is that the work must be yours — see the policy below.</p>
+
+  <p>This looks like a lot. It's designed to be worked on over several days, not all at once. Start with the part that feels most natural to you — there's no required order.</p>
+
+  <div class="policy-block" style="padding:1.1rem 1.5rem; border-top:4px solid #059669;">
+    <div class="policy-rule" style="padding:0; border:none;">
+      <div class="policy-icon">🙋</div>
+      <div class="policy-text"><strong>I am here to help you, and I want you to succeed.</strong> The whole point of this exam is for you to learn — and yes, learning is hard. That's OK. I will be in class on Monday and Wednesday and will have office hours then as well. Please come ask questions if you're confused about anything. You can also email me anytime. There are no dumb questions on a take-home exam. If something is unclear, ask before you guess. I want you to do well on this.</div>
+    </div>
+  </div>
+
+  <div class="policy-block">
+    <div class="policy-title" style="font-size:18px;">GenAI Use Policy for This Exam</div>
+    <div class="policy-rule">
+      <div class="policy-icon">🧠</div>
+      <div class="policy-text"><strong>Part 1 — Let's be real.</strong> I am not going to run your answers through an AI detector. AI detectors are notoriously unreliable — <a href="https://decrypt.co/286121/ai-detectors-fail-reliability-risks" style="color:var(--magenta);">one flagged the U.S. Declaration of Independence as 98% AI-generated</a>. I'm not going to accuse you of cheating based on a tool that thinks Thomas Jefferson had access to ChatGPT. So no, I cannot reliably tell if you pasted a question into Claude and submitted what came back. That means this is on you. <strong>You can absolutely use GenAI as a thinking partner</strong> — ask it to explain a concept, challenge your draft argument, help you find a source. That's using it well. But if you outsource the <em>thinking</em>, you will hand in a generic answer that defines concepts instead of applying them, hedges instead of committing to a position, and misses the specific case details these questions are built around. I will notice. More importantly: the skill this exam tests is <em>your ability to reason about AI in a business context</em>. That is the skill employers are hiring for. If you automate it away, you are practicing the one thing you cannot afford to be bad at. <strong>Don't outsource your brain. Re-read the case. Think. Write.</strong></div>
+    </div>
+    <div class="policy-rule">
+      <div class="policy-icon">🔬</div>
+      <div class="policy-text"><strong>Part 2 — You are expected to use GenAI.</strong> Use Claude or another GenAI tool to help you build what the challenge asks for — that's how the labs work, and that's how it works in industry. The goal is for you to understand what you built and why it works.</div>
+    </div>
+    <div class="policy-rule">
+      <div class="policy-icon">🏗️</div>
+      <div class="policy-text"><strong>Part 3 — GenAI is expected and encouraged.</strong> Use it to build your prototype and develop your business case. But the reasoning in your written answers must be yours — if you couldn't defend every sentence in a ten-minute conversation, it shouldn't be in your submission.</div>
+    </div>
+    <div class="policy-rule">
+      <div class="policy-icon">📝</div>
+      <div class="policy-text"><strong>Disclose how you used it.</strong> At the end of the exam, write 3–5 sentences describing which tools you used, for which parts, and what you found useful or limiting. Required. Not graded.</div>
+    </div>
+    <div class="policy-rule">
+      <div class="policy-icon">🚫</div>
+      <div class="policy-text"><strong>What counts as dishonesty:</strong> submitting AI-generated analysis as your own without disclosure; generating Part 1 answers without engaging with the case text; submitting Part 2 work you cannot explain; writing answers so generic they could apply to any AI system, not the one you actually built.</div>
+    </div>
+  </div>
+
+  <div class="policy-block" style="padding:1.1rem 1.5rem;">
+    <div class="policy-rule" style="padding:0; border:none;">
+      <div class="policy-icon">🎙️</div>
+      <div class="policy-text"><strong>I may ask you to walk me through any answer.</strong> I reserve the right to schedule a brief conversation about any Part 1 response. If you wrote it, this will be easy — you'll just explain your thinking. This isn't a gotcha; it's how I verify that the critical thinking is yours.</div>
+    </div>
+  </div>
+
+
+  <div class="section-block" id="part1a">
+    <div>
+      <span class="section-label-small">Part 1A</span>
+      <h2>Conceptual Understanding</h2>
+    </div>
+    <span class="section-pts">35 points</span>
+  </div>
+
+  <p>Answer each question in <strong>one well-developed paragraph (five sentences minimum)</strong>. These are not definition questions — they ask you to <em>use</em> a concept from the case to reason through a problem, make a judgment, or argue a position. Make sure you are applying the course vocabulary throughout your answers — if the chapter calls it a "prediction–decision gap" or "algotorial," use those terms precisely.</p>
+
+  <p>Tying in material across chapters shows critical thinking. If a concept from the Uber case helps you make a stronger argument about Spotify, use it. The cases are connected — your answers should be too.</p>
+
+  <p>A definition earns partial credit at best. Full marks go to answers that take a position, use case evidence to support it, and acknowledge a complication or trade-off. If your answer could have been written by someone who only read a summary, it hasn't gone deep enough. Use external sources — news articles, company blog posts, academic papers, industry reports — alongside the chapter material to strengthen your arguments. Include URLs for any sources you reference.</p>
+
+  <!-- 1.1 EveryCure -->
+  <div class="q-card ch-ec">
+    <div class="q-header">
+      <div class="q-num">1.1</div>
+      <div class="q-text">EveryCure — What would go wrong if EveryCure let the AI decide which drugs to test, without a human checking first?</div>
+      <div class="q-pts">5 pts</div>
+    </div>
+    <div class="q-body">
+      <a href="chapter1-everycure.html" class="ch-label ec">📗 Ch 1 · EveryCure ↗</a>
+      <p>EveryCure's AI looks at a knowledge graph and gives each drug-disease pair a score. A high score means the AI thinks the drug <em>might</em> work for that disease. But "might" isn't good enough for a patient. A human expert still has to look at the score and decide if it's worth testing. <strong>What would go wrong if they skipped that step and sent the AI's top picks straight to clinical trials?</strong> Use the chapter's description of how drugs connect to diseases through chains of biological relationships to explain what kind of mistake becomes more likely — and who pays the price when it happens. Then connect this to Uber (Chapter 4): what happened in Sydney when Uber's system made decisions without a human checkpoint? What does that tell you about why EveryCure's human-in-the-loop matters?</p>
+      <div class="concept-tags">
+        <span class="concept-tag">Knowledge graph</span>
+        <span class="concept-tag">Human-in-the-loop</span>
+        <span class="concept-tag">AI Factory</span>
+        <span class="concept-tag">Prediction vs. decision</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1.2 Netflix -->
+  <div class="q-card ch-nf">
+    <div class="q-header">
+      <div class="q-num">1.2</div>
+      <div class="q-text">Netflix — "Our model is 94% accurate — we don't need an experiment." Why is that wrong?</div>
+      <div class="q-pts">5 pts</div>
+    </div>
+    <div class="q-body">
+      <a href="chapter2-netflix.html" class="ch-label nf">🎬 Ch 2 · Netflix ↗</a>
+      <p>A product manager says: "Our model is 94% accurate — why bother running an experiment?" The Short Game experiment at Netflix shows why that thinking is wrong. Explain what the experiment tested and what it found. Then explain the key idea: <strong>a model that's accurate at predicting what you'll enjoy is not the same thing as a model that gets you to click.</strong> One is a prediction. The other is a business outcome. Why can't you figure out the business outcome just by looking at the model's accuracy score? Why do you need an actual A/B test? Then connect this to Spotify (Chapter 3): Spotify also uses data about what people do (skips, replays, saves) to predict what they want. Does Spotify have the same gap between prediction and decision, or does it show up differently?</p>
+      <div class="concept-tags">
+        <span class="concept-tag">Prediction–decision gap</span>
+        <span class="concept-tag">A/B testing</span>
+        <span class="concept-tag">Causal inference</span>
+        <span class="concept-tag">Model accuracy ≠ business value</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1.3 Spotify -->
+  <div class="q-card ch-sp">
+    <div class="q-header">
+      <div class="q-num">1.3</div>
+      <div class="q-text">Spotify — Why would Spotify's algorithm bury a brand-new artist, and should Spotify fix that?</div>
+      <div class="q-pts">5 pts</div>
+    </div>
+    <div class="q-body">
+      <a href="chapter3-spotify.html" class="ch-label sp">🎵 Ch 3 · Spotify ↗</a>
+      <p>Collaborative filtering doesn't listen to music. It looks at patterns — who played what, who skipped what, who saved what. Using the user-song matrix from Chapter 3, explain why a brand-new song that nobody has listened to yet would get a low score. The system can only recommend things that look like what people already listen to. <strong>Is that a problem, or is it working as intended?</strong> Spotify is trying to keep you engaged. If showing you something weird and unfamiliar makes you skip it, that hurts their numbers. Should Spotify take the risk and show you new stuff anyway, or is it smarter to keep giving you what you already like? What does the chapter say about explore vs. exploit? Then connect this to Waymo (Chapter 5): Waymo also struggles with things it hasn't seen before — rare driving situations that don't show up in the data. How is a brand-new artist like a rare driving scenario? How are the stakes different?</p>
+      <div class="concept-tags">
+        <span class="concept-tag">Collaborative filtering</span>
+        <span class="concept-tag">Filter bubble</span>
+        <span class="concept-tag">Explore vs. exploit</span>
+        <span class="concept-tag">Implicit signals</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1.4 Uber -->
+  <div class="q-card ch-ub">
+    <div class="q-header">
+      <div class="q-num">1.4</div>
+      <div class="q-text">Uber — The algorithm didn't break in Sydney. It worked exactly as designed. That's the problem. What do you fix?</div>
+      <div class="q-pts">5 pts</div>
+    </div>
+    <div class="q-body">
+      <a href="chapter4-uber.html" class="ch-label ub">🚗 Ch 4 · Uber ↗</a>
+      <p>During the 2014 Sydney hostage crisis, Uber's surge pricing kicked in automatically. Prices skyrocketed while people were trying to flee. The algorithm didn't break — it worked exactly as designed. It saw high demand and raised prices. That's the whole problem. <strong>If you were an Uber executive the next morning, what would you change?</strong> The chapter compares Uber's fully automated pricing with Spotify's "algotorial" approach, where humans and algorithms work together. Use that comparison to design a specific fix — not just "cap the price," but an actual rule or checkpoint that would have prevented this. Then explain the trade-off: what does your fix cost Uber on a normal Friday night? Then connect this to EveryCure (Chapter 1): EveryCure built a human-in-the-loop from the very beginning. What did they understand about the gap between prediction and decision that Uber's designers missed?</p>
+      <div class="concept-tags">
+        <span class="concept-tag">Algorithmic accountability</span>
+        <span class="concept-tag">Algotorial</span>
+        <span class="concept-tag">Prediction–decision gap</span>
+        <span class="concept-tag">System design trade-offs</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1.5 Waymo -->
+  <div class="q-card ch-wm">
+    <div class="q-header">
+      <div class="q-num">1.5</div>
+      <div class="q-text">Waymo — "Just drive more miles." Why won't that solve the problem, and does simulation actually fix it?</div>
+      <div class="q-pts">5 pts</div>
+    </div>
+    <div class="q-body">
+      <a href="chapter5-waymo.html" class="ch-label wm">🚘 Ch 5 · Waymo ↗</a>
+      <p>Someone says: "If Waymo needs more training data for rare situations, they should just drive more miles." Sounds reasonable. But the chapter explains why it doesn't work — some driving scenarios are so rare that you'd have to drive for thousands of years to see enough examples. Explain that argument. Then explain what the Waymo World Model does instead: it creates fake scenarios that never actually happened, so the car can practice handling them. <strong>But does that really solve the problem?</strong> The chapter says something is still unsolved even with the World Model. What is it? Does fake data actually prepare a car for the real world, or does it just hide the gap? Then connect this to Netflix (Chapter 2): Netflix runs A/B tests because models alone can't tell you what works in real life. Could Waymo do something similar — or is a failed experiment too dangerous when we're talking about car crashes instead of bad movie recommendations?</p>
+      <div class="concept-tags">
+        <span class="concept-tag">Long-tail problem</span>
+        <span class="concept-tag">Synthetic data</span>
+        <span class="concept-tag">Sim-to-real gap</span>
+        <span class="concept-tag">Waymo World Model</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1.6 Synthesis -->
+  <div class="q-card" style="border-left-color: var(--magenta);">
+    <div class="q-header">
+      <div class="q-num">1.6</div>
+      <div class="q-text">Synthesis — "AI is just tech bros automating jobs." Make the best case for and against that.</div>
+      <div class="q-pts">10 pts</div>
+    </div>
+    <div class="q-body">
+      <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;">
+        <a href="chapter1-everycure.html" class="ch-label ec">📗 Ch 1 · EveryCure ↗</a>
+        <a href="chapter2-netflix.html" class="ch-label nf">🎬 Ch 2 · Netflix ↗</a>
+        <a href="chapter3-spotify.html" class="ch-label sp">🎵 Ch 3 · Spotify ↗</a>
+        <a href="chapter4-uber.html" class="ch-label ub">🚗 Ch 4 · Uber ↗</a>
+        <a href="chapter5-waymo.html" class="ch-label wm">🚘 Ch 5 · Waymo ↗</a>
+      </div>
+      <p>AI is getting a lot of negative attention right now. People have <a href="https://www.theverge.com/2024/2/11/24069251/waymo-driverless-taxi-fire-vandalized-san-francisco" style="color:var(--magenta);">set fire to Waymo cars</a>. Artists are suing because AI was trained on their work. Students worry AI will take the jobs they're studying for. A common take: <em>"AI is just a way for companies to replace people with algorithms, and GenAI is the worst version of it."</em></p>
+      <p>Take that criticism seriously — then complicate it. Write <strong>three paragraphs</strong>:</p>
+      <p><strong>Paragraph 1: Make the critics' best argument.</strong> Use at least one case from the course to show the concern is real. Where did AI actually cause harm, take away human judgment, or give too much power to a company? Don't dismiss this — argue it like you believe it.</p>
+      <p><strong>Paragraph 2: Show that the conversation is too narrow.</strong> Most public fear is about ChatGPT and GenAI. But in this course you've seen that AI is way bigger than that. EveryCure's knowledge graph isn't GenAI. Spotify's collaborative filtering isn't a chatbot. Uber's demand forecasting isn't an LLM. Use at least two cases to show that AI in business is more varied and more specific than what most people are arguing about.</p>
+      <p><strong>Paragraph 3: Say what you actually think.</strong> Is the fear mostly justified, mostly misplaced, or pointed at the wrong thing? Pick a side and defend it.</p>
+      <div class="concept-tags">
+        <span class="concept-tag">GenAI vs. traditional AI</span>
+        <span class="concept-tag">Algorithmic accountability</span>
+        <span class="concept-tag">Public perception</span>
+        <span class="concept-tag">AI in business</span>
+        <span class="concept-tag">Cross-case synthesis</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+
+  <!-- ══════════════════ PART 1B ══════════════════ -->
+  <div class="section-block" id="part1b">
+    <div>
+      <span class="section-label-small">Part 1B</span>
+      <h2>Code Interpretation</h2>
+    </div>
+    <span class="section-pts">10 points</span>
+  </div>
+
+  <p>One of the aims of this class is for you to be able to interpret basic code. For each snippet below, do two things: <strong>(1)</strong> explain in plain English what the code does and what it outputs, and <strong>(2)</strong> describe how you would change it for the new scenario described. You don't need to write working Python — just describe the change in words (e.g., "I would change the discount variable to 0.15 and add a new variable for shipping cost").</p>
+
+  <div class="info-box">
+    <div class="info-box-label">No coding required</div>
+    <p>You are not being asked to write or run code here. You are being asked to <em>read</em> it. If you've been keeping up with the Codedex lessons, these should feel familiar.</p>
+  </div>
+
+  <!-- Snippet 1 -->
+  <div class="q-card" style="border-left-color: var(--ec);">
+    <div class="q-header">
+      <div class="q-num">C1</div>
+      <div class="q-text">Drug repurposing score (EveryCure)</div>
+      <div class="q-pts">2.5 pts</div>
+    </div>
+    <div class="q-body">
+<pre style="background:var(--off-black); color:#e6e6e6; padding:1rem 1.25rem; font-size:13.5px; line-height:1.7; overflow-x:auto; margin-bottom:0.75rem; border:none;">
+<span style="color:#7c9cff;">shared_targets</span> = 4
+<span style="color:#7c9cff;">total_targets</span> = 12
+<span style="color:#7c9cff;">confidence</span> = 0.85
+<span style="color:#7c9cff;">score</span> = (shared_targets / total_targets) * confidence
+<span style="color:#6bdb8a;">print</span>(<span style="color:#c3e88d;">"Repurposing score:"</span>, score)</pre>
+      <p><strong>(1)</strong> In EveryCure's knowledge graph, drugs and diseases connect through shared biological targets. What does this code calculate, and what number does it print?</p>
+      <p><strong>(2)</strong> A second drug shares 7 out of 15 targets with a disease, and the model's confidence is 0.72. Without running the code, would this drug score higher or lower? How do you know?</p>
+    </div>
+  </div>
+
+  <!-- Snippet 2 -->
+  <div class="q-card" style="border-left-color: var(--nf);">
+    <div class="q-header">
+      <div class="q-num">C2</div>
+      <div class="q-text">A/B test result checker (Netflix)</div>
+      <div class="q-pts">2.5 pts</div>
+    </div>
+    <div class="q-body">
+<pre style="background:var(--off-black); color:#e6e6e6; padding:1rem 1.25rem; font-size:13.5px; line-height:1.7; overflow-x:auto; margin-bottom:0.75rem; border:none;">
+<span style="color:#7c9cff;">control_clicks</span> = 120
+<span style="color:#7c9cff;">control_users</span> = 1000
+<span style="color:#7c9cff;">treatment_clicks</span> = 155
+<span style="color:#7c9cff;">treatment_users</span> = 1000
+<span style="color:#7c9cff;">control_rate</span> = control_clicks / control_users
+<span style="color:#7c9cff;">treatment_rate</span> = treatment_clicks / treatment_users
+<span style="color:#7c9cff;">lift</span> = treatment_rate - control_rate
+<span style="color:#c792ea;">if</span> lift > 0.02:
+    <span style="color:#6bdb8a;">print</span>(<span style="color:#c3e88d;">"Ship it"</span>)
+<span style="color:#c792ea;">else</span>:
+    <span style="color:#6bdb8a;">print</span>(<span style="color:#c3e88d;">"Not enough difference"</span>)</pre>
+      <p><strong>(1)</strong> Netflix runs A/B tests to compare two versions of something. What does this code calculate for each group, and what does it print? What does "lift" mean here?</p>
+      <p><strong>(2)</strong> Your team wants to be more cautious — they only want to ship changes that show at least a 5 percentage point improvement. What would you change? Also: in 1–2 sentences, why is this code alone not enough to decide whether to ship? (Hint: think about what the chapter says about statistical significance.)</p>
+    </div>
+  </div>
+
+  <!-- Snippet 3 -->
+  <div class="q-card" style="border-left-color: var(--sp);">
+    <div class="q-header">
+      <div class="q-num">C3</div>
+      <div class="q-text">Skip rate calculator (Spotify)</div>
+      <div class="q-pts">2.5 pts</div>
+    </div>
+    <div class="q-body">
+<pre style="background:var(--off-black); color:#e6e6e6; padding:1rem 1.25rem; font-size:13.5px; line-height:1.7; overflow-x:auto; margin-bottom:0.75rem; border:none;">
+<span style="color:#7c9cff;">total_plays</span> = 200
+<span style="color:#7c9cff;">skips</span> = 140
+<span style="color:#7c9cff;">replays</span> = 15
+<span style="color:#7c9cff;">skip_rate</span> = skips / total_plays
+<span style="color:#7c9cff;">replay_rate</span> = replays / total_plays
+<span style="color:#c792ea;">if</span> skip_rate > 0.5:
+    <span style="color:#6bdb8a;">print</span>(<span style="color:#c3e88d;">"Stop recommending"</span>)
+<span style="color:#c792ea;">else</span>:
+    <span style="color:#6bdb8a;">print</span>(<span style="color:#c3e88d;">"Keep recommending"</span>)
+<span style="color:#6bdb8a;">print</span>(<span style="color:#c3e88d;">"Replay rate:"</span>, replay_rate)</pre>
+      <p><strong>(1)</strong> Spotify uses implicit signals like skips and replays to decide what to recommend. What does this code calculate, and what does it print? Would this song keep getting recommended?</p>
+      <p><strong>(2)</strong> In 1–2 sentences: the chapter talks about explore vs. exploit. This code is pure exploit — it stops recommending anything with a high skip rate. What's the risk of that? What kind of music would never get a chance?</p>
+    </div>
+  </div>
+
+  <!-- Snippet 4 -->
+  <div class="q-card" style="border-left-color: var(--ub);">
+    <div class="q-header">
+      <div class="q-num">C4</div>
+      <div class="q-text">Surge pricing logic (Uber)</div>
+      <div class="q-pts">2.5 pts</div>
+    </div>
+    <div class="q-body">
+<pre style="background:var(--off-black); color:#e6e6e6; padding:1rem 1.25rem; font-size:13.5px; line-height:1.7; overflow-x:auto; margin-bottom:0.75rem; border:none;">
+<span style="color:#7c9cff;">base_price</span> = 12.00
+<span style="color:#7c9cff;">demand</span> = 300
+<span style="color:#7c9cff;">supply</span> = 100
+<span style="color:#7c9cff;">multiplier</span> = demand / supply
+<span style="color:#c792ea;">if</span> multiplier > 3:
+    <span style="color:#7c9cff;">multiplier</span> = 3
+<span style="color:#7c9cff;">surge_price</span> = base_price * multiplier
+<span style="color:#6bdb8a;">print</span>(<span style="color:#c3e88d;">"Price: $"</span>, surge_price)</pre>
+      <p><strong>(1)</strong> What does this code print? What is the multiplier doing, and what does the <code>if</code> statement prevent?</p>
+      <p><strong>(2)</strong> Think back to the Uber/Sydney case. This code includes a price cap at 3x. In 1–2 sentences: does this cap solve the problem the chapter describes, or does it create a new one? (Hint: think about what happens to driver supply when you cap the price.)</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+
+  <!-- ══════════════════ PART 2 ══════════════════ -->
+  <div class="section-block" id="part2">
+    <div>
+      <span class="section-label-small">Part 2</span>
+      <h2>Apply Lab Skills — Choose 1 of 2 Challenges</h2>
+    </div>
+    <span class="section-pts">20 points</span>
+  </div>
+
+  <p>In the labs, you built real AI systems — knowledge graphs, A/B tests, recommendation engines, and demand forecasters. This part tests whether you can apply those skills to a new problem.</p>
+
+  <div class="warn-box" style="border-left-color:var(--magenta); background:#fff0f7;">
+    <div class="warn-box-label" style="color:var(--magenta);">Choose one: 2A or 2B</div>
+    <p style="color:var(--text-dark);">Pick <strong>one</strong> of the two challenges below — not both. Choose the one that feels most natural to you. Challenge A is based on the knowledge graph work from Labs 1 and 3. Challenge B is based on the A/B testing work from Labs 2 and 4.</p>
+  </div>
+
+  <div class="info-box">
+    <div class="info-box-label">How this works</div>
+    <p>Use GenAI to help you build what the challenge asks for, just like you did in the labs. You also answer a short written analysis that connects what you built back to a course concept.</p>
+  </div>
+
+  <p><strong>You can — and should — go back and look at what you built in the labs.</strong> These challenges use the same ideas. Your Lab 1 work shows you how to connect items and score matches. Your Lab 2 work shows you how to set up and run an experiment. The new part is applying those ideas to a different scenario — not learning something new from scratch. Use GenAI to help you build it.</p>
+
+  <div style="background:var(--off-white); border:1px solid var(--border); border-left:4px solid var(--ec); padding:1rem 1.25rem; margin:1.25rem 0;">
+    <div style="font-family:'Oswald',sans-serif; font-size:16px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--ec); margin-bottom:0.4rem;">Prompting tip</div>
+    <p style="font-size:14px; color:var(--text-dark); margin-bottom:0;">The quality of what Claude builds for you depends entirely on how you prompt it. Don't just say "build me an A/B test" — give it context, constraints, and your specific scenario. Review the <a href="good-prompts.html" style="color:var(--ec); font-weight:600;">Writing Good Prompts</a> guide before you start. The difference between a generic prompt and a good one is the difference between something you understand and something you don't.</p>
+  </div>
+
+  <div class="warn-box">
+    <div class="warn-box-label">What to submit</div>
+    <p>Submit what you built — a link to your Colab notebook or GitHub repo, plus a screenshot showing it in action. If something doesn't work perfectly, that's OK — show what you got working and explain what you were trying to do. The goal is to see that you engaged with the challenge.</p>
+  </div>
+
+  <div class="info-box">
+    <div class="info-box-label">Make it your own</div>
+    <p>Claude or whatever GenAI tool you use will generate something for you — but don't just submit whatever it spits out. Go back and tweak it. Change the data to reflect your scenario. Rename things so they make sense to you. Adjust the output so it reads clearly. Make it <em>yours</em>. In your submission, include 2–3 sentences describing what you changed after the AI generated the first version and why. This shows me you actually looked at what was built and made deliberate choices about it.</p>
+  </div>
+
+  <!-- CHALLENGE A -->
+  <div class="q-card ch-ec">
+    <div class="q-header">
+      <div class="q-num">2A</div>
+      <div class="q-text">Challenge A: Build a Knowledge Graph + Scoring System for a New Domain</div>
+      <div class="q-pts">20 pts</div>
+    </div>
+    <div class="q-body">
+      <a href="chapter1-everycure-lab.html" class="ch-label ec">🔬 From Lab 1 · EveryCure ↗</a>
+      <a href="chapter3-spotify-lab.html" class="ch-label sp">🔬 From Lab 3 · Spotify ↗</a>
+      <p>In Lab 1, you used Claude to build a system that connects drugs to diseases through shared biological targets — and scores how strong each match is. In Lab 3, you built a recommendation system that suggests music based on listening patterns. This challenge asks you to do <em>the same thing</em> in a new domain. Same idea, different topic.</p>
+      <p><strong>Pick one of the following domains</strong> (or propose your own):</p>
+      <div class="pick-grid">
+        <div class="pick-card"><div class="pick-icon">📚</div><div class="pick-title">Course Recommender</div><div class="pick-hint">Connect courses, skills, and careers. Score which elective best connects a student's completed courses to their career goal.</div></div>
+        <div class="pick-card"><div class="pick-icon">🍽️</div><div class="pick-title">Recipe Ingredient Graph</div><div class="pick-hint">Connect ingredients, cuisines, and flavour profiles. Suggest ingredient substitutions based on shared connections.</div></div>
+        <div class="pick-card"><div class="pick-icon">🏢</div><div class="pick-title">Job-Skill Matcher</div><div class="pick-hint">Connect job titles, skills, and certifications. Score which skills a job seeker should learn next based on their target roles.</div></div>
+      </div>
+      <h3>What to build (10 pts)</h3>
+      <p style="font-size:14px; color:var(--text-muted); margin-bottom:0.5rem;"><em>Use your Lab 1 and Lab 3 work as a starting point — same idea, different topic.</em></p>
+      <ul>
+        <li>A system that maps out at least 8 items and 12 connections between them</li>
+        <li>A way to find shared connections between two items (like how Lab 1 found drugs and diseases that share the same biological targets)</li>
+        <li>A way to rank matches by strength — which connections are the strongest and why?</li>
+        <li>Clear output that shows the top recommendations and explains <em>why</em> they were recommended (like the explanation sentences in Lab 1)</li>
+      </ul>
+      <h3>Reflection (10 pts)</h3>
+      <p>In 150–200 words, reflect on what you built:</p>
+      <p><strong>What did you do?</strong> Walk me through what you built and how you built it. What GenAI tool did you use? What did you ask it to do? What did you change after the first version to make it yours?</p>
+      <p><strong>What does it miss?</strong> Knowledge graph approaches rely on the connections that exist in the data. What important real-world information is absent from your graph — and how would a user be led astray if they trusted your recommendations without understanding that gap? Connect your answer to a concept from either Chapter 1 (EveryCure) or Chapter 3 (Spotify).</p>
+    </div>
+  </div>
+
+  <!-- CHALLENGE B -->
+  <div class="q-card ch-nf">
+    <div class="q-header">
+      <div class="q-num">2B</div>
+      <div class="q-text">Challenge B: Design and Run an A/B Test on a Real Decision</div>
+      <div class="q-pts">20 pts</div>
+    </div>
+    <div class="q-body">
+      <a href="chapter2-netflix-lab.html" class="ch-label nf">🔬 From Lab 2 · Netflix ↗</a>
+      <a href="chapter4-uber-lab.html" class="ch-label ub">🔬 From Lab 4 · Uber ↗</a>
+      <p>In Lab 2, you used Claude to simulate an A/B test — you split users into two groups, gave each group a different experience, measured the results, and checked if the difference was real or just random chance. In Lab 4, you built a demand forecasting model and tested how well it predicted the future. This challenge asks you to do <em>the same thing</em> — design an experiment, simulate it, and interpret the results — for a different business scenario.</p>
+      <p><strong>Pick one of the following scenarios</strong> (or propose your own):</p>
+      <div class="pick-grid">
+        <div class="pick-card"><div class="pick-icon">📧</div><div class="pick-title">Email Subject Lines</div><div class="pick-hint">A company sends a weekly newsletter. Version A uses a question ("Did you see this?"). Version B uses a statement ("This week's top picks"). Which subject line gets more people to open the email? Simulate 2,000 recipients.</div></div>
+        <div class="pick-card"><div class="pick-icon">🛒</div><div class="pick-title">Product Page Layout</div><div class="pick-hint">An online store tests two product pages. Version A shows customer reviews at the top. Version B shows them below the "Add to Cart" button. Which layout leads to more purchases? Simulate 1,500 shoppers.</div></div>
+        <div class="pick-card"><div class="pick-icon">🎓</div><div class="pick-title">Course Description Format</div><div class="pick-hint">A university tests two formats for course descriptions during registration. Version A is a traditional paragraph. Version B uses bullet points with key outcomes highlighted. Which format gets more students to enroll? Simulate 1,000 students.</div></div>
+      </div>
+      <h3>What to build (10 pts)</h3>
+      <p style="font-size:14px; color:var(--text-muted); margin-bottom:0.5rem;"><em>Use your Lab 2 work as a starting point — same structure, different scenario.</em></p>
+      <ul>
+        <li>Split simulated users into two groups (control vs. treatment)</li>
+        <li>Simulate what happens to each group using realistic numbers you choose and justify</li>
+        <li>Measure the key result for each group (click rate, conversion rate, retention rate, etc.)</li>
+        <li>Check whether the difference between the groups is statistically significant — not just a coincidence</li>
+        <li>Show the comparison visually (a chart or table)</li>
+      </ul>
+      <h3>Reflection (10 pts)</h3>
+      <p>In 150–200 words, reflect on what you built:</p>
+      <p><strong>What did you do?</strong> Walk me through what you built and how you built it. What GenAI tool did you use? What did you ask it to do? What did you change after the first version to make it yours?</p>
+      <p><strong>What does it miss?</strong> Would this experiment actually tell you what you think it tells you? Name one thing your simulation ignores that a real experiment would need to account for. Then explain: if the result is statistically significant, does that mean the company should deploy the change? Why might the prediction–decision gap (Chapter 2) still apply even after a well-run experiment?</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+
+  <!-- ══════════════════ PART 3 ══════════════════ -->
+  <div class="section-block" id="part3">
+    <div>
+      <span class="section-label-small">Part 3</span>
+      <h2>Business Case + AI Prototype</h2>
+    </div>
+    <span class="section-pts">25 points</span>
+  </div>
+
+  <p>This is the centerpiece of the exam. You will identify a real problem that AI could solve, make a business case for building it, build a working prototype, and then critically evaluate your own creation. This part tests everything: can you think like a product manager, build with GenAI, and reason like someone who takes responsibility for what they ship?</p>
+
+  <div class="info-box">
+    <div class="info-box-label">What "business case" means</div>
+    <p>A business case is not "AI is cool and this would be neat." It is an argument: here is a specific problem, here is who has it, here is how GenAI solves it better than the alternative, and here is what makes it worth building. Think like someone pitching to a skeptical VP who controls the budget.</p>
+  </div>
+
+  <div style="background:var(--off-white); border:1px solid var(--border); border-left:4px solid var(--ec); padding:1rem 1.25rem; margin:1.25rem 0;">
+    <div style="font-family:'Oswald',sans-serif; font-size:16px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--ec); margin-bottom:0.4rem;">Prompting tip</div>
+    <p style="font-size:14px; color:var(--text-dark); margin-bottom:0;">You will use GenAI to build your prototype in 3b — and the quality of what it produces depends on how well you prompt it. Give it your specific scenario, your target user, the functionality you need, and the constraints (single HTML file, no backend). Iterate: if the first output isn't right, tell it what to fix and why. Review the <a href="good-prompts.html" style="color:var(--ec); font-weight:600;">Writing Good Prompts</a> guide — especially the sections on context, intent, and iteration — before you start building.</p>
+  </div>
+
+  <p><strong>Pick a domain for your AI prototype.</strong> Here are some ideas to get you started — or come up with your own:</p>
+
+  <div class="scenario-grid">
+    <div class="scenario-card"><div class="scenario-icon">🏥</div><div class="scenario-title">Healthcare</div><div class="scenario-hint">Symptom checker, medication explainer, appointment triage, patient education</div></div>
+    <div class="scenario-card"><div class="scenario-icon">🎓</div><div class="scenario-title">Education</div><div class="scenario-hint">Tutoring assistant, essay feedback, study quiz generator, advising tool</div></div>
+    <div class="scenario-card"><div class="scenario-icon">🛍️</div><div class="scenario-title">Retail</div><div class="scenario-hint">Product recommender, returns helper, sizing assistant, review summariser</div></div>
+    <div class="scenario-card"><div class="scenario-icon">🏢</div><div class="scenario-title">HR / Hiring</div><div class="scenario-hint">Job description writer, resume screener, interview prep coach</div></div>
+    <div class="scenario-card"><div class="scenario-icon">🎒</div><div class="scenario-title">Campus / Student Life</div><div class="scenario-hint">Course selector, roommate conflict helper, campus event finder, club recommender</div></div>
+    <div class="scenario-card"><div class="scenario-icon">💡</div><div class="scenario-title">Your idea</div><div class="scenario-hint">Any domain where AI solves a real problem for real users</div></div>
+  </div>
+
+  <!-- 3a — Business Case -->
+  <div class="q-card">
+    <div class="q-header">
+      <div class="q-num">3a</div>
+      <div class="q-text">Make the business case for your AI prototype. Why should it exist?</div>
+      <div class="q-pts">15 pts</div>
+    </div>
+    <div class="q-body">
+      <p>Write a <strong>one-page business case</strong> for the AI prototype you're going to build in 3b. Use the template below — fill in each section with 2–3 sentences. This should read like something you'd hand to a manager to get approval to build it. Keep it tight. No fluff.</p>
+
+      <div style="background:var(--off-white); border:1px solid var(--border); padding:1.25rem 1.5rem; margin:1rem 0;">
+        <div style="font-family:'Oswald',sans-serif; font-size:16px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--magenta); margin-bottom:1rem;">One-Page Business Case Template</div>
+
+        <p style="font-size:14px; margin-bottom:0.5rem;"><strong>Product name:</strong> <span style="color:var(--text-light);">[Give your prototype a name]</span></p>
+
+        <p style="font-size:14px; margin-bottom:0.5rem;"><strong>The problem:</strong> <span style="color:var(--text-light);">What specific problem does your prototype solve? Who has this problem? How do they deal with it today, and why is that not good enough? (2–3 sentences)</span></p>
+
+        <p style="font-size:14px; margin-bottom:0.5rem;"><strong>The user:</strong> <span style="color:var(--text-light);">Name your target user. Be specific — not "students" but "first-year business students choosing electives for winter quarter." What does their experience look like before and after using your prototype? (2–3 sentences)</span></p>
+
+        <p style="font-size:14px; margin-bottom:0.5rem;"><strong>Why should this prototype exist:</strong> <span style="color:var(--text-light);">Why does this need to be an AI-powered tool? What can your prototype do that a spreadsheet, a Google search, or a person couldn't do as well? What makes AI the right fit for this problem? (2–3 sentences)</span></p>
+
+        <p style="font-size:14px; margin-bottom:0.5rem;"><strong>How it works (AI Factory):</strong> <span style="color:var(--text-light);">Walk through Data → Model → Prediction → Decision → Value for your prototype. One sentence per stage.</span></p>
+
+        <p style="font-size:14px; margin-bottom:0.5rem;"><strong>The biggest risk:</strong> <span style="color:var(--text-light);">Name one specific way your prototype could fail and who gets hurt. Don't say "the AI could be wrong" — name the scenario. (2–3 sentences)</span></p>
+
+        <p style="font-size:14px; margin-bottom:0;"><strong>Connect to two course concepts:</strong> <span style="color:var(--text-light);">Pick two concepts from the course — like prediction–decision gap, explore vs. exploit, human-in-the-loop, algorithmic accountability, long-tail failures, or data dependency — and explain how they apply to <em>your specific prototype</em>. Don't define the concept. Show how it shows up in what you're building. (2–3 sentences each)</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3b — Build the Prototype -->
+  <div class="q-card">
+    <div class="q-header">
+      <div class="q-num">3b</div>
+      <div class="q-text">Build a working prototype and publish it.</div>
+      <div class="q-pts">10 pts</div>
+    </div>
+    <div class="q-body">
+      <p>Using any GenAI tool (Claude, ChatGPT, Gemini, Copilot…), build a small working prototype of the product you described in 3a. Keep it simple — a working chatbot, a prompt-based tool, a page with realistic AI-generated outputs. What matters is that it does something real, that you can show it working, and that you can describe what the AI is doing inside it.</p>
+      <p><strong>Publish your prototype as an HTML page on GitHub Pages</strong> and include the live URL in your submission. Steps: ask your GenAI tool to produce a working HTML page for your prototype → create a new GitHub repository → upload <code>index.html</code> → enable GitHub Pages under Settings → Pages. Include a screenshot of it working alongside the URL.</p>
+      <p>Also name the GenAI tool you used and briefly describe how you used it to build the page.</p>
+    </div>
+  </div>
+
+
+
+  <hr class="divider">
+
+
+  <!-- ══════════════════ PART 4 ══════════════════ -->
+  <div class="section-block" id="part4">
+    <div>
+      <span class="section-label-small">Part 4</span>
+      <h2>AI & the Environment</h2>
+    </div>
+    <span class="section-pts">10 points</span>
+  </div>
+
+  <p>We can't cover this topic in class this quarter, but it's too important to skip entirely. <strong>Read <a href="chapter8-environment.html" style="color:var(--magenta);">Chapter 8: The Environmental Cost of AI</a></strong> on your own. Then use the interactive AI Emissions Calculator in the chapter to explore your own usage. This part asks you to reflect on what you learned.</p>
+
+  <div class="q-card" style="border-left-color: #1a7a4c;">
+    <div class="q-header">
+      <div class="q-num" style="background:#1a7a4c; color:#fff;">4</div>
+      <div class="q-text">Read Chapter 8, use the calculator, and reflect on what AI actually costs.</div>
+      <div class="q-pts">10 pts</div>
+    </div>
+    <div class="q-body">
+      <p>Write <strong>two well-developed paragraphs</strong> (5–7 sentences each):</p>
+      <p><strong>Paragraph 1: Your footprint.</strong> Use the AI Emissions Calculator in Chapter 8 to estimate the environmental cost of your own AI usage — for this exam, for schoolwork in general, or for personal use. Report what the calculator told you (water, energy, carbon). Then react honestly: did the numbers surprise you? Were they bigger or smaller than you expected? How does your AI usage compare to something from the chapter — like streaming Netflix, scrolling TikTok, or the almond comparison?</p>
+      <p><strong>Paragraph 2: The bigger picture.</strong> The chapter argues that the real environmental cost of AI isn't training (which happens once) — it's inference (which happens every time someone sends a prompt). And a lot of that inference produces output nobody ever reads. Now think about this exam: you've been using GenAI throughout it. Was that usage high-value or low-value by the chapter's standards? Then step back and take a position: should companies be required to disclose the environmental cost of each AI query so users can make informed choices? Why or why not?</p>
+      <p>Include a screenshot of your calculator results.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════ GENAI DISCLOSURE ══════════════════ -->
+  <div class="section-block">
+    <div>
+      <span class="section-label-small">Final Step</span>
+      <h2>GenAI Disclosure</h2>
+    </div>
+    <span class="section-pts">Required · Not graded</span>
+  </div>
+
+  <p>Reflect on how you used GenAI throughout this exam. This is the same thing researchers and professionals do — for example, I just wrote two academic papers using GenAI tools and had to disclose my usage in the Acknowledgements section of each one. Just like that, tell me how you used GenAI. In <strong>3–5 sentences</strong>, describe which tools you used, for which parts of the exam, and what your experience was like. There's no right or wrong answer — this is not graded. But it is required. Skipping it is the one thing that will cost you points.</p>
+
+  <hr class="divider">
+
+  <!-- SUBMISSION -->
+  <div class="section-block">
+    <div>
+      <span class="section-label-small">Submission</span>
+      <h2>What to Upload to Canvas</h2>
+    </div>
+  </div>
+
+  <p><strong>Submit one Word document (.docx) to Canvas with all of your answers.</strong> Label each section clearly — Part 1A, Part 1B, Part 2, Part 3, Part 4, GenAI Disclosure — so I can find everything. Paste your written answers, screenshots, and links directly into the document. One file, everything in it.</p>
+
+  <div class="checklist">
+    <div class="checklist-title">📎 Checklist</div>
+    <div class="check-item"><div class="check-box"></div>One Word document (.docx) submitted to Canvas with all parts clearly labelled</div>
+    <div class="check-item"><div class="check-box"></div>Part 1A: All six questions answered (1.1–1.6) using course vocabulary, with cross-chapter connections and external sources where used</div>
+    <div class="check-item"><div class="check-box"></div>Part 1B: All four code snippets answered — what it does + how you'd change it</div>
+    <div class="check-item"><div class="check-box"></div>Part 2: What you built (Colab link or GitHub repo) + screenshot + reflection</div>
+    <div class="check-item"><div class="check-box"></div>Part 3: Business case with course concepts (3a) + live GitHub Pages URL + screenshot (3b)</div>
+    <div class="check-item"><div class="check-box"></div>Part 4: Two paragraphs reflecting on Chapter 8 + screenshot of your calculator results</div>
+    <div class="check-item"><div class="check-box"></div>GenAI Disclosure: 3–5 sentences at the end (required, not graded)</div>
+    <div class="check-item"><div class="check-box"></div>Upload to Canvas. Click Submit. You are a champion! <a href="https://www.youtube.com/watch?v=FP808MiJUcM" target="_blank" style="color:var(--magenta); font-weight:600;">Now sing along with 72,000 people.</a> 🏆</div>
+  </div>
+
+  <h3>Point summary</h3>
+  <table class="score-table">
+    <thead><tr><th>Part</th><th>What it covers</th><th class="right">Pts</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Part 1A</strong> — Conceptual Understanding</td><td>1.1–1.5 (5 pts each) · 1.6 Synthesis (10 pts)</td><td class="right">35</td></tr>
+      <tr><td><strong>Part 1B</strong> — Code Interpretation</td><td>4 snippets (2.5 pts each)</td><td class="right">10</td></tr>
+      <tr><td><strong>Part 2</strong> — Apply Lab Skills</td><td>1 of 2 challenges: build it (10) + reflection (10)</td><td class="right">20</td></tr>
+      <tr><td><strong>Part 3</strong> — Business Case + AI Prototype</td><td>3a Business case + course concepts (15) · 3b Prototype + URL (10)</td><td class="right">25</td></tr>
+      <tr><td><strong>Part 4</strong> — AI & the Environment</td><td>Read Chapter 8 · Use the calculator · Two-paragraph reflection</td><td class="right">10</td></tr>
+      <tr><td colspan="2"><strong>Total</strong></td><td class="right">100</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Grading rubric</h3>
+  <table class="rubric-table">
+    <thead><tr><th>Question</th><th>Full marks</th><th>Partial / no credit</th><th>Pts</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1.1–1.5</strong></td><td>Takes a clear position or makes a judgment; uses specific case evidence (not just definitions) to support the argument; applies course vocabulary precisely throughout; makes a meaningful cross-chapter connection; external sources strengthen the argument</td><td>Defines the concept without applying it; no position taken; could be written without reading the chapter; avoids course vocabulary or uses it incorrectly; no cross-chapter connection</td><td><span class="pts-badge">5 each</span></td></tr>
+      <tr><td><strong>1.6</strong></td><td>Builds a genuinely strong version of the anti-AI criticism using specific case evidence; then complicates the narrative using at least two cases to show AI is broader than GenAI; ends with a clear personal position; both sides are taken seriously, not straw-manned</td><td>Dismisses the criticism or agrees uncritically; uses no case evidence; treats "AI" as a single thing; no personal position; reads like a debate template rather than someone reasoning through a hard question</td><td><span class="pts-badge">10</span></td></tr>
+      <tr><td><strong>C1–C4</strong></td><td>Correctly identifies what the code does and what it outputs; modification for the new scenario is logical and clearly described; C4 connects the code back to the Uber case with a real insight</td><td>Wrong output; can't explain what a variable does; modification doesn't match the scenario; C4 answer is generic ("caps are good/bad") with no reasoning</td><td><span class="pts-badge">2.5 each</span></td></tr>
+      <tr><td><strong>2 — Build</strong></td><td>Submitted something that works or shows clear effort; screenshot demonstrates the output; meets most requirements for the chosen challenge</td><td>Nothing submitted; no screenshot; no evidence of engagement with the challenge</td><td><span class="pts-badge">10</span></td></tr>
+      <tr><td><strong>2 — Reflection</strong></td><td>Clearly explains what was built and how; describes what was changed and why; limitation is specific to what was built; connects to a named course concept</td><td>Generic; doesn't describe the process; limitation could apply to any project; no connection to course material</td><td><span class="pts-badge">10</span></td></tr>
+      <tr><td><strong>3a</strong></td><td>Specific problem, named user, clear argument for why this needs to be AI-powered; AI Factory applied to this specific prototype; biggest risk is concrete and names a real person affected; two course concepts applied specifically to this prototype, not as generic definitions</td><td>"AI is useful"; no named user; risk is vague; AI Factory stages are generic definitions; course concepts are defined but not applied to the prototype</td><td><span class="pts-badge">15</span></td></tr>
+      <tr><td><strong>3b</strong></td><td>Working prototype; GitHub Pages URL provided; screenshot shows tool in action; GenAI tool named and process described</td><td>Describes what it "would" do; no URL; no screenshot</td><td><span class="pts-badge">10</span></td></tr>
+      <tr><td><strong>4</strong></td><td>Calculator screenshot included; specific numbers reported and reacted to honestly; reflection connects own usage to chapter concepts (inference, waste factor); takes a clear position on disclosure; paragraphs are well-developed</td><td>No calculator screenshot; generic summary of the chapter; no personal reflection; no position on disclosure; could have been written without reading Chapter 8</td><td><span class="pts-badge">10</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="success-box">
+    <div class="success-box-label">What a strong submission looks like</div>
+    <p>This is your chance to really dive into working with GenAI — use it, experiment with it, build with it, and then think critically about what you built. The best exams apply course concepts throughout — not as definitions, but as tools for thinking about AI in business. Strong Part 1 answers use vocabulary like "prediction–decision gap" and "explore vs. exploit" to build real arguments, not just to show you memorized the terms. Strong Part 2 submissions show a working prototype that you clearly engaged with — you tweaked it, you understand what it does, and your written analysis identifies a real limitation and connects it to a specific chapter. Strong Part 3 business cases make a clear argument for why your prototype needs to exist, name the specific user it serves, and honestly address what could go wrong. Strong Part 4 reflections go beyond "AI uses a lot of energy" — they connect your own calculator results to the chapter's argument about inference, waste, and disclosure. Throughout the exam, specificity wins: "My symptom checker could cause harm if someone with chest pain dismisses the pain because the tool suggested they wait and see" earns more than "the AI could give bad advice."</p>
+  </div>
+
+</div>
+
+<footer>
+  <p>MIS 435 · AI in Business · Western Washington University · College of Business and Economics</p>
+  <p style="margin-top:0.5rem;"><a href="index.html">Home</a> · <a href="https://cbe.wwu.edu/people/califfc" target="_blank">Contact</a> · <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a> · Free to use for educational purposes</p>
+</footer>
+
+</body>
+</html>
