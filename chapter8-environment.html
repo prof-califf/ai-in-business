@@ -230,7 +230,7 @@
     </div>
     <div class="hero-nav">
       <a href="#calculator" class="btn btn-green">AI Emissions Calculator &darr;</a>
-      <a href="#exam" class="btn btn-outline">Exam Questions &darr;</a>
+      <a href="#exam" class="btn btn-outline">Discussion Questions &darr;</a>
       <a href="index.html" class="btn btn-outline">&larr; All Chapters</a>
     </div>
   </div>
@@ -286,7 +286,7 @@
     <a href="#s-conclusion">11. Where This Is Going</a>
     <div class="toc-part">Your Turn</div>
     <a href="#s-terms">12. Key Terms</a>
-    <a href="#exam">13. Exam Questions</a>
+    <a href="#exam">13. Discussion Questions</a>
   </div>
 
   <!-- BY THE NUMBERS -->
@@ -783,7 +783,7 @@
     // ── Scale-up section ──
     var SCALES = [
       { id:'company', label:'500-person company', icon:'\uD83C\uDFE2', users:500,
-        note:'A mid-sized company deploying AI assistants to every employee \u2014 the procurement scenario from the exam questions.' },
+        note:'A mid-sized company deploying AI assistants to every employee \u2014 the procurement scenario from the discussion questions.' },
       { id:'claude', label:'30M Claude users', icon:'\uD83E\uDDE0', users:30e6,
         note:'Claude has ~30 million monthly active consumer users (web + mobile, early 2026). Sources: <a href="https://backlinko.com/claude-users" target="_blank" style="color:#94c8a8;">Backlinko</a>, <a href="https://www.demandsage.com/claude-ai-statistics/" target="_blank" style="color:#94c8a8;">DemandSage</a>.' },
       { id:'chatgpt', label:'800M ChatGPT users', icon:'\uD83D\uDCAC', users:800e6,
@@ -1199,22 +1199,15 @@
 
   <!-- ═══════════════════════════ EXAM QUESTIONS ═══════════════════════════ -->
 
-  <h2 id="exam"><span class="section-num">13</span> Exam Questions</h2>
-  <p style="font-size:13px; color:#6b7280; margin-bottom:0.75rem;">Use this chapter, the original <a href="https://theslowai.substack.com/p/is-ai-bad-for-the-environment" target="_blank"><em>Slow AI</em> article</a>, the supplementary news sources, and the <strong>AI Prompt Footprint Calculator</strong> as evidence for your answers.</p>
-
-  <h3>Section A: Analysis (choose 2 of 3)</h3>
+  <h2 id="exam"><span class="section-num">13</span> Discussion Questions</h2>
+  <p style="font-size:13px; color:#6b7280; margin-bottom:0.75rem;">Use this chapter, the original <a href="https://theslowai.substack.com/p/is-ai-bad-for-the-environment" target="_blank"><em>Slow AI</em> article</a>, and the <strong>AI Prompt Footprint Calculator</strong> to support your thinking.</p>
 
   <ol class="discussion-list">
-    <li><strong>The inference problem.</strong> A mid-sized company (500 employees) is considering deploying AI assistants company-wide. Each employee would make approximately 20 prompts per day using a medium-tier model. Using the footprint calculator and the figures from this chapter, estimate the annual water and carbon cost of this deployment. Then construct a business memo recommending a model-size policy that balances capability with environmental cost. What data would you need from the AI vendor that currently does not exist?</li>
-    <li><strong>The disclosure gap.</strong> Using Microsoft&rsquo;s Scope 3 emissions increase and the UK government&rsquo;s revised data center projections as evidence, evaluate the current state of AI environmental disclosure. What specific reporting requirements would you recommend for inclusion in federal AI legislation? How would these requirements change vendor selection in enterprise procurement?</li>
-    <li><strong>The waste factor.</strong> The <em>Slow AI</em> article describes AI-generated content consumed by no one as &ldquo;an air-conditioned graveyard of text.&rdquo; Using the calculator&rsquo;s scenario presets, compare the carbon footprint of high-waste use cases (LinkedIn posts, decorative images) with high-value ones (accessibility tools, research). Draft a one-page organizational AI usage policy that accounts for environmental cost without restricting legitimate high-value use &mdash; particularly accessibility applications.</li>
-  </ol>
-
-  <h3>Section B: Strategy (choose 1 of 2)</h3>
-
-  <ol class="discussion-list" style="counter-reset: dq 3;">
-    <li><strong>Evaluating emerging solutions.</strong> You are advising a Fortune 500 company that has committed to net-zero emissions by 2035 and is planning a major AI infrastructure investment. Using the solution comparison table, recommend a power strategy. Address: timeline to deployment, total cost of ownership, environmental profile, reputational risk, and regulatory landscape. Which solution &mdash; or combination &mdash; best serves the company&rsquo;s stated goals?</li>
-    <li><strong>The externality problem.</strong> Data centers are driving up electricity costs for nearby residents by up to 267%. A state legislature is considering requiring data center operators to either build dedicated off-grid power or compensate affected ratepayers. Prepare a two-page brief arguing either <em>for</em> or <em>against</em> the proposed regulation, using economic externality theory and evidence from this chapter. Address the counterargument to your position.</li>
+    <li><strong>Training vs. inference.</strong> Why does the chapter argue that focusing on training costs misses the bigger picture? What makes inference fundamentally different from training as an environmental concern?</li>
+    <li><strong>The waste factor.</strong> The <em>Slow AI</em> article describes AI-generated content consumed by no one as &ldquo;an air-conditioned graveyard of text.&rdquo; Should organizations think about whether a prompt is &ldquo;worth it&rdquo; before using AI? Who gets to decide what counts as waste &mdash; and what are the risks of making that judgment?</li>
+    <li><strong>Disclosure and trust.</strong> No independent lifecycle assessment exists for any frontier AI model. Why do you think that is? What would change if companies were required to publish per-query environmental data the way food companies publish nutrition labels?</li>
+    <li><strong>Who pays?</strong> Data centers are driving up electricity costs for nearby residents. Is that an acceptable tradeoff for the benefits AI provides? How should the costs of AI infrastructure be distributed between the companies that profit from it and the communities that host it?</li>
+    <li><strong>Right-sizing.</strong> The chapter introduces the idea that using a smaller model for simpler tasks reduces environmental cost without sacrificing quality. Can you think of examples from your own AI usage where a smaller model would have been sufficient? What barriers might prevent organizations from adopting a right-sizing policy?</li>
   </ol>
 
   <hr>
