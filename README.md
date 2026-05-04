@@ -24,7 +24,7 @@ No textbook to buy. No software to install. Just a link.
 | 5 | Waymo | How Machines Learn to See: Deep Learning, Reinforcement Learning, World Models, & the Waymo Driver | ✅ Published |
 | 6 | Airbnb | Dynamic Pricing & Marketplace AI: How Airbnb Matches Guests, Hosts, and the Right Price | ✅ Published |
 | 7 | Epic Systems | From Paper Charts to AI Agents: How Epic Is Reinventing American Healthcare | ✅ Published |
-| 8 | Spotify | Recommendation Systems & Personalization | ✅ Published |
+| 8 | AI and the Environment | The Environmental Cost of AI: Training, Inference & the Disclosure Gap | ✅ Published |
 | 9 | Coming soon | | 🔄 In progress |
  
 Each chapter includes:
