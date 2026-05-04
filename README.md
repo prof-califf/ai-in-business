@@ -17,10 +17,15 @@ No textbook to buy. No software to install. Just a link.
  
 | # | Company | Core ML/AI Concept | Status |
 |---|---------|-------------------|--------|
-| 1 | EveryCure | Knowledge Graphs & AI Prediction | ✅ Published |
-| 2 | Netflix | A/B Testing & Experimentation | ✅ Published |
-| 3 | Spotify | Recommendation Systems & Personalization | ✅ Published |
-| 4 | Coming soon | | 🔄 In progress |
+| 1 | EveryCure | Knowledge Graphs & AI Prediction: How EveryCure Finds Hidden Treatments | ✅ Published |
+| 2 | Netflix | A/B Testing & Experimentation: How Netflix Decides What You See | ✅ Published |
+| 3 | Spotify | Recommendation Systems & Personalization: How Spotify Learns What You Love | ✅ Published |
+| 4 | Uber | Uber Is AI: What Happens When the Algorithm Is the Business | ✅ Published |
+| 5 | Waymo | How Machines Learn to See: Deep Learning, Reinforcement Learning, World Models, & the Waymo Driver | ✅ Published |
+| 6 | Airbnb | Dynamic Pricing & Marketplace AI: How Airbnb Matches Guests, Hosts, and the Right Price | ✅ Published |
+| 7 | Epic Systems | From Paper Charts to AI Agents: How Epic Is Reinventing American Healthcare | ✅ Published |
+| 8 | Spotify | Recommendation Systems & Personalization | ✅ Published |
+| 9 | Coming soon | | 🔄 In progress |
  
 Each chapter includes:
 - A business case study with inline ML vocabulary
