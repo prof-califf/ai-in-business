@@ -510,7 +510,6 @@ Tone: honest and analytical. I'm writing this for myself to help make a decision
 
 
   <!-- ============================================================
-  <!-- ============================================================
        STEP 2 — DATA & EMBEDDINGS
        ============================================================ -->
   <div class="exercise" id="step2">
@@ -520,37 +519,36 @@ Tone: honest and analytical. I'm writing this for myself to help make a decision
     </div>
     <div class="exercise-body">
 
-      <h4>How Airbnb&rsquo;s AI turns clicks into meaning</h4>
-      <p>In Step 1, you matched guests using their written descriptions &mdash; and it was hard because descriptions are vague. Airbnb&rsquo;s AI solves this problem by ignoring descriptions entirely. Instead, it watches what people <em>do</em>. Every search, every click, every booking becomes a data point. Imagine a 22-year-old freelance designer opens the Airbnb app. She searches &ldquo;Valencia wifi desk,&rdquo; clicks on three studios with workspace photos, skips every listing that mentions &ldquo;family-friendly,&rdquo; and last year she booked a loft in Lisbon. She never wrote &ldquo;I&rsquo;m a digital nomad looking for a work-friendly apartment&rdquo; &mdash; but her actions say it loud and clear.</p>
-      <p>Airbnb treats each of those actions as a <strong>token</strong> &mdash; the smallest unit of data the model processes. Here&rsquo;s what her tokens look like:</p>
+      <h4>How Airbnb’s AI turns clicks into meaning</h4>
+      <p>In Step 1, you matched guests using their written descriptions — and it was hard because descriptions are vague. Airbnb’s AI solves this by ignoring descriptions entirely. Instead, it watches what people <em>do</em>.</p>
+      <p>Here’s the key idea from Chapter 6: <strong>Airbnb treats user actions the same way ChatGPT treats words.</strong> In a language model, “peanut butter and” predicts “jelly.” At Airbnb, “searched Valencia → clicked beach listing → clicked pool listing” predicts “wants a beach apartment.” Same idea, different <strong>tokens</strong>. A token is just the smallest piece of data the AI reads — for ChatGPT it’s a word, for Airbnb it’s an action.</p>
+      <p>Here’s what a real guest’s tokens look like:</p>
       <div style="background:#f8f8f8; border-radius:8px; padding:1rem 1.25rem; margin:0.75rem 0 1rem; font-family:'Courier New',monospace; font-size:13px; color:#222; line-height:2;">
-        <span style="background:#fff0f3; padding:0.2rem 0.5rem; border-radius:4px; border:1px solid #ffc5d0;">search: "Valencia wifi desk"</span> &rarr;
-        <span style="background:#fff0f3; padding:0.2rem 0.5rem; border-radius:4px; border:1px solid #ffc5d0;">click: Studio, El Carmen</span> &rarr;
-        <span style="background:#fff0f3; padding:0.2rem 0.5rem; border-radius:4px; border:1px solid #ffc5d0;">click: 1BR loft, Ruzafa</span> &rarr;
-        <span style="background:#fff0f3; padding:0.2rem 0.5rem; border-radius:4px; border:1px solid #ffc5d0;">click: Boutique studio</span> &rarr;
+        <span style="background:#fff0f3; padding:0.2rem 0.5rem; border-radius:4px; border:1px solid #ffc5d0;">search: “Valencia wifi desk”</span> →
+        <span style="background:#fff0f3; padding:0.2rem 0.5rem; border-radius:4px; border:1px solid #ffc5d0;">click: Studio, El Carmen</span> →
+        <span style="background:#fff0f3; padding:0.2rem 0.5rem; border-radius:4px; border:1px solid #ffc5d0;">click: 1BR loft, Ruzafa</span> →
+        <span style="background:#fff0f3; padding:0.2rem 0.5rem; border-radius:4px; border:1px solid #ffc5d0;">click: Boutique studio</span> →
         <span style="background:#fff0f3; padding:0.2rem 0.5rem; border-radius:4px; border:1px solid #ffc5d0;">booking: Lisbon loft (last year)</span>
       </div>
-      <p>Each pink box above is one token &mdash; one action, in order. Tokens are the <strong>raw inputs</strong>. The AI reads this sequence (the same way ChatGPT reads a sequence of words) and calculates a set of coordinates for each listing &mdash; that&rsquo;s the <strong>embedding</strong>. The tokens are what goes <em>in</em>. The embedding coordinates are what comes <em>out</em>. Think of it this way: the tokens are the evidence, and the embedding is Airbnb&rsquo;s AI&rsquo;s conclusion about what that evidence means.</p>
-      <p><strong>That&rsquo;s what Simulator 2 below shows you.</strong> The map is the embedding space. Each dot is a listing. When you click &ldquo;Group by behavior,&rdquo; you&rsquo;re seeing the map Airbnb&rsquo;s AI actually uses &mdash; listings positioned by <em>who browses them</em>. When you click &ldquo;Group by features,&rdquo; you&rsquo;re seeing how a human would organize the same listings &mdash; by bedrooms and price. <strong>The two maps look completely different</strong>, and that difference is the whole point of embeddings.</p>
+      <p>Each pink box is one token. The AI reads this sequence and draws a conclusion: this person is a digital nomad who wants a workspace. She never typed that — but her actions said it.</p>
 
       <div class="concept">
         <div class="concept-label">Core Concept: Embeddings</div>
-        <p>Think of a GPS coordinate. It&rsquo;s two numbers (latitude and longitude) that tell you where something is on Earth. An <strong>embedding</strong> works the same way, except instead of telling you <em>where</em> a listing is geographically, it tells you <em>what kind of guests like it</em>. We&rsquo;ll call this Airbnb&rsquo;s <strong>taste map</strong> &mdash; a map where closeness means &ldquo;attracts the same guests,&rdquo; not &ldquo;on the same street.&rdquo;</p>
-        <p>Airbnb&rsquo;s AI watches millions of guests browse, click, and book. From that behavior, it calculates a set of numbers for every listing &mdash; that&rsquo;s the embedding. Each listing gets its own position on Airbnb&rsquo;s taste map.</p>
-        <p><strong>Example:</strong> Elena&rsquo;s apartment is a 2BR in Ruzafa. The 2BR next door has the same bedrooms, same price, same neighborhood. A human would say they&rsquo;re competitors. But Airbnb&rsquo;s AI notices that <em>families</em> browse the apartment next door (it has a crib and mentions a playground), while <em>digital nomads</em> browse Elena&rsquo;s place (it has a desk and fast wifi). So on Airbnb&rsquo;s taste map, Elena&rsquo;s apartment ends up close to a 1BR loft across town that nomads also love &mdash; and far from the 2BR next door. Same street, different audience, different position on the map.</p>
+        <p>Once the AI reads all those tokens, it calculates a position for each listing on what we’ll call Airbnb’s <strong>taste map</strong>. That position is the <strong>embedding</strong>. Think of it like GPS, but for taste instead of geography.</p>
+        <p>On a regular map, Elena’s apartment and the 2BR next door are inches apart. But on Airbnb’s taste map, they might be far apart — because <em>different kinds of guests</em> browse them. Elena’s place (desk, fast wifi) attracts digital nomads. The one next door (crib, playground nearby) attracts families. On the taste map, Elena’s apartment ends up closer to a 1BR loft across town that nomads also love than to the 2BR right next door.</p>
+        <p><strong>In plain English:</strong> similar listings = listings that attract the same guests, not listings that look the same.</p>
       </div>
 
       <div class="concept">
         <div class="concept-label">Core Concept: Clustering</div>
-        <p>Once every listing has an embedding (a position on Airbnb&rsquo;s taste map), Airbnb&rsquo;s AI looks at the map and notices something: some listings are bunched together. Nomad-friendly places cluster in one area. Family places cluster in another. Budget places cluster somewhere else.</p>
-        <p>The AI draws a circle around each bunch and says: <em>&ldquo;these listings are a group.&rdquo;</em> That&rsquo;s <strong>clustering</strong>. Airbnb calls each group a <strong>demand aggregation</strong>. This is a type of <strong>unsupervised learning</strong> &mdash; meaning nobody told the AI what the groups should be or how many to make. The AI discovered the groups on its own by noticing which listings ended up near each other on the map.</p>
-        <p><strong>Why does this matter for you?</strong> Elena&rsquo;s apartment might only get 15 bookings a year &mdash; that&rsquo;s not enough data for Airbnb&rsquo;s AI to learn much about it individually. But the cluster it belongs to might have thousands of listings with hundreds of thousands of bookings. Airbnb&rsquo;s AI learns from the whole cluster, not just your listing. That&rsquo;s how it can make smart pricing suggestions even for a listing with very little history. You&rsquo;ll see this in Step 4.</p>
+        <p>Once every listing has a position on the taste map, Airbnb’s AI notices that some listings are bunched together. It draws a circle around each bunch — that’s a <strong>cluster</strong>. Nobody told the AI what the groups should be. It discovered them on its own by looking at who browses what. (In AI, this is called <strong>unsupervised learning</strong>.)</p>
+        <p><strong>Why this matters for Elena:</strong> Her listing only gets ~15 bookings a year — not enough data for the AI to learn from. But her <em>cluster</em> has hundreds of listings with thousands of bookings. The AI learns pricing patterns from the whole cluster, not from Elena’s listing alone. That’s how Smart Pricing can make suggestions even for a brand-new listing with zero history.</p>
       </div>
 
-      <p>So to recap: <strong>embedding</strong> = each listing gets a position on Airbnb&rsquo;s taste map. <strong>Clustering</strong> = Airbnb&rsquo;s AI notices which listings ended up near each other and groups them. The embedding is the position. The cluster is the neighborhood.</p>
+      <p>So the three concepts build on each other: <strong>tokens</strong> (actions) go in → the AI calculates an <strong>embedding</strong> (position on the taste map) → listings near each other form a <strong>cluster</strong> (a group the AI discovered). The simulator below lets you see all three.</p>
 
-      <h4>Why this matters for Elena&rsquo;s listing</h4>
-      <p>If you decide to list on Airbnb, Airbnb&rsquo;s AI will calculate an embedding for your apartment based on how guests interact with it, and it will place your apartment in a cluster. That cluster determines which guests the platform shows your listing to, which listings you compete against, and ultimately how many bookings you get. <strong>In Simulator 2, you&rsquo;re going to see where Elena&rsquo;s apartment lives on Airbnb&rsquo;s taste map &mdash; and then make a decision about how to set it up that will change which cluster Airbnb&rsquo;s AI assigns it to.</strong> This is one of the few things you can actually control as a host: not the algorithm itself, but the inputs you feed it.</p>
+      <h4>Why this matters for Elena’s listing</h4>
+      <p>When Elena lists on Airbnb, the AI will calculate an embedding for her apartment and place it in a cluster. That cluster determines which guests see her listing, which listings she competes against, and how many bookings she gets. <strong>In the simulator below, you’ll see where Elena’s apartment lands on the taste map — and then make a positioning recommendation that changes which cluster the AI assigns it to.</strong></p>
 
       <div class="sim-panel" id="embedSim">
         <div class="sim-title">Step 2 &middot; The Embedding Explorer</div>
@@ -632,7 +630,7 @@ Tone: honest and analytical. I'm writing this for myself to help make a decision
       <div class="reflection" id="embedReflection">
         <div class="reflection-label">Step 2 Reflection</div>
         <div style="font-size:12px; color:#999; margin-bottom:0.5rem; font-style:italic;">Include your answer in the Claude prompt below.</div>
-        <div class="reflection-q"><strong>1.</strong> Which setup did you choose (remote work, romantic, or family), and what happened to your listing&rsquo;s position on the map? Which new competitors appeared, and did any of them surprise you?</div>
+        <div class="reflection-q"><strong>1.</strong> Which setup did you choose (remote work, romantic, or family), and what happened to Elena&rsquo;s listing&rsquo;s position on the map? Which new competitors appeared, and did any of them surprise you?</div>
         <div class="reflection-q" style="margin-top:0.85rem;"><strong>2.</strong> You and a classmate both apply for the same internship on LinkedIn. You have nearly identical resumes, but she gets 10x more recruiter views. Based on what you learned about embeddings and clustering, what might LinkedIn&rsquo;s algorithm be seeing that you&rsquo;re not &mdash; and what would you change about your profile to fix it?</div>
       </div>
 
@@ -662,8 +660,6 @@ Tone: strategic but practical. I'm making a real business decision.</pre>
   </div>
 
 
-  <!-- ============================================================
-  <!-- ============================================================
   <!-- ============================================================
        STEP 3 — SMART PRICING SCENARIOS
        ============================================================ -->
@@ -757,8 +753,6 @@ Tone: analytical but accessible. Elena needs clear advice, not jargon.</pre>
     </div>
   </div>
 
-  <!-- ============================================================
-  <!-- ============================================================
   <!-- ============================================================
        STEP 4 — THE SUPPORT CASE
        ============================================================ -->
@@ -902,7 +896,6 @@ Keep it under 250 words. Tone: empathetic but honest. Sound like a real person, 
 
 
   <!-- ============================================================
-  <!-- ============================================================
        STEP 5 — GENAI LISTING
        ============================================================ -->
   <div class="exercise" id="step5">
@@ -919,7 +912,7 @@ Keep it under 250 words. Tone: empathetic but honest. Sound like a real person, 
       <div class="concept">
         <div class="concept-label">Core Concept: Generative AI vs. Predictive AI</div>
         <p><strong>Predictive AI</strong> answers a specific question by learning patterns in data. Output: a number, a ranking, a category. (Steps 1&ndash;4 were all predictive.) <strong>Generative AI</strong> produces new content &mdash; text, code, images &mdash; by learning patterns from huge collections of existing content. Output: something that didn&rsquo;t exist before.</p>
-        <p>Airbnb uses both. The destination recommender is predictive (it scores cities). Smart Pricing is predictive (it suggests a number). But when Airbnb&rsquo;s engineers used an LLM to rewrite test files, that was generative. And when you use Claude to write your listing, that&rsquo;s generative too. <strong>The key difference:</strong> predictive AI can be checked against a right answer. Generative AI often can&rsquo;t &mdash; which is why human editing matters so much.</p>
+        <p>Airbnb uses both. The destination recommender is predictive (it scores cities). Smart Pricing is predictive (it suggests a number). But when Airbnb&rsquo;s engineers used an LLM to rewrite test files, that was generative. And when you use Claude to write Elena&rsquo;s listing, that&rsquo;s generative too. <strong>The key difference:</strong> predictive AI can be checked against a right answer. Generative AI often can&rsquo;t &mdash; which is why human editing matters so much.</p>
       </div>
 
       <div class="instructions">
@@ -1005,7 +998,6 @@ Keep it under 150 words. Sound like a real host, not an AI.</pre>
   </div>
 
 
-  <!-- ============================================================
   <!-- ============================================================
        STEP 6 — THE BACKLASH
        ============================================================ -->
@@ -1127,7 +1119,6 @@ Tone: analytical and evidence-based. This is a professional risk assessment, not
 
 
   <!-- ============================================================
-  <!-- ============================================================
        STEP 7 — THE DECISION
        ============================================================ -->
   <div class="exercise" id="step7">
@@ -1235,7 +1226,6 @@ Tone: direct and honest, like I'm talking to a friend who asked for advice. No b
   </div>
 
 
-  <!-- ============================================================
   <!-- ============================================================
        STEP 8 — PUBLISH
        ============================================================ -->
