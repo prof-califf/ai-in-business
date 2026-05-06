@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stand Out Among the Robots — MIS 432 | AI in Business</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --black: #0e0e0d; --off-black: #1a1a18; --magenta: #e8197d; --white: #ffffff; --off-white: #f6f4f1; --text-dark: #0e0e0d; --text-muted: #3a3a38; --text-light: #6b6b68; --border: #e0ddd8; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Space Grotesk', sans-serif; background: var(--white); color: var(--text-dark); }
+  nav { background: var(--black); padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; position: sticky; top: 0; z-index: 100; }
+  .nav-brand { color: var(--magenta); font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.08em; text-decoration: none; text-transform: uppercase; }
+  .nav-brand span { color: rgba(255,255,255,0.25); font-weight: 400; }
+  .nav-links { display: flex; gap: 1.75rem; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.5); font-size: 13px; text-decoration: none; font-weight: 500; transition: color 0.15s; }
+  .nav-links a:hover { color: var(--magenta); }
+  .nav-links a.active { color: var(--magenta); font-weight: 600; }
+  .hero { position: relative; background: var(--black); padding: 4.5rem 2rem 4rem; text-align: center; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(232,25,125,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(232,25,125,0.06) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; }
+  .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 5px; background: var(--magenta); }
+  .hero-inner { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
+  .hero-stamp { display: inline-block; font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.15); padding: 0.3rem 0.9rem; margin-bottom: 1.75rem; }
+  .hero h1 { font-family: 'Oswald', sans-serif; font-size: 60px; font-weight: 700; color: #fff; line-height: 0.95; margin-bottom: 1rem; letter-spacing: -0.01em; text-transform: uppercase; }
+  .hero h1 span { color: var(--magenta); display: block; }
+  .hero-meta { font-size: 13px; color: rgba(255,255,255,0.3); font-style: italic; margin-top: 0.5rem; }
+  .article { max-width: 680px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+  .article p { font-size: 16px; line-height: 1.85; color: var(--text-muted); margin-bottom: 1.4rem; font-weight: 400; }
+  .article h2 { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; color: var(--text-dark); margin: 2.5rem 0 0.5rem; text-transform: uppercase; letter-spacing: 0.02em; }
+  .article h3 { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 500; color: var(--magenta); margin: 0 0 1rem; font-style: italic; }
+  .article hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+  .article a { color: var(--magenta); text-decoration: none; font-weight: 500; }
+  .article a:hover { text-decoration: underline; }
+  .article em { font-style: italic; }
+  .article strong { font-weight: 600; color: var(--text-dark); }
+
+  .prompt-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1.25rem 0; }
+  @media(max-width:580px){ .prompt-pair { grid-template-columns: 1fr; } }
+  .prompt-bad { background: #fff5f5; border-left: 4px solid #fc8181; padding: 0.9rem 1rem; }
+  .prompt-good { background: #f0fff4; border-left: 4px solid #48bb78; padding: 0.9rem 1rem; }
+  .prompt-lbl { font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .prompt-bad .prompt-lbl { color: #c53030; }
+  .prompt-good .prompt-lbl { color: #276749; }
+  .prompt-txt { font-size: 13px; line-height: 1.65; color: var(--text-muted); font-style: italic; font-weight: 400; }
+
+  .callout { padding: 1rem 1.25rem; margin: 1.25rem 0; }
+  .callout-fix { background: var(--off-white); border-left: 4px solid var(--magenta); }
+  .callout-meta { background: var(--off-white); border-left: 4px solid var(--off-black); }
+  .callout-lbl { font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.35rem; color: var(--magenta); }
+  .callout-meta .callout-lbl { color: var(--text-dark); }
+  .callout p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin: 0; font-weight: 400; }
+
+  .checklist { background: var(--off-black); border-left: 5px solid var(--magenta); padding: 2rem; margin: 2.5rem 0; }
+  .checklist-lbl { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--magenta); margin-bottom: 0.4rem; }
+  .checklist h2 { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: #fff; margin: 0 0 1.25rem; text-transform: uppercase; letter-spacing: 0.02em; }
+  .checklist h3 { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.35); margin: 1.5rem 0 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; }
+  .check-item { display: flex; gap: 0.75rem; margin-bottom: 0.6rem; }
+  .check-num { color: var(--magenta); font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 15px; flex-shrink: 0; min-width: 20px; }
+  .check-txt { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.6; font-weight: 400; }
+  .check-txt strong { color: #fff; font-weight: 600; }
+  .check-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 1.25rem 0; }
+
+  .notes { border-top: 1px solid var(--border); padding-top: 1.5rem; margin-top: 1rem; }
+  .notes p { font-size: 13px; color: var(--text-light); line-height: 1.7; margin-bottom: 0.35rem; font-weight: 400; }
+
+  footer { background: var(--black); padding: 2rem; text-align: center; border-top: 5px solid var(--magenta); }
+  footer p { font-size: 13px; color: rgba(255,255,255,0.28); }
+  footer a { color: var(--magenta); text-decoration: none; }
+  footer a:hover { color: #fff; }
+
+  .nav-dropdown { position: relative; }
+  .nav-dropdown-toggle {
+    color: rgba(255,255,255,0.5); font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: 0.02em; text-decoration: none;
+    background: none; border: none; cursor: pointer; padding: 0;
+    display: inline-flex; align-items: center; gap: 4px; transition: color 0.15s;
+  }
+  .nav-dropdown-toggle:hover, .nav-dropdown:hover .nav-dropdown-toggle, .nav-dropdown.open .nav-dropdown-toggle { color: var(--magenta); }
+  .nav-dropdown-toggle .caret { display: inline-block; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid currentColor; transition: transform 0.15s; }
+  .nav-dropdown:hover .nav-dropdown-toggle .caret, .nav-dropdown.open .nav-dropdown-toggle .caret { transform: rotate(180deg); }
+  .nav-dropdown-menu { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(-4px); background: var(--off-black); border: 1px solid rgba(232,25,125,0.2); border-radius: 4px; min-width: 220px; padding: 0.4rem 0; opacity: 0; visibility: hidden; transition: opacity 0.15s, visibility 0.15s, transform 0.15s; box-shadow: 0 8px 24px rgba(0,0,0,0.35); z-index: 200; }
+  .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown.open .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+  .nav-dropdown::after { content: ''; position: absolute; top: 100%; left: 0; right: 0; height: 12px; }
+  .nav-dropdown-menu a { display: block; padding: 0.5rem 1rem; color: rgba(255,255,255,0.65); font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 500; text-decoration: none; border-left: 2px solid transparent; transition: color 0.12s, background 0.12s, border-color 0.12s; }
+  .nav-dropdown-menu a:hover { color: var(--magenta); background: rgba(232,25,125,0.06); border-left-color: var(--magenta); }
+  .nav-dropdown-menu .menu-num { display: inline-block; font-size: 11px; color: var(--magenta); margin-right: 7px; min-width: 24px; font-weight: 700; }
+  .nav-dropdown-menu .menu-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 0.3rem 0.75rem; }
+  .menu-divider-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 0.4rem 1rem 0.2rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 432 <span>&middot;</span> AI in Business</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Chapters &amp; Labs <span class="caret"></span></button>
+      <div class="nav-dropdown-menu" role="menu">
+        <div class="menu-divider-label">Chapters</div>
+        <a href="chapter1-everycure.html" role="menuitem"><span class="menu-num">01</span>EveryCure</a>
+        <a href="chapter2-netflix.html" role="menuitem"><span class="menu-num">02</span>Netflix</a>
+        <a href="chapter3-spotify.html" role="menuitem"><span class="menu-num">03</span>Spotify</a>
+        <a href="chapter4-uber.html" role="menuitem"><span class="menu-num">04</span>Uber</a>
+        <a href="chapter5-waymo.html" role="menuitem"><span class="menu-num">05</span>Waymo</a>
+        <a href="chapter6-airbnb.html" role="menuitem"><span class="menu-num">06</span>Airbnb</a>
+        <a href="chapter7-epic.html" role="menuitem"><span class="menu-num">07</span>Epic</a>
+        <div class="menu-divider"></div>
+        <div class="menu-divider-label">Labs</div>
+        <a href="chapter1-everycure-lab.html" role="menuitem"><span class="menu-num">L1</span>EveryCure Lab</a>
+        <a href="chapter2-netflix-lab.html" role="menuitem"><span class="menu-num">L2</span>Netflix Lab</a>
+        <a href="chapter3-spotify-lab.html" role="menuitem"><span class="menu-num">L3</span>Spotify Lab</a>
+        <a href="chapter4-uber-lab.html" role="menuitem"><span class="menu-num">L4</span>Uber Lab</a>
+        <a href="chapter5-waymo-lab.html" role="menuitem"><span class="menu-num">L5</span>Waymo Lab</a>
+        <a href="chapter6-airbnb-lab.html" role="menuitem"><span class="menu-num">L6</span>Airbnb Lab</a>
+        <a href="chapter7-epic-lab.html" role="menuitem"><span class="menu-num">L7</span>Epic Lab</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Student Resources <span class="caret"></span></button>
+      <div class="nav-dropdown-menu" role="menu">
+        <a href="good-prompts.html" role="menuitem"><span class="menu-num">&#10022;</span>Writing Good Prompts</a>
+        <a href="writing-with-voice.html" class="active" role="menuitem"><span class="menu-num">&#10022;</span>Writing With Voice</a>
+        <a href="ai-job-interview.html" role="menuitem"><span class="menu-num">&#10022;</span>AI in Job Interviews</a>
+        <a href="ai-news-and-sources.html" role="menuitem"><span class="menu-num">&#10022;</span>AI News + Sources</a>
+      </div>
+    </div>
+    <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-stamp">MIS 432 &nbsp;&middot;&nbsp; Student Resource &nbsp;&middot;&nbsp; 5 min read</div>
+    <h1>Stand Out<span>Among the Robots</span></h1>
+    <p style="font-family: 'Oswald', sans-serif; font-size: 32px; font-weight: 500; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1rem;">Your Voice &amp; Writing with AI</p>
+  </div>
+</div>
+
+<div class="article">
+
+  <p>I can tell when you used AI. You can tell when I used AI. We all use AI now &mdash; and that is totally fine. I use it to draft, to organize my thinking, to check my grammar, to build prototypes, to get unstuck. You should too. And I am not going to argue that you should go back to staring at a blank page trying to write a topic sentence for a five-paragraph essay &mdash; remember that from middle school? Maybe there is value in that, maybe there is not. That is not the point right now. The point here is about <strong>voice.</strong></p>
+
+  <p>Here is the point: when we let AI do all the work, the writing loses its voice. The grammar is perfect, the tone is pleasant, and the ideas are completely empty. There is no perspective. There is no personality. There is no <em>you</em> in it. This is what people are calling <strong>AI slop</strong>, and it is everywhere &mdash; in academic research papers (yes, I have reviewed several), in inboxes, in slide decks, in LinkedIn posts, and yes, in student work. We all have the same tools, and when we all use them the same way, we all sound the same.</p>
+
+  <p>A couple of years ago, I might have flagged your writing as AI-generated and run it through a detector. But we have learned that <a href="https://theslowai.substack.com/p/guilty-until-proved-human-ai-detection" target="_blank">AI detectors do not work</a> &mdash; researchers have found the best ones are still wrong at least one in five times, and they disproportionately flag non-native English speakers. OpenAI built its own detector and shut it down because it was so inaccurate. MIT, Yale, and dozens of other universities have stopped using them. And honestly, we do not need them. We are co-evolving alongside AI &mdash; we are getting better at sensing the difference between something that is AI slop and something that someone actually took the time to write, whether they used AI in the process or not. The question is not &ldquo;did a machine write this?&rdquo; The question is &ldquo;is there a <em>you</em> in this?&rdquo;</p>
+
+  <p>This co-evolution of writing with AI has brought us to a point where your voice is more critical than ever. That is what this article is about: <strong>your voice.</strong> Your experience, your perspective, your way of seeing things &mdash; that is what makes your writing worth reading, and no AI can generate it for you. AI can help you for sure &mdash; it helped me write this blog &mdash; but the voice has to be yours.</p>
+
+  <p>Now, does everything we write need our voice? Of course not. A meeting confirmation, a routine status update, a quick Slack reply &mdash; just be clear and move on. Let AI handle those. But the writing that carries our thinking &mdash; a proposal, a presentation, a client email where the relationship matters, an essay where we are supposed to have a point of view, a report with our name on it &mdash; that is where voice is the differentiator. That is where sounding like everyone else actually costs us something.</p>
+
+  <p>For example, in this post I draw on a book called <em>On Writing Well</em> by William Zinsser and the writing style of Jack Kerouac. Those are not random choices. I have read Zinsser, and it has shaped how I think about writing throughout my time in business and as an academic. I have read Kerouac, and his idea of spontaneous prose &mdash; just getting your unfiltered thinking on the page &mdash; turns out to be exactly what we need in the age of AI. Connecting those ideas to what we are dealing with today is something no AI could do for me. Those connections come from my experience. That is voice.</p>
+
+  <p>Zinsser wrote about this problem decades before AI existed. He said that, long before you (and I) were born, business executives were hiding behind impersonal, jargon-filled language instead of writing like themselves. His advice: clarity, simplicity, brevity, and <strong>humanity.</strong> Ann Handley picks up where he left off in her article <a href="https://annhandley.com/how-to-write-like-robots-cant/" target="_blank">&ldquo;How to Write Like Robots Can&rsquo;t.&rdquo;</a> Their core message is the same: your voice is not decoration. It is the whole point.</p>
+
+  <div class="callout callout-meta">
+    <div class="callout-lbl">Zinsser on business writing</div>
+    <p>&ldquo;Be yourself when you write. You will stand out as a real person among the robots.&rdquo; &mdash; <em>On Writing Well</em>, Chapter 16</p>
+  </div>
+
+  <p>Zinsser wrote that long before ChatGPT existed. Drawing from both him and Handley, here is a five-step framework for keeping your voice when you write with AI.</p>
+
+  <div class="checklist">
+    <div class="checklist-lbl">The Framework</div>
+    <h2>Voice-First AI Writing</h2>
+
+    <h3>Your Workflow</h3>
+    <div class="check-item"><div class="check-num">0.</div><div class="check-txt"><strong>Touch grass.</strong> Read, listen, notice. Your voice comes from your experience &mdash; feed it.</div></div>
+    <div class="check-item"><div class="check-num">1.</div><div class="check-txt"><strong>Spontaneous prose.</strong> Open ChatGPT, Claude, a notebook &mdash; whatever. Write what you actually think. Five minutes, no structure, just get your brain on the page.</div></div>
+    <div class="check-item"><div class="check-num">2.</div><div class="check-txt"><strong>Frame it.</strong> Use AI to organize <em>your</em> notes. Feed it your thinking, not a generic topic.</div></div>
+    <div class="check-item"><div class="check-num">3.</div><div class="check-txt"><strong>Push back.</strong> Do not accept the first thing AI gives you. If it does not sound like you, tell it. Rewrite, redirect, iterate until it does.</div></div>
+    <div class="check-item"><div class="check-num">4.</div><div class="check-txt"><strong>Read it out loud.</strong> If you would never say it in conversation, cut it.</div></div>
+    <div class="check-item"><div class="check-num">5.</div><div class="check-txt"><strong>Add your fingerprints.</strong> Go back and layer in the specific details, real examples, and honest assessments only you can provide. No fear or shame.</div></div>
+
+    <div class="check-divider"></div>
+
+    <h3>The Slop Test &mdash; Catch These Red Flags</h3>
+    <div class="check-item"><div class="check-num">&bull;</div><div class="check-txt">Could anyone have written this? If yes, <strong>rewrite.</strong></div></div>
+    <div class="check-item"><div class="check-num">&bull;</div><div class="check-txt">Does it open with &ldquo;In today&rsquo;s rapidly evolving landscape&rdquo;? <strong>Delete that immediately.</strong></div></div>
+    <div class="check-item"><div class="check-num">&bull;</div><div class="check-txt">Is every claim vague and pleasant? <strong>Add specifics.</strong></div></div>
+    <div class="check-item"><div class="check-num">&bull;</div><div class="check-txt">Would you actually say this out loud to a real person? If not, <strong>rewrite it like you would.</strong></div></div>
+    <div class="check-item"><div class="check-num">&bull;</div><div class="check-txt">Is there a single opinion, example, or detail the AI could not have generated? If not, <strong>you have outsourced your mind.</strong></div></div>
+  </div>
+
+  <p>Below, I walk through each step in detail.</p>
+
+  <hr>
+
+  <h2>0. Touch Grass</h2>
+
+  <p>Before any of the writing steps matter, you need something to draw from. Your voice does not come from nowhere &mdash; it comes from what you read, what you listen to, what you notice in the world. The more you take in outside of AI, the more you have to bring to your writing.</p>
+
+  <p>I listen to podcasts and NPR when I ride my bike &mdash; for fun and on my commute to work &mdash; and I often use news stories I hear there as examples in the chapters for this course. AI did not find those stories for me &mdash; I heard them on my commute and thought, &ldquo;that is a perfect example of this concept.&rdquo; I read Kerouac and Zinsser years ago, and now those ideas are showing up in this (not a) blog post about AI. I never thought that would happen. Your lived experience is valuable and it is what makes you unique &mdash; you never know when or where it will show up in your writing.</p>
+
+  <p>Go outside. Read something. Listen to a podcast. Talk to people. As Kerouac also said: &ldquo;You&rsquo;re a Genius all the time.&rdquo; You already have interesting thoughts and experiences &mdash; Step 0 is just making sure you keep feeding them.</p>
+
+  <hr>
+
+  <h2>1. Spontaneous Prose</h2>
+
+  <p>This is the most important step, and it is the one most of us skip. We open ChatGPT and type &ldquo;write me a discussion post about leadership&rdquo; and get back five paragraphs of nothing. That is not the AI&rsquo;s fault &mdash; it is what happens when we hand over the thinking along with the writing. Zinsser&rsquo;s core principle is that good writing is really about good thinking. So before you prompt, open ChatGPT or Claude or a blank doc and just write. Five minutes. What do <em>you</em> actually think about this topic? What is your take, your real opinion, a specific example from your own experience? Think of it like Jack Kerouac&rsquo;s spontaneous prose &mdash; fast, unedited composition that mimics jazz improvisation and captures the mind&rsquo;s free associations. As Kerouac put it: &ldquo;Write what you want bottomless from bottom of the mind&rdquo; and &ldquo;Remove literary, grammatical and syntactical inhibition.&rdquo; Just let it flow, get your brain on the page. That is the raw material no AI can generate for you.</p>
+
+  <p>I will be honest: I used AI to help me write this post. But I did not type &ldquo;write me a blog post about voice and AI.&rdquo; I started with my own ideas &mdash; what I was noticing in my own work, in student work, why Zinsser and Kerouac felt relevant, what I actually wanted to say. Then I used AI to help me draft and organize. And then I kept pushing it to sound like <em>me</em> &mdash; adding my own examples, cutting the generic stuff, rewriting anything that did not feel right. That process is exactly what this framework is about.</p>
+
+  <hr>
+
+  <h2>2. Frame It</h2>
+
+  <p>Once you have your rough thinking on paper, <em>now</em> bring in the AI. But not to write for you &mdash; to help you organize what you already have. Ask it to suggest a structure for your argument, or to turn your messy notes into an outline. The key difference: you are giving it <em>your</em> ideas to work with, not a blank topic. I do this all the time &mdash; I use AI to help me build presentations and even the chapters for this course. But the material is always shaped by my own thinking first.</p>
+
+  <p>For example, do not just type &ldquo;write me a discussion post about how Netflix uses AI for recommendations.&rdquo; That is outsourcing your mind. Instead, jot down what you actually think about the Netflix case &mdash; maybe you noticed that the most interesting part is not the algorithm itself, but that Netflix is deciding what shows to <em>make</em> based on what the algorithm predicts people will watch. That is your take. Now give <em>that</em> to the AI and ask it to help you organize it into a discussion post. The output will sound like you because the thinking was yours.</p>
+
+  <hr>
+
+  <h2>3. Push Back</h2>
+
+  <p>The first draft AI gives you will almost always be generic &mdash; and there is a reason for that. Tools like ChatGPT and Claude are prediction machines. They generate the most statistically likely next word based on everything they have seen. By design, their default output is the average. So never accept the first thing it gives you. If our goal is something unique to us, we have to push back on that. As Kerouac said: &ldquo;Great things are not accomplished by those who yield to trends and fads and popular opinion.&rdquo; The same applies here &mdash; do not yield to the AI&rsquo;s default. Push it toward <em>you.</em></p>
+
+  <p>That is exactly what I did writing this post. The first drafts sounded like a textbook. I kept pushing &mdash; &ldquo;make it more casual,&rdquo; &ldquo;this does not sound like me,&rdquo; &ldquo;add my examples here.&rdquo; In <a href="https://annhandley.com/how-to-write-like-robots-cant/" target="_blank">&ldquo;How to Write Like Robots Can&rsquo;t,&rdquo;</a> Handley talks about using your audience&rsquo;s insider language instead of generic metaphors, and voicing what your reader is already thinking. Those are the kinds of things you push AI toward &mdash; and the kinds of things it will never do on its own.</p>
+
+  <hr>
+
+  <h2>4. Read It Out Loud</h2>
+  <h3>&ldquo;Never say anything in writing that you would not say in conversation&rdquo;</h3>
+
+  <p>OK, so now you have something you are happy with. You have done your thinking, framed it, pushed back on the generic stuff. Before you call it done, read it out loud. Zinsser said to never say anything in writing that you would not say in conversation &mdash; and that is the single best test for AI slop. This blog post you are reading right now? I read it out loud. And every time I did, I caught something &mdash; a sentence that sounded too stiff, a transition that nobody would actually say, a phrase that felt like AI wrote it instead of me. AI-generated writing fails the read-aloud test in predictable ways: it hedges too much, it uses transitions nobody speaks (&ldquo;Furthermore,&rdquo; &ldquo;It is worth noting that&rdquo;), and it flattens everything into the same pleasant corporate tone. Your ear catches what your eye misses.</p>
+
+  <div class="callout callout-fix">
+    <div class="callout-lbl">The test</div>
+    <p>Read your draft out loud. If you would never say it across a table to a classmate or a colleague, do not put it in writing. If every sentence sounds like it could have come from anyone, you have not written anything yet &mdash; you have just generated text.</p>
+  </div>
+
+  <hr>
+
+  <h2>5. Add Your Fingerprints</h2>
+  <h3>&ldquo;No fear or shame in the dignity of yr experience, language &amp; knowledge&rdquo;</h3>
+
+  <p>That is Kerouac again. This is the final pass &mdash; go back through the whole piece and look for places where the writing is still vague, still generic, still something anyone could have written. Then replace those moments with the things only you know. Remember the Netflix example from Step 2? That observation about the algorithm shaping what shows get made &mdash; that is a fingerprint. The AI did not come up with that. You did.</p>
+
+  <p>This is also where word choice matters. In <a href="https://annhandley.com/how-to-write-like-robots-cant/" target="_blank">&ldquo;How to Write Like Robots Can&rsquo;t,&rdquo;</a> Handley says to use words that are a little unexpected &mdash; precise instead of safe. Say &ldquo;we guessed&rdquo; instead of &ldquo;we hypothesized.&rdquo; Say &ldquo;this flopped&rdquo; instead of &ldquo;this underperformed expectations.&rdquo; Those choices are your voice. AI will never make them for you.</p>
+
+  <hr>
+
+  <h2>The Point</h2>
+
+  <p>At the end of the day, what you submit is a reflection of you. Whether it is an email, a report, a presentation, or a discussion post &mdash; your name is on it, and you need to stand by it.</p>
+
+  <p>Will there be times when you send something and realize a sentence did not sound like you, or you missed a detail, or the AI snuck in a phrase you would never say? Of course. That happens to me too. This is not about being perfect. It is about building the habit, over time, of putting your own experience and your own voice into the things you write.</p>
+
+  <p>I sincerely think that as more and more people start using AI, being human in our writing is going to matter more, not less. Zinsser&rsquo;s fourth principle &mdash; <strong>humanity</strong> &mdash; is the one AI cannot do. And Kerouac said it best: &ldquo;FEELING is what I like in art, not CRAFTINESS and the hiding of feelings.&rdquo; We will all be able to generate competent writing. The ones who stand out will be the ones who sound like themselves.</p>
+
+  <p>Use AI. I do. But do not outsource your mind. Do the thinking. Add the details only you know. Write like yourself.</p>
+
+  <div class="notes">
+    <p><strong>Recommended Reading</strong></p>
+    <p>William Zinsser, <em>On Writing Well</em> (Harper, 30th anniversary edition). Chapters 16 and 20.</p>
+    <p>Ann Handley, <a href="https://annhandley.com/how-to-write-like-robots-cant/" target="_blank">&ldquo;How to Write Like Robots Can&rsquo;t&rdquo;</a> (2023).</p>
+    <p>Jack Kerouac, <em>On the Road</em> (Viking Press, 1957).</p>
+    <p>Jack Kerouac, <em>The Dharma Bums</em> (Viking Press, 1958).</p>
+    <p>Jack Kerouac, <em>Big Sur</em> (Farrar, Straus and Cudahy, 1962).</p>
+  </div>
+
+</div>
+
+<footer>
+  <p>MIS 432 &middot; AI in Business &middot; Western Washington University &middot; College of Business and Economics</p>
+  <p style="margin-top:0.5rem;"><a href="index.html">Home</a> &middot; <a href="https://cbe.wwu.edu/people/califfc" target="_blank">Contact</a> &middot; <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a> &middot; Free to use for educational purposes</p>
+</footer>
+
+<script>
+  (function () {
+    var dropdowns = document.querySelectorAll('.nav-dropdown');
+    dropdowns.forEach(function (dropdown) {
+      var toggle = dropdown.querySelector('.nav-dropdown-toggle');
+      toggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        var isOpen = !dropdown.classList.contains('open');
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        if (isOpen) { dropdown.classList.add('open'); toggle.setAttribute('aria-expanded', 'true'); }
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        document.activeElement.blur();
+      }
+    });
+  })();
+</script>
+</body>
+</html>
