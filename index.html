@@ -258,6 +258,16 @@
   .factory-note { font-size: 15px; color: rgba(255,255,255,0.9); font-style: italic; max-width: 680px; margin: 0 auto; line-height: 1.75; font-weight: 400; }
   .factory-note em { color: var(--magenta); font-style: normal; font-weight: 600; }
 
+  /* READING LIST */
+  .reading { background: var(--off-white); padding: 4.5rem 2rem; border-top: 1px solid var(--border); }
+  .reading-inner { max-width: 900px; margin: 0 auto; }
+  .reading-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 0.5rem; }
+  @media(max-width:700px){ .reading-grid { grid-template-columns: 1fr; } }
+  .reading-item { background: var(--white); border: 1px solid var(--border); border-top: 4px solid var(--magenta); padding: 1.5rem; }
+  .reading-item h4 { font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.3; }
+  .reading-item .reading-author { font-size: 13px; color: var(--magenta); font-weight: 500; margin-bottom: 0.5rem; }
+  .reading-item p { font-size: 13px; color: var(--text-muted); line-height: 1.65; font-weight: 400; }
+
   /* FOOTER */
   footer { background: var(--black); padding: 2rem; text-align: center; border-top: 5px solid var(--magenta); }
   footer p { font-size: 13px; color: rgba(255,255,255,0.28); font-family: 'Space Grotesk', sans-serif; }
@@ -790,6 +800,31 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+<div class="reading">
+  <div class="reading-inner">
+    <div class="section-label">Student Resources</div>
+    <div class="section-title">Beyond the Chapters</div>
+    <p class="section-sub">Guides, frameworks, and ideas to help you work with AI more effectively.</p>
+    <div class="reading-grid">
+      <div class="reading-item">
+        <h4>Writing Good Prompts</h4>
+        <div class="reading-author">Theory of mind &amp; metacognition</div>
+        <p>Why most prompts fail and the six concepts from cognitive psychology that fix them. <a href="good-prompts.html" style="color:var(--magenta);">Read it &rarr;</a></p>
+      </div>
+      <div class="reading-item">
+        <h4>Stand Out Among the Robots</h4>
+        <div class="reading-author">Your voice &amp; writing with AI</div>
+        <p>A framework for using AI to write without losing your voice. Featuring Zinsser, Kerouac, and Handley. <a href="writing-with-voice.html" style="color:var(--magenta);">Read it &rarr;</a></p>
+      </div>
+      <div class="reading-item">
+        <h4>AI in Job Interviews</h4>
+        <div class="reading-author">Preparation &amp; practice</div>
+        <p>How to use AI to prepare for interviews without sounding like you memorized a script. <a href="ai-job-interview.html" style="color:var(--magenta);">Read it &rarr;</a></p>
+      </div>
+    </div>
   </div>
 </div>
 
