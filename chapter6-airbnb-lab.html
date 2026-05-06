@@ -3,19 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lab 6: Build a Demand-Based Pricing Model — Airbnb | MIS 432</title>
+<title>Lab 6: AI &amp; the Matching Problem — Be the Host | MIS 432</title>
 <style>
-  /* ── Airbnb palette (matches chapter 5) ──────────────────
-     Primary:    #ff385c  Airbnb pink-red
-     Dark:       #222222  Charcoal — text & nav
-     White:      #ffffff  Backgrounds
-     Deep red:   #c41d48  Hover / label emphasis
-     Light pink: #fff0f3  Concept-box tint
-     Neutral:    #767676  Secondary text
-  ────────────────────────────────────────────────────────────*/
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial, sans-serif; background: #ffffff; color: #222222; min-height: 100vh; display: flex; flex-direction: column; }
+  body { font-family: Arial, sans-serif; background: #ffffff; color: #222222; line-height: 1.6; }
 
   nav { background: #222222; padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
   .nav-brand { color: #ffffff; font-size: 15px; font-weight: 700; text-decoration: none; }
@@ -24,125 +15,246 @@
   .nav-links a:hover { color: #ff385c; }
   .nav-badge { background: #ff385c; color: #ffffff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
 
-  .hero { background: linear-gradient(135deg, #ff385c 0%, #c41d48 45%, #222222 100%); padding: 3rem 2rem; }
-  .hero-inner { max-width: 760px; margin: 0 auto; }
-  .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #ffc5d0; margin-bottom: 0.6rem; }
-  .hero h1 { font-size: 30px; font-weight: 800; color: #ffffff; line-height: 1.25; margin-bottom: 0.6rem; }
-  .hero-sub { font-size: 15px; color: #ffd4dc; max-width: 580px; line-height: 1.6; }
+  .hero { background: linear-gradient(135deg, #ff385c 0%, #c41d48 45%, #222222 100%); padding: 3.5rem 2rem 3rem; }
+  .hero-inner { max-width: 920px; margin: 0 auto; }
+  .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #ffc5d0; margin-bottom: 0.75rem; }
+  .hero h1 { font-size: 34px; font-weight: 800; color: #ffffff; line-height: 1.25; margin-bottom: 0.75rem; }
+  .hero-sub { font-size: 16px; color: #ffd4dc; max-width: 700px; line-height: 1.65; margin-bottom: 1.5rem; }
+  .hero-claude-note { background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 0.85rem 1.1rem; margin-top: 1rem; margin-bottom: 1.25rem; max-width: 720px; }
+  .hero-claude-note p { font-size: 13px; color: rgba(255,255,255,0.88); margin: 0; line-height: 1.65; }
+  .hero-claude-note strong { color: #ffffff; }
+  .hero-tools { display: flex; gap: 0.55rem; flex-wrap: wrap; margin-top: 0.5rem; }
+  .tool-badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #ffffff; font-size: 12px; font-weight: 700; padding: 5px 14px; border-radius: 20px; }
 
-  main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 3rem 1.5rem; }
+  .overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin: 0 0 2.5rem; }
+  @media (max-width: 700px) { .overview-grid { grid-template-columns: repeat(2, 1fr); } }
+  .overview-card-link { text-decoration: none; color: inherit; display: block; }
+  .overview-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1.1rem 0.75rem; text-align: center; transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s; height: 100%; }
+  .overview-card:hover { border-color: #ff385c; box-shadow: 0 2px 10px rgba(255,56,92,0.12); transform: translateY(-1px); }
+  .overview-card .overview-icon { font-size: 22px; margin-bottom: 0.5rem; }
+  .overview-card .overview-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: #767676; margin-bottom: 0.3rem; text-transform: uppercase; }
+  .overview-card .overview-val { font-size: 13px; font-weight: 700; color: #222; line-height: 1.3; }
 
-  .construction-card {
-    max-width: 640px;
-    width: 100%;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-top: 4px solid #ff385c;
-    border-radius: 8px;
-    padding: 2.5rem 2rem;
-    text-align: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-  }
-
-  .construction-badge {
-    display: inline-block;
-    background: #fff0f3;
-    border: 1px solid #ffc5d0;
-    color: #c41d48;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0.35rem 0.9rem;
-    border-radius: 20px;
-    margin-bottom: 1.25rem;
-  }
-
-  .construction-icon {
-    font-size: 44px;
-    margin-bottom: 1rem;
-    line-height: 1;
-  }
-
-  .construction-card h2 {
-    font-size: 26px;
-    font-weight: 800;
-    color: #222222;
-    margin-bottom: 0.75rem;
-    line-height: 1.25;
-  }
-
-  .construction-card > p {
-    font-size: 15px;
-    color: #484848;
-    line-height: 1.7;
-    margin-bottom: 1.25rem;
-  }
-
-  .preview-box {
-    background: #fff0f3;
-    border-left: 4px solid #ff385c;
-    border-radius: 0 6px 6px 0;
-    padding: 1rem 1.2rem;
-    margin: 1.5rem 0;
-    text-align: left;
-  }
-  .preview-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.07em;
-    color: #c41d48;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-  }
-  .preview-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .preview-list li {
-    font-size: 14px;
-    color: #222;
-    line-height: 1.6;
-    padding: 4px 0 4px 20px;
-    position: relative;
-  }
-  .preview-list li::before {
-    content: "→";
-    position: absolute;
-    left: 0;
-    color: #ff385c;
-    font-weight: 700;
-  }
-
-  .actions {
-    display: flex;
-    gap: 0.75rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 1.5rem;
-  }
-  .btn {
-    display: inline-block;
-    padding: 0.65rem 1.3rem;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 700;
-    text-decoration: none;
-    transition: opacity 0.15s;
-  }
-  .btn:hover { opacity: 0.88; }
+  .btn { display: inline-block; padding: 0.55rem 1.2rem; border-radius: 6px; font-size: 13px; font-weight: 700; text-decoration: none; cursor: pointer; border: none; font-family: Arial, sans-serif; }
   .btn-primary { background: #ff385c; color: #ffffff; }
-  .btn-secondary { background: #ffffff; color: #222222; border: 1.5px solid #e2e8f0; }
+  .btn-primary:hover { background: #c41d48; }
+  .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
+  .btn-success { background: #008489; color: #ffffff; }
+  .btn-success:hover { background: #006b6f; }
+  .btn-outline-dark { background: transparent; border: 1.5px solid #222; color: #222; }
 
-  .meta-note {
-    margin-top: 1.75rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid #e2e8f0;
-    font-size: 13px;
-    color: #767676;
-    line-height: 1.6;
-  }
+  .doc { max-width: 920px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+
+  /* Scenario */
+  .scenario { background: #fff5f7; border: 1px solid #ffc5d0; border-left: 5px solid #ff385c; border-radius: 8px; padding: 1.75rem 2rem; margin-bottom: 2rem; }
+  .scenario h2 { font-size: 22px; font-weight: 700; color: #222; margin-bottom: 1rem; }
+  .scenario p { color: #333; font-size: 15.5px; margin-bottom: 1rem; line-height: 1.75; }
+  .scenario p:last-child { margin-bottom: 0; }
+  .scenario strong { color: #222; }
+  .scenario em { color: #c41d48; font-style: italic; }
+
+  /* Roadmap */
+  .roadmap { background: #222222; color: #ffffff; border-radius: 8px; padding: 2rem; margin-bottom: 3rem; }
+  .roadmap h3 { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #ff385c; margin-bottom: 1.25rem; }
+  .roadmap-steps { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.75rem; }
+  @media (max-width: 1100px) { .roadmap-steps { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 600px) { .roadmap-steps { grid-template-columns: repeat(2, 1fr); } }
+  .roadmap-step { background: rgba(255,255,255,0.06); border-radius: 6px; padding: 1rem; border-left: 3px solid #ff385c; }
+  .roadmap-step .step-num { font-size: 10px; font-weight: 700; color: #ff385c; letter-spacing: 0.1em; }
+  .roadmap-step .step-title { font-size: 14px; font-weight: 700; color: #ffffff; margin: 0.35rem 0 0.25rem; }
+  .roadmap-step .step-concept { font-size: 12px; color: #b0b0b0; }
+
+  /* Exercise */
+  .exercise { margin-bottom: 3.5rem; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; }
+  .exercise-header { background: #222222; color: #ffffff; padding: 1.25rem 1.75rem; }
+  .exercise-number { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #ff385c; margin-bottom: 0.35rem; }
+  .exercise-title { font-size: 22px; font-weight: 700; color: #ffffff; }
+  .exercise-body { padding: 2rem 1.75rem; }
+  .exercise-body h4 { font-size: 16px; font-weight: 700; color: #222; margin: 1.75rem 0 0.75rem; }
+  .exercise-body h4:first-child { margin-top: 0; }
+  .exercise-body p { color: #333; font-size: 15px; margin-bottom: 1rem; }
+  .exercise-body ul, .exercise-body ol { margin: 0 0 1rem 1.5rem; color: #333; font-size: 15px; }
+  .exercise-body li { margin-bottom: 0.4rem; }
+
+  /* Concept */
+  .concept { background: #fff0f3; border: 1px solid #ffc5d0; border-radius: 6px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+  .concept-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #ff385c; margin-bottom: 0.5rem; }
+  .concept p { font-size: 14px; color: #222; margin: 0 0 0.5rem; line-height: 1.6; }
+  .concept p:last-child { margin-bottom: 0; }
+
+  /* Instructions */
+  .instructions { background: #f8f8f8; border-left: 4px solid #ff385c; padding: 1.25rem 1.5rem; margin: 1.25rem 0; border-radius: 0 6px 6px 0; }
+  .instructions-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #ff385c; margin-bottom: 0.5rem; }
+  .instructions h5 { font-size: 15px; font-weight: 700; color: #222; margin-bottom: 0.5rem; }
+  .instructions ol { margin: 0.5rem 0 0 1.25rem; font-size: 14px; color: #333; }
+  .instructions ol li { margin-bottom: 0.3rem; }
+  .instructions .goal { background: #fff0f3; border-radius: 4px; padding: 0.5rem 0.75rem; margin-top: 0.75rem; font-size: 13px; color: #c41d48; }
+  .instructions .goal strong { color: #222; }
+
+  /* Simulator common */
+  .sim-panel { background: #f8f8f8; border: 2px solid #ff385c; border-radius: 8px; padding: 1.75rem; margin: 1.5rem 0; }
+  .sim-title { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #ff385c; margin-bottom: 0.25rem; }
+  .sim-subtitle { font-size: 18px; font-weight: 700; color: #222; margin-bottom: 1rem; }
+
+  /* Combined lesson box */
+  .lesson-box { background: #222; border-radius: 8px; padding: 1.5rem 1.75rem; margin: 1.5rem 0; color: #fff; }
+  .lesson-box-title { font-size: 18px; font-weight: 700; color: #ffffff; margin-bottom: 1.25rem; }
+  .lesson-section { margin-bottom: 1.25rem; }
+  .lesson-section:last-child { margin-bottom: 0; }
+  .lesson-section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .lesson-section-label.ai { color: #008489; }
+  .lesson-section-label.biz { color: #ff385c; }
+  .lesson-section-title { font-size: 16px; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem; line-height: 1.3; }
+  .lesson-section p { font-size: 14px; color: #ccc; line-height: 1.65; margin-bottom: 0.6rem; }
+  .lesson-section p:last-child { margin-bottom: 0; }
+  .lesson-section strong { color: #fff; }
+  .lesson-section em { font-style: italic; }
+  .lesson-divider { border: none; border-top: 1px solid rgba(255,255,255,0.15); margin: 1rem 0; }
+
+  /* Keep old classes for any remaining uses */
+  .takeaway { background: #f0f7f8; border-left: 4px solid #008489; border-radius: 0 6px 6px 0; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+  .takeaway-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #008489; margin-bottom: 0.5rem; }
+  .takeaway p { font-size: 14px; color: #222; line-height: 1.6; margin: 0 0 0.5rem; }
+  .takeaway p:last-child { margin-bottom: 0; }
+
+  /* Business lesson */
+  .biz-lesson { background: #222; border-radius: 8px; padding: 1.5rem 1.75rem; margin: 1.5rem 0; color: #fff; }
+  .biz-lesson-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #ff385c; margin-bottom: 0.5rem; }
+  .biz-lesson-title { font-size: 18px; font-weight: 700; color: #ffffff; margin-bottom: 0.75rem; line-height: 1.3; }
+  .biz-lesson p { font-size: 14px; color: #ccc; line-height: 1.65; margin-bottom: 0.75rem; }
+  .biz-lesson p:last-child { margin-bottom: 0; }
+  .biz-lesson strong { color: #fff; }
+  .biz-lesson em { color: #ff385c; font-style: normal; font-weight: 700; }
+
+  /* Reflection */
+  .reflection { background: #fff5f7; border: 1px solid #ffc5d0; border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+  .reflection-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #c41d48; margin-bottom: 0.75rem; }
+  .reflection-q { font-size: 14px; color: #222; line-height: 1.65; }
+
+  /* AI Prompt */
+  .ai-prompt-block { background: #fff5f7; border: 1.5px solid #ffc5d0; border-left: 5px solid #ff385c; border-radius: 8px; padding: 1.1rem 1.4rem; margin: 1.5rem 0; }
+  .ai-prompt-block .aip-label { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: #c41d48; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem; }
+  .ai-prompt-block .aip-label::before { content: "🤖"; font-size: 14px; }
+  .ai-prompt-block h5 { font-size: 15px; font-weight: 700; color: #222; margin-bottom: 0.5rem; }
+  .ai-prompt-block > p { font-size: 14px; color: #333; line-height: 1.6; margin-bottom: 0.85rem; }
+  .promptbox { background: #222; color: #e2e8f0; border-radius: 6px; padding: 1.1rem 1.2rem; position: relative; margin-bottom: 0.75rem; }
+  .promptbox pre { font-size: 12.5px; line-height: 1.55; white-space: pre-wrap; word-wrap: break-word; font-family: 'Courier New', monospace; margin: 0; max-height: 340px; overflow-y: auto; }
+  .promptbox-copy { position: absolute; top: 8px; right: 8px; background: #ff385c; color: #fff; border: none; border-radius: 4px; font-size: 11px; font-weight: 700; padding: 4px 10px; cursor: pointer; font-family: Arial, sans-serif; }
+  .promptbox-copy:hover { background: #c41d48; }
+  .save-note { background: #f0f7f8; border-left: 3px solid #008489; border-radius: 0 4px 4px 0; padding: 0.6rem 0.85rem; font-size: 12.5px; color: #333; line-height: 1.5; margin-top: 0.5rem; }
+  .save-note strong { color: #222; }
+
+  /* ======================================
+     STEP 1 — MATCHING SIMULATOR
+     ====================================== */
+  .match-board { display: grid; grid-template-columns: 1fr 40px 1fr; gap: 0; margin: 1rem 0; min-height: 400px; }
+  @media (max-width: 700px) { .match-board { grid-template-columns: 1fr; } }
+  .match-col { display: flex; flex-direction: column; gap: 0.6rem; }
+  .match-col-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; padding: 0.4rem 0.6rem; border-radius: 4px; text-align: center; }
+  .match-col-guests .match-col-label { color: #c41d48; background: #fff0f3; }
+  .match-col-listings .match-col-label { color: #006b6f; background: #f0f7f8; }
+  .match-divider { display: flex; align-items: center; justify-content: center; font-size: 20px; color: #ccc; }
+  @media (max-width: 700px) { .match-divider { display: none; } }
+
+  .match-card { background: #fff; border: 2px solid #e2e8f0; border-radius: 8px; padding: 0.85rem; cursor: pointer; transition: all 0.15s; position: relative; }
+  .match-card:hover { border-color: #ff385c; box-shadow: 0 2px 8px rgba(255,56,92,0.12); }
+  .match-card.selected { border-color: #ff385c; box-shadow: 0 0 0 3px rgba(255,56,92,0.15); }
+  .match-card.matched { opacity: 0.4; pointer-events: none; border-color: #008489; }
+  .match-card .mc-icon { font-size: 24px; margin-bottom: 0.3rem; }
+  .match-card .mc-name { font-size: 13px; font-weight: 700; color: #222; margin-bottom: 0.2rem; }
+  .match-card .mc-desc { font-size: 12px; color: #767676; line-height: 1.4; }
+  .match-card .mc-score { position: absolute; top: 6px; right: 8px; font-size: 11px; font-weight: 700; color: #fff; background: #008489; padding: 2px 6px; border-radius: 10px; display: none; }
+  .match-card.matched .mc-score { display: block; }
+
+  .match-results { background: #222; border-radius: 8px; padding: 1.25rem; margin-top: 1rem; color: #fff; display: none; }
+  .match-results.active { display: block; }
+  .match-results .mr-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #ff385c; margin-bottom: 0.5rem; }
+  .match-results .mr-score { font-size: 28px; font-weight: 800; color: #ff385c; }
+  .match-results .mr-label { font-size: 13px; color: #b0b0b0; }
+  .match-results .mr-ai { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.1); }
+  .match-results .mr-ai-score { font-size: 28px; font-weight: 800; color: #008489; }
+  .match-results .mr-explain { font-size: 13px; color: #ccc; margin-top: 0.5rem; line-height: 1.5; }
+
+  .match-status { text-align: center; padding: 0.75rem; font-size: 14px; font-weight: 700; color: #767676; margin: 0.5rem 0; }
+
+  /* ======================================
+     STEP 2 — EMBEDDING EXPLORER
+     ====================================== */
+  .embed-panel { display: grid; grid-template-columns: 250px 1fr; gap: 1.25rem; margin: 1rem 0; }
+  @media (max-width: 700px) { .embed-panel { grid-template-columns: 1fr; } }
+  .embed-profiles { display: flex; flex-direction: column; gap: 0.5rem; }
+  .embed-profile { background: #fff; border: 2px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; cursor: pointer; transition: all 0.15s; }
+  .embed-profile:hover { border-color: #ff385c; }
+  .embed-profile.active { border-color: #ff385c; background: #fff0f3; }
+  .embed-profile .ep-name { font-size: 13px; font-weight: 700; color: #222; }
+  .embed-profile .ep-history { font-size: 11px; color: #767676; margin-top: 0.2rem; line-height: 1.4; }
+  .embed-map { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; position: relative; min-height: 380px; }
+  .embed-map canvas { width: 100%; height: 380px; display: block; }
+  .embed-recs { background: #222; border-radius: 6px; padding: 0.75rem; margin-top: 0.75rem; }
+  .embed-recs .er-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #ff385c; margin-bottom: 0.3rem; }
+  .embed-recs .er-list { font-size: 13px; color: #fff; line-height: 1.6; }
+  .embed-toggle { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+  .embed-toggle button { flex: 1; padding: 0.5rem; border: 2px solid #e2e8f0; background: #fff; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: Arial, sans-serif; color: #222; transition: all 0.15s; }
+  .embed-toggle button.active { border-color: #ff385c; background: #fff0f3; color: #c41d48; }
+  .embed-toggle button:hover { border-color: #ff385c; }
+
+  /* ======================================
+     STEP 3 — PRICING GAME
+     ====================================== */
+  .pricing-dashboard { display: grid; grid-template-columns: 1fr 260px; gap: 1rem; margin: 1rem 0; }
+  @media (max-width: 800px) { .pricing-dashboard { grid-template-columns: 1fr; } }
+  .pricing-calendar { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; }
+  .pricing-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+  .pricing-cal-month { font-size: 16px; font-weight: 700; color: #222; }
+  .pricing-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+  .pricing-day-header { font-size: 10px; font-weight: 700; color: #767676; text-align: center; padding: 0.3rem; }
+  .pricing-day { background: #f8f8f8; border-radius: 4px; padding: 0.4rem 0.25rem; text-align: center; min-height: 52px; cursor: pointer; border: 2px solid transparent; transition: all 0.12s; position: relative; }
+  .pricing-day:hover { border-color: #ff385c; }
+  .pricing-day.selected { border-color: #ff385c; background: #fff0f3; }
+  .pricing-day.booked { background: #f0f7f8; border-color: #008489; }
+  .pricing-day.booked::after { content: '✓'; position: absolute; top: 2px; right: 4px; font-size: 10px; color: #008489; font-weight: 700; }
+  .pricing-day .pd-num { font-size: 11px; font-weight: 700; color: #222; }
+  .pricing-day .pd-price { font-size: 10px; color: #767676; margin-top: 1px; }
+  .pricing-day .pd-ai { font-size: 9px; color: #ff385c; }
+  .pricing-day.past { opacity: 0.3; pointer-events: none; }
+  .pricing-day.empty { background: transparent; pointer-events: none; }
+
+  .pricing-sidebar { display: flex; flex-direction: column; gap: 0.75rem; }
+  .pricing-info { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; }
+  .pricing-info .pi-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #767676; margin-bottom: 0.5rem; }
+  .pricing-stat { display: flex; justify-content: space-between; align-items: baseline; padding: 0.3rem 0; border-bottom: 1px solid #f0f0f0; }
+  .pricing-stat:last-child { border-bottom: none; }
+  .pricing-stat .ps-label { font-size: 13px; color: #555; }
+  .pricing-stat .ps-value { font-size: 15px; font-weight: 700; color: #222; }
+  .pricing-stat .ps-value.positive { color: #008489; }
+  .pricing-stat .ps-value.negative { color: #c41d48; }
+
+  .pricing-action { background: #fff0f3; border: 1px solid #ffc5d0; border-radius: 8px; padding: 1rem; }
+  .pricing-action .pa-title { font-size: 13px; font-weight: 700; color: #222; margin-bottom: 0.5rem; }
+  .pricing-action .pa-ai-price { font-size: 11px; color: #ff385c; margin-bottom: 0.4rem; }
+  .pricing-action .pa-slider-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+  .pricing-action input[type="range"] { flex: 1; accent-color: #ff385c; }
+  .pricing-action .pa-chosen { font-size: 18px; font-weight: 800; color: #222; min-width: 50px; text-align: right; }
+  .pricing-action .pa-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+
+  .pricing-reveal { background: #222; border-radius: 8px; padding: 1.25rem; margin-top: 0.75rem; color: #fff; display: none; }
+  .pricing-reveal.active { display: block; }
+  .pricing-reveal .pr-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #ff385c; margin-bottom: 0.5rem; text-transform: uppercase; }
+  .pricing-reveal .pr-row { display: flex; justify-content: space-between; padding: 0.3rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 14px; }
+  .pricing-reveal .pr-row:last-child { border-bottom: none; }
+  .pricing-reveal .pr-label { color: #b0b0b0; }
+  .pricing-reveal .pr-val { font-weight: 700; }
+  .pricing-reveal .pr-val.you { color: #ff385c; }
+  .pricing-reveal .pr-val.ai { color: #008489; }
+
+  /* Coming soon placeholder */
+  .coming-soon { background: #f8f8f8; border: 2px dashed #e2e8f0; border-radius: 8px; padding: 3rem 2rem; text-align: center; margin: 1.5rem 0; }
+  .coming-soon p { font-size: 15px; color: #767676; margin: 0; }
+
+  /* Footer nav */
+  .footer-nav { display: flex; justify-content: space-between; padding: 1.5rem 0; border-top: 1px solid #e2e8f0; margin-top: 3rem; }
+  .footer-nav a { font-size: 14px; color: #ff385c; text-decoration: none; font-weight: 700; }
+  .footer-nav a:hover { text-decoration: underline; }
 
   footer { background: #222222; padding: 1.5rem 2rem; text-align: center; }
   footer p { font-size: 13px; color: #909090; }
@@ -152,57 +264,1760 @@
 <body>
 
 <nav>
-  <a href="index.html" class="nav-brand">MIS 432 · AI in Business</a>
+  <a href="index.html" class="nav-brand">MIS 432 &middot; AI in Business</a>
   <div class="nav-links">
     <span class="nav-badge">Lab 6</span>
-    <a href="chapter6-airbnb.html">← Chapter 6</a>
+    <a href="chapter6-airbnb.html">&larr; Chapter 6</a>
     <a href="index.html">Home</a>
   </div>
 </nav>
 
 <div class="hero">
   <div class="hero-inner">
-    <div class="hero-tag">Lab 6 · Hands-on Python Exercise</div>
-    <h1>Build a Demand-Based Pricing Model</h1>
-    <p class="hero-sub">A Python lab where you build a simplified version of Airbnb's Smart Pricing — fitting a lead time distribution and turning it into a nightly price suggestion.</p>
+    <div class="hero-tag">Lab 6 &middot; AI Systems Analysis &middot; Airbnb&rsquo;s Two-Sided Marketplace</div>
+    <h1>Analyze Airbnb&rsquo;s AI Systems<br>From the Inside</h1>
+    <p class="hero-sub">You&rsquo;re a summer intern on Airbnb&rsquo;s Marketplace Intelligence team. A first-time host in Valencia, Spain just submitted a new listing &mdash; right as the Spanish government is cracking down on short-term rentals. Your manager wants a full systems analysis: how will Airbnb&rsquo;s AI handle this listing, and should the host even bother?</p>
+    <div class="hero-claude-note">
+      <p><strong>How this lab works:</strong> At each step you&rsquo;ll (1) use an interactive simulator to test one of Airbnb&rsquo;s AI systems hands-on, (2) answer a short reflection question <em>in your own words</em>, and (3) use Claude to help draft a section of your analysis &mdash; then <strong>edit it</strong> until it sounds like you, not like an AI. By the end, you&rsquo;ll deliver a complete systems analysis and publish it as a portfolio webpage.</p>
+    </div>
+    <div class="hero-tools">
+      <span class="tool-badge">Interactive Simulators</span>
+      <span class="tool-badge">Claude Prompts</span>
+      <span class="tool-badge">GitHub Pages Portfolio</span>
+    </div>
   </div>
 </div>
 
-<main>
-  <div class="construction-card">
-    <div class="construction-badge">🚧 Under Construction</div>
-    <div class="construction-icon">🏗️</div>
-    <h2>This lab is coming soon</h2>
-    <p>Lab 6 is still being built. When it's ready, you'll work through a simplified version of Airbnb's Smart Pricing system using Python in Google Colab — no prior coding experience required.</p>
+<div class="doc">
 
-    <div class="preview-box">
-      <div class="preview-label">What you'll build when it's ready</div>
-      <ul class="preview-list">
-        <li>Simulate a dataset of bookings with realistic lead time patterns</li>
-        <li>Visualize a lead time distribution for a high-demand vs. last-minute market</li>
-        <li>Cluster similar listings into demand aggregations</li>
-        <li>Fit a simple hybrid model (ML + structural form) to predict prices</li>
-        <li>Compare your hybrid predictions to a pure ML baseline</li>
-      </ul>
-    </div>
+  <div class="overview-grid">
+    <a href="#step1" class="overview-card-link"><div class="overview-card"><div class="overview-icon">🤝</div><div class="overview-label">Step 1</div><div class="overview-val">Matching</div></div></a>
+    <a href="#step2" class="overview-card-link"><div class="overview-card"><div class="overview-icon">📍</div><div class="overview-label">Step 2</div><div class="overview-val">Embeddings &amp; Clustering</div></div></a>
+    <a href="#step3" class="overview-card-link"><div class="overview-card"><div class="overview-icon">💰</div><div class="overview-label">Step 3</div><div class="overview-val">Smart Pricing</div></div></a>
+    <a href="#step4" class="overview-card-link"><div class="overview-card"><div class="overview-icon">📞</div><div class="overview-label">Step 4</div><div class="overview-val">Support Case</div></div></a>
+    <a href="#step5" class="overview-card-link"><div class="overview-card"><div class="overview-icon">✍️</div><div class="overview-label">Step 5</div><div class="overview-val">GenAI Audit</div></div></a>
+    <a href="#step6" class="overview-card-link"><div class="overview-card"><div class="overview-icon">⚖️</div><div class="overview-label">Step 6</div><div class="overview-val">Regulatory Risk</div></div></a>
+    <a href="#step7" class="overview-card-link"><div class="overview-card"><div class="overview-icon">📝</div><div class="overview-label">Step 7</div><div class="overview-val">The Decision</div></div></a>
+    <a href="#step8" class="overview-card-link"><div class="overview-card"><div class="overview-icon">🚀</div><div class="overview-label">Step 8</div><div class="overview-val">Publish</div></div></a>
+  </div>
 
-    <p>In the meantime, go read the full Chapter 6 case study — it covers everything the lab will ask you to build, including the business context that makes the technical work make sense.</p>
+  <!-- SCENARIO -->
+  <div class="scenario">
+    <h2>The scenario</h2>
+    <p>It&rsquo;s your first week as a summer intern on Airbnb&rsquo;s <strong>Marketplace Intelligence team</strong>. You were hired to do <strong>systems analysis</strong> &mdash; evaluating how Airbnb&rsquo;s AI systems perform in real-world conditions. Your manager drops your first case on your desk: a first-time host named Elena has just listed a two-bedroom apartment in the Ruzafa neighborhood of <strong>Valencia, Spain</strong> &mdash; ten minutes from the beach, rooftop terrace, fast wifi, recently renovated kitchen.</p>
+    <p>Here&rsquo;s the problem: Spain is one of Airbnb&rsquo;s most contested markets. The national government recently ordered 65,000 listings blocked. Barcelona is phasing out short-term rentals entirely. Protesters have taken to the streets. Valencia just announced a <strong>90-day annual cap</strong> on short-term rentals. Elena wants to know: is it even worth listing on Airbnb, or should she just rent long-term to a local tenant for &euro;900/month?</p>
+    <p>Your manager wants a <strong>full systems analysis</strong>: walk through each of Airbnb&rsquo;s AI systems, evaluate how they&rsquo;ll handle Elena&rsquo;s listing, assess the regulatory risk, and produce a recommendation. You&rsquo;ll use Airbnb&rsquo;s internal simulators and Claude to help you draft each section. By the end of this lab, you&rsquo;ll deliver your analysis as a portfolio-ready webpage.</p>
+  </div>
 
-    <div class="actions">
-      <a href="chapter6-airbnb.html" class="btn btn-primary">Read Chapter 6 →</a>
-      <a href="index.html" class="btn btn-secondary">← Back to all chapters</a>
-    </div>
-
-    <div class="meta-note">
-      <strong style="color:#222;">Instructor note:</strong> This lab page is a placeholder. Check back before the next assignment is due, or email the instructor if you need this lab content urgently.
+  <!-- ROADMAP -->
+  <div class="roadmap">
+    <h3>Your Analysis &middot; Eight Steps</h3>
+    <div class="roadmap-steps" style="grid-template-columns: repeat(4, 1fr);">
+      <div class="roadmap-step"><div class="step-num">STEP 1</div><div class="step-title">Matching</div><div class="step-concept">The two-sided marketplace</div></div>
+      <div class="roadmap-step"><div class="step-num">STEP 2</div><div class="step-title">Embeddings &amp; Clustering</div><div class="step-concept">Where Elena’s listing lives</div></div>
+      <div class="roadmap-step"><div class="step-num">STEP 3</div><div class="step-title">Smart Pricing</div><div class="step-concept">Test the pricing algorithm</div></div>
+      <div class="roadmap-step"><div class="step-num">STEP 4</div><div class="step-title">Support Case</div><div class="step-concept">Explain the AI to a host</div></div>
+      <div class="roadmap-step"><div class="step-num">STEP 5</div><div class="step-title">GenAI Audit</div><div class="step-concept">Draft, evaluate, revise</div></div>
+      <div class="roadmap-step"><div class="step-num">STEP 6</div><div class="step-title">Regulatory Risk</div><div class="step-concept">Assess the market</div></div>
+      <div class="roadmap-step"><div class="step-num">STEP 7</div><div class="step-title">The Decision</div><div class="step-concept">Your recommendation</div></div>
+      <div class="roadmap-step"><div class="step-num">STEP 8</div><div class="step-title">Publish</div><div class="step-concept">Build the portfolio page</div></div>
     </div>
   </div>
-</main>
+
+
+  <!-- ============================================================
+       STEP 1 — MATCHING
+       ============================================================ -->
+  <div class="exercise" id="step1">
+    <div class="exercise-header">
+      <div class="exercise-number">Step 1 &middot; The Two-Sided Marketplace</div>
+      <div class="exercise-title">Evaluate how Airbnb&rsquo;s matching system handles a new listing</div>
+    </div>
+    <div class="exercise-body">
+
+      <h4>Understanding Airbnb&rsquo;s matching system</h4>
+      <p>Before you analyze Airbnb&rsquo;s AI, try doing its job yourself. Below you&rsquo;ll see five guests on the left and five Airbnb listings on the right. Each guest has a vague description of what they want. Each listing has a description of what it offers. Your job: match each guest to the listing they&rsquo;d most likely book.</p>
+      <p>Here&rsquo;s the catch &mdash; this is what Airbnb&rsquo;s matching problem actually feels like. The guests don&rsquo;t say exactly what they want (&ldquo;I want something fun&rdquo; is not a search query a computer can work with). The listings don&rsquo;t describe themselves in the same language the guests use. And some matches are ambiguous &mdash; multiple guests could plausibly want the same listing.</p>
+
+      <div class="concept">
+        <div class="concept-label">Core Concept: The Matching Problem</div>
+        <p>In a <strong>two-sided marketplace</strong>, the platform&rsquo;s main job is <strong>matching</strong> &mdash; connecting a person on one side to the right person on the other side. This is harder than it sounds, because neither side fully states what they want. Guests search with vague intent (&ldquo;somewhere warm&rdquo;). Listings are described in terms that may not line up with how guests think (&ldquo;charming rustic retreat&rdquo;). Airbnb&rsquo;s AI infers what both sides actually mean and connect them &mdash; millions of times a day.</p>
+      </div>
+
+      <!-- MATCHING SIMULATOR -->
+      <div class="sim-panel" id="matchSim">
+        <div class="sim-title">Step 1 &middot; The Matching Game</div>
+        <div class="sim-subtitle">Match each guest to their best listing</div>
+        <div style="background:#fff0f3; border-left:4px solid #ff385c; border-radius:0 6px 6px 0; padding:0.6rem 0.85rem; margin-bottom:1rem; font-size:13px; color:#c41d48; line-height:1.5;">
+          <strong>Directions:</strong> 1) Click a <strong>guest card</strong> on the left to select them. 2) Then click the <strong>listing card</strong> on the right that you think is the best match. 3) Repeat for all 5 guests. After your fifth match, you&rsquo;ll see your score vs. what Airbnb&rsquo;s AI would have done.
+        </div>
+        <div class="match-status" id="matchStatus">Click a guest to start &mdash; after you match all 5, your results, the AI concept lesson, the business lesson, and a Claude prompt will appear below</div>
+
+        <div class="match-board">
+          <div class="match-col match-col-guests">
+            <div class="match-col-label">Guests searching</div>
+            <div class="match-card" data-guest="0" id="g0">
+              <div class="mc-icon">👩‍💻</div>
+              <div class="mc-name">Sofia, 28</div>
+              <div class="mc-desc">Digital nomad. &ldquo;I need good wifi and a desk. Somewhere I can work for a month. Not too touristy.&rdquo;</div>
+            </div>
+            <div class="match-card" data-guest="1" id="g1">
+              <div class="mc-icon">👨‍👩‍👧‍👦</div>
+              <div class="mc-name">The Martins</div>
+              <div class="mc-desc">Family of 4 from London. &ldquo;We want the kids to run around. Pool would be amazing. Near a beach.&rdquo;</div>
+            </div>
+            <div class="match-card" data-guest="2" id="g2">
+              <div class="mc-icon">👫</div>
+              <div class="mc-name">Léa &amp; Marco</div>
+              <div class="mc-desc">Couple, anniversary trip. &ldquo;Something romantic. Walkable to restaurants. We don&rsquo;t need much space.&rdquo;</div>
+            </div>
+            <div class="match-card" data-guest="3" id="g3">
+              <div class="mc-icon">🎒</div>
+              <div class="mc-name">Jake, 22</div>
+              <div class="mc-desc">Backpacker on a budget. &ldquo;Cheapest option. I just need a bed. Close to nightlife would be sick.&rdquo;</div>
+            </div>
+            <div class="match-card" data-guest="4" id="g4">
+              <div class="mc-icon">👵</div>
+              <div class="mc-name">Dr. Patel, 67</div>
+              <div class="mc-desc">Retired professor. &ldquo;I want quiet, a view, and I&rsquo;d like to walk to museums. Elevator is essential.&rdquo;</div>
+            </div>
+          </div>
+
+          <div class="match-divider">→</div>
+
+          <div class="match-col match-col-listings">
+            <div class="match-col-label">Listings available</div>
+            <div class="match-card" data-listing="0" id="l0">
+              <div class="mc-icon">🏢</div>
+              <div class="mc-name">Modern studio, city center</div>
+              <div class="mc-desc">&euro;45/night. 5th floor w/ elevator. Quiet street. Desk &amp; fast wifi. 10 min walk to old town. No pool.</div>
+              <div class="mc-score" id="l0score"></div>
+            </div>
+            <div class="match-card" data-listing="1" id="l1">
+              <div class="mc-icon">🏖️</div>
+              <div class="mc-name">Beachfront villa, 3BR</div>
+              <div class="mc-desc">&euro;195/night. Private pool. Garden. 15 min drive from center. Family-friendly. Parking included.</div>
+              <div class="mc-score" id="l1score"></div>
+            </div>
+            <div class="match-card" data-listing="2" id="l2">
+              <div class="mc-icon">🏠</div>
+              <div class="mc-name">Cozy loft, Ruzafa</div>
+              <div class="mc-desc">&euro;78/night. Exposed brick. Rooftop terrace. Heart of the restaurant district. Fits 2. No parking.</div>
+              <div class="mc-score" id="l2score"></div>
+            </div>
+            <div class="match-card" data-listing="3" id="l3">
+              <div class="mc-icon">🛏️</div>
+              <div class="mc-name">Shared room, El Carmen</div>
+              <div class="mc-desc">&euro;22/night. Bed in shared apartment. 2 min walk to bars and clubs. Basic kitchen. Young vibe.</div>
+              <div class="mc-score" id="l3score"></div>
+            </div>
+            <div class="match-card" data-listing="4" id="l4">
+              <div class="mc-icon">🏛️</div>
+              <div class="mc-name">Elegant flat, historic quarter</div>
+              <div class="mc-desc">&euro;110/night. 3rd floor, elevator. Balcony with cathedral view. Walk to museums. Very quiet. Fits 2.</div>
+              <div class="mc-score" id="l4score"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="match-results" id="matchResults">
+          <div class="mr-title">Your matching results</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div>
+              <div class="mr-label">Your score</div>
+              <div class="mr-score" id="yourScore">0/5</div>
+            </div>
+            <div class="mr-ai">
+              <div class="mr-label">AI&rsquo;s score (with behavioral data)</div>
+              <div class="mr-ai-score">5/5</div>
+            </div>
+          </div>
+          <div class="mr-explain" id="matchExplain"></div>
+        </div>
+      </div>
+
+      <div class="lesson-box" id="matchTakeaway" style="display:none;">
+        <div class="lesson-box-title">What You Just Did</div>
+        <div class="lesson-section">
+          <div class="lesson-section-label ai">The AI Concept</div>
+          <p><strong>Your analyst task:</strong> You evaluated Airbnb’s matching system by trying to do its job manually — and seeing where human judgment falls short. This is how systems analysts benchmark AI: test the human baseline, then compare it to the algorithm.</p>
+          <p>You tried to match guests to listings using only their written descriptions &mdash; the same information a human customer service agent would have. Airbnb&rsquo;s AI scored 5/5 because it doesn&rsquo;t read descriptions at all. It watches what millions of guests <em>actually do</em> &mdash; what they click, what they search, what they book, what they skip. A guest who searches &ldquo;Valencia beach family&rdquo; and then clicks on three pool listings is telling the system far more than &ldquo;we want the kids to run around&rdquo; ever could.</p>
+          <p>This is the core AI idea from Chapter 6: <strong>the system learns what things mean by watching what people do, not by reading what people say.</strong> In technical terms, Airbnb&rsquo;s AI builds <em>embeddings</em> &mdash; compact numerical representations of each guest and each listing &mdash; from behavioral data. You&rsquo;ll explore these in Step 2.</p>
+        </div>
+        <hr class="lesson-divider">
+        <div class="lesson-section">
+          <div class="lesson-section-label biz">The Business Lesson</div>
+          <div class="lesson-section-title">Elena&rsquo;s success depends on a platform she doesn&rsquo;t control</div>
+          <p>Here&rsquo;s what the matching game reveals about the <em>business</em> of hosting. Elena isn&rsquo;t just renting an apartment. She&rsquo;s entering a two-sided marketplace where the <strong>platform decides which guests see her listing.</strong> Airbnb&rsquo;s matching AI determines whether Sofia the digital nomad or the Martin family shows up in search results &mdash; and Elena has almost no say in that decision.</p>
+          <p>This creates a dependency. If Elena rents long-term, she finds a tenant, signs a lease, and the relationship is direct. If she lists on Airbnb, the relationship is between her and <em>the platform</em>. The platform&rsquo;s AI decides her visibility, her guest mix, and (as you&rsquo;ll see in Step 3) even her pricing.</p>
+          <p><strong>The question a systems analyst should ask:</strong> <em>How much of this host&rsquo;s success depends on a system she can&rsquo;t see, can&rsquo;t control, and doesn&rsquo;t fully understand?</em></p>
+        </div>
+      </div>
+
+      <div class="reflection" id="matchReflection" style="display:none;">
+        <div class="reflection-label">Step 1 Reflection</div>
+        <div style="font-size:12px; color:#999; margin-bottom:0.5rem; font-style:italic;">Include your answer in the Claude prompt below.</div>
+        <div class="reflection-q">Think about TikTok or Instagram. You post something great — it gets 200 views. Someone else posts something similar and gets 50,000. The algorithm decided, not the quality of the content. Based on what you experienced in the matching game, how is that the same problem an Airbnb host faces — and what can the host (or the creator) actually do about it?</div>
+      </div>
+
+      <div class="ai-prompt-block" id="matchPrompt" style="display:none;">
+
+        <!-- Voice editing guide — appears once, sets expectation for all prompts -->
+        <div style="background:#f8f8f8; border:2px solid #222; border-radius:8px; padding:1.25rem; margin-bottom:1.25rem;">
+          <div style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#222; margin-bottom:0.5rem;">✏️ How to write with AI and keep your voice</div>
+          <p style="font-size:14px; color:#222; line-height:1.65; margin-bottom:0.75rem;">Every step in this lab has a Claude prompt. Here&rsquo;s how to use them without sounding like a robot:</p>
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.75rem; font-size:13px;">
+            <div style="background:#fff; border-radius:6px; padding:0.85rem;">
+              <div style="font-weight:700; color:#c41d48; margin-bottom:0.3rem;">1. Feed it YOUR thinking</div>
+              <div style="color:#555; line-height:1.5;">The bracketed sections aren&rsquo;t optional. Claude can&rsquo;t know what you found hard about the matching game &mdash; only you know that. The more specific your inputs, the better the draft.</div>
+            </div>
+            <div style="background:#fff; border-radius:6px; padding:0.85rem;">
+              <div style="font-weight:700; color:#c41d48; margin-bottom:0.3rem;">2. Read it like an editor</div>
+              <div style="color:#555; line-height:1.5;">Claude&rsquo;s first draft will be polished but generic. Look for: sentences that could apply to anyone (cut them), claims you don&rsquo;t actually believe (rewrite them), and jargon you wouldn&rsquo;t use in conversation (simplify it).</div>
+            </div>
+            <div style="background:#fff; border-radius:6px; padding:0.85rem;">
+              <div style="font-weight:700; color:#c41d48; margin-bottom:0.3rem;">3. The &ldquo;explain to a friend&rdquo; test</div>
+              <div style="color:#555; line-height:1.5;">Read your final version out loud. If any sentence sounds like something you&rsquo;d never say to a friend, rewrite it in your own words. Your portfolio should sound like you &mdash; smart and clear, not AI-polished.</div>
+            </div>
+          </div>
+          <p style="font-size:12px; color:#999; margin-top:0.75rem; margin-bottom:0;">This guide applies to every Claude prompt in this lab. Claude is your drafting partner, not your ghostwriter.</p>
+        </div>
+
+        <div class="aip-label">Step 1 Prompt &middot; Matching system evaluation</div>
+        <h5>What does the matching system tell you about Elena&rsquo;s chances?</h5>
+        <p>Copy the prompt below into Claude. Replace the bracketed sections with <strong>your own experience</strong> from the matching game and the reflection above. Claude will draft a short write-up based on your inputs. <strong>Then edit it.</strong> Change the parts that don&rsquo;t sound like you. Add details Claude missed. Cut anything that feels generic. The final version should sound like <em>you</em> wrote it &mdash; because the thinking is yours, even if the first draft wasn&rsquo;t.</p>
+        <div class="promptbox">
+          <button class="promptbox-copy" data-target="prompt1" type="button">Copy prompt</button>
+<pre id="prompt1">I'm a systems analysis intern at Airbnb evaluating a new host case. Elena has a 2-bedroom apartment in Ruzafa, Valencia and needs to decide: Airbnb or long-term rental at €900/month? As part of my analysis, I did a matching exercise where I manually tried to match 5 guests to 5 Airbnb listings and scored [YOUR SCORE]/5, while the AI scored 5/5.
+
+Here's what was hard about matching: [DESCRIBE — which guests were confusing? Which listings could have gone to multiple guests? What information did you wish you had?]
+
+Here's my answer to the TikTok/Instagram question: [PASTE YOUR ANSWER TO REFLECTION QUESTION 2]
+
+Help me write a short analysis (250 words max) covering:
+1. Why the matching was harder than I expected — what made it difficult to figure out which guest belonged with which listing
+2. How Airbnb's AI does it better — it doesn't read descriptions, it watches what millions of guests actually click, search, and book. Explain why behavioral data beats written descriptions
+3. What this means for me as a host — if Airbnb's AI decides which guests see Elena's listing, how much control do I really have over my own business? What am I giving up by relying on the platform vs. just finding a long-term tenant myself?
+4. One comparison to TikTok, Instagram, or another platform where an algorithm controls who sees your content — and what that means for anyone building a business on top of someone else's platform
+
+Tone: honest and analytical. I'm writing this for myself to help make a decision, not to impress anyone. Use specific examples from the matching game.</pre>
+        </div>
+        <div class="save-note"><strong>Save your edited version</strong> (not Claude&rsquo;s raw output). Your portfolio should reflect <em>your</em> analysis and <em>your</em> voice. If you can&rsquo;t explain every sentence in your own words, you haven&rsquo;t edited enough. This is Artifact 1 of 7.</div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+  <!-- ============================================================
+       STEP 2 — DATA & EMBEDDINGS
+       ============================================================ -->
+  <div class="exercise" id="step2">
+    <div class="exercise-header">
+      <div class="exercise-number">Step 2 &middot; Embeddings &amp; Clustering</div>
+      <div class="exercise-title">Analyze where Elena&rsquo;s listing lands in Airbnb&rsquo;s embedding space</div>
+    </div>
+    <div class="exercise-body">
+
+      <h4>How Airbnb&rsquo;s AI turns clicks into meaning</h4>
+      <p>In Step 1, you matched guests using their written descriptions &mdash; and it was hard because descriptions are vague. Airbnb&rsquo;s AI solves this problem by ignoring descriptions entirely. Instead, it watches what people <em>do</em>. Every search, every click, every booking becomes a data point. Imagine a 22-year-old freelance designer opens the Airbnb app. She searches &ldquo;Valencia wifi desk,&rdquo; clicks on three studios with workspace photos, skips every listing that mentions &ldquo;family-friendly,&rdquo; and last year she booked a loft in Lisbon. She never wrote &ldquo;I&rsquo;m a digital nomad looking for a work-friendly apartment&rdquo; &mdash; but her actions say it loud and clear.</p>
+      <p>Airbnb treats each of those actions as a <strong>token</strong> &mdash; the smallest unit of data the model processes. Here&rsquo;s what her tokens look like:</p>
+      <div style="background:#f8f8f8; border-radius:8px; padding:1rem 1.25rem; margin:0.75rem 0 1rem; font-family:'Courier New',monospace; font-size:13px; color:#222; line-height:2;">
+        <span style="background:#fff0f3; padding:0.2rem 0.5rem; border-radius:4px; border:1px solid #ffc5d0;">search: "Valencia wifi desk"</span> &rarr;
+        <span style="background:#fff0f3; padding:0.2rem 0.5rem; border-radius:4px; border:1px solid #ffc5d0;">click: Studio, El Carmen</span> &rarr;
+        <span style="background:#fff0f3; padding:0.2rem 0.5rem; border-radius:4px; border:1px solid #ffc5d0;">click: 1BR loft, Ruzafa</span> &rarr;
+        <span style="background:#fff0f3; padding:0.2rem 0.5rem; border-radius:4px; border:1px solid #ffc5d0;">click: Boutique studio</span> &rarr;
+        <span style="background:#fff0f3; padding:0.2rem 0.5rem; border-radius:4px; border:1px solid #ffc5d0;">booking: Lisbon loft (last year)</span>
+      </div>
+      <p>Each pink box above is one token &mdash; one action, in order. Tokens are the <strong>raw inputs</strong>. The AI reads this sequence (the same way ChatGPT reads a sequence of words) and calculates a set of coordinates for each listing &mdash; that&rsquo;s the <strong>embedding</strong>. The tokens are what goes <em>in</em>. The embedding coordinates are what comes <em>out</em>. Think of it this way: the tokens are the evidence, and the embedding is Airbnb&rsquo;s AI&rsquo;s conclusion about what that evidence means.</p>
+      <p><strong>That&rsquo;s what Simulator 2 below shows you.</strong> The map is the embedding space. Each dot is a listing. When you click &ldquo;Group by behavior,&rdquo; you&rsquo;re seeing the map Airbnb&rsquo;s AI actually uses &mdash; listings positioned by <em>who browses them</em>. When you click &ldquo;Group by features,&rdquo; you&rsquo;re seeing how a human would organize the same listings &mdash; by bedrooms and price. <strong>The two maps look completely different</strong>, and that difference is the whole point of embeddings.</p>
+
+      <div class="concept">
+        <div class="concept-label">Core Concept: Embeddings</div>
+        <p>Think of a GPS coordinate. It&rsquo;s two numbers (latitude and longitude) that tell you where something is on Earth. An <strong>embedding</strong> works the same way, except instead of telling you <em>where</em> a listing is geographically, it tells you <em>what kind of guests like it</em>. We&rsquo;ll call this Airbnb&rsquo;s <strong>taste map</strong> &mdash; a map where closeness means &ldquo;attracts the same guests,&rdquo; not &ldquo;on the same street.&rdquo;</p>
+        <p>Airbnb&rsquo;s AI watches millions of guests browse, click, and book. From that behavior, it calculates a set of numbers for every listing &mdash; that&rsquo;s the embedding. Each listing gets its own position on Airbnb&rsquo;s taste map.</p>
+        <p><strong>Example:</strong> Elena&rsquo;s apartment is a 2BR in Ruzafa. The 2BR next door has the same bedrooms, same price, same neighborhood. A human would say they&rsquo;re competitors. But Airbnb&rsquo;s AI notices that <em>families</em> browse the apartment next door (it has a crib and mentions a playground), while <em>digital nomads</em> browse Elena&rsquo;s place (it has a desk and fast wifi). So on Airbnb&rsquo;s taste map, Elena&rsquo;s apartment ends up close to a 1BR loft across town that nomads also love &mdash; and far from the 2BR next door. Same street, different audience, different position on the map.</p>
+      </div>
+
+      <div class="concept">
+        <div class="concept-label">Core Concept: Clustering</div>
+        <p>Once every listing has an embedding (a position on Airbnb&rsquo;s taste map), Airbnb&rsquo;s AI looks at the map and notices something: some listings are bunched together. Nomad-friendly places cluster in one area. Family places cluster in another. Budget places cluster somewhere else.</p>
+        <p>The AI draws a circle around each bunch and says: <em>&ldquo;these listings are a group.&rdquo;</em> That&rsquo;s <strong>clustering</strong>. Airbnb calls each group a <strong>demand aggregation</strong>. This is a type of <strong>unsupervised learning</strong> &mdash; meaning nobody told the AI what the groups should be or how many to make. The AI discovered the groups on its own by noticing which listings ended up near each other on the map.</p>
+        <p><strong>Why does this matter for you?</strong> Elena&rsquo;s apartment might only get 15 bookings a year &mdash; that&rsquo;s not enough data for Airbnb&rsquo;s AI to learn much about it individually. But the cluster it belongs to might have thousands of listings with hundreds of thousands of bookings. Airbnb&rsquo;s AI learns from the whole cluster, not just your listing. That&rsquo;s how it can make smart pricing suggestions even for a listing with very little history. You&rsquo;ll see this in Step 4.</p>
+      </div>
+
+      <p>So to recap: <strong>embedding</strong> = each listing gets a position on Airbnb&rsquo;s taste map. <strong>Clustering</strong> = Airbnb&rsquo;s AI notices which listings ended up near each other and groups them. The embedding is the position. The cluster is the neighborhood.</p>
+
+      <h4>Why this matters for Elena&rsquo;s listing</h4>
+      <p>If you decide to list on Airbnb, Airbnb&rsquo;s AI will calculate an embedding for your apartment based on how guests interact with it, and it will place your apartment in a cluster. That cluster determines which guests the platform shows your listing to, which listings you compete against, and ultimately how many bookings you get. <strong>In Simulator 2, you&rsquo;re going to see where Elena&rsquo;s apartment lives on Airbnb&rsquo;s taste map &mdash; and then make a decision about how to set it up that will change which cluster Airbnb&rsquo;s AI assigns it to.</strong> This is one of the few things you can actually control as a host: not the algorithm itself, but the inputs you feed it.</p>
+
+      <div class="sim-panel" id="embedSim">
+        <div class="sim-title">Step 2 &middot; The Embedding Explorer</div>
+        <div class="sim-subtitle">See where Elena&rsquo;s listing lives on Airbnb&rsquo;s taste map</div>
+        <div style="background:#fff0f3; border-left:4px solid #ff385c; border-radius:0 6px 6px 0; padding:0.6rem 0.85rem; margin-bottom:1rem; font-size:13px; color:#c41d48; line-height:1.5;">
+          <strong>Directions:</strong> 1) Look at the dots below &mdash; each is a listing positioned by its embedding. No clusters yet. 2) Click <strong>&ldquo;Run clustering algorithm&rdquo;</strong> to let Airbnb&rsquo;s AI find the groups. 3) Toggle between <strong>&ldquo;Cluster by behavior&rdquo;</strong> and <strong>&ldquo;Cluster by features&rdquo;</strong> &mdash; watch the clusters rearrange. 4) Scroll down and <strong>make a positioning recommendation</strong> for Elena.
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <!-- Phase 1: Run clustering button -->
+          <div id="clusterPhase1" style="text-align:center; padding:0.5rem;">
+            <p style="font-size:14px; color:#555; margin-bottom:0.75rem;">Below are listings in Valencia, each placed on the map by their <strong>embedding</strong> &mdash; their position based on guest browsing behavior. Right now they&rsquo;re just dots. Airbnb&rsquo;s AI hasn&rsquo;t grouped them yet.</p>
+            <button class="btn btn-primary" id="runClustering" style="font-size:14px; padding:0.65rem 1.5rem;">🔍 Run clustering algorithm</button>
+          </div>
+          <!-- Phase 2: Toggle between clustering modes -->
+          <div id="clusterPhase2" style="display:none;">
+            <div class="embed-toggle" id="embedToggle">
+              <button class="active" data-mode="behavior">👥 Cluster by behavior (how Airbnb&rsquo;s AI groups them)</button>
+              <button data-mode="features">📏 Cluster by features (how a human would group them)</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="embed-map">
+          <canvas id="embedCanvas" width="680" height="420"></canvas>
+        </div>
+
+        <div id="embedAha" style="background:#222; border-radius:8px; padding:1rem 1.25rem; margin-top:0.75rem; color:#fff; font-size:14px; line-height:1.6;">
+          <strong style="color:#ff385c;">👆 Click &ldquo;Run clustering algorithm&rdquo; above</strong> to let Airbnb&rsquo;s AI find the groups. Right now you&rsquo;re looking at raw embeddings &mdash; each dot is a listing, positioned by guest behavior, but Airbnb&rsquo;s AI hasn&rsquo;t drawn any group boundaries yet.
+        </div>
+
+        <!-- PHASE 2: Positioning decision -->
+        <div style="margin-top:1.5rem; padding-top:1.5rem; border-top:2px solid #e2e8f0;">
+          <div style="font-size:16px; font-weight:700; color:#222; margin-bottom:0.5rem;">Your recommendation: how should Elena position her listing?</div>
+          <p style="font-size:14px; color:#555; margin-bottom:1rem;">As Elena&rsquo;s analyst, you need to advise her on how to set up the apartment. The way she positions it will change which cluster Airbnb&rsquo;s AI assigns it to &mdash; which changes which guests see it. What do you recommend?</p>
+
+          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:0.75rem;" id="positionChoices">
+            <button class="embed-choice" data-choice="nomad" style="background:#fff; border:2px solid #e2e8f0; border-radius:8px; padding:1rem; cursor:pointer; text-align:left; font-family:Arial,sans-serif; transition:all 0.15s;">
+              <div style="font-size:20px; margin-bottom:0.3rem;">🖥️</div>
+              <div style="font-size:13px; font-weight:700; color:#222; margin-bottom:0.3rem;">Recommend: Remote work</div>
+              <div style="font-size:12px; color:#767676; line-height:1.4;">Advise Elena to add a standing desk, upgrade wifi, and photograph the workspace. Target digital nomads.</div>
+            </button>
+            <button class="embed-choice" data-choice="romantic" style="background:#fff; border:2px solid #e2e8f0; border-radius:8px; padding:1rem; cursor:pointer; text-align:left; font-family:Arial,sans-serif; transition:all 0.15s;">
+              <div style="font-size:20px; margin-bottom:0.3rem;">💑</div>
+              <div style="font-size:13px; font-weight:700; color:#222; margin-bottom:0.3rem;">Recommend: Romantic getaway</div>
+              <div style="font-size:12px; color:#767676; line-height:1.4;">Advise Elena to stage the rooftop terrace, add wine glasses, and photograph at sunset. Target couples.</div>
+            </button>
+            <button class="embed-choice" data-choice="family" style="background:#fff; border:2px solid #e2e8f0; border-radius:8px; padding:1rem; cursor:pointer; text-align:left; font-family:Arial,sans-serif; transition:all 0.15s;">
+              <div style="font-size:20px; margin-bottom:0.3rem;">👨‍👩‍👧</div>
+              <div style="font-size:13px; font-weight:700; color:#222; margin-bottom:0.3rem;">Recommend: Family friendly</div>
+              <div style="font-size:12px; color:#767676; line-height:1.4;">Advise Elena to add a crib and board games, photograph the second bedroom with twin beds. Target families.</div>
+            </button>
+          </div>
+
+          <!-- Result of choice -->
+          <div id="positionResult" style="display:none; margin-top:1rem; background:#fff0f3; border:2px solid #ff385c; border-radius:8px; padding:1.25rem;">
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#c41d48; margin-bottom:0.5rem;">Impact of your recommendation on Elena&rsquo;s listing</div>
+            <div id="positionResultText" style="font-size:14px; color:#222; line-height:1.65;"></div>
+            <div style="margin-top:0.75rem; display:grid; grid-template-columns:repeat(3, 1fr); gap:0.5rem;" id="positionStats"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson-box" id="embedTakeaway">
+        <div class="lesson-box-title">What You Just Did</div>
+        <div class="lesson-section">
+          <div class="lesson-section-label ai">The AI Concept</div>
+          <p>Airbnb&rsquo;s AI converts every user action into a token, reads the sequence, and places each listing in an <strong>embedding space</strong> where position is determined by behavior, not labels. Elena&rsquo;s 2BR in Ruzafa might be &ldquo;close to&rdquo; a 1BR loft across town (because the same digital nomads browse both) and &ldquo;far from&rdquo; the 2BR next door (because families browse that one instead). <strong>Similarity is learned from what people do, not assumed from what things look like.</strong></p>
+        </div>
+        <hr class="lesson-divider">
+        <div class="lesson-section">
+          <div class="lesson-section-label biz">The Business Lesson</div>
+          <div class="lesson-section-title">Elena&rsquo;s competitors aren&rsquo;t who she thinks they are</div>
+          <p>In a traditional business, you&rsquo;d identify competitors by looking at nearby listings with the same bedrooms and price. The embedding map showed you that Airbnb&rsquo;s AI defines competition by <strong>audience overlap</strong>, not physical similarity. If digital nomads are Elena&rsquo;s strongest segment, her real competition is every listing those nomads browse &mdash; which might include studios and lofts in completely different neighborhoods.</p>
+          <p><strong>The question a systems analyst should ask:</strong> <em>Who is the actual customer, and what are they really comparing this listing against?</em></p>
+        </div>
+      </div>
+
+      <div class="reflection" id="embedReflection">
+        <div class="reflection-label">Step 2 Reflection</div>
+        <div style="font-size:12px; color:#999; margin-bottom:0.5rem; font-style:italic;">Include your answer in the Claude prompt below.</div>
+        <div class="reflection-q"><strong>1.</strong> Which setup did you choose (remote work, romantic, or family), and what happened to your listing&rsquo;s position on the map? Which new competitors appeared, and did any of them surprise you?</div>
+        <div class="reflection-q" style="margin-top:0.85rem;"><strong>2.</strong> You and a classmate both apply for the same internship on LinkedIn. You have nearly identical resumes, but she gets 10x more recruiter views. Based on what you learned about embeddings and clustering, what might LinkedIn&rsquo;s algorithm be seeing that you&rsquo;re not &mdash; and what would you change about your profile to fix it?</div>
+      </div>
+
+      <div class="ai-prompt-block" id="embedPrompt">
+        <div class="aip-label">Step 2 Prompt &middot; Positioning recommendation for Elena</div>
+        <h5>Where does Elena&rsquo;s listing sit in Airbnb&rsquo;s AI, and how should she position it?</h5>
+        <p>Copy the prompt below into Claude. Replace the bracketed sections with <strong>your own observations</strong> from the embedding explorer. Claude will draft the memo; <strong>then edit it</strong> until every sentence sounds like you wrote it.</p>
+        <div class="promptbox">
+          <button class="promptbox-copy" data-target="prompt2" type="button">Copy prompt</button>
+<pre id="prompt2">I'm analyzing a new host's listing — a 2-bedroom apartment in Ruzafa, Valencia. Using Airbnb's internal embedding explorer, I analyzed how Airbnb's AI groups listings by guest behavior rather than physical features.
+
+I recommended positioning the apartment as a [REMOTE WORK SETUP / ROMANTIC GETAWAY / FAMILY FRIENDLY] listing. Here's what happened: [DESCRIBE — how Elena's listing's cluster changed, who her new competitors became, what the expected nightly rate and guest profile looked like after your choice].
+
+Before I made the choice, Elena's listing clustered with [DESCRIBE ORIGINAL NEIGHBORS]. After, it moved toward [DESCRIBE NEW NEIGHBORS]. The listing that surprised me most was [NAME] because [EXPLAIN — why was it unexpected that this listing is your competitor?].
+
+Help me draft a competitive positioning memo (200 words max) that answers:
+1. Who Elena's real competitors are now (based on the cluster I chose to join)
+2. Why I recommended this guest segment over the others — what made it the best fit for my apartment
+3. One specific risk of this positioning — what kind of guest am I giving up, and could that hurt me in slow seasons?
+
+Tone: strategic but practical. I'm making a real business decision.</pre>
+        </div>
+        <div class="save-note"><strong>Save your edited version</strong> (not Claude&rsquo;s raw output). If you can&rsquo;t explain every sentence in your own words, you haven&rsquo;t edited enough. This is Artifact 2 of 7.</div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+  <!-- ============================================================
+  <!-- ============================================================
+       STEP 3 — SMART PRICING SCENARIOS
+       ============================================================ -->
+  <div class="exercise" id="step3">
+    <div class="exercise-header">
+      <div class="exercise-number">Step 3 &middot; Smart Pricing</div>
+      <div class="exercise-title">Test Smart Pricing against manual pricing for Elena&rsquo;s listing</div>
+    </div>
+    <div class="exercise-body">
+
+      <h4>Evaluating Smart Pricing across 5 scenarios</h4>
+      <p>In Step 2, you recommended how Elena should position her listing &mdash; and that positioning determines which <strong>cluster</strong> Airbnb&rsquo;s AI assigns her to. Smart Pricing uses that cluster to set prices: it looks at booking patterns across all the listings in Elena&rsquo;s cluster and suggests a nightly rate for each date.</p>
+      <p>Your job now: <strong>evaluate Smart Pricing&rsquo;s suggestions across 5 real scenarios</strong> Elena will face. For each one, decide: is Smart Pricing&rsquo;s suggestion reasonable, or should Elena override it?</p>
+
+      <div class="concept">
+        <div class="concept-label">Core Concepts: Smart Pricing &amp; Lead Time</div>
+        <p><strong>Smart Pricing</strong> is Airbnb&rsquo;s dynamic pricing system. It adjusts the suggested nightly rate based on demand, season, events, and <strong>lead time</strong> &mdash; the gap between when a booking is made and the check-in date. A festival date 60 days out gets a high price (people book early for events). A Wednesday tomorrow that&rsquo;s still empty gets a low price (better to fill it cheap than leave it empty). The <em>shape</em> of when bookings arrive &mdash; the <strong>lead time distribution</strong> &mdash; is what drives the algorithm.</p>
+      </div>
+
+      <div class="sim-panel" id="pricingSim">
+        <div class="sim-title">Step 3 &middot; Smart Pricing Scenarios</div>
+        <div class="sim-subtitle" id="pricingClusterNote">Prices based on Elena&rsquo;s cluster</div>
+        <div style="background:#fff0f3; border-left:4px solid #ff385c; border-radius:0 6px 6px 0; padding:0.6rem 0.85rem; margin-bottom:1rem; font-size:13px; color:#c41d48; line-height:1.5;">
+          <strong>Directions:</strong> Below you&rsquo;ll see how Airbnb&rsquo;s dynamic pricing actually works &mdash; the specific inputs Smart Pricing uses to calculate a nightly rate. 1) Read the scenario and the <strong>pricing breakdown</strong> showing each factor. 2) Decide: <strong>accept Smart Pricing</strong> or use the slider to <strong>set your own price</strong>. 3) Click to lock in &mdash; you&rsquo;ll see immediately whether a guest booked. 4) Repeat for all 5 scenarios, then see the comparison.
+        </div>
+
+        <div id="scenarioContainer"></div>
+
+        <div id="pricingResults" style="display:none; background:#222; border-radius:8px; padding:1.25rem; margin-top:1rem; color:#fff;">
+          <div style="font-size:11px; font-weight:700; letter-spacing:0.1em; color:#ff385c; text-transform:uppercase; margin-bottom:0.75rem;">Results: Your Pricing vs. Smart Pricing</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin-bottom:1rem;">
+            <div style="text-align:center;"><div style="font-size:12px; color:#b0b0b0;">Your revenue</div><div style="font-size:28px; font-weight:800; color:#ff385c;" id="yourTotal">&euro;0</div></div>
+            <div style="text-align:center;"><div style="font-size:12px; color:#b0b0b0;">Smart Pricing revenue</div><div style="font-size:28px; font-weight:800; color:#008489;" id="aiTotal">&euro;0</div></div>
+            <div style="text-align:center;"><div style="font-size:12px; color:#b0b0b0;">Difference</div><div style="font-size:28px; font-weight:800;" id="totalDiff">&euro;0</div></div>
+          </div>
+          <div style="font-size:13px; color:#ccc; line-height:1.6;" id="pricingVerdict"></div>
+        </div>
+      </div>
+
+      <div class="lesson-box" id="pricingTakeaway" style="display:none;">
+        <div class="lesson-box-title">What You Just Did</div>
+        <div class="lesson-section">
+          <div class="lesson-section-label ai">The AI Concept</div>
+          <p><strong>Your analyst task:</strong> You evaluated Smart Pricing across 5 edge cases and saw exactly how it calculates a price. That breakdown &mdash; base rate + season + day of week + lead time + events + supply = suggested price &mdash; is what makes this a <strong>hybrid model</strong>.</p>
+          <p>In a <strong>hybrid model</strong>, humans design the structure (which inputs matter and how they combine) and the ML learns the specific numbers from data. The alternative is a <strong>black box</strong> that just outputs a price with no breakdown. The black box might be slightly more accurate, but you wouldn&rsquo;t be able to explain <em>why</em> it suggested &euro;85 vs. &euro;62. In Step 4, you&rsquo;ll see why that explainability matters when an angry host calls.</p>
+        </div>
+        <hr class="lesson-divider">
+        <div class="lesson-section">
+          <div class="lesson-section-label biz">The Business Lesson</div>
+          <div class="lesson-section-title">Smart Pricing works for Elena &mdash; and for the platform</div>
+          <p>Every booking earns <strong>Airbnb</strong> a commission (~3% host, ~14% guest). An algorithm that nudges prices lower produces more bookings and more revenue for Airbnb &mdash; possibly at the cost of Elena&rsquo;s per-night revenue.</p>
+          <p><strong>The question a systems analyst should ask:</strong> <em>When an AI system recommends something that benefits both user and platform, whose benefit is driving the recommendation?</em></p>
+        </div>
+      </div>
+
+      <div class="reflection" id="pricingReflection" style="display:none;">
+        <div class="reflection-label">Step 3 Reflection</div>
+        <div style="font-size:12px; color:#999; margin-bottom:0.5rem; font-style:italic;">Include your answer in the Claude prompt below.</div>
+        <div class="reflection-q"><strong>1.</strong> In which scenario did you disagree most with Smart Pricing? Why? Was your instinct right or did Smart Pricing turn out to be more accurate?</div>
+        <div class="reflection-q" style="margin-top:0.85rem;"><strong>2.</strong> Your friend says: &ldquo;Surge pricing is just greed &mdash; Uber, Airbnb, Ticketmaster, they&rsquo;re all the same.&rdquo; Based on the festival scenario, do you agree? Pick one and explain why it&rsquo;s the same or fundamentally different.</div>
+      </div>
+
+      <div class="ai-prompt-block" id="pricingPrompt" style="display:none;">
+        <div class="aip-label">Step 3 Prompt &middot; Smart Pricing evaluation for Elena</div>
+        <h5>Should Elena use Smart Pricing, override it, or combine both?</h5>
+        <p>Copy the prompt below into Claude. Replace the brackets with <strong>your results</strong>. Claude drafts; <strong>you edit</strong>.</p>
+        <div class="promptbox">
+          <button class="promptbox-copy" data-target="prompt3" type="button">Copy prompt</button>
+<pre id="prompt3">I'm a systems analysis intern at Airbnb evaluating Smart Pricing for Elena's listing in Valencia. I tested 5 pricing scenarios and compared my pricing to Smart Pricing's suggestions.
+
+Results: My total revenue was [€YOUR AMOUNT] vs. Smart Pricing's [€AI AMOUNT].
+
+Scenario results:
+- Normal weekday: Smart Pricing suggested [€__], I set [€__], result: [booked/empty]
+- Weekend: Smart Pricing suggested [€__], I set [€__], result: [booked/empty]
+- Festival week: Smart Pricing suggested [€__], I set [€__], result: [booked/empty]
+- Last-minute vacancy: Smart Pricing suggested [€__], I set [€__], result: [booked/empty]
+- Winter low season: Smart Pricing suggested [€__], I set [€__], result: [booked/empty]
+
+Help me draft a Smart Pricing evaluation (250 words max) for Elena:
+1. When should Elena accept Smart Pricing? (which scenarios did it handle well?)
+2. When should she override? (where might local knowledge beat the algorithm?)
+3. The platform incentive question — Smart Pricing also benefits Airbnb. How should Elena factor that in?
+4. Annual revenue comparison: Smart Pricing projected income vs. €900/month long-term tenant
+
+Tone: analytical but accessible. Elena needs clear advice, not jargon.</pre>
+        </div>
+        <div class="save-note"><strong>Save your edited version.</strong> This is Artifact 3 of 7.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+  <!-- ============================================================
+  <!-- ============================================================
+       STEP 4 — THE SUPPORT CASE
+       ============================================================ -->
+  <div class="exercise" id="step4">
+    <div class="exercise-header">
+      <div class="exercise-number">Step 4 · The Support Case</div>
+      <div class="exercise-title">Can you explain Airbnb’s AI to an angry host?</div>
+    </div>
+    <div class="exercise-body">
+
+      <h4>The hybrid model: why Smart Pricing can show its work</h4>
+      <p>In Step 3, you saw Smart Pricing’s breakdown: base rate + season + day of week + lead time + events + supply = suggested price. But why does that breakdown exist at all? Airbnb could have built a model that just outputs a number with no explanation. Many AI systems work exactly that way — they’re called <strong>black boxes</strong>.</p>
+      <p>Instead, Airbnb built what’s called a <strong>hybrid model</strong>. Here’s the difference:</p>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1rem 0;">
+        <div style="background:#fff; border:2px solid #e2e8f0; border-radius:8px; padding:1.1rem; text-align:center;">
+          <div style="font-size:11px; font-weight:700; color:#c41d48; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:0.5rem;">Black Box Model</div>
+          <div style="font-size:36px; font-weight:800; color:#222; margin-bottom:0.5rem;">€62</div>
+          <div style="font-size:13px; color:#999; line-height:1.5;">The model outputs a price.<br>You don’t know why.<br>You can’t explain it to anyone.</div>
+        </div>
+        <div style="background:#f0f7f8; border:2px solid #008489; border-radius:8px; padding:1.1rem;">
+          <div style="font-size:11px; font-weight:700; color:#006b6f; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:0.5rem;">Hybrid Model (what Airbnb uses)</div>
+          <div style="font-size:13px; color:#333; line-height:1.6; text-align:left;">
+            Base rate: €82<br>
+            Season (winter): -€15<br>
+            Saturday: +€18<br>
+            Last-minute: -€18<br>
+            Supply: -€5<br>
+            <strong>= €62</strong>
+          </div>
+          <div style="font-size:12px; color:#006b6f; margin-top:0.4rem; font-weight:700;">You can see exactly why.</div>
+        </div>
+      </div>
+
+      <p>Think of it like a recipe. In a hybrid model, <strong>humans wrote the recipe</strong>: “start with a base rate, adjust for season, adjust for day of week, adjust for lead time.” Then <strong>machine learning figured out the specific amounts</strong>: “summer adds €12, Saturday adds €18, last-minute subtracts €18.” The humans designed the structure; the ML filled in the numbers from data. That’s what makes it “hybrid” — part human expertise, part machine learning.</p>
+      <p>Airbnb chose this approach even though a pure black box might be slightly more accurate. Why? Because hosts need to <em>trust</em> the system, support agents need to <em>explain</em> it, and engineers need to <em>debug</em> it. You can’t do any of that with a black box.</p>
+      <p><strong>Now you’re going to prove it.</strong> A host just called, angry about a Smart Pricing suggestion. Your job: use the hybrid model’s breakdown to diagnose the issue and explain it in plain language.</p>
+
+      <div class="concept">
+        <div class="concept-label">Core Concept: Interpretability</div>
+        <p><strong>Interpretability</strong> means being able to explain <em>why</em> an AI system made a specific decision. A black box can’t do this. A hybrid model can — because humans designed the structure to be readable. Airbnb chose interpretability over raw accuracy because hosts need to trust the system, and trust requires understanding. As a systems analyst, your job is to evaluate whether a system’s outputs are explainable enough for the people who depend on them.</p>
+      </div>
+
+      <div class="sim-panel">
+        <div class="sim-title">Step 4 · The Angry Host Call</div>
+        <div class="sim-subtitle">Use the pricing breakdown to diagnose and explain</div>
+        <div style="background:#fff0f3; border-left:4px solid #ff385c; border-radius:0 6px 6px 0; padding:0.6rem 0.85rem; margin-bottom:1rem; font-size:13px; color:#c41d48; line-height:1.5;">
+          <strong>Directions:</strong> 1) Read the support escalation below. 2) Study the Smart Pricing breakdown to understand <em>why</em> her price dropped. 3) Write a one-sentence explanation for Maria. 4) Then use Claude to draft a support response template.
+        </div>
+
+        <div style="background:#fff; border:2px solid #e2e8f0; border-radius:8px; padding:1.25rem; margin-bottom:1rem;">
+          <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+            <div style="font-size:32px;">📞</div>
+            <div>
+              <div style="font-size:15px; font-weight:700; color:#222;">Incoming support escalation</div>
+              <div style="font-size:12px; color:#999;">Host: Maria · Listing: 1BR apartment, Eixample, Valencia · Superhost status</div>
+            </div>
+          </div>
+          <div style="background:#f8f8f8; border-radius:6px; padding:1rem; font-size:14px; color:#333; line-height:1.65; font-style:italic;">
+            “I’ve been a Superhost for two years. Smart Pricing just dropped my Saturday night rate to €62! Saturdays are my best night — I used to get €110! This algorithm is broken. I want to know exactly why it did this, or I’m turning Smart Pricing off permanently.”
+          </div>
+        </div>
+
+        <div style="font-size:14px; font-weight:700; color:#222; margin-bottom:0.5rem;">As the analyst, you looked up Maria’s Saturday night price drop in Airbnb’s system. Here’s what the Smart Pricing breakdown showed:</div>
+        <div style="background:#f8f8f8; border:1px solid #e2e8f0; border-radius:6px; padding:1rem; margin-bottom:1rem; font-size:13px;">
+          <div style="display:flex; justify-content:space-between; padding:0.35rem 0; border-bottom:1px solid #eee;"><span>Base rate for Maria’s cluster</span><span style="font-weight:700;">€82</span></div>
+          <div style="display:flex; justify-content:space-between; padding:0.35rem 0; border-bottom:1px solid #eee;"><span>Season <strong style="color:#c41d48;">(winter — low demand)</strong></span><span style="font-weight:700; color:#c41d48;">-€15</span></div>
+          <div style="display:flex; justify-content:space-between; padding:0.35rem 0; border-bottom:1px solid #eee;"><span>Day of week (Saturday)</span><span style="font-weight:700; color:#008489;">+€18</span></div>
+          <div style="display:flex; justify-content:space-between; padding:0.35rem 0; border-bottom:1px solid #eee;"><span>Lead time <strong style="color:#c41d48;">(TOMORROW — last minute)</strong></span><span style="font-weight:700; color:#c41d48;">-€18</span></div>
+          <div style="display:flex; justify-content:space-between; padding:0.35rem 0; border-bottom:1px solid #eee;"><span>Local events</span><span style="font-weight:700; color:#767676;">€0</span></div>
+          <div style="display:flex; justify-content:space-between; padding:0.35rem 0; border-bottom:1px solid #eee;"><span>Competing supply <strong style="color:#c41d48;">(38 of 62 listings empty)</strong></span><span style="font-weight:700; color:#c41d48;">-€5</span></div>
+          <div style="display:flex; justify-content:space-between; padding:0.5rem 0 0; border-top:2px solid #222; font-weight:700;"><span>Suggested price</span><span style="color:#ff385c; font-size:16px;">€62/night</span></div>
+        </div>
+
+        <div style="font-size:14px; color:#222; line-height:1.65; margin-bottom:0.5rem;"><strong>Your task:</strong> Maria is right that Saturdays normally get a premium (+€18). But three other factors pulled the price down. Look at the breakdown — which three factors wiped out her Saturday premium? You’ll explain this to Maria in the Claude prompt below.</div>
+        <div style="background:#f8f8f8; border-left:4px solid #222; border-radius:0 6px 6px 0; padding:0.75rem 1rem; margin-bottom:1rem; font-size:13px; color:#333; line-height:1.5;">
+          <strong>Remember:</strong> Maria is a real person who’s frustrated. She doesn’t want a robotic, AI-generated response — she could talk to a chatbot for that. She wants a <em>human</em> who understands the system and can explain it clearly. When you draft your response with Claude, edit it until it sounds like <strong>you</strong> wrote it, not a machine.
+        </div>
+
+        <div style="background:#222; border-radius:6px; padding:1rem; color:#fff; font-size:13px; line-height:1.6;">
+          <strong style="color:#ff385c;">Key insight:</strong> You could answer Maria because Smart Pricing is a <strong>hybrid model</strong> — it shows its work. If Airbnb used a black box, the support agent would only say “the algorithm decided €62” with no explanation. Maria would turn off Smart Pricing, and the system becomes less useful for everyone. <strong>Interpretability isn’t a nice-to-have — it’s what keeps hosts using the system.</strong>
+        </div>
+      </div>
+
+      <div class="lesson-box">
+        <div class="lesson-box-title">What You Just Did</div>
+        <div class="lesson-section">
+          <div class="lesson-section-label ai">The AI Concept</div>
+          <p><strong>Your analyst task:</strong> You diagnosed a support escalation using Smart Pricing’s hybrid model breakdown. This is a real systems analysis skill — evaluating whether an AI system’s outputs are explainable enough for the people who depend on them.</p>
+        </div>
+        <hr class="lesson-divider">
+        <div class="lesson-section">
+          <div class="lesson-section-label biz">The Business Lesson</div>
+          <div class="lesson-section-title">If you can’t explain the system, don’t deploy it</div>
+          <p>Airbnb chose a hybrid model that’s slightly less accurate than a black box — but that support agents can explain, hosts can understand, and engineers can debug. That tradeoff (accuracy vs. interpretability) is one of the most important decisions in any AI deployment.</p>
+          <p><strong>The question a systems analyst should ask:</strong> <em>If a user disagrees with this system’s recommendation, can anyone on the team explain why the system made that call?</em></p>
+        </div>
+      </div>
+
+      <div class="reflection">
+        <div class="reflection-label">Step 4 Reflection</div>
+        <div style="font-size:12px; color:#999; margin-bottom:0.5rem; font-style:italic;">Include your answer in the Claude prompt below.</div>
+        <div class="reflection-q">Maria says: “I don’t care about your breakdown — just tell me, should I lower my price or not?” The hybrid model can answer “why did the price drop” — but can it answer “should I lower my price?” What’s the difference between those two questions, and why does that distinction matter for anyone deploying AI systems in a business?</div>
+      </div>
+
+      <div class="ai-prompt-block">
+        <div class="aip-label">Step 4 Prompt · Draft a support response template</div>
+        <h5>Respond to Maria and create a reusable support template</h5>
+        <p>Copy the prompt below into Claude. Replace the brackets with <strong>your analysis of Maria’s pricing breakdown</strong>. Claude will draft the response; then <strong>edit it until it sounds like a real person, not a bot</strong>. Maria deserves a human voice.</p>
+        <div class="promptbox">
+          <button class="promptbox-copy" data-target="prompt4" type="button">Copy prompt</button>
+<pre id="prompt4">I’m a systems analysis intern at Airbnb. A Superhost named Maria is angry that Smart Pricing dropped her Saturday rate to €62. I looked up her pricing breakdown and found:
+
+- Base rate: €82
+- Winter season pulled it down by €15
+- Saturday premium added €18
+- But the date is TOMORROW (last-minute), which subtracted €18
+- Plus 38 of 62 listings in her cluster are empty (oversupply), subtracting another €5
+
+The three factors that wiped out her Saturday premium were: [LIST THE THREE FACTORS AND EXPLAIN IN YOUR OWN WORDS WHY EACH ONE MATTERS].
+
+I need to draft two things:
+
+FIRST: A direct response to Maria (100 words max) that explains why her price dropped in plain language. Don’t be robotic — acknowledge her frustration, explain the specific factors, and remind her she can override Smart Pricing anytime.
+
+SECOND: A reusable support response template that any agent could use when a host asks “why did Smart Pricing change my rate?” The template should:
+
+1. Acknowledge the host’s frustration (they feel the algorithm is working against them)
+2. Explain how Smart Pricing calculates rates — walk through the 6 inputs (base rate, season, day of week, lead time, events, supply) in plain language
+3. Show a specific example using the host’s situation (“In your case, the base rate is €__, but [factor] adjusted it by €__”)
+4. Remind them Smart Pricing is a suggestion — they can always override
+5. End with when Smart Pricing works well and when the host might want to set their own price
+
+Keep it under 250 words. Tone: empathetic but honest. Sound like a real person, not a corporate script.</pre>
+        </div>
+        <div class="save-note"><strong>Save your edited version.</strong> This is Artifact 4 of 7.</div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+  <!-- ============================================================
+       STEP 5 — GENAI LISTING
+       ============================================================ -->
+  <div class="exercise" id="step5">
+    <div class="exercise-header">
+      <div class="exercise-number">Step 5 &middot; GenAI Content Audit</div>
+      <div class="exercise-title">Use generative AI to draft Elena&rsquo;s listing &mdash; then evaluate the output</div>
+    </div>
+    <div class="exercise-body">
+
+      <h4>Predictive AI vs. generative AI</h4>
+      <p>Every AI system you&rsquo;ve used in this lab so far has been <strong>predictive</strong> &mdash; it takes data and outputs a score, a ranking, or a price. Now you&rsquo;ll use <strong>generative AI</strong>, which does something fundamentally different: it creates new content that didn&rsquo;t exist before.</p>
+      <p>This maps directly to Chapter 6&rsquo;s Part III: Airbnb used an LLM to rewrite 3,500 test files in 6 weeks instead of 1.5 years. The model provided the <em>capability</em> (writing code), but the engineering team provided the <em>reliability</em> (validation, retries, human review). The same principle applies here: Claude will write Elena’s listing description, but <em>you</em> provide the quality control.</p>
+
+      <div class="concept">
+        <div class="concept-label">Core Concept: Generative AI vs. Predictive AI</div>
+        <p><strong>Predictive AI</strong> answers a specific question by learning patterns in data. Output: a number, a ranking, a category. (Steps 1&ndash;4 were all predictive.) <strong>Generative AI</strong> produces new content &mdash; text, code, images &mdash; by learning patterns from huge collections of existing content. Output: something that didn&rsquo;t exist before.</p>
+        <p>Airbnb uses both. The destination recommender is predictive (it scores cities). Smart Pricing is predictive (it suggests a number). But when Airbnb&rsquo;s engineers used an LLM to rewrite test files, that was generative. And when you use Claude to write your listing, that&rsquo;s generative too. <strong>The key difference:</strong> predictive AI can be checked against a right answer. Generative AI often can&rsquo;t &mdash; which is why human editing matters so much.</p>
+      </div>
+
+      <div class="instructions">
+        <div class="instructions-label">Activity 5 &middot; Write, evaluate, and rewrite</div>
+        <h5>Directions</h5>
+        <ol>
+          <li>Use the <strong>first Claude prompt</strong> below to generate a listing title and description for Elena&rsquo;s apartment, based on the facts provided.</li>
+          <li>Read the output critically. Highlight anything that sounds generic, oversells, or uses clichés (&ldquo;hidden gem,&rdquo; &ldquo;sun-drenched paradise&rdquo;).</li>
+          <li>Use the <strong>second Claude prompt</strong> to revise &mdash; this time giving Claude specific feedback about what to fix. This is the &ldquo;sample, tune, sweep&rdquo; loop from Chapter 6: evaluate the output, improve the instructions, try again.</li>
+          <li>Edit the final version yourself until it sounds like a real host wrote it, not an AI.</li>
+        </ol>
+        <div class="goal"><strong>Your goal:</strong> experience the difference between using GenAI as a ghostwriter (bad) and using it as a drafting partner (good). The quality comes from your editing, not the model&rsquo;s first attempt.</div>
+      </div>
+
+      <div class="ai-prompt-block">
+        <div class="aip-label">Step 5 Prompt A &middot; Generate a listing draft for Elena</div>
+        <h5>Draft Elena&rsquo;s listing description</h5>
+        <p>This is your first pass. Expect it to be decent but generic. That&rsquo;s the point &mdash; you&rsquo;ll fix it.</p>
+        <div class="promptbox">
+          <button class="promptbox-copy" data-target="prompt5a" type="button">Copy prompt</button>
+<pre id="prompt5a">Write an Airbnb listing title and description for this apartment:
+
+- 2-bedroom, 1-bathroom apartment in Ruzafa, Valencia, Spain
+- 10 minutes walk to the beach, heart of the restaurant district
+- Rooftop terrace with city views
+- Fast wifi, dedicated desk (good for remote work)
+- Recently renovated kitchen
+- No parking, no pool
+- Fits 2-4 guests
+- Available year-round
+
+Write a title (max 50 characters) and a description (max 150 words). Make it sound inviting but honest — don't oversell.</pre>
+        </div>
+      </div>
+
+      <div class="ai-prompt-block">
+        <div class="aip-label">Step 5 Prompt B &middot; Revise with feedback</div>
+        <h5>Now improve it &mdash; this is the &ldquo;sample, tune, sweep&rdquo; loop</h5>
+        <p>Read Claude&rsquo;s first draft. What&rsquo;s wrong with it? Too generic? Oversells? Wrong tone? Give specific feedback. <strong>This is exactly what Airbnb&rsquo;s engineers did</strong> when the LLM failed on a test file &mdash; they didn&rsquo;t just retry with the same prompt; they told it what went wrong.</p>
+        <div class="promptbox">
+          <button class="promptbox-copy" data-target="prompt5b" type="button">Copy prompt</button>
+<pre id="prompt5b">Here's the listing you wrote:
+
+[PASTE CLAUDE'S FIRST DRAFT HERE]
+
+Here's what I want you to fix:
+[LIST YOUR SPECIFIC FEEDBACK — e.g., "Don't say 'hidden gem' — every listing says that." "The description doesn't mention Ruzafa's nightlife, which is a big selling point for young travelers." "The tone is too formal — make it sound like a real person, not a hotel brochure." "I want to attract digital nomads specifically — emphasize the desk and wifi more."]
+
+Based on the guest profiles from earlier in this lab (digital nomads, couples, families, retirees), I want to target [YOUR CHOSEN SEGMENT]. Rewrite the title and description to appeal specifically to them.
+
+Keep it under 150 words. Sound like a real host, not an AI.</pre>
+        </div>
+      </div>
+
+      <div class="lesson-box">
+        <div class="lesson-box-title">What You Just Did</div>
+        <div class="lesson-section">
+          <div class="lesson-section-label ai">The AI Concept</div>
+          <p><strong>Your analyst task:</strong> You audited Airbnb’s GenAI content pipeline by generating listing copy, evaluating quality, iterating with feedback, and editing the final output. This is how companies evaluate LLM deployments: test the output, measure the gap between first draft and production-ready, and determine how much human oversight is needed.</p>
+          <p>Every step before this used <strong>predictive AI</strong> &mdash; systems that take data and output a score, a ranking, or a price. This step uses <strong>generative AI</strong> &mdash; a system that creates new content. Airbnb uses both: the recommender is predictive, Smart Pricing is predictive, but the test migration in <a href="chapter6-airbnb.html" target="_blank" style="color:#ff385c;">Chapter 6</a> was generative. The key difference: predictive AI can be checked against a right answer. Generative AI often can&rsquo;t &mdash; which is why human editing matters.</p>
+        </div>
+        <hr class="lesson-divider">
+        <div class="lesson-section">
+          <div class="lesson-section-label biz">The Business Lesson</div>
+          <div class="lesson-section-title">GenAI provides capability. Humans provide reliability.</div>
+          <p>Claude&rsquo;s first draft was fine &mdash; maybe a B-minus. Generic, a little salesy. The second draft was better. But the best version is the one you edited, because only you know Elena&rsquo;s specific situation. This is the lesson from Airbnb&rsquo;s LLM test migration: the model provided <strong>capability</strong>, but the engineering around it &mdash; validation, retries, human review &mdash; provided <strong>reliability</strong>.</p>
+          <p><strong>The question a systems analyst should ask:</strong> <em>If we remove the human from this pipeline, does the output quality hold up?</em></p>
+        </div>
+      </div>
+
+      <div class="reflection">
+        <div class="reflection-label">Step 5 Reflection</div>
+        <div style="font-size:12px; color:#999; margin-bottom:0.5rem; font-style:italic;">Include your answer in the Claude prompt below.</div>
+        <div class="reflection-q"><strong>1.</strong> What was the biggest difference between Claude&rsquo;s first draft and your edited final version? Be specific &mdash; what did you change, and why did the original version feel &ldquo;off&rdquo;?</div>
+        <div class="reflection-q" style="margin-top:0.85rem;"><strong>2.</strong> You could have just accepted Claude&rsquo;s first draft and submitted it. Why didn&rsquo;t you? What&rsquo;s the risk of submitting AI-generated content without editing it &mdash; not just in this class, but in a job where your name is on the work?</div>
+      </div>
+
+      <div style="margin-top:1rem;">
+        <div class="save-note"><strong>Save your final listing description</strong> (the version you edited, not Claude&rsquo;s raw output). This is Artifact 5 of 7.</div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+  <!-- ============================================================
+       STEP 6 — THE BACKLASH
+       ============================================================ -->
+  <div class="exercise" id="step6">
+    <div class="exercise-header">
+      <div class="exercise-number">Step 6 &middot; Regulatory Risk</div>
+      <div class="exercise-title">Assess regulatory risk in the Spanish market</div>
+    </div>
+    <div class="exercise-body">
+
+      <h4>Regulatory risk assessment: will this market still exist next year?</h4>
+      <p>As a systems analyst, you don&rsquo;t just evaluate whether Airbnb&rsquo;s AI works &mdash; you evaluate whether the <strong>market it operates in</strong> is stable. Every system you&rsquo;ve analyzed in Steps 1&ndash;5 assumes Airbnb can operate freely in Valencia. But Spain is in the middle of a major regulatory crackdown: Valencia just capped short-term rentals at <strong>90 days per year</strong>, Barcelona is eliminating them entirely, and the national government ordered 65,000 listings blocked (<a href="https://www.cnn.com/2025/05/30/travel/why-airbnb-facing-trouble-spain" target="_blank" style="color:#ff385c;">CNN, 2025</a>). Your job: assess what this means for Elena&rsquo;s listing and for your overall recommendation.</p>
+
+      <div class="concept">
+        <div class="concept-label">Core Concept: Externalities &amp; the Objective Function</div>
+        <p>Every AI system optimizes for an <strong>objective function</strong> &mdash; a goal. Smart Pricing optimizes for bookings and host revenue. The matching AI optimizes for conversion. But neither system includes &ldquo;impact on local housing supply&rdquo; or &ldquo;displacement of long-term residents&rdquo; in its objective. The people most affected by these AI systems &mdash; local renters, neighborhood residents &mdash; aren&rsquo;t users of the platform at all.</p>
+        <p>In economics, when a transaction creates costs for people who weren&rsquo;t part of it, those costs are called <strong>externalities</strong>. The global backlash against Airbnb is what happens when externalities grow large enough that governments step in.</p>
+      </div>
+
+      <div class="sim-panel" id="backlashSim">
+        <div class="sim-title">Step 6 &middot; City Impact Dashboard</div>
+        <div class="sim-subtitle">What happens when matching works too well</div>
+        <div style="font-size:11px; color:#999; margin-bottom:0.5rem; font-style:italic;">Data are approximate, from 2024&ndash;25 reporting.</div>
+        <div style="background:#fff0f3; border-left:4px solid #ff385c; border-radius:0 6px 6px 0; padding:0.6rem 0.85rem; margin-bottom:1rem; font-size:13px; color:#c41d48; line-height:1.5;">
+          <strong>Directions:</strong> 1) Click each <strong>city tab</strong> to see real data on Airbnb&rsquo;s impact: listings, housing stock, rent changes, regulations. 2) Compare all 4 cities. 3) Use the <strong>revenue calculator</strong> below to do the math for Elena under Valencia&rsquo;s 90-day cap.
+        </div>
+
+        <div style="display:flex; gap:0.5rem; margin-bottom:1rem; flex-wrap:wrap;">
+          <button class="btn btn-primary city-tab active" data-city="valencia">Valencia</button>
+          <button class="btn btn-outline-dark city-tab" data-city="barcelona">Barcelona</button>
+          <button class="btn btn-outline-dark city-tab" data-city="mexico">Mexico City</button>
+          <button class="btn btn-outline-dark city-tab" data-city="berlin">Berlin</button>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:0.75rem; margin-bottom:1rem;" id="cityStats">
+          <!-- filled by JS -->
+        </div>
+
+        <div style="background:#222; border-radius:8px; padding:1.25rem; color:#fff;" id="cityDetail">
+          <!-- filled by JS -->
+        </div>
+
+        <!-- Revenue calculator -->
+        <div style="background:#fff; border:2px solid #ff385c; border-radius:8px; padding:1.25rem; margin-top:1rem;">
+          <div style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#c41d48; margin-bottom:0.5rem;">📊 Financial Impact Analysis</div>
+          <p style="font-size:14px; color:#222; margin-bottom:0.75rem;">Based on the regulatory data above, calculate the financial impact of Valencia’s 90-day cap on Elena’s projected revenue:</p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div style="background:#f0f7f8; border-radius:6px; padding:1rem;">
+              <div style="font-size:12px; font-weight:700; color:#006b6f; margin-bottom:0.5rem;">Option A: Long-term tenant</div>
+              <div style="font-size:13px; color:#555; margin-bottom:0.3rem;">&euro;900/month &times; 12 months =</div>
+              <div style="font-size:24px; font-weight:800; color:#008489; margin-top:0.75rem;">&euro;10,800</div>
+              <div style="font-size:11px; color:#999; margin-top:0.3rem;">steady income, minimal management</div>
+            </div>
+            <div style="background:#fff0f3; border-radius:6px; padding:1rem;">
+              <div style="font-size:12px; font-weight:700; color:#c41d48; margin-bottom:0.5rem;">Option B: Airbnb (under 90-day cap)</div>
+              <label style="font-size:13px; color:#555; display:block; margin-bottom:0.3rem;">Elena&rsquo;s avg. nightly rate: &euro;</label>
+              <input type="number" id="calcRate" value="100" min="40" max="200" style="width:80px; padding:0.3rem; border:1px solid #ccc; border-radius:4px; font-size:14px; font-weight:700;">
+              <div style="font-size:13px; color:#555; margin-top:0.5rem;">&times; 90 nights =</div>
+              <div style="font-size:24px; font-weight:800; color:#ff385c; margin-top:0.3rem;" id="calcAirbnb">&euro;9,000</div>
+              <div style="font-size:11px; color:#999; margin-top:0.3rem;">minus cleaning, supplies, management time</div>
+            </div>
+          </div>
+          <div id="calcVerdict" style="margin-top:0.75rem; padding:0.75rem; background:#222; border-radius:6px; color:#fff; font-size:14px; text-align:center; font-weight:700;"></div>
+        </div>
+      </div>
+
+      <div class="lesson-box">
+        <div class="lesson-box-title">What You Just Did</div>
+        <div class="lesson-section">
+          <div class="lesson-section-label ai">The AI Concept</div>
+          <p><strong>Your analyst task:</strong> You assessed the regulatory environment across 4 cities and calculated the financial impact of Valencia&rsquo;s 90-day cap on Elena&rsquo;s projected revenue.</p>
+          <p>Here&rsquo;s the AI connection: every system you&rsquo;ve evaluated in this lab &mdash; matching, embeddings, Smart Pricing &mdash; has an <strong>objective function</strong>, which is the goal it&rsquo;s trying to achieve. Smart Pricing&rsquo;s objective is to maximize bookings and revenue. The matching system&rsquo;s objective is to connect the right guest with the right listing. But none of these systems have &ldquo;keep housing affordable for local residents&rdquo; as part of their objective. Every time Airbnb&rsquo;s AI successfully books Elena&rsquo;s apartment for a tourist, that&rsquo;s a night the apartment isn&rsquo;t available to a long-term renter. Multiply that across 28,000 listings in Valencia and you get the backlash you saw in the dashboard.</p>
+          <p><strong>The takeaway:</strong> What an AI system optimizes for is a choice someone made. And the people most affected by that choice &mdash; local renters whose neighborhoods are changing &mdash; aren&rsquo;t users of the platform at all.</p>
+        </div>
+        <hr class="lesson-divider">
+        <div class="lesson-section">
+          <div class="lesson-section-label biz">The Business Lesson</div>
+          <div class="lesson-section-title">The market Elena is entering may not exist next year</div>
+          <p>You just ran the numbers. Under the 90-day cap at &euro;100/night, Elena earns <strong>&euro;9,000/year</strong> from Airbnb. A long-term tenant pays <strong>&euro;10,800/year</strong>. The Airbnb advantage is gone &mdash; and that&rsquo;s before cleaning costs, vacancy, and the hours she&rsquo;d spend managing guests. If Valencia follows Barcelona&rsquo;s path and tightens the cap further, the gap gets worse.</p>
+          <p><strong>The question a systems analyst should ask:</strong> <em>Am I recommending that Elena build a business on a platform whose regulatory environment is actively shifting against it? And if so, what&rsquo;s my contingency plan?</em></p>
+        </div>
+      </div>
+
+      <div class="reflection">
+        <div class="reflection-label">Step 6 Reflection</div>
+        <div style="font-size:12px; color:#999; margin-bottom:0.5rem; font-style:italic;">Include your answer in the Claude prompt below.</div>
+        <div class="reflection-q">As Elena&rsquo;s analyst, you now have to factor regulatory risk into your recommendation. Based on the data from all four cities and the financial impact calculation: where do you think the Airbnb short-term rental market will be in 5 years? Will regulations get stricter, loosen up, or stabilize? And what does your answer mean for Elena&rsquo;s decision today?</div>
+      </div>
+
+      <div class="ai-prompt-block">
+        <div class="aip-label">Step 6 Prompt &middot; Regulatory risk assessment</div>
+        <h5>Draft a regulatory risk section for your recommendation to Elena</h5>
+        <p>Copy the prompt below into Claude. Replace the brackets with <strong>your analysis from the dashboard</strong>. Claude drafts; <strong>you edit</strong>.</p>
+        <div class="promptbox">
+          <button class="promptbox-copy" data-target="prompt6" type="button">Copy prompt</button>
+<pre id="prompt6">I'm a systems analysis intern at Airbnb writing the regulatory risk section of my recommendation for Elena (new host, 2BR apartment, Valencia). I analyzed Airbnb's impact across 4 cities using an internal dashboard.
+
+Here's the key data I found:
+- Valencia: [LISTINGS COUNT, RENT CHANGE, REGULATION STATUS from dashboard]
+- Barcelona: [WHAT'S HAPPENING THERE]
+- Mexico City: [KEY DATA POINT]
+- Berlin: [KEY DATA POINT]
+
+I also ran the revenue calculator: at Elena's expected rate of €[__]/night, the 90-day cap means [€__ AIRBNB REVENUE vs. €10,800 LONG-TERM].
+
+Help me draft a regulatory risk assessment (250 words max) for Elena that covers:
+1. What the 90-day cap means for her projected Airbnb revenue vs. long-term rental income
+2. The trajectory — based on what happened in Barcelona and other cities, is Valencia's regulation likely to get stricter or looser?
+3. A risk scenario: what happens to Elena's finances if the cap tightens to 60 days, or if short-term rentals are banned entirely?
+4. My recommendation: given the regulatory environment, should Elena proceed with Airbnb, choose long-term, or hedge with a hybrid approach?
+
+Tone: analytical and evidence-based. This is a professional risk assessment, not an opinion piece.</pre>
+        </div>
+        <div class="save-note"><strong>Save your edited version.</strong> This is Artifact 6 of 7.</div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+  <!-- ============================================================
+       STEP 7 — THE DECISION
+       ============================================================ -->
+  <div class="exercise" id="step7">
+    <div class="exercise-header">
+      <div class="exercise-number">Step 7 &middot; The Decision</div>
+      <div class="exercise-title">Write your final recommendation for Elena</div>
+    </div>
+    <div class="exercise-body">
+
+      <h4>Deliver your final recommendation</h4>
+      <p>You&rsquo;ve now evaluated every major AI system from Chapter 6 &mdash; matching, embeddings and clustering, Smart Pricing, hybrid model interpretability, generative AI, and the regulatory environment. As a systems analyst, your job isn&rsquo;t just to understand how these systems work. It&rsquo;s to synthesize everything into a clear recommendation: <strong>given what you&rsquo;ve found, what should Elena do?</strong></p>
+
+      <div style="background:#f8f8f8; border:1px solid #e2e8f0; border-radius:8px; padding:1.25rem; margin:1.5rem 0;">
+        <div style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#767676; margin-bottom:0.5rem;">Your Recommendation</div>
+        <p style="font-size:14px; color:#333; line-height:1.6; margin-bottom:1rem;">Based on your analysis across Steps 1&ndash;6, choose between Option A or Option B for Elena. An analyst doesn&rsquo;t just pick one &mdash; they <strong>justify the decision</strong> with evidence from their evaluation. Review the tradeoffs below, then make your recommendation:</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; font-size:14px;">
+          <div>
+            <div style="font-weight:700; color:#ff385c; margin-bottom:0.4rem;">Option A: List on Airbnb</div>
+            <div style="color:#555; line-height:1.6;">
+              &bull; Higher per-night revenue potential (Step 3)<br>
+              &bull; But platform controls Elena&rsquo;s visibility (Step 1)<br>
+              &bull; Elena's competitors defined by AI, not geography (Step 2)<br>
+              &bull; Smart Pricing serves Elena <em>and</em> the platform (Step 3)<br>
+              &bull; System is explainable &mdash; support can help hosts (Step 4)<br>
+              &bull; Regulatory risk &mdash; 90-day cap may tighten (Step 6)
+            </div>
+          </div>
+          <div>
+            <div style="font-weight:700; color:#008489; margin-bottom:0.4rem;">Option B: Rent long-term</div>
+            <div style="color:#555; line-height:1.6;">
+              &bull; Steady &euro;900/month = &euro;10,800/year<br>
+              &bull; Elena controls the relationship directly<br>
+              &bull; No platform dependency<br>
+              &bull; No regulatory risk from short-term rental laws<br>
+              &bull; Lower management burden<br>
+              &bull; Less upside in peak seasons
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin:1.5rem 0;">
+        <div style="font-size:16px; font-weight:700; color:#222; margin-bottom:0.3rem;">What do you recommend for Elena?</div>
+        <div style="font-size:13px; color:#767676; margin-bottom:0.75rem;">Click your recommendation. You&rsquo;ll justify it in the Claude prompt below.</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.75rem;" id="decisionButtons">
+          <button class="decision-btn" data-decision="airbnb" style="background:#fff; border:2px solid #ff385c; border-radius:8px; padding:1rem; cursor:pointer; font-family:Arial,sans-serif; transition:all 0.15s; text-align:center;">
+            <div style="font-size:24px; margin-bottom:0.3rem;">🏠</div>
+            <div style="font-size:14px; font-weight:700; color:#c41d48;">List on Airbnb</div>
+          </button>
+          <button class="decision-btn" data-decision="longterm" style="background:#fff; border:2px solid #008489; border-radius:8px; padding:1rem; cursor:pointer; font-family:Arial,sans-serif; transition:all 0.15s; text-align:center;">
+            <div style="font-size:24px; margin-bottom:0.3rem;">📋</div>
+            <div style="font-size:14px; font-weight:700; color:#006b6f;">Rent long-term</div>
+          </button>
+          <button class="decision-btn" data-decision="hybrid" style="background:#fff; border:2px solid #767676; border-radius:8px; padding:1rem; cursor:pointer; font-family:Arial,sans-serif; transition:all 0.15s; text-align:center;">
+            <div style="font-size:24px; margin-bottom:0.3rem;">🔀</div>
+            <div style="font-size:14px; font-weight:700; color:#555;">Hybrid approach</div>
+            <div style="font-size:11px; color:#999;">Airbnb in summer, long-term in winter</div>
+          </button>
+        </div>
+        <div id="decisionResult" style="display:none; margin-top:1rem; background:#222; border-radius:8px; padding:1.25rem; color:#e8e8e8; font-size:14px; line-height:1.65;"></div>
+      </div>
+
+      <div class="lesson-box">
+        <div class="lesson-box-title">What You Just Did</div>
+        <div class="lesson-section">
+          <div class="lesson-section-label ai">The AI Concept</div>
+          <p>Throughout this lab, you evaluated how Airbnb&rsquo;s AI actually works: how the <strong>matching system</strong> decides which guests see Elena&rsquo;s listing, how <strong>embeddings and clustering</strong> define her competitors, how <strong>Smart Pricing</strong> calculates a nightly rate and whose interests it serves, how the <strong>hybrid model</strong> makes those calculations explainable to hosts and support agents, how <strong>generative AI</strong> can draft content but can&rsquo;t replace human judgment, and how the <strong>regulatory environment</strong> can change the entire business case overnight. A good systems analysis doesn&rsquo;t just ask &ldquo;does this work?&rdquo; &mdash; it asks &ldquo;who does it work for, and what happens when it doesn&rsquo;t?&rdquo;</p>
+        </div>
+        <hr class="lesson-divider">
+        <div class="lesson-section">
+          <div class="lesson-section-label biz">The Business Lesson</div>
+          <div class="lesson-section-title">There is no &ldquo;right&rdquo; answer &mdash; but there is a well-reasoned one</div>
+          <p>The revenue calculator in Step 6 gave you numbers, but the decision isn&rsquo;t just about numbers. Should Elena depend on a platform whose algorithm controls her visibility? Is the 90-day cap going to get stricter? Is it worth the management time and cleaning costs? These are the questions your recommendation needs to address &mdash; and they don&rsquo;t have formulas. As a systems analyst, your job is to lay out the tradeoffs clearly enough that Elena can make an informed decision.</p>
+        </div>
+      </div>
+
+      <div class="ai-prompt-block">
+        <div class="aip-label">Step 7 Prompt &middot; Final recommendation</div>
+        <h5>Write your recommendation to Elena</h5>
+        <p>This is your final artifact. Write this as a direct recommendation to Elena &mdash; a real person making a real decision. Not a corporate memo. She&rsquo;s not a business executive; she&rsquo;s a first-time host who needs honest, clear advice. Copy the prompt into Claude. Replace the brackets with <strong>your actual decision and reasoning</strong>. Then <strong>edit ruthlessly</strong> &mdash; this should sound like you at your most honest.</p>
+        <div class="promptbox">
+          <button class="promptbox-copy" data-target="prompt7" type="button">Copy prompt</button>
+<pre id="prompt7">I'm a systems analysis intern at Airbnb writing my final recommendation for Elena, who has a 2-bedroom apartment in Ruzafa, Valencia. After evaluating Airbnb's AI systems and the regulatory environment, I recommend she [CHOOSE: list it on Airbnb / rent it long-term / do a hybrid approach — explain what that means].
+
+Here's what I learned that shaped my decision:
+- About the matching system: [1 sentence from Step 1]
+- About embedding and positioning: [1 sentence from Step 2]
+- About Smart Pricing: [1 sentence from Step 3 — what the simulation showed]
+- About model interpretability: [1 sentence from Step 4]
+- About GenAI for content: [1 sentence from Step 5]
+- About regulatory risk: [1 sentence from Step 6 — the 90-day cap, the Spanish backlash]
+
+Help me draft a recommendation (300 words max) to Elena explaining what she should do. The letter should:
+1. State my decision clearly in the first sentence
+2. Give the 2-3 strongest reasons — mixing financial analysis with practical and ethical considerations
+3. Acknowledge what I'm giving up by not choosing the other option
+4. Be honest about the risks
+
+Tone: direct and honest, like I'm talking to a friend who asked for advice. No business jargon. No bullet points. Just clear thinking about a real decision with real tradeoffs.</pre>
+        </div>
+        <div class="save-note"><strong>Save your edited version.</strong> This is your final artifact &mdash; the recommendation your manager will read &mdash; Artifact 7 of 7. If this letter doesn&rsquo;t sound like you actually wrote it, go back and edit until it does.</div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+  <!-- ============================================================
+       STEP 8 — PUBLISH
+       ============================================================ -->
+  <div class="exercise" id="step8">
+    <div class="exercise-header">
+      <div class="exercise-number">Step 8 &middot; Publish</div>
+      <div class="exercise-title">Compile your analysis into a portfolio page</div>
+    </div>
+    <div class="exercise-body">
+
+      <h4>Turn your analysis into something a recruiter would notice</h4>
+      <p>You now have 7 artifacts from this lab. Together, they tell a complete story: you evaluated a real company&rsquo;s AI systems, tested them against real scenarios, assessed the regulatory environment, and delivered a recommendation. That&rsquo;s not a homework assignment &mdash; that&rsquo;s a <strong>case study</strong>. The kind of work that makes a recruiter stop scrolling and say &ldquo;this person can actually think.&rdquo;</p>
+      <p>Use the Claude prompt below to assemble your 7 artifacts into a single professional webpage. Then publish it on GitHub Pages so you can link to it from your LinkedIn profile or resume.</p>
+
+      <div class="ai-prompt-block">
+        <div class="aip-label">Step 8 Prompt &middot; Build the portfolio page</div>
+        <h5>Assemble your artifacts into a professional case study</h5>
+        <div class="promptbox">
+          <button class="promptbox-copy" data-target="prompt8" type="button">Copy prompt</button>
+<pre id="prompt8">I completed a systems analysis of Airbnb's AI for a university course (MIS 432 — AI in Business). I evaluated how Airbnb's AI systems handle a new host listing in Valencia, Spain, and I need you to build a single HTML webpage that presents my work as a professional portfolio case study.
+
+Here are my 7 sections (I'll paste each one below):
+
+1. Matching System Evaluation — how Airbnb's AI matches guests to listings, and what that means for a new host: [PASTE]
+2. Embedding &amp; Positioning Analysis — where the listing sits in Airbnb's AI, and my positioning recommendation: [PASTE]
+3. Smart Pricing Evaluation — I tested Airbnb's pricing algorithm across 5 scenarios and compared it to manual pricing: [PASTE]
+4. Support Escalation Response — I diagnosed an angry host's pricing complaint using the hybrid model breakdown and drafted a support template: [PASTE]
+5. GenAI Content Audit — I used Claude to draft a listing description, evaluated the output, and revised it: [PASTE]
+6. Regulatory Risk Assessment — I analyzed Airbnb's regulatory environment across 4 cities and calculated the financial impact of Valencia's 90-day cap: [PASTE]
+7. Final Recommendation — my recommendation for the host, with evidence from all 6 evaluations: [PASTE]
+
+Build a professional HTML case study page with:
+- A header: [YOUR NAME] | "Airbnb AI Systems Analysis: New Host Evaluation — Valencia, Spain"
+- A subtitle: "MIS 432 · AI in Business · [YOUR UNIVERSITY]"
+- An executive summary at the top (3-4 sentences: what I evaluated, what I found, what I recommended)
+- Each of the 7 sections as its own card or panel with a clear heading and an icon
+- A "Key Findings" sidebar or callout box highlighting 3-4 insights that would catch a recruiter's eye (e.g., "Smart Pricing's festival surge increased booking probability by 30% but also increased Airbnb's commission revenue" or "Under Valencia's 90-day cap, Airbnb revenue falls below long-term rental income")
+- My reflection answers woven into each section as "My Analysis" subsections
+- A professional footer with my contact info: [YOUR EMAIL] | [YOUR LINKEDIN URL]
+- Modern, clean design — think consulting deliverable, not homework. Use a color scheme inspired by Airbnb (whites, light grays, with coral/red accents)
+- Single HTML file, no external dependencies, works on GitHub Pages
+
+This should look like something I'd link on my LinkedIn and feel confident showing to a hiring manager at a tech company or consulting firm.</pre>
+        </div>
+      </div>
+
+      <div style="background:#fff0f3; border-left:4px solid #ff385c; border-radius:0 6px 6px 0; padding:0.75rem 1rem; margin:1rem 0; font-size:13px; color:#c41d48; line-height:1.5;">
+        <strong>Directions:</strong> 1) Paste all 7 artifacts and your reflection answers into the prompt. 2) Review Claude&rsquo;s output &mdash; edit the executive summary and key findings until they sound like you. 3) Save as <code>index.html</code> and publish to GitHub Pages.
+      </div>
+
+      <div style="background:#f8f8f8; border:1px solid #e2e8f0; border-radius:8px; padding:1.25rem; margin:1.5rem 0;">
+        <div style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#767676; margin-bottom:0.75rem;">Publishing to GitHub Pages</div>
+        <div style="font-size:14px; color:#333; line-height:1.65;">
+          1) Save Claude&rsquo;s output as <code>index.html</code>. 2) Create a new repository on <a href="https://github.com" target="_blank" style="color:#ff385c;">GitHub</a> (name it <code>airbnb-analysis</code>). 3) Upload <code>index.html</code>. 4) Go to Settings &rarr; Pages &rarr; set Source to &ldquo;main&rdquo; branch. 5) Your page will be live at <code>https://yourusername.github.io/airbnb-analysis</code>.
+        </div>
+      </div>
+
+      <h3>Submission checklist</h3>
+      <div style="background:#f8f8f8; border:1px solid #e2e8f0; border-radius:8px; padding:1.25rem; margin:1rem 0;">
+        <div style="display:flex; gap:0.75rem; align-items:flex-start; margin-bottom:1rem;">
+          <div style="background:#ff385c; color:#fff; font-size:13px; font-weight:700; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</div>
+          <div><strong>Your GitHub Pages URL</strong><br><span style="font-size:14px; color:#555;">The case study webpage with all 7 sections, your reflection answers, and an executive summary. Every section should reflect your voice and your analysis &mdash; not raw AI output.</span></div>
+        </div>
+        <div style="display:flex; gap:0.75rem; align-items:flex-start;">
+          <div style="background:#ff385c; color:#fff; font-size:13px; font-weight:700; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</div>
+          <div><strong>Add the link to your LinkedIn profile</strong><br><span style="font-size:14px; color:#555;">Go to your LinkedIn profile &rarr; Featured section &rarr; add a link to your case study. This is now part of your professional portfolio.</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer-nav">
+    <a href="chapter6-airbnb.html">&larr; Back to Chapter 6</a>
+    <a href="index.html">Home</a>
+  </div>
+
+</div>
 
 <footer>
-  <p>MIS 432 · AI in Business · Western Washington University · College of Business and Economics</p>
-  <p style="margin-top:0.5rem;"><a href="index.html">Home</a> · <a href="https://cbe.wwu.edu/people/califfc" target="_blank">Contact</a> · <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a> · Free to use for educational purposes</p>
+  <p>MIS 432 &middot; AI in Business &middot; Western Washington University &middot; College of Business and Economics</p>
 </footer>
 
+<script>
+/* =========================================================
+   MATCHING SIMULATOR
+   ========================================================= */
+(function() {
+  // Shuffle the listing cards so the correct match isn't in the same row
+  const listingsCol = document.querySelector('.match-col-listings');
+  const shuffleListings = Array.from(listingsCol.querySelectorAll('.match-card'));
+  for (let i = shuffleListings.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    listingsCol.appendChild(shuffleListings[j]);
+  }
+
+  // Also shuffle guest cards
+  const guestsCol = document.querySelector('.match-col-guests');
+  const shuffleGuests = Array.from(guestsCol.querySelectorAll('.match-card'));
+  for (let i = shuffleGuests.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    guestsCol.appendChild(shuffleGuests[j]);
+  }
+
+  // Optimal matches (what the AI would pick based on behavioral data)
+  // guest 0 (Sofia, digital nomad) → listing 0 (modern studio, desk, wifi)
+  // guest 1 (Martins, family) → listing 1 (beachfront villa, pool, 3BR)
+  // guest 2 (Léa & Marco, couple) → listing 2 (cozy loft, Ruzafa, romantic)
+  // guest 3 (Jake, backpacker) → listing 3 (shared room, El Carmen, cheap)
+  // guest 4 (Dr. Patel, retired) → listing 4 (elegant flat, elevator, museums)
+  const optimal = [0, 1, 2, 3, 4];
+
+  let selectedGuest = null;
+  let matches = {}; // guest index → listing index
+  let matchCount = 0;
+
+  const guestCards = document.querySelectorAll('[data-guest]');
+  const listingCards = document.querySelectorAll('[data-listing]');
+  const statusEl = document.getElementById('matchStatus');
+  const resultsEl = document.getElementById('matchResults');
+
+  guestCards.forEach(card => {
+    card.addEventListener('click', function() {
+      if (this.classList.contains('matched')) return;
+      // deselect all guests
+      guestCards.forEach(c => c.classList.remove('selected'));
+      this.classList.add('selected');
+      selectedGuest = parseInt(this.dataset.guest);
+      statusEl.textContent = 'Now click the listing you think is the best match →';
+    });
+  });
+
+  listingCards.forEach(card => {
+    card.addEventListener('click', function() {
+      if (selectedGuest === null) {
+        statusEl.textContent = '← Click a guest first, then a listing';
+        return;
+      }
+      if (this.classList.contains('matched')) {
+        statusEl.textContent = 'That listing is already matched. Pick another.';
+        return;
+      }
+
+      const listingIdx = parseInt(this.dataset.listing);
+      matches[selectedGuest] = listingIdx;
+      matchCount++;
+
+      // Mark both as matched
+      const guestCard = document.getElementById('g' + selectedGuest);
+      guestCard.classList.add('matched');
+      guestCard.classList.remove('selected');
+      this.classList.add('matched');
+
+      // Show score on listing
+      const isCorrect = optimal[selectedGuest] === listingIdx;
+      const scoreEl = document.getElementById('l' + listingIdx + 'score');
+      scoreEl.textContent = isCorrect ? '✓' : '✗';
+      scoreEl.style.background = isCorrect ? '#008489' : '#c41d48';
+
+      selectedGuest = null;
+
+      if (matchCount < 5) {
+        statusEl.textContent = 'Matched ' + matchCount + '/5. Click the next guest →';
+      } else {
+        showResults();
+      }
+    });
+  });
+
+  function showResults() {
+    let correct = 0;
+    for (let g = 0; g < 5; g++) {
+      if (matches[g] === optimal[g]) correct++;
+    }
+
+    statusEl.textContent = 'All matched! See your results below ↓';
+    document.getElementById('yourScore').textContent = correct + '/5';
+
+    let explain = '';
+    if (correct === 5) {
+      explain = "Perfect score! You read the descriptions carefully and inferred well. But notice: you had 5 guests and 5 listings with detailed descriptions. Airbnb's system handles millions of both — and most guests don't write descriptions this clear. The AI's advantage isn't intelligence — it's that it watches billions of clicks, searches, and bookings to learn what 'somewhere warm' actually means for each individual user.";
+    } else if (correct >= 3) {
+      explain = "Good instincts — you got the clearest matches right. But the ambiguous ones tripped you up, and that's the point. When a guest says 'something romantic,' does that mean rooftop terrace or cathedral view? You had to guess. Airbnb's AI doesn't guess — it looks at what thousands of similar guests actually booked after searching with similar words. That behavioral data is the difference between " + correct + "/5 and 5/5.";
+    } else {
+      explain = "The matching was harder than it looked, right? That's because written descriptions are ambiguous — 'I need a vacation' doesn't tell you much. Airbnb's AI's advantage is that it doesn't rely on descriptions. It watches what millions of guests actually click, search, and book. A guest who searched 'Valencia beach family' and then clicked on three pool listings is telling the system far more than 'I want something fun' ever could. That behavioral signal is what makes Airbnb's matching possible at scale.";
+    }
+
+    document.getElementById('matchExplain').textContent = explain;
+    resultsEl.classList.add('active');
+
+    // Show lesson box, reflection, and prompt
+    document.getElementById('matchTakeaway').style.display = 'block';
+    document.getElementById('matchReflection').style.display = 'block';
+    document.getElementById('matchPrompt').style.display = 'block';
+  }
+})();
+
+/* =========================================================
+   STEP 2 — EMBEDDING EXPLORER (REBUILT)
+   ========================================================= */
+(function() {
+  // Listings with positions in TWO modes
+  // behavior mode: clustered by which guests browse them together
+  // features mode: clustered by bedrooms and price tier
+  const listings = [
+    // --- BEHAVIOR: nomad/couple cluster (left) | FEATURES: 2BR cluster (center) ---
+    { name: '🏠 ELENA\u2019S APT', yours: true,
+      bx: 155, by: 120,   fx: 370, fy: 160 },
+    { name: '1BR loft, Ruzafa',
+      bx: 225, by: 195,   fx: 140, fy: 230 },
+    { name: 'Boutique studio',
+      bx: 95, by: 195,   fx: 140, fy: 300 },
+    { name: 'Studio, El Carmen',
+      bx: 195, by: 80,   fx: 185, fy: 265 },
+    // --- BEHAVIOR: family cluster (right) | FEATURES: 3-4BR cluster (right) ---
+    { name: '3BR villa, beach',
+      bx: 500, by: 270,   fx: 545, fy: 165 },
+    { name: '2BR house, Malvarrosa',
+      bx: 520, by: 320,   fx: 240, fy: 290 },
+    { name: '4BR farmhouse',
+      bx: 480, by: 240,   fx: 575, fy: 100 },
+    // --- BEHAVIOR: budget cluster (bottom-left) | FEATURES: budget cluster (left-bottom) ---
+    { name: 'Shared room',
+      bx: 130, by: 340,   fx: 90, fy: 360 },
+    // --- BEHAVIOR: luxury/retiree (top-right) | FEATURES: 2BR (center, near yours) ---
+    { name: 'Elegant flat',
+      bx: 470, by: 90,   fx: 430, fy: 200 },
+    { name: 'Penthouse',
+      bx: 510, by: 130,   fx: 480, fy: 130 },
+    // --- BEHAVIOR: near families (they browse it) | FEATURES: 2BR cluster ---
+    { name: '2BR, Eixample',
+      bx: 540, by: 290,   fx: 290, fy: 210 }
+  ];
+
+  // Cluster bubbles for behavior mode
+  const behaviorClusters = [
+    { label: '👩‍💻👫 Nomads & Couples', cx: 160, cy: 145, rx: 110, ry: 85, color: 'rgba(255,56,92,0.08)', stroke: 'rgba(255,56,92,0.25)' },
+    { label: '👨‍👩‍👧‍👦 Families', cx: 510, cy: 280, rx: 80, ry: 70, color: 'rgba(0,132,137,0.08)', stroke: 'rgba(0,132,137,0.25)' },
+    { label: '👵 Retirees', cx: 485, cy: 115, rx: 60, ry: 50, color: 'rgba(118,118,118,0.08)', stroke: 'rgba(118,118,118,0.25)' },
+    { label: '🎒 Budget', cx: 130, cy: 340, rx: 45, ry: 35, color: 'rgba(118,118,118,0.08)', stroke: 'rgba(118,118,118,0.25)' }
+  ];
+
+  // Cluster bubbles for features mode
+  const featureClusters = [
+    { label: '1BR / Studios', cx: 155, cy: 265, rx: 60, ry: 55, color: 'rgba(255,56,92,0.08)', stroke: 'rgba(255,56,92,0.25)' },
+    { label: '2BR apartments', cx: 340, cy: 220, rx: 130, ry: 90, color: 'rgba(0,132,137,0.08)', stroke: 'rgba(0,132,137,0.25)' },
+    { label: '3-4BR houses', cx: 555, cy: 130, rx: 55, ry: 55, color: 'rgba(118,118,118,0.08)', stroke: 'rgba(118,118,118,0.25)' },
+    { label: 'Budget', cx: 90, cy: 360, rx: 40, ry: 25, color: 'rgba(118,118,118,0.08)', stroke: 'rgba(118,118,118,0.25)' }
+  ];
+
+  // Which listings are "near" yours in each mode
+  const behaviourNeighbors = [1, 2, 3]; // loft, boutique, studio
+  const featureNeighbors = [5, 8, 10]; // 2BR house, elegant flat, 2BR Eixample
+
+  let currentMode = 'behavior';
+  let showClusters = false;
+  const canvas = document.getElementById('embedCanvas');
+  const ctx = canvas.getContext('2d');
+
+  function draw() {
+    ctx.clearRect(0, 0, 680, 420);
+    const clusters = currentMode === 'behavior' ? behaviorClusters : featureClusters;
+    const neighbors = currentMode === 'behavior' ? behaviourNeighbors : featureNeighbors;
+
+    // Draw cluster bubbles only if clustering has been run
+    if (showClusters) {
+      clusters.forEach(c => {
+        ctx.beginPath();
+        ctx.ellipse(c.cx, c.cy, c.rx, c.ry, 0, 0, Math.PI * 2);
+        ctx.fillStyle = c.color;
+        ctx.fill();
+        ctx.strokeStyle = c.stroke;
+        ctx.setLineDash([5, 4]);
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        ctx.setLineDash([]);
+        // Label
+        ctx.font = 'bold 11px Arial';
+        ctx.fillStyle = '#555';
+        ctx.textAlign = 'center';
+        ctx.fillText(c.label, c.cx, c.cy - c.ry - 8);
+      });
+    }
+
+    // Draw connection lines from YOUR apt to neighbors (only when clustered)
+    const yourX = currentMode === 'behavior' ? listings[0].bx : listings[0].fx;
+    const yourY = currentMode === 'behavior' ? listings[0].by : listings[0].fy;
+    if (showClusters) {
+      neighbors.forEach(ni => {
+        const nx = currentMode === 'behavior' ? listings[ni].bx : listings[ni].fx;
+        const ny = currentMode === 'behavior' ? listings[ni].by : listings[ni].fy;
+        ctx.beginPath();
+        ctx.moveTo(yourX, yourY);
+        ctx.lineTo(nx, ny);
+        ctx.strokeStyle = 'rgba(255,56,92,0.3)';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([4, 4]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      });
+    }
+
+    // Draw listings
+    listings.forEach((l, i) => {
+      const x = currentMode === 'behavior' ? l.bx : l.fx;
+      const y = currentMode === 'behavior' ? l.by : l.fy;
+      const isNeighbor = neighbors.includes(i);
+      const isYours = l.yours;
+
+      // Dot
+      ctx.beginPath();
+      ctx.arc(x, y, isYours ? 12 : 6, 0, Math.PI * 2);
+      if (!showClusters) {
+        ctx.fillStyle = isYours ? '#ff385c' : '#999';
+      } else {
+        ctx.fillStyle = isYours ? '#ff385c' : (isNeighbor ? '#ff385c' : '#bbb');
+      }
+      ctx.fill();
+      if (isYours) {
+        ctx.strokeStyle = '#c41d48';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
+      // Label
+      if (isYours) {
+        ctx.textAlign = 'left';
+        ctx.font = 'bold 13px Arial';
+        ctx.fillStyle = '#222';
+        ctx.fillText(l.name, x + 16, y + 5);
+      } else if (isNeighbor) {
+        ctx.textAlign = 'center';
+        ctx.font = 'bold 11px Arial';
+        ctx.fillStyle = '#c41d48';
+        ctx.fillText(l.name, x, y + 20);
+      } else {
+        ctx.textAlign = 'center';
+        ctx.font = '10px Arial';
+        ctx.fillStyle = '#999';
+        ctx.fillText(l.name, x, y + 18);
+      }
+    });
+
+    // Bottom annotation
+    ctx.textAlign = 'center';
+    ctx.font = 'italic 11px Arial';
+    ctx.fillStyle = '#999';
+
+    // Update the aha text
+    const aha = document.getElementById('embedAha');
+    if (currentMode === 'behavior') {
+      aha.innerHTML = '<strong style="color:#ff385c;">Behavior mode:</strong> Elena\'s apartment clusters with the <strong>1BR loft</strong>, the <strong>boutique studio</strong>, and the <strong>studio in El Carmen</strong> — because digital nomads and couples browse all of them in the same session. The 2BR house in Malvarrosa (same bedrooms as Elena\'s!) is far away because <em>families</em> browse that one, not nomads. <strong>Airbnb\'s AI says Elena\'s real competitors are the listings that attract the same guests, not the listings that look like hers.</strong>';
+    } else {
+      aha.innerHTML = '<strong style="color:#ff385c;">Features mode:</strong> Now Elena\'s apartment clusters with <strong>other 2-bedroom listings</strong> — the 2BR in Eixample, the 2BR house in Malvarrosa, the elegant flat. This is how a human would sort them: by bedrooms and price. But notice: the 2BR house in Malvarrosa attracts <em>families</em> while Elena\'s apartment attracts <em>nomads and couples</em>. <strong>Same features, completely different audience. Airbnb\'s AI knows this. A spreadsheet doesn\'t.</strong>';
+    }
+  }
+
+  document.getElementById('runClustering').addEventListener('click', function() {
+    showClusters = true;
+    this.textContent = '✓ Clustering complete!';
+    this.disabled = true;
+    this.style.background = '#008489';
+
+    // Hide phase 1, show phase 2
+    document.getElementById('clusterPhase1').querySelector('p').textContent = 'Airbnb\'s AI found the groups! Now switch between the two views to see how clustering changes depending on what you cluster by.';
+    document.getElementById('clusterPhase2').style.display = 'block';
+
+    // Update aha
+    document.getElementById('embedAha').innerHTML = '<strong style="color:#ff385c;">Airbnb\'s AI just found the clusters.</strong> Notice the dashed circles &mdash; nobody drew those by hand. The algorithm looked at which listings ended up near each other in embedding space and grouped them automatically. That&rsquo;s <strong>unsupervised learning</strong>. Now use the toggle above to switch between &ldquo;Cluster by behavior&rdquo; and &ldquo;Cluster by features&rdquo; and watch the groups change completely.';
+
+    draw();
+  });
+
+  document.querySelectorAll('#embedToggle button').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('#embedToggle button').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      currentMode = this.dataset.mode;
+      draw();
+
+      // Update aha text based on mode
+      const aha = document.getElementById('embedAha');
+      if (currentMode === 'behavior') {
+        aha.innerHTML = '<strong style="color:#ff385c;">Clustered by behavior:</strong> Elena\'s apartment clusters with the <strong>1BR loft</strong>, the <strong>boutique studio</strong>, and the <strong>studio in El Carmen</strong> &mdash; because digital nomads and couples browse all of them. The 2BR house in Malvarrosa (same bedrooms as Elena\'s!) is in the <em>Families</em> cluster because different guests browse it. <strong>Airbnb\'s AI defines Elena\'s competitors by audience, not by features.</strong>';
+      } else {
+        aha.innerHTML = '<strong style="color:#ff385c;">Clustered by features:</strong> Now Elena\'s apartment clusters with <strong>other 2-bedroom listings</strong> &mdash; the 2BR in Eixample, the 2BR house in Malvarrosa, the elegant flat. This is how a human would sort them: by bedrooms and price. But the 2BR house in Malvarrosa attracts <em>families</em> while Elena\'s apartment attracts <em>nomads</em>. <strong>Same features, completely different audience. Airbnb\'s AI knows this. A spreadsheet doesn&rsquo;t.</strong>';
+      }
+    });
+  });
+
+  draw();
+
+  // Phase 2: Positioning choice
+  const choiceData = {
+    nomad: {
+      newBx: 155, newBy: 145,
+      text: '<strong>Elena\'s listing moved deeper into the nomad/couple cluster.</strong> The standing desk and fast wifi signal "remote work" to guests, and Airbnb\'s AI starts showing the listing to the same people who browse studios and lofts with workspace photos. Your new nearest competitors are the <strong>1BR loft in Ruzafa</strong> (€65/night), the <strong>boutique studio</strong> (€58/night), and the <strong>studio in El Carmen</strong> (€52/night). You have more space than all of them — that\'s your edge. But you\'re also priced higher.',
+      competitors: '1BR loft (€65), Boutique studio (€58), Studio El Carmen (€52)',
+      avgRate: '€92/night',
+      guestType: 'Digital nomads, remote workers, solo travelers'
+    },
+    romantic: {
+      newBx: 310, newBy: 120,
+      text: '<strong>Elena\'s listing shifted toward the couple/retiree zone.</strong> The rooftop terrace photos and romantic styling attract couples browsing for anniversary trips and weekend getaways. Your new nearest competitors are the <strong>elegant flat in the historic quarter</strong> (€110/night) and the <strong>penthouse</strong> (€130/night). You\'re more affordable than both — but they have better views. The <strong>boutique studio</strong> (€58/night) also competes for couples but at a lower price tier.',
+      competitors: 'Elegant flat (€110), Penthouse (€130), Boutique studio (€58)',
+      avgRate: '€98/night',
+      guestType: 'Couples, anniversary trips, cultural tourists'
+    },
+    family: {
+      newBx: 400, newBy: 260,
+      text: '<strong>Elena\'s listing jumped to the family cluster.</strong> The crib, twin beds, and beach mentions attract parents searching for kid-friendly stays. But this is a tough cluster to compete in. Your new nearest competitors are the <strong>3BR villa with a pool</strong> (€195/night) and the <strong>2BR house in Malvarrosa</strong> (€105/night). Families want space and outdoor areas — Elena\'s apartment has a rooftop terrace but no garden, no pool, and only 2 bedrooms. You\'re the budget option in a cluster that values space.',
+      competitors: '3BR villa (€195), 2BR house Malvarrosa (€105), 4BR farmhouse (€160)',
+      avgRate: '€85/night',
+      guestType: 'Families with young children, multi-generational trips'
+    }
+  };
+
+  document.querySelectorAll('.embed-choice').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const choice = this.dataset.choice;
+      const data = choiceData[choice];
+
+      // Highlight selected button
+      document.querySelectorAll('.embed-choice').forEach(b => {
+        b.style.borderColor = '#e2e8f0';
+        b.style.background = '#fff';
+      });
+      this.style.borderColor = '#ff385c';
+      this.style.background = '#fff0f3';
+
+      // Move Elena's apartment on the behavior map
+      listings[0].bx = data.newBx;
+      listings[0].by = data.newBy;
+      currentMode = 'behavior';
+      document.querySelectorAll('#embedToggle button').forEach(b => b.classList.remove('active'));
+      document.querySelector('#embedToggle button[data-mode="behavior"]').classList.add('active');
+      draw();
+
+      // Show result
+      const result = document.getElementById('positionResult');
+      result.style.display = 'block';
+      document.getElementById('positionResultText').innerHTML = data.text;
+      document.getElementById('positionStats').innerHTML =
+        '<div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:0.6rem;text-align:center;">' +
+          '<div style="font-size:10px;font-weight:700;color:#767676;text-transform:uppercase;">Avg. nightly rate</div>' +
+          '<div style="font-size:18px;font-weight:800;color:#ff385c;">' + data.avgRate + '</div></div>' +
+        '<div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:0.6rem;text-align:center;">' +
+          '<div style="font-size:10px;font-weight:700;color:#767676;text-transform:uppercase;">Guest type</div>' +
+          '<div style="font-size:12px;font-weight:700;color:#222;margin-top:2px;">' + data.guestType + '</div></div>' +
+        '<div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:0.6rem;text-align:center;">' +
+          '<div style="font-size:10px;font-weight:700;color:#767676;text-transform:uppercase;">New competitors</div>' +
+          '<div style="font-size:12px;font-weight:700;color:#222;margin-top:2px;">' + data.competitors + '</div></div>';
+
+      // Scroll to result
+      result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  });
+})();
+
+/* =========================================================
+   STEP 3 — SMART PRICING SCENARIOS (with pricing engine)
+   ========================================================= */
+(function() {
+  const scenarios = [
+    {
+      id: 'weekday', title: '1. Normal weekday in July', icon: '\u{1F4C5}',
+      desc: 'Tuesday in mid-July. Moderate tourist traffic. Elena’s cluster shows 55% of similar listings book weekday nights in summer.',
+      inputs: [
+        { label: 'Base rate for Elena’s cluster', value: 82, note: 'Learned from 847 similar listings' },
+        { label: 'Season (summer)', value: 12, note: 'July is peak — +15% above base' },
+        { label: 'Day of week (Tuesday)', value: -9, note: 'Weekdays book 30% less than weekends' },
+        { label: 'Lead time (30 days out)', value: 0, note: 'Normal booking window' },
+        { label: 'Local events', value: 0, note: 'No festivals this week' },
+        { label: 'Competing supply', value: 0, note: '47 of 62 cluster listings available' }
+      ],
+      aiPrice: 85, demand: 0.55
+    },
+    {
+      id: 'weekend', title: '2. Saturday night in July', icon: '\u{1F319}',
+      desc: 'Saturday in peak summer. High demand — 85% of similar listings book Saturday nights.',
+      inputs: [
+        { label: 'Base rate for Elena’s cluster', value: 82, note: 'Same cluster base' },
+        { label: 'Season (summer)', value: 12, note: 'Peak season boost' },
+        { label: 'Day of week (Saturday)', value: 18, note: 'Weekends book at +35% vs. weekdays' },
+        { label: 'Lead time (14 days out)', value: 3, note: 'Slight urgency' },
+        { label: 'Local events', value: 0, note: 'None' },
+        { label: 'Competing supply', value: 0, note: 'Only 9 of 62 still available' }
+      ],
+      aiPrice: 115, demand: 0.85
+    },
+    {
+      id: 'festival', title: '3. Festival week (Les Festes de Juliol)', icon: '\u{1F389}',
+      desc: 'Valencia’s biggest summer festival starts in 5 days. 92% of similar listings already booked.',
+      inputs: [
+        { label: 'Base rate for Elena’s cluster', value: 82, note: 'Same cluster base' },
+        { label: 'Season (summer)', value: 12, note: 'Peak season' },
+        { label: 'Day of week (Friday)', value: 15, note: 'Weekend premium' },
+        { label: 'Lead time (5 days out)', value: 8, note: 'Short lead = urgency premium' },
+        { label: 'Local events (FESTIVAL)', value: 28, note: '\u{1F525} Major event — biggest factor' },
+        { label: 'Competing supply', value: 0, note: 'Only 5 of 62 available — scarcity' }
+      ],
+      aiPrice: 145, demand: 0.75
+    },
+    {
+      id: 'lastminute', title: '4. Last-minute vacancy (tomorrow)', icon: '\u{23F0}',
+      desc: 'Monday evening. Tomorrow is still unbooked. An empty night earns €0.',
+      inputs: [
+        { label: 'Base rate for Elena’s cluster', value: 82, note: 'Same cluster base' },
+        { label: 'Season (summer)', value: 12, note: 'Still summer' },
+        { label: 'Day of week (Tuesday)', value: -9, note: 'Weekday discount' },
+        { label: 'Lead time (TOMORROW)', value: -18, note: '\u{26A0}\u{FE0F} Near-zero lead = steep discount' },
+        { label: 'Local events', value: 0, note: 'None' },
+        { label: 'Competing supply', value: -5, note: '38 of 62 available — oversupply' }
+      ],
+      aiPrice: 62, demand: 0.70
+    },
+    {
+      id: 'winter', title: '5. Wednesday in January', icon: '\u{2744}\u{FE0F}',
+      desc: 'Deep winter, mid-week. Only 25% of similar listings book. After cleaning costs (~€25), is it worth it?',
+      inputs: [
+        { label: 'Base rate for Elena’s cluster', value: 82, note: 'Same cluster base' },
+        { label: 'Season (WINTER)', value: -15, note: '\u{1F4C9} Low season — demand drops 40%' },
+        { label: 'Day of week (Wednesday)', value: -9, note: 'Weekday discount' },
+        { label: 'Lead time (21 days out)', value: 0, note: 'Normal window' },
+        { label: 'Local events', value: 0, note: 'Nothing happening' },
+        { label: 'Competing supply', value: 0, note: '55 of 62 available' }
+      ],
+      aiPrice: 58, demand: 0.25
+    }
+  ];
+
+  let currentScenario = 0;
+  let yourRevenue = 0;
+  let aiRevenue = 0;
+
+  function renderScenario() {
+    const container = document.getElementById('scenarioContainer');
+    if (currentScenario >= scenarios.length) { showResults(); return; }
+    const s = scenarios[currentScenario];
+
+    let breakdownHTML = '';
+    s.inputs.forEach(function(inp, idx) {
+      const sign = inp.value > 0 ? '+' : (inp.value < 0 ? '' : '');
+      const color = inp.value > 0 ? '#008489' : (inp.value < 0 ? '#c41d48' : '#767676');
+      const isBase = idx === 0;
+      breakdownHTML += '<div style="display:flex; justify-content:space-between; align-items:center; padding:0.35rem 0; border-bottom:1px solid #f0f0f0; font-size:13px;">' +
+        '<div style="color:#333;">' + inp.label + ' <span style="color:#999; font-size:11px;">(' + inp.note + ')</span></div>' +
+        '<div style="font-weight:700; color:' + color + '; min-width:50px; text-align:right;">' + (isBase ? '€' + inp.value : sign + '€' + inp.value) + '</div>' +
+      '</div>';
+    });
+
+    container.innerHTML =
+      '<div style="background:#fff; border:2px solid #e2e8f0; border-radius:8px; padding:1.25rem; margin-bottom:0.75rem;">' +
+        '<div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">' +
+          '<span style="font-size:24px;">' + s.icon + '</span>' +
+          '<div><div style="font-size:15px; font-weight:700; color:#222;">' + s.title + '</div>' +
+          '<div style="font-size:11px; color:#999;">Scenario ' + (currentScenario + 1) + ' of 5</div></div>' +
+        '</div>' +
+        '<p style="font-size:14px; color:#333; line-height:1.6; margin-bottom:1rem;">' + s.desc + '</p>' +
+        '<div style="background:#f8f8f8; border:1px solid #e2e8f0; border-radius:6px; padding:1rem; margin-bottom:1rem;">' +
+          '<div style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#767676; margin-bottom:0.5rem;">\u{1F527} How Smart Pricing calculated this rate</div>' +
+          breakdownHTML +
+          '<div style="display:flex; justify-content:space-between; align-items:center; padding:0.5rem 0 0; margin-top:0.25rem; border-top:2px solid #222; font-size:14px;">' +
+            '<div style="font-weight:700; color:#222;">Smart Pricing’s suggested rate</div>' +
+            '<div style="font-weight:800; color:#ff385c; font-size:18px;">€' + s.aiPrice + '/night</div>' +
+          '</div>' +
+        '</div>' +
+        '<div style="font-size:13px; font-weight:700; color:#222; margin-bottom:0.4rem;">Do you agree with Smart Pricing, or would you set a different rate?</div>' +
+        '<div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.75rem;">' +
+          '<input type="range" min="40" max="200" value="' + s.aiPrice + '" id="scenarioSlider" style="flex:1; accent-color:#ff385c;">' +
+          '<div style="font-size:22px; font-weight:800; color:#222; min-width:65px; text-align:right;">€<span id="scenarioPrice">' + s.aiPrice + '</span></div>' +
+        '</div>' +
+        '<div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">' +
+          '<button class="btn btn-primary" id="acceptScenario">Accept Smart Pricing (€' + s.aiPrice + ')</button>' +
+          '<button class="btn btn-outline-dark" id="overrideScenario">Override with my price</button>' +
+        '</div>' +
+      '</div>' +
+      '<div id="scenarioFeedback" style="display:none;"></div>';
+
+    document.getElementById('scenarioSlider').addEventListener('input', function() {
+      document.getElementById('scenarioPrice').textContent = this.value;
+    });
+    document.getElementById('acceptScenario').addEventListener('click', function() { submitPrice(s.aiPrice, true); });
+    document.getElementById('overrideScenario').addEventListener('click', function() {
+      submitPrice(parseInt(document.getElementById('scenarioSlider').value), false);
+    });
+  }
+
+  function submitPrice(price, accepted) {
+    var s = scenarios[currentScenario];
+    var priceFactor = Math.max(0.05, 1 - (price - 40) / 180);
+    var bookProb = Math.round(s.demand * priceFactor * 100);
+    var booked = Math.random() * 100 < bookProb;
+    var aiPriceFactor = Math.max(0.05, 1 - (s.aiPrice - 40) / 180);
+    var aiBookProb = Math.round(s.demand * aiPriceFactor * 100);
+    var aiBooked = Math.random() * 100 < aiBookProb;
+    if (booked) yourRevenue += price;
+    if (aiBooked) aiRevenue += s.aiPrice;
+
+    // Build explanation
+    var yourExplain = '<strong>Your price: €' + price + '</strong> — Demand is ' + Math.round(s.demand * 100) + '%. At your price, booking chance: <strong>' + bookProb + '%</strong>. ' + (booked ? '<span style="color:#008489;">A guest booked.</span>' : '<span style="color:#c41d48;">No guest booked.</span>');
+    var aiExplain = '<strong>Smart Pricing: €' + s.aiPrice + '</strong> — At this price, booking chance: <strong>' + aiBookProb + '%</strong>. ' + (aiBooked ? '<span style="color:#008489;">Would have booked.</span>' : '<span style="color:#c41d48;">Would not have booked.</span>');
+
+    var fb = document.getElementById('scenarioFeedback');
+    fb.style.display = 'block';
+    var bookedColor = booked ? '#008489' : '#c41d48';
+    fb.innerHTML =
+      '<div style="background:' + (booked ? '#f0f7f8' : '#fff0f3') + '; border:2px solid ' + bookedColor + '; border-radius:8px; padding:1rem; margin-top:0.5rem;">' +
+        '<div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">' +
+          '<div>' +
+            '<div style="font-size:11px; font-weight:700; color:#767676; text-transform:uppercase;">Your price: €' + price + (accepted ? ' (accepted AI)' : ' (override)') + '</div>' +
+            '<div style="font-size:20px; font-weight:800; color:' + bookedColor + ';">' + (booked ? '✓ Booked!' : '✗ No booking') + '</div>' +
+            '<div style="font-size:12px; color:#555;">Revenue: €' + (booked ? price : 0) + '</div>' +
+          '</div>' +
+          '<div>' +
+            '<div style="font-size:11px; font-weight:700; color:#767676; text-transform:uppercase;">Smart Pricing: €' + s.aiPrice + '</div>' +
+            '<div style="font-size:14px; font-weight:700; color:#767676;">' + (aiBooked ? 'Would have booked' : 'Would not have booked') + '</div>' +
+            '<div style="font-size:12px; color:#555;">Would have earned: €' + (aiBooked ? s.aiPrice : 0) + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div style="background:#fff; border:1px solid #e2e8f0; border-radius:4px; padding:0.75rem; margin-top:0.75rem; font-size:13px; color:#333; line-height:1.65;">' +
+          '<div style="font-size:11px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; color:#222; margin-bottom:0.4rem;">How the booking probability works</div>' +
+          '<div style="margin-bottom:0.4rem;">' + yourExplain + '</div>' +
+          '<div style="margin-bottom:0.4rem;">' + aiExplain + '</div>' +
+          '<div style="font-size:12px; color:#333; padding-top:0.4rem; border-top:1px solid #eee;"><strong>The rule:</strong> Higher price → lower chance of booking. Higher demand → higher chance of booking. The simulation generates a random number and checks it against the probability — just like flipping a weighted coin.</div>' +
+        '</div>' +
+        '<button class="btn btn-primary" id="nextScenario" style="margin-top:0.75rem; width:100%;">' + (currentScenario < 4 ? 'Next scenario →' : 'See final results →') + '</button>' +
+      '</div>';
+
+    document.getElementById('nextScenario').addEventListener('click', function() {
+      currentScenario++;
+      renderScenario();
+    });
+  }
+
+  function showResults() {
+    document.getElementById('scenarioContainer').innerHTML = '<div style="text-align:center; padding:1rem; color:#767676; font-size:14px;">All 5 scenarios complete! See results below ↓</div>';
+    document.getElementById('pricingResults').style.display = 'block';
+    document.getElementById('yourTotal').textContent = '€' + yourRevenue;
+    document.getElementById('aiTotal').textContent = '€' + aiRevenue;
+    var diff = yourRevenue - aiRevenue;
+    document.getElementById('totalDiff').textContent = (diff >= 0 ? '+€' : '-€') + Math.abs(diff);
+    document.getElementById('totalDiff').style.color = diff >= 0 ? '#008489' : '#c41d48';
+
+    var verdict = '';
+    if (diff > 20) {
+      verdict = 'You outperformed Smart Pricing. But you had time to study each breakdown carefully. Smart Pricing makes thousands of these calculations per day, instantly, across millions of listings. The real question: does Elena have time to analyze 6 pricing inputs every day for a year?';
+    } else if (diff > -20) {
+      verdict = 'You and Smart Pricing performed roughly the same. On clear-cut scenarios, humans and algorithms agree. Smart Pricing\'s real value is the thousands of micro-adjustments Elena doesn\'t have time to make: repricing at 2am when a competitor drops their rate, or nudging up €3 when a conference is quietly announced.';
+    } else {
+      verdict = 'Smart Pricing outperformed you. It had one advantage: data from every listing in Elena\'s cluster. You saw the inputs but Smart Pricing has been trained on millions of booking outcomes. That information asymmetry is why the algorithm is valuable.';
+    }
+    document.getElementById('pricingVerdict').textContent = verdict;
+    document.getElementById('pricingTakeaway').style.display = 'block';
+    document.getElementById('pricingReflection').style.display = 'block';
+    document.getElementById('pricingPrompt').style.display = 'block';
+  }
+
+  renderScenario();
+})();
+
+/* =========================================================
+   STEP 5 — SPOT THE AI
+   ========================================================= */
+/* =========================================================
+   STEP 6 — CITY IMPACT DASHBOARD
+   ========================================================= */
+(function() {
+  var cities = {
+    valencia: {
+      name: 'Valencia', listings: '28,000', housingPct: '3.2%',
+      rentChange: '+38% since 2019', regulation: '90-day annual cap (2025)',
+      protest: 'Growing tensions in Ruzafa and El Carmen neighborhoods',
+      detail: 'Under the 90-day cap, Elena\'s math changes: 90 nights \u00d7 \u20ac100 average = \u20ac9,000/year from Airbnb. A long-term tenant at \u20ac900/month = \u20ac10,800/year. The Airbnb option now earns less \u2014 and that\'s before cleaning costs, vacancy risk, and management time. Valencia has also begun requiring registration for all short-term rentals.'
+    },
+    barcelona: {
+      name: 'Barcelona', listings: '10,000 (being phased out)', housingPct: '1.5% (declining)',
+      rentChange: '+60% over past decade', regulation: 'All short-term rental licenses revoked by 2028',
+      protest: 'Water pistol protests, "Your Airbnb was my home" graffiti, firecrackers at tourist areas',
+      detail: 'Barcelona received 26.1 million tourists in 2024 \u2014 over 15 times its population. The city is eliminating all 10,000 short-term rental licenses by 2028. If Elena owned property here, her Airbnb business would have an expiration date. Prime Minister S\u00e1nchez has said "there are too many Airbnbs and not enough homes."'
+    },
+    mexico: {
+      name: 'Mexico City', listings: '35,000+', housingPct: '~2%',
+      rentChange: 'Doubled in Roma/Condesa since 2020', regulation: '180-day annual cap (2025)',
+      protest: '100,000 residents displaced; protests in Roma Norte',
+      detail: 'The city\'s Planning Institute estimates roughly 100,000 people have left because they can\'t afford rent. Airbnb listings grew 35% since before the pandemic. The city now caps rentals at 180 nights per year.'
+    },
+    berlin: {
+      name: 'Berlin', listings: '12,000', housingPct: '0.6%',
+      rentChange: '+42% since 2015', regulation: 'Strict permit required; 90-day cap',
+      protest: 'Political pressure led to regulations; 8,100+ apartments returned to housing market',
+      detail: 'Berlin\'s regulations are among Europe\'s strictest. More than 8,100 vacation apartments have been returned to the long-term housing market since enforcement began. Fines for operating without a permit can reach \u20ac500,000. The city proves that regulation can work \u2014 but it requires enforcement infrastructure.'
+    }
+  };
+
+  function showCity(key) {
+    var c = cities[key];
+    document.getElementById('cityStats').innerHTML =
+      '<div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:0.85rem;text-align:center;">' +
+        '<div style="font-size:10px;font-weight:700;color:#767676;text-transform:uppercase;">Listings</div>' +
+        '<div style="font-size:20px;font-weight:800;color:#ff385c;">' + c.listings + '</div></div>' +
+      '<div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:0.85rem;text-align:center;">' +
+        '<div style="font-size:10px;font-weight:700;color:#767676;text-transform:uppercase;">% of housing on Airbnb</div>' +
+        '<div style="font-size:20px;font-weight:800;color:#ff385c;">' + c.housingPct + '</div></div>' +
+      '<div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:0.85rem;text-align:center;">' +
+        '<div style="font-size:10px;font-weight:700;color:#767676;text-transform:uppercase;">Rent change</div>' +
+        '<div style="font-size:20px;font-weight:800;color:#c41d48;">' + c.rentChange + '</div></div>' +
+      '<div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:0.85rem;text-align:center;">' +
+        '<div style="font-size:10px;font-weight:700;color:#767676;text-transform:uppercase;">Regulation</div>' +
+        '<div style="font-size:14px;font-weight:700;color:#222;">' + c.regulation + '</div></div>';
+
+    document.getElementById('cityDetail').innerHTML =
+      '<div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#ff385c;margin-bottom:0.4rem;">What this means</div>' +
+      '<div style="font-size:14px;color:#ccc;line-height:1.6;">' + c.detail + '</div>' +
+      '<div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid rgba(255,255,255,0.1);font-size:13px;color:#999;">' +
+      '<strong style="color:#fff;">Protest activity:</strong> ' + c.protest + '</div>';
+  }
+
+  document.querySelectorAll('.city-tab').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.city-tab').forEach(function(b) { b.className = 'btn btn-outline-dark city-tab'; });
+      this.className = 'btn btn-primary city-tab active';
+      showCity(this.dataset.city);
+    });
+  });
+
+  showCity('valencia');
+})();
+
+/* =========================================================
+   STEP 6 — REVENUE CALCULATOR
+   ========================================================= */
+(function() {
+  const calcRate = document.getElementById('calcRate');
+  const calcAirbnb = document.getElementById('calcAirbnb');
+  const calcVerdict = document.getElementById('calcVerdict');
+
+  function updateCalc() {
+    const rate = parseInt(calcRate.value) || 100;
+    const airbnbRev = rate * 90;
+    calcAirbnb.textContent = '€' + airbnbRev.toLocaleString();
+
+    if (airbnbRev > 10800) {
+      calcVerdict.innerHTML = 'At €' + rate + '/night, Airbnb earns <strong style="color:#ff385c;">€' + airbnbRev.toLocaleString() + '</strong> — that\'s <strong>€' + (airbnbRev - 10800).toLocaleString() + ' more</strong> than long-term. But remember: that\'s before cleaning costs, vacancy, and your time managing guests.';
+    } else if (airbnbRev === 10800) {
+      calcVerdict.innerHTML = 'At €' + rate + '/night, Airbnb and long-term are <strong>exactly equal</strong> at €10,800. But long-term is zero hassle. Is the Airbnb flexibility worth the extra work?';
+    } else {
+      calcVerdict.innerHTML = 'At €' + rate + '/night, Airbnb earns <strong style="color:#ff385c;">€' + airbnbRev.toLocaleString() + '</strong> — that\'s <strong style="color:#c41d48;">€' + (10800 - airbnbRev).toLocaleString() + ' less</strong> than long-term. The 90-day cap has flipped the math. Airbnb only wins if your average rate is above €120/night.';
+    }
+  }
+
+  calcRate.addEventListener('input', updateCalc);
+  updateCalc();
+})();
+
+/* =========================================================
+   STEP 7 — DECISION CHOICE
+   ========================================================= */
+(function() {
+  const consequences = {
+    airbnb: '<strong style="color:#ff385c;">You chose Airbnb.</strong> You\'re betting on higher per-night revenue, seasonal flexibility, and the platform\'s AI to find you guests. Here\'s what that means: dependency on a platform you don\'t control, a pricing tool that also serves Airbnb\'s interests, regulatory risk (the 90-day cap could tighten further), management burden (cleaning, guest communication, reviews), and the knowledge that your apartment is one of 28,000 short-term rentals contributing to Valencia\'s housing pressure. <strong style="color:#ff385c;">What could go wrong:</strong> the city tightens regulations to 60 days or bans short-term rentals entirely. Your revenue drops below €900/month and you\'ve already invested in furnishing for guests.',
+    longterm: '<strong style="color:#008489;">You chose long-term rental.</strong> You\'re betting on stability: €900/month, no platform dependency, no regulatory risk, minimal management. Here\'s what you\'re giving up: the upside of peak-season pricing (festival weeks could earn €140+/night), the flexibility to use the apartment yourself, and the higher ceiling that Airbnb offers in a good year. <strong style="color:#ff385c;">What could go wrong:</strong> you get a difficult tenant, Valencia\'s rental market softens and you can\'t raise rent, or Airbnb regulations loosen and you watch your neighbors earn more from short-term stays.',
+    hybrid: '<strong style="color:#f5a623;">You chose the hybrid approach.</strong> Airbnb in summer (May–September = ~150 days, but capped at 90), long-term subletting or personal use the rest of the year. This is the most complex option — you\'re managing two different business models. Here\'s the upside: you capture peak-season Airbnb rates AND have stability the rest of the year. <strong style="color:#ff385c;">What could go wrong:</strong> finding a tenant willing to rent for only 6 months is harder and pays less than a full-year lease. You\'re doing twice the work for a marginal gain. And the 90-day cap might not align with the summer season as neatly as you think.'
+  };
+
+  document.querySelectorAll('.decision-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const choice = this.dataset.decision;
+      document.querySelectorAll('.decision-btn').forEach(b => {
+        b.style.background = '#fff';
+        b.style.opacity = '0.5';
+      });
+      this.style.opacity = '1';
+      this.style.background = choice === 'airbnb' ? '#fff0f3' : (choice === 'longterm' ? '#f0f7f8' : '#f8f8f8');
+
+      const result = document.getElementById('decisionResult');
+      result.innerHTML = consequences[choice];
+      result.style.display = 'block';
+      result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  });
+})();
+</script>
 </body>
 </html>
