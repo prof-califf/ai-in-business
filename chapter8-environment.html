@@ -370,6 +370,8 @@
 
   <p>Think of it as a spectrum of computational intensity: streaming a cached video &lt; running a recommendation algorithm &lt; generating a novel AI response. Generative AI sits at the heavy end. It didn&rsquo;t create the data center energy problem &mdash; but it dramatically accelerated it by adding a workload that is far more compute-intensive per request than anything the infrastructure was originally built for. That&rsquo;s the context for everything that follows.</p>
 
+  <p>It&rsquo;s also worth noting that the grid itself was already under strain. <a href="https://www.npr.org/transcripts/nx-s1-5777766" target="_blank">NPR&rsquo;s Planet Money</a> reported on a growing debate: one energy consultant argues that AI data centers are unfairly getting the blame for more than a decade of underinvestment in the U.S. electrical grid &mdash; aging power lines vulnerable to storms and wildfires, stalled renewable projects that can&rsquo;t connect, and infrastructure that largely stopped expanding in the 1980s. A professor of electrical engineering at the University of Illinois pushes back, pointing out that data centers are walking in and demanding 20% more capacity <em>today</em>, which is not a normal situation. The truth is probably both: the grid needed upgrading regardless, <em>and</em> AI is accelerating the timeline in ways that could raise electricity bills for everyone. U.S. utilities have now proposed <a href="https://www.npr.org/2026/01/02/nx-s1-5638587/ai-data-centers-use-a-lot-of-electricity-how-it-could-affect-your-power-bill" target="_blank">$1.4 trillion in grid upgrades</a> over the next five years, with costs that will likely be passed on to consumers &mdash; including people who never use AI at all.</p>
+
   <!-- ═══════════════════════════ SECTION 2 (was 1) ═══════════════════════════ -->
 
   <h2 id="s1"><span class="section-num">2</span> The Number Everyone Quotes &mdash; and Why It&rsquo;s the Wrong One</h2>
@@ -677,7 +679,7 @@
         <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Energy per image generation:</strong> ~11.5 Wh at the high end, roughly one smartphone charge. Source: <a href="https://arxiv.org/abs/2311.16863" target="_blank" style="color:#94c8a8;">Luccioni et al., &ldquo;Power Hungry Processing&rdquo;</a>.</p>
         <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Grid carbon intensity:</strong> ~400g CO&#8322;/kWh global average. Source: <a href="https://www.iea.org/reports/electricity-2025/emissions" target="_blank" style="color:#94c8a8;">IEA Electricity 2025</a>.</p>
         <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Model size multipliers:</strong> Estimated. Small models use roughly 0.3&times; the compute of a mid-tier model; large frontier models use roughly 3&times;. No standardized per-query benchmarks exist &mdash; this is itself part of the disclosure problem.</p>
-        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Comparisons:</strong> Household water ~1,140 liters/day US average (<a href="https://www.usgs.gov/mission-areas/water-resources/science/water-use-united-states" target="_blank" style="color:#94c8a8;">USGS</a>). Car emissions ~404g CO&#8322;/mile (<a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle" target="_blank" style="color:#94c8a8;">EPA</a>). Smartphone charge ~12 Wh. Standard water bottle = 500 mL. Laptop energy use ~50 Wh/hour (average for a modern laptop under moderate load).</p>
+        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Comparisons:</strong> Household water ~1,140 liters/day US average (<a href="https://www.usgs.gov/mission-areas/water-resources/science/water-use-united-states" target="_blank" style="color:#94c8a8;">USGS</a>). Car emissions ~404g CO&#8322;/mile (<a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle" target="_blank" style="color:#94c8a8;">EPA</a>). Smartphone charge ~12 Wh. Standard water bottle = 500 mL. US average electricity rate ~$0.16/kWh (<a href="https://www.eia.gov/electricity/monthly/epm_table_5_6_a.html" target="_blank" style="color:#94c8a8;">EIA</a>).</p>
         <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Breathing benchmark:</strong> A resting adult exhales ~200g of CO&#8322; per hour (~3.3g/min), produced by normal metabolic respiration. Source: <a href="https://pubmed.ncbi.nlm.nih.gov/18472399/" target="_blank" style="color:#94c8a8;">Torranin et al., respiratory physiology literature</a>. Used to give students a body-scale reference for small carbon numbers.</p>
         <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Golf course benchmark:</strong> A typical US 18-hole golf course uses ~312,000 gallons/day (~1,181,000 liters/day). Source: <a href="https://www.usga.org/content/dam/usga/pdf/Water%20Resource%20Center/how-much-water-does-golf-use.pdf" target="_blank" style="color:#94c8a8;">USGA &ldquo;How Much Water Does Golf Use&rdquo;</a>; confirmed by <a href="https://www.gcsaa.org/docs/default-source/Environment/phase-2-water-use-survey-full-report.pdf" target="_blank" style="color:#94c8a8;">GCSAA Phase II Water Use report</a>.</p>
         <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Flight benchmark:</strong> A round-trip passenger flight from New York to Los Angeles is ~4,900 miles. At ~0.41 lbs CO&#8322; per passenger-mile (<a href="https://css.umich.edu/publications/factsheets/sustainability-indicators/carbon-footprint-factsheet" target="_blank" style="color:#94c8a8;">U. of Michigan CSS</a>), that&rsquo;s ~2,010 lbs &rarr; ~912 kg, rounded to <strong style="color:#e8f5ee;">~900 kg (0.9 tonnes) per passenger per round trip</strong>. For context, that&rsquo;s roughly half the weight of a small car in CO&#8322;, produced by one seat on one flight.</p>
@@ -839,7 +841,7 @@
       ];
       var envItems = [
         { icon: '\uD83D\uDCA7', title: 'Water consumed', value: fmt(fp.wLow) + '&ndash;' + fmt(fp.wHigh) + ' L', sub: '\u2248 ' + fmt(userWaterMid / 0.5) + ' water bottles (500mL)', color: '#94c8a8' },
-        { icon: '\u26A1', title: 'Electricity used', value: fmt(fp.energy) + ' Wh', sub: '\u2248 ' + fmt(fp.energy / 50) + ' hours of laptop use', color: '#94c8a8' },
+        { icon: '\u26A1', title: 'Electricity used', value: fmt(fp.energy) + ' Wh', sub: '\u2248 $' + (fp.energy / 1000 * 0.16).toFixed(2) + ' at US avg rate ($0.16/kWh)', color: '#94c8a8' },
         { icon: '\uD83C\uDF2B\uFE0F', title: 'CO\u2082 emitted', value: fmt(fp.carbon) + 'g', sub: '\u2248 ' + Math.round(fp.carbon / 3.3) + ' min of you just breathing', color: '#94c8a8' }
       ];
       var everydayItems = [
@@ -873,7 +875,7 @@
           + 'Total energy: <strong style="color:#e8f5ee;">' + fmt(fp.energy) + ' Wh</strong>. '
           + 'Carbon: ' + fmt(fp.energy) + ' Wh &divide; 1,000 &times; 400g/kWh = <strong style="color:#e8f5ee;">' + fmt(fp.carbon) + 'g CO\u2082</strong>. '
           + 'Water (midpoint): <strong style="color:#e8f5ee;">' + fmt(wMid) + ' liters</strong> (\u2248 ' + fmt(wMid / 0.5) + ' water bottles at 500mL). '
-          + 'Laptop use: ' + fmt(fp.energy) + ' Wh &divide; 50 Wh/hr = <strong style="color:#e8f5ee;">' + fmt(fp.energy / 50) + ' hours</strong>. '
+          + 'Electricity cost: ' + fmt(fp.energy) + ' Wh &divide; 1,000 &times; $0.16/kWh = <strong style="color:#e8f5ee;">$' + (fp.energy / 1000 * 0.16).toFixed(2) + '</strong>. '
           + 'Breathing: ' + fmt(fp.carbon) + 'g &divide; 3.3g/min = <strong style="color:#e8f5ee;">' + Math.round(fp.carbon / 3.3) + ' minutes</strong> (~200g CO\u2082/hr exhaled at rest).'
           + '<br><br><strong style="color:#d4870e;">Technology comparisons:</strong> '
           + 'TikTok: ' + fmt(fp.energy) + ' Wh &divide; 444 Wh/hr = <strong style="color:#e8f5ee;">' + fmt(fp.energy / 444) + ' hours</strong> (1 hr &asymp; 120 videos &times; 3.7 Wh; avg user watches ~46 min/day, ~92 videos). '
@@ -966,6 +968,11 @@
       // Context sentences
       var waterCtx = sWaterMid >= 1181000 ? '\u2248 ' + fmt(sWaterMid / 1181000) + ' golf courses\u2019 daily water' : '';
       var carbonCtx = sCarbon >= 900000 ? '\u2248 ~' + Math.round(sCarbon / 900000).toLocaleString() + ' NY\u2194LA round-trip flights' : '\u2248 ~' + Math.round(sCarbon / 404).toLocaleString() + ' miles driven';
+      var energyCost = sEnergy / 1000 * 0.16;
+      var energyCtx = energyCost >= 1e9 ? '\u2248 $' + fmt(energyCost / 1e9) + ' billion in electricity'
+        : energyCost >= 1e6 ? '\u2248 $' + fmt(energyCost / 1e6) + ' million in electricity'
+        : energyCost >= 1e3 ? '\u2248 $' + fmt(energyCost / 1e3) + 'K in electricity'
+        : '\u2248 $' + fmt(energyCost) + ' in electricity';
 
       document.getElementById('scale-title').innerHTML = '<span style="color:#e8f5ee;">' + sc.icon + ' If every user had your settings: </span><span style="color:#d4870e; font-weight:700;">' + fmt(sc.users) + ' users</span><span style="color:#e8f5ee;"> &times; your daily usage &times; ' + state.days + ' days</span>';
 
@@ -980,6 +987,7 @@
         + '<div style="font-size:16px; margin-bottom:2px;">\u26A1</div>'
         + '<div style="font-size:11px; color:#94c8a8; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Energy</div>'
         + '<div style="font-size:16px; font-weight:700; color:#e8f5ee; line-height:1.2;">' + fmtBig(sEnergy, 'energy') + '</div>'
+        + '<div style="font-size:10px; color:#b0ccba; margin-top:4px;">' + energyCtx + '</div>'
         + '</div>'
         + '<div style="background:#162a1e; border-radius:8px; padding:14px; text-align:center; border-top:2px solid #d94f4f;">'
         + '<div style="font-size:16px; margin-bottom:2px;">\uD83C\uDF2B\uFE0F</div>'
