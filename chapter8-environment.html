@@ -175,6 +175,27 @@
   .nav-dropdown-menu .menu-num { display: inline-block; font-size: 11px; color: #1a7a4c; margin-right: 7px; min-width: 24px; font-weight: 700; }
   .nav-dropdown-menu .menu-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 0.3rem 0.75rem; }
   .menu-divider-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 0.4rem 1rem 0.2rem; }
+
+  /* ── Calculator mobile responsiveness ── */
+  @media (max-width: 640px) {
+    #slider-grid { grid-template-columns: 1fr !important; }
+    #results { grid-template-columns: 1fr !important; }
+    #context-cards { grid-template-columns: 1fr !important; }
+    #scale-cards { grid-template-columns: 1fr !important; }
+    #platform-grid { grid-template-columns: 1fr !important; }
+    #calc-root { padding: 16px 12px !important; }
+    #presets { gap: 5px !important; }
+    #presets button { font-size: 11px !important; padding: 5px 9px !important; }
+    #scale-btns { gap: 5px !important; }
+    #scale-btns button { font-size: 11px !important; padding: 5px 9px !important; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    nav { padding: 0.6rem 1rem; }
+    .nav-links { gap: 0.6rem; }
+    .hero { padding: 2rem 1rem 1.5rem; }
+    .hero h1 { font-size: 24px; }
+    .doc { padding: 1.5rem 1rem; }
+    .factory-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  }
 </style>
 </head>
 <body>
@@ -310,6 +331,23 @@
   <h3>E-waste: the cost of constant upgrades</h3>
 
   <p>Every phone we&rsquo;ve traded in, every laptop that stopped getting updates, every pair of earbuds with a dead battery &mdash; those are e-waste. In 2022, the world generated a record <strong>62 million tonnes</strong> of electronic waste, up 82% from 2010. That&rsquo;s enough to fill 1.55 million trucks in a line around the equator. Only about 22% was properly recycled. The rest went to landfills or unregulated dump sites &mdash; often in lower-income countries &mdash; where toxic materials like lead and mercury leach into soil and water. By 2030, e-waste is projected to hit <strong>82 million tonnes</strong> per year, and the pace of generation is growing five times faster than recycling capacity.</p>
+
+  <p>What does that actually look like on the ground? CBS News reported from Ghana&rsquo;s capital, Accra, where mountains of discarded electronics from wealthier countries end up across acres of open dump sites. Tens of thousands of people &mdash; including children as young as 10 &mdash; sort through toxic garbage to extract copper, gold, and other metals in a process called &ldquo;urban mining.&rdquo; There is, remarkably, 100 times more gold in a ton of smartphones than in a ton of gold ore. But the extraction methods are dangerous: components that can&rsquo;t be pried apart are burned in the open, releasing poisonous chemicals into the air over nearby homes, markets, and food stalls. An environmental chemist at Ghana&rsquo;s Atomic Energy Commission tested breast milk from mothers in the area and found PCBs &mdash; toxic substances linked to cancer &mdash; present in the samples. Pollutants and microplastics from the sites leach into rivers and the ocean; local fishermen report that their catch now regularly includes laptop parts and refrigerator fragments.</p>
+
+  <p>The United States &mdash; the most wasteful country per capita on Earth &mdash; is one of the few nations that has not ratified the Basel Convention, the international treaty designed to stop hazardous waste from flowing to developing countries. Meanwhile, companies like <a href="https://www.fairphone.com/" target="_blank">Fairphone</a> are trying to redesign the product itself: modular phones with replaceable batteries, cameras, and screens, built to last five years instead of the American average of two and a half. As Fairphone&rsquo;s founder puts it: most of a phone&rsquo;s environmental footprint is in the making of it, so the best thing you can do is keep it as long as possible.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key Concept</div>
+    <div class="concept-term">Basel Convention (1989)</div>
+    <div class="concept-def">An international treaty &mdash; ratified by 191 countries &mdash; that restricts the export of hazardous waste from wealthier nations to developing ones. The United States signed the treaty but has never ratified it, making it one of the few countries not bound by its rules. Critics argue that without ratification, a strong industry lobby keeps trade restrictions on waste minimal, and once the cost of properly managing hazardous waste rose in rich countries, the export trade took off &mdash; with tons of e-waste reaching developing nations under the guise of being &ldquo;repairable&rdquo; secondhand goods.</div>
+  </div>
+
+  <figure style="margin: 1.5rem auto; max-width: 560px;">
+    <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:8px;">
+      <iframe src="https://www.youtube.com/embed/4GtWGHvX-rk" title="CBS News: The cost of e-waste" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>
+    </div>
+    <figcaption><strong>Watch:</strong> CBS News, &ldquo;The cost of e-waste&rdquo; &mdash; Seth Doane reports from Ghana on where our discarded electronics actually end up, the human cost of &ldquo;urban mining,&rdquo; and what companies like Fairphone and Samsung are doing about it.</figcaption>
+  </figure>
 
   <div class="concept-box">
     <div class="concept-label">Source</div>
@@ -503,7 +541,7 @@
       <div style="border-top:1px solid #2a4a35; margin:14px 0;"></div>
 
       <!-- Sliders -->
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+      <div id="slider-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
         <div>
           <label style="font-size:12px; color:#c8ddd0; display:block; margin-bottom:6px;">Text prompts / day: <strong id="txt-val" style="color:#e8f5ee;">10</strong></label>
           <input type="range" id="txt-slider" min="0" max="100" value="10" style="width:100%; accent-color:#1a7a4c;">
@@ -559,8 +597,7 @@
       <div style="font-size:15px; letter-spacing:0.5px; color:#e8f5ee; margin-bottom:4px; font-weight:700;">&#127760; How do tech platforms compare?</div>
       <div style="font-size:12px; color:#c8ddd0; margin-bottom:16px; line-height:1.5;">These numbers are <strong style="color:#e8f5ee;">not connected to your sliders</strong>. They are independent estimates of what these platforms actually produce. Pay attention to the <strong style="color:#e8f5ee;">timeframe badge</strong> on each card &mdash; they measure very different things.</div>
 
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
-        <!-- TikTok -->
+      <div id="platform-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
         <div style="background:#0f1f15; border-radius:8px; padding:16px; border-left:3px solid #94c8a8;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
             <div style="font-size:14px; font-weight:700; color:#e8f5ee;">TikTok</div>
@@ -583,8 +620,8 @@
           <div style="font-size:11px; color:#94c8a8; margin-bottom:8px;">~300 million subscribers &middot; all streaming &middot; 365 days</div>
           <div style="font-size:11px; color:#b0ccba; line-height:1.6;">
             &#127752; <strong style="color:#e8f5ee;">~5 million tonnes CO&#8322;</strong><br>
-            &#9992;&#65039; <strong style="color:#e8f5ee;">~5.7 million</strong> NY&#8596;LA round-trip flights<br>
-            &#9889; <strong style="color:#e8f5ee;">~55g CO&#8322; per hour</strong> of streaming
+            &#9992;&#65039; <strong style="color:#e8f5ee;">~5.6 million</strong> NY&#8596;LA round-trip flights<br>
+            &#9889; <strong style="color:#e8f5ee;">~12,500 GWh</strong> of energy (~55g CO&#8322; per hour of streaming)
           </div>
           <div style="font-size:10px; color:#94c8a8; margin-top:8px;">Carbon Trust estimate. Source: <a href="https://greenly.earth/en-us/leaf-media/data-stories/the-carbon-cost-of-streaming" target="_blank" style="color:#94c8a8;">Greenly</a></div>
         </div>
