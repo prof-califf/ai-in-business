@@ -177,10 +177,11 @@
   .menu-divider-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 0.4rem 1rem 0.2rem; }
 
   /* ── Calculator mobile responsiveness ── */
-  @media (max-width: 640px) {
+  @media (max-width: 480px) {
     #slider-grid { grid-template-columns: 1fr !important; }
-    #results { grid-template-columns: 1fr !important; }
-    #context-cards { grid-template-columns: 1fr !important; }
+    #context-cards-tech { grid-template-columns: 1fr !important; }
+    #context-cards-env { grid-template-columns: 1fr !important; }
+    #context-cards-everyday { grid-template-columns: 1fr !important; }
     #scale-cards { grid-template-columns: 1fr !important; }
     #platform-grid { grid-template-columns: 1fr !important; }
     #calc-root { padding: 16px 12px !important; }
@@ -526,6 +527,9 @@
       <div style="font-size:13px; color:#c8ddd0; line-height:1.65;">
         <strong style="color:#e8f5ee;">&#128736;&#65039; How to use:</strong> Choose a quick scenario or adjust the sliders to match your AI usage. Select a model size and timeframe. Your water, energy, and carbon footprint updates instantly below. Then scroll down to compare against real-world benchmarks and see what happens at scale.
       </div>
+      <div style="font-size:11px; color:#d4870e; margin-top:10px; line-height:1.5; padding:8px 10px; background:rgba(212,135,14,0.08); border-radius:6px;">
+        &#9888;&#65039; <strong style="color:#e8c170;">Note:</strong> This calculator estimates <em>inference</em> costs only &mdash; what it takes to answer your prompts. It does not include the one-time cost of <em>training</em> a model, which can be enormous: training GPT-4 reportedly used over 50 GWh of energy and millions of liters of water before a single query was ever answered. That upfront cost gets amortized across billions of queries, but it is real, and companies do not disclose enough data to calculate a reliable per-query share.
+      </div>
     </div>
 
     <!-- YOUR USAGE — one unified section -->
@@ -565,23 +569,23 @@
       <!-- Divider -->
       <div style="border-top:1px solid #2a4a35; margin:14px 0;"></div>
 
-      <!-- Results cards -->
-      <div style="font-size:12px; color:#c8ddd0; margin-bottom:10px;">Your estimated footprint:</div>
-      <div id="results" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;"></div>
-    </div>
+      <!-- Estimated footprint — 9 cards -->
+      <div style="font-size:15px; letter-spacing:0.5px; color:#e8f5ee; margin-bottom:4px; font-weight:700;">&#128200; Your estimated footprint</div>
+      <div id="selection-summary" style="font-size:12px; color:#c8ddd0; margin-bottom:16px; line-height:1.5; padding:8px 12px; background:rgba(26,122,76,0.1); border-radius:6px; border:1px solid #1e3a28;"></div>
 
-    <!-- Context: How does AI compare? -->
-    <div style="background:#162a1e; border-radius:10px; padding:20px; margin-bottom:24px; border:1px solid #2a4a35;">
-      <div style="font-size:15px; letter-spacing:0.5px; color:#e8f5ee; margin-bottom:4px; font-weight:700;">&#128200; How does your usage compare?</div>
-      <div style="font-size:12px; color:#c8ddd0; margin-bottom:16px; line-height:1.5;">Your settings above produce a real environmental cost. Here&rsquo;s how it stacks up against familiar benchmarks.</div>
-
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;" id="context-cards"></div>
+      <div style="font-size:11px; text-transform:uppercase; letter-spacing:1px; color:#94c8a8; margin-bottom:6px; font-weight:600;">&#127793; Environmental footprint</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:12px;" id="context-cards-env"></div>
+      <div style="font-size:11px; text-transform:uppercase; letter-spacing:1px; color:#d4870e; margin-bottom:6px; font-weight:600;">&#128241; Technology comparison</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:12px;" id="context-cards-tech"></div>
+      <div style="font-size:11px; text-transform:uppercase; letter-spacing:1px; color:#8bb8d0; margin-bottom:6px; font-weight:600;">&#128664; Everyday equivalents</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:14px;" id="context-cards-everyday"></div>
       <div id="context-math" style="font-size:11px; color:#b0ccba; padding-top:10px; border-top:1px solid #2a4a35; line-height:1.6;"></div>
-    </div>
 
-    <!-- Scale it up -->
-    <div style="background:#162a1e; border-radius:10px; padding:20px; margin-bottom:24px; border:1px solid #2a4a35;">
-      <div style="font-size:15px; letter-spacing:0.5px; color:#e8f5ee; margin-bottom:4px; font-weight:700;">&#127758; Scale it up: From you to everyone</div>
+      <!-- Divider -->
+      <div style="border-top:1px solid #2a4a35; margin:14px 0;"></div>
+
+      <!-- Scale it up — inside Your Usage -->
+      <div style="font-size:15px; letter-spacing:0.5px; color:#e8f5ee; margin-bottom:4px; font-weight:700;">&#127758; Scale it up &mdash; it&rsquo;s not just individual</div>
       <div style="font-size:12px; color:#c8ddd0; margin-bottom:14px; line-height:1.5;">Your individual footprint is small. The <em>Slow AI</em> article&rsquo;s point is what happens when you multiply it. Click a scale to see your current settings applied across an entire user base.</div>
 
       <div id="scale-btns" style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px;"></div>
@@ -594,7 +598,7 @@
 
     <!-- Tech platform comparison — fixed data, NOT connected to sliders -->
     <div style="background:#162a1e; border-radius:10px; padding:20px; margin-bottom:24px; border:1px solid #2a4a35;">
-      <div style="font-size:15px; letter-spacing:0.5px; color:#e8f5ee; margin-bottom:4px; font-weight:700;">&#127760; How do tech platforms compare?</div>
+      <div style="font-size:15px; letter-spacing:0.5px; color:#e8f5ee; margin-bottom:4px; font-weight:700;">&#127760; Popular tech platforms by the numbers</div>
       <div style="font-size:12px; color:#c8ddd0; margin-bottom:16px; line-height:1.5;">These numbers are <strong style="color:#e8f5ee;">not connected to your sliders</strong>. They are independent estimates of what these platforms actually produce. Pay attention to the <strong style="color:#e8f5ee;">timeframe badge</strong> on each card &mdash; they measure very different things.</div>
 
       <div id="platform-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
@@ -673,10 +677,13 @@
         <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Energy per image generation:</strong> ~11.5 Wh at the high end, roughly one smartphone charge. Source: <a href="https://arxiv.org/abs/2311.16863" target="_blank" style="color:#94c8a8;">Luccioni et al., &ldquo;Power Hungry Processing&rdquo;</a>.</p>
         <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Grid carbon intensity:</strong> ~400g CO&#8322;/kWh global average. Source: <a href="https://www.iea.org/reports/electricity-2025/emissions" target="_blank" style="color:#94c8a8;">IEA Electricity 2025</a>.</p>
         <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Model size multipliers:</strong> Estimated. Small models use roughly 0.3&times; the compute of a mid-tier model; large frontier models use roughly 3&times;. No standardized per-query benchmarks exist &mdash; this is itself part of the disclosure problem.</p>
-        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Comparisons:</strong> Household water ~1,140 liters/day US average (<a href="https://www.usgs.gov/mission-areas/water-resources/science/water-use-united-states" target="_blank" style="color:#94c8a8;">USGS</a>). Car emissions ~404g CO&#8322;/mile (<a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle" target="_blank" style="color:#94c8a8;">EPA</a>). Smartphone charge ~12 Wh.</p>
+        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Comparisons:</strong> Household water ~1,140 liters/day US average (<a href="https://www.usgs.gov/mission-areas/water-resources/science/water-use-united-states" target="_blank" style="color:#94c8a8;">USGS</a>). Car emissions ~404g CO&#8322;/mile (<a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle" target="_blank" style="color:#94c8a8;">EPA</a>). Smartphone charge ~12 Wh. Standard water bottle = 500 mL. Laptop energy use ~50 Wh/hour (average for a modern laptop under moderate load).</p>
+        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Breathing benchmark:</strong> A resting adult exhales ~200g of CO&#8322; per hour (~3.3g/min), produced by normal metabolic respiration. Source: <a href="https://pubmed.ncbi.nlm.nih.gov/18472399/" target="_blank" style="color:#94c8a8;">Torranin et al., respiratory physiology literature</a>. Used to give students a body-scale reference for small carbon numbers.</p>
         <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Golf course benchmark:</strong> A typical US 18-hole golf course uses ~312,000 gallons/day (~1,181,000 liters/day). Source: <a href="https://www.usga.org/content/dam/usga/pdf/Water%20Resource%20Center/how-much-water-does-golf-use.pdf" target="_blank" style="color:#94c8a8;">USGA &ldquo;How Much Water Does Golf Use&rdquo;</a>; confirmed by <a href="https://www.gcsaa.org/docs/default-source/Environment/phase-2-water-use-survey-full-report.pdf" target="_blank" style="color:#94c8a8;">GCSAA Phase II Water Use report</a>.</p>
         <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Flight benchmark:</strong> A round-trip passenger flight from New York to Los Angeles is ~4,900 miles. At ~0.41 lbs CO&#8322; per passenger-mile (<a href="https://css.umich.edu/publications/factsheets/sustainability-indicators/carbon-footprint-factsheet" target="_blank" style="color:#94c8a8;">U. of Michigan CSS</a>), that&rsquo;s ~2,010 lbs &rarr; ~912 kg, rounded to <strong style="color:#e8f5ee;">~900 kg (0.9 tonnes) per passenger per round trip</strong>. For context, that&rsquo;s roughly half the weight of a small car in CO&#8322;, produced by one seat on one flight.</p>
-        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">TikTok benchmark:</strong> 20 minutes of TikTok scrolling (~40 short videos) produces roughly the same carbon as generating 13 AI images on a medium model. This equivalence is derived from <a href="https://fortune.com/2024/12/13/tiktok-carbon-footprint-emissions-doomscrolling-greece-greenly/" target="_blank" style="color:#94c8a8;">Greenly&rsquo;s estimate</a> of ~50 million tonnes CO&#8322;/year for ~1 billion users averaging ~92 videos/day. Per video: ~1.49g CO&#8322;. 40 videos = ~59.6g CO&#8322;/day. One AI image at ~11.5 Wh = ~4.6g CO&#8322;. So 59.6 &divide; 4.6 &asymp; 13 images. Included so you can compare your generative AI usage to something you already do every day.</p>
+        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">TikTok benchmark:</strong> Based on <a href="https://fortune.com/2024/12/13/tiktok-carbon-footprint-emissions-doomscrolling-greece-greenly/" target="_blank" style="color:#94c8a8;">Greenly&rsquo;s estimate</a> of ~50 million tonnes CO&#8322;/year for ~1 billion users averaging ~92 videos/day (~46 minutes). Per video: ~1.49g CO&#8322;, ~3.7 Wh. Per hour: ~120 videos &times; 3.7 Wh = <strong style="color:#e8f5ee;">~444 Wh/hour</strong>. For comparison, 20 minutes of TikTok scrolling (~40 videos) produces roughly the same carbon as generating 13 AI images on a medium model.</p>
+        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Netflix benchmark:</strong> ~55g CO&#8322; per hour of streaming based on <a href="https://about.netflix.com/en/news/the-true-climate-impact-of-streaming" target="_blank" style="color:#94c8a8;">Carbon Trust research commissioned by Netflix</a>. The <a href="https://www.iea.org/commentaries/the-carbon-footprint-of-streaming-video-fact-checking-the-headlines" target="_blank" style="color:#94c8a8;">IEA&rsquo;s analysis</a> puts it lower at ~36g/hr; we use the higher Netflix-cited figure.</p>
+        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Google Search benchmark:</strong> ~0.3 Wh per search query. Source: <a href="https://www.iea.org/commentaries/the-carbon-footprint-of-streaming-video-fact-checking-the-headlines" target="_blank" style="color:#94c8a8;">IEA</a> and <a href="https://blog.google/outreach-initiatives/sustainability/google-operational-environmental-report-2024/" target="_blank" style="color:#94c8a8;">Google&rsquo;s 2024 Environmental Report</a>. A single AI query uses roughly 10&times; the energy of a traditional search.</p>
         <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">What&rsquo;s NOT included:</strong> Embodied carbon in hardware manufacturing, water used in chip fabrication, Scope 3 supply chain emissions, data center construction. These could multiply the figures by 10&times; or more.</p>
         <p style="margin:0; color:#c8ddd0;"><strong style="color:#e8f5ee;">Source article:</strong> <a href="https://theslowai.substack.com/p/is-ai-bad-for-the-environment" target="_blank" style="color:#94c8a8;">&ldquo;The Actual Environmental Cost of AI&rdquo;</a> by Dr. Sam Illingworth, <em>Slow AI</em> (May 2026).</p>
       </div>
@@ -715,9 +722,9 @@
 
     // ── Helpers ──
     function fmt(n) {
-      if (n >= 1e9) return (n/1e9).toFixed(1)+'B';
-      if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
-      if (n >= 1e3) return (n/1e3).toFixed(1)+'K';
+      if (n >= 1e9) return (n/1e9).toFixed(1).replace('.0','')+'B';
+      if (n >= 1e6) return (n/1e6).toFixed(1).replace('.0','')+'M';
+      if (n >= 1e3) return (n/1e3).toFixed(1).replace('.0','')+'K';
       if (n >= 10) return Math.round(n).toLocaleString();
       if (n >= 0.1) return n.toFixed(1);
       return n.toFixed(2);
@@ -729,17 +736,6 @@
       var wHigh = ((totalTxt * 0.3 * m * 50) + (totalImg * 11.5 * 50)) / 1000;
       var energy = (totalTxt * 0.3 * m) + (totalImg * 11.5);
       var carbon = (energy / 1000) * 400;
-      return { wLow:wLow, wHigh:wHigh, energy:energy, carbon:carbon };
-    }
-    // TikTok: ~1.49g CO2 per video, ~3.7 Wh per video, ~6.7 ml water per video
-    // Based on Greenly/Fortune estimate of ~50M tonnes CO2/year for ~1B users at ~92 videos/day
-    function calcTikTok(days) {
-      var videosPerDay = 40;
-      var totalVideos = videosPerDay * days;
-      var energy = totalVideos * 3.7;
-      var carbon = totalVideos * 1.49;
-      var wLow = (totalVideos * 6.7 * 5) / 1000;
-      var wHigh = (totalVideos * 6.7 * 50) / 1000;
       return { wLow:wLow, wHigh:wHigh, energy:energy, carbon:carbon };
     }
 
@@ -801,14 +797,16 @@
       document.querySelectorAll('#tier-btns button').forEach(function(b) {
         var active = b.dataset.tier === state.tier;
         b.style.border = active ? '2px solid #1a7a4c' : '1px solid #1e3a28';
-        b.style.background = active ? 'rgba(26,122,76,0.35)' : '#162a1e';
-        b.style.color = active ? '#e8f5ee' : '#b0ccba';
+        b.style.background = active ? '#1a7a4c' : '#162a1e';
+        b.style.color = active ? '#ffffff' : '#b0ccba';
+        b.style.fontWeight = active ? '700' : '400';
       });
       document.querySelectorAll('#time-btns button').forEach(function(b) {
         var active = +b.dataset.days === state.days;
         b.style.border = active ? '2px solid #1a7a4c' : '1px solid #1e3a28';
-        b.style.background = active ? 'rgba(26,122,76,0.35)' : '#162a1e';
-        b.style.color = active ? '#e8f5ee' : '#b0ccba';
+        b.style.background = active ? '#1a7a4c' : '#162a1e';
+        b.style.color = active ? '#ffffff' : '#b0ccba';
+        b.style.fontWeight = active ? '700' : '400';
       });
       document.querySelectorAll('#presets button').forEach(function(b) {
         var active = b.dataset.id === state.preset;
@@ -821,75 +819,74 @@
       var fp = calc(state.text, state.img, state.tier, state.days);
       var wMid = (fp.wLow + fp.wHigh) / 2;
 
-      // Results cards
-      var resultsEl = document.getElementById('results');
-      resultsEl.innerHTML = ''
-        + makeCard('\uD83D\uDCA7 Water usage', fmt(fp.wLow)+'&ndash;'+fmt(fp.wHigh), 'liters', '\u2248 '+fmt(wMid/1140)+' days of household water', '#94c8a8')
-        + makeCard('\u26A1 Energy', fmt(fp.energy), 'Wh', '\u2248 '+fmt(fp.energy/12)+' smartphone charges', '#94c8a8')
-        + makeCard('\uD83C\uDF2B\uFE0F Carbon', fmt(fp.carbon), 'g CO\u2082', '\u2248 '+fmt(fp.carbon/404)+' miles driven', '#94c8a8');
+      // Selection summary
+      var timeLabel = state.days === 7 ? '1 week' : state.days === 30 ? '1 month' : state.days === 90 ? '1 quarter' : '1 year';
+      document.getElementById('selection-summary').innerHTML =
+        'You selected: <strong style="color:#e8f5ee;">' + state.text + ' text prompts</strong> + <strong style="color:#e8f5ee;">' + state.img + ' images</strong> per day, '
+        + '<strong style="color:#e8f5ee;">' + TIERS[state.tier].label + '</strong> model, over <strong style="color:#e8f5ee;">' + state.days + ' days (' + timeLabel + ')</strong>. '
+        + 'Here\u2019s what that costs:';
 
       // Context cards — dynamic comparisons based on user's footprint
-      var ctx = document.getElementById('context-cards');
       var userWaterMid = (fp.wLow + fp.wHigh) / 2;
-      var contextItems = [
-        {
-          icon: '\uD83D\uDCA7', title: 'Household water',
-          value: fmt(userWaterMid / 1140) + ' days',
-          detail: 'Your usage equals ' + fmt(userWaterMid / 1140) + ' days of average US household water use (~1,140 L/day).',
-          color: '#94c8a8'
-        },
-        {
-          icon: '\uD83D\uDE97', title: 'Miles driven',
-          value: fmt(fp.carbon / 404) + ' miles',
-          detail: 'Same carbon as driving a car ' + fmt(fp.carbon / 404) + ' miles (EPA avg: 404g CO\u2082/mile).',
-          color: '#94c8a8'
-        },
-        {
-          icon: '\u26F3', title: 'Golf course water',
-          value: fmt(userWaterMid / 1181000 * 100) + '%',
-          detail: 'Your water use is ' + fmt(userWaterMid / 1181000 * 100) + '% of what one US golf course uses in a day (~1.18M liters).',
-          color: '#94c8a8'
-        },
-        {
-          icon: '\u2708\uFE0F', title: 'NY \u2194 LA flights',
-          value: fmt(fp.carbon / 900000) + ' flights',
-          detail: 'Same carbon as ' + fmt(fp.carbon / 900000) + ' round-trip flights, New York to Los Angeles (~900kg CO\u2082 each).',
-          color: '#94c8a8'
-        }
+      function fmtHours(h) {
+        if (h < 1) return Math.round(h * 60) + ' min';
+        return fmt(h) + ' hours';
+      }
+      var techItems = [
+        { icon: '\uD83C\uDFB5', title: 'TikTok scrolling', value: fmtHours(fp.energy / 444), color: '#d4870e' },
+        { icon: '\uD83C\uDFA5', title: 'Netflix streaming', value: fmtHours(fp.carbon / 55), color: '#d4870e' },
+        { icon: '\uD83D\uDD0D', title: 'Google searching', value: fmt(fp.energy / 0.3) + ' searches', color: '#d4870e' }
       ];
-      ctx.innerHTML = contextItems.map(function(c) {
-        return '<div style="background:#0f1f15; border-radius:8px; padding:14px; border-left:3px solid '+c.color+';">'
-          + '<div style="font-size:20px; margin-bottom:4px;">'+c.icon+'</div>'
-          + '<div style="font-size:18px; font-weight:700; color:#e8f5ee; margin-bottom:2px;">'+c.value+'</div>'
-          + '<div style="font-size:11px; font-weight:600; color:#94c8a8; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">'+c.title+'</div>'
-          + '<div style="font-size:11px; color:#b0ccba; line-height:1.45;">'+c.detail+'</div>'
+      var envItems = [
+        { icon: '\uD83D\uDCA7', title: 'Water consumed', value: fmt(fp.wLow) + '&ndash;' + fmt(fp.wHigh) + ' L', sub: '\u2248 ' + fmt(userWaterMid / 0.5) + ' water bottles (500mL)', color: '#94c8a8' },
+        { icon: '\u26A1', title: 'Electricity used', value: fmt(fp.energy) + ' Wh', sub: '\u2248 ' + fmt(fp.energy / 50) + ' hours of laptop use', color: '#94c8a8' },
+        { icon: '\uD83C\uDF2B\uFE0F', title: 'CO\u2082 emitted', value: fmt(fp.carbon) + 'g', sub: '\u2248 ' + Math.round(fp.carbon / 3.3) + ' min of you just breathing', color: '#94c8a8' }
+      ];
+      var everydayItems = [
+        { icon: '\uD83D\uDE97', title: '= driving a car', value: fmt(fp.carbon / 404) + ' miles', color: '#8bb8d0' },
+        { icon: '\u2708\uFE0F', title: '= NY\u2194LA round trips', value: fmt(fp.carbon / 900000) + ' flights', color: '#8bb8d0' },
+        { icon: '\uD83D\uDCF1', title: '= charging your phone', value: fmt(fp.energy / 12) + '\u00D7', color: '#8bb8d0' }
+      ];
+      function renderCtxCard(c) {
+        return '<div style="background:#0f1f15; border-radius:6px; padding:10px 12px; border-left:3px solid '+c.color+';">'
+          + '<div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">'
+          + '<span style="font-size:16px;">'+c.icon+'</span>'
+          + '<span style="font-size:16px; font-weight:700; color:#e8f5ee;">'+c.value+'</span>'
+          + '</div>'
+          + '<div style="font-size:10px; font-weight:600; color:#94c8a8; text-transform:uppercase; letter-spacing:0.5px;">'+c.title+'</div>'
+          + (c.sub ? '<div style="font-size:10px; color:#b0ccba; margin-top:3px;">'+c.sub+'</div>' : '')
           + '</div>';
-      }).join('');
+      }
+      document.getElementById('context-cards-tech').innerHTML = techItems.map(renderCtxCard).join('');
+      document.getElementById('context-cards-env').innerHTML = envItems.map(renderCtxCard).join('');
+      document.getElementById('context-cards-everyday').innerHTML = everydayItems.map(renderCtxCard).join('');
 
       // Show your work for context comparisons
       var ctxMath = document.getElementById('context-math');
       if (ctxMath) {
-        ctxMath.innerHTML = '<strong style="color:#e8f5ee;">Show your work:</strong> '
+        ctxMath.innerHTML = '<strong style="color:#e8f5ee;">Show your work:</strong>'
+          + '<br><br><strong style="color:#94c8a8;">Environmental footprint:</strong> '
           + state.text + ' text prompts/day &times; ' + state.days + ' days = ' + (state.text * state.days) + ' total text queries. '
           + state.img + ' images/day &times; ' + state.days + ' days = ' + (state.img * state.days) + ' total images. '
           + 'Text energy: ' + (state.text * state.days) + ' &times; 0.3 Wh &times; ' + TIERS[state.tier].mult + ' (model multiplier) = ' + fmt((state.text * state.days) * 0.3 * TIERS[state.tier].mult) + ' Wh. '
           + 'Image energy: ' + (state.img * state.days) + ' &times; 11.5 Wh = ' + fmt((state.img * state.days) * 11.5) + ' Wh. '
           + 'Total energy: <strong style="color:#e8f5ee;">' + fmt(fp.energy) + ' Wh</strong>. '
           + 'Carbon: ' + fmt(fp.energy) + ' Wh &divide; 1,000 &times; 400g/kWh = <strong style="color:#e8f5ee;">' + fmt(fp.carbon) + 'g CO\u2082</strong>. '
-          + 'Water (midpoint): <strong style="color:#e8f5ee;">' + fmt(wMid) + ' liters</strong>.';
+          + 'Water (midpoint): <strong style="color:#e8f5ee;">' + fmt(wMid) + ' liters</strong> (\u2248 ' + fmt(wMid / 0.5) + ' water bottles at 500mL). '
+          + 'Laptop use: ' + fmt(fp.energy) + ' Wh &divide; 50 Wh/hr = <strong style="color:#e8f5ee;">' + fmt(fp.energy / 50) + ' hours</strong>. '
+          + 'Breathing: ' + fmt(fp.carbon) + 'g &divide; 3.3g/min = <strong style="color:#e8f5ee;">' + Math.round(fp.carbon / 3.3) + ' minutes</strong> (~200g CO\u2082/hr exhaled at rest).'
+          + '<br><br><strong style="color:#d4870e;">Technology comparisons:</strong> '
+          + 'TikTok: ' + fmt(fp.energy) + ' Wh &divide; 444 Wh/hr = <strong style="color:#e8f5ee;">' + fmt(fp.energy / 444) + ' hours</strong> (1 hr &asymp; 120 videos &times; 3.7 Wh; avg user watches ~46 min/day, ~92 videos). '
+          + 'Netflix: ' + fmt(fp.carbon) + 'g CO\u2082 &divide; 55g/hr = <strong style="color:#e8f5ee;">' + fmt(fp.carbon / 55) + ' hours</strong>. '
+          + 'Google: ' + fmt(fp.energy) + ' Wh &divide; 0.3 Wh/search = <strong style="color:#e8f5ee;">' + fmt(fp.energy / 0.3) + ' searches</strong>.'
+          + '<br><br><strong style="color:#8bb8d0;">Everyday equivalents:</strong> '
+          + 'Miles driven: ' + fmt(fp.carbon) + 'g &divide; 404g/mile = <strong style="color:#e8f5ee;">' + fmt(fp.carbon / 404) + ' miles</strong>. '
+          + 'Flights (NY\u2194LA round trip): ' + fmt(fp.carbon) + 'g &divide; 900,000g = <strong style="color:#e8f5ee;">' + fmt(fp.carbon / 900000) + ' flights</strong>. '
+          + 'Phone charges: ' + fmt(fp.energy) + ' Wh &divide; 12 Wh = <strong style="color:#e8f5ee;">' + fmt(fp.energy / 12) + ' charges</strong>.';
       }
 
       // Render scale-up section
       renderScale(fp);
-    }
-
-    function makeCard(label, value, unit, comparison, color) {
-      return '<div style="background:#162a1e; border-radius:10px; padding:16px 14px; border:1px solid #1e3a28; position:relative; overflow:hidden;">'
-        + '<div style="position:absolute; top:0; left:0; right:0; height:3px; background:'+color+';"></div>'
-        + '<div style="font-size:11px; text-transform:uppercase; letter-spacing:1.2px; color:#b0ccba; margin-bottom:6px;">'+label+'</div>'
-        + '<div style="font-size:24px; font-weight:700; color:#e8f5ee; line-height:1.1;">'+value+' <span style="font-size:12px; font-weight:400; color:#b0ccba;">'+unit+'</span></div>'
-        + '<div style="font-size:11px; color:#b0ccba; margin-top:8px; line-height:1.4;">'+comparison+'</div>'
-        + '</div>';
     }
 
     // ── Scale-up section ──
@@ -1028,7 +1025,7 @@
         + '<td style="padding:4px 0; color:#94c8a8;">Your settings</td>'
         + '<td style="padding:4px 0; text-align:right;">' + settingsDesc + '</td></tr>'
         + '<tr style="border-bottom:1px solid #1e3a28;">'
-        + '<td style="padding:4px 0; color:#94c8a8;">Carbon per user</td>'
+        + '<td style="padding:4px 0; color:#94c8a8;">Your carbon footprint</td>'
         + '<td style="padding:4px 0; text-align:right;">' + fmt(scaleFp.carbon) + 'g CO\u2082</td></tr>'
         + '<tr style="border-bottom:1px solid #1e3a28;">'
         + '<td style="padding:4px 0; color:#94c8a8;">\u00D7 users</td>'
