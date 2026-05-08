@@ -315,6 +315,11 @@
     <div class="insight-text">Netflix uses AI to pick the best image for a show. Spotify uses AI to pick the next song. Uber uses AI to forecast demand. Airbnb has to do all of those kinds of things &mdash; <strong>but on two sides of a marketplace at the same time.</strong> That is the defining challenge of the business, and it is the lens through which every AI decision in this chapter should be read.</div>
   </div>
 
+  <div class="insight-box">
+    <div class="insight-label">Connecting to Waymo</div>
+    <div class="insight-text">The last chapter studied Waymo, whose AI challenge is fundamentally about <em>physics</em> &mdash; perceiving objects, predicting trajectories, not crashing. The inputs are precise (lidar, cameras, radar), and the failure mode is concrete (someone gets hurt). Airbnb&rsquo;s AI challenge is fundamentally about <em>psychology</em> &mdash; inferring what people want when they cannot articulate it themselves, and nudging decisions on both sides of a marketplace toward outcomes neither side could find alone. The inputs are vague (a click, a half-typed search, a booking from a year ago), and the failure mode is invisible (a guest who quietly leaves, a host who never realizes they underpriced). Same AI Factory framework. Different kind of hard.</div>
+  </div>
+
   <!-- SECTION 2 -->
   <h2 id="s2"><span class="section-num">2</span> The Big Idea: Two Sides, One Platform</h2>
 
@@ -331,6 +336,8 @@
   <p>Airbnb owns nothing. Every listing belongs to someone else, and that someone else has their own goals, their own calendar, and their own idea of what their home is worth. Airbnb has to make <em>both</em> sides happy simultaneously &mdash; and if either side has a bad experience, the other side suffers too. A guest who can&rsquo;t find a good listing leaves. A host whose calendar stays empty stops hosting. The platform dies from either direction.</p>
 
   <p>Now here is the twist that shapes the rest of the chapter: <strong>neither side of the Airbnb marketplace fully knows what it wants.</strong> That might sound strange &mdash; aren&rsquo;t people who visit a travel website the ones with an idea of where they want to go? Sometimes. But often, no.</p>
+
+  <p>This is what makes Airbnb&rsquo;s AI problem a problem of <em>psychology</em> rather than <em>physics</em>. Waymo&rsquo;s car needs to understand how the physical world behaves &mdash; objects have trajectories, roads have geometry, physics has rules. Airbnb&rsquo;s system needs to understand how <em>people</em> behave when they don&rsquo;t even know what they want yet &mdash; and people do not follow rules. They browse without intent. They search without conviction. They abandon carts on a whim. The AI has to read meaning into all of that ambiguity, on both sides of the marketplace, simultaneously.</p>
 
   <p>Airbnb&rsquo;s users fall into two categories that require completely different experiences. <strong>Transactional users</strong> know what they want &mdash; they&rsquo;re searching for a specific city on specific dates because their trip is already planned. <strong>Exploratory users</strong> don&rsquo;t &mdash; they&rsquo;re thinking &ldquo;I want to go somewhere in France this summer&rdquo; or just &ldquo;I need a vacation.&rdquo; Both types open the same app and click the same search bar, but the right experience for each is completely different. A good recommendation for a transactional user is a listing; a good recommendation for an exploratory user is a destination. A business that can&rsquo;t tell these users apart will frustrate both of them.</p>
 
@@ -352,12 +359,14 @@
 
   <p>On the host side, the parallel is nearly exact. A host has a home, a calendar, and an approximate sense of what to charge. But they don&rsquo;t know what a Thursday in early October will actually be worth three months from now &mdash; nobody does. Markets move. Big events pull demand forward. Weather shifts bookings around. A host trying to price by intuition is guessing against information the platform already has in aggregate. That is the supply-side version of the same fundamental problem: <em>the person on this side of the marketplace does not fully know what they want (or what they should charge), and the platform is better positioned to help them figure it out than they are on their own.</em></p>
 
-  <div class="callout-quote">Guests need help discovering destinations. Hosts need help pricing listings. Both problems are really the same problem &mdash; understanding demand patterns at scale &mdash; viewed from opposite ends.</div>
+  <div class="callout-quote">Guests need help discovering destinations. Hosts need help pricing listings. Both problems are really the same problem &mdash; understanding demand patterns at scale &mdash; viewed from opposite ends. And both are, at their core, problems of reading human psychology from behavioral traces.</div>
 
   <!-- SECTION 3 -->
   <h2 id="s3"><span class="section-num">3</span> The AI Factory at Airbnb</h2>
 
   <p>We introduced the <strong>AI Factory</strong> framework in Chapter 3 with Spotify and applied it again with Uber in Chapter 4. The same five steps organize Airbnb&rsquo;s AI systems too &mdash; data, model, prediction, decision, value &mdash; with one important twist. Airbnb runs <em>parallel</em> AI Factories: one on the guest side, one on the host side, both drawing from the same underlying data layer, and in the last few years, a third running inside the engineering organization itself.</p>
+
+  <p>At Waymo, the factory&rsquo;s data step was sensor readings &mdash; lidar points, camera frames, radar returns. Precise, physical, measurable. At Airbnb, the data step is behavioral signals &mdash; clicks, searches, bookings, abandoned carts. Noisy, ambiguous, and deeply human. The framework is the same. The nature of what flows through it is fundamentally different, and that difference shapes every design choice in the chapter ahead.</p>
 
   <div class="pipeline-row">
     <div class="pipe-step">1. Data</div>
