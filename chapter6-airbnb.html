@@ -410,6 +410,106 @@
 
   <p>Before this model existed, Airbnb&rsquo;s search experience was essentially reactive: you typed a city, you got listings. If you didn&rsquo;t type anything, the app had nothing to show you. That worked fine for the transactional user who already had a trip planned. It was useless for the exploratory user who was still figuring out where to go &mdash; and Airbnb&rsquo;s own data showed that a large share of users who opened the app fell into that exploratory category. They were the hardest users to serve and, potentially, the most valuable to convert.</p>
 
+  <figure>
+    <svg width="100%" viewBox="0 0 680 700" role="img" style="max-width:680px;display:block;margin:0 auto;">
+      <title>From challenge to solution: user intent, behavioral signals, signal types, and tokens</title>
+      <desc>A vertical flow showing how user intent modeling defines the challenge, two user types leave behavioral signals as tokens, those tokens split into short-term and long-term context, and both feed into the model</desc>
+      <rect x="0" y="0" width="680" height="700" fill="#ffffff" rx="8"/>
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#b0b0b0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <!-- The challenge -->
+      <rect x="130" y="15" width="420" height="68" rx="10" fill="#fff0ef" stroke="#ff5a5f" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="13" fill="#c41d48" font-weight="700" x="340" y="40" text-anchor="middle">The challenge: user intent modeling</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="340" y="60" text-anchor="middle">What kind of decision is this user making?</text>
+
+      <!-- Arrow -->
+      <line x1="340" y1="83" x2="340" y2="105" stroke="#b0b0b0" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <!-- Transactional -->
+      <rect x="60" y="110" width="240" height="50" rx="8" fill="#fff5e6" stroke="#c8922a" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#85500b" font-weight="700" x="180" y="130" text-anchor="middle">Transactional user</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="180" y="148" text-anchor="middle">&ldquo;Tokyo, March 5&ndash;12&rdquo;</text>
+
+      <!-- Exploratory -->
+      <rect x="380" y="110" width="240" height="50" rx="8" fill="#e6f7f5" stroke="#00a699" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#0f6e56" font-weight="700" x="500" y="130" text-anchor="middle">Exploratory user</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="500" y="148" text-anchor="middle">&ldquo;Somewhere warm&hellip;&rdquo;</text>
+
+      <!-- Converge -->
+      <line x1="180" y1="160" x2="280" y2="190" stroke="#b0b0b0" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="500" y1="160" x2="400" y2="190" stroke="#b0b0b0" stroke-width="1.2" marker-end="url(#arr)"/>
+
+      <!-- Tokens -->
+      <rect x="80" y="195" width="520" height="70" rx="10" fill="#f7f7f7" stroke="#cccccc" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="13" fill="#484848" font-weight="700" x="340" y="216" text-anchor="middle">Tokens &mdash; each action in the sequence</text>
+      <rect x="100" y="228" width="105" height="26" rx="13" fill="#fff0ef" stroke="#ff5a5f" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#c41d48" x="153" y="245" text-anchor="middle">Booked Lisbon</text>
+      <rect x="218" y="228" width="110" height="26" rx="13" fill="#e6f7f5" stroke="#00a699" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#0f6e56" x="273" y="245" text-anchor="middle">Searched Tokyo</text>
+      <rect x="341" y="228" width="110" height="26" rx="13" fill="#e6f7f5" stroke="#00a699" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#0f6e56" x="396" y="245" text-anchor="middle">Searched Tokyo</text>
+      <rect x="464" y="228" width="115" height="26" rx="13" fill="#fff5e6" stroke="#c8922a" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#85500b" x="522" y="245" text-anchor="middle">Clicked Mexico</text>
+
+      <!-- Step 1 label -->
+      <text font-family="Arial,sans-serif" font-size="10" fill="#b0b0b0" x="620" y="220" text-anchor="start">STEP 1</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#b0b0b0" x="620" y="234" text-anchor="start">DATA</text>
+
+      <!-- Split arrows -->
+      <line x1="240" y1="265" x2="180" y2="305" stroke="#b0b0b0" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="440" y1="265" x2="500" y2="305" stroke="#b0b0b0" stroke-width="1.2" marker-end="url(#arr)"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="340" y="292" text-anchor="middle" font-style="italic">but not all tokens carry the same weight</text>
+
+      <!-- Short-term -->
+      <rect x="40" y="310" width="280" height="110" rx="10" fill="#fff0ef" stroke="#ff5a5f" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#c41d48" font-weight="700" x="180" y="335" text-anchor="middle">Short-term signals</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="180" y="355" text-anchor="middle">Recent searches, clicks, views</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="180" y="373" text-anchor="middle">= what you&rsquo;re considering right now</text>
+      <rect x="65" y="388" width="100" height="22" rx="11" fill="#e6f7f5" stroke="#00a699" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#0f6e56" x="115" y="403" text-anchor="middle">Searched Tokyo</text>
+      <rect x="178" y="388" width="100" height="22" rx="11" fill="#e6f7f5" stroke="#00a699" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#0f6e56" x="228" y="403" text-anchor="middle">Searched Tokyo</text>
+
+      <!-- Long-term -->
+      <rect x="360" y="310" width="280" height="110" rx="10" fill="#eeedfe" stroke="#7f77dd" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#3c3489" font-weight="700" x="500" y="335" text-anchor="middle">Long-term signals</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="500" y="355" text-anchor="middle">Historical bookings</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="500" y="373" text-anchor="middle">= your durable preferences</text>
+      <rect x="440" y="388" width="110" height="22" rx="11" fill="#fff0ef" stroke="#ff5a5f" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#c41d48" x="495" y="403" text-anchor="middle">Booked Lisbon</text>
+
+      <!-- Converge into model -->
+      <line x1="180" y1="420" x2="275" y2="458" stroke="#b0b0b0" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="500" y1="420" x2="405" y2="458" stroke="#b0b0b0" stroke-width="1.2" marker-end="url(#arr)"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="340" y="448" text-anchor="middle" font-style="italic">both streams feed the model as separate inputs</text>
+
+      <!-- Dashed separator -->
+      <line x1="40" y1="453" x2="610" y2="453" stroke="#cccccc" stroke-width="0.5" stroke-dasharray="4 4"/>
+
+      <!-- Model -->
+      <rect x="130" y="465" width="420" height="50" rx="10" fill="#f7f7f7" stroke="#cccccc" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="13" fill="#484848" font-weight="700" x="340" y="495" text-anchor="middle">Embeddings &rarr; Transformer &rarr; Prediction</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#b0b0b0" x="620" y="485" text-anchor="start">STEP 2</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#b0b0b0" x="620" y="499" text-anchor="start">MODEL</text>
+
+      <!-- Arrow -->
+      <line x1="340" y1="515" x2="340" y2="545" stroke="#b0b0b0" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <!-- Predicted destination -->
+      <rect x="190" y="550" width="300" height="44" rx="10" fill="#f7f7f7" stroke="#cccccc" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="13" fill="#484848" font-weight="700" x="340" y="577" text-anchor="middle">Predicted destination</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#b0b0b0" x="620" y="575" text-anchor="start">STEP 3</text>
+
+      <!-- Bottom annotation -->
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="340" y="625" text-anchor="middle" font-style="italic">The model weighs short-term signals more heavily &mdash; but doesn&rsquo;t ignore long-term ones</text>
+    </svg>
+    <figcaption><strong>Figure: From challenge to prediction.</strong> User intent modeling is the problem &mdash; the system must figure out what kind of decision a user is making. Both transactional and exploratory users leave behavioral signals that become <strong>tokens</strong>. Those tokens are split into <strong>short-term context</strong> (what&rsquo;s on your mind now) and <strong>long-term context</strong> (who you are as a traveler). Both streams feed the model as separate inputs, allowing it to weigh each appropriately. The model then converts them to embeddings, runs them through a transformer, and outputs a predicted destination. The rest of Part I explains each stage in detail.</figcaption>
+  </figure>
+
   <p>The central insight in Airbnb&rsquo;s destination recommendation system is that <em>a user&rsquo;s actions can be treated the way a language model treats words</em>. To understand what that means, you need one piece of vocabulary: a <strong>token</strong> is the smallest unit of input that a model processes. In a language model like ChatGPT or Claude, each word (or piece of a word) is a token. The model reads a sequence of tokens and learns to predict which token comes next. &ldquo;Peanut butter and&rdquo; is three tokens, and the model has learned that the next one is probably &ldquo;jelly.&rdquo; The key move Airbnb makes is treating user <em>actions</em> as tokens &mdash; not words, but clicks, searches, and bookings &mdash; and feeding them into the same kind of model.</p>
 
   <p>Each action a user takes &mdash; a booking in Lisbon, a search for Tokyo, a click on a Mexico City listing &mdash; is treated as a <strong>token</strong> in the user&rsquo;s personal travel history, and sequences of those tokens become <strong>training data</strong>. The model learns that certain patterns of past actions tend to lead to certain future destinations, in the same way a language model learns that certain sequences of words tend to lead to certain next words. This is a powerful reframe: it means Airbnb can reuse the architecture of modern language models (transformers) to understand travel intent &mdash; a problem that has nothing to do with language on its face.</p>
@@ -540,6 +640,94 @@
     <figcaption><strong>Figure 1: Multi-task learning in Airbnb&rsquo;s destination model.</strong> A single transformer processes the user&rsquo;s action sequence and feeds two prediction heads &mdash; one for region, one for city. The two heads share their underlying understanding of geography, which produces richer and more consistent predictions than training two separate models would.</figcaption>
   </figure>
 
+  <p>The figure below shows the full model pipeline in more detail. The data inputs from the previous section (short-term and long-term context) enter at the top. Each action token is converted into an <strong>embedding</strong> &mdash; a list of decimals that represents what that action means. Similar cities produce similar numbers: Seattle might be [0.82, 0.14, 0.67, 0.31, 0.95, ...] and Bellingham might be [0.80, 0.16, 0.65, 0.29, 0.93, ...] &mdash; close because travelers who visit one often consider the other. The transformer then reads the full sequence of embeddings and uses <strong>attention</strong> to decide which actions matter most for predicting what the user wants next. Finally, the shared understanding splits into the two prediction heads.</p>
+
+  <figure>
+    <svg width="100%" viewBox="0 0 680 680" role="img" style="max-width:680px;display:block;margin:0 auto;">
+      <title>Step 2 Model expanded: embeddings with decimals, transformer with attention, and two prediction heads</title>
+      <desc>Shows data inputs flowing into embeddings with actual decimal values for Seattle and Bellingham, through the transformer, into region and city prediction heads</desc>
+      <rect x="0" y="0" width="680" height="680" fill="#ffffff" rx="8"/>
+      <defs><marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#b0b0b0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+
+      <!-- Collapsed Step 1 -->
+      <rect x="100" y="12" width="480" height="72" rx="8" fill="#f7f7f7" stroke="#cccccc" stroke-width="0.5" stroke-dasharray="4 4"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#b0b0b0" x="120" y="28">STEP 1 &middot; DATA (from previous diagram)</text>
+      <rect x="120" y="36" width="190" height="22" rx="6" fill="#fff0ef" stroke="#ff5a5f" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#c41d48" x="215" y="51" text-anchor="middle">Short-term context</text>
+      <rect x="370" y="36" width="190" height="22" rx="6" fill="#eeedfe" stroke="#7f77dd" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#3c3489" x="465" y="51" text-anchor="middle">Long-term context</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#b0b0b0" x="620" y="28">STEP 1</text>
+
+      <line x1="340" y1="84" x2="340" y2="108" stroke="#b0b0b0" stroke-width="1.5" marker-end="url(#a2)"/>
+
+      <!-- Step 2 box -->
+      <rect x="40" y="112" width="600" height="420" rx="14" fill="#f7f7f7" stroke="#cccccc" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="14" fill="#484848" font-weight="700" x="340" y="138" text-anchor="middle">Step 2 &middot; Model</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#b0b0b0" x="620" y="300">STEP 2</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#b0b0b0" x="620" y="314">MODEL</text>
+
+      <!-- Embeddings -->
+      <rect x="65" y="150" width="540" height="150" rx="8" fill="#faeeda" stroke="#c8922a" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="13" fill="#85500b" font-weight="700" x="340" y="172" text-anchor="middle">Embeddings &mdash; turn each token into a list of decimals</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="340" y="192" text-anchor="middle">Each number captures one dimension of meaning. Similar cities get similar numbers.</text>
+
+      <!-- Seattle -->
+      <rect x="85" y="206" width="240" height="42" rx="6" fill="#ffffff" stroke="#cccccc" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#484848" font-weight="700" x="100" y="222">Seattle</text>
+      <text font-family="monospace,sans-serif" font-size="10" fill="#767676" x="100" y="240">[0.82, 0.14, 0.67, 0.31, 0.95, ...]</text>
+
+      <!-- Bellingham -->
+      <rect x="355" y="206" width="240" height="42" rx="6" fill="#ffffff" stroke="#cccccc" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#484848" font-weight="700" x="370" y="222">Bellingham</text>
+      <text font-family="monospace,sans-serif" font-size="10" fill="#767676" x="370" y="240">[0.80, 0.16, 0.65, 0.29, 0.93, ...]</text>
+
+      <!-- Similarity note -->
+      <text font-family="Arial,sans-serif" font-size="10" fill="#b0b0b0" x="340" y="268" text-anchor="middle">&uarr; Numbers are close &mdash; travelers who visit one often consider the other</text>
+      <rect x="175" y="276" width="330" height="22" rx="4" fill="#ffffff" stroke="#cccccc" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="190" y="291">Lisbon: <tspan font-family="monospace">[0.23, 0.71, 0.44, 0.88, 0.12, ...]</tspan> &larr; far away</text>
+
+      <!-- Arrow -->
+      <line x1="340" y1="300" x2="340" y2="322" stroke="#b0b0b0" stroke-width="1.5" marker-end="url(#a2)"/>
+
+      <!-- Transformer -->
+      <rect x="65" y="326" width="540" height="72" rx="8" fill="#e6f7f5" stroke="#00a699" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="13" fill="#0f6e56" font-weight="700" x="340" y="350" text-anchor="middle">Transformer (same architecture as ChatGPT)</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="340" y="370" text-anchor="middle">Reads the full sequence. Attention: &ldquo;which past actions matter most right now?&rdquo;</text>
+
+      <!-- Split -->
+      <line x1="340" y1="398" x2="340" y2="412" stroke="#b0b0b0" stroke-width="1"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#b0b0b0" x="340" y="424" text-anchor="middle">shared brain splits into two prediction heads</text>
+      <line x1="270" y1="430" x2="195" y2="448" stroke="#b0b0b0" stroke-width="1.2" marker-end="url(#a2)"/>
+      <line x1="410" y1="430" x2="485" y2="448" stroke="#b0b0b0" stroke-width="1.2" marker-end="url(#a2)"/>
+
+      <!-- Region head -->
+      <rect x="80" y="452" width="220" height="42" rx="8" fill="#fff0ef" stroke="#ff5a5f" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#c41d48" font-weight="700" x="190" y="470" text-anchor="middle">Region head</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="190" y="486" text-anchor="middle">e.g. &ldquo;Pacific NW&rdquo; &mdash; 45%</text>
+
+      <!-- City head -->
+      <rect x="380" y="452" width="220" height="42" rx="8" fill="#fff0ef" stroke="#ff5a5f" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#c41d48" font-weight="700" x="490" y="470" text-anchor="middle">City head</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="490" y="486" text-anchor="middle">e.g. &ldquo;Seattle&rdquo; &mdash; 38%</text>
+
+      <!-- Multi-task label -->
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="340" y="516" text-anchor="middle" font-style="italic">Multi-task learning: both heads share the transformer</text>
+
+      <!-- Arrow out -->
+      <line x1="340" y1="532" x2="340" y2="558" stroke="#b0b0b0" stroke-width="1.5" marker-end="url(#a2)"/>
+
+      <!-- Predicted destination -->
+      <rect x="160" y="562" width="360" height="40" rx="10" fill="#f7f7f7" stroke="#cccccc" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="13" fill="#484848" font-weight="700" x="340" y="587" text-anchor="middle">Predicted destination: Seattle (38%)</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#b0b0b0" x="620" y="582">STEP 3</text>
+
+      <!-- Bottom annotation -->
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="340" y="630" text-anchor="middle" font-style="italic">The model learned Seattle and Bellingham are similar from behavior</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="340" y="650" text-anchor="middle" font-style="italic">&mdash; nobody told it they&rsquo;re both in Washington</text>
+    </svg>
+    <figcaption><strong>Figure 2: The full model pipeline.</strong> Short-term and long-term context (from the data diagram above) enter the model. Each action token becomes an <strong>embedding</strong> &mdash; a list of decimals where similar cities have similar numbers. The <strong>transformer</strong> reads the full sequence and uses <strong>attention</strong> to weigh which actions matter most. Its shared understanding feeds two <strong>prediction heads</strong> (region and city) via <strong>multi-task learning</strong>. The output is a predicted destination with a probability. What Airbnb <em>does</em> with that prediction is a separate business choice &mdash; the prediction&ndash;decision gap.</figcaption>
+  </figure>
+
   <!-- SECTION 6 -->
   <h2 id="s6"><span class="section-num">6</span> Prediction, Decision, and Value: From Dormant Users to Autosuggest</h2>
 
@@ -559,6 +747,86 @@
     <div class="concept-def">A model&rsquo;s output is a <strong>prediction</strong> &mdash; a probability, a ranking, or a score. A <strong>decision</strong> is what the business actually does with that prediction. The gap between the two is where most of the business value (and most of the risk) lives. Airbnb&rsquo;s destination model predicts &ldquo;this user is likely interested in Tokyo.&rdquo; The <em>decisions</em> &mdash; which three cities to show in the search bar, which to feature in a re-engagement email, how aggressively to personalize &mdash; are product choices that sit on top of the prediction. The same prediction can drive very different decisions depending on business goals, risk tolerance, and user context.</div>
   </div>
 
+  <figure>
+    <svg width="100%" viewBox="0 0 680 580" role="img" style="max-width:680px;display:block;margin:0 auto;">
+      <title>Step 3 Prediction through Step 4 Decision: from probability distribution to product surfaces</title>
+      <desc>Shows the model output as probability bars for regions and cities, the prediction-decision gap, and how the same prediction powers autosuggest and abandoned-search emails</desc>
+      <rect x="0" y="0" width="680" height="580" fill="#ffffff" rx="8"/>
+      <defs><marker id="a3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#b0b0b0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+
+      <!-- Collapsed Steps 1-2 -->
+      <rect x="100" y="12" width="480" height="48" rx="8" fill="#f7f7f7" stroke="#cccccc" stroke-width="0.5" stroke-dasharray="4 4"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#b0b0b0" x="120" y="28">STEPS 1&ndash;2 (from previous diagrams)</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#b0b0b0" x="340" y="46" text-anchor="middle">Data &rarr; Embeddings &rarr; Transformer + Attention &rarr; Region head + City head</text>
+
+      <line x1="340" y1="60" x2="340" y2="82" stroke="#b0b0b0" stroke-width="1.5" marker-end="url(#a3)"/>
+
+      <!-- Step 3 box -->
+      <rect x="40" y="86" width="600" height="260" rx="14" fill="#f7f7f7" stroke="#cccccc" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="14" fill="#484848" font-weight="700" x="340" y="112" text-anchor="middle">Step 3 &middot; Prediction</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="340" y="132" text-anchor="middle">The model outputs a probability for every destination &mdash; a ranked list</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#b0b0b0" x="620" y="110">STEP 3</text>
+
+      <!-- Region bars -->
+      <rect x="60" y="148" width="260" height="120" rx="8" fill="#fff0ef" stroke="#ff5a5f" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#c41d48" font-weight="700" x="190" y="168" text-anchor="middle">Region prediction</text>
+      <rect x="78" y="178" width="180" height="16" rx="4" fill="#ff5a5f" opacity="0.8"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#ffffff" x="83" y="190">Pacific NW &mdash; 45%</text>
+      <rect x="78" y="198" width="98" height="16" rx="4" fill="#ff5a5f" opacity="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#ffffff" x="83" y="210">Northern CA &mdash; 24%</text>
+      <rect x="78" y="218" width="62" height="16" rx="4" fill="#ff5a5f" opacity="0.3"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#767676" x="148" y="230">SW Canada &mdash; 15%</text>
+      <rect x="78" y="238" width="35" height="16" rx="4" fill="#ff5a5f" opacity="0.2"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#767676" x="120" y="250">...</text>
+
+      <!-- City bars -->
+      <rect x="360" y="148" width="260" height="120" rx="8" fill="#fff0ef" stroke="#ff5a5f" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#c41d48" font-weight="700" x="490" y="168" text-anchor="middle">City prediction</text>
+      <rect x="378" y="178" width="155" height="16" rx="4" fill="#ff5a5f" opacity="0.8"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#ffffff" x="383" y="190">Seattle &mdash; 38%</text>
+      <rect x="378" y="198" width="62" height="16" rx="4" fill="#ff5a5f" opacity="0.4"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#767676" x="448" y="210">Portland &mdash; 15%</text>
+      <rect x="378" y="218" width="50" height="16" rx="4" fill="#ff5a5f" opacity="0.3"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#767676" x="436" y="230">Bellingham &mdash; 12%</text>
+      <rect x="378" y="238" width="37" height="16" rx="4" fill="#ff5a5f" opacity="0.2"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#767676" x="423" y="250">Vancouver &mdash; 9%</text>
+
+      <!-- Annotation -->
+      <rect x="110" y="280" width="460" height="30" rx="6" fill="#ffffff" stroke="#cccccc" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="340" y="299" text-anchor="middle">This is just a list of numbers. What Airbnb does with it is a business choice &mdash; Step 4.</text>
+
+      <!-- Arrow -->
+      <line x1="340" y1="346" x2="340" y2="370" stroke="#b0b0b0" stroke-width="1.5" marker-end="url(#a3)"/>
+
+      <!-- Prediction-decision gap label -->
+      <rect x="140" y="374" width="400" height="24" rx="6" fill="#ffffff" stroke="#cccccc" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="340" y="390" text-anchor="middle">&darr; prediction&ndash;decision gap &mdash; same prediction, different products &darr;</text>
+
+      <!-- Split -->
+      <line x1="340" y1="398" x2="340" y2="412" stroke="#b0b0b0" stroke-width="1"/>
+      <line x1="250" y1="412" x2="175" y2="435" stroke="#b0b0b0" stroke-width="1.2" marker-end="url(#a3)"/>
+      <line x1="430" y1="412" x2="505" y2="435" stroke="#b0b0b0" stroke-width="1.2" marker-end="url(#a3)"/>
+
+      <!-- Autosuggest -->
+      <rect x="55" y="440" width="240" height="48" rx="8" fill="#e6f7f5" stroke="#00a699" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#0f6e56" font-weight="700" x="175" y="460" text-anchor="middle">Autosuggest</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="175" y="478" text-anchor="middle">Tap search bar &rarr; top 3 cities appear</text>
+
+      <!-- Abandoned-search -->
+      <rect x="385" y="440" width="240" height="48" rx="8" fill="#fff5e6" stroke="#c8922a" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#85500b" font-weight="700" x="505" y="460" text-anchor="middle">Abandoned-search email</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="505" y="478" text-anchor="middle">&ldquo;Still thinking about Seattle?&rdquo;</text>
+
+      <text font-family="Arial,sans-serif" font-size="10" fill="#b0b0b0" x="620" y="462">STEP 4</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#b0b0b0" x="620" y="476">DECISION</text>
+
+      <!-- Bottom annotation -->
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="340" y="525" text-anchor="middle" font-style="italic">The model predicts. The business decides what to do with it.</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="340" y="548" text-anchor="middle">Same ranked list &rarr; completely different user experiences depending on the product surface.</text>
+    </svg>
+    <figcaption><strong>Figure 3: From prediction to decision.</strong> The model outputs a probability distribution &mdash; a ranked list of destinations at both the region and city level. That list is the prediction (Step 3). What Airbnb <em>does</em> with it is a separate business choice (Step 4). The same prediction powers autosuggest (showing top cities when you tap the search bar) and abandoned-search emails (re-engaging users who left). The <strong>prediction&ndash;decision gap</strong> is the space between the model&rsquo;s output and the product decision &mdash; and it&rsquo;s where most of the business value lives.</figcaption>
+  </figure>
+
   <p>Airbnb has deployed the destination model in two places so far, and the two deployments illustrate opposite ends of the user-intent spectrum:</p>
 
   <ul>
@@ -573,6 +841,8 @@
 
   <p><strong>The value:</strong> Higher conversion for active users who find what they want faster, and re-engagement of dormant users who might otherwise never come back. The destination recommender does not generate revenue directly &mdash; nobody pays for a recommendation. It generates revenue by shortening the path from &ldquo;I want to go somewhere&rdquo; to &ldquo;I just booked.&rdquo; That is the AI Factory pattern: data feeds models, models produce predictions, predictions inform decisions, and decisions create business value that generates more data.</p>
 
+  <p>The value looks different for each user type. For <strong>active users</strong>, the value is speed and reduced friction &mdash; instead of typing and comparing for twenty minutes, they tap the search bar and the right city is already there. For <strong>dormant users</strong>, the value is re-engagement itself &mdash; someone who booked once a year ago and forgot about Airbnb gets an email with a destination that genuinely interests them, not a generic &ldquo;we miss you&rdquo; blast. That is revenue Airbnb would have lost entirely without the model. For <strong>Airbnb as a business</strong>, the value is leverage &mdash; one model, trained once on cleverly designed data, deployed across multiple surfaces at near-zero marginal cost. Every additional surface (push notifications? in-app discovery pages? partner integrations?) reuses the same prediction engine. And every booking those surfaces generate feeds back as training data, making the next cycle of predictions better. The value compounds.</p>
+
   <!-- ======================================================== -->
   <!-- PART II — HOST SIDE                                      -->
   <!-- ======================================================== -->
@@ -583,6 +853,8 @@
   <p>Now flip the marketplace around. A host has just listed a two-bedroom apartment in San Diego. They need to decide what to charge for every single night on their calendar &mdash; not just tonight, but six months from now, twelve months from now. Prices that are too high leave the calendar empty. Prices that are too low leave money on the table. And the &ldquo;right&rdquo; price for a Thursday in early October is different in July than it is in September, because the market keeps moving.</p>
 
   <p>Before Smart Pricing, most hosts did what you would probably do: they looked at a few nearby listings, picked a round number that felt reasonable, and left it there for months. Some hosts used spreadsheets. A small number of professional property managers used third-party pricing tools. But the vast majority of Airbnb&rsquo;s millions of hosts are not professional hoteliers &mdash; they are people renting a spare room or a vacation home, and they do not have the time, the data, or the expertise to reprice their listing every week as the market shifts.</p>
+
+  <p>Just as the guest side has transactional and exploratory users, the host side has two distinct types that need different things from the same tool. <strong>Engaged hosts</strong> manage multiple properties, check their calendars weekly, track competitors, and adjust for events. They already have market intuition &mdash; they need Smart Pricing as a second opinion backed by data. They will override the suggestion if it feels wrong, because they have context the model doesn&rsquo;t (they just renovated, the neighbor&rsquo;s construction is noisy). <strong>Passive hosts</strong> are renting a spare room or vacation home on the side. They set a round number when they listed, haven&rsquo;t touched it in months, and don&rsquo;t know there&rsquo;s a music festival three weeks from now. They need the system to think for them &mdash; and they will likely accept whatever Smart Pricing suggests. The same tool, two very different relationships with it &mdash; and as we&rsquo;ll see later, the power dynamic between algorithm and host looks very different depending on which type you are.</p>
 
   <p>The result was widespread mispricing: hosts in high-demand markets charging too little and booking instantly (leaving money on the table), and hosts in soft markets charging too much and sitting empty for weeks (losing income entirely).</p>
 
@@ -714,6 +986,51 @@
     <figcaption><strong>Figure 3: Pure ML vs. hybrid approach to Smart Pricing.</strong> Both approaches start with the same inputs. The pure ML model tries to learn the entire lead time curve from data alone &mdash; powerful when data is plentiful, but opaque and fragile when it&rsquo;s sparse. The hybrid model assumes the curve follows a known shape (based on domain expertise) and asks the ML model to predict only the five parameters that define that shape. The result is a model that is both more accurate and more explainable.</figcaption>
   </figure>
 
+  <p>The same curve shape produces very different outputs depending on the cluster. The five parameters the ML learns are different for each cluster because the booking patterns are genuinely different. The figure below illustrates this with two clusters from the same city:</p>
+
+  <figure>
+    <svg width="100%" viewBox="0 0 680 220" role="img" style="max-width:680px;display:block;margin:0 auto;">
+      <title>Same hybrid model, different lead time curves per cluster</title>
+      <desc>Bar charts showing Urban Seattle with a steady ramp toward check-in versus PNW Getaways with early booking that tapers off</desc>
+      <rect x="0" y="0" width="680" height="220" fill="#ffffff" rx="8"/>
+
+      <text font-family="Arial,sans-serif" font-size="13" fill="#484848" font-weight="700" x="340" y="22" text-anchor="middle">Same curve shape, different parameters per cluster:</text>
+
+      <!-- Urban Seattle -->
+      <rect x="40" y="38" width="280" height="150" rx="8" fill="#e1f5ee" stroke="#0f6e56" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#085041" font-weight="700" x="180" y="58" text-anchor="middle">&ldquo;Urban Seattle&rdquo;</text>
+      <rect x="75" y="110" width="38" height="30" rx="3" fill="#1D9E75" opacity="0.4"/>
+      <rect x="121" y="100" width="38" height="40" rx="3" fill="#1D9E75" opacity="0.55"/>
+      <rect x="167" y="88" width="38" height="52" rx="3" fill="#1D9E75" opacity="0.7"/>
+      <rect x="213" y="76" width="38" height="64" rx="3" fill="#1D9E75" opacity="0.85"/>
+      <rect x="259" y="65" width="38" height="75" rx="3" fill="#1D9E75"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#767676" x="94" y="155" text-anchor="middle">90d</text>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#767676" x="140" y="155" text-anchor="middle">60d</text>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#767676" x="186" y="155" text-anchor="middle">30d</text>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#767676" x="232" y="155" text-anchor="middle">7d</text>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#767676" x="278" y="155" text-anchor="middle">1d</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#085041" x="180" y="178" text-anchor="middle">Steady ramp to check-in</text>
+
+      <!-- PNW Getaways -->
+      <rect x="360" y="38" width="280" height="150" rx="8" fill="#eeedfe" stroke="#534ab7" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#3c3489" font-weight="700" x="500" y="58" text-anchor="middle">&ldquo;PNW Getaways&rdquo;</text>
+      <rect x="395" y="65" width="38" height="75" rx="3" fill="#7F77DD"/>
+      <rect x="441" y="76" width="38" height="64" rx="3" fill="#7F77DD" opacity="0.85"/>
+      <rect x="487" y="92" width="38" height="48" rx="3" fill="#7F77DD" opacity="0.6"/>
+      <rect x="533" y="105" width="38" height="35" rx="3" fill="#7F77DD" opacity="0.4"/>
+      <rect x="579" y="116" width="38" height="24" rx="3" fill="#7F77DD" opacity="0.25"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#767676" x="414" y="155" text-anchor="middle">90d</text>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#767676" x="460" y="155" text-anchor="middle">60d</text>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#767676" x="506" y="155" text-anchor="middle">30d</text>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#767676" x="552" y="155" text-anchor="middle">7d</text>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#767676" x="598" y="155" text-anchor="middle">1d</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#3c3489" x="500" y="178" text-anchor="middle">Books early, tapers off</text>
+
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="340" y="206" text-anchor="middle" font-style="italic">The 5 parameters ML learns are what make the same curve shape produce these different patterns</text>
+    </svg>
+    <figcaption><strong>Figure: Different clusters, different demand curves.</strong> The hybrid model uses the same structural curve shape for every cluster, but the five ML-learned parameters produce very different patterns. &ldquo;Urban Seattle&rdquo; listings (Capitol Hill, Fremont, Ballard) show steady demand that ramps toward check-in &mdash; pricing should hold and increase. &ldquo;PNW Getaways&rdquo; (San Juan Islands, Leavenworth) book heavily months in advance and taper off &mdash; pricing should start high and drop if unsold. Same model, different economics.</figcaption>
+  </figure>
+
   <p>But there&rsquo;s still one problem left. Airbnb has millions of listings, and each one is unique. Even with a hybrid model, trying to calculate five numbers for every individual listing hits the same wall &mdash; most listings simply don&rsquo;t have enough bookings to work with. Consider: a cozy studio apartment in Lisbon might get booked 15 times a year. That is 15 data points to learn from &mdash; not nearly enough data to learn a reliable pattern from. A rural farmhouse in Tuscany might get booked 4 times. The model needs thousands of bookings to calculate those five numbers reliably, and individual listings will never provide that. The workaround is an idea that should feel familiar from Spotify.</p>
 
   <p>Airbnb&rsquo;s solution uses <strong>clustering</strong> &mdash; a technique where the system groups similar items together on its own, without anyone telling it what the groups should be. (Spotify uses the same idea to group songs by audience.) By looking at which listings guests tend to consider together in a single search session, the system learns which homes share similar audiences. Listings that frequently co-appear in browsing get grouped into clusters Airbnb calls <strong>demand aggregations</strong>. Each cluster shares a lead time distribution, which solves the not-enough-data problem: instead of trying to learn from one listing with 15 bookings a year, the model learns from a cluster of thousands of listings that share a common audience.</p>
@@ -723,6 +1040,97 @@
     <div class="concept-term">Demand aggregations</div>
     <div class="concept-def">A <strong>demand aggregation</strong> is a cluster of listings that share similar guest audiences &mdash; not because they look alike physically, but because guests tend to browse and compare them together. A cozy studio in Lisbon and a modern flat across town may have nothing in common architecturally, but if guests routinely consider both during the same search session, they belong to the same demand cluster. Grouping listings this way solves the data-sparsity problem: instead of learning pricing patterns from one listing&rsquo;s 15 bookings per year, the model learns from thousands of co-browsed listings at once. The clusters are defined by <em>demand behavior</em>, not by features an engineer chose &mdash; making them a learned representation of how the market actually works.</div>
   </div>
+
+  <p>The figure below shows how this works in practice. Individual listings each have sparse data &mdash; far too little to learn from alone. But the system watches millions of guest browsing sessions and notices which listings get viewed together. Listings that guests routinely compare end up in the same cluster, even if they look nothing alike physically. Once grouped, the cluster has enough pooled bookings for the hybrid model to learn reliable lead time patterns.</p>
+
+  <figure>
+    <svg width="100%" viewBox="0 0 680 560" role="img" style="max-width:680px;display:block;margin:0 auto;">
+      <title>How clustering groups listings by guest browsing behavior</title>
+      <desc>Shows individual listings with sparse data, guest browsing sessions linking them, and the resulting demand clusters with pooled bookings</desc>
+      <rect x="0" y="0" width="680" height="560" fill="#ffffff" rx="8"/>
+      <defs><marker id="a4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#b0b0b0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+
+      <text font-family="Arial,sans-serif" font-size="14" fill="#484848" font-weight="700" x="340" y="28" text-anchor="middle">The problem: not enough data per listing</text>
+
+      <rect x="40" y="42" width="120" height="55" rx="6" fill="#fff0ef" stroke="#ff5a5f" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#993C1D" font-weight="700" x="100" y="60" text-anchor="middle">Studio A</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="100" y="76" text-anchor="middle">Capitol Hill, SEA</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="100" y="90" text-anchor="middle">12 bookings/yr</text>
+
+      <rect x="185" y="42" width="120" height="55" rx="6" fill="#fff0ef" stroke="#ff5a5f" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#993C1D" font-weight="700" x="245" y="60" text-anchor="middle">Flat B</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="245" y="76" text-anchor="middle">Fremont, SEA</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="245" y="90" text-anchor="middle">18 bookings/yr</text>
+
+      <rect x="330" y="42" width="120" height="55" rx="6" fill="#fff0ef" stroke="#ff5a5f" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#993C1D" font-weight="700" x="390" y="60" text-anchor="middle">Apt C</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="390" y="76" text-anchor="middle">Ballard, SEA</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="390" y="90" text-anchor="middle">14 bookings/yr</text>
+
+      <rect x="475" y="42" width="120" height="55" rx="6" fill="#f7f7f7" stroke="#cccccc" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#484848" font-weight="700" x="535" y="60" text-anchor="middle">Cabin D</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="535" y="76" text-anchor="middle">San Juan Islands</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="535" y="90" text-anchor="middle">8 bookings/yr</text>
+
+      <line x1="340" y1="100" x2="340" y2="122" stroke="#b0b0b0" stroke-width="1.5" marker-end="url(#a4)"/>
+
+      <text font-family="Arial,sans-serif" font-size="14" fill="#484848" font-weight="700" x="340" y="142" text-anchor="middle">The signal: guest browsing sessions</text>
+
+      <rect x="60" y="152" width="560" height="82" rx="8" fill="#f7f7f7" stroke="#cccccc" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="80" y="172">Session 1: Guest browsed</text>
+      <rect x="210" y="162" width="70" height="18" rx="9" fill="#fff0ef" stroke="#ff5a5f" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#993C1D" x="245" y="175" text-anchor="middle">Studio A</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="290" y="175">and</text>
+      <rect x="310" y="162" width="55" height="18" rx="9" fill="#fff0ef" stroke="#ff5a5f" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#993C1D" x="338" y="175" text-anchor="middle">Flat B</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="375" y="175">and</text>
+      <rect x="395" y="162" width="55" height="18" rx="9" fill="#fff0ef" stroke="#ff5a5f" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#993C1D" x="423" y="175" text-anchor="middle">Apt C</text>
+
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="80" y="210">Session 2: Guest browsed</text>
+      <rect x="210" y="200" width="55" height="18" rx="9" fill="#fff0ef" stroke="#ff5a5f" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#993C1D" x="238" y="213" text-anchor="middle">Flat B</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="275" y="213">and</text>
+      <rect x="295" y="200" width="70" height="18" rx="9" fill="#fff0ef" stroke="#ff5a5f" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#993C1D" x="330" y="213" text-anchor="middle">Studio A</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="380" y="213">&mdash; not</text>
+      <rect x="415" y="200" width="60" height="18" rx="9" fill="#f7f7f7" stroke="#cccccc" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#484848" x="445" y="213" text-anchor="middle">Cabin D</text>
+
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="340" y="255" text-anchor="middle" font-style="italic">Guests treat A, B, and C as substitutes. Cabin D is a different market.</text>
+
+      <line x1="340" y1="262" x2="340" y2="290" stroke="#b0b0b0" stroke-width="1.5" marker-end="url(#a4)"/>
+
+      <text font-family="Arial,sans-serif" font-size="14" fill="#484848" font-weight="700" x="340" y="310" text-anchor="middle">Result: demand clusters</text>
+
+      <rect x="60" y="322" width="320" height="90" rx="8" fill="#e1f5ee" stroke="#0f6e56" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#085041" font-weight="700" x="220" y="342" text-anchor="middle">Cluster 1: &ldquo;Urban Seattle&rdquo;</text>
+      <rect x="80" y="355" width="70" height="18" rx="9" fill="#fff0ef" stroke="#ff5a5f" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#993C1D" x="115" y="368" text-anchor="middle">Studio A</text>
+      <rect x="158" y="355" width="55" height="18" rx="9" fill="#fff0ef" stroke="#ff5a5f" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#993C1D" x="186" y="368" text-anchor="middle">Flat B</text>
+      <rect x="221" y="355" width="55" height="18" rx="9" fill="#fff0ef" stroke="#ff5a5f" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#993C1D" x="249" y="368" text-anchor="middle">Apt C</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="290" y="368">+ 200 more</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#085041" x="220" y="400" text-anchor="middle">12 + 18 + 14 + ... = 3,400 bookings/yr</text>
+
+      <rect x="410" y="322" width="220" height="90" rx="8" fill="#eeedfe" stroke="#534ab7" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="12" fill="#3c3489" font-weight="700" x="520" y="342" text-anchor="middle">Cluster 2: &ldquo;PNW Getaways&rdquo;</text>
+      <rect x="440" y="355" width="60" height="18" rx="9" fill="#f7f7f7" stroke="#cccccc" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="9" fill="#484848" x="470" y="368" text-anchor="middle">Cabin D</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#767676" x="515" y="368">+ 40 more</text>
+      <text font-family="Arial,sans-serif" font-size="10" fill="#3c3489" x="520" y="400" text-anchor="middle">8 + ... = 620 bookings/yr</text>
+
+      <line x1="340" y1="415" x2="340" y2="440" stroke="#b0b0b0" stroke-width="1.5" marker-end="url(#a4)"/>
+
+      <rect x="140" y="445" width="400" height="30" rx="6" fill="#f7f7f7" stroke="#cccccc" stroke-width="0.5"/>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="340" y="465" text-anchor="middle">&rarr; each cluster feeds into the hybrid pricing model</text>
+
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="340" y="510" text-anchor="middle" font-style="italic">Clusters are defined by guest behavior, not by what a listing looks like.</text>
+      <text font-family="Arial,sans-serif" font-size="11" fill="#767676" x="340" y="530" text-anchor="middle" font-style="italic">A Capitol Hill studio and a Fremont flat look nothing alike &mdash; but guests treat them as substitutes.</text>
+    </svg>
+    <figcaption><strong>Figure: How demand clusters form.</strong> Individual listings don&rsquo;t have enough bookings to learn from alone. The system watches guest browsing sessions and groups listings that get viewed together into <strong>demand clusters</strong>. Studio A (Capitol Hill), Flat B (Fremont), and Apt C (Ballard) land in the same &ldquo;Urban Seattle&rdquo; cluster because guests treat them as substitutes &mdash; even though they look nothing alike. Cabin D (San Juan Islands) lands in a separate &ldquo;PNW Getaways&rdquo; cluster. Now each cluster has thousands of pooled bookings for the pricing model to learn from.</figcaption>
+  </figure>
 
   <div class="insight-box">
     <div class="insight-label">Why this matters for managers</div>
@@ -787,6 +1195,10 @@
   <p>This is a deliberate choice between <strong>automation</strong> and <strong>augmentation</strong> &mdash; the same tradeoff from Chapter 2. Airbnb <em>could</em> set prices directly; it has the data and the models. But it chose augmentation: the model recommends, the host decides. Why? Partly legal (Airbnb doesn&rsquo;t own the home), partly ethical (the host bears the consequences of a bad price), and partly strategic (hosts who feel coerced churn off the platform). The same AI capability that could have been automation is deployed as augmentation because of a business judgment about the relationship between platform and host.</p>
 
   <p>That design choice does not make the ethical questions go away. When Smart Pricing suggests lowering a nightly rate to match an apparent market softening, the host is under real pressure to accept &mdash; the alternative is a dark calendar. The suggestion is not a command, but it is not neutral either. A suggestion from an algorithm that sees the entire market is hard to argue with from a position of seeing just your own property. We&rsquo;ll return to this in §11.</p>
+
+  <p><strong>The value</strong> looks different depending on the host type. For <strong>engaged hosts</strong> &mdash; the ones who manage multiple properties, track competitors, and check their calendar weekly &mdash; the value is a better second opinion. They already have intuition about what to charge; Smart Pricing gives them data to confirm or challenge that intuition, so they spend less time guessing and more time making confident decisions. For <strong>passive hosts</strong> &mdash; the ones who rent a spare room, set a round number three months ago, and haven&rsquo;t thought about pricing since &mdash; the value is that the system thinks for them. Without Smart Pricing, their calendar sits empty for weeks because they priced too high, or they book instantly and leave money on the table because they priced too low. The system catches what they would never notice on their own. For <strong>Airbnb</strong>, the value is the flywheel: better pricing across millions of listings means more bookings, more bookings mean more service-fee revenue, more bookings generate more training data, and more data makes the next cycle of pricing suggestions better. Every outcome &mdash; whether the host accepted the suggestion or overrode it, whether the night was booked or stayed empty &mdash; feeds back into the model. The system gets smarter regardless of what the host chose.</p>
+
+  <p>But notice the asymmetry. The engaged host evaluates the suggestion and sometimes overrides it &mdash; that is genuine augmentation, where human judgment and machine intelligence combine. The passive host almost always accepts. For them, &ldquo;augmentation&rdquo; is a design label more than a lived experience. The algorithm is, in practice, setting their prices. Whether that is a problem depends on whether the algorithm&rsquo;s interests are aligned with the host&rsquo;s &mdash; a question we return to in the responsible-AI section.</p>
 
   <div class="insight-box">
     <div class="insight-label">The business takeaway from Parts I and II</div>
@@ -1061,15 +1473,15 @@
   </div>
 
   <h3>Discussion questions</h3>
-  <p style="font-size:13px; color:#767676; margin-bottom:0.75rem;">These work well as written assignments or in-class discussion prompts. Questions 2, 3, and 7 tend to generate the most debate.</p>
+  <p style="font-size:13px; color:#767676; margin-bottom:0.75rem;">These work well as written assignments or in-class discussion prompts. Questions 1, 3, and 7 tend to generate the most debate.</p>
   <ol class="discussion-list">
-    <li><strong>Two sides, one platform &mdash; advantage or risk?</strong> Is Airbnb&rsquo;s decision to optimize for both sides of its marketplace simultaneously a competitive advantage or an ethical risk? Take a position and defend it using specific evidence from the destination recommender, Smart Pricing, or both.</li>
+    <li><strong>The origin story comes full circle.</strong> Airbnb was born in 2008 helping people keep their apartments during the financial crisis. Today, cities like Barcelona, New York, and Mexico City are banning or severely restricting short-term rentals because they blame platforms like Airbnb for displacing residents and driving up housing costs. How do you reconcile the company that started as a lifeline for renters with the company now accused of pricing people out of their homes? Is this an inevitable consequence of scale, a failure of regulation, a failure of the platform, or something else?</li>
     <li><strong>Whose margin is Smart Pricing optimizing?</strong> When Smart Pricing suggests a lower price to a host during a quiet period, whose interests is that algorithm actually serving? Argue it through &mdash; is it the host&rsquo;s, Airbnb&rsquo;s, the guest&rsquo;s, or some combination? Would a host-first version of the algorithm look different?</li>
-    <li><strong>Who was underserved before the model?</strong> Airbnb&rsquo;s destination recommender performs best in regions where English is not the primary language. What does that tell you about which users were <em>underserved</em> before the model existed &mdash; and what does it say about how Airbnb should measure the success of a recommender like this?</li>
+    <li><strong>Engaged vs. passive hosts.</strong> Smart Pricing is described as &ldquo;augmentation&rdquo; &mdash; the host always has the final say. But engaged hosts evaluate and sometimes override, while passive hosts almost always accept. If one group blindly follows the algorithm and the other doesn&rsquo;t, is it fair to call the same system &ldquo;augmentation&rdquo; for both? When does a suggestion become a decision in practice?</li>
     <li><strong>When is interpretability worth losing accuracy?</strong> Smart Pricing could have used pure ML and likely would have been somewhat more accurate than its hybrid approach. Instead, Airbnb chose a hybrid that gave up some raw accuracy in exchange for interpretability. Where is the line? Pick a business context where a manager should insist on interpretability even at a real cost to accuracy, and one where they shouldn&rsquo;t.</li>
-    <li><strong>Travel intent as text.</strong> Airbnb treats user actions as &ldquo;tokens&rdquo; the way a language model treats words. What are the risks of borrowing a framework designed for text and applying it to human travel intent? Where could this abstraction break &mdash; and what would the failure mode look like in the product?</li>
-    <li><strong>1.5 years to 6 weeks.</strong> Airbnb&rsquo;s engineers originally estimated the test migration at 1.5 years of work. They finished it in 6 weeks with LLMs. What should managers conclude from that number &mdash; and what should they <em>not</em> conclude? Under what conditions would you generalize this result to other teams or other kinds of work, and when would you resist?</li>
     <li><strong>Filter bubble or personalization?</strong> The destination model learns from a user&rsquo;s past bookings. A user who has only ever booked in Europe will see mostly European recommendations. Is the model personalizing correctly &mdash; or narrowing the user&rsquo;s world? Argue both sides.</li>
+    <li><strong>1.5 years to 6 weeks.</strong> Airbnb&rsquo;s engineers originally estimated the test migration at 1.5 years of work. They finished it in 6 weeks with LLMs. What should managers conclude from that number &mdash; and what should they <em>not</em> conclude? Under what conditions would you generalize this result to other teams or other kinds of work?</li>
+    <li><strong>The people not in the algorithm.</strong> Smart Pricing optimizes for bookings. The recommender optimizes for conversion. Neither includes &ldquo;impact on local housing supply&rdquo; in its objective function &mdash; because displaced residents are not platform users. Should Airbnb be responsible for externalities its algorithm doesn&rsquo;t measure? If so, how? If not, whose responsibility is it?</li>
   </ol>
 
   <hr>
