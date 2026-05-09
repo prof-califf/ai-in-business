@@ -251,7 +251,7 @@
   <div class="cover">
     <div class="cover-tag">MIS 432 &middot; AI in Business &middot; Case Study</div>
     <h1>Airbnb:<br>AI &amp; the Matching Problem in a Two-Sided Marketplace</h1>
-    <div class="cover-sub">Neither side of the marketplace knows what it wants. Airbnb uses AI to infer guest intent, set host prices, resolve support calls, and accelerate engineering &mdash; four systems that teach four different versions of what &ldquo;human-in-the-loop&rdquo; actually means</div>
+    <div class="cover-sub">Neither side of the marketplace knows what it wants. Airbnb uses AI to figure it out for both of them &mdash; recommending destinations guests can&rsquo;t articulate, pricing listings hosts can&rsquo;t value, and accelerating its own engineering along the way. Each system runs through the same AI Factory framework but makes different choices about data, model design, and how much control humans retain.</div>
     <div class="cover-meta">
       <span><strong>Level:</strong> Upper-division undergraduate</span>
       <span><strong>Topics:</strong> Two-sided marketplaces, matching under uncertainty, dynamic pricing, hybrid ML + structural modeling, human-in-the-loop, generative AI in the enterprise</span>
@@ -350,12 +350,6 @@
   <p>If you have ever opened a travel app and just scrolled &mdash; no dates in mind, no city in mind, just a vague itch to go somewhere &mdash; you were an exploratory user. And you were giving the platform almost nothing to work with. No search query. No dates. Maybe a few past bookings from a year ago. The system needs to figure out what to show you, and it has to do it in the few seconds before you get bored and close the app.</p>
 
   <p>Exploratory users introduce an even harder problem for any recommendation system: if the user doesn&rsquo;t know where they want to go, how is the system supposed to know what to suggest? This is a classic problem in recommender systems, and it shows up whenever a user has very little history for the system to learn from.</p>
-
-  <div class="concept-box">
-    <div class="concept-label">Key concept</div>
-    <div class="concept-term">The cold-start problem</div>
-    <div class="concept-def">The cold-start problem is what happens when a recommendation system has to personalize for someone it knows almost nothing about. A new user has no bookings, no viewing history &mdash; standard &ldquo;people like you&rdquo; logic has nothing to work with. At Airbnb, cold-start includes a subtler variant: a user who booked once a year ago but hasn&rsquo;t returned since. On the supply side, the same problem appears: a brand-new listing has no booking history, which is why Smart Pricing relies on patterns from similar listings.</div>
-  </div>
 
   <p>On the host side, the parallel is nearly exact. A host has a home, a calendar, and an approximate sense of what to charge. But they don&rsquo;t know what a Thursday in early October will actually be worth three months from now &mdash; nobody does. Markets move. Big events pull demand forward. Weather shifts bookings around. A host trying to price by intuition is guessing against information the platform already has in aggregate. That is the supply-side version of the same fundamental problem: <em>the person on this side of the marketplace does not fully know what they want (or what they should charge), and the platform is better positioned to help them figure it out than they are on their own.</em></p>
 
@@ -528,6 +522,12 @@
     <div class="concept-label">Key concept</div>
     <div class="concept-term">Short-term vs. long-term signals</div>
     <div class="concept-def"><strong>Short-term signals</strong> are recent actions &mdash; searches, clicks, and views in the last few days &mdash; that reveal what a user is actively considering <em>right now</em>. <strong>Long-term signals</strong> are historical bookings that reveal durable preferences: preferred climates, price ranges, travel styles. A recommendation system that uses only one type will either overreact to momentary curiosity or ignore current intent entirely. Airbnb&rsquo;s model processes them as separate input streams so it can weigh both. This same distinction &mdash; recent behavior vs. historical pattern &mdash; appears in nearly every recommendation system in this course.</div>
+  </div>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">The cold-start problem</div>
+    <div class="concept-def">But what happens when one or both of those piles is thin &mdash; or empty? A new user has no short-term <em>and</em> no long-term signals. A dormant user who booked once a year ago has stale long-term data but no short-term data at all. This is the <strong>cold-start problem</strong>: when a recommendation system has almost nothing to personalize from. Airbnb&rsquo;s fix is a training-data design choice: every booking generates 14 training examples &mdash; half simulating an active user (both signal streams present) and half simulating a dormant user (short-term signals stripped away). This teaches the model how to fall back gracefully on whatever context is available. The decision was made before any model code was written &mdash; it determines who the system works for.</div>
   </div>
 
   <p>On top of these behavioral sequences, Airbnb layers <strong>contextual signals</strong> &mdash; things like what time of year it is. A user&rsquo;s long-term pattern might say &ldquo;beach destinations,&rdquo; but if they&rsquo;re searching in December, the model should probably weight warm-weather beaches over Cape Cod. The current date is an input to the model in the same way a word&rsquo;s position in a sentence is an input to a language model.</p>
@@ -878,12 +878,6 @@
   <p>The <strong>lead time distribution</strong> is the shape of how bookings spread across those gaps for a given date and location. High-demand dates like New Year&rsquo;s Eve see early bookings &mdash; people plan ahead. Beach towns see more last-minute bookings. A city like San Francisco during a big conference gets booked weeks ahead because there aren&rsquo;t enough listings to go around. If a host prices a peak date as if bookings will come in the last two weeks, they&rsquo;ll leave the calendar open too long and miss the early wave. Understanding the lead time distribution is what lets Smart Pricing tell the host when to raise prices and when to lower them.</p>
 
   <p>Bookings arrive over time in a way that looks random at any single moment but has clear patterns when you zoom out. You can&rsquo;t predict exactly when the next booking for a specific listing will come in, but across thousands of listings and check-in dates, the overall pattern is highly predictable. Smart Pricing&rsquo;s job is not to guess the next individual booking &mdash; it&rsquo;s to forecast the <em>shape</em> of the arrival pattern for each check-in date, so hosts can price appropriately as the date approaches. Framed this way, dynamic pricing becomes a forecasting problem with a pricing decision bolted onto the end.</p>
-
-  <div class="concept-box">
-    <div class="concept-label">Key concept</div>
-    <div class="concept-term">Stochastic arrival process</div>
-    <div class="concept-def">A <strong>stochastic process</strong> is one that appears random at the level of any single event but follows clear statistical patterns in aggregate. Bookings for a given check-in date arrive one at a time, unpredictably &mdash; but across thousands of listings, the <em>shape</em> of how those bookings accumulate over time is highly regular and learnable. Smart Pricing does not try to predict individual bookings. It forecasts the overall arrival pattern &mdash; how demand for a date will build as the check-in date approaches &mdash; and uses that forecast to set prices. This is the same logic airlines use to manage seat inventory: individual purchases are random; aggregate demand curves are not.</div>
-  </div>
 
   <figure>
     <svg width="100%" viewBox="0 0 680 280" role="img" style="max-width:680px;display:block;margin:0 auto;">
@@ -1314,27 +1308,17 @@
 
   <h3>On the support side: when the AI listens first</h3>
 
-  <p>There is a fourth AI system at Airbnb that illustrates yet another version of human-in-the-loop &mdash; and it is one most students will recognize from their own experience as customers. When a guest or host calls Airbnb for help, they do not navigate a traditional phone tree of &ldquo;press 1 for billing, press 2 for reservations.&rdquo; Instead, Airbnb&rsquo;s ML-powered Interactive Voice Response (IVR) system asks an open-ended question: <em>&ldquo;In a few sentences, please tell us why you&rsquo;re calling today.&rdquo;</em></p>
-
-  <p>What happens next is a small AI pipeline. First, an <strong>automated speech recognition</strong> (ASR) model transcribes what the caller says &mdash; tuned specifically for Airbnb terminology so that &ldquo;listing&rdquo; is not transcribed as &ldquo;lifting&rdquo; and &ldquo;help with my stay&rdquo; is not heard as &ldquo;happy Christmas Day.&rdquo; Airbnb reports that domain-specific tuning cut the rate of transcription mistakes from 33% to roughly 10%.</p>
-
-  <p>Then an <strong>intent detection model</strong> classifies the caller&rsquo;s issue into a category &mdash; cancellations, refunds, account issues &mdash; and a <strong>paraphrasing model</strong> generates a plain-language summary of the problem so the caller can confirm the system understood them. If the issue can be resolved with a help article, the system sends it via text message. If the caller wants a human, they press 0 at any point and are connected to an agent &mdash; with the AI&rsquo;s understanding of the issue already attached, so the agent doesn&rsquo;t start from scratch.</p>
+  <p>Airbnb also uses AI in customer support. When a guest or host calls, the system asks an open-ended question &mdash; <em>&ldquo;In a few sentences, tell us why you&rsquo;re calling&rdquo;</em> &mdash; then transcribes the response, detects the intent, and either resolves it automatically or routes to a human agent. Domain-specific tuning cut transcription errors from 33% to ~10% (so &ldquo;listing&rdquo; is no longer heard as &ldquo;lifting&rdquo;). The caller can press 0 at any time for a human. This is the matching problem again in miniature: infer what someone needs from messy input and route them to the right answer.</p>
 
   <div class="pipeline-row">
     <div class="pipe-step">Caller speaks</div>
     <div class="pipe-arrow">&rarr;</div>
-    <div class="pipe-step">Speech &rarr; text (ASR)</div>
+    <div class="pipe-step">Speech &rarr; text</div>
     <div class="pipe-arrow">&rarr;</div>
     <div class="pipe-step">Intent detection</div>
     <div class="pipe-arrow">&rarr;</div>
-    <div class="pipe-step">Paraphrase &amp; confirm</div>
-    <div class="pipe-arrow">&rarr;</div>
-    <div class="pipe-step">Self-serve or escalate to human</div>
+    <div class="pipe-step">Self-serve or escalate</div>
   </div>
-
-  <p>This is the matching problem again, in miniature. A caller has a problem they can describe but cannot classify. The system has hundreds of help articles and dozens of agent teams. The AI&rsquo;s job is to infer what the caller needs from messy, noisy, spoken language and route them to the right resolution &mdash; just as the destination recommender infers where a guest wants to travel from messy behavioral signals. The pattern is the same; the domain is different.</p>
-
-  <p>What makes this a useful human-in-the-loop example is that the human&rsquo;s role is <em>opt-in escalation</em>. The system tries to handle the easy cases automatically. The human agent is not reviewing every AI decision &mdash; they are standing by for the cases the AI cannot resolve or the caller does not trust it to handle. This is the third version of human-in-the-loop in this chapter, and it is increasingly the default pattern for customer-facing AI: <em>automate the common path, keep a human available for the exceptions.</em> The responsible-AI question is whether the system makes it genuinely easy to reach the human, or whether the &ldquo;press 0&rdquo; option is buried under enough friction that most callers give up and accept the automated answer.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
@@ -1460,14 +1444,11 @@
     <div class="vocab-card"><div class="vocab-term">Active vs. dormant users</div><div class="vocab-def">A deliberate training-data design choice that teaches one model to handle both recently active and long-lapsed users</div></div>
     <div class="vocab-card"><div class="vocab-term">Prediction&ndash;decision gap</div><div class="vocab-def">The gap between what a model predicts and what a business should actually do &mdash; closed differently on each side of a two-sided marketplace</div></div>
     <div class="vocab-card"><div class="vocab-term">Dynamic pricing</div><div class="vocab-def">Adjusting prices in near-real-time as demand, supply, and time to check-in change</div></div>
-    <div class="vocab-card"><div class="vocab-term">Lead time distribution</div><div class="vocab-def">The shape of how far in advance bookings arrive &mdash; different for peak dates vs. last-minute markets, and central to good pricing</div></div>
-    <div class="vocab-card"><div class="vocab-term">Stochastic arrival process</div><div class="vocab-def">&ldquo;Random with a pattern&rdquo; &mdash; bookings arrive unpredictably one at a time but follow clear patterns in aggregate</div></div>
-    <div class="vocab-card"><div class="vocab-term">Structural vs. pure ML</div><div class="vocab-def">Structural models specify a shape; pure ML learns the whole thing &mdash; each has strengths. Hybrid combines both</div></div>
-    <div class="vocab-card"><div class="vocab-term">Hybrid models</div><div class="vocab-def">Combining domain knowledge about the structure of a problem with ML&rsquo;s ability to learn parameters &mdash; halved Smart Pricing error</div></div>
+    <div class="vocab-card"><div class="vocab-term">Lead time distribution</div><div class="vocab-def">The shape of when bookings arrive relative to check-in &mdash; high-demand dates book early, last-minute markets book late. The key variable Smart Pricing forecasts.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Hybrid models</div><div class="vocab-def">Combining domain knowledge about the structure of a problem with ML&rsquo;s ability to learn parameters &mdash; experts set the curve shape, ML fills in the numbers. Halved Smart Pricing&rsquo;s forecast error vs. pure ML.</div></div>
     <div class="vocab-card"><div class="vocab-term">Demand aggregations</div><div class="vocab-def">Clusters of listings grouped by shared guest audiences (not physical features), solving the sparsity problem for per-listing pricing</div></div>
     <div class="vocab-card"><div class="vocab-term">Generative vs. predictive AI</div><div class="vocab-def">Predictive AI produces scores or rankings from historical patterns; generative AI produces new content (text, code) from huge unstructured training sets</div></div>
-    <div class="vocab-card"><div class="vocab-term">Human-in-the-loop workflows</div><div class="vocab-def">Wrapping an AI model in validation, retries, and human-directed tuning to make unreliable capability into reliable production output</div></div>
-    <div class="vocab-card"><div class="vocab-term">Human-in-the-loop (four versions)</div><div class="vocab-def">The phrase covers very different realities: host reviews every suggestion, engineer designs system but not every output, caller can escalate at any moment, society intervenes after the fact via regulation</div></div>
+    <div class="vocab-card"><div class="vocab-term">Human-in-the-loop (four versions)</div><div class="vocab-def">The phrase covers very different realities: a host reviewing every price suggestion, an engineer designing the system but not each output, a caller who can escalate to a human at any time, and society intervening through regulation. When someone says &ldquo;there&rsquo;s a human in the loop,&rdquo; the follow-up question is: which version?</div></div>
     <div class="vocab-card"><div class="vocab-term">Externalities and the objective function</div><div class="vocab-def">When the people most affected by an AI system are not its users, their costs don&rsquo;t appear in the objective function &mdash; choosing what to optimize for is itself a decision with ethical and political consequences</div></div>
     <div class="vocab-card"><div class="vocab-term">Substitution vs. augmentation</div><div class="vocab-def">Does an AI deployment replace people doing a task or make those same people dramatically more productive? Rarely as clear-cut as it sounds</div></div>
   </div>
