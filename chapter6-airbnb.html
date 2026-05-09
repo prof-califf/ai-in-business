@@ -242,7 +242,7 @@
 <div class="lab-strip">
   <div class="lab-strip-inner">
     <span style="font-size:13px; color:#767676;">Also in this chapter:</span>
-    <a href="chapter6-airbnb-lab.html" style="font-size:13px; color:#ff385c; text-decoration:none; font-weight:700;">Lab 6: Build a Demand-Based Pricing Model in Python →</a>
+    <a href="chapter6-airbnb-lab.html" style="font-size:13px; color:#ff385c; text-decoration:none; font-weight:700;">Lab 6: AI &amp; the Matching Problem &mdash; Be the Host &rarr;</a>
   </div>
 </div>
 
@@ -1025,14 +1025,14 @@
     <figcaption><strong>Figure: Different clusters, different demand curves.</strong> The hybrid model uses the same structural curve shape for every cluster, but the five ML-learned parameters produce very different patterns. &ldquo;Urban Seattle&rdquo; listings (Capitol Hill, Fremont, Ballard) show steady demand that ramps toward check-in &mdash; pricing should hold and increase. &ldquo;PNW Getaways&rdquo; (San Juan Islands, Leavenworth) book heavily months in advance and taper off &mdash; pricing should start high and drop if unsold. Same model, different economics.</figcaption>
   </figure>
 
-  <p>But there&rsquo;s still one problem left. Airbnb has millions of listings, and each one is unique. Even with a hybrid model, trying to calculate five numbers for every individual listing hits the same wall &mdash; most listings simply don&rsquo;t have enough bookings to work with. Consider: a cozy studio apartment in Lisbon might get booked 15 times a year. That is 15 data points to learn from &mdash; not nearly enough data to learn a reliable pattern from. A rural farmhouse in Tuscany might get booked 4 times. The model needs thousands of bookings to calculate those five numbers reliably, and individual listings will never provide that. The workaround is an idea that should feel familiar from Spotify.</p>
+  <p>But there&rsquo;s still one problem left. Airbnb has millions of listings, and each one is unique. Even with a hybrid model, trying to calculate five numbers for every individual listing hits the same wall &mdash; most listings simply don&rsquo;t have enough bookings to work with. Consider: a studio apartment in Capitol Hill, Seattle might get booked 12 times a year. That is 12 data points to learn from &mdash; not nearly enough to learn a reliable pattern. A cabin on the San Juan Islands might get booked 8 times. The model needs thousands of bookings to calculate those five numbers reliably, and individual listings will never provide that. The workaround is an idea that should feel familiar from Spotify.</p>
 
   <p>Airbnb&rsquo;s solution uses <strong>clustering</strong> &mdash; a technique where the system groups similar items together on its own, without anyone telling it what the groups should be. (Spotify uses the same idea to group songs by audience.) By looking at which listings guests tend to consider together in a single search session, the system learns which homes share similar audiences. Listings that frequently co-appear in browsing get grouped into clusters Airbnb calls <strong>demand aggregations</strong>. Each cluster shares a lead time distribution, which solves the not-enough-data problem: instead of trying to learn from one listing with 15 bookings a year, the model learns from a cluster of thousands of listings that share a common audience.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
     <div class="concept-term">Demand aggregations</div>
-    <div class="concept-def">A <strong>demand aggregation</strong> is a cluster of listings that share similar guest audiences &mdash; not because they look alike physically, but because guests tend to browse and compare them together. A cozy studio in Lisbon and a modern flat across town may have nothing in common architecturally, but if guests routinely consider both during the same search session, they belong to the same demand cluster. Grouping listings this way solves the data-sparsity problem: instead of learning pricing patterns from one listing&rsquo;s 15 bookings per year, the model learns from thousands of co-browsed listings at once. The clusters are defined by <em>demand behavior</em>, not by features an engineer chose &mdash; making them a learned representation of how the market actually works.</div>
+    <div class="concept-def">A <strong>demand aggregation</strong> is a cluster of listings that share similar guest audiences &mdash; not because they look alike physically, but because guests tend to browse and compare them together. A studio in Capitol Hill and a flat in Fremont may have nothing in common architecturally, but if guests routinely consider both during the same search session, they belong to the same demand cluster. Grouping listings this way solves the data-sparsity problem: instead of learning pricing patterns from one listing&rsquo;s 12 bookings per year, the model learns from thousands of co-browsed listings at once. The clusters are defined by <em>demand behavior</em>, not by features an engineer chose &mdash; making them a learned representation of how the market actually works.</div>
   </div>
 
   <p>The figure below shows how this works in practice. Individual listings each have sparse data &mdash; far too little to learn from alone. But the system watches millions of guest browsing sessions and notices which listings get viewed together. Listings that guests routinely compare end up in the same cluster, even if they look nothing alike physically. Once grouped, the cluster has enough pooled bookings for the hybrid model to learn reliable lead time patterns.</p>
@@ -1365,7 +1365,7 @@
 
   <div class="insight-box">
     <div class="insight-label">The through-line</div>
-    <div class="insight-text">Across all of these domains &mdash; guest personalization, host pricing, voice support, community impact, and engineering &mdash; the pattern is the same. An AI system does what it was built to do, and does it well. The hard questions are not about whether the system works. They are about <em>who it works for</em>, <em>who it doesn&rsquo;t</em>, and <em>who gets to decide</em>. Those are not engineering questions. They are management questions, and they are the ones this course is training you to ask.</div>
+    <div class="insight-text">Across all of these domains &mdash; guest personalization, host pricing, community impact, and engineering &mdash; the pattern is the same. An AI system does what it was built to do, and does it well. The hard questions are not about whether the system works. They are about <em>who it works for</em>, <em>who it doesn&rsquo;t</em>, and <em>who gets to decide</em>. Those are not engineering questions. They are management questions, and they are the ones this course is training you to ask.</div>
   </div>
 
   <!-- SECTION 12 -->
@@ -1425,7 +1425,7 @@
       <tr>
         <td><span class="step-badge">Value</span></td>
         <td>Higher conversion; re-engagement of dormant users</td>
-        <td>Better calendar utilization; higher host earnings</td>
+        <td>Better second opinion for engaged hosts; fewer mispriced nights for passive hosts</td>
         <td>1.5 years of engineering compressed into 6 weeks</td>
       </tr>
     </tbody>
@@ -1440,6 +1440,8 @@
     <div class="vocab-card"><div class="vocab-term">Behavioral sequences as tokens</div><div class="vocab-def">Treating each user action like a word in a sentence so language-model architectures can learn patterns in travel behavior</div></div>
     <div class="vocab-card"><div class="vocab-term">Short-term vs. long-term signals</div><div class="vocab-def">Active searches and views reveal current intent; historical bookings reveal durable preference &mdash; both needed for good recommendations</div></div>
     <div class="vocab-card"><div class="vocab-term">Embeddings</div><div class="vocab-def">Compact numeric representations of items (cities, regions, dates) where similar items end up close together in space</div></div>
+    <div class="vocab-card"><div class="vocab-term">Transformer</div><div class="vocab-def">A model that reads an entire sequence at once and uses attention to decide which parts matter most for predicting what comes next &mdash; the same architecture behind ChatGPT, applied here to travel actions instead of words</div></div>
+    <div class="vocab-card"><div class="vocab-term">Attention</div><div class="vocab-def">The mechanism inside a transformer that assigns importance weights to each item in the sequence &mdash; &ldquo;given everything this user has done, which actions matter most right now?&rdquo; The weights are learned from millions of examples, not programmed by a human</div></div>
     <div class="vocab-card"><div class="vocab-term">Multi-task learning</div><div class="vocab-def">Training one model to predict several related things at once &mdash; at Airbnb, both region and city &mdash; for richer shared understanding</div></div>
     <div class="vocab-card"><div class="vocab-term">Active vs. dormant users</div><div class="vocab-def">A deliberate training-data design choice that teaches one model to handle both recently active and long-lapsed users</div></div>
     <div class="vocab-card"><div class="vocab-term">Prediction&ndash;decision gap</div><div class="vocab-def">The gap between what a model predicts and what a business should actually do &mdash; closed differently on each side of a two-sided marketplace</div></div>
@@ -1469,7 +1471,7 @@
 
   <div class="chapter-nav-bar">
     <a href="chapter5-waymo.html">← Chapter 5: Waymo</a>
-    <a href="chapter6-airbnb-lab.html">Lab 6: Build a Demand-Based Pricing Model &rarr;</a>
+    <a href="chapter6-airbnb-lab.html">Lab 6: AI &amp; the Matching Problem &mdash; Be the Host &rarr;</a>
   </div>
 
 </div>
