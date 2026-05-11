@@ -181,7 +181,7 @@
   <div class="hero-inner">
     <div class="hero-tag">Chapter 7 &middot; Agentic AI &middot; Healthcare &middot; The Future of Medicine</div>
     <h1>From Paper Charts to AI Agents:<br>How Epic Is Reinventing American Healthcare</h1>
-    <p class="hero-sub">Epic began in a Wisconsin basement in 1979 with one idea: patient information should follow the patient. Forty-five years later, that idea has grown into the infrastructure of American medicine &mdash; and is now the launchpad for AI that doesn&rsquo;t just store information, but acts on it.</p>
+    <p class="hero-sub">Epic began in a Wisconsin basement in 1979 with one idea: patient information should follow the patient. The HITECH Act and Affordable Care Act then forced American healthcare to digitize &mdash; creating, without anyone planning it, the data infrastructure that now powers the most ambitious deployment of agentic AI in medicine.</p>
     <div class="hero-meta">
       <span><strong>Company:</strong> Epic</span>
       <span><strong>Industry:</strong> Healthcare IT</span>
@@ -206,17 +206,21 @@
   <div class="cover">
     <div class="cover-tag">MIS 432 &middot; AI in Business &middot; Case Study</div>
     <h1>From Paper Charts to AI Agents:<br>How Epic Is Reinventing American Healthcare</h1>
-    <div class="cover-sub">A forty-five year arc &mdash; from a basement database to the most ambitious agentic AI deployment in American medicine</div>
+    <div class="cover-sub">A forty-five year arc &mdash; from a basement database to the Affordable Care Act to the most ambitious agentic AI deployment in American medicine</div>
     <div class="cover-meta">
-      <span><strong>Level:</strong> Upper-division undergraduate</span>
-      <span><strong>Topics:</strong> Agentic AI, ambient AI, EHR history, human-in-the-loop, prompt engineering, AI prototyping, future of healthcare AI</span>
+      <span><strong>Level:</strong> Introductory undergraduate (200-level)</span>
+      <span><strong>Topics:</strong> Agentic AI, ambient AI, conversational AI, EHR history, human-in-the-loop, Agent Factory, Curiosity foundation models, data gravity, deskilling, world models, future of healthcare AI</span>
       <span><strong>Concepts introduced:</strong> 16 key business AI terms</span>
     </div>
     <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
       <p style="font-size: 13px; color: #888; margin: 0;">
         <strong style="color: #555;">Primary sources:</strong>
         <a href="https://www.fiercehealthcare.com/ai-and-machine-learning/epic-building-out-agentic-ai-it-also-broadens-focus-beyond-ehrs" target="_blank" style="color: #cd003b; text-decoration: none; font-style: italic;">HIMSS 2025 reporting on Epic&rsquo;s agentic AI strategy</a> (Fierce Healthcare);
+        <a href="https://www.fiercehealthcare.com/ai-and-machine-learning/himss26-epic-expands-ai-roadmap-previews-factory-build-and-orchestrate-ai" target="_blank" style="color: #cd003b; text-decoration: none; font-style: italic;">HIMSS 2026 reporting on Agent Factory and AI roadmap</a> (Fierce Healthcare);
+        <a href="https://www.epic.com/epic/post/real-results-right-now-how-epic-ai-is-reducing-costs-improving-care-and-helping-patients/" target="_blank" style="color: #cd003b; text-decoration: none; font-style: italic;">Real Results, Right Now: How Epic AI Is Reducing Costs, Improving Care, and Helping Patients</a> (Epic, March 2026);
+        <a href="https://www.epic.com/epic/post/the-rise-of-ai-powered-health-prediction-featuring-epics-curiosity/" target="_blank" style="color: #cd003b; text-decoration: none; font-style: italic;">The Rise of AI-Powered Health Prediction, Featuring Curiosity</a> (Epic / Nature Biotechnology, March 2026);
         <a href="https://support.microsoft.com/en-us/dax-copilot/epic/learn-dax-copilot-for-epic" target="_blank" style="color: #cd003b; text-decoration: none; font-style: italic;">Microsoft DAX Copilot for Epic documentation</a>;
+        <a href="https://www.techtarget.com/searchhealthit/podcast/How-Epic-is-finding-the-sweet-spot-for-EHR-AI-integration" target="_blank" style="color: #cd003b; text-decoration: none; font-style: italic;">How Epic is finding the sweet spot for EHR AI integration</a> (TechTarget, April 2025);
         AMA physician burnout surveys 2023&ndash;2024; Epic UGM 2025 announcements; peer-reviewed research on EHR adoption and AI clinical outcomes.
       </p>
     </div>
@@ -228,15 +232,15 @@
     <a href="#s2">2. Twenty years of paper: what healthcare looked like before the EHR</a>
     <a href="#s3">3. The digital mandate: HITECH, Meaningful Use, and the great digitization</a>
     <a href="#s4">4. The unintended consequence: when digital created new burdens</a>
-    <a href="#s5">5. The data foundation: Cosmos and why 280 million records matter</a>
+    <a href="#s5">5. The data foundation: Cosmos and why 300 million records matter</a>
     <a href="#s6">6. The AI era begins: from storage to intelligence</a>
     <a href="#s7">7. Ambient AI: DAX Copilot and the doctor-patient relationship</a>
     <a href="#s8">8. Agentic AI: when AI stops answering and starts acting</a>
-    <a href="#s9">9. Epic&rsquo;s agents: Art, Penny, and the pre-visit assistant</a>
-    <a href="#s10">10. The AI Factory at Epic</a>
-    <a href="#s11">11. Prompt engineering and AI prototyping in healthcare</a>
+    <a href="#s9">9. Epic&rsquo;s agents: Art, Penny, and Emmie</a>
+    <a href="#s10">10. The platform: data gravity, Agent Factory, and Curiosity</a>
+    <a href="#s11">11. The AI Factory at Epic</a>
     <a href="#s12">12. The human-in-the-loop question</a>
-    <a href="#s13">13. Four perspectives: how AI is changing healthcare for everyone</a>
+    <a href="#s13">13. The risks: alert fatigue, deskilling, and clinician resistance</a>
     <a href="#s14">14. Beyond today: what comes next</a>
     <a href="#s15">15. Key vocabulary &amp; discussion questions</a>
   </div>
@@ -278,23 +282,29 @@
 
   <p>The moment that changed everything was not a technology breakthrough. It was a law. In February 2009, President Obama signed the American Recovery and Reinvestment Act. Buried inside it was the <strong>Health Information Technology for Economic and Clinical Health Act</strong> &mdash; <strong>HITECH</strong>.</p>
 
-  <p>HITECH created a simple but powerful incentive structure: hospitals and physicians who adopted certified electronic health records and demonstrated &ldquo;meaningful use&rdquo; of them would receive substantial Medicare and Medicaid payments. Those who had not adopted EHRs by 2015 would face financial penalties. The federal government committed $27 billion to the program. The message to healthcare was unmistakable: digitize now, or lose money.</p>
+  <p>HITECH created a simple but powerful incentive: hospitals and doctors who switched to certified electronic health records and actually used them would receive large bonus payments from the government&rsquo;s Medicare and Medicaid programs (the insurance programs that cover seniors, people with disabilities, and low-income Americans). Those who had not made the switch by 2015 would start losing money through penalties. The federal government committed $27 billion to the program. The message to healthcare was unmistakable: go digital now, or pay the price.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
     <div class="concept-term">Meaningful Use</div>
-    <div class="concept-def">Meaningful Use was the standard hospitals and physicians had to meet to qualify for HITECH incentive payments. It was not enough to buy an EHR &mdash; providers had to demonstrate actual clinical use: electronic prescribing, health information exchange with other providers, patient engagement through online portals, and tracking of clinical quality measures. Meaningful Use created a minimum floor for what EHRs had to do, driving standardization across an industry that had previously been a patchwork of incompatible systems. The program has since been renamed Promoting Interoperability, but its framework still governs EHR requirements today.</div>
+    <div class="concept-def">Meaningful Use was the checklist hospitals and doctors had to complete to get their HITECH bonus payments. It was not enough to just buy the software &mdash; you had to prove you were actually using it in ways that helped patients. That meant things like sending prescriptions electronically instead of handwriting them, sharing patient information with other providers digitally, letting patients see their own records through an online portal, and tracking whether care was actually getting better over time. Meaningful Use set a minimum standard for what EHR systems had to do, which forced the entire industry to get on roughly the same page. The program has since been renamed &ldquo;Promoting Interoperability,&rdquo; but it still shapes how EHRs work today.</div>
   </div>
 
-  <p>The results were dramatic. In 2008, fewer than 10% of hospitals had adopted basic EHR systems. By 2015, more than 80% had. Annual EHR adoption rates among eligible hospitals jumped from 3.2% per year before HITECH to 14.2% per year after. The U.S. healthcare system digitized faster, in a shorter time, than almost any comparable transformation in any other sector of the American economy.</p>
+  <p>The results were dramatic. In 2008, fewer than 10% of hospitals used electronic health records. By 2015, more than 80% did. The U.S. healthcare system went digital faster than almost any other industry in American history.</p>
 
-  <p>Epic was the primary beneficiary. Its comprehensive integrated platform &mdash; covering clinical documentation, billing, lab ordering, pharmacy, and the patient portal (MyChart) &mdash; was exactly what hospital systems needed to meet Meaningful Use requirements quickly. Between 2009 and 2015, Epic went from serving hundreds of hospitals to thousands. Implementation wait lists stretched years into the future. The Verona campus expanded rapidly.</p>
+  <p>Epic was the biggest winner. Its software did everything hospitals needed in one package &mdash; clinical notes, billing, lab orders, pharmacy, and the patient portal (MyChart) &mdash; which made it the easiest way to check all the Meaningful Use boxes. Between 2009 and 2015, Epic went from serving hundreds of hospitals to thousands. Hospitals were waiting years just to get Epic installed. The company&rsquo;s campus in Verona, Wisconsin, kept expanding to keep up.</p>
 
   <div class="stats-row">
     <div class="stat-card"><div class="stat-num">&lt;10%</div><div class="stat-label">U.S. hospital EHR adoption in 2008</div></div>
     <div class="stat-card"><div class="stat-num">&gt;80%</div><div class="stat-label">U.S. hospital EHR adoption by 2015</div></div>
     <div class="stat-card"><div class="stat-num">$27B</div><div class="stat-label">Federal HITECH investment</div></div>
     <div class="stat-card"><div class="stat-num">38%</div><div class="stat-label">Epic&rsquo;s current U.S. hospital market share</div></div>
+    <div class="stat-card"><div class="stat-num">85%+</div><div class="stat-label">Epic customers now actively using AI (2026)</div></div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-label">The policy foundation for AI &mdash; connecting the dots</div>
+    <div class="insight-text">Here is the chain of events that makes AI in healthcare possible today: the HITECH Act (2009) paid hospitals to go digital. The Affordable Care Act (2010) &mdash; also known as Obamacare &mdash; changed how hospitals get paid: instead of just getting paid for each visit, hospitals started getting rewarded for keeping patients healthy and penalized when patients kept coming back to the hospital. That meant hospitals suddenly needed <em>data</em> &mdash; not just to write down what happened during a visit, but to track whether patients were actually getting better over time. Together, these two laws pushed American healthcare to go digital <strong>and</strong> gave hospitals a reason to collect detailed patient data year after year. That data became Cosmos. Cosmos became the training ground for AI. And today, 85% of Epic&rsquo;s customers are actively using AI tools that could not exist without the digital records those laws created. Nobody writing HITECH in 2009 was thinking about AI agents. But they were building the foundation for them &mdash; one hospital, one patient record, one data point at a time.</div>
   </div>
 
   <!-- SECTION 4 -->
@@ -302,14 +312,14 @@
 
   <p>The digitization of American healthcare solved the access problem. Patient information could now follow the patient &mdash; at least within systems using the same software. But it created a problem no one fully anticipated: <strong>documentation burden</strong>.</p>
 
-  <p>Paper records were incomplete and fragmented &mdash; but they were fast to write. A physician could scrawl a few lines of notes, sign the chart, and move on. Electronic health records were comprehensive and structured, but they required orders of magnitude more data entry. Every medication had to be selected from a dropdown. Every diagnosis had to be coded against a classification system. Every clinical decision had to be documented in a structured template. Every insurance interaction generated forms. The EHR, designed to make information more accessible, also made creating that information far more labor-intensive.</p>
+  <p>Paper records were incomplete and messy &mdash; but they were fast. A doctor could scribble a few lines of notes, sign the chart, and move on to the next patient. Electronic health records were thorough and organized, but they demanded far more typing. Every medication had to be picked from a dropdown menu. Every diagnosis had to be entered using a specific code. Every clinical decision had to be spelled out in a structured form. Every interaction with an insurance company created more paperwork. The EHR was supposed to make information easier to access &mdash; and it did &mdash; but it also made <em>creating</em> that information much more work.</p>
 
   <div class="danger-box">
     <div class="danger-label">The numbers behind the crisis</div>
     <div class="danger-text">By 2023, the American Medical Association found that <strong>48% of physicians reported feeling burned out</strong>, with EHR documentation consistently identified as the leading cause. Physicians reported spending an average of <strong>nine minutes in the EHR for every 15 minutes spent with a patient</strong>. More than 20% reported spending over eight hours per week on the EHR outside of normal working hours &mdash; a phenomenon the medical community calls <strong>&ldquo;pajama time.&rdquo;</strong> Emergency department nurses spent approximately <strong>27% of their shifts on EHR-related tasks</strong> &mdash; nearly the same proportion as direct patient care. The technology designed to improve healthcare was, in measurable and documented ways, degrading the experience of practicing it.</div>
   </div>
 
-  <p>This created a paradox at the center of Epic&rsquo;s dominance. Epic&rsquo;s software was simultaneously the essential infrastructure of modern healthcare <em>and</em> a primary driver of clinician burnout. The company built on the mission of serving patients had built a system that was, in many cases, pulling clinicians away from patients. The instrument of care had become a barrier to caring.</p>
+  <p>This created a painful irony at the heart of Epic&rsquo;s success. Epic&rsquo;s software was both the backbone of modern healthcare <em>and</em> a major cause of doctor and nurse burnout. The company whose whole mission was to help patients had built a system that was, in many cases, pulling doctors and nurses away from the people they were trying to help.</p>
 
   <div class="perspective-box">
     <div class="perspective-who">👨‍⚕️ &nbsp; Physician perspective</div>
@@ -324,29 +334,24 @@
   <p>This is the context into which Epic began deploying AI. The problem was not primarily a data problem. It was a human problem: how do you give clinicians back the time and attention that digitization had, unintentionally, taken from them?</p>
 
   <!-- SECTION 5 -->
-  <h2 id="s5"><span class="section-num">5</span> The Data Foundation: Cosmos and Why 280 Million Records Matter</h2>
+  <h2 id="s5"><span class="section-num">5</span> The Data Foundation: Cosmos and Why 300 Million Records Matter</h2>
 
-  <p>Before getting to the AI, we need to understand what made it possible: the data. What Epic built over forty-five years &mdash; before anyone was thinking about large language models or agentic systems &mdash; was the largest longitudinal clinical dataset ever assembled.</p>
+  <p>Before we can talk about the AI, we need to understand what made it possible: the data. Over forty-five years &mdash; long before anyone was talking about ChatGPT or AI agents &mdash; Epic quietly built the largest collection of patient health data ever assembled.</p>
 
-  <p><strong>Cosmos</strong> is Epic&rsquo;s de-identified clinical data platform. As health systems join Cosmos, their anonymized patient data flows into a shared research database. Today Cosmos contains records for more than <strong>280 million patients</strong>, with over <strong>16 billion clinical data points</strong>: diagnoses, medications, lab results, vital signs, imaging findings, clinical notes, procedures, and outcomes &mdash; accumulated over time, across multiple care settings, in standardized and structured format.</p>
+  <p><strong>Cosmos</strong> is Epic&rsquo;s giant, anonymized patient data platform. When hospitals that use Epic agree to participate, their patient data (with names and identifying information removed) flows into a shared research database. Today, Cosmos holds records from more than <strong>300 million patients</strong> and more than <strong>16 billion individual data points</strong>: diagnoses, medications, lab results, vital signs, scan results, doctor&rsquo;s notes, procedures, and outcomes &mdash; collected over time, across different hospitals and clinics, in a consistent digital format. The Affordable Care Act helped Cosmos grow faster because it pushed hospitals to track patient outcomes over the long term &mdash; which generated exactly the kind of detailed, ongoing data that AI systems need to learn from.</p>
 
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
     <div class="concept-term">Longitudinal clinical data</div>
-    <div class="concept-def">Most datasets capture a snapshot &mdash; what is true at a single moment. Longitudinal data captures a trajectory: what happened to this patient over months or years, across multiple encounters and care settings. This is what makes Cosmos uniquely powerful for AI training. A model trained on Cosmos can learn not just what a patient looks like at a single visit, but how patients with specific characteristics tend to progress over time &mdash; who improves, who deteriorates, what interventions make a difference, and what patterns predict complications before they appear. No dataset of clinical snapshots can teach a model the same thing, because medicine plays out over time.</div>
+    <div class="concept-def">Most data is a snapshot &mdash; it tells you what is true at one moment. Longitudinal data tells a story over time: what happened to this patient over months or years, across different doctors and hospitals. This is what makes Cosmos so powerful for training AI. An AI trained on Cosmos does not just learn what a patient looks like at a single visit &mdash; it learns what tends to happen <em>next</em> for patients like this one. Who gets better? Who gets worse? Which treatments work? Which warning signs show up before a crisis? You cannot learn those patterns from a single snapshot, because medicine plays out over time.</div>
   </div>
 
-  <div class="insight-box">
-    <div class="insight-label">Why a tech company cannot replicate this</div>
-    <div class="insight-text">Google Health, Microsoft, Amazon &mdash; all have tried to build clinical AI platforms. None has access to a dataset approaching Cosmos in scale or quality. The reason is structural: to build this data, you needed to be inside thousands of health systems for decades, earning their trust, managing their data under HIPAA, and operating within legal and contractual frameworks that take generations to establish. Epic has been doing this since 1979. The AI advantage is not in the algorithm. It is in the data that no check can purchase. A startup trying to replicate Cosmos&rsquo;s longitudinal depth today would need not just money &mdash; it would need decades.</div>
-  </div>
-
-  <p>One concrete example: Epic&rsquo;s Sepsis Prediction Model monitors every inpatient at participating hospitals every 15 minutes, recalculating each patient&rsquo;s sepsis risk score using dozens of clinical variables updated in real time. A validation study found that after implementing the model, sepsis-related mortality at one hospital system declined by <strong>44%</strong>. A separate AI sepsis surveillance tool found a <strong>17% reduction in mortality</strong>. These are not incremental improvements. They are lives. And they are made possible by the data foundation that was built over decades before anyone was thinking about AI.</p>
+  <p>Here is a concrete example of what this data makes possible: Epic&rsquo;s Sepsis Prediction Model. Sepsis is a life-threatening condition where the body&rsquo;s response to an infection starts damaging its own organs &mdash; it kills hundreds of thousands of Americans each year, and catching it early is the difference between life and death. Epic&rsquo;s AI monitors every hospitalized patient at participating hospitals every 15 minutes, recalculating each patient&rsquo;s risk of sepsis using dozens of measurements updated in real time. At one hospital system, sepsis-related deaths dropped by <strong>44%</strong> after the model was turned on. A separate study found a <strong>17% reduction in deaths</strong>. These are not small improvements in efficiency. These are people who are alive because an AI caught something early enough to save them. And it only works because of the data foundation that was built over decades before anyone was thinking about AI.</p>
 
   <!-- SECTION 6 -->
   <h2 id="s6"><span class="section-num">6</span> The AI Era Begins: From Data Storage to Intelligence</h2>
 
-  <p>Epic&rsquo;s AI journey did not start with large language models. It began years earlier with <strong>predictive models</strong> &mdash; statistical systems trained to find patterns in clinical data and alert clinicians to risk before it became crisis.</p>
+  <p>Epic&rsquo;s AI journey did not start with ChatGPT-style AI. It began years earlier with <strong>predictive models</strong> &mdash; software trained to spot patterns in patient data and warn doctors about risk before it turned into a crisis.</p>
 
   <div class="timeline">
     <div class="timeline-item">
@@ -365,9 +370,9 @@
       <div class="timeline-text">Microsoft acquires Nuance Communications for $19.7 billion, primarily for its DAX ambient documentation technology. Epic integrates Azure OpenAI Service. The first generative AI features appear: automated drafts of responses to patient messages, AI chart summarization. Ambient clinical documentation enters early deployment at pilot sites.</div>
     </div>
     <div class="timeline-item">
-      <div class="timeline-year">2024&ndash;present &mdash; The agentic era</div>
+      <div class="timeline-year">2024&ndash;2026 &mdash; The agentic era</div>
       <div class="timeline-title">AI begins to act</div>
-      <div class="timeline-text">DAX Copilot becomes generally available embedded in Epic, deploying to 150+ health systems. Epic announces agentic AI agents &mdash; Art, Penny, pre-visit assistants &mdash; at HIMSS 2025 and UGM 2025. The direction shifts from AI that responds to queries to AI that pursues goals, plans multi-step workflows, and acts under human oversight.</div>
+      <div class="timeline-text">DAX Copilot becomes generally available embedded in Epic, deploying to 150+ health systems. Epic announces agentic AI agents &mdash; Art, Penny, Emmie, pre-visit assistants &mdash; at HIMSS 2025 and UGM 2025. Chart with Art launches for outpatient specialties, then expands to bedside nursing at Houston Methodist and home care workflows. By HIMSS 2026, 85% of Epic customers are actively using AI. Epic unveils Agent Factory, a platform for health systems to build their own custom AI agents, and Curiosity, a family of proprietary medical foundation models trained on Cosmos data to predict patient trajectories. The direction shifts from AI that responds to queries to AI that pursues goals, plans multi-step workflows, and acts under human oversight &mdash; and increasingly, from Epic-built agents to health-system-built agents running on Epic&rsquo;s platform.</div>
     </div>
   </div>
 
@@ -402,9 +407,32 @@
 
   <p>In late 2025, Microsoft extended ambient AI to nurses with <strong>Dragon Copilot for nurses</strong> &mdash; designed specifically around nursing documentation workflows, which historically had been poorly served by existing AI tools. Emergency department nurses who spend roughly a quarter of their shift on EHR tasks are primary beneficiaries. The principle is the same: capture documentation passively while the nurse cares for the patient, rather than demanding documentation at the expense of care.</p>
 
-  <div class="perspective-box">
-    <div class="perspective-who">👩‍⚕️ &nbsp; Nurse perspective</div>
-    <div class="perspective-text">&ldquo;Nursing documentation was never designed around how nurses actually work. We move between patients constantly. We&rsquo;re assessing, mediating, coordinating &mdash; and then expected to document everything at the end of a 12-hour shift from memory. AI that captures what I&rsquo;m doing as I&rsquo;m doing it isn&rsquo;t just efficiency. That&rsquo;s accuracy. That&rsquo;s patient safety.&rdquo; &mdash; Composite of reported nursing experiences</div>
+  <p>In early 2026, Epic launched <strong>Chart with Art</strong> &mdash; built-in AI charting that listens during patient visits, drafts the clinician&rsquo;s note, and queues up orders based on the conversation. After launching across multiple outpatient specialties, Houston Methodist became the first organization to use Chart with Art for bedside nursing workflows, with home care workflows following shortly after. Nurses using Art&rsquo;s end-of-shift note drafting are writing notes <strong>85% faster</strong>. At Riverside Health in Virginia, clinicians using Art&rsquo;s Inpatient Insights are spending up to <strong>32% less time</strong> on documentation and communication tasks.</p>
+
+  <div style="margin: 1.5rem auto; max-width: 560px; border-radius: 8px; overflow: hidden; border: 2px solid #cd003b;">
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+      <iframe src="https://www.youtube.com/embed/BIIWqlCrXAA" title="Cool Stuff Now: AI Charting &mdash; Epic" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+    </div>
+    <div style="background: #1a0010; padding: 0.6rem 1rem;">
+      <p style="font-size: 12px; color: #f5b8c8; margin: 0;"><strong style="color: #ffffff;">&#9654; Watch:</strong> <em>Cool Stuff Now: AI Charting</em> &mdash; Epic&rsquo;s overview of how AI Charting listens during patient visits, drafts notes, and queues up orders in real time. (Epic, 2025)</p>
+    </div>
+  </div>
+
+  <div class="update-box">
+    <div class="update-label">2026 update &mdash; Art moves beyond documentation</div>
+    <div class="update-text">Art is no longer just a documentation tool. At The Christ Hospital in Ohio, Art extracts <strong>incidental findings</strong> from routine radiology results and drives follow-up, delivering an early detection rate of <strong>69% for lung cancer</strong> versus the national average of <strong>46%</strong>. This is a qualitative shift: the AI is not merely writing notes faster. It is surfacing clinical signals that might otherwise go unnoticed &mdash; and connecting those signals to action. More than 100 cases of lung cancer were detected earlier as a result. The difference between &ldquo;faster documentation&rdquo; and &ldquo;earlier diagnosis&rdquo; is the difference between efficiency and clinical impact.</div>
+  </div>
+
+  <h3>Conversational AI in the exam room</h3>
+
+  <p>The next step in ambient AI is a shift from passive listening to active participation. Epic is developing <strong>conversational AI for clinicians</strong> that goes beyond drafting notes: during the patient visit, Art will surface answers to questions that the clinician and patient ask in real time. A physician can say, &ldquo;Art, how is this patient&rsquo;s blood pressure trending?&rdquo; and receive an immediate answer drawn from the full chart &mdash; clinical notes, lab results, medications, imaging, and billing data. Art will also respond to <em>inferred</em> questions: if a patient expresses frustration with their current treatment, Art can surface data-driven alternative options without being asked.</p>
+
+  <p>This is a fundamental change in the physician-AI relationship. In the ambient model, the AI listens and writes. In the conversational model, the AI participates in the clinical encounter as a real-time data assistant &mdash; instantly pulling information from across the enterprise that a physician would otherwise spend minutes hunting for in the chart. The physician stays in the conversation with the patient. Art does the chart review in the background.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Collaborative visit agendas</div>
+    <div class="concept-def">One of the most promising near-term features is the <strong>collaborative visit agenda</strong>, where Art and Emmie work together before and during the appointment. Before the visit, Emmie reaches out to the patient through MyChart: &ldquo;What do you want to discuss at your appointment? What symptoms have changed? What questions do you want your doctor to answer?&rdquo; Emmie gathers the patient&rsquo;s priorities and combines them with Art&rsquo;s clinical analysis of what matters in the chart &mdash; overdue screenings, trending lab values, medication changes since the last visit. The result is a single, shared agenda that both patient and clinician can see before the visit begins. During the visit, Art monitors the conversation and helps the physician pace through all the agenda items. After the visit, Emmie follows up with the patient: explaining test results in plain language, providing medication reminders, and answering questions. Two AI agents, working in coordination, bookend the entire clinical encounter.</div>
   </div>
 
   <!-- SECTION 8 -->
@@ -417,58 +445,118 @@
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
     <div class="concept-term">Agentic AI</div>
-    <div class="concept-def">An agentic AI system is given a goal and autonomously plans and executes a sequence of actions to achieve it &mdash; without requiring a human to specify each step. A standard AI responds to a single prompt with a single output: you ask, it answers. An agentic AI receives an objective, breaks it into subtasks, uses tools (databases, APIs, messaging systems, scheduling platforms) to accomplish those subtasks, evaluates its own progress, and adjusts its approach based on what it finds. In healthcare, a generative AI writes a note when prompted. An agentic AI might review a patient&rsquo;s chart, identify a missed diabetes screening, draft a personalized outreach message, suggest scheduling a follow-up, notify the care coordinator, and flag the case for nursing review &mdash; all without being asked to do any of those steps individually. The distinction is autonomy over a multi-step process, not just the generation of a single response.</div>
+    <div class="concept-def">Think about the difference between asking someone a question and giving someone a job. When you ask ChatGPT to write an email, it does one thing and gives you the result. That is standard AI. An agentic AI is different: you give it a <em>goal</em>, and it figures out the steps on its own. It plans what to do, uses whatever tools it needs (databases, scheduling systems, messaging apps), checks its own work, and adjusts if something does not go as expected. In healthcare, a standard AI writes a note when a doctor asks for one. An agentic AI might review a patient&rsquo;s chart on its own, notice that a diabetes screening was missed, draft a personalized message to the patient, suggest scheduling a follow-up appointment, notify the care coordinator, and flag the case for a nurse &mdash; all without anyone asking it to do any of those things individually. The key difference is that an agentic AI can handle a multi-step process on its own, not just respond to a single request.</div>
   </div>
 
-  <p>This distinction matters enormously in healthcare, because the stakes of autonomous action are unlike almost any other domain. Every previous chapter in this book introduced AI that makes predictions or recommendations. Uber&rsquo;s algorithm predicts demand and sets prices automatically. Spotify&rsquo;s system personalizes playlists. The prediction and the action are tightly linked. Agentic AI is different because it can pursue a complex, multi-step goal that requires reasoning, tool use, and adaptation &mdash; not just a single algorithmic output.</p>
+  <p>This distinction matters a lot in healthcare, because the stakes of letting AI act on its own are higher here than in almost any other industry. Every previous chapter in this book looked at AI that makes predictions or recommendations. Uber&rsquo;s algorithm predicts demand and sets prices automatically. Spotify&rsquo;s system picks songs for your playlist. In those cases, the prediction and the action are tightly linked &mdash; the AI decides and acts in the same moment. Agentic AI is different because it can work toward a complex, multi-step goal that requires thinking, using tools, and adjusting along the way &mdash; not just producing a single answer.</p>
 
-  <p>And that is precisely why the phrase <em>&ldquo;under human oversight&rdquo;</em> in Howard&rsquo;s statement is not a legal disclaimer. It is the central engineering and governance question of Epic&rsquo;s entire AI program. The capability of the AI is not the binding constraint. The question is: at what level of verified accuracy, and for which tasks, is it safe to let an AI act without a human checking every output?</p>
+  <p>And that is exactly why the phrase <em>&ldquo;under human oversight&rdquo;</em> in Howard&rsquo;s statement is not just legal fine print. It is the central question of Epic&rsquo;s entire AI program. The AI is already capable enough to act on its own for many tasks. The real question is: how accurate does it need to be, and for which specific tasks, before it is safe to let it act without a human double-checking every single thing it does?</p>
 
   <!-- SECTION 9 -->
-  <h2 id="s9"><span class="section-num">9</span> Epic&rsquo;s Agents: Art, Penny, and the Pre-Visit Assistant</h2>
+  <h2 id="s9"><span class="section-num">9</span> Epic&rsquo;s Agents: Art, Penny, and Emmie</h2>
 
-  <p>Epic is not building one agentic AI. It is building a fleet of specialized agents, each designed for a specific clinical or administrative workflow. Think of them less as a single AI assistant and more as a team of invisible staff members &mdash; each with a defined role, operating within defined constraints, always surfacing their work to a human before it takes effect.</p>
+  <p>Epic is not building one agentic AI. It is building a fleet of specialized agents, each designed for a specific clinical or administrative workflow. Think of them less as a single AI assistant and more as a team of invisible staff members &mdash; each with a defined role, operating within defined constraints, always surfacing their work to a human before it takes effect. As of 2026, this fleet has three named members &mdash; <strong>Art</strong> for clinicians, <strong>Penny</strong> for the back office, and <strong>Emmie</strong> for patients.</p>
 
   <h3>Art: The Clinical Intelligence Agent</h3>
 
-  <p><strong>Art</strong> is Epic&rsquo;s clinician-facing AI agent. Before a physician walks into an exam room, Art prepares them. It reviews the patient&rsquo;s entire clinical history in Epic, synthesizes the key information, and generates a concise pre-visit brief: the most relevant diagnoses, medication changes since the last visit, lab values trending in the wrong direction, and care gaps that should be addressed during the encounter. During complex cases, Art can search across the 16+ billion data points in Cosmos to surface comparable patients and what happened to them, answering questions like &ldquo;What do patients with this combination of findings typically respond to?&rdquo;</p>
+  <p><strong>Art</strong> is Epic&rsquo;s AI assistant for doctors and nurses. Before a doctor walks into an exam room, Art does the homework. It reads through the patient&rsquo;s entire medical history in Epic, pulls out the most important information, and creates a short summary: the key diagnoses, any medication changes since the last visit, lab results that are trending in the wrong direction, and health screenings the patient is overdue for. For complicated cases, Art can search across all 16+ billion data points in Cosmos to find similar patients and what happened to them &mdash; answering questions like &ldquo;What usually works for patients with this combination of problems?&rdquo;</p>
 
   <div class="minicase-box">
     <span class="minicase-label">Art in practice</span>
     <div class="minicase-title">The two-minute pre-brief that used to take ten</div>
-    <p>A primary care physician hasn&rsquo;t seen a patient in 18 months. Without Art, she would spend the first several minutes of the appointment scrolling through the EHR, reconstructing what had happened since the last visit: what medications changed, what specialist notes arrived, what test results need follow-up. It is not unusual for this to consume a third of a 20-minute appointment.</p>
-    <p>With Art, she opens the chart and reads a focused summary: two chronic conditions, one medication change made by cardiology, a rising creatinine trend nobody has acted on, and a mammogram that is two years overdue. She walks into the room already knowing what matters. The patient gets more care in the same amount of time.</p>
+    <p>A primary care doctor has not seen a patient in 18 months. Without Art, she would spend the first several minutes of the appointment scrolling through the digital chart, trying to piece together what happened since the last visit: which medications changed, what notes came in from specialists, which test results need attention. It is not unusual for this chart-review to eat up a third of a 20-minute appointment &mdash; time that could have been spent talking to the patient.</p>
+    <p>With Art, she opens the chart and reads a focused summary: two ongoing conditions, one medication change made by a heart doctor, a kidney function number that is creeping up and nobody has addressed yet, and a mammogram that is two years overdue. She walks into the room already knowing what matters. The patient gets more attention in the same amount of time.</p>
   </div>
 
   <h3>Penny: The Revenue Cycle Agent</h3>
 
-  <p><strong>Penny</strong> addresses the part of healthcare patients rarely see: billing and insurance. When an insurance company denies a claim &mdash; which happens approximately 17% of the time for commercial insurers &mdash; a human staff member traditionally researches the denial, pulls together clinical justification, and writes an appeal letter from scratch. This process takes 45 minutes or more, and many denials go unchallenged simply because the labor cost of fighting them exceeds their financial value.</p>
+  <p><strong>Penny</strong> handles the part of healthcare that patients rarely see: the fight over money between hospitals and insurance companies. When an insurance company refuses to pay for a treatment &mdash; which happens about 17% of the time &mdash; a human staff member traditionally has to research the denial, dig through the patient&rsquo;s medical records for evidence, and write an appeal letter from scratch. This takes 45 minutes or more per denial, and many denials just go unchallenged because the cost of fighting them is higher than what the hospital would get back.</p>
 
-  <p>Penny does this autonomously: it reads the denial, retrieves the relevant clinical documentation from the EHR, identifies the applicable policy language, drafts the appeal letter, and presents it to an administrator for review and submission. The human approves or edits. The whole process takes minutes instead of hours &mdash; and the threshold for which denials are worth fighting changes entirely.</p>
+  <p>Penny does this work automatically: it reads the denial, pulls the relevant medical records from the patient&rsquo;s chart, finds the right insurance policy language, writes the appeal letter, and hands it to an administrator to review before sending. The human checks it over and hits submit. The whole thing takes minutes instead of nearly an hour &mdash; which means hospitals can now fight denials that used to not be worth the effort. At Summit Health, Penny cut the time to submit medication approvals by <strong>42%</strong>, and <strong>92% of its AI-written responses</strong> were accepted without any changes. Across hospitals using Penny the most, billing errors that led to denied claims dropped by more than <strong>20%</strong>, and appeal letters are being written <strong>23% faster</strong>. Over time, Penny will handle more of this on its own &mdash; completing some tasks from start to finish within whatever safety rules each hospital sets up.</p>
 
   <div class="insight-box">
     <div class="insight-label">Why the administrative agent matters for patient care</div>
-    <div class="insight-text">Insurance claim denials cost U.S. health systems an estimated <strong>$19.7 billion per year</strong> in processing costs. When the cost of an appeal drops from 45 minutes of skilled staff time to 3 minutes of review, health systems can fight denials they previously let go. That recovered revenue funds nurses, equipment, and expanded services. Agentic AI in the administrative back office has a direct line to what is possible at the bedside. This is not an abstract connection &mdash; it is the economics of healthcare delivery.</div>
+    <div class="insight-text">Insurance claim denials cost U.S. hospitals an estimated <strong>$19.7 billion per year</strong> just in the cost of processing them. When the cost of fighting a denial drops from 45 minutes of staff time to 3 minutes of review, hospitals can fight denials they used to just accept as losses. That recovered money pays for nurses, equipment, and expanded services. AI that does boring paperwork in the back office has a direct impact on what is possible at the patient&rsquo;s bedside. This is not an abstract connection &mdash; it is how healthcare economics actually works.</div>
   </div>
 
-  <h3>The Pre-Visit Patient Assistant</h3>
+  <h3>Emmie: The Patient-Facing Agent</h3>
 
-  <p>Epic is also developing conversational AI agents that interact with <em>patients</em> before they arrive. These agents contact patients ahead of appointments, ask about the goals of the visit, gather information about any symptoms that have changed, confirm which medications they are still taking, and identify whether any prerequisite tests should be scheduled. They summarize this for both the patient (in MyChart) and the physician (in the pre-visit brief). The patient arrives more prepared. The physician arrives more informed. The visit is more productive before it begins.</p>
+  <p><strong>Emmie</strong> is Epic&rsquo;s AI for patients &mdash; the agent that lives inside MyChart, the patient portal used by hundreds of millions of Americans. Emmie handles the interactions patients have with the health system between visits: answering billing questions, helping patients schedule and reschedule appointments, sending follow-up reminders about care plans, and increasingly, answering health questions within the context of the patient&rsquo;s own medical record.</p>
 
-  <div class="perspective-box">
-    <div class="perspective-who">🧑‍🦳 &nbsp; Patient using the pre-visit assistant</div>
-    <div class="perspective-text">&ldquo;The app messaged me a few days before my appointment asking what I wanted to talk about. I always forget one of the three things I&rsquo;m worried about once I&rsquo;m sitting in the exam room. This time, my doctor already knew what was on my mind when she walked in. We didn&rsquo;t waste any time. We just talked about what mattered.&rdquo;</div>
+  <p>The measured results are significant. At Rush University Medical Center, Emmie delivered a sustained <strong>58% reduction in billing-related customer service messages</strong>, freeing staff to focus on complex cases while patients get immediate answers to straightforward questions. At Ochsner Health, patients rescheduled more than <strong>14,900 appointments</strong> through Emmie, saving nearly 750 hours of staff time. Patients using Emmie for post-visit follow-up reminders report a <strong>94% satisfaction rate</strong>.</p>
+
+  <div class="update-box">
+    <div class="update-label">2026 update &mdash; Ask Emmie launches</div>
+    <div class="update-text">Sutter Health became the first hospital system to go live with <strong>Ask Emmie</strong>, an AI chatbot inside MyChart that answers patients&rsquo; health questions using their own medical record. Unlike a generic chatbot that gives the same answers to everyone, Ask Emmie knows what medications <em>you</em> take, what diagnoses <em>you</em> have, and what test results <em>you</em> just got &mdash; and responds based on all of that. This is part of a bigger pattern: AI is moving from <em>storing</em> your health information (the EHR), to <em>finding</em> information when asked (search), to <em>understanding</em> your information and explaining it to you in plain language (Ask Emmie). That shift from looking things up to actually understanding them is what makes this generation of AI fundamentally different.</div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-label">Art, Penny, Emmie: the complete loop</div>
+    <div class="insight-text">Notice how the three agents form a complete system: <strong>Art</strong> works with clinicians during and around the visit. <strong>Penny</strong> handles the financial and administrative infrastructure behind the visit. <strong>Emmie</strong> works with patients before and after the visit. Together, they cover every major stakeholder and every phase of the care cycle. This is not a coincidence &mdash; it is platform strategy. By building AI agents for every participant in the healthcare interaction, Epic is ensuring that the value generated at each step feeds back into the system as training data for the others. A patient&rsquo;s question to Emmie reveals a care gap that Art surfaces for the physician, whose response generates documentation that helps Penny ensure proper reimbursement. The flywheel is not just data &rarr; model &rarr; prediction. It is <em>patient &rarr; clinician &rarr; administrator &rarr; patient</em>, with AI accelerating every handoff.</div>
   </div>
 
   <!-- SECTION 10 -->
-  <h2 id="s10"><span class="section-num">10</span> The AI Factory at Epic</h2>
+  <h2 id="s10"><span class="section-num">10</span> The Platform: Data Gravity, Agent Factory, and Curiosity</h2>
+
+  <p>Art, Penny, and Emmie are Epic&rsquo;s AI agents. But to understand why they matter strategically &mdash; and why no competitor can easily replicate them &mdash; you have to understand the platform underneath them. This section is about power: who controls the data, who controls the AI, and what that means for everyone else.</p>
+
+  <h3>MyChart, Data Gravity, and Epic as the Gatekeeper of Healthcare AI</h3>
+
+  <p>There is a structural reality underneath all of Epic&rsquo;s AI strategy that a business student should understand clearly: <strong>Epic controls the interface through which most Americans interact with their healthcare data.</strong> MyChart &mdash; the patient portal embedded in every Epic installation &mdash; is used by more than 250 million people. Roughly 78% of American healthcare data flows through Epic&rsquo;s EHR platform. Epic serves more than 2,000 healthcare organizations, including 27 of the 31 U.S. News Top Hospitals. Any AI product that wants to operate at the point of care in the American healthcare system must, in most cases, integrate with Epic.</p>
+
+  <p>This is a concept called <strong>data gravity</strong>: once data accumulates in a platform at sufficient scale, it becomes increasingly difficult and expensive to move it elsewhere. Applications, services, and AI models are pulled toward the data, not the other way around. Epic&rsquo;s 45 years of EHR installations created a gravitational field so strong that even the largest technology companies in the world &mdash; Microsoft, Google, Amazon &mdash; must build <em>on top of</em> Epic rather than around it. Microsoft&rsquo;s DAX Copilot does not replace Epic. It plugs into Epic. Google Health cannot train on Epic&rsquo;s data without Epic&rsquo;s permission. Third-party AI vendors must pass through Epic&rsquo;s App Orchard marketplace and meet its security and integration review before their products can touch patient data in an Epic system.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Data gravity</div>
+    <div class="concept-def">Data gravity is the idea that once a huge amount of data piles up in one place, everything else gets pulled toward it &mdash; because it is easier to bring new tools to the data than to move all that data somewhere else. Think of it like a planet: the bigger it gets, the stronger its gravitational pull. Epic&rsquo;s EHR holds decades of patient records in organized, digital formats. AI needs this data to learn. Hospitals need this data to operate. Patients need this data to manage their health. And realistically, all of that data cannot just be picked up and moved to a competitor &mdash; it is too massive, too legally complicated, and the trust relationships that built it took decades to develop. This gives Epic enormous power as the <em>gatekeeper</em> of healthcare AI: Epic gets to decide which AI tools can access the data, under what rules, and through what channels.</div>
+  </div>
+
+  <p>This gatekeeper position has become controversial. In 2025, the Texas Attorney General sued Epic, accusing the company of using its dominant market position to block competitors from accessing patient data &mdash; a type of lawsuit called an &ldquo;antitrust&rdquo; case, where the government argues a company has too much power and is using it unfairly. A separate group lawsuit claims that Epic&rsquo;s MyChart system makes it difficult for patients who see multiple doctors to pull their complete medical records together in one place. Epic has pushed back on both claims, pointing out that it handles over 725 million record exchanges per month, works with nearly 1,000 patient apps, and has shared data with the Social Security Administration for 15 years. These legal fights are still playing out, but the business reality is clear: when one company controls where the data lives, it also controls which AI gets built, by whom, and for whose benefit.</p>
+
+  <div class="danger-box">
+    <div class="danger-label">The gatekeeper question for students</div>
+    <div class="danger-text">Epic&rsquo;s control over healthcare data is both a huge advantage for AI quality &mdash; because having all the data in one organized place makes for better AI &mdash; and a potential problem for competition and patient choice. If one company controls the software, the data, and now the AI models (through Curiosity), what stops that company from putting its own business interests ahead of patients? This is not a hypothetical question. It is the same tension you see whenever a single company dominates a platform &mdash; think of the debates about Apple&rsquo;s App Store or Amazon&rsquo;s marketplace &mdash; except the stakes are people&rsquo;s health.</div>
+  </div>
+
+  <h3>Agent Factory: When Health Systems Build Their Own Agents</h3>
+
+  <p>At HIMSS 2026, Epic announced something that changes the competitive dynamics of healthcare AI entirely: <strong>Agent Factory</strong>, a fully integrated platform that lets health systems create, customize, and deploy their own AI agents &mdash; without writing code.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Agent Factory</div>
+    <div class="concept-def">Agent Factory is Epic&rsquo;s visual builder for creating custom AI agents. Health systems can equip agents with their own local policies and knowledge bases, define the workflows those agents operate within, specify the guardrails and approval checkpoints, and deploy them on their own timeline. Agent actions are fully traceable &mdash; every step an agent takes is logged and auditable. This is a platform play: instead of only using Epic&rsquo;s pre-built agents (Art, Penny, Emmie), health systems can now build agents tailored to their own specific operational needs. A rural hospital might build an agent for patient transportation coordination. An academic medical center might build one for clinical trial matching. The shift from &ldquo;use our agents&rdquo; to &ldquo;build your own agents on our platform&rdquo; mirrors exactly what happened when Apple launched the App Store &mdash; the platform became more valuable than any single application on it.</div>
+  </div>
+
+  <p>Agent Factory represents Epic&rsquo;s bet that the most valuable healthcare AI will not be the agents Epic builds centrally, but the thousands of agents that individual health systems build for their own unique contexts. Epic provides the platform, the data infrastructure, the safety guardrails, and the integration with the EHR. Health systems provide the clinical and operational knowledge of what their patients and staff actually need. This is the same platform-and-ecosystem strategy that made Apple, Salesforce, and Uber dominant in their respective markets &mdash; and it only works because HITECH forced the data into Epic&rsquo;s systems in the first place.</p>
+
+  <h3>Curiosity: Epic&rsquo;s Own Medical Foundation Models</h3>
+
+  <p>Perhaps the most ambitious development in Epic&rsquo;s AI strategy is <strong>Curiosity</strong> &mdash; a new family of medical foundation models that Epic is training on its own data, rather than relying solely on general-purpose models from Microsoft and OpenAI.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Curiosity (medical foundation model)</div>
+    <div class="concept-def">Curiosity is a family of AI models that Epic built and trained using real (but anonymized) patient data from more than 300 million people in Cosmos. Here is why that matters: most AI models you hear about (like GPT-4 or Claude) learned by reading text from the internet and were then adapted for medical use. Curiosity is different &mdash; it was trained directly on actual medical events: real diagnoses, real medications, real lab results, real procedures, and real outcomes. Because of this, Curiosity does not just understand the <em>words</em> doctors use. It understands the <em>patterns</em> of what actually happens to patients over time &mdash; the next likely diagnosis, the next medication change, the next risk of being hospitalized. Early testing shows Curiosity performs as well as or better than specialized medical AI tools at predicting things like how long a patient will stay in the hospital, whether they will be readmitted, and what diseases they might develop. The difference in plain terms: a regular AI knows the language of medicine. Curiosity knows the <em>story</em> of medicine &mdash; what actually happens to real people.</div>
+  </div>
+
+  <p>Curiosity became available to researchers in the Cosmos community in February 2026, with visualization tools that let researchers explore projected patient trajectories. Epic&rsquo;s chief medical officer, Dr. Jackie Gerhart, described the potential: with Curiosity, clinicians could take many real-world patient journeys and apply them to the patient sitting in front of them, predicting the most likely next medical event. The implications include shorter time to diagnosis, shorter time to treatment, and potentially keeping patients out of the emergency room entirely.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">Why Curiosity changes the competitive landscape</div>
+    <div class="insight-text">When Epic was using only Microsoft&rsquo;s AI models, it was essentially a customer &mdash; buying someone else&rsquo;s technology. With Curiosity, Epic becomes an AI company itself. This is a big strategic deal: Epic now controls both the data (Cosmos) <em>and</em> the AI models trained on that data. No other healthcare company has both. Google cannot train models on Cosmos data. Neither can Amazon or any startup. The data advantage that decades of EHR adoption created is now being turned directly into an AI advantage. This is the end result of the entire story this chapter tells: the company that digitized the most patient records now builds the most powerful medical AI using those records.</div>
+  </div>
+
+  <!-- SECTION 11 -->
+  <h2 id="s11"><span class="section-num">11</span> The AI Factory at Epic</h2>
 
   <p>The AI Factory model we introduced in Chapter 1 &mdash; data feeding models, models generating predictions, predictions informing decisions, decisions creating value that generates new data &mdash; maps directly onto Epic&rsquo;s AI architecture. With one important difference from every previous chapter: at Epic, the loop includes patients, and the value being created is not just commercial. It is clinical.</p>
 
   <div class="pipeline-row">
-    <div class="pipe-step">1. Data<br><small style="font-weight:400;color:#555;">280M patients,<br>16B+ clinical data points</small></div>
+    <div class="pipe-step">1. Data<br><small style="font-weight:400;color:#555;">300M+ patients,<br>16B+ clinical data points</small></div>
     <div class="pipe-arrow">&rarr;</div>
-    <div class="pipe-step">2. Model<br><small style="font-weight:400;color:#555;">GPT-4 + Cosmos fine-tuning<br>+ domain-specific models</small></div>
+    <div class="pipe-step">2. Model<br><small style="font-weight:400;color:#555;">Curiosity + GPT-4<br>+ domain-specific models</small></div>
     <div class="pipe-arrow">&rarr;</div>
     <div class="pipe-step">3. Prediction<br><small style="font-weight:400;color:#555;">Draft notes, risk scores,<br>care gaps, appeal letters</small></div>
     <div class="pipe-arrow">&rarr;</div>
@@ -477,78 +565,9 @@
     <div class="pipe-loop">5. Value<br><small style="font-weight:400;color:#cd003b;">Better care &rarr; new data<br>&rarr; better models</small></div>
   </div>
 
-  <p>Notice step 4. Unlike Uber, which closed the prediction-decision gap entirely, Epic has &mdash; by design, and for now &mdash; kept the human inside that gap for all clinical decisions. Every AI-generated note, every flagged risk alert, every care gap suggestion passes through a clinician before it becomes part of a patient&rsquo;s official record or triggers any action. This is the same approach Spotify takes with its &ldquo;algotorial&rdquo; model: AI does the fast, scalable work; humans approve the consequential outputs.</p>
+  <p>Notice step 4. Unlike Uber, which closed the prediction-decision gap entirely, Epic has &mdash; by design, and for now &mdash; kept the human inside that gap for all clinical decisions. Every AI-generated note, every flagged risk alert, every care gap suggestion passes through a clinician before it becomes part of a patient&rsquo;s official record or triggers any action.</p>
 
-  <table class="factory-table">
-    <thead>
-      <tr><th>AI Factory Step</th><th>What Epic does</th><th>Business lesson</th><th>Key concept</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="step-badge">Data</span></td>
-        <td>Every clinical encounter generates structured and unstructured data flowing into Cosmos &mdash; the largest longitudinal clinical dataset ever assembled</td>
-        <td>Healthcare data is uniquely irreplaceable &mdash; built over decades through trusted relationships no competitor can fast-follow</td>
-        <td>Data moat; longitudinal clinical data</td>
-      </tr>
-      <tr>
-        <td><span class="step-badge">Model</span></td>
-        <td>Azure OpenAI (GPT-4 and successors) fine-tuned on Cosmos clinical data, plus domain-specific models for sepsis prediction, deterioration risk, and readmission probability</td>
-        <td>General foundation models need domain fine-tuning to perform in specialized fields &mdash; clinical expertise lives in what the model is trained on, not just its architecture</td>
-        <td>Fine-tuning; domain adaptation; foundation models</td>
-      </tr>
-      <tr>
-        <td><span class="step-badge">Prediction</span></td>
-        <td>Ambient notes (DAX), risk alerts (sepsis, deterioration), care gap identification, insurance appeal drafts, chart summaries, pre-visit briefings, patient outreach messages</td>
-        <td>In healthcare, AI predictions are outputs to be reviewed, not decisions to be automated &mdash; the prediction-decision gap is preserved by design, not by oversight failure</td>
-        <td>Ambient AI; predictive models; agentic AI</td>
-      </tr>
-      <tr>
-        <td><span class="step-badge">Decision</span></td>
-        <td>Physicians review and approve AI notes; nurses respond to or dismiss risk alerts; administrators approve appeal letters; clinicians act on care gap notifications</td>
-        <td>Keeping humans in the decision loop is both ethically correct and strategically necessary for adoption &mdash; clinician trust determines deployment success more than technical accuracy</td>
-        <td>Human-in-the-loop; augmentation vs. automation</td>
-      </tr>
-      <tr>
-        <td><span class="step-badge">Value</span></td>
-        <td>Reduced burnout, more time with patients, earlier sepsis detection, recovered insurance revenue, fewer preventable readmissions</td>
-        <td>Healthcare AI value is measured in clinician time returned and patient outcomes improved &mdash; not engagement metrics or click-through rates</td>
-        <td>Augmentation ROI; clinical efficiency</td>
-      </tr>
-      <tr>
-        <td><span class="step-badge" style="background:#555;">Loop&nbsp;back</span></td>
-        <td>Every physician edit of an AI note, every accepted or rejected risk alert, every corrected suggestion becomes training signal that improves the next model version</td>
-        <td>Expert corrections in high-stakes domains are extraordinarily valuable training data &mdash; the humans in the loop are also teaching the model how to improve</td>
-        <td>RLHF; continuous improvement; compounding advantage</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- SECTION 11 -->
-  <h2 id="s11"><span class="section-num">11</span> Prompt Engineering and AI Prototyping in Healthcare</h2>
-
-  <p>Two concepts introduced elsewhere in this course take on particular importance in healthcare, where the stakes of AI outputs are highest.</p>
-
-  <h3>Prompt Engineering as a Safety Discipline</h3>
-
-  <p>Prompt engineering is the practice of deliberately designing the inputs given to an AI system to produce reliable, accurate, and safe outputs. In consumer applications, prompt engineering is often casual &mdash; you experiment with different phrasings until you get a useful result. In clinical AI, prompt engineering is an engineering discipline with patient safety implications, and it is treated accordingly.</p>
-
-  <div class="concept-box">
-    <div class="concept-label">Key concept</div>
-    <div class="concept-term">Prompt engineering in high-stakes AI</div>
-    <div class="concept-def">When Epic deploys a generative AI feature &mdash; like automated drafts of responses to patient messages in the physician&rsquo;s EHR inbox &mdash; the prompts given to the underlying model are not casual suggestions. They are carefully engineered instructions that specify the model&rsquo;s role, the format and length of its output, the clinical constraints on what it should and should not say, and the signals that should cause it to defer to a human clinician rather than generate a response. These prompts are developed in collaboration with clinicians, ethicists, and patient safety teams, tested against thousands of real and synthetic cases, and governed like any other medical device configuration. They are versioned, audited, and updated when outputs reveal problems. In clinical AI, &ldquo;just tweak the prompt&rdquo; is not a debugging strategy. It is an engineering process with safety review at every step.</div>
-  </div>
-
-  <h3>AI Prototyping: From Clinical Problem to Working Solution in Days</h3>
-
-  <p>One of the most significant shifts in how Epic and its health system partners build new features is the rise of <strong>AI prototyping</strong> &mdash; using AI tools to produce working drafts of features and workflows in hours or days rather than months.</p>
-
-  <div class="concept-box">
-    <div class="concept-label">Key concept</div>
-    <div class="concept-term">AI prototyping</div>
-    <div class="concept-def">AI prototyping refers to using AI tools &mdash; typically large language models accessed through natural language &mdash; to produce working drafts of products, features, interfaces, or workflows rapidly, dramatically reducing the cost and time of making an idea tangible enough to test and evaluate. In healthcare IT, a clinical workflow that previously required months of requirements gathering, design, engineering, and QA can now be rough-prototyped in days by a small team using AI-assisted development tools. This does not eliminate the validation, clinical testing, and safety review that medical software requires. But it changes what ideas are worth exploring, because the cost of exploration has collapsed. And it changes who can meaningfully participate in that exploration: a nurse who identifies a documentation problem can now describe a potential solution in plain language, use AI to build a prototype, and show it to engineers &mdash; rather than writing a formal requirements document that may be read months later.</div>
-  </div>
-
-  <p>This is making healthcare software development more responsive to clinicians &mdash; which, historically, has been one of its most persistent and costly failures. EHRs were designed by engineers, for workflows that engineers imagined clinicians had. AI prototyping, combined with ambient AI tools that make clinical processes more visible to software developers, is beginning to close that gap.</p>
+  <p>And notice the loop back from step 5 to step 1. Every time a physician edits an AI-drafted note, accepts or rejects a risk alert, or corrects a suggestion, that correction becomes a signal that teaches the AI to do better next time. The humans in the loop are not just checking the AI&rsquo;s work &mdash; they are training it. This is the same feedback loop that makes the system smarter over time: more data leads to better models, which lead to better predictions, which lead to better care, which generates more data.</p>
 
   <!-- SECTION 12 -->
   <h2 id="s12"><span class="section-num">12</span> The Human-in-the-Loop Question</h2>
@@ -558,45 +577,39 @@
   <div class="concept-box">
     <div class="concept-label">Key concept</div>
     <div class="concept-term">Human-in-the-loop vs. human-on-the-loop</div>
-    <div class="concept-def">These terms describe two different relationships between humans and AI systems. <strong>Human-in-the-loop</strong>: a human must actively review and approve each AI output before it takes effect. The physician who reads the DAX note before it enters the chart is in-the-loop. <strong>Human-on-the-loop</strong>: the AI acts autonomously while a human monitors and can intervene. An administrator who reviews a dashboard of AI-submitted insurance appeals rather than approving each letter individually is on-the-loop. As AI systems demonstrate sustained accuracy across millions of interactions, and as regulatory frameworks and institutional trust develop, organizations tend to move from in-the-loop to on-the-loop for specific tasks. The key question is not whether this transition will happen, but for which tasks, at what demonstrated accuracy level, and with what governance structures it is safe to make.</div>
+    <div class="concept-def">These terms describe two different ways humans and AI can work together. <strong>Human-in-the-loop</strong> means a human must personally review and approve every single thing the AI produces before it counts. The doctor who reads the AI-drafted note before it goes into the patient&rsquo;s chart is &ldquo;in the loop.&rdquo; <strong>Human-on-the-loop</strong> means the AI acts on its own while a human watches from a higher level and can step in if something goes wrong. An administrator who checks a dashboard of AI-submitted insurance appeals once a day, instead of approving each letter one by one, is &ldquo;on the loop.&rdquo; As AI systems prove themselves accurate across millions of uses, and as regulations and trust catch up, organizations will slowly move from in-the-loop to on-the-loop for certain tasks. The key question is not <em>whether</em> this shift will happen, but <em>which</em> tasks, at <em>what</em> level of proven accuracy, and with <em>what</em> rules and oversight in place.</div>
   </div>
 
   <div class="danger-box">
     <div class="danger-label">The stakes of getting this wrong</div>
-    <div class="danger-text">Healthcare AI errors are unlike errors in other domains. If Spotify recommends a song you dislike, you skip it. If an agentic AI misfires a medication dosage, misreads an allergy, or fails to escalate a deteriorating patient, the consequences can be permanent and irreversible. This asymmetry &mdash; the catastrophically high cost of certain AI errors in medicine versus virtually every other industry &mdash; is why the movement from human-in-the-loop to human-on-the-loop in healthcare is much slower, much more evidence-dependent, and much more heavily regulated than in other sectors. The question is not whether AI can be accurate. The question is: how accurate does it need to be, validated across how many patients, before we stop verifying every output it produces? And who is legally and ethically responsible when that calculation proves wrong?</div>
+    <div class="danger-text">AI mistakes in healthcare are not like AI mistakes anywhere else. If Spotify recommends a song you hate, you skip it &mdash; no harm done. If an AI gets a medication dose wrong, misses an allergy, or fails to flag a patient who is getting sicker, the consequences can be permanent and irreversible. This is why moving from human-in-the-loop to human-on-the-loop is so much slower, so much more careful, and so much more heavily regulated in healthcare than in other industries. The question is not whether AI can be accurate. The question is: <em>how</em> accurate does it have to be, proven across <em>how many</em> patients, before we stop checking every single thing it does? And who takes the blame when that judgment turns out to be wrong?</div>
   </div>
 
   <!-- SECTION 13 -->
-  <h2 id="s13"><span class="section-num">13</span> Four Perspectives: How AI Is Changing Healthcare for Everyone</h2>
+  <h2 id="s13"><span class="section-num">13</span> The Risks: Alert Fatigue, Deskilling, and Clinician Resistance</h2>
 
-  <p>AI in healthcare is not a monolithic experience. It looks different depending on where you sit in the system. Here is what the current transformation means for each major stakeholder &mdash; including what each group gains and what each group risks.</p>
+  <p>The benefits of healthcare AI are real and measurable. But so are the risks &mdash; and some of the most important ones have nothing to do with whether the AI is accurate.</p>
 
-  <h3>Physicians</h3>
+  <p><strong>Alert fatigue</strong> is the first major risk. When AI systems send too many notifications &mdash; too many risk scores, too many reminders about screenings, too many suggested actions &mdash; doctors stop reading them. It is like getting so many phone notifications that you start ignoring all of them. Epic&rsquo;s sepsis model ran into exactly this problem at some hospitals: the alerts came so often that doctors started dismissing them without looking. The model was accurate, but it did not matter &mdash; because nobody was paying attention anymore. Epic&rsquo;s challenge is not just making AI that is right. It is making AI whose alerts doctors will actually read and act on.</p>
 
-  <p>For physicians, the AI era represents the first genuine attempt to reverse the burnout crisis that EHR adoption created. Ambient documentation is returning time that was stolen by the keyboard. Predictive models are adding a layer of continuous pattern recognition that no individual physician can maintain across dozens of simultaneous patients. Pre-visit briefing agents are making it possible to be fully prepared for complex patients without spending a third of the appointment catching up on the record.</p>
+  <h3>The Deskilling Problem: What Happens When Doctors Depend on AI?</h3>
 
-  <p>The risk is different: <strong>alert fatigue</strong>. When AI systems generate too many notifications &mdash; too many risk scores, care gap flags, suggested actions &mdash; physicians stop reading them. The sepsis prediction model has been studied at multiple hospitals where clinicians began dismissing alerts reflexively because they arrived too frequently. The benefit of the model was neutralized by its own volume. Epic&rsquo;s challenge is not just building AI that is accurate. It is building AI whose alerts physicians will actually act on &mdash; which requires calibration, context, and understanding of clinical workflow that purely technical optimization cannot provide.</p>
+  <p>There is a risk that almost nobody was talking about when AI first arrived in healthcare, but that has become a serious concern by 2026: <strong>deskilling</strong>. The worry is straightforward &mdash; if doctors use AI to help them do their job every day, what happens to their ability to do that job <em>without</em> AI?</p>
 
-  <h3>Nurses</h3>
+  <p>In 2025, a landmark study published in <em>The Lancet</em> provided the first real evidence. Researchers studied doctors performing colonoscopies (a procedure where a camera is used to look for precancerous growths in the colon) at four hospitals in Poland. Half the time, the doctors used an AI tool that highlighted suspicious spots on the screen. The other half, they worked on their own. Before the AI was introduced, doctors found precancerous growths in about <strong>28%</strong> of procedures. After three months of using the AI, their detection rate <em>without</em> AI assistance dropped to <strong>22%</strong> &mdash; a significant decline. The AI had made them better when it was on, but worse when it was off.</p>
 
-  <p>Nurses have historically been the most underserved group in health IT. EHR systems were designed primarily around physician workflows. Nursing documentation was often retrofitted into tools that did not fit how nurses actually work: in motion, across multiple patients simultaneously, with constant interruption. The extension of ambient AI to nursing workflows, the development of AI-assisted flowsheet population, and use of AI to reduce end-of-shift documentation backlogs are meaningful steps toward healthcare AI that serves the people who provide most direct patient care.</p>
-
-  <p>Nurses are also among the most cautious about AI accuracy in specific contexts. A physician reviewing an AI-generated note can catch errors through clinical expertise. In some nursing workflows, the safety redundancies are fewer. Trust calibration matters enormously, and it must be earned task by task, not assumed.</p>
-
-  <h3>Patients</h3>
-
-  <p>For patients, the most visible change is often the most subtle: physicians who look at them again. The return of presence &mdash; eye contact, genuine listening, follow-up questions &mdash; is the human dividend of AI absorbing the documentation burden. Patients do not see DAX Copilot. They see what it gives back.</p>
-
-  <p>Less visible is the AI acting on their behalf when they are not in the room: the sepsis model that flags their deterioration at 3am, the care gap alert that prompts their physician to order an overdue mammogram, the pre-visit assistant that ensures the appointment addresses what actually matters to them. These interventions are invisible but may determine whether they receive the right care at the right time &mdash; or don&rsquo;t.</p>
-
-  <div class="perspective-box">
-    <div class="perspective-who">🧑‍🦳 &nbsp; Patient perspective on the invisible AI</div>
-    <div class="perspective-text">&ldquo;I&rsquo;ve been coming to this clinic for ten years. Last month my doctor brought up a test I hadn&rsquo;t had in two years. I didn&rsquo;t even know I was overdue for it. She caught it. I don&rsquo;t know if it was her or the computer that remembered &mdash; but something did.&rdquo;</div>
+  <div class="danger-box">
+    <div class="danger-label">The deskilling dilemma</div>
+    <div class="danger-text">The colonoscopy study is the first hard evidence of a pattern that researchers and doctors have been worried about for years: when AI does part of your job for you, you may gradually lose the ability to do that part yourself. This is not unique to medicine &mdash; think about how relying on GPS affects your ability to navigate without it, or how spell-check affects your ability to spell. But in healthcare, the stakes are different. A doctor who cannot detect cancer without AI assistance is a doctor who is effectively dependent on a technology that might go offline, might not be available at every hospital, or might make mistakes that the doctor can no longer catch. As one physician put it in a survey: &ldquo;Medicine today has already taken a path of more reliance on the computer than the patient.&rdquo; The question is whether AI reverses that trend &mdash; or accelerates it.</div>
   </div>
 
-  <h3>Healthcare Administrators and the System</h3>
+  <p>This tension is at the heart of clinician resistance to AI. A 2025 survey found that only <strong>16% of physicians</strong> currently use AI tools for clinical decisions, and only <strong>17%</strong> believe AI can make meaningful clinical suggestions. Nearly half (46%) see AI&rsquo;s value as purely administrative &mdash; a paperwork tool, not a clinical partner. Many doctors welcome AI that takes away documentation burden, but resist AI that inserts itself into clinical judgment. The distinction matters: doctors are not anti-AI. They are protective of the expertise that defines their profession, and wary of becoming dependent on tools they do not fully understand or control.</p>
 
-  <p>For hospital administrators, AI represents a dual opportunity: reduce costs through automation of administrative workflows, and increase revenue through systematic recovery of denied claims and improved physician throughput. For the broader healthcare system, AI that reduces unnecessary tests and hospital readmissions is a societal benefit &mdash; but AI that helps hospitals fight more insurance denials is a direct cost to payers. The economic dynamics are not zero-sum across the whole system, but they create real tensions between stakeholders in specific transactions.</p>
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Deskilling</div>
+    <div class="concept-def">Deskilling is the gradual loss of professional skills that happens when people rely on technology to do work they used to do themselves. In healthcare, this can mean doctors losing their ability to spot problems without AI assistance, or medical students never fully developing diagnostic skills because AI fills in the gaps during their training. Deskilling is not the same as AI being bad &mdash; in fact, it often happens precisely <em>because</em> AI is good. The better the tool, the more you rely on it, and the more your own skills fade from lack of practice. The challenge for healthcare AI is designing systems that <em>augment</em> human skills without <em>replacing</em> them &mdash; keeping the human sharp even as the AI takes on more responsibility.</div>
+  </div>
 
   <!-- SECTION 14 -->
   <h2 id="s14"><span class="section-num">14</span> Beyond Today: What Comes Next in Healthcare AI</h2>
@@ -607,6 +620,8 @@
 
   <p>The current generation of Epic&rsquo;s agents operates in human-in-the-loop mode for clinical decisions. As confidence builds through validation studies and outcome data, lower-stakes tasks will shift to human-on-the-loop operation. Insurance appeal letters may be submitted automatically, with humans reviewing exceptions. Routine preventive outreach may become fully automated. The shift will happen task by task, evidence by evidence, not as a single policy change.</p>
 
+  <p>Two developments in 2026 accelerate this trajectory. First, <strong>Agent Factory</strong> puts the tools for building agentic workflows directly in the hands of health systems &mdash; meaning the pace of agentic AI deployment will no longer be limited to what Epic develops centrally. A hospital that identifies a gap in its discharge planning process can now build an agent to address it, rather than waiting for Epic to prioritize that use case. Second, <strong>conversational AI for clinicians</strong> will let Art respond to questions asked during patient visits in real time &mdash; handling direct questions like &ldquo;Art, how is this patient&rsquo;s blood pressure trending?&rdquo; and surfacing context-appropriate information based on the flow of the conversation. A <strong>Diagnosis Checker</strong> will help clinicians at the point of care by analyzing patterns in patient symptoms, history, and outcomes and suggesting differential diagnoses based on real-world patient data from Cosmos.</p>
+
   <div class="future-box">
     <div class="future-label">Near-term projection (2025&ndash;2027)</div>
     <div class="future-text"><strong>Systematic care gap closure at scale:</strong> Within two to three years, health systems using Epic are likely to have fully agentic workflows that proactively identify patients overdue for preventive screenings, draft and send personalized outreach, suggest appointment scheduling, and follow up with non-responders &mdash; all without any human initiating each individual action. For a primary care practice with 2,000 patients, this kind of systematic proactive outreach has been operationally impossible. Agentic AI will make it routine. The patients who benefit most will be those who were too busy, too intimidated, or too isolated to reach out themselves.</div>
@@ -614,25 +629,27 @@
 
   <h3>Medium term (2027&ndash;2032): Multimodal AI and continuous monitoring</h3>
 
-  <p>Epic&rsquo;s leadership has explicitly described a roadmap toward native multimodal AI capabilities &mdash; processing not just text but video, images, and genomic data. This opens the door to AI-assisted diagnostics that go beyond pattern-matching in text records. An AI agent that can analyze a dermatology photograph, a radiology scan, and the patient&rsquo;s full clinical history simultaneously &mdash; and surface a differential diagnosis for a physician to review &mdash; is within technical reach.</p>
-
-  <div class="future-box">
-    <div class="future-label">Medium-term projection (2027&ndash;2032)</div>
-    <div class="future-text"><strong>The hospital-at-home model, powered by continuous AI surveillance:</strong> Wearable devices already generate continuous streams of physiological data. As integration between wearables and Epic improves, agentic AI will monitor this stream for clinical signals, alerting care teams to changes before they become emergencies. Patients recovering from surgery, managing chronic diseases, or at elevated risk will receive effective clinical monitoring from home. The hospital-at-home model is already in early deployment and will expand substantially &mdash; shifting care from a location-based model to a continuous, data-driven one.</div>
-  </div>
+  <p>Epic&rsquo;s leadership has explicitly described a roadmap toward native multimodal AI capabilities &mdash; processing not just text but video, images, and genomic data. This opens the door to AI-assisted diagnostics that go beyond pattern-matching in text records. An AI agent that can analyze a dermatology photograph, a radiology scan, and the patient&rsquo;s full clinical history simultaneously &mdash; and surface a differential diagnosis for a physician to review &mdash; is within technical reach. Curiosity&rsquo;s foundation models, trained on 300 million patient trajectories, will provide the predictive backbone: what typically happens next for patients with this combination of findings, and what interventions have historically made a difference.</p>
 
   <h3>Longer term (2032+): AI as a structural participant in care delivery</h3>
 
   <p>The U.S. faces a projected shortage of 86,000 physicians by 2036. AI cannot fill that gap by being a better search engine. But AI agents that handle routine chronic disease monitoring, medication refill management, follow-up on stable conditions, and patient question triage &mdash; while escalating anything requiring physician judgment &mdash; could meaningfully extend the productive capacity of each physician. This is not a future in which AI replaces doctors. It is a future in which AI makes it possible to extend physician-level oversight to populations who currently have very limited access to it.</p>
+
+  <p>Research is already backing up this approach. A 2025 study from Mount Sinai hospital found that splitting clinical tasks among multiple specialized AI agents &mdash; each handling one area, managed by a central system &mdash; was up to <strong>65 times more efficient</strong> and much more accurate under heavy workloads than using a single, do-everything AI. This supports Epic&rsquo;s decision to build separate specialized agents (Art for doctors, Penny for billing, Emmie for patients) rather than one giant medical AI that tries to do everything. The future is not one super-intelligent medical AI. It is a team of specialized AI agents, each great at its specific job, working together with human oversight.</p>
 
   <div class="future-box">
     <div class="future-label">Longer-term projection (2032+)</div>
     <div class="future-text"><strong>The AI primary care layer:</strong> In underserved communities, rural areas, and developing nations, physician access is already deeply constrained. AI agents trained on Cosmos-scale data and validated against millions of clinical outcomes could extend a meaningful layer of evidence-based care to populations that currently lack access to any specialist and see a primary care physician rarely if ever. This is healthcare AI&rsquo;s most ambitious potential contribution &mdash; not making existing care more efficient, but making care accessible where it currently does not exist.</div>
   </div>
 
+  <div class="future-box">
+    <div class="future-label">On the horizon &mdash; world models in medicine</div>
+    <div class="future-text"><strong>From predicting the next event to simulating entire patient futures:</strong> Curiosity predicts the next likely medical event for a patient. But researchers are already working on something more ambitious: <strong>world models</strong> for healthcare &mdash; AI systems that build an internal simulation of how a patient&rsquo;s body works and can &ldquo;imagine&rdquo; how different treatments would play out before a doctor ever tries them. Think of it like a flight simulator, but for medicine: instead of crashing a real plane to learn what happens, you simulate thousands of scenarios and pick the one that works best. A 2025 paper presented at NeurIPS (a major AI research conference) proposed exactly this &mdash; world models that combine the predictive power of systems like Curiosity with the ability to simulate &ldquo;what if?&rdquo; scenarios: <em>What if we start this medication now? What if we wait three months? What if we try a different dose?</em> Epic&rsquo;s Cosmos data, with its 300 million patient trajectories, is precisely the kind of dataset these world models would need to learn from. The technology is not ready for clinical use today, but the direction is clear: the future of medical AI is not just predicting what <em>will</em> happen, but simulating what <em>could</em> happen under different choices.</div>
+  </div>
+
   <div class="danger-box">
     <div class="danger-label">The risks that accompany the progress</div>
-    <div class="danger-text">Every expansion of AI autonomy in healthcare carries risks the field is still learning to manage. <strong>AI bias</strong>: models trained on historical data perpetuate the disparities embedded in that data, potentially producing worse predictions for underrepresented populations. <strong>Errors at scale</strong>: a bug in an algorithm deployed to 3,600 hospitals could affect millions of patients before detection. <strong>Regulatory lag</strong>: the FDA is still developing frameworks for governing agentic AI as a medical device. <strong>Liability</strong>: when an AI agent causes harm, who is responsible &mdash; the hospital, Epic, Microsoft, or the physician who trusted the output? These are not hypothetical questions. They are active legal and policy debates that will shape the pace and architecture of healthcare AI for years to come.</div>
+    <div class="danger-text">Every step toward giving AI more independence in healthcare comes with real risks. <strong>AI bias</strong>: if the AI learned from data that underrepresents certain groups of people, it may make worse predictions for those groups. <strong>Errors at scale</strong>: a single bug in an algorithm running at 3,600 hospitals could affect millions of patients before anyone catches it. <strong>Regulations lagging behind</strong>: the FDA (the government agency that approves medical devices) is still figuring out how to regulate AI agents. <strong>Who is responsible?</strong>: when an AI agent causes harm, who gets blamed &mdash; the hospital, Epic, Microsoft, or the doctor who trusted the AI&rsquo;s output? These are not hypothetical questions. They are active legal and policy debates happening right now.</div>
   </div>
 
   <!-- SECTION 15 -->
@@ -640,35 +657,33 @@
 
   <h3>Key vocabulary introduced in this chapter</h3>
   <div class="vocab-grid">
-    <div class="vocab-card"><div class="vocab-term">Agentic AI</div><div class="vocab-def">AI given a goal that autonomously plans and executes multi-step processes &mdash; qualitatively different from systems that respond to a single prompt with a single output</div></div>
-    <div class="vocab-card"><div class="vocab-term">Ambient AI</div><div class="vocab-def">AI that operates passively in the background, capturing and processing information without explicit commands &mdash; DAX Copilot listens to clinical conversations without the physician typing a word</div></div>
-    <div class="vocab-card"><div class="vocab-term">Electronic Health Record (EHR)</div><div class="vocab-def">A digital system for storing and managing patient medical information across encounters, providers, and settings &mdash; the platform on which all healthcare AI is being built</div></div>
-    <div class="vocab-card"><div class="vocab-term">HITECH Act / Meaningful Use</div><div class="vocab-def">The 2009 U.S. law that drove the rapid digitization of American healthcare through financial incentives and penalties &mdash; the policy decision that created the data foundation for healthcare AI</div></div>
-    <div class="vocab-card"><div class="vocab-term">Pajama time</div><div class="vocab-def">The informal term for after-hours documentation work done by physicians at home &mdash; a measurable indicator of EHR administrative burden and a primary target of ambient AI solutions</div></div>
-    <div class="vocab-card"><div class="vocab-term">Longitudinal clinical data</div><div class="vocab-def">Patient data captured across time and multiple care settings &mdash; what teaches AI models how diseases progress and what interventions work, rather than snapshots of isolated moments</div></div>
-    <div class="vocab-card"><div class="vocab-term">Cosmos</div><div class="vocab-def">Epic&rsquo;s de-identified clinical data platform: 280+ million patients, 16+ billion data points &mdash; the data moat that makes Epic&rsquo;s AI strategy structurally difficult for competitors to replicate</div></div>
-    <div class="vocab-card"><div class="vocab-term">Fine-tuning</div><div class="vocab-def">Taking a pre-trained foundation model and continuing to train it on domain-specific data &mdash; how Epic adapts GPT-4 to understand the specialized language and reasoning patterns of clinical medicine</div></div>
-    <div class="vocab-card"><div class="vocab-term">Prompt engineering</div><div class="vocab-def">The systematic design and testing of AI inputs to produce reliable, accurate outputs at scale &mdash; in clinical AI, a safety-critical engineering discipline governed like any other medical device configuration</div></div>
-    <div class="vocab-card"><div class="vocab-term">AI prototyping</div><div class="vocab-def">Using AI tools to produce working drafts of features in hours or days &mdash; changing who can participate in healthcare software development and accelerating the feedback loop between clinical need and technical solution</div></div>
-    <div class="vocab-card"><div class="vocab-term">Human-in-the-loop</div><div class="vocab-def">A system design requiring a human to review and approve each AI output before it takes effect &mdash; Epic&rsquo;s current standard for all clinical decisions</div></div>
-    <div class="vocab-card"><div class="vocab-term">Human-on-the-loop</div><div class="vocab-def">A system design where AI acts autonomously while humans monitor and can intervene &mdash; the direction specific healthcare AI tasks are moving as accuracy is validated over time</div></div>
-    <div class="vocab-card"><div class="vocab-term">Alert fatigue</div><div class="vocab-def">When clinicians begin ignoring AI alerts because they are too frequent or poorly calibrated &mdash; one of the most significant barriers to effective clinical AI deployment, independent of the underlying model&rsquo;s accuracy</div></div>
-    <div class="vocab-card"><div class="vocab-term">Data moat</div><div class="vocab-def">A proprietary dataset so large, domain-specific, and difficult to replicate that it creates structural competitive advantage &mdash; Cosmos is arguably the most powerful data moat in enterprise healthcare</div></div>
-    <div class="vocab-card"><div class="vocab-term">RLHF (Reinforcement Learning from Human Feedback)</div><div class="vocab-def">A training technique using human expert evaluations to improve AI models &mdash; every physician edit of an AI-generated clinical note is a learning signal that can make the next note better</div></div>
-    <div class="vocab-card"><div class="vocab-term">Platform consolidation</div><div class="vocab-def">An incumbent platform internalizing capabilities that third-party vendors built on its ecosystem &mdash; Epic embedding ambient documentation removes the need for separate vendor contracts and shifts competitive dynamics</div></div>
+    <div class="vocab-card"><div class="vocab-term">Agentic AI</div><div class="vocab-def">AI given a goal that plans and carries out multi-step processes on its own &mdash; fundamentally different from AI that responds to a single question with a single answer</div></div>
+    <div class="vocab-card"><div class="vocab-term">Ambient AI</div><div class="vocab-def">AI that operates passively in the background, capturing and processing information without being asked &mdash; DAX Copilot listens to clinical conversations without the physician typing a word</div></div>
+    <div class="vocab-card"><div class="vocab-term">Electronic Health Record (EHR)</div><div class="vocab-def">A digital system for storing and managing patient medical information across doctors, hospitals, and settings &mdash; the platform on which all healthcare AI is being built</div></div>
+    <div class="vocab-card"><div class="vocab-term">HITECH Act</div><div class="vocab-def">The 2009 U.S. law that paid hospitals to go digital and penalized those that did not &mdash; the policy decision that created the data foundation for everything in this chapter</div></div>
+    <div class="vocab-card"><div class="vocab-term">Longitudinal clinical data</div><div class="vocab-def">Patient data captured over time across multiple care settings &mdash; what teaches AI how diseases progress and what treatments work, rather than snapshots of isolated moments</div></div>
+    <div class="vocab-card"><div class="vocab-term">Cosmos</div><div class="vocab-def">Epic&rsquo;s anonymized clinical data platform: 300+ million patients, 16+ billion data points &mdash; the data advantage that makes Epic&rsquo;s AI strategy nearly impossible for competitors to replicate</div></div>
+    <div class="vocab-card"><div class="vocab-term">Curiosity</div><div class="vocab-def">Epic&rsquo;s family of AI models trained directly on real patient data from Cosmos &mdash; predicts what comes next in a patient&rsquo;s medical journey, representing Epic&rsquo;s shift from AI customer to AI model builder</div></div>
+    <div class="vocab-card"><div class="vocab-term">Agent Factory</div><div class="vocab-def">Epic&rsquo;s no-code platform that lets hospitals build, customize, and deploy their own AI agents &mdash; shifting healthcare AI from &ldquo;use our tools&rdquo; to &ldquo;build your own tools on our platform&rdquo;</div></div>
+    <div class="vocab-card"><div class="vocab-term">Emmie</div><div class="vocab-def">Epic&rsquo;s patient-facing AI agent inside MyChart &mdash; handles billing questions, appointment scheduling, care plan follow-ups, and increasingly, health questions personalized to your own medical record</div></div>
+    <div class="vocab-card"><div class="vocab-term">Human-in-the-loop</div><div class="vocab-def">A system where a human must review and approve every AI output before it takes effect &mdash; Epic&rsquo;s current standard for all clinical decisions</div></div>
+    <div class="vocab-card"><div class="vocab-term">Human-on-the-loop</div><div class="vocab-def">A system where AI acts on its own while humans monitor from a higher level and can step in &mdash; the direction healthcare AI is moving for lower-risk tasks as accuracy is proven</div></div>
+    <div class="vocab-card"><div class="vocab-term">Alert fatigue</div><div class="vocab-def">When doctors and nurses start ignoring AI alerts because they come too often or are poorly targeted &mdash; one of the biggest barriers to AI actually improving care, regardless of how accurate the AI is</div></div>
+    <div class="vocab-card"><div class="vocab-term">Deskilling</div><div class="vocab-def">The gradual loss of professional skills that happens when people rely on AI to do work they used to do themselves &mdash; a 2025 Lancet study showed doctors&rsquo; cancer detection rates dropped after months of AI-assisted procedures</div></div>
+    <div class="vocab-card"><div class="vocab-term">Data gravity</div><div class="vocab-def">The idea that once enough data piles up in one place, everything else gets pulled toward it &mdash; Epic&rsquo;s decades of patient data force AI companies to build on Epic&rsquo;s platform rather than around it</div></div>
+    <div class="vocab-card"><div class="vocab-term">Data moat</div><div class="vocab-def">A dataset so large and hard to replicate that it creates a lasting competitive advantage &mdash; Cosmos is arguably the most powerful data moat in healthcare</div></div>
+    <div class="vocab-card"><div class="vocab-term">World model</div><div class="vocab-def">An AI system that builds an internal simulation of how something works and can &ldquo;imagine&rdquo; different scenarios before they happen &mdash; the emerging frontier of medical AI, where the goal is simulating patient futures rather than just predicting the next event</div></div>
   </div>
 
   <h3>Discussion questions</h3>
-  <p style="font-size:13px; color:#666; margin-bottom:0.75rem;">Eight questions anchored in the themes of this chapter. These work equally well as written assignments or in-class discussion. Questions 2, 5, and 7 tend to generate the most debate.</p>
+  <p style="font-size:13px; color:#666; margin-bottom:0.75rem;">Six questions anchored in the themes of this chapter. These work equally well as written assignments or in-class discussion.</p>
   <ol class="discussion-list">
-    <li><strong>The unintended consequence (Sections 4 &amp; 7).</strong> The HITECH Act drove the digitization of American healthcare and created the data foundation that now makes AI possible &mdash; but it also created the burnout crisis that AI is now trying to solve. Is this a story of good policy with unintended consequences, or a failure of policy design to anticipate human factors? What would you have done differently in 2009? Does your answer change knowing that without HITECH, the data infrastructure for today&rsquo;s clinical AI would not exist?</li>
-    <li><strong>Whose problem is AI solving? (Sections 4, 7, 13).</strong> This chapter presents ambient AI as a solution to clinician burnout. But hospitals also benefit when physicians see more patients per day. Epic earns revenue. Insurance companies may pay more claims when Penny helps hospitals fight more denials. Is Epic reducing burnout as an act of mission &mdash; or as a business strategy that happens to benefit clinicians? Can it be both? Does the motivation matter if the outcome is the same?</li>
-    <li><strong>The Uber comparison (Section 10).</strong> Uber closed the prediction-decision gap entirely &mdash; predictions trigger automated decisions at machine speed. Epic has deliberately preserved the gap for clinical decisions. Both made rational choices for their contexts. Pick one specific Epic AI feature (Art, Penny, DAX, the sepsis model, or the pre-visit assistant) and argue for closing its prediction-decision gap entirely &mdash; letting it act without human review. Now argue against. What specific evidence would move you from one position to the other?</li>
-    <li><strong>Alert fatigue and the signal problem (Section 13).</strong> Epic&rsquo;s sepsis model at some hospitals generated so many alerts that clinicians began dismissing them without reading them &mdash; neutralizing the model&rsquo;s benefit entirely. This is not a model accuracy failure. It is a workflow integration failure. If you were designing a clinical AI alert system, what would you change? Be specific: what would you measure, what thresholds would you set, how would you know if you got it right, and what happens if you got it wrong?</li>
-    <li><strong>The data moat and equity (Section 5).</strong> Cosmos is built primarily from data generated by patients at large, well-resourced U.S. health systems. Rural patients, uninsured patients, and patients at safety-net hospitals are underrepresented. If AI models are trained on this data, how might that shape their predictions for patients who look less like the training population? Is this a problem Epic can solve? Who is responsible for solving it if Epic cannot or will not?</li>
-    <li><strong>Prompt engineering as safety engineering (Section 11).</strong> This chapter argues that prompt engineering in clinical AI is a safety-critical engineering discipline, not casual experimentation. Design a governance framework for how a hospital should manage the prompts used in its clinical AI systems. Who writes them? Who reviews and approves them? How often are they updated? What happens when a prompt produces a harmful output? Use the principles of this chapter to defend your framework.</li>
-    <li><strong>The liability question (Section 14).</strong> An AI agent drafts a clinical note containing a dosage error. The physician reviews it, does not catch the mistake, and approves it. The patient is harmed. Who is legally and ethically responsible &mdash; the physician, the hospital, Epic, or Microsoft? Now change the scenario: the physician was reviewing 40 AI-generated notes that morning and had four minutes per note. Does that change your answer? Should it change how AI-generated clinical content is governed?</li>
-    <li><strong>Your career in the AI healthcare era (Section 14).</strong> The physician shortage and the expansion of healthcare AI are happening simultaneously. AI agents will increasingly extend clinician capacity, not replace it. Pick a healthcare-adjacent career that interests you &mdash; health system administration, health insurance, pharmaceuticals, public health, consulting, or health IT. Identify one specific workflow in that field where agentic AI is likely to be deployed within five years. Describe what the agent does, where the human checkpoint sits, and what specific skills would make you the person who works effectively with that agent &mdash; rather than the person whose role the agent has replaced.</li>
+    <li><strong>The unintended consequence (Sections 3 &amp; 4).</strong> The HITECH Act and the Affordable Care Act drove the digitization of American healthcare and created the data foundation that now makes AI possible &mdash; but they also created the burnout crisis that AI is now trying to solve. Is this a story of good policy with unintended consequences, or a failure to think ahead? What would you have done differently in 2009? Does your answer change knowing that without those laws, the data for today&rsquo;s healthcare AI would not exist?</li>
+    <li><strong>Whose problem is AI solving? (Sections 4, 7, 9).</strong> This chapter presents AI as a solution to clinician burnout. But hospitals also benefit when physicians see more patients per day. Epic earns revenue. Insurance companies may pay more claims when Penny helps hospitals fight more denials. Is Epic reducing burnout because it is the right thing to do &mdash; or because it is a smart business strategy that happens to benefit doctors? Can it be both? Does the motivation matter if the outcome is the same?</li>
+    <li><strong>The gatekeeper question (Section 10).</strong> Epic controls the software, the data (Cosmos), and now its own AI models (Curiosity). It decides which third-party AI tools get access to patient data through App Orchard. Is this level of control good for patients because it maintains quality and safety standards, or is it bad for patients because it limits competition and innovation? Compare Epic&rsquo;s position to Apple&rsquo;s control of the App Store. What are the similarities? What is different when the product is healthcare instead of phones?</li>
+    <li><strong>The deskilling dilemma (Section 13).</strong> The Lancet colonoscopy study showed that doctors&rsquo; ability to detect cancer dropped after they got used to having AI help. If AI makes doctors better <em>with</em> AI but worse <em>without</em> it, is that a net positive or a net negative for patients? What if the AI is always available &mdash; does the deskilling risk still matter? Design a rule or practice that a hospital could adopt to prevent deskilling while still getting the benefits of AI assistance.</li>
+    <li><strong>The liability question (Section 14).</strong> An AI agent drafts a clinical note containing a dosage error. The physician reviews it, does not catch the mistake, and approves it. The patient is harmed. Who is responsible &mdash; the physician, the hospital, Epic, or Microsoft? Now change the scenario: the physician was reviewing 40 AI-generated notes that morning and had four minutes per note. Does that change your answer? Should it change how AI-generated clinical content is governed?</li>
+    <li><strong>Your career in the AI healthcare era (Section 14).</strong> The U.S. faces a shortage of 86,000 physicians by 2036, and AI agents will increasingly extend what each doctor can do. Pick a healthcare-adjacent career that interests you &mdash; hospital administration, health insurance, pharmaceuticals, public health, consulting, or health IT. Identify one specific task in that field where an AI agent is likely to be used within five years. Describe what the agent does, where the human checkpoint sits, and what skills would make you the person who works effectively <em>with</em> that agent &mdash; rather than the person whose job the agent replaced.</li>
   </ol>
 
   <hr>
