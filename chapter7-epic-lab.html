@@ -3,116 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lab 7: Build an Agentic AI Workflow — Epic | MIS 432</title>
+<title>Lab 7: Build an Agentic AI Workflow | MIS 432</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial, sans-serif; background: #ffffff; color: #333; }
-
+  body { font-family: Arial, sans-serif; background: #ffffff; color: #333; line-height: 1.6; }
   nav { background: #1a0010; padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
   .nav-brand { color: #ffffff; font-size: 15px; font-weight: 700; text-decoration: none; }
   .nav-links { display: flex; gap: 1.25rem; align-items: center; }
   .nav-links a { color: #e8b0c0; font-size: 13px; text-decoration: none; }
-  .nav-links a:hover { color: #ffffff; }
   .nav-badge { background: #cd003b; color: #ffffff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
-  .nav-dropdown { position: relative; }
-  .nav-dropdown-toggle { color: #e8b0c0; font-size: 13px; font-weight: 500; text-decoration: none; background: none; border: none; cursor: pointer; padding: 0; display: inline-flex; align-items: center; gap: 4px; transition: color 0.15s; font-family: inherit; }
-  .nav-dropdown-toggle:hover, .nav-dropdown:hover .nav-dropdown-toggle, .nav-dropdown.open .nav-dropdown-toggle { color: #fff; }
-  .nav-dropdown-toggle .caret { display: inline-block; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid currentColor; transition: transform 0.15s; }
-  .nav-dropdown:hover .nav-dropdown-toggle .caret, .nav-dropdown.open .nav-dropdown-toggle .caret { transform: rotate(180deg); }
-  .nav-dropdown-menu { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(-4px); background: #1a0010; border: 1px solid rgba(205,0,59,0.2); border-radius: 4px; min-width: 240px; padding: 0.4rem 0; opacity: 0; visibility: hidden; transition: opacity 0.15s, visibility 0.15s, transform 0.15s; box-shadow: 0 8px 24px rgba(0,0,0,0.35); z-index: 200; }
-  .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown.open .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
-  .nav-dropdown::after { content: ''; position: absolute; top: 100%; left: 0; right: 0; height: 12px; }
-  .nav-dropdown-menu a { display: block; padding: 0.5rem 1rem; color: rgba(255,255,255,0.65); font-size: 13px; font-weight: 500; text-decoration: none; border-left: 2px solid transparent; transition: color 0.12s, background 0.12s, border-color 0.12s; }
-  .nav-dropdown-menu a:hover { color: #cd003b; background: rgba(205,0,59,0.08); border-left-color: #cd003b; }
-  .nav-dropdown-menu .menu-num { display: inline-block; font-size: 11px; color: #cd003b; margin-right: 7px; min-width: 24px; font-weight: 700; }
-  .nav-dropdown-menu .menu-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 0.3rem 0.75rem; }
-  .menu-divider-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 0.4rem 1rem 0.2rem; }
-
-  .hero { background: linear-gradient(135deg, #1a0010 0%, #7a0020 55%, #cd003b 100%); padding: 3rem 2rem 2.5rem; }
-  .hero-inner { max-width: 860px; margin: 0 auto; }
-  .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #fce8ed; margin-bottom: 0.75rem; opacity: 0.85; }
-  .hero h1 { font-size: 30px; font-weight: 800; color: #ffffff; line-height: 1.25; margin-bottom: 0.6rem; }
-  .hero-sub { font-size: 15px; color: rgba(255,255,255,0.88); max-width: 600px; line-height: 1.65; margin-bottom: 1.25rem; }
-  .hero-pills { display: flex; gap: 0.6rem; flex-wrap: wrap; }
-  .pill { background: rgba(255,255,255,0.15); color: #ffffff; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.25); }
-  .pill-red { background: rgba(205,0,59,0.25); border-color: #cd003b; color: #fce8ed; }
-
-  .doc { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
-
-  .part-header { background: #1a0010; color: #ffffff; border-radius: 10px; padding: 1.1rem 1.4rem; margin: 2.5rem 0 1rem; display: flex; align-items: center; gap: 1rem; }
-  .part-num { background: #cd003b; color: #ffffff; font-size: 12px; font-weight: 800; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .part-title { font-size: 17px; font-weight: 700; color: #ffffff; }
-  .part-meta { font-size: 12px; color: #e8b0c0; margin-top: 2px; }
-  .part-badge-red { background: #cd003b; color: #ffffff; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
-  .part-badge-pink { background: rgba(205,0,59,0.2); color: #fce8ed; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; border: 1px solid rgba(205,0,59,0.4); }
-
-  h2 { font-size: 18px; font-weight: 700; color: #111; margin: 1.75rem 0 0.6rem; padding-bottom: 0.35rem; border-bottom: 2px solid #cd003b; }
-  h3 { font-size: 15px; font-weight: 700; color: #111; margin: 1.25rem 0 0.4rem; }
-  p { font-size: 15px; line-height: 1.75; color: #444; margin-bottom: 0.85rem; }
-  ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
-  li { font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 0.3rem; }
-  strong { font-weight: 700; color: #111; }
-  a { color: #cd003b; }
-
-  .step { border: 1px solid #f0d0d8; border-radius: 10px; margin: 1rem 0; overflow: hidden; }
-  .step-header { background: #cd003b; color: #ffffff; padding: 0.65rem 1rem; display: flex; align-items: center; gap: 0.75rem; }
-  .step-num { background: rgba(255,255,255,0.2); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; flex-shrink: 0; }
-  .step-title { font-size: 13px; font-weight: 700; }
-  .step-body { padding: 1rem 1.1rem; background: #ffffff; }
-  .step-body p { font-size: 14px; margin-bottom: 0.5rem; }
-  .step-body p:last-child { margin-bottom: 0; }
-
-  .code-block { background: #1a0010; border-radius: 8px; padding: 1rem 1.2rem; margin: 0.75rem 0; overflow-x: auto; }
-  .code-label { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #e8b0c0; margin-bottom: 0.4rem; }
-  .code-block pre { font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 1.6; color: #fce8ed; white-space: pre; }
-  .code-comment { color: #8a4055; }
-  .code-string { color: #f5b8c8; }
-  .code-keyword { color: #cd003b; }
-
-  .claude-prompt { background: #fff5f7; border: 1px solid #f0d0d8; border-left: 4px solid #cd003b; border-radius: 0 8px 8px 0; padding: 0.85rem 1rem; margin: 0.75rem 0; }
-  .claude-label { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #cd003b; margin-bottom: 0.35rem; }
-  .claude-text { font-size: 14px; color: #333; line-height: 1.55; font-style: italic; }
-
-  .concept-box { background: #fff0f3; border-left: 4px solid #cd003b; border-radius: 0 6px 6px 0; padding: 0.85rem 1rem; margin: 1rem 0; }
-  .concept-label { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; color: #cd003b; text-transform: uppercase; margin-bottom: 0.25rem; }
-  .concept-text { font-size: 14px; color: #333; line-height: 1.6; }
-
-  .insight-box { background: #fff5f7; border-left: 4px solid #f5b8c8; border-radius: 0 6px 6px 0; padding: 0.85rem 1rem; margin: 1rem 0; }
-  .insight-label { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; color: #cd003b; text-transform: uppercase; margin-bottom: 0.25rem; }
-  .insight-text { font-size: 14px; color: #333; line-height: 1.6; }
-
-  .warning-box { background: #fffbeb; border-left: 4px solid #f59e0b; border-radius: 0 6px 6px 0; padding: 0.85rem 1rem; margin: 1rem 0; }
-  .warning-label { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; color: #b45309; text-transform: uppercase; margin-bottom: 0.25rem; }
-  .warning-text { font-size: 14px; color: #333; line-height: 1.6; }
-
-  .obs-table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 13px; }
-  .obs-table th { background: #1a0010; color: #ffffff; padding: 8px 10px; text-align: left; font-weight: 700; }
-  .obs-table td { padding: 8px 10px; border-bottom: 1px solid #f0d0d8; vertical-align: top; }
-  .obs-table tr:nth-child(even) td { background: #fff5f7; }
-  .obs-table td.fill { color: #888; font-style: italic; font-size: 12px; }
-
-  .reflection { background: #1a0010; border-radius: 10px; padding: 1.25rem 1.4rem; margin: 1.25rem 0; }
-  .reflection-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #f5b8c8; margin-bottom: 0.6rem; }
-  .reflection ol { margin-left: 1.25rem; }
-  .reflection li { font-size: 14px; color: #fce8ed; line-height: 1.7; margin-bottom: 0.5rem; }
-  .reflection li strong { color: #f5b8c8; }
-
-  .section-overview { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin: 1.25rem 0 1.75rem; }
-  .overview-card { border: 1px solid #f0d0d8; border-top: 3px solid #cd003b; border-radius: 8px; padding: 0.85rem 1rem; }
-  .overview-num { font-size: 22px; font-weight: 800; color: #cd003b; }
-  .overview-label { font-size: 12px; color: #888; margin-top: 2px; }
-  .overview-desc { font-size: 13px; color: #111; margin-top: 0.4rem; font-weight: 600; }
-
-  .checklist { list-style: none; margin: 0.5rem 0 1rem; padding: 0; }
-  .checklist li { font-size: 14px; color: #333; padding: 0.4rem 0 0.4rem 1.75rem; position: relative; border-bottom: 1px solid #fff5f7; }
-  .checklist li::before { content: "☐"; position: absolute; left: 0; color: #cd003b; font-size: 16px; line-height: 1.2; }
-
-  .time-badge { display: inline-block; background: #fff0f3; color: #cd003b; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
-
-  .chapter-nav-bar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-top: 1px solid #e2e8f0; margin-top: 2rem; flex-wrap: wrap; gap: 0.75rem; }
-  .chapter-nav-bar a { font-size: 14px; color: #cd003b; text-decoration: none; font-weight: 700; }
-
-  hr { border: none; border-top: 1px solid #e2e8f0; margin: 2rem 0; }
+  .hero { background: linear-gradient(135deg, #1a0010 0%, #7a0020 55%, #cd003b 100%); padding: 3.5rem 2rem 3rem; }
+  .hero-inner { max-width: 920px; margin: 0 auto; }
+  .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #fce8ed; margin-bottom: 0.75rem; }
+  .hero h1 { font-size: 34px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 0.75rem; }
+  .hero-sub { font-size: 16px; color: #fce8ed; max-width: 700px; line-height: 1.65; }
+  .hero-tools { display: flex; gap: 0.55rem; flex-wrap: wrap; margin-top: 1rem; }
+  .tool-badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #fff; font-size: 12px; font-weight: 700; padding: 5px 14px; border-radius: 20px; }
+  .doc { max-width: 920px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+  .overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin: 0 0 2.5rem; }
+  @media (max-width: 700px) { .overview-grid { grid-template-columns: repeat(2, 1fr); } }
+  .overview-card-link { text-decoration: none; color: inherit; }
+  .overview-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem 0.75rem; text-align: center; transition: border-color 0.15s; }
+  .overview-card:hover { border-color: #cd003b; }
+  .overview-icon { font-size: 22px; margin-bottom: 0.4rem; }
+  .overview-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: #767676; text-transform: uppercase; }
+  .overview-val { font-size: 13px; font-weight: 700; color: #222; }
+  .scenario { background: #fff0f3; border-left: 5px solid #cd003b; border-radius: 0 8px 8px 0; padding: 1.5rem 1.75rem; margin-bottom: 2.5rem; }
+  .scenario p { font-size: 15px; margin-bottom: 0.75rem; line-height: 1.7; }
+  .scenario p:last-child { margin-bottom: 0; }
+  .exercise { margin-bottom: 3rem; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; }
+  .exercise-header { background: #1a0010; color: #fff; padding: 1.1rem 1.5rem; }
+  .exercise-number { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #cd003b; }
+  .exercise-title { font-size: 20px; font-weight: 700; }
+  .exercise-body { padding: 1.75rem 1.5rem; }
+  .exercise-body h4 { font-size: 15px; font-weight: 700; color: #222; margin: 1.5rem 0 0.6rem; }
+  .exercise-body h4:first-child { margin-top: 0; }
+  .exercise-body p { font-size: 15px; margin-bottom: 0.85rem; line-height: 1.7; }
+  .exercise-body ol, .exercise-body ul { margin: 0 0 1rem 1.5rem; font-size: 14px; }
+  .exercise-body li { margin-bottom: 0.4rem; line-height: 1.6; }
+  .concept { background: #fff0f3; border-left: 4px solid #cd003b; border-radius: 0 6px 6px 0; padding: 1rem 1.25rem; margin: 1.25rem 0; }
+  .concept-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #cd003b; margin-bottom: 0.4rem; }
+  .concept p { font-size: 14px; color: #333; margin: 0 0 0.4rem; line-height: 1.6; }
+  .concept p:last-child { margin-bottom: 0; }
+  .reflection { background: #f8f8f8; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem 1.25rem; margin: 1.25rem 0; }
+  .reflection-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #cd003b; margin-bottom: 0.5rem; }
+  .reflection-q { font-size: 14px; color: #222; line-height: 1.6; }
+  .data-doc { background: #f8f8f8; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.1rem 1.25rem; margin: 1rem 0; }
+  .data-doc-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #7a0020; margin-bottom: 0.3rem; }
+  .data-doc-title { font-size: 15px; font-weight: 700; color: #222; margin-bottom: 0.6rem; }
+  .data-doc pre { font-size: 12px; line-height: 1.55; white-space: pre-wrap; font-family: 'Courier New', monospace; color: #444; background: #fff; border: 1px solid #e2e8f0; border-radius: 4px; padding: 0.85rem; }
+  .promptbox { background: #1a0010; color: #e8b0c0; border-radius: 6px; padding: 1rem; position: relative; margin: 0.75rem 0; }
+  .promptbox pre { font-size: 12px; line-height: 1.5; white-space: pre-wrap; font-family: 'Courier New', monospace; margin: 0; }
+  .promptbox-copy { position: absolute; top: 8px; right: 8px; background: #cd003b; color: #fff; border: none; border-radius: 4px; font-size: 11px; font-weight: 700; padding: 4px 10px; cursor: pointer; font-family: Arial, sans-serif; }
+  .option-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin: 1rem 0; }
+  @media (max-width: 700px) { .option-grid { grid-template-columns: 1fr; } }
+  .option-card { background: #fff; border: 2px solid #e2e8f0; border-radius: 10px; padding: 1.25rem; }
+  .option-card:hover { border-color: #cd003b; }
+  .oc-icon { font-size: 24px; margin-bottom: 0.4rem; }
+  .oc-title { font-size: 14px; font-weight: 700; color: #222; margin-bottom: 0.3rem; }
+  .oc-desc { font-size: 13px; color: #555; line-height: 1.5; }
+  .loop-step { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.1rem; }
+  .loop-badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; white-space: nowrap; margin-top: 2px; }
+  .loop-line { border-left: 2px solid #e8b0c0; margin-left: 1.75rem; height: 6px; }
+  .footer-nav { display: flex; justify-content: space-between; padding: 1.5rem 0; border-top: 1px solid #e2e8f0; margin-top: 3rem; }
+  .footer-nav a { font-size: 14px; color: #cd003b; text-decoration: none; font-weight: 700; }
   footer { background: #1a0010; padding: 1.5rem 2rem; text-align: center; }
   footer p { font-size: 13px; color: #8a4055; }
   footer a { color: #cd003b; text-decoration: none; }
@@ -121,515 +75,538 @@
 <body>
 
 <nav>
-  <a href="index.html" class="nav-brand">MIS 432 · AI in Business</a>
-  <div class="nav-links">
-    <span class="nav-badge">Lab 7</span>
-    <a href="chapter7-epic.html">&larr; Chapter 7</a>
-    <div class="nav-dropdown">
-      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Chapters &amp; Labs <span class="caret"></span></button>
-      <div class="nav-dropdown-menu" role="menu">
-        <div class="menu-divider-label">Chapters</div>
-        <a href="chapter1-everycure.html" role="menuitem"><span class="menu-num">01</span>EveryCure</a>
-        <a href="chapter2-netflix.html" role="menuitem"><span class="menu-num">02</span>Netflix</a>
-        <a href="chapter3-spotify.html" role="menuitem"><span class="menu-num">03</span>Spotify</a>
-        <a href="chapter4-uber.html" role="menuitem"><span class="menu-num">04</span>Uber</a>
-        <a href="chapter5-waymo.html" role="menuitem"><span class="menu-num">05</span>Waymo</a>
-        <a href="chapter6-airbnb.html" role="menuitem"><span class="menu-num">06</span>Airbnb</a>
-        <a href="chapter7-epic.html" role="menuitem"><span class="menu-num">07</span>Epic</a>
-        <div class="menu-divider"></div>
-        <div class="menu-divider-label">Labs</div>
-        <a href="chapter1-everycure-lab.html" role="menuitem"><span class="menu-num">L1</span>EveryCure Lab</a>
-        <a href="chapter2-netflix-lab.html" role="menuitem"><span class="menu-num">L2</span>Netflix Lab</a>
-        <a href="chapter3-spotify-lab.html" role="menuitem"><span class="menu-num">L3</span>Spotify Lab</a>
-        <a href="chapter4-uber-lab.html" role="menuitem"><span class="menu-num">L4</span>Uber Lab</a>
-        <a href="chapter5-waymo-lab.html" role="menuitem"><span class="menu-num">L5</span>Waymo Lab</a>
-        <a href="chapter6-airbnb-lab.html" role="menuitem"><span class="menu-num">L6</span>Airbnb Lab</a>
-        <a href="chapter7-epic-lab.html" role="menuitem"><span class="menu-num">L7</span>Epic Lab</a>
-      </div>
-    </div>
-    <div class="nav-dropdown">
-      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Student Resources <span class="caret"></span></button>
-      <div class="nav-dropdown-menu" role="menu">
-        <a href="good-prompts.html" role="menuitem"><span class="menu-num">✦</span>Writing Good Prompts</a>
-        <a href="writing-with-voice.html" role="menuitem"><span class="menu-num">✦</span>Stand Out Among the Robots</a>
-        <a href="ai-job-interview.html" role="menuitem"><span class="menu-num">✦</span>AI in Job Interviews</a>
-        <a href="ai-news-and-sources.html" role="menuitem"><span class="menu-num">✦</span>AI News + Sources</a>
-      </div>
-    </div>
-    <a href="index.html">Home</a>
-  </div>
+  <a href="index.html" class="nav-brand">MIS 432 &middot; AI in Business</a>
+  <div class="nav-links"><span class="nav-badge">Lab 7</span><a href="chapter7-epic.html">&larr; Chapter 7</a></div>
 </nav>
 
 <div class="hero">
   <div class="hero-inner">
-    <div class="hero-tag">Lab 7 · Agentic AI · Healthcare · Claude API</div>
-    <h1>Build an Agentic AI Workflow:<br>From Single Answer to Autonomous Action</h1>
-    <p class="hero-sub">In this lab you will move from asking AI a question to building an AI that takes a sequence of actions — experiencing firsthand the difference between a chatbot and an agent, and designing the human-in-the-loop safeguards that make agentic AI safe enough to deploy.</p>
-    <div class="hero-pills">
-      <span class="pill">Google Colab</span>
-      <span class="pill">Claude API</span>
-      <span class="pill">No prior coding required</span>
-      <span class="pill pill-red">~90 minutes</span>
-    </div>
+    <div class="hero-tag">Lab 7 &middot; Agentic AI</div>
+    <h1>Build an AI Agent That<br>Fights Insurance Denials</h1>
+    <p class="hero-sub">Your manager wants to know if agentic AI can help your hospital fight wrongly denied insurance claims. Build an AI Insurance Advocate, test its limits, audit its output, and then design your own agent from scratch.</p>
+    <div class="hero-tools"><span class="tool-badge">n8n (free)</span><span class="tool-badge">Claude / ChatGPT</span><span class="tool-badge">GitHub Pages</span></div>
   </div>
 </div>
 
 <div class="doc">
 
-  <h2>What you will build</h2>
-  <p>This lab has three parts that each deepen your understanding of what "agentic AI" actually means in practice — not just as a concept from the chapter, but as something you can observe, test, and evaluate yourself.</p>
-
-  <div class="section-overview">
-    <div class="overview-card">
-      <div class="overview-num">Part 1</div>
-      <div class="overview-label">~20 min · No code</div>
-      <div class="overview-desc">Map Epic's real agents (Art, Penny, the pre-visit assistant) to the agentic AI framework</div>
-    </div>
-    <div class="overview-card">
-      <div class="overview-num">Part 2</div>
-      <div class="overview-label">~40 min · Python + Claude API</div>
-      <div class="overview-desc">Build a Penny-style insurance appeal agent that takes a denial and writes an appeal — step by step</div>
-    </div>
-    <div class="overview-card">
-      <div class="overview-num">Part 3</div>
-      <div class="overview-label">~30 min · Analysis</div>
-      <div class="overview-desc">Design the human-in-the-loop governance framework for your agent — when should it act, and when should it stop?</div>
-    </div>
+  <div class="overview-grid">
+    <a href="#step1" class="overview-card-link"><div class="overview-card"><div class="overview-icon">💬</div><div class="overview-label">Steps 1&ndash;2</div><div class="overview-val">Learn &amp; Build</div></div></a>
+    <a href="#step3" class="overview-card-link"><div class="overview-card"><div class="overview-icon">💥</div><div class="overview-label">Steps 3&ndash;4</div><div class="overview-val">Test &amp; Expand</div></div></a>
+    <a href="#step5" class="overview-card-link"><div class="overview-card"><div class="overview-icon">⚖️</div><div class="overview-label">Steps 5&ndash;6</div><div class="overview-val">Evaluate &amp; Reflect</div></div></a>
+    <a href="#step7" class="overview-card-link"><div class="overview-card"><div class="overview-icon">🚀</div><div class="overview-label">Steps 7&ndash;8</div><div class="overview-val">Build Your Own &amp; Publish</div></div></a>
   </div>
 
-  <div class="warning-box">
-    <div class="warning-label">Before you start</div>
-    <div class="warning-text">Read <a href="chapter7-epic.html">Chapter 7</a> before doing this lab — especially Sections 8, 9, 11, and 12. The concepts of agentic AI, Penny, Art, prompt engineering, and human-in-the-loop are all used directly in Parts 2 and 3. The lab will make much more sense if the chapter is fresh.</div>
+  <div class="scenario">
+    <h2 style="font-size:18px;font-weight:700;color:#222;margin-bottom:1rem;">The setup</h2>
+    <p>You are a health systems data analyst at Swedish Medical Center, part of the Providence health system in Seattle. You majored in MIS and took an AI in Business class. Your manager, the VP of Revenue Cycle, pulls you aside after a meeting:</p>
+    <p style="background:#fff;border-left:3px solid #cd003b;padding:0.75rem 1rem;border-radius:0 6px 6px 0;font-style:italic;color:#444;">&ldquo;Hey &mdash; you took that AI class, right? Have you heard of agentic AI? We have a real problem. Insurance companies deny about 17% of our claims, and it&rsquo;s getting worse &mdash; denials are up 16% since 2018. Here&rsquo;s the thing though: <strong>when people actually appeal, 57% of denials get overturned.</strong> More than half! But almost nobody appeals &mdash; fewer than 1% of patients challenge their denials. It&rsquo;s not because the denials are right. It&rsquo;s because nobody has the time. Each appeal takes our team 45 minutes to research and write. We just can&rsquo;t fight them all. I want to know if we can build an AI agent that drafts these appeals for us &mdash; so we can fight on behalf of more patients. Can you build me a proof-of-concept?&rdquo;</p>
+    <p><strong>Your deliverable:</strong> A working prototype of an AI agent that reads an insurance denial, pulls evidence from the patient&rsquo;s medical chart, and drafts an appeal letter for human review before submission.</p>
   </div>
 
+  <!-- STEP 1 -->
+  <div class="exercise" id="step1">
+    <div class="exercise-header"><div class="exercise-number">Step 1</div><div class="exercise-title">Research: What is agentic AI and how is it different?</div></div>
+    <div class="exercise-body">
+      <p>Your manager asked you to &ldquo;figure out what agentic AI is.&rdquo; Before you build anything, you need to understand what makes an agent different from the AI tools you already use. Let&rsquo;s start with a simple test.</p>
 
-  <!-- PART 1 -->
-  <div class="part-header">
-    <div class="part-num">1</div>
-    <div class="part-info">
-      <div class="part-title">Mapping Epic's Agents <span class="part-badge-pink">No code · ~20 min</span></div>
-      <div class="part-meta">Understanding what makes an AI "agentic" before you build one</div>
-    </div>
-  </div>
+      <h4>Try it</h4>
+      <p>Open ChatGPT and Claude. Type the same prompt into each:</p>
+      <div class="promptbox"><pre>Write an insurance appeal letter for a denied claim for a knee MRI.</pre></div>
+      <p><strong>ChatGPT</strong> may not even understand the domain &mdash; it might ask if this is about a parking ticket or academic dismissal. <strong>Claude</strong> understands it is healthcare and asks the right follow-up questions. But both are asking <em>you</em> to do the legwork. An agent would go get the information itself.</p>
 
-  <h2>What separates an agent from a chatbot?</h2>
-  <p>Before building anything, you need a clear mental model of the difference. A chatbot answers a question — one input, one output, done. An agent pursues a goal — it takes a series of steps, uses tools, checks its own work, and adapts when something doesn't go as planned. The difference is not a matter of how smart the AI is. It is a matter of how it is designed.</p>
+      <div class="concept">
+        <div class="concept-label">Three levels of AI <span style="font-weight:400;font-size:11px;">(terminology still evolving)</span></div>
+        <p><strong>Level 1 &mdash; LLMs:</strong> Text in, text out. Cannot look anything up or take action.</p>
+        <p><strong>Level 2 &mdash; AI Agents (tools, but you direct each step):</strong> You say &ldquo;Create a Google Sheet for workshop scheduling with columns for date, time, speaker, and room.&rdquo; It connects to Sheets and builds it &mdash; but <em>you</em> planned every detail.</p>
+        <p><strong>Level 3 &mdash; Agentic AI (you design a workflow, then give it a goal):</strong> You build a workflow: connect the agent to a patient chart tool and a policy lookup tool, write a system prompt defining its role, and set guardrails. Then you say &ldquo;Fight this insurance denial.&rdquo; The AI decides <em>within that workflow</em> to read the denial, pull the chart, check the policy, and draft the appeal. You designed the system. The AI planned the steps.</p>
+        <p><strong>Level 2 vs. 3:</strong> Who decides the steps? At Level 2, you prompt each action. At Level 3, you describe the goal and the AI figures out how.</p>
+        <p><strong>But agentic AI needs a workflow.</strong> Someone has to define the goal, choose the tools, set guardrails, and decide where a human approves. The AI runs the loop. A human designs it. <strong>That is an IS job.</strong></p>
+      </div>
 
-  <div class="concept-box">
-    <div class="concept-label">The three defining features of an agent</div>
-    <div class="concept-text">
-      <strong>1. Goal-directed:</strong> the agent is given an objective, not just a prompt. It figures out the steps needed to reach the goal.<br><br>
-      <strong>2. Multi-step:</strong> the agent takes a sequence of actions, with each step potentially depending on the results of the previous one.<br><br>
-      <strong>3. Tool use:</strong> the agent can call external tools — search a database, read a document, write to a system — rather than just generating text.
-    </div>
-  </div>
+      <h4>The agent loop</h4>
+      <p>Every agent runs on the same cycle. Here it is applied to exam prep:</p>
+      <div style="background:#f8f8f8;border:2px solid #cd003b;border-radius:10px;padding:1.25rem;margin:1rem 0;">
+        <div class="loop-step"><div class="loop-badge" style="background:#cd003b;color:#fff;">OBSERVE</div><div style="font-size:14px;">Read the syllabus. What does the midterm cover?</div></div><div class="loop-line"></div>
+        <div class="loop-step"><div class="loop-badge" style="background:#1a0010;color:#e8b0c0;">THINK</div><div style="font-size:14px;">I need the student&rsquo;s notes to find gaps.</div></div><div class="loop-line"></div>
+        <div class="loop-step"><div class="loop-badge" style="background:#cd003b;color:#fff;">ACT</div><div style="font-size:14px;">Call the &ldquo;notes&rdquo; tool. Pull chapters 1&ndash;6.</div></div><div class="loop-line"></div>
+        <div class="loop-step"><div class="loop-badge" style="background:#fff;color:#cd003b;border:2px solid #cd003b;">CHECK</div><div style="font-size:14px;">Weak on chapters 5&ndash;6. How much time tonight?</div></div><div class="loop-line"></div>
+        <div class="loop-step"><div class="loop-badge" style="background:#cd003b;color:#fff;">ACT</div><div style="font-size:14px;">Call &ldquo;calendar&rdquo; tool. 3 hours free.</div></div><div class="loop-line"></div>
+        <div class="loop-step"><div class="loop-badge" style="background:#cd003b;color:#fff;">ACT</div><div style="font-size:14px;">Generate a 3-hour study plan for chapters 5&ndash;6.</div></div><div class="loop-line"></div>
+        <div class="loop-step"><div class="loop-badge" style="background:#fff;color:#cd003b;border:2px solid #cd003b;">CHECK</div><div style="font-size:14px;">Done. Present to the student. &#10003;</div></div>
+      </div>
 
-  <div class="step">
-    <div class="step-header">
-      <div class="step-num">1</div>
-      <div class="step-title">Complete the agent analysis table</div>
-    </div>
-    <div class="step-body">
-      <p>For each of Epic's three agents from Chapter 7, fill in the table. Use your own words — the goal is to make these concepts concrete, not to reproduce the chapter.</p>
-      <table class="obs-table">
-        <thead>
-          <tr>
-            <th>Agent</th>
-            <th>What goal is it pursuing?</th>
-            <th>What steps does it take?</th>
-            <th>What tools does it use?</th>
-            <th>Where is the human in the loop?</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Art</strong><br><small>Clinical intelligence</small></td>
-            <td class="fill">Your answer</td><td class="fill">Your answer</td><td class="fill">Your answer</td><td class="fill">Your answer</td>
-          </tr>
-          <tr>
-            <td><strong>Penny</strong><br><small>Insurance appeals</small></td>
-            <td class="fill">Your answer</td><td class="fill">Your answer</td><td class="fill">Your answer</td><td class="fill">Your answer</td>
-          </tr>
-          <tr>
-            <td><strong>Pre-visit assistant</strong><br><small>Patient preparation</small></td>
-            <td class="fill">Your answer</td><td class="fill">Your answer</td><td class="fill">Your answer</td><td class="fill">Your answer</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="reflection">
+        <div class="reflection-label">Reflection</div>
+        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 8).</p>
+        <div class="reflection-q">Think about a multi-step task you do regularly. How would a Level 2 agent handle it vs. a Level 3 agent? Where would you still want to stay in the loop?</div>
+      </div>
     </div>
   </div>
 
-  <div class="step">
-    <div class="step-header">
-      <div class="step-num">2</div>
-      <div class="step-title">The chatbot vs. agent comparison</div>
-    </div>
-    <div class="step-body">
-      <p>Penny replaces a process where an administrator asked a chatbot "help me write an appeal for this denial" and got back a generic draft. How is the agentic version of Penny different from that? Write 3–4 sentences identifying the specific differences in <em>what the system does</em> — not just in how good the output is.</p>
-    </div>
-  </div>
+  <!-- STEP 2 -->
+  <div class="exercise" id="step2">
+    <div class="exercise-header"><div class="exercise-number">Step 2</div><div class="exercise-title">Build the AI Insurance Advocate in n8n</div></div>
+    <div class="exercise-body">
+      <p>You are building the <strong>AI Insurance Advocate</strong> &mdash; four components that map to the agent loop:</p>
+      <div style="background:#f8f8f8;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;margin:0.75rem 0;font-size:14px;display:grid;grid-template-columns:auto 1fr;gap:0.4rem 1rem;">
+        <div style="font-weight:700;color:#cd003b;">Chat Trigger</div><div>How the denial enters &mdash; what the agent <strong>observes</strong></div>
+        <div style="font-weight:700;color:#cd003b;">AI Agent + Claude</div><div>The brain &mdash; <strong>thinks</strong> and <strong>checks</strong></div>
+        <div style="font-weight:700;color:#cd003b;">Patient Chart tool</div><div>The agent <strong>acts</strong> &mdash; pulls medical records (in a real hospital, this connects to the EHR)</div>
+        <div style="font-weight:700;color:#cd003b;">Policy Lookup tool</div><div>The agent <strong>acts</strong> &mdash; pulls insurance policy language</div>
+      </div>
+      <p>In a real hospital, an agent like the AI Insurance Advocate would handle <strong>hundreds of denials per month</strong>. You are building a prototype with mock data.</p>
 
-  <div class="concept-box">
-    <div class="concept-label">What you just did</div>
-    <div class="concept-text">You performed a <strong>task decomposition</strong> — the same analysis an engineer does before building an agent. Before you can build a system that pursues a goal autonomously, you have to know exactly what steps that goal requires, what information each step needs, and where a human needs to be in the loop. The table you just filled in is the specification for an agent.</div>
-  </div>
+      <h4>Set up n8n (do this first)</h4>
+      <p>n8n is a free, visual workflow builder that lets you create AI agent workflows by dragging and connecting nodes on a canvas &mdash; no coding required. You will be able to see every step the agent takes.</p>
+      <ol>
+        <li>Go to <a href="https://n8n.io" target="_blank" style="color:#cd003b;">n8n.io</a> and click <strong>&ldquo;Get Started&rdquo;</strong> in the top right corner.</li>
+        <li>Enter your email address. Check your inbox for a verification code and enter it.</li>
+        <li>Finish creating your account and click <strong>&ldquo;Start 14-day free trial.&rdquo;</strong></li>
+        <li>Answer the setup questions however you like. When it asks to invite team members, click <strong>&ldquo;Skip.&rdquo;</strong></li>
+        <li>Click <strong>&ldquo;Start automating.&rdquo;</strong> You should see a workflows page with templates.</li>
+        <li>Click <strong>&ldquo;Start from scratch&rdquo;</strong> at the bottom of the page. You should see a blank canvas with a &ldquo;+&rdquo; button that says &ldquo;Add first step.&rdquo;</li>
+      </ol>
 
+      <h4>Build the workflow</h4>
+      <p>You should now be looking at a blank canvas with a &ldquo;+&rdquo; button that says &ldquo;Add first step.&rdquo;</p>
 
-  <!-- PART 2 -->
-  <div class="part-header">
-    <div class="part-num">2</div>
-    <div class="part-info">
-      <div class="part-title">Build a Penny-Style Insurance Appeal Agent <span class="part-badge-red">Python · Claude API</span></div>
-      <div class="part-meta">~40 minutes · Claude writes the code, you run and interpret</div>
-    </div>
-  </div>
+      <p><strong>1. Add the trigger:</strong> Click the &ldquo;+&rdquo; &rarr; select <strong>&ldquo;On chat message.&rdquo;</strong> A settings panel opens &mdash; click the <strong>X</strong> to close it.</p>
 
-  <h2>What you are building</h2>
-  <p>You are going to build a simplified version of Penny — the agent that reads an insurance denial, pulls together the relevant clinical context, and drafts an appeal letter. The real Penny connects to Epic's EHR and retrieves actual patient records. Your version will work with realistic fictional patient data you provide directly. The underlying logic — read the denial, reason about it, draft a response — is the same.</p>
+      <p><strong>2. Add the AI Agent:</strong> Click the &ldquo;+&rdquo; on the right side of the trigger node &rarr; search <strong>&ldquo;AI Agent&rdquo;</strong> &rarr; click it. Click the <strong>X</strong> to close the panel.</p>
 
-  <p>More importantly: you are going to build it in <em>stages</em>, deliberately. First as a simple single-prompt chatbot. Then as a multi-step agent. The difference between those two versions is the entire point of Chapter 7.</p>
+      <p><strong>3. Connect the brain:</strong> Click the &ldquo;+&rdquo; under <strong>Chat Model</strong> on the AI Agent node &rarr; select <strong>&ldquo;Anthropic Chat Model.&rdquo;</strong> Leave it on &ldquo;n8n Connect&rdquo; (free credits, no API key needed) and Claude Sonnet 4.6. Click the <strong>X</strong> to close.</p>
 
-  <div class="warning-box">
-    <div class="warning-label">Setup</div>
-    <div class="warning-text">Open <a href="https://colab.research.google.com" target="_blank">Google Colab</a> and create a new notebook. You will also need a Claude API key — your instructor will provide one for this lab, or you can get a free-tier key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>. Keep your API key private — do not share it or commit it to GitHub.</div>
-  </div>
+      <p><strong>4. Add the Patient Chart tool:</strong> Click the &ldquo;+&rdquo; under <strong>Tool</strong> on the AI Agent node &rarr; select <strong>&ldquo;Code Tool.&rdquo;</strong> Set the Description to: <em>&ldquo;Call this tool to look up a patient&rsquo;s medical chart. Returns visit history, PT notes, and exam findings.&rdquo;</em> In the JavaScript box, delete the example code and paste the data below. Click the node name at the top left and rename it to <strong>&ldquo;Patient Chart.&rdquo;</strong> Click the <strong>X</strong> to close.</p>
 
-  <h3>Step 1 — Install and set up <span class="time-badge">~3 min</span></h3>
+      <div class="data-doc">
+        <div class="data-doc-label">Paste into the Patient Chart JavaScript box</div>
+        <div class="data-doc-title">Patient Chart &mdash; Maria Santos</div>
+<pre>return `PATIENT: Maria Santos, DOB 03/15/1968, MRN: LRK-004821
 
-  <div class="code-block">
-    <div class="code-label">Cell 1 — Install and configure</div>
-    <pre><span class="code-keyword">!pip install</span> anthropic <span class="code-string">--quiet</span>
+02/12/2026 — Primary Care (Dr. Amara Okafor)
+Right knee pain, worsening 8 weeks. Fall on ice Dec 2025. OTC ibuprofen not helping. Limiting stairs/walking.
+Plan: Naproxen 500mg BID. PT 2x/week for 6 weeks.
 
-<span class="code-keyword">import</span> anthropic
-<span class="code-keyword">import</span> json
+02/19/2026 — PT Intake (Valley Physical Therapy)
+Began quad strengthening, ROM exercises, ice/heat.
 
-<span class="code-comment"># Paste your API key here — keep this notebook private</span>
-API_KEY = <span class="code-string">"your-api-key-here"</span>
-client = anthropic.Anthropic(api_key=API_KEY)
+03/05/2026 — PT Progress (Session 5/12)
+Minimal improvement. Pain 7/10. Limited flexion despite compliance.
 
-<span class="code-keyword">print</span>(<span class="code-string">"✓ Anthropic client ready"</span>)</pre>
-  </div>
+03/26/2026 — PT Discharge (Session 10/12)
+5 weeks PT, &lt;10% ROM improvement. Pain 6-7/10. Therapist: advanced imaging recommended. Discharged, plateau.
 
-  <h3>Step 2 — Version A: The chatbot approach <span class="time-badge">~8 min</span></h3>
-  <p>First, build the naive version — one prompt, one response. This is what existed before agents. Notice what it can and can't do.</p>
+04/02/2026 — Follow-Up (Dr. Okafor)
+5 weeks PT, minimal improvement. Naproxen partial relief, pain 6/10. Exam: medial joint line tenderness, positive McMurray test. Conservative treatment failed. MRI ordered.
 
-  <div class="code-block">
-    <div class="code-label">Cell 2 — Version A: single-prompt chatbot</div>
-    <pre><span class="code-comment"># The insurance denial we need to appeal</span>
-denial = <span class="code-string">"""
-INSURANCE DENIAL NOTICE
-Patient: Maria Chen, DOB 03/14/1958
-Claim #: HC-2024-88421
-Service: Continuous Glucose Monitor (CGM) device + supplies
-Denial reason: Not medically necessary. Patient does not meet
-  criteria for CGM coverage under policy section 4.2.1.
-  Criteria requires: Type 1 diabetes OR insulin-dependent
-  Type 2 diabetes with documented hypoglycemic episodes.
-"""</span>
+04/08/2026 — MRI performed at Swedish Imaging Center.`;</pre></div>
 
-<span class="code-comment"># Patient clinical context (in a real system, Penny retrieves this from the EHR)</span>
-patient_context = <span class="code-string">"""
-Patient: Maria Chen
-Diagnosis: Type 2 Diabetes Mellitus (E11.9), diagnosed 2019
-Current medications: Metformin 1000mg BID, Glipizide 10mg daily
-  (Glipizide is a sulfonylurea — a class known to cause hypoglycemia)
-Recent labs: HbA1c 8.4% (elevated), last 3 months
-Recent notes: Patient reported two episodes of dizziness and
-  confusion in past month; blood glucose 58 mg/dL on one occasion.
-  Physician ordered CGM to monitor for hypoglycemic patterns.
-"""</span>
+      <p><strong>5. Add the Policy Lookup tool:</strong> Click the &ldquo;+&rdquo; under <strong>Tool</strong> on the AI Agent node again &rarr; select <strong>&ldquo;Code Tool.&rdquo;</strong> Set the Description to: <em>&ldquo;Call this tool to look up insurance policy criteria. Returns policy language, requirements, and documentation needed.&rdquo;</em> Delete the example code and paste the data below. Rename the node to <strong>&ldquo;Policy Lookup.&rdquo;</strong> Click the <strong>X</strong> to close.</p>
 
-<span class="code-comment"># VERSION A: Single prompt — just ask the AI to write the appeal</span>
-response_a = client.messages.create(
-    model=<span class="code-string">"claude-sonnet-4-20250514"</span>,
-    max_tokens=1000,
-    messages=[{
-        <span class="code-string">"role"</span>: <span class="code-string">"user"</span>,
-        <span class="code-string">"content"</span>: <span class="code-string">f"""Write an insurance appeal letter for this denial.
+      <div class="data-doc">
+        <div class="data-doc-label">Paste into the Policy Lookup JavaScript box</div>
+        <div class="data-doc-title">Insurance Policy &mdash; BlueCross HIP-4420</div>
+<pre>return `BLUECROSS REGIONAL HEALTH PLAN — Policy HIP-4420
 
-Denial: {denial}
+Section 3.2 — Knee MRI Authorization
+Medically necessary when ALL met:
+(a) Minimum 6 weeks conservative treatment (PT and/or anti-inflammatory); AND
+(b) Conservative treatment failed to produce meaningful improvement; AND
+(c) Physical exam suggests internal derangement (positive McMurray, joint line tenderness).
 
-Patient context: {patient_context}
+Section 3.2.1 — Documentation Required
+Office visit notes, PT notes/discharge summary, clinical assessment of treatment failure with exam findings.
 
-Write a professional appeal letter."""</span>
-    }]
-)
+Section 5.1 — Appeals
+May appeal within 30 days with documentation from 3.2.1 and letter of medical necessity.`;</pre></div>
 
-<span class="code-keyword">print</span>(<span class="code-string">"=== VERSION A: CHATBOT APPROACH ==="</span>)
-<span class="code-keyword">print</span>(response_a.content[0].text)</pre>
-  </div>
+      <p><strong>6. Set the agent&rsquo;s goal:</strong> <strong>Double-click</strong> the AI Agent node (not single-click). Click <strong>&ldquo;+ Add Option&rdquo;</strong> &rarr; select <strong>&ldquo;System Message.&rdquo;</strong> Paste the system prompt below. Click the <strong>X</strong> to close.</p>
 
-  <h3>Step 3 — Version B: The agentic approach <span class="time-badge">~15 min</span></h3>
-  <p>Now build the same task as an agent — three distinct steps, each building on the last. This is how Penny actually works.</p>
+      <div class="promptbox"><button class="promptbox-copy" data-target="sysprompt" type="button">Copy</button>
+<pre id="sysprompt">You are an insurance appeal specialist working for a hospital. Your job is to help the hospital challenge insurance claim denials that you believe were wrongly denied, so that patients get the care they need.
 
-  <div class="code-block">
-    <div class="code-label">Cell 3 — Version B: multi-step agent</div>
-    <pre><span class="code-keyword">def</span> call_claude(prompt, system=<span class="code-string">None</span>):
-    <span class="code-comment">"""Helper: send a prompt, return the text response."""</span>
-    messages = [{<span class="code-string">"role"</span>: <span class="code-string">"user"</span>, <span class="code-string">"content"</span>: prompt}]
-    kwargs = {<span class="code-string">"model"</span>: <span class="code-string">"claude-sonnet-4-20250514"</span>, <span class="code-string">"max_tokens"</span>: 1000, <span class="code-string">"messages"</span>: messages}
-    <span class="code-keyword">if</span> system:
-        kwargs[<span class="code-string">"system"</span>] = system
-    response = client.messages.create(**kwargs)
-    <span class="code-keyword">return</span> response.content[0].text
+When you receive a denial letter, follow this process:
+1. Read the denial carefully and identify the reason for denial
+2. Use the Patient Chart tool to pull the patient's medical records
+3. Use the Policy Lookup tool to find the exact policy criteria for the appeal
+4. Draft a professional appeal letter with specific evidence from the chart and policy
 
-<span class="code-keyword">print</span>(<span class="code-string">"=== VERSION B: AGENTIC APPROACH ==="</span>)
-<span class="code-keyword">print</span>(<span class="code-string">"Running 3-step agent pipeline...\n"</span>)
+IMPORTANT: Only use facts from the patient's chart and insurance policy. Never make up dates, clinical findings, or policy language. If you don't have enough information, say so. Accuracy matters more than persuasiveness.</pre></div>
 
-<span class="code-comment"># STEP 1: Analyze the denial — identify the specific criteria gap</span>
-<span class="code-keyword">print</span>(<span class="code-string">"Step 1: Analyzing the denial..."</span>)
-denial_analysis = call_claude(
-    <span class="code-string">f"""You are an expert in insurance policy and medical billing.
+      <p><strong>7. Run it:</strong> Click the red <strong>&ldquo;Open chat&rdquo;</strong> button at the bottom of the screen &rarr; paste the denial letter below into the chat &rarr; hit send.</p>
 
-Analyze this insurance denial carefully:
-{denial}
+      <div class="data-doc">
+        <div class="data-doc-label">Paste into the chat</div>
+        <div class="data-doc-title">Insurance Denial Letter &mdash; Maria Santos</div>
+<pre>DENIAL — BlueCross Regional Health Plan
+Patient: Maria Santos, DOB 03/15/1968, ID: BCR-2024-88421
+Claim: CLM-2026-04-77829
+Denied: MRI right knee (CPT 73721)
+Reason: Conservative treatment not documented for minimum 6 weeks. Per policy HIP-4420, Section 3.2.
+Appeal deadline: May 14, 2026</pre></div>
 
-Identify:
-1. The exact policy criteria that triggered the denial
-2. The specific gap between what the insurer requires and what they know about the patient
-3. What clinical evidence, if present, would override this denial
+      <p><strong>8. Check the logs:</strong> After the agent finishes, click <strong>&ldquo;Logs&rdquo;</strong> at the bottom of the screen. You will see every tool the agent called and in what order &mdash; this is the observe &rarr; think &rarr; act &rarr; check loop running for real.</p>
 
-Be specific and cite the policy section mentioned."""</span>,
-    system=<span class="code-string">"You are a medical billing specialist with deep expertise in insurance policy language."</span>
-)
-<span class="code-keyword">print</span>(<span class="code-string">"✓ Denial analysis complete\n"</span>)
-<span class="code-keyword">print</span>(denial_analysis)
-<span class="code-keyword">print</span>(<span class="code-string">"\n" + "="*50 + "\n"</span>)
-
-<span class="code-comment"># STEP 2: Match clinical evidence to policy requirements</span>
-<span class="code-keyword">print</span>(<span class="code-string">"Step 2: Matching clinical evidence to policy..."</span>)
-evidence_match = call_claude(
-    <span class="code-string">f"""You are a medical billing specialist.
-
-The denial analysis identified these requirements:
-{denial_analysis}
-
-The patient's clinical record contains:
-{patient_context}
-
-Identify:
-1. Which specific clinical facts in the record satisfy the insurer's criteria
-2. Which policy language the clinical facts speak to directly
-3. Any clinical details that strengthen the medical necessity argument
-
-Be precise — quote the relevant clinical facts and map them to specific criteria."""</span>,
-    system=<span class="code-string">"You are a medical billing specialist who builds airtight insurance appeals."</span>
-)
-<span class="code-keyword">print</span>(<span class="code-string">"✓ Evidence mapping complete\n"</span>)
-<span class="code-keyword">print</span>(evidence_match)
-<span class="code-keyword">print</span>(<span class="code-string">"\n" + "="*50 + "\n"</span>)
-
-<span class="code-comment"># STEP 3: Draft the appeal using the structured analysis</span>
-<span class="code-keyword">print</span>(<span class="code-string">"Step 3: Drafting the appeal letter..."</span>)
-appeal_letter = call_claude(
-    <span class="code-string">f"""You are drafting a formal insurance appeal letter.
-
-Use this analysis of the denial:
-{denial_analysis}
-
-And this mapping of clinical evidence to policy criteria:
-{evidence_match}
-
-Write a formal, professional appeal letter that:
-- Cites the specific policy section and explains why the denial is incorrect
-- References the clinical evidence that satisfies the insurer's criteria
-- Is factual, specific, and concise — no generic language
-- Ends with a clear request for reconsideration
-
-Format it as a real letter ready for submission."""</span>,
-    system=<span class="code-string">"You are a medical billing specialist drafting a formal insurance appeal. Be precise, factual, and professional."</span>
-)
-<span class="code-keyword">print</span>(<span class="code-string">"✓ Appeal letter drafted\n"</span>)
-<span class="code-keyword">print</span>(<span class="code-string">"=== FINAL APPEAL LETTER ==="</span>)
-<span class="code-keyword">print</span>(appeal_letter)</pre>
-  </div>
-
-  <h3>Step 4 — Compare the two versions <span class="time-badge">~10 min</span></h3>
-
-  <table class="obs-table">
-    <thead>
-      <tr>
-        <th>Question</th>
-        <th>Version A (chatbot)</th>
-        <th>Version B (agent)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Does it identify the specific policy criteria?</td><td class="fill">Your observation</td><td class="fill">Your observation</td></tr>
-      <tr><td>Does it cite specific clinical facts from the record?</td><td class="fill">Your observation</td><td class="fill">Your observation</td></tr>
-      <tr><td>Would a billing specialist need to rewrite it before submitting?</td><td class="fill">Your observation</td><td class="fill">Your observation</td></tr>
-      <tr><td>Could it handle a more complex denial with multiple criteria?</td><td class="fill">Your observation</td><td class="fill">Your observation</td></tr>
-    </tbody>
-  </table>
-
-  <div class="insight-box">
-    <div class="insight-label">What the comparison shows</div>
-    <div class="insight-text">The chatbot approach generates text that looks like an appeal. The agentic approach generates an appeal grounded in the specific policy language and the specific clinical evidence. The difference isn't just quality — it's <em>reliability</em>. An administrator reviewing Version B has something they can verify. An administrator reviewing Version A has to essentially redo the analysis themselves to know if the draft is accurate. That's the difference between augmentation and a time sink.</div>
-  </div>
-
-  <h3>Step 5 — Test your own denial <span class="time-badge">~5 min</span></h3>
-  <p>Modify the denial and patient context and run the agent again. Try a different type of denial — a medication, a procedure, or a specialist referral. Observe how the agent adapts its analysis to the new scenario.</p>
-
-  <div class="claude-prompt">
-    <div class="claude-label">💬 Ask Claude for a test case</div>
-    <div class="claude-text">Tell Claude: "I'm building an insurance appeal agent for a class lab. Give me a realistic fictional insurance denial for a different type of claim — not a CGM device — and corresponding fictional patient clinical context that would support a strong appeal. Keep it medically realistic."</div>
-  </div>
-
-
-  <!-- PART 3 -->
-  <div class="part-header">
-    <div class="part-num">3</div>
-    <div class="part-info">
-      <div class="part-title">Design the Human-in-the-Loop Governance Framework <span class="part-badge-pink">Analysis · ~30 min</span></div>
-      <div class="part-meta">When should the agent act — and when must it stop?</div>
+      <div class="reflection">
+        <div class="reflection-label">Reflection</div>
+        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 8).</p>
+        <div class="reflection-q">Check the logs. The AI Insurance Advocate decided which tools to call and in what order. Did it follow the workflow you expected, or did it do something different? Was that smart or a mistake?</div>
+      </div>
     </div>
   </div>
 
-  <h2>The governance problem</h2>
-  <p>You have just built an agent that can analyze a denial, match evidence to policy, and draft an appeal — all without human involvement. The agent works. Now the harder question: <em>should</em> it work without human involvement? At every step? Or only some steps?</p>
-
-  <p>This is the human-in-the-loop question from Chapter 7, Section 12 — and it does not have one right answer. It depends on accuracy, stakes, accountability, and trust built over time. Your job in this part is to think through it seriously for the agent you just built.</p>
-
-  <div class="step">
-    <div class="step-header">
-      <div class="step-num">1</div>
-      <div class="step-title">Map the risk at each step</div>
-    </div>
-    <div class="step-body">
-      <p>For each of the three steps in your Version B agent, assess the risk of the AI getting it wrong — and the consequence if it does.</p>
-      <table class="obs-table">
-        <thead>
-          <tr><th>Agent step</th><th>What could go wrong?</th><th>Consequence if wrong</th><th>Human review: required or optional?</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>Step 1:</strong> Analyze the denial</td><td class="fill">Your answer</td><td class="fill">Your answer</td><td class="fill">Your answer</td></tr>
-          <tr><td><strong>Step 2:</strong> Match clinical evidence</td><td class="fill">Your answer</td><td class="fill">Your answer</td><td class="fill">Your answer</td></tr>
-          <tr><td><strong>Step 3:</strong> Draft the appeal letter</td><td class="fill">Your answer</td><td class="fill">Your answer</td><td class="fill">Your answer</td></tr>
-          <tr><td><strong>Final submission</strong> to insurer</td><td class="fill">Your answer</td><td class="fill">Your answer</td><td class="fill">Your answer</td></tr>
-        </tbody>
-      </table>
+  <!-- STEP 3 -->
+  <div class="exercise" id="step3">
+    <div class="exercise-header"><div class="exercise-number">Step 3</div><div class="exercise-title">Break the AI insurance advocate</div></div>
+    <div class="exercise-body">
+      <p>Your prototype works &mdash; but before you show it to your manager, you need to test what happens when things go wrong. A good analyst does not just show that something works. They show where it breaks, and whether it fails safely. Let&rsquo;s find out.</p>
+      <p><strong>Deactivate</strong> the Patient Chart tool (right-click the node &rarr; Deactivate). Run the same denial letter again.</p>
+      <p>The AI Insurance Advocate will <strong>not</strong> fabricate details &mdash; because we told it not to. Instead it falls back to asking <em>you</em> for the information, just like Claude did in Step 1. <strong>Without tools, the AI Insurance Advocate drops from Level 3 to Level 2.</strong></p>
+      <div class="concept">
+        <div class="concept-label">Two lessons</div>
+        <p><strong>1. The system prompt matters.</strong> We told it not to hallucinate, and it listened. Without that guardrail, it might have fabricated clinical evidence that <em>looks</em> professional but is wrong.</p>
+        <p><strong>2. Tools make an agent an agent.</strong> Same AI, same brain. With tools = Level 3. Without = Level 2. The intelligence didn&rsquo;t change. The access did.</p>
+      </div>
+      <p><strong>Reactivate</strong> the Patient Chart before continuing.</p>
+      <div class="reflection">
+        <div class="reflection-label">Reflection</div>
+        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 8).</p>
+        <div class="reflection-q">The agent didn&rsquo;t hallucinate because we told it not to. But not every AI system has that guardrail. Pick a high-stakes field outside healthcare. If someone deployed an agent without that instruction, what could go wrong and who gets harmed?</div>
+      </div>
     </div>
   </div>
 
-  <div class="step">
-    <div class="step-header">
-      <div class="step-num">2</div>
-      <div class="step-title">Add a self-check step to your agent</div>
+  <!-- STEP 4 -->
+  <div class="exercise" id="step4">
+    <div class="exercise-header"><div class="exercise-number">Step 4</div><div class="exercise-title">Second patient &mdash; can the advocate handle more than one case?</div></div>
+    <div class="exercise-body">
+      <p>Your manager is impressed with the Maria Santos prototype, but she has a question: &ldquo;This is great for one patient. But we process hundreds of denials a month. Does the workflow hold up with a completely different case &mdash; different patient, different condition, different denial reason?&rdquo;</p>
+      <p>In a real hospital, the Patient Chart tool would connect to the EHR and pull <em>any</em> patient&rsquo;s records automatically. Let&rsquo;s simulate that by adding a second patient to the tool.</p>
+      <p>Go back to the AI Insurance Advocate you just built and double-click the <strong>Patient Chart</strong> node. Add this record <strong>below</strong> Maria&rsquo;s data (put a line of dashes between them):</p>
+
+      <div class="data-doc">
+        <div class="data-doc-label">Add to Patient Chart</div>
+        <div class="data-doc-title">Patient Chart &mdash; James Whitfield</div>
+<pre>PATIENT: James Whitfield, DOB 07/22/1953, MRN: LRK-007204
+
+01/15/2026 — Annual Physical (Dr. Priya Mehta)
+Age 72. Family hx: father MI at 64, brother bypass at 58. BMI 29.1. LDL 168 (up from 142). BP 138/88.
+Plan: Increase atorvastatin, dietary counseling.
+
+03/18/2026 — Follow-Up (Dr. Mehta)
+Chest tightness climbing stairs, past 2-3 weeks. Episodes 2-3 min, resolve with rest. BP 142/90. LDL 155. EKG: normal sinus rhythm.
+Assessment: Atypical chest pain + significant cardiac risk factors (family hx, elevated LDL, hypertension, age >70).
+Plan: Stress test ordered to rule out ischemic heart disease.
+
+03/25/2026 — Stress test at Swedish Cardiac Imaging Center.</pre></div>
+
+      <p>Now paste this denial into the chat:</p>
+      <div class="data-doc">
+        <div class="data-doc-label">Paste into chat</div>
+        <div class="data-doc-title">Insurance Denial Letter &mdash; James Whitfield</div>
+<pre>DENIAL — BlueCross Regional Health Plan
+Patient: James Whitfield, DOB 07/22/1953, ID: BCR-2024-31097
+Claim: CLM-2026-04-22314
+Denied: Cardiac stress test (CPT 93015)
+Reason: No documented cardiac symptoms within 30 days of test. Per policy HIP-5510, Section 2.1.
+Appeal deadline: May 2, 2026</pre></div>
+
+      <p>Note: the Policy Lookup only has the knee MRI policy. Watch how the AI Insurance Advocate handles the missing cardiac policy.</p>
+
+      <div class="concept">
+        <div class="concept-label">This pattern works everywhere</div>
+        <p><strong>In healthcare:</strong> scheduling appointments, answering billing questions, flagging overdue screenings, monitoring ICU patients, drafting discharge summaries.</p>
+        <p><strong>Outside healthcare:</strong> resolving customer complaints, reviewing contracts, screening resumes, monitoring investment portfolios. The domain changes. The architecture does not.</p>
+      </div>
+
+      <div class="reflection">
+        <div class="reflection-label">Reflection</div>
+        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 8).</p>
+        <div class="reflection-q">The denial says James had no cardiac symptoms in the past 30 days. Look at his chart. Is the denial correct? What evidence would you cite? Did the AI Insurance Advocate find the same evidence you did?</div>
+      </div>
     </div>
-    <div class="step-body">
-      <p>Real agents don't just act — they verify their own work before surfacing it to humans. Add a fourth step to your agent that reviews the appeal letter before it is presented for approval.</p>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="exercise" id="step5">
+    <div class="exercise-header"><div class="exercise-number">Step 5</div><div class="exercise-title">Audit the output &mdash; is the AI Insurance Advocate actually right?</div></div>
+    <div class="exercise-body">
+      <p>Your manager watched the demo and she&rsquo;s impressed. The appeal letters look professional, the agent calls the right tools, and the whole thing runs in under a minute. But she has one more question before she takes this to leadership: <em>&ldquo;How do we know the output is actually accurate?&rdquo;</em></p>
+      <p>This is the part of working with AI that separates someone who can build a cool demo from someone who can put a system into production. Generative AI is good at producing things that <em>look</em> right &mdash; professional formatting, confident tone, specific-sounding details. But looking right and <em>being</em> right are not the same thing. As an IS professional, your job is not just to build the system. It is to understand how it works well enough to know when it is wrong, explain why it is wrong, and fix it.</p>
+
+      <h4>Line-by-line audit</h4>
+      <p>Go back to the Maria Santos appeal letter the AI Insurance Advocate produced in Step 2. Read it line by line and check every factual claim against the source documents:</p>
+      <ul>
+        <li>Does every <strong>date</strong> in the letter match the patient chart?</li>
+        <li>Does every <strong>clinical finding</strong> (test results, pain scores, exam results) match what the chart actually says?</li>
+        <li>Does every <strong>policy reference</strong> match the actual policy language in the BlueCross HIP-4420 document?</li>
+        <li>Did the AI Insurance Advocate <strong>add</strong> anything that is not in the source documents? If so, that is a hallucination &mdash; even if it sounds plausible.</li>
+        <li>Did it <strong>miss</strong> anything important that is in the chart but was left out of the letter?</li>
+      </ul>
+
+      <div class="concept">
+        <div class="concept-label">Why this matters for your career</div>
+        <p>Anyone can paste a prompt into an AI tool and get something that looks impressive. The value of an IS professional is understanding the <strong>system design underneath</strong> &mdash; what data the AI used, where it came from, how it was processed, and whether the output can be trusted. When your manager asks &ldquo;how does this work?&rdquo; she does not want to hear &ldquo;I typed a prompt and it gave me this.&rdquo; She wants to hear &ldquo;the agent pulled data from these two sources, cross-referenced the denial reason against the policy criteria, and constructed the argument from specific chart entries &mdash; and I verified each claim against the source.&rdquo; That is the difference between using AI and understanding AI.</p>
+      </div>
+
+      <div class="reflection">
+        <div class="reflection-label">Reflection</div>
+        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 8).</p>
+        <div class="reflection-q">Did you find any errors, hallucinations, or missing information in the appeal letter? If the letter was 100% accurate, explain how you verified that &mdash; what did you check and against what? If your hospital processed 500 of these per month, is this kind of line-by-line audit realistic? What would you propose instead?</div>
+      </div>
     </div>
   </div>
 
-  <div class="code-block">
-    <div class="code-label">Cell 4 — Add a self-check step</div>
-    <pre><span class="code-comment"># STEP 4: Self-check — the agent reviews its own output</span>
-<span class="code-keyword">print</span>(<span class="code-string">"Step 4: Agent self-check..."</span>)
-self_check = call_claude(
-    <span class="code-string">f"""You are a senior medical billing reviewer.
-
-An AI agent has drafted this insurance appeal letter:
-{appeal_letter}
-
-The original denial was:
-{denial}
-
-The patient's clinical record contains:
-{patient_context}
-
-Review the appeal critically:
-1. Does every factual claim in the letter match the clinical record exactly?
-2. Does the letter address ALL the specific criteria in the denial, or does it miss any?
-3. Is there any language that could weaken the appeal or give the insurer grounds to re-deny?
-4. Rate the appeal: READY TO SUBMIT / NEEDS MINOR REVISION / NEEDS MAJOR REVISION
-
-Be specific about any issues found."""</span>,
-    system=<span class="code-string">"You are a senior medical billing reviewer. Be critical and precise."</span>
-)
-
-<span class="code-keyword">print</span>(<span class="code-string">"=== AGENT SELF-CHECK ==="</span>)
-<span class="code-keyword">print</span>(self_check)
-
-<span class="code-comment"># In a real system, the agent would route the letter differently
-# based on the self-check result before presenting to a human</span>
-<span class="code-keyword">if</span> <span class="code-string">"READY TO SUBMIT"</span> <span class="code-keyword">in</span> self_check.upper():
-    <span class="code-keyword">print</span>(<span class="code-string">"\n→ Agent confidence: HIGH — presenting to administrator for final review"</span>)
-<span class="code-keyword">elif</span> <span class="code-string">"MINOR"</span> <span class="code-keyword">in</span> self_check.upper():
-    <span class="code-keyword">print</span>(<span class="code-string">"\n→ Agent confidence: MODERATE — flagging issues for administrator before review"</span>)
-<span class="code-keyword">else</span>:
-    <span class="code-keyword">print</span>(<span class="code-string">"\n→ Agent confidence: LOW — escalating to senior billing specialist"</span>)</pre>
+  <!-- STEP 6 -->
+  <div class="exercise" id="step6">
+    <div class="exercise-header"><div class="exercise-number">Step 6</div><div class="exercise-title">Should we be using AI agents for this?</div></div>
+    <div class="exercise-body">
+      <p>Your prototype works. But your manager does not just want a demo &mdash; she wants your recommendation. She asks: &ldquo;What should I tell leadership about the risks?&rdquo; Before you say &ldquo;yes, let&rsquo;s deploy this,&rdquo; think through the harder questions:</p>
+      <ul>
+        <li><strong>AI arms race:</strong> Hospitals use AI to fight denials; insurers use AI to <em>make</em> denials. Does the overarching healthcare system improve for patients, or just get faster at being broken?</li>
+        <li><strong>Jobs:</strong> 15-person appeals team becomes 5 people reviewing AI output. Augmentation or replacement?</li>
+        <li><strong>Transparency:</strong> Should patients or insurers know the appeal was AI-written?</li>
+        <li><strong>Errors at scale:</strong> 2% error rate &times; 1,000 monthly denials = 20 patients with wrong information.</li>
+        <li><strong>Equity:</strong> Large systems can afford this. Rural clinics cannot. Does the gap widen?</li>
+      </ul>
+      <div class="reflection">
+        <div class="reflection-label">Reflection</div>
+        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 8).</p>
+        <div class="reflection-q">Pick the concern that matters most. Argue whether benefits outweigh risks or vice versa, and propose one specific guardrail. Be specific &mdash; not &ldquo;they should be careful.&rdquo;</div>
+      </div>
+    </div>
   </div>
 
-  <div class="reflection">
-    <div class="reflection-label">Written reflection — submit with your lab</div>
-    <ol>
-      <li><strong>The agentic vs. chatbot difference.</strong> After running both versions, describe in your own words what specifically makes Version B agentic. Don't just say "it has more steps" — explain what each step <em>does</em> that a single prompt can't.</li>
-      <li><strong>Your governance framework.</strong> Based on your risk analysis in Step 1, describe where you would place human review in the Penny workflow. Which steps should be automatic? Which should require human approval before proceeding? Would your answer change if the agent had processed 10,000 appeals with 98% accuracy?</li>
-      <li><strong>Human-in-the-loop vs. human-on-the-loop.</strong> Chapter 7 distinguishes between a human who approves each output (in-the-loop) and a human who monitors a dashboard of autonomous actions (on-the-loop). For the Penny use case specifically, at what demonstrated accuracy rate and under what conditions would you be comfortable moving from in-the-loop to on-the-loop? What would you need to see before making that change?</li>
-      <li><strong>The liability question.</strong> If your agent drafts an appeal letter that contains a factual error — misreading the patient's lab value or misquoting the policy — and an administrator submits it without noticing, who is responsible: the hospital, the software vendor, the administrator, or the AI? How should responsibility be allocated, and does your answer change the governance framework you designed?</li>
-      <li><strong>Beyond billing.</strong> The chapter describes Art (clinical intelligence) and a pre-visit patient assistant alongside Penny. Pick one of those agents and apply the same governance analysis you did for Penny. Where is the risk higher? Where would you require stricter human review — and why?</li>
-    </ol>
+  <!-- STEP 7 -->
+  <div class="exercise" id="step7">
+    <div class="exercise-header"><div class="exercise-number">Step 7</div><div class="exercise-title">Design and build your own agent</div></div>
+    <div class="exercise-body">
+      <p>You have built an agent for your hospital. Now prove you understand the pattern well enough to apply it to a completely different problem.</p>
+
+      <h4>Choose one:</h4>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin:1rem 0;">
+        <div class="option-card" style="border-color:#cd003b;"><div class="oc-icon">🎵</div><div class="oc-title">Option A: Concert Weekend Agent</div><div class="oc-desc">You want to see a show this weekend but you have a busy schedule and a tight budget. The agent checks what events are happening, checks your calendar, checks your budget, and recommends the best option.</div></div>
+        <div class="option-card" style="border-color:#cd003b;"><div class="oc-icon">👥</div><div class="oc-title">Option B: Group Project Agent</div><div class="oc-desc">Your group project is due in two weeks. The agent checks the assignment requirements, checks each team member&rsquo;s availability, checks what work has been done, and drafts a plan assigning tasks to people.</div></div>
+      </div>
+
+      <p>Build your agent using the same n8n pattern as the AI Insurance Advocate: Chat Trigger &rarr; AI Agent &rarr; Code Tools. Click your chosen option below for the starter data, system prompt, and a test prompt to run it. <strong>Customize the starter data with your real information.</strong></p>
+
+      <details style="border:2px solid #cd003b;border-radius:8px;margin:1rem 0;overflow:hidden;">
+        <summary style="background:#1a0010;color:#fff;padding:1rem 1.25rem;cursor:pointer;font-weight:700;font-size:15px;">🎵 Concert Weekend Agent &mdash; click to expand starter data</summary>
+        <div style="padding:1.25rem;">
+          <p style="font-size:14px;margin-bottom:1rem;">Create three Code Tools in n8n with the descriptions and data below. Remember to rename each node.</p>
+          <div class="data-doc">
+            <div class="data-doc-label">Code Tool 1 &mdash; Events</div>
+            <div class="data-doc-title">Description: &ldquo;Call this tool to see what concerts and events are happening this weekend.&rdquo;</div>
+<pre>return `EVENTS THIS WEEKEND — Seattle/Bellingham Area
+
+Friday June 6:
+- Japanese Breakfast at The Showbox, 8pm, $45
+- Local open mic at Bellingham Underground, 7pm, free
+- DJ set at Neumos, 10pm, $20
+
+Saturday June 7:
+- Tame Impala at Climate Pledge Arena, 7:30pm, $85
+- Jazz night at The Royal Room, 9pm, $15
+- Indie showcase at The Crocodile, 8pm, $25
+
+Sunday June 8:
+- Farmers market live music (free), 10am-2pm
+- Symphony matinee at Benaroya Hall, 2pm, $35`;</pre></div>
+          <div class="data-doc">
+            <div class="data-doc-label">Code Tool 2 &mdash; Calendar</div>
+            <div class="data-doc-title">Description: &ldquo;Call this tool to check my schedule for the weekend.&rdquo;</div>
+<pre>return `MY WEEKEND SCHEDULE
+
+Friday June 6:
+- Class until 2pm
+- Work shift 3pm-7pm
+- Free after 7pm
+
+Saturday June 7:
+- Free all day
+- Promised to help friend move 9am-12pm
+- Free after 12pm
+
+Sunday June 8:
+- Study group 10am-1pm
+- Free after 1pm
+- Need to be home by 9pm (early Monday class)`;</pre></div>
+          <div class="data-doc">
+            <div class="data-doc-label">Code Tool 3 &mdash; Budget</div>
+            <div class="data-doc-title">Description: &ldquo;Call this tool to check my entertainment budget.&rdquo;</div>
+<pre>return `MONTHLY BUDGET — June
+Entertainment budget: $60 remaining
+Gas/transportation: $25 remaining
+Already spent this month: $40 on streaming + dinner out
+Note: payday is June 15`;</pre></div>
+          <div class="data-doc">
+            <div class="data-doc-label">System prompt</div>
+            <div class="data-doc-title">Paste this into the System Message field on the AI Agent node</div>
+<pre>You are a personal event planning assistant. Your goal is to recommend the best concert or event for me to attend this weekend based on my schedule, budget, and interests.
+
+Use the Events tool to see what is happening, the Calendar tool to check when I am free, and the Budget tool to check what I can afford. Recommend the best option and explain why it fits my schedule and budget. If nothing works, say so.
+
+Only use facts from the tools. Do not make up events, times, or prices.</pre></div>
+          <p style="font-size:13px;color:#7a0020;margin-top:0.75rem;"><strong>To test it:</strong> Open the chat and type: <em>&ldquo;What should I do this weekend? I want to see some live music but I&rsquo;m on a budget.&rdquo;</em></p>
+        </div>
+      </details>
+
+      <details style="border:2px solid #cd003b;border-radius:8px;margin:1rem 0;overflow:hidden;">
+        <summary style="background:#1a0010;color:#fff;padding:1rem 1.25rem;cursor:pointer;font-weight:700;font-size:15px;">👥 Group Project Agent &mdash; click to expand starter data</summary>
+        <div style="padding:1.25rem;">
+          <p style="font-size:14px;margin-bottom:1rem;">Create three Code Tools in n8n with the descriptions and data below. Remember to rename each node. <strong>Replace the starter data with your real team&rsquo;s info.</strong></p>
+          <div class="data-doc">
+            <div class="data-doc-label">Code Tool 1 &mdash; Assignment</div>
+            <div class="data-doc-title">Description: &ldquo;Call this tool to look up the project requirements and deadline.&rdquo;</div>
+<pre>return `MIS 432 — FINAL GROUP PROJECT
+Due: June 5, 2026 (submit by 11:59pm)
+Deliverable: AI Prototype webpage on GitHub Pages
+
+Requirements:
+- Executive summary (250-400 words)
+- 4-5 analysis sections with evidence and reflection
+- Key takeaways section (3-5 insights)
+- Professional formatting with consistent design
+- Published live on GitHub Pages
+- Link added to LinkedIn Featured section
+
+Grading: Completeness (30%), Analysis quality (30%),
+Professional presentation (20%), Reflection depth (20%)`;</pre></div>
+          <div class="data-doc">
+            <div class="data-doc-label">Code Tool 2 &mdash; Team Availability</div>
+            <div class="data-doc-title">Description: &ldquo;Call this tool to check each team member&rsquo;s availability.&rdquo;</div>
+<pre>return `TEAM MEMBERS AND AVAILABILITY (May 14 - June 3)
+
+Alex — Available evenings Mon/Wed/Fri. Works weekends.
+Has finals May 28-30. Free May 31 onward.
+
+Jordan — Available most afternoons. Night class Tues.
+Leaving town May 24-26 for family event.
+
+Sam — Flexible schedule. Available most days.
+Has a big presentation May 20, limited that week.
+
+Riley — Works mornings Mon-Fri. Free afternoons/weekends.
+Available consistently throughout.`;</pre></div>
+          <div class="data-doc">
+            <div class="data-doc-label">Code Tool 3 &mdash; Work Completed</div>
+            <div class="data-doc-title">Description: &ldquo;Call this tool to see what work has been done so far.&rdquo;</div>
+<pre>return `PROJECT STATUS — as of today
+
+Completed:
+- Topic selected (Epic healthcare AI case)
+- GitHub repo created by Alex
+- Outline drafted by Jordan (needs review)
+
+Not started:
+- Executive summary
+- Analysis sections (0 of 5 written)
+- Design/formatting of the webpage
+- Key takeaways
+- LinkedIn posting
+
+Notes: Jordan's outline is in Google Docs.
+Nobody has started writing sections yet.
+Alex knows GitHub but others need help publishing.`;</pre></div>
+          <div class="data-doc">
+            <div class="data-doc-label">System prompt</div>
+            <div class="data-doc-title">Paste this into the System Message field on the AI Agent node</div>
+<pre>You are a project management assistant for a student group project. Your goal is to create a realistic project plan that assigns tasks to team members based on the deadline, requirements, and each person's availability.
+
+Use the Assignment tool to check what is due, the Team Availability tool to see when each person is free, and the Work Completed tool to see what has been done and what still needs to happen. Draft a week-by-week plan with specific tasks assigned to specific people.
+
+Only use facts from the tools. Do not make up team members, deadlines, or completed work.</pre></div>
+          <p style="font-size:13px;color:#7a0020;margin-top:0.75rem;"><strong>To test it:</strong> Open the chat and type: <em>&ldquo;Help us plan our group project. We&rsquo;re behind and it&rsquo;s due in two weeks.&rdquo;</em></p>
+        </div>
+      </details>
+
+      <div class="reflection">
+        <div class="reflection-label">Reflection</div>
+        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 8).</p>
+        <div class="reflection-q">Would you actually let this agent run unsupervised? What would it need to prove &mdash; and over how long &mdash; before you trusted it? How does your answer compare to how hospitals decide whether to trust agents like Epic&rsquo;s Penny from Chapter 7?</div>
+      </div>
+    </div>
   </div>
 
-  <hr>
-  <h2>Lab deliverables</h2>
-  <ul class="checklist">
-    <li><strong>Part 1:</strong> Completed agent analysis table (3 agents × 4 columns) + chatbot vs. agent comparison paragraph</li>
-    <li><strong>Part 2:</strong> Completed comparison table (Version A vs. B) + screenshot or copy of your agent's output for both the original denial and your custom denial</li>
-    <li><strong>Part 3:</strong> Completed risk analysis table + all 5 written reflection questions (4–6 sentences each)</li>
-    <li><strong>All parts:</strong> Link to your Google Colab notebook (File → Share → Anyone with the link)</li>
-  </ul>
+  <!-- STEP 8 -->
+  <div class="exercise" id="step8">
+    <div class="exercise-header"><div class="exercise-number">Step 8</div><div class="exercise-title">Publish as a portfolio page</div></div>
+    <div class="exercise-body">
 
-  <div class="insight-box">
-    <div class="insight-label">The thread connecting all three parts</div>
-    <div class="insight-text">Part 1 asked you to define what an agent is by mapping Epic's real ones. Part 2 had you experience the difference by building both versions yourself. Part 3 asked you to confront the question the chapter ends with: the capability of the AI is not the binding constraint. The binding constraint is trust, governance, and accountability — and those are human decisions, not technical ones. That is the core lesson of every Epic AI deployment, and the core lesson of this lab.</div>
+      <h4>Gather your artifacts</h4>
+      <p>Before you build the portfolio page, collect these from your lab work:</p>
+      <ul>
+        <li><strong>Export your n8n workflows as JSON files:</strong> In n8n, click the three dots (&hellip;) at the top of each workflow &rarr; &ldquo;Download&rdquo; &rarr; save the .json file. Do this for both the AI Insurance Advocate and your personal agent.</li>
+        <li><strong>Take screenshots</strong> of both workflow canvases (showing all the nodes connected) and the agent logs</li>
+        <li><strong>Copy the appeal letters</strong> the AI Insurance Advocate produced (Maria Santos and James Whitfield)</li>
+        <li><strong>Copy the output</strong> your personal agent produced</li>
+        <li><strong>Your reflections</strong> from Steps 1&ndash;7</li>
+      </ul>
+
+      <p><strong>Upload everything into the Claude chat</strong> along with the prompt below &mdash; the JSON files, the screenshots, and paste your reflections and outputs. Claude can read the JSON to understand exactly how your workflows are built and embed the screenshots directly into the HTML file. No separate image hosting needed.</p>
+
+      <div class="promptbox"><button class="promptbox-copy" data-target="prompt8" type="button">Copy</button>
+<pre id="prompt8">I completed a lab on agentic AI in healthcare for MIS 432. I built two AI agents in n8n — an AI Insurance Advocate that drafts appeal letters for wrongly denied insurance claims, and a personal agent (concert planner / group project planner). Create a single HTML portfolio page showcasing both.
+
+I am uploading:
+- The n8n workflow JSON files for both agents (use these to describe how each workflow is structured)
+- Screenshots of the workflow canvases and agent logs (embed these as images in the page)
+
+Sections:
+1. What is Agentic AI? — the three levels, what I learned from testing ChatGPT vs Claude: [PASTE reflection]
+2. Building the AI Insurance Advocate — use the JSON file to describe the workflow architecture, show the screenshot, include the appeal letter: [PASTE appeal letter + reflection]
+3. Breaking the Advocate — what happened when I removed a tool: [PASTE reflection]
+4. Second Patient — James Whitfield case and how the agent handled a missing policy: [PASTE appeal letter + reflection]
+5. Auditing the Output — my line-by-line verification of accuracy: [PASTE reflection]
+6. Should We Be Doing This? — ethics of AI agents in healthcare: [PASTE reflection]
+7. My Personal Agent — use the JSON file to describe the workflow, show the screenshot, include the output: [PASTE output + reflection]
+
+Include:
+- Header: [YOUR NAME] | "Agentic AI Lab: From Healthcare Insurance Advocacy to Personal AI Agents"
+- Subtitle: "MIS 432 · AI in Business · [YOUR UNIVERSITY]"
+- Executive summary (3-4 sentences: what I built, what I learned, what surprised me)
+- Each section as its own card with a clear heading
+- Screenshots displayed as images within the relevant sections
+- System prompts displayed in code blocks so readers can see exactly how I instructed each agent
+- A "Key Takeaways" callout with 3-4 insights
+- Professional footer: [YOUR EMAIL] | [YOUR LINKEDIN URL]
+- Color scheme: dark (#1a0010) and crimson (#cd003b) on white
+- Single HTML file, no external dependencies, works on GitHub Pages
+
+This should look like something I would link on LinkedIn and show to a hiring manager.</pre></div>
+
+      <h4>Publish</h4>
+      <ol>
+        <li>Save as <code>index.html</code></li>
+        <li>Create GitHub repo: <code>agentic-ai-lab</code></li>
+        <li>Upload <code>index.html</code></li>
+        <li>Settings &rarr; Pages &rarr; Source: main</li>
+        <li>Live at <code>https://yourusername.github.io/agentic-ai-lab</code></li>
+      </ol>
+      <p><strong>Submit to Canvas:</strong> Your GitHub Pages URL</p>
+    </div>
   </div>
 
-  <div class="chapter-nav-bar">
-    <a href="chapter7-epic.html">&larr; Chapter 7: Epic &amp; Agentic AI</a>
-    <a href="index.html">Back to all chapters &rarr;</a>
+  <div class="footer-nav">
+    <a href="chapter7-epic.html">&larr; Chapter 7</a>
+    <a href="index.html">Home</a>
   </div>
-
 </div>
 
 <footer>
   <p>MIS 432 &middot; AI in Business &middot; Western Washington University &middot; College of Business and Economics</p>
-  <p style="margin-top:0.5rem;"><a href="index.html">Home</a> &middot; <a href="https://cbe.wwu.edu/people/califfc" target="_blank">Contact</a> &middot; <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a> &middot; Free to use for educational purposes</p>
+  <p style="margin-top:0.5rem;"><a href="index.html">Home</a> &middot; <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a></p>
 </footer>
 
 <script>
-  (function () {
-    var dropdowns = document.querySelectorAll('.nav-dropdown');
-    dropdowns.forEach(function (dropdown) {
-      var toggle = dropdown.querySelector('.nav-dropdown-toggle');
-      toggle.addEventListener('click', function (e) {
-        e.preventDefault();
-        var isOpen = !dropdown.classList.contains('open');
-        dropdowns.forEach(function (d) {
-          d.classList.remove('open');
-          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
-        });
-        if (isOpen) { dropdown.classList.add('open'); toggle.setAttribute('aria-expanded', 'true'); }
-      });
-    });
-    document.addEventListener('click', function (e) {
-      if (!e.target.closest('.nav-dropdown')) {
-        dropdowns.forEach(function (d) {
-          d.classList.remove('open');
-          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
-        });
-      }
-    });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') {
-        dropdowns.forEach(function (d) {
-          d.classList.remove('open');
-          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
-        });
-        document.activeElement.blur();
-      }
-    });
-  })();
+document.querySelectorAll('.promptbox-copy').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var t=document.getElementById(this.dataset.target);
+    if(t){navigator.clipboard.writeText(t.textContent).then(function(){btn.textContent='Copied!';setTimeout(function(){btn.textContent='Copy';},2000);});}
+  });
+});
 </script>
 </body>
 </html>
