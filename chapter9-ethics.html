@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 9: AI Ethics and Bias &mdash; When Algorithms Discriminate | MIS 432</title>
+<style>
+  nav { background: #0f0720; padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+  .nav-brand { color: #ffffff; font-size: 15px; font-weight: 700; text-decoration: none; }
+  .nav-links { display: flex; gap: 1.25rem; align-items: center; }
+  .nav-links a { color: #c4b5fd; font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: #e0d4ff; }
+  .nav-badge { background: #7c3aed; color: #ffffff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+  .hero { background: linear-gradient(135deg, #0f0720 0%, #3b1578 55%, #7c3aed 100%); padding: 3.5rem 2rem 3rem; }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+  .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #e8dff5; margin-bottom: 0.75rem; }
+  .hero h1 { font-size: 34px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 0.75rem; }
+  .hero-sub { font-size: 16px; color: #e8dff5; max-width: 640px; line-height: 1.65; margin-bottom: 1.5rem; }
+  .hero-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .hero-meta span { font-size: 13px; color: #e8dff5; }
+  .hero-meta strong { color: #fff; }
+  .hero-nav { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+  .btn { display: inline-block; padding: 0.55rem 1.2rem; border-radius: 6px; font-size: 13px; font-weight: 700; text-decoration: none; }
+  .btn-primary { background: #7c3aed; color: #ffffff; }
+  .btn-outline { background: transparent; border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; }
+  .btn:hover { opacity: 0.85; }
+  .chapter-nav-bar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-top: 1px solid #e2e8f0; margin-top: 2rem; flex-wrap: wrap; gap: 0.75rem; }
+  .chapter-nav-bar a { font-size: 14px; color: #7c3aed; text-decoration: none; font-weight: 700; }
+  .chapter-nav-bar a:hover { text-decoration: underline; }
+  footer { background: #0f0720; padding: 1.5rem 2rem; text-align: center; }
+  footer p { font-size: 13px; color: #6b5b8a; }
+  footer a { color: #7c3aed; text-decoration: none; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #ffffff; color: #333; }
+  a.source-link { color: #7c3aed; text-decoration: none; border-bottom: 1px solid #c4b5fd; }
+  a.source-link:hover { color: #5b21b6; border-bottom-color: #7c3aed; }
+  .doc { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .cover { border-bottom: 3px solid #7c3aed; padding-bottom: 1.5rem; margin-bottom: 2rem; }
+  .cover-tag { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #7c3aed; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .cover h1 { font-size: 28px; font-weight: 600; color: #111; line-height: 1.3; margin-bottom: 0.5rem; }
+  .cover-sub { font-size: 15px; color: #555; }
+  .cover-meta { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; }
+  .cover-meta span { font-size: 12px; color: #ffffff; background: #0f0720; border: 1px solid #3b1578; border-left: 3px solid #7c3aed; border-radius: 4px; padding: 0.4rem 0.75rem; line-height: 1.5; }
+  .cover-meta strong { color: #c4b5fd; font-weight: 700; }
+  .mission-block { background: #0f0720; border-radius: 8px; padding: 1.5rem 1.75rem; margin: 1.5rem 0; }
+  .mission-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #c4b5fd; margin-bottom: 0.5rem; }
+  .mission-text { font-size: 18px; font-weight: 600; color: #ffffff; line-height: 1.5; font-style: italic; }
+  h2 { font-size: 20px; font-weight: 600; color: #111; margin: 2rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 3px solid #7c3aed; }
+  h3 { font-size: 16px; font-weight: 600; color: #111; margin: 1.5rem 0 0.5rem; }
+  h4 { font-size: 14px; font-weight: 600; color: #555; margin: 1.2rem 0 0.4rem; }
+  p { font-size: 15px; line-height: 1.75; color: #444; margin-bottom: 0.9rem; }
+  ul { margin: 0.5rem 0 1rem 1.5rem; }
+  li { font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 0.3rem; }
+  strong { color: #111; font-weight: 600; }
+  em { font-style: italic; }
+  .concept-box { background: #f3f0ff; border-left: 4px solid #7c3aed; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .concept-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #7c3aed; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .concept-term { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 0.3rem; }
+  .concept-def { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+  .insight-box { background: #f3f0ff; border-left: 4px solid #c4b5fd; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .insight-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #7c3aed; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .insight-text { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+  .danger-box { background: #fef2f2; border-left: 4px solid #dc2626; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .danger-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #dc2626; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .danger-text { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+  .update-box { background: #0f0720; border-left: 4px solid #7c3aed; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .update-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #c4b5fd; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .update-text { font-size: 14px; color: #e8dff5; line-height: 1.6; margin: 0; }
+  .update-text strong { color: #ffffff; }
+  .future-box { background: linear-gradient(135deg, #0f0720 0%, #080412 100%); border: 1px solid #7c3aed; border-radius: 8px; padding: 1.25rem 1.4rem; margin: 1.5rem 0; }
+  .future-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #c4b5fd; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .future-text { font-size: 14px; color: #e8dff5; line-height: 1.65; margin: 0; }
+  .future-text strong { color: #ffffff; }
+  .perspective-box { background: #faf9fe; border: 1.5px solid #7c3aed; border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1rem 0; }
+  .perspective-who { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #7c3aed; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem; }
+  .perspective-text { font-size: 14px; color: #333; line-height: 1.65; margin: 0; font-style: italic; }
+  .minicase-box { background: #fdfdfd; border: 2px solid #7c3aed; border-radius: 8px; padding: 1.25rem 1.4rem 1.1rem; margin: 1.8rem 0; box-shadow: 0 1px 4px rgba(124,58,237,0.08); }
+  .minicase-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #7c3aed; text-transform: uppercase; margin-bottom: 0.4rem; display: inline-block; padding: 0.2rem 0.6rem; background: #f3f0ff; border-radius: 3px; }
+  .minicase-title { font-size: 17px; font-weight: 700; color: #111; margin: 0.5rem 0 0.75rem; }
+  .minicase-box p { font-size: 14.5px; color: #333; line-height: 1.65; margin: 0 0 0.7rem; }
+  .minicase-box p:last-child { margin-bottom: 0; }
+  .timeline { margin: 1.5rem 0; border-left: 3px solid #7c3aed; padding-left: 1.5rem; }
+  .timeline-item { margin-bottom: 1.5rem; position: relative; }
+  .timeline-item::before { content: ''; position: absolute; left: -1.85rem; top: 0.4rem; width: 10px; height: 10px; border-radius: 50%; background: #7c3aed; border: 2px solid #fff; box-shadow: 0 0 0 2px #7c3aed; }
+  .timeline-year { font-size: 12px; font-weight: 700; color: #7c3aed; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.2rem; }
+  .timeline-title { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 0.3rem; }
+  .timeline-text { font-size: 14px; color: #555; line-height: 1.6; }
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.75rem; margin: 1rem 0 1.5rem; }
+  .vocab-card { background: #f8f8f8; border: 1px solid #e0e0e0; border-top: 3px solid #7c3aed; border-radius: 6px; padding: 0.8rem 1rem; }
+  .vocab-term { font-size: 13px; font-weight: 600; color: #111; margin-bottom: 0.25rem; }
+  .vocab-def { font-size: 13px; color: #555; line-height: 1.55; }
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin: 1rem 0 1.5rem; }
+  .stat-card { background: #0f0720; border-radius: 8px; padding: 0.85rem 1rem; text-align: center; }
+  .stat-num { font-size: 22px; font-weight: 700; color: #c4b5fd; }
+  .stat-label { font-size: 12px; color: #9b8abf; margin-top: 3px; }
+  .toc { background: #f8f6ff; border-left: 4px solid #7c3aed; border-radius: 0 10px 10px 0; padding: 1rem 1.25rem; margin-bottom: 2rem; }
+  .toc-title { font-size: 12px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #7c3aed; margin-bottom: 0.6rem; }
+  .toc a { display: block; font-size: 14px; color: #444; text-decoration: none; padding: 4px 0; border-bottom: 1px solid #e8e8e8; }
+  .toc a:last-child { border-bottom: none; }
+  .toc a:hover { color: #7c3aed; padding-left: 4px; transition: padding 0.15s ease; }
+  .section-num { display: inline-block; background: #7c3aed; color: #ffffff; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 20px; margin-right: 6px; vertical-align: middle; }
+  .discussion-list { counter-reset: dq; list-style: none; margin: 0 0 1rem; padding: 0; }
+  .discussion-list li { counter-increment: dq; padding: 0.7rem 0.7rem 0.7rem 2.8rem; position: relative; border-bottom: 1px solid #EEEEEE; font-size: 15px; color: #444; line-height: 1.65; }
+  .discussion-list li::before { content: counter(dq); position: absolute; left: 0.5rem; top: 0.75rem; background: #7c3aed; color: #ffffff; font-size: 12px; font-weight: 700; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  hr { border: none; border-top: 1px solid #E8E8E8; margin: 2rem 0; }
+  .framework-box { background: #faf9fe; border: 2px solid #7c3aed; border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; }
+  .framework-title { font-size: 16px; font-weight: 700; color: #3b1578; margin-bottom: 0.75rem; }
+  .framework-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.5rem; }
+  .framework-cell { background: #f3f0ff; border-radius: 6px; padding: 0.75rem 1rem; }
+  .framework-cell-label { font-size: 11px; font-weight: 700; color: #7c3aed; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.3rem; }
+  .framework-cell-text { font-size: 13px; color: #444; line-height: 1.55; margin: 0; }
+  @media (max-width: 600px) {
+    .framework-row { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .hero h1 { font-size: 26px; }
+    .cover h1 { font-size: 22px; }
+    .cover-meta { flex-direction: column; }
+  }
+  .nav-dropdown { position: relative; }
+  .nav-dropdown-toggle { color: #c4b5fd; font-size: 13px; font-weight: 500; text-decoration: none; background: none; border: none; cursor: pointer; padding: 0; display: inline-flex; align-items: center; gap: 4px; transition: color 0.15s; font-family: inherit; }
+  .nav-dropdown-toggle:hover, .nav-dropdown:hover .nav-dropdown-toggle, .nav-dropdown.open .nav-dropdown-toggle { color: #fff; }
+  .nav-dropdown-toggle .caret { display: inline-block; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid currentColor; transition: transform 0.15s; }
+  .nav-dropdown:hover .nav-dropdown-toggle .caret, .nav-dropdown.open .nav-dropdown-toggle .caret { transform: rotate(180deg); }
+  .nav-dropdown-menu { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(-4px); background: #0f0720; border: 1px solid rgba(124,58,237,0.2); border-radius: 4px; min-width: 240px; padding: 0.4rem 0; opacity: 0; visibility: hidden; transition: opacity 0.15s, visibility 0.15s, transform 0.15s; box-shadow: 0 8px 24px rgba(0,0,0,0.35); z-index: 200; max-height: 70vh; overflow-y: auto; }
+  .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown.open .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+  .nav-dropdown::after { content: ''; position: absolute; top: 100%; left: 0; right: 0; height: 12px; }
+  .nav-dropdown-menu a { display: block; padding: 0.5rem 1rem; color: rgba(255,255,255,0.65); font-size: 13px; font-weight: 500; text-decoration: none; border-left: 2px solid transparent; transition: color 0.12s, background 0.12s, border-color 0.12s; }
+  .nav-dropdown-menu a:hover { color: #7c3aed; background: rgba(124,58,237,0.08); border-left-color: #7c3aed; }
+  .nav-dropdown-menu .menu-num { display: inline-block; font-size: 11px; color: #7c3aed; margin-right: 7px; min-width: 24px; font-weight: 700; }
+  .nav-dropdown-menu .menu-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 0.3rem 0.75rem; }
+  .menu-divider-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 0.4rem 1rem 0.2rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 432 &middot; AI in Business</a>
+  <div class="nav-links">
+    <span class="nav-badge">Chapter 9</span>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Chapters &amp; Labs <span class="caret"></span></button>
+      <div class="nav-dropdown-menu" role="menu">
+        <div class="menu-divider-label">Chapters</div>
+        <a href="chapter1-everycure.html" role="menuitem"><span class="menu-num">01</span>EveryCure</a>
+        <a href="chapter2-netflix.html" role="menuitem"><span class="menu-num">02</span>Netflix</a>
+        <a href="chapter3-spotify.html" role="menuitem"><span class="menu-num">03</span>Spotify</a>
+        <a href="chapter4-uber.html" role="menuitem"><span class="menu-num">04</span>Uber</a>
+        <a href="chapter5-waymo.html" role="menuitem"><span class="menu-num">05</span>Waymo</a>
+        <a href="chapter6-airbnb.html" role="menuitem"><span class="menu-num">06</span>Airbnb</a>
+        <a href="chapter7-epic.html" role="menuitem"><span class="menu-num">07</span>Epic</a>
+        <a href="chapter8-environment.html" role="menuitem"><span class="menu-num">08</span>AI &amp; Environment</a>
+        <a href="chapter9-ethics.html" role="menuitem"><span class="menu-num">09</span>AI Ethics &amp; Bias</a>
+        <div class="menu-divider"></div>
+        <div class="menu-divider-label">Labs</div>
+        <a href="chapter1-everycure-lab.html" role="menuitem"><span class="menu-num">L1</span>EveryCure Lab</a>
+        <a href="chapter2-netflix-lab.html" role="menuitem"><span class="menu-num">L2</span>Netflix Lab</a>
+        <a href="chapter3-spotify-lab.html" role="menuitem"><span class="menu-num">L3</span>Spotify Lab</a>
+        <a href="chapter4-uber-lab.html" role="menuitem"><span class="menu-num">L4</span>Uber Lab</a>
+        <a href="chapter5-waymo-lab.html" role="menuitem"><span class="menu-num">L5</span>Waymo Lab</a>
+        <a href="chapter6-airbnb-lab.html" role="menuitem"><span class="menu-num">L6</span>Airbnb Lab</a>
+        <a href="chapter7-epic-lab.html" role="menuitem"><span class="menu-num">L7</span>Epic Lab</a>
+      </div>
+    </div>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Chapter 9 &middot; AI Ethics &middot; Algorithmic Bias &middot; Fairness &amp; Accountability</div>
+    <h1>When Algorithms Discriminate:<br>AI Ethics, Bias, and the Fight for Fairness</h1>
+    <p class="hero-sub">Derek Mobley applied to more than 100 jobs. He was rejected from most of them within minutes &mdash; sometimes at 2 a.m. He never got an interview. He never spoke to a human. The decisions were made by software. This is the story of what happens when the systems we build reflect the biases we haven&rsquo;t fixed.</p>
+    <div class="hero-meta">
+      <span><strong>Anchor case:</strong> Mobley v. Workday (2025&ndash;2026)</span>
+      <span><strong>Industry:</strong> HR Technology / AI Ethics</span>
+      <span><strong>Core concept:</strong> Algorithmic bias, fairness, and accountability</span>
+    </div>
+    <div class="hero-nav">
+      <a href="index.html" class="btn btn-outline">&larr; All Chapters</a>
+    </div>
+  </div>
+</div>
+
+<div class="doc">
+
+  <div class="cover">
+    <div class="cover-tag">MIS 432 &middot; AI in Business &middot; Case Study</div>
+    <h1>When Algorithms Discriminate:<br>AI Ethics, Bias, and the Fight for Fairness</h1>
+    <div class="cover-sub">From redlining to facial recognition to AI hiring tools &mdash; how bias gets built into technology, why it&rsquo;s so hard to fix, and what information systems professionals can do about it</div>
+    <div class="cover-meta">
+      <span><strong>Level:</strong> Upper-division undergraduate</span>
+      <span><strong>Topics:</strong> Algorithmic bias, proxy variables, training data, fairness definitions, AI policy, ethical frameworks</span>
+      <span><strong>Concepts introduced:</strong> 18 key terms</span>
+    </div>
+    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+      <p style="font-size: 13px; color: #888; margin: 0;">
+        <strong style="color: #555;">Primary sources:</strong>
+        <a href="https://law.justia.com/cases/federal/district-courts/california/candce/4:2023cv00770/410217/105/" target="_blank" class="source-link">Mobley v. Workday, Inc.</a> (N.D. Cal. 2024&ndash;2026) &middot;
+        <a href="http://proceedings.mlr.press/v81/buolamwini18a.html" target="_blank" class="source-link">Buolamwini &amp; Gebru, <em>Gender Shades</em></a> (2018) &middot;
+        <a href="https://www.aclu.org/cases/robert-williams-v-city-of-detroit" target="_blank" class="source-link">Williams v. City of Detroit</a> (settled 2024) &middot;
+        <a href="https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing" target="_blank" class="source-link">ProPublica, &ldquo;Machine Bias&rdquo;</a> (2016) &middot;
+        <a href="https://www.whitehouse.gov/ostp/ai-bill-of-rights/" target="_blank" class="source-link">Blueprint for an AI Bill of Rights</a> (2022) &middot;
+        <a href="https://hdsr.mitpress.mit.edu/pub/l0jsh9d1" target="_blank" class="source-link">Floridi &amp; Cowls, &ldquo;Five Principles for AI in Society&rdquo;</a> (2019) &middot;
+        <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj" target="_blank" class="source-link">EU AI Act</a> (2024)
+      </p>
+    </div>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">In this chapter</div>
+    <a href="#s1">1. One hundred rejections: the story of Derek Mobley</a>
+    <a href="#s2">2. Bias before the algorithm: redlining, credit scoring, and the coded gaze</a>
+    <a href="#s3">3. Gender Shades: the faces the machines couldn&rsquo;t see</a>
+    <a href="#s4">4. Wrongful arrest: Robert Williams and the limits of facial recognition</a>
+    <a href="#s5">5. How algorithmic bias actually works</a>
+    <a href="#s6">6. The fairness problem: when math can&rsquo;t agree on what fair means</a>
+    <a href="#s7">7. Five principles: the Floridi framework for AI ethics</a>
+    <a href="#s8">8. The policy landscape: from the AI Bill of Rights to the fight over state law</a>
+    <a href="#s9">9. Return to Workday: what should IS professionals do?</a>
+    <a href="#s10">10. Key vocabulary &amp; discussion questions</a>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1 -->
+  <!-- ============================================================ -->
+  <h2 id="s1"><span class="section-num">1</span> One Hundred Rejections: The Story of Derek Mobley</h2>
+
+  <p>Derek Mobley is a Black man, over 40 years old, with a disability. Between 2018 and 2023, he applied to more than 100 jobs through companies that used <a href="https://www.workday.com/" target="_blank" class="source-link">Workday&rsquo;s</a> human capital management platform &mdash; one of the three dominant enterprise hiring software systems in the United States. He met or exceeded the listed qualifications for many of the positions. He was rejected from nearly all of them.</p>
+
+  <p>That alone might not have raised suspicion. Job markets are competitive. Rejection is common. But something about these rejections was different. Many came within minutes of submitting his application. Some arrived at 1:50 in the morning. Think about that for a second. No human being reviewed his resume at 1:50 a.m. and decided, thoughtfully, that he was not a fit. No hiring manager read his cover letter between midnight and dawn and concluded he lacked qualifications. These were automated decisions, made by software, at machine speed.</p>
+
+  <div class="mission-block">
+    <div class="mission-label">The central question</div>
+    <div class="mission-text">&ldquo;If a machine rejects you before any human sees your application, who is responsible for discrimination?&rdquo;</div>
+  </div>
+
+  <p>In 2023, Mobley filed a <a href="https://law.justia.com/cases/federal/district-courts/california/candce/4:2023cv00770/410217/105/" target="_blank" class="source-link">lawsuit against Workday, Inc.</a> in the U.S. District Court for the Northern District of California. He did not sue the companies that rejected him. He sued the vendor that built the screening tool &mdash; arguing that Workday&rsquo;s AI-powered applicant recommendation system systematically discriminated against job applicants on the basis of race, age, and disability.</p>
+
+  <p>The legal theory was novel, and it&rsquo;s worth understanding why. Traditionally, if you experience discrimination in hiring, you sue the employer &mdash; the company that made the hiring decision. Mobley&rsquo;s argument was different. He said Workday was not just a passive software vendor selling tools. It was an <strong>agent</strong> of the employers who used its platform, making screening decisions on their behalf. If those decisions produced a disparate impact on protected groups, Workday itself should be liable &mdash; not just the employers who purchased the software.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Disparate impact</div>
+    <div class="concept-def">A legal theory of discrimination that does not require proving intentional bias. Instead, it focuses on outcomes: if a policy or practice disproportionately harms a protected group (defined by race, age, gender, disability, etc.), it can be found discriminatory even if the employer did not intend to discriminate. This is central to how AI discrimination cases are argued, because algorithms can produce biased outcomes without any human ever intending harm.</div>
+  </div>
+
+  <p>On July 12, 2024, <a href="https://www.reuters.com/legal/litigation/workday-must-face-novel-bias-claims-over-ai-screening-tools-2024-07-12/" target="_blank" class="source-link">Judge Rita Lin issued a mixed ruling</a>. She rejected the theory that Workday was an &ldquo;employment agency&rdquo; under federal law, but she allowed the more significant claim to proceed: that Workday acted as an agent of employers and could be directly liable for discriminatory outcomes produced by its AI screening tools. This was the first time a federal court allowed this kind of claim to move forward against an AI vendor.</p>
+
+  <p>Then things escalated. On May 16, 2025, Judge Lin granted preliminary collective certification under the Age Discrimination in Employment Act. The case became a nationwide collective action &mdash; meaning it was no longer just about Derek Mobley. Anyone in the United States who applied for a job through Workday since September 2020 and was over 40 at the time could opt in. By February 2026, Workday was ordered to provide a list of customers using its AI screening features so those applicants could be notified.</p>
+
+  <p>The case is still ongoing as of this writing. But regardless of how it is ultimately decided, <em>Mobley v. Workday</em> has already changed the landscape. It established that AI vendors &mdash; not just employers &mdash; can face direct liability for discriminatory outcomes. It demonstrated that the speed of automated rejection itself can serve as evidence of algorithmic decision-making. And it raised a question that every information systems professional will have to answer in their career: when you build or deploy a system that makes decisions about people, who is accountable for what the system does?</p>
+
+  <p>But to really understand how we got here &mdash; how we arrived at a moment where a company can face a nationwide lawsuit over the decisions its algorithm makes &mdash; we need to go back much further than 2023. Because bias in information systems did not start with artificial intelligence. It didn&rsquo;t even start with computers.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2 -->
+  <!-- ============================================================ -->
+  <h2 id="s2"><span class="section-num">2</span> Bias Before the Algorithm: Redlining, Credit Scoring, and the Coded Gaze</h2>
+
+  <p>Here is something that might surprise you: algorithmic bias is not a new problem. It is an old problem wearing new clothes. Discrimination has been embedded in information systems for as long as institutions have used data to make decisions about people. The technology changes. The pattern doesn&rsquo;t.</p>
+
+  <h3>Redlining: drawing discrimination on a map</h3>
+
+  <p>In the 1930s, the Home Owners&rsquo; Loan Corporation &mdash; a federal agency &mdash; created color-coded maps of American cities. Neighborhoods were graded from &ldquo;A&rdquo; (green, &ldquo;best&rdquo;) to &ldquo;D&rdquo; (red, &ldquo;hazardous&rdquo;). You can probably guess which neighborhoods got the red lines. They were overwhelmingly home to Black, immigrant, and minority populations. Banks used these maps for decades to systematically deny mortgages to anyone living in a redlined area, regardless of whether the individual applicant was creditworthy.</p>
+
+  <p>The <a href="https://www.history.com/articles/fair-housing-act" target="_blank" class="source-link">Fair Housing Act of 1968</a> outlawed redlining. But here&rsquo;s the thing about structural discrimination: the law can change overnight, but the damage compounds over generations. Decades of denied mortgages produced decades of denied wealth accumulation. Black families locked out of homeownership in the 1940s had children and grandchildren who inherited that disadvantage. And the data trail of that exclusion &mdash; lower credit scores, lower property values, fewer assets &mdash; persists in today&rsquo;s datasets.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">Why this matters for AI</div>
+    <div class="insight-text">When modern algorithms use historical data to predict creditworthiness, they are learning from a dataset shaped by redlining. The algorithm does not see the red lines on the map. It sees zip codes, credit histories, and wealth patterns that <em>are the consequence</em> of those red lines. The discrimination gets laundered through data, making it invisible to the system but devastating in its effects. Scholars call this <strong>algorithmic redlining</strong> &mdash; when AI reproduces historical patterns of exclusion using data generated by those very patterns.</div>
+  </div>
+
+  <h3>Credit scoring: neutral math, unequal outcomes</h3>
+
+  <p>Credit scores were designed to be objective. The FICO score, introduced in 1989, evaluates payment history, amounts owed, length of credit history, new credit, and credit mix. Race is not a variable. But the credit reporting industry was born during the era of redlining, and the data it collects carries that history forward. Black and Latino borrowers have, on average, lower credit scores &mdash; not because of individual financial behavior alone, but because of generations of exclusion from the financial system that builds credit history in the first place. So when a hiring algorithm uses credit history as a screening factor, it inherits that disparity without ever asking about race.</p>
+
+  <p>See the pattern? A system that looks neutral on the surface can produce deeply unequal outcomes because the data it relies on was shaped by the very discrimination the system claims to have moved past. This is the thread that runs from 1930s redlining maps straight through to Derek Mobley&rsquo;s 1:50 a.m. rejection email.</p>
+
+  <h3>The coded gaze</h3>
+
+  <p>UCLA professor Safiya Noble coined the term <strong>technological redlining</strong> in her book <a href="https://nyupress.org/9781479837243/algorithms-of-oppression/" target="_blank" class="source-link"><em>Algorithms of Oppression</em></a> to describe how algorithms reproduce known inequalities. Joy Buolamwini at MIT introduced a related concept: the <strong>coded gaze</strong> &mdash; the idea that algorithmic systems reflect the biases, priorities, and blind spots of the people who build them. If those builders are not diverse, the systems they create will be blind to certain faces, certain communities, certain realities.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">The coded gaze</div>
+    <div class="concept-def">A term coined by computer scientist Joy Buolamwini to describe how AI systems reflect and amplify the biases of their creators. Just as the &ldquo;male gaze&rdquo; in film theory describes how movies reflect a predominantly male perspective, the coded gaze describes how algorithms reflect the demographics, assumptions, and blind spots of the teams that build them. If training data overrepresents certain populations, the system will work well for the overrepresented and fail for the underrepresented.</div>
+  </div>
+
+  <p>This history matters because it reveals a pattern that repeats with every new information technology. Systems built on biased data produce biased outcomes, even when no one intends them to. The discrimination is not in the code. It is in the data the code learns from, and in the assumptions of the people who chose that data. This pattern didn&rsquo;t stop when AI arrived. If anything, it accelerated &mdash; because AI systems learn from more data, faster, and at a scale that makes the consequences harder to see and harder to reverse. Which brings us to Joy Buolamwini, and the faces the machines couldn&rsquo;t see.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3 -->
+  <!-- ============================================================ -->
+  <h2 id="s3"><span class="section-num">3</span> Gender Shades: The Faces the Machines Couldn&rsquo;t See</h2>
+
+  <p>Joy Buolamwini was a graduate student at the MIT Media Lab when she made a discovery that would reshape the global conversation about AI bias. She was working on a project called the Aspire Mirror &mdash; a system that used face-tracking software to overlay digital masks on a user&rsquo;s face. Fun project. Interesting technology. One problem: it could not detect her face.</p>
+
+  <p>The software worked smoothly for her lighter-skinned colleagues. It tracked their features, mapped their expressions, rendered the digital masks in real time. But when Buolamwini sat in front of the camera, nothing happened. She is a dark-skinned Black woman, and the system simply could not find her. The only way to make it work was to hold a white mask over her face.</p>
+
+  <p>Let that sink in. A white mask was closer to what the system understood as a &ldquo;face&rdquo; than her actual human face.</p>
+
+  <div class="perspective-box">
+    <div class="perspective-who">&#x1F469;&#x200D;&#x1F4BB; &nbsp; Joy Buolamwini, MIT Media Lab</div>
+    <div class="perspective-text">&ldquo;In my case, a white mask was a closer fit to what the system had learned was a face than my actual human face.&rdquo;</div>
+  </div>
+
+  <p>This was not a bug in one program. It was a systemic failure. The facial recognition systems had been trained predominantly on lighter-skinned faces. They had learned what a &ldquo;face&rdquo; looked like from datasets that did not adequately represent the full range of human skin tones. Buolamwini could have written it off as a frustrating glitch. Instead, she turned it into one of the most important AI research papers ever published.</p>
+
+  <p>In 2018, she and Timnit Gebru (then a researcher at Microsoft) published <a href="http://proceedings.mlr.press/v81/buolamwini18a.html" target="_blank" class="source-link"><strong>Gender Shades</strong></a>, a study that evaluated commercial facial recognition systems from IBM, Microsoft, and Face++ &mdash; the leading providers at the time. They tested the systems on a carefully constructed benchmark of 1,270 faces, balanced across gender and skin type using the Fitzpatrick dermatological classification rather than racial categories.</p>
+
+  <p>The findings were devastating.</p>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">34.7%</div><div class="stat-label">Error rate for darker-skinned women</div></div>
+    <div class="stat-card"><div class="stat-num">0.8%</div><div class="stat-label">Error rate for lighter-skinned men</div></div>
+    <div class="stat-card"><div class="stat-num">43&times;</div><div class="stat-label">Error gap between groups</div></div>
+    <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Major companies tested</div></div>
+  </div>
+
+  <p>The systems were nearly perfect at classifying gender for lighter-skinned men, with error rates below 1%. For darker-skinned women, error rates climbed as high as 34.7%. The technology did not fail randomly. It failed along the exact lines of race and gender &mdash; performing worst for the people who already face the most discrimination in society.</p>
+
+  <p>The corporate response was significant. IBM went the furthest: in 2020, the company <a href="https://www.ibm.com/policy/facial-recognition-sunset-general-purpose-702/" target="_blank" class="source-link">discontinued its general-purpose facial recognition software entirely</a>, with CEO Arvind Krishna writing to Congress that IBM opposed the use of any technology for mass surveillance, racial profiling, or violations of basic human rights. Buolamwini founded the <a href="https://www.ajl.org/" target="_blank" class="source-link"><strong>Algorithmic Justice League</strong></a> and published <em>Unmasking AI</em> in 2023 &mdash; a memoir and manifesto that traces her journey from that first failed face scan to a global movement.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Benchmark dataset bias</div>
+    <div class="concept-def">AI systems are only as good as the data they are trained and tested on. Before Gender Shades, the standard benchmark datasets for facial recognition were overwhelmingly composed of lighter-skinned male faces. Systems tested on these benchmarks appeared to perform well &mdash; because they were being graded on a test that did not include the populations they failed on. If the test is unfair, a passing score means nothing.</div>
+  </div>
+
+  <p>Gender Shades was a research paper. It exposed a problem, changed corporate behavior, and launched a movement. But it was still about error rates and percentages. What happened next put a human face on those numbers &mdash; and showed what happens when biased AI is deployed by institutions that don&rsquo;t understand its limitations.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4 -->
+  <!-- ============================================================ -->
+  <h2 id="s4"><span class="section-num">4</span> Wrongful Arrest: Robert Williams and the Limits of Facial Recognition</h2>
+
+  <p>On a January afternoon in 2020, Robert Williams was at work in Rochester Hills, Michigan, when he received a phone call from the Detroit Police Department. They told him to turn himself in. He asked what for. They would not say. He assumed it was a prank.</p>
+
+  <p>It was not. When Williams drove home to Farmington Hills, police were waiting in his driveway. In front of his wife Melissa, their two young daughters (then ages 2 and 5), and the neighbors, officers put him in handcuffs. His older daughter came outside. He told her to go back in the house. He said he would be right back.</p>
+
+  <p>He spent 30 hours in police custody. Only after several rounds of questioning did he learn the reason for his arrest: facial recognition technology had identified him as a suspect in the theft of watches from a Shinola store in Detroit in October 2018. A blurry still image from the store&rsquo;s surveillance video had been run through the Michigan State Police&rsquo;s facial recognition database. Williams&rsquo;s expired driver&rsquo;s license photo came back as a possible match.</p>
+
+  <p>Not even a good match. According to expert testimony, he was the <strong>ninth-best</strong> match in the system.</p>
+
+  <div class="danger-box">
+    <div class="danger-label">What went wrong</div>
+    <div class="danger-text">The Detroit police did not interview any witnesses. They did not collect fingerprints or DNA evidence. They did not check Williams&rsquo;s whereabouts on the day of the crime. He had an alibi: a Facebook Live recording of his commute at the time of the theft &mdash; a route nowhere near the store. The police went straight from a facial recognition match to an arrest warrant, treating the technology as proof rather than as an investigative lead.</div>
+  </div>
+
+  <p>Williams&rsquo;s case, <a href="https://www.nytimes.com/2020/06/24/technology/facial-recognition-arrest.html" target="_blank" class="source-link">first reported by the New York Times in June 2020</a>, became the first publicly documented wrongful arrest based on facial recognition in the United States. It was not the last. At least seven people have been falsely arrested after facial recognition misidentification nationwide, and <a href="https://www.aclu.org/news/privacy-technology/how-is-face-recognition-surveillance-technology-racist" target="_blank" class="source-link">nearly all of them were Black</a>. In one Detroit case, a 32-year-old Black woman who was eight months pregnant was held for 11 hours after being wrongfully arrested for carjacking.</p>
+
+  <p>Williams and the <a href="https://www.aclu.org/cases/robert-williams-v-city-of-detroit" target="_blank" class="source-link">ACLU of Michigan filed a federal civil rights lawsuit</a>. In June 2024, they reached a settlement that produced the strongest police department policies on facial recognition technology in the country. Under the agreement, Detroit police can no longer arrest anyone based solely on facial recognition results.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">The connection to Gender Shades</div>
+    <div class="insight-text">Robert Williams&rsquo;s wrongful arrest was a real-world consequence of exactly the bias Buolamwini and Gebru had documented two years earlier. Facial recognition systems perform worse on darker-skinned faces. When police departments use those systems as though they are reliable, the people who suffer the consequences are disproportionately Black. The technology failure and the institutional failure compound each other.</div>
+  </div>
+
+  <p>By now, a pattern should be coming into focus. Redlining encoded discrimination into maps. Credit scoring encoded it into numbers. Facial recognition encoded it into pixels. And in each case, the people building and deploying the systems believed &mdash; or at least claimed &mdash; that the technology was neutral. The next section explains <em>why</em> that belief is wrong, and why AI bias is so difficult to eliminate even when you&rsquo;re trying to.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5 -->
+  <!-- ============================================================ -->
+  <h2 id="s5"><span class="section-num">5</span> How Algorithmic Bias Actually Works</h2>
+
+  <p>To really understand Mobley v. Workday &mdash; and every other AI discrimination case you will encounter in your career &mdash; you need to understand the mechanics. How does an algorithm become biased? It is not because someone writes code that says &ldquo;reject Black applicants&rdquo; or &ldquo;screen out people over 40.&rdquo; It is far more subtle than that, and far more dangerous <em>precisely because</em> it is subtle.</p>
+
+  <p>There are three primary mechanisms, and they tend to operate simultaneously.</p>
+
+  <h3>Mechanism 1: Biased training data</h3>
+
+  <p>Machine learning systems learn patterns from historical data. If the historical data reflects past discrimination, the model will learn to reproduce that discrimination. This is the most common source of algorithmic bias and the most difficult to eliminate, because the historical data <em>is</em> the ground truth the model is trained on. The model doesn&rsquo;t know the data is biased. It just knows: this is what happened before.</p>
+
+  <div class="minicase-box">
+    <span class="minicase-label">Example</span>
+    <div class="minicase-title">How training data creates bias in hiring</div>
+    <p>Imagine a company has used Workday&rsquo;s hiring tools for a decade. During that decade, the company&rsquo;s human hiring managers disproportionately advanced white candidates to interviews. Now Workday trains a model on this company&rsquo;s historical data to predict which applicants are likely to be &ldquo;good hires.&rdquo; The model learns the patterns: what did successful candidates look like? If those candidates were disproportionately white, the model learns to favor profiles that match those patterns &mdash; and deprioritize profiles that do not.</p>
+    <p>The model has never seen the word &ldquo;race.&rdquo; It has only seen patterns. But the patterns carry race embedded within them. The past discrimination becomes the future discrimination &mdash; automated, scaled, and invisible.</p>
+  </div>
+
+  <p>If this reminds you of redlining, it should. The mechanism is identical: historical discrimination shapes the data, and the data shapes the algorithm.</p>
+
+  <h3>Mechanism 2: Proxy variables</h3>
+
+  <p>Even when protected characteristics like race, gender, or age are explicitly removed from the model&rsquo;s inputs, the model can still discriminate by finding <strong>proxy variables</strong> &mdash; features that correlate with protected characteristics strongly enough to serve as stand-ins.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Proxy variable</div>
+    <div class="concept-def">A variable that is not directly a protected characteristic (race, age, gender, disability) but correlates so strongly with one that it produces the same discriminatory effect. Common examples in hiring: zip code (correlates with race due to residential segregation), name of college attended (correlates with race and socioeconomic status), gaps in employment history (correlates with disability and gender), graduation year (directly correlates with age). A hiring algorithm that uses graduation year does not &ldquo;know&rdquo; an applicant&rsquo;s age. But if it learns to screen out applicants who graduated before 2000, it has effectively screened out everyone over 45.</div>
+  </div>
+
+  <p>This is what makes AI discrimination so insidious. You can strip every protected variable out of the dataset, and the model will find proxies. Zip codes carry race. Graduation years carry age. Employment gaps carry gender and disability. The more data the model has access to, the more proxies it can find. It is like trying to remove the salt from the ocean. The salt is in everything.</p>
+
+  <h3>Mechanism 3: Feedback loops</h3>
+
+  <p>The third mechanism is the one that makes the first two worse over time. Feedback loops occur when a biased system&rsquo;s outputs become the inputs for future decisions, amplifying the original bias with each cycle.</p>
+
+  <div class="minicase-box">
+    <span class="minicase-label">Example</span>
+    <div class="minicase-title">The feedback loop in automated hiring</div>
+    <p><strong>Step 1:</strong> Workday&rsquo;s algorithm screens applicants and advances mostly white candidates to interviews, based on patterns in historical data. <strong>Step 2:</strong> Hiring managers interview and hire from this filtered pool, which is disproportionately white. <strong>Step 3:</strong> Workday&rsquo;s algorithm updates its model based on the new hiring data &mdash; which now confirms that the company hired mostly white candidates. <strong>Step 4:</strong> The model becomes even more confident that white-correlated profiles predict &ldquo;success.&rdquo;</p>
+    <p>With each cycle, the bias compounds. The system isn&rsquo;t just reflecting past discrimination anymore. It is manufacturing new discrimination and calling it data.</p>
+  </div>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Feedback loop</div>
+    <div class="concept-def">A cycle in which an algorithm&rsquo;s outputs become part of the data used to train future versions of the algorithm, causing initial biases to compound over time. Feedback loops are especially dangerous because they can make biased systems appear <em>more accurate</em> over time &mdash; the model&rsquo;s predictions match the data increasingly well, because the data is increasingly shaped by the model&rsquo;s prior predictions. The system looks like it is working. It is working &mdash; at reproducing inequality.</div>
+  </div>
+
+  <p>These three mechanisms &mdash; biased training data, proxy variables, and feedback loops &mdash; do not operate in isolation. In most real-world AI systems, all three are at work simultaneously. The Workday system Mobley is suing likely learned from biased historical hiring decisions, used features that correlate with age and race, and updated its models based on the screening decisions it had already made. Untangling which mechanism caused which harm is one of the central challenges of the litigation.</p>
+
+  <p>But here is the truly hard part. Even if you understand these mechanisms, even if you test for bias and find it, fixing the problem is not straightforward. Because fairness itself &mdash; as a mathematical concept &mdash; turns out to be more complicated than it sounds.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6 -->
+  <!-- ============================================================ -->
+  <h2 id="s6"><span class="section-num">6</span> The Fairness Problem: When Math Can&rsquo;t Agree on What Fair Means</h2>
+
+  <p>If algorithmic bias is the disease, the obvious prescription seems simple: make the algorithm fair. Test it. Measure it. Fix it. But there is a problem sitting at the heart of AI ethics, and it is not technical. It is philosophical. <strong>There are multiple valid definitions of fairness, and they are mathematically incompatible with each other.</strong> You cannot satisfy all of them at the same time. This is not a bug that better engineering will fix. It is a fundamental constraint.</p>
+
+  <p>The case that made this impossible dilemma famous is COMPAS.</p>
+
+  <h3>The COMPAS case</h3>
+
+  <p>COMPAS (Correctional Offender Management Profiling for Alternative Sanctions) is a software tool used by courts across the United States to predict whether a criminal defendant will reoffend. Judges use COMPAS scores when making decisions about bail, sentencing, and parole. In 2016, <a href="https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing" target="_blank" class="source-link">ProPublica published an investigation</a> based on more than 10,000 criminal defendants in Broward County, Florida.</p>
+
+  <p>ProPublica found that COMPAS was biased against Black defendants. Black defendants who <em>did not</em> go on to reoffend were nearly twice as likely as white defendants to be incorrectly classified as &ldquo;high risk.&rdquo; White defendants who <em>did</em> reoffend were more likely to be incorrectly classified as &ldquo;low risk.&rdquo; The system&rsquo;s mistakes fell along racial lines.</p>
+
+  <p>Northpointe, the company that built COMPAS, pushed back hard. They pointed to a different metric: <strong>predictive parity</strong>. A Black defendant with a risk score of 7 had roughly the same probability of reoffending as a white defendant with a risk score of 7. By this measure, the algorithm was fair.</p>
+
+  <p>Here is the problem, and it is worth pausing on: <strong>both ProPublica and Northpointe were right.</strong> They were not arguing about facts. They were measuring fairness using different definitions. And those definitions are mathematically incompatible when the base rates differ between groups.</p>
+
+  <div class="framework-box">
+    <div class="framework-title">Two definitions of fairness &mdash; and why you can&rsquo;t have both</div>
+    <div class="framework-row">
+      <div class="framework-cell">
+        <div class="framework-cell-label">Error rate balance (ProPublica&rsquo;s measure)</div>
+        <div class="framework-cell-text">The algorithm should make the same types of errors at the same rate across racial groups. If 23% of white non-reoffenders are incorrectly labeled high risk, then 23% of Black non-reoffenders should be too &mdash; not 45%.</div>
+      </div>
+      <div class="framework-cell">
+        <div class="framework-cell-label">Predictive parity (Northpointe&rsquo;s measure)</div>
+        <div class="framework-cell-text">The algorithm&rsquo;s scores should mean the same thing for everyone. A score of &ldquo;high risk&rdquo; should carry the same probability of reoffending regardless of the defendant&rsquo;s race.</div>
+      </div>
+    </div>
+    <p style="font-size: 13px; color: #666; margin: 0.75rem 0 0; line-height: 1.6;">A <a href="https://arxiv.org/abs/1609.05807" target="_blank" class="source-link">2016 proof by Kleinberg, Mullainathan, and Raghavan</a> demonstrated formally that when two groups have different base rates, it is mathematically impossible to satisfy both definitions simultaneously. This is not a matter of building a better algorithm. It is a mathematical constraint, as fundamental as the fact that you cannot draw a square circle.</p>
+  </div>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Impossibility theorem of fairness</div>
+    <div class="concept-def">A mathematical result demonstrating that certain intuitive definitions of algorithmic fairness cannot be simultaneously satisfied when the groups being compared have different base rates. This means that building a &ldquo;fair&rdquo; AI system requires choosing which definition of fairness to prioritize &mdash; a decision with real consequences for real people. There is no neutral, mathematically correct answer.</div>
+  </div>
+
+  <p>This is the challenge that makes AI ethics fundamentally different from AI accuracy. Accuracy has one definition: did the model get the answer right? Fairness has many definitions, they conflict, and the conflicts cannot be resolved by building a better model. They can only be resolved by making hard decisions about values &mdash; and being honest about who benefits and who bears the cost.</p>
+
+  <p>Which raises the next question: how do you make those decisions? That is what ethical frameworks are for.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7 -->
+  <!-- ============================================================ -->
+  <h2 id="s7"><span class="section-num">7</span> Five Principles: The Floridi Framework for AI Ethics</h2>
+
+  <p>So how do you actually reason about an AI ethics problem? You need a framework &mdash; a structured way to identify what is at stake, who is affected, and what responsibilities apply. Without one, ethics discussions tend to collapse into &ldquo;I feel like this is wrong&rdquo; versus &ldquo;I feel like it&rsquo;s fine,&rdquo; and no one gets anywhere.</p>
+
+  <p>The framework we will use in this chapter comes from the philosopher <a href="https://hdsr.mitpress.mit.edu/pub/l0jsh9d1" target="_blank" class="source-link">Luciano Floridi</a>, who is one of the most influential thinkers in AI ethics today. In 2019, Floridi and his colleague Josh Cowls did something clever: they analyzed dozens of AI ethics codes &mdash; from governments, corporations, and international organizations &mdash; and asked a simple question: do all these different codes actually agree on anything? The answer was yes, mostly. Almost every code converged on four principles borrowed from bioethics (the field that governs medical research), plus a fifth principle that Floridi argued was unique to AI.</p>
+
+  <p>The result is a framework of <strong>five principles for ethical AI</strong>. What makes it powerful for our purposes is that each principle maps directly to the cases we have already studied in this chapter. Let&rsquo;s walk through them and apply each one to the Workday case.</p>
+
+  <div class="framework-box">
+    <div class="framework-title">Principle 1: Beneficence &mdash; &ldquo;Is this AI actually doing good?&rdquo;</div>
+    <div class="framework-row">
+      <div class="framework-cell">
+        <div class="framework-cell-label">Core idea</div>
+        <div class="framework-cell-text">AI should be developed and deployed to promote the well-being of individuals and society. It is not enough for a system to be technically impressive or commercially profitable. It must make things genuinely better for the people it affects.</div>
+      </div>
+      <div class="framework-cell">
+        <div class="framework-cell-label">Applied to Workday</div>
+        <div class="framework-cell-text">Does Workday&rsquo;s hiring AI actually improve hiring outcomes? For employers, it speeds up screening &mdash; that is a benefit. But for applicants like Derek Mobley, who are systematically filtered out before a human ever sees their credentials, the system is not doing good. It is doing harm at scale. Beneficence requires asking: better for <em>whom?</em></div>
+      </div>
+    </div>
+    <p style="font-size: 13px; color: #666; margin: 0.75rem 0 0; line-height: 1.6;"><strong style="color:#444;">Key question:</strong> Who is benefiting from this system, and are the benefits reaching the people the system affects most directly?</p>
+  </div>
+
+  <div class="framework-box">
+    <div class="framework-title">Principle 2: Non-maleficence &mdash; &ldquo;Is this AI causing harm?&rdquo;</div>
+    <div class="framework-row">
+      <div class="framework-cell">
+        <div class="framework-cell-label">Core idea</div>
+        <div class="framework-cell-text">AI systems should not cause harm &mdash; to individuals, to communities, or to society. This includes harms to privacy, dignity, autonomy, employability, and psychological well-being. It also includes harms that the system&rsquo;s creators did not intend but should have anticipated.</div>
+      </div>
+      <div class="framework-cell">
+        <div class="framework-cell-label">Applied to Workday</div>
+        <div class="framework-cell-text">Robert Williams spent 30 hours in jail because facial recognition misidentified him. Derek Mobley was rejected from 100 jobs by a system no human reviewed. A pregnant woman in Detroit was held for 11 hours. These are concrete harms &mdash; to freedom, to livelihood, to dignity. Non-maleficence asks: even if you did not intend to cause these harms, did you take reasonable steps to prevent them?</div>
+      </div>
+    </div>
+    <p style="font-size: 13px; color: #666; margin: 0.75rem 0 0; line-height: 1.6;"><strong style="color:#444;">Key question:</strong> What are the foreseeable harms of this system, and what has been done to prevent, detect, and mitigate them?</p>
+  </div>
+
+  <div class="framework-box">
+    <div class="framework-title">Principle 3: Autonomy &mdash; &ldquo;Do humans retain meaningful control?&rdquo;</div>
+    <div class="framework-row">
+      <div class="framework-cell">
+        <div class="framework-cell-label">Core idea</div>
+        <div class="framework-cell-text">AI should preserve and promote human autonomy &mdash; the ability of individuals to make informed decisions about their own lives. As AI systems become more capable, there is a risk that human decision-making is displaced rather than supported. Floridi describes this as protecting the &ldquo;power to decide to decide&rdquo; &mdash; ensuring that humans retain not just the ability to override AI, but the authority to determine when and where AI is used in the first place.</div>
+      </div>
+      <div class="framework-cell">
+        <div class="framework-cell-label">Applied to Workday</div>
+        <div class="framework-cell-text">When Mobley&rsquo;s application was rejected at 1:50 a.m., no human was involved. No hiring manager decided to pass on his resume. The system decided. The applicant had no ability to appeal, no way to understand why he was rejected, and no alternative path to a human reviewer. Autonomy asks: has the AI displaced human judgment entirely, and does the person affected have any meaningful recourse?</div>
+      </div>
+    </div>
+    <p style="font-size: 13px; color: #666; margin: 0.75rem 0 0; line-height: 1.6;"><strong style="color:#444;">Key question:</strong> Can a human override this system? Does the person affected by the decision have any way to understand it, challenge it, or access a human alternative?</p>
+  </div>
+
+  <div class="framework-box">
+    <div class="framework-title">Principle 4: Justice &mdash; &ldquo;Is the system fair, and are its effects distributed equitably?&rdquo;</div>
+    <div class="framework-row">
+      <div class="framework-cell">
+        <div class="framework-cell-label">Core idea</div>
+        <div class="framework-cell-text">AI must be developed and deployed in ways that promote fairness and avoid discrimination. This includes both procedural justice (are the processes fair?) and distributive justice (are the outcomes equitable?). It also means scrutinizing who bears the costs of the system versus who reaps the benefits.</div>
+      </div>
+      <div class="framework-cell">
+        <div class="framework-cell-label">Applied to Workday</div>
+        <div class="framework-cell-text">This is the principle most directly at stake in <em>Mobley v. Workday</em>. The benefits of AI hiring &mdash; speed, cost savings, efficiency &mdash; flow to employers and to Workday. The costs &mdash; invisible rejection, lost opportunity, systemic discrimination &mdash; fall disproportionately on older applicants, people of color, and people with disabilities. Justice asks: is that distribution acceptable? If the same system benefits the powerful and harms the vulnerable, it is not just &mdash; regardless of how well it works on average.</div>
+      </div>
+    </div>
+    <p style="font-size: 13px; color: #666; margin: 0.75rem 0 0; line-height: 1.6;"><strong style="color:#444;">Key question:</strong> Who benefits from this system, who is harmed, and does the distribution of benefits and harms reflect a commitment to fairness?</p>
+  </div>
+
+  <div class="framework-box">
+    <div class="framework-title">Principle 5: Explicability &mdash; &ldquo;Can you explain how it works and who is responsible?&rdquo;</div>
+    <div class="framework-row">
+      <div class="framework-cell">
+        <div class="framework-cell-label">Core idea</div>
+        <div class="framework-cell-text">This is Floridi&rsquo;s original contribution &mdash; the principle he argued was missing from traditional ethics and uniquely necessary for AI. Explicability has two dimensions: <strong>intelligibility</strong> (can you understand how the system works?) and <strong>accountability</strong> (is someone responsible for its outcomes?). Without explicability, none of the other four principles can be enforced. You cannot assess whether a system is fair if you cannot understand how it makes decisions. You cannot hold anyone accountable if no one can explain what the system did or why.</div>
+      </div>
+      <div class="framework-cell">
+        <div class="framework-cell-label">Applied to Workday</div>
+        <div class="framework-cell-text">Can Workday explain <em>why</em> its system rejected Derek Mobley? Can any employer who uses the platform explain to a rejected applicant what factors led to their exclusion? If not, the system fails the intelligibility test. And when the system discriminates, who is responsible &mdash; Workday, which built the algorithm, or the employer, which chose to use it? The Mobley lawsuit exists precisely because accountability is unclear. That is a failure of explicability.</div>
+      </div>
+    </div>
+    <p style="font-size: 13px; color: #666; margin: 0.75rem 0 0; line-height: 1.6;"><strong style="color:#444;">Key question:</strong> Can you explain to the person affected by this system how the decision was made, and can you identify who is responsible for the outcome?</p>
+  </div>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Explicability</div>
+    <div class="concept-def">The fifth principle in Floridi&rsquo;s framework, unique to AI ethics. Explicability combines two requirements: <strong>intelligibility</strong> (the system&rsquo;s workings can be understood, at least in meaningful terms, by the people it affects) and <strong>accountability</strong> (a specific person or organization is responsible for the system&rsquo;s outcomes). Floridi argues that explicability is the &ldquo;enabling&rdquo; principle &mdash; without it, you cannot verify whether any of the other four principles are being met. A black-box system that produces outcomes no one can explain or take responsibility for is, by definition, ethically ungovernable.</div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-label">Why this framework matters</div>
+    <div class="insight-text">Floridi&rsquo;s five principles are not just academic theory. They are the foundation of most real-world AI governance documents &mdash; including the EU AI Act, the OECD AI Principles (adopted by 46 countries), and the ethics codes of companies like Google, Microsoft, and IBM. When you encounter an AI ethics problem in your career, this is the vocabulary the industry uses. And the five principles give you a practical checklist: Is this system doing good? Is it avoiding harm? Do humans retain control? Is it fair? Can anyone explain it and take responsibility? If the answer to any of those questions is &ldquo;no&rdquo; &mdash; or &ldquo;I don&rsquo;t know&rdquo; &mdash; you have identified the ethical problem.</div>
+  </div>
+
+  <p>These five principles give you a way to <em>think</em> about AI ethics. But thinking alone does not protect people from discrimination. Policy does &mdash; or at least, it is supposed to. The next section maps the chaotic, fast-moving, and deeply political landscape of AI regulation in the United States and beyond.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 8 -->
+  <!-- ============================================================ -->
+  <h2 id="s8"><span class="section-num">8</span> The Policy Landscape: From the AI Bill of Rights to the Fight Over State Law</h2>
+
+  <p>Here is the uncomfortable reality: the United States has <strong>no comprehensive federal law regulating AI.</strong> What exists instead is a patchwork of executive orders, state laws, city ordinances, and regulatory guidance &mdash; much of it in active conflict with itself, and much of it shaped more by politics than by the technical realities of the systems it governs. Understanding this landscape is not optional for IS professionals. You will build and deploy AI systems in this environment, and the rules will depend on where you are, who your users are, and which administration is in office.</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-year">October 2022</div>
+      <div class="timeline-title">Biden administration publishes the <a href="https://www.whitehouse.gov/ostp/ai-bill-of-rights/" target="_blank" class="source-link">Blueprint for an AI Bill of Rights</a></div>
+      <div class="timeline-text">Five principles: safe and effective systems, protections against algorithmic discrimination, data privacy, notice and explanation, and the ability to opt out and access a human alternative. Not law or regulation &mdash; a vision. But enormously influential, shaping state legislation and corporate policy across the country.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">July 2023</div>
+      <div class="timeline-title"><a href="https://rules.cityofnewyork.us/rule/automated-employment-decision-tools-background/" target="_blank" class="source-link">NYC Local Law 144</a> takes effect</div>
+      <div class="timeline-text">New York City became the first U.S. city to regulate AI hiring tools. Employers using automated employment decision tools must have the tool independently audited for bias annually, publish results publicly, and notify candidates. Penalties range from $500 to $1,500 per violation per day. Enforcement has been limited &mdash; a December 2025 comptroller audit found many employers are simply not complying.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">October 2023</div>
+      <div class="timeline-title">Biden signs <a href="https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence" target="_blank" class="source-link">Executive Order 14110</a></div>
+      <div class="timeline-text">The most comprehensive federal AI governance action to date. Required developers of powerful AI systems to share safety test results with the federal government, directed agencies to develop standards for AI testing, and addressed bias in AI systems used in criminal justice and healthcare.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">January 20, 2025</div>
+      <div class="timeline-title">Trump rescinds Biden&rsquo;s AI governance on his first day in office</div>
+      <div class="timeline-text">Within hours of inauguration, President Trump rescinded Executive Order 14110 and removed the Blueprint for an AI Bill of Rights from the White House website. Three days later, he signed his own executive order directing officials to remove any actions that hindered private sector AI innovation.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">October 2025</div>
+      <div class="timeline-title">California FEHA AI regulations take effect</div>
+      <div class="timeline-text">California&rsquo;s Civil Rights Department finalized regulations clarifying that the <a href="https://calcivilrights.ca.gov/" target="_blank" class="source-link">Fair Employment and Housing Act</a> applies to automated decision systems used in hiring. The regulations require bias testing, four-year data retention, and &mdash; critically for the Workday case &mdash; extend liability to AI vendors acting as agents of employers.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">December 2025</div>
+      <div class="timeline-title">Trump moves to preempt state AI laws</div>
+      <div class="timeline-text">An executive order directed the Attorney General to create an AI Litigation Task Force to sue states over AI laws the administration considers &ldquo;onerous.&rdquo; It targets laws that &ldquo;require AI models to alter their truthful outputs&rdquo; &mdash; a reference to anti-bias requirements &mdash; and threatens to withhold federal broadband funding from states with AI regulations the administration opposes.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">June 2026</div>
+      <div class="timeline-title">Colorado AI Act scheduled effective date &mdash; under legal challenge</div>
+      <div class="timeline-text">Colorado passed the most comprehensive state AI regulatory framework, requiring risk management programs, impact assessments, and disclosures. The effective date was delayed from February to June 2026, and in April 2026, <a href="https://www.reuters.com/technology/artificial-intelligence/" target="_blank" class="source-link">xAI and the DOJ filed a lawsuit challenging the law&rsquo;s constitutionality</a>.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">August 2, 2026</div>
+      <div class="timeline-title"><a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj" target="_blank" class="source-link">EU AI Act</a> high-risk provisions take effect</div>
+      <div class="timeline-text">The European Union&rsquo;s AI Act &mdash; the world&rsquo;s first comprehensive AI law &mdash; classifies AI systems into risk tiers. By August 2026, full requirements for high-risk systems take effect, including AI tools used in hiring: risk management, data governance, transparency, and mandatory human oversight. Any company deploying AI hiring tools that affect EU residents must comply, regardless of where the company is based.</div>
+    </div>
+  </div>
+
+  <div class="update-box">
+    <div class="update-label">Where things stand &mdash; spring 2026</div>
+    <div class="update-text">The U.S. has <strong>no comprehensive federal AI law</strong>. The Biden-era governance framework has been dismantled. The Trump administration is actively trying to block states from filling the gap. Meanwhile, states are moving ahead anyway. The EU AI Act is the most comprehensive regime globally. For IS professionals, the practical implication is this: <strong>the rules depend on where you are, who you serve, and which level of government is acting</strong> &mdash; a deeply unstable situation for anyone building systems meant to operate at scale.</div>
+  </div>
+
+  <p>So: no comprehensive federal law. A fractured patchwork of state and local regulation. An administration that views anti-bias requirements as obstacles to innovation. An EU framework that may become the de facto global standard. And underneath all of it, millions of people being evaluated, scored, and sorted by AI systems every day. Which brings us back to where we started &mdash; and to the question that matters most for your career.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 9 -->
+  <!-- ============================================================ -->
+  <h2 id="s9"><span class="section-num">9</span> Return to Workday: What Should IS Professionals Do?</h2>
+
+  <p>We began this chapter with Derek Mobley and 100 rejected applications. Since then, we have traveled from 1930s redlining maps to 2018 facial recognition research to 2026 courtrooms and legislative chambers. We have looked at the mechanics of how algorithms become biased, confronted the mathematical impossibility of a single definition of fairness, introduced Floridi&rsquo;s five principles for ethical AI, and mapped the chaotic policy landscape governing AI.</p>
+
+  <p>Now the question is the one that matters most for you as a future IS professional: what should you actually <em>do</em>?</p>
+
+  <p>There is no single answer. But there are principles that hold regardless of which ethical framework you apply, which administration is in office, or which state you work in.</p>
+
+  <h3>Principle 1: You are responsible for what your systems do.</h3>
+
+  <p>The Mobley v. Workday case established something that should have been obvious but apparently needed to be said in court: if you build a system that makes decisions about people, you bear responsibility for those decisions. &ldquo;The algorithm did it&rdquo; is not a defense. Under disparate impact theory, what matters is the outcome, not the intent.</p>
+
+  <h3>Principle 2: Audit before you deploy, and keep auditing after.</h3>
+
+  <p>Every AI system that makes or influences decisions about people should be tested for bias before deployment and monitored continuously afterward. NYC&rsquo;s Local Law 144 requires annual independent bias audits. California&rsquo;s FEHA regulations require bias testing. The EU AI Act requires risk management and ongoing monitoring. Even where these specific laws do not apply to you today, they represent the direction regulation is moving globally.</p>
+
+  <h3>Principle 3: Know your data.</h3>
+
+  <p>The single most important question you can ask about any AI system is: <em>what data was it trained on?</em> Who is represented in that data? Who is underrepresented? What historical decisions does the data encode? Every major AI failure in this chapter &mdash; facial recognition that could not see dark-skinned women, hiring tools that screened out older applicants, recidivism scores with unequal error rates &mdash; traces back to training data that was biased, incomplete, or unexamined.</p>
+
+  <h3>Principle 4: Transparency is not optional.</h3>
+
+  <p>When an AI system rejects a job applicant, denies a loan, flags a suspect, or makes any consequential decision about a person, that person has a right to know that AI was involved and to understand, in meaningful terms, why the decision was made. You cannot hold a system accountable if the people it affects don&rsquo;t know it exists.</p>
+
+  <h3>Principle 5: Advocate for the people your system affects.</h3>
+
+  <p>This may be the hardest principle, because it requires courage. At some point in your career, you will be in a meeting where a manager wants to deploy an AI system that has not been adequately tested for bias. Or you will discover that a system in production is producing discriminatory outcomes. In those moments, your ethical obligation is clear: raise the concern. Document it. Escalate it. The people affected by the system &mdash; the Derek Mobleys, the Robert Williamses &mdash; are not in the room. You are.</p>
+
+  <div class="future-box">
+    <div class="future-label">The broader question</div>
+    <div class="future-text">Mobley v. Workday is not just a lawsuit. It is a referendum on a question that will define the next decade of information systems: <strong>can we build AI systems that are both efficient and fair?</strong> The answer is not yet clear. What is clear is that the answer will be shaped by the people who build, deploy, and govern these systems &mdash; people, in other words, like you. The history of technology bias shows that left unchecked, systems reproduce the inequalities of the society that builds them. The Gender Shades study shows that these inequalities can be measured, exposed, and corrected &mdash; but only if someone chooses to look. What remains is the work: building systems that treat people fairly, testing those systems rigorously, being honest about their limitations, and standing up when they fail. That work begins in this course. It does not end here.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 10 -->
+  <!-- ============================================================ -->
+  <h2 id="s10"><span class="section-num">10</span> Key Vocabulary &amp; Discussion Questions</h2>
+
+  <h3>Key vocabulary</h3>
+  <div class="vocab-grid">
+    <div class="vocab-card"><div class="vocab-term">Algorithmic bias</div><div class="vocab-def">Systematic and repeatable errors in a computer system that create unfair outcomes for certain groups &mdash; typically arising from biased training data, flawed assumptions, or unrepresentative development teams</div></div>
+    <div class="vocab-card"><div class="vocab-term">Disparate impact</div><div class="vocab-def">A legal theory of discrimination focusing on outcomes rather than intent &mdash; if a practice disproportionately harms a protected group, it can be found unlawful even without evidence of deliberate harm</div></div>
+    <div class="vocab-card"><div class="vocab-term">Proxy variable</div><div class="vocab-def">A data feature that is not itself a protected characteristic but correlates so strongly with one that it produces similar discriminatory effects &mdash; zip code for race, graduation year for age, employment gaps for gender or disability</div></div>
+    <div class="vocab-card"><div class="vocab-term">Feedback loop</div><div class="vocab-def">A cycle in which a system&rsquo;s biased outputs become inputs for future decisions, amplifying the original bias over time and making biased systems appear increasingly &ldquo;accurate&rdquo;</div></div>
+    <div class="vocab-card"><div class="vocab-term">Training data</div><div class="vocab-def">The historical dataset used to teach a machine learning model the patterns it will use to make predictions &mdash; the single most consequential input in any AI system</div></div>
+    <div class="vocab-card"><div class="vocab-term">The coded gaze</div><div class="vocab-def">Joy Buolamwini&rsquo;s term for how AI systems reflect the biases, priorities, and blind spots of their creators &mdash; analogous to the &ldquo;male gaze&rdquo; in film theory</div></div>
+    <div class="vocab-card"><div class="vocab-term">Algorithmic redlining</div><div class="vocab-def">When AI systems reproduce historical patterns of racial exclusion using data generated by those very patterns &mdash; named after the mid-20th-century practice of denying mortgages to minority neighborhoods</div></div>
+    <div class="vocab-card"><div class="vocab-term">Benchmark dataset bias</div><div class="vocab-def">When the standard datasets used to evaluate AI performance are themselves unrepresentative, causing systems to appear high-performing while systematically failing on underrepresented populations</div></div>
+    <div class="vocab-card"><div class="vocab-term">Predictive parity</div><div class="vocab-def">A fairness criterion requiring that an algorithm&rsquo;s scores carry the same meaning across groups &mdash; a &ldquo;high risk&rdquo; score should predict the same probability of the outcome regardless of group membership</div></div>
+    <div class="vocab-card"><div class="vocab-term">Error rate balance</div><div class="vocab-def">A fairness criterion requiring that an algorithm make the same types of errors at the same rate across groups &mdash; false positive and false negative rates should be equal across demographic categories</div></div>
+    <div class="vocab-card"><div class="vocab-term">Impossibility theorem of fairness</div><div class="vocab-def">A mathematical proof demonstrating that certain definitions of fairness cannot be simultaneously satisfied when groups have different base rates &mdash; meaning every AI system must choose which definition to prioritize</div></div>
+    <div class="vocab-card"><div class="vocab-term">Beneficence</div><div class="vocab-def">Floridi&rsquo;s first principle: AI should be developed and deployed to promote the well-being of individuals and society &mdash; not just to be technically impressive or commercially profitable</div></div>
+    <div class="vocab-card"><div class="vocab-term">Non-maleficence</div><div class="vocab-def">Floridi&rsquo;s second principle: AI systems should not cause harm &mdash; including harms to privacy, dignity, autonomy, and employability, and including harms the creators did not intend but should have anticipated</div></div>
+    <div class="vocab-card"><div class="vocab-term">Autonomy (in AI ethics)</div><div class="vocab-def">Floridi&rsquo;s third principle: AI should preserve human decision-making power &mdash; protecting what Floridi calls the &ldquo;power to decide to decide,&rdquo; ensuring humans retain authority over when and where AI is used</div></div>
+    <div class="vocab-card"><div class="vocab-term">Justice (in AI ethics)</div><div class="vocab-def">Floridi&rsquo;s fourth principle: AI must promote fairness and avoid discrimination &mdash; including both procedural justice (fair processes) and distributive justice (equitable outcomes)</div></div>
+    <div class="vocab-card"><div class="vocab-term">Explicability</div><div class="vocab-def">Floridi&rsquo;s fifth and original principle, unique to AI: combining intelligibility (the system can be understood) and accountability (someone is responsible for its outcomes) &mdash; the enabling principle without which the other four cannot be enforced</div></div>
+    <div class="vocab-card"><div class="vocab-term">Automated employment decision tool (AEDT)</div><div class="vocab-def">Any computational process that makes or substantially assists employment decisions &mdash; the regulated category under NYC Local Law 144 and similar statutes</div></div>
+    <div class="vocab-card"><div class="vocab-term">AI Bill of Rights (Blueprint)</div><div class="vocab-def">A non-binding 2022 White House document outlining five principles for ethical AI &mdash; removed from the White House website on January 20, 2025</div></div>
+    <div class="vocab-card"><div class="vocab-term">Algorithmic Justice League</div><div class="vocab-def">An organization founded by Joy Buolamwini combining art and research to raise public awareness about the social implications of AI &mdash; instrumental in driving corporate and policy changes around facial recognition</div></div>
+  </div>
+
+  <h3>Discussion questions</h3>
+  <p style="font-size:13px; color:#666; margin-bottom:0.75rem;">Six questions anchored in the themes of this chapter. These work equally well as written assignments or in-class discussion.</p>
+  <ol class="discussion-list">
+    <li><strong>The 1:50 a.m. rejection (Sections 1 &amp; 5).</strong> Derek Mobley was rejected from a job at 1:50 in the morning. His lawyers argue this is evidence that no human was involved. Workday might argue that automated systems simply process applications as they arrive and that speed is a feature, not a flaw. Apply Floridi&rsquo;s five principles from Section 7 to this fact pattern. Which principles does the automated rejection violate? Are there any principles under which it might be acceptable? Where is the genuine tension?</li>
+    <li><strong>The impossibility of fairness (Section 6).</strong> The COMPAS case showed that error rate balance and predictive parity cannot be simultaneously satisfied. If you were designing a recidivism risk tool for a court system, which definition would you prioritize, and why? Who benefits from your choice? Who is harmed? How does Floridi&rsquo;s justice principle help you think about this &mdash; and where does it fall short?</li>
+    <li><strong>The white mask (Sections 2 &amp; 3).</strong> Joy Buolamwini had to put on a white mask for facial recognition software to see her face. IBM responded to Gender Shades by exiting the facial recognition business entirely. Was that the right response, or did it remove a company that could have <em>improved</em> the technology from the conversation? Evaluate IBM&rsquo;s decision using the principles of beneficence and non-maleficence &mdash; do they point in the same direction, or do they conflict?</li>
+    <li><strong>Vendor vs. employer liability (Sections 1 &amp; 9).</strong> Mobley sued Workday, not the companies that rejected him. Floridi&rsquo;s principle of explicability requires that someone be accountable for an AI system&rsquo;s outcomes. Should that accountability rest with the vendor who built the algorithm, the employer who deployed it, or both? Think about this from the perspective of a small business that lacks the technical expertise to audit the tool &mdash; should they bear the same accountability as the vendor?</li>
+    <li><strong>The policy vacuum (Section 8).</strong> The United States has no comprehensive federal law regulating AI. The Biden-era framework has been dismantled. The Trump administration is actively trying to block state laws from filling the gap. If you were an IS professional deploying an AI hiring tool in this environment, which of Floridi&rsquo;s five principles would you use as your minimum ethical standard, and why? What are the possibilities and the limitations of self-regulation when the government steps back?</li>
+    <li><strong>Your role (Section 9).</strong> You are three years into your career as an IS professional. Your manager asks you to deploy an AI screening tool that has not been audited for bias. They say the vendor assured them it is fair, and the company needs to fill positions quickly. Walk through each of Floridi&rsquo;s five principles and identify which ones this scenario violates. What specifically do you do? What do you say, and to whom? What do you do if your concerns are dismissed?</li>
+  </ol>
+
+  <hr>
+  <p style="font-size: 13px; color: #999; text-align: center; margin-top: 1rem;">MIS 432 &middot; AI in Business &middot; Case Study &middot; For classroom discussion purposes.</p>
+
+  <div class="chapter-nav-bar">
+    <a href="chapter8-environment.html">&larr; Chapter 8: AI &amp; Environment</a>
+    <a href="index.html">All Chapters &rarr;</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>MIS 432 &middot; AI in Business &middot; Western Washington University &middot; College of Business and Economics</p>
+  <p style="margin-top:0.5rem;"><a href="index.html">Home</a> &middot; <a href="https://cbe.wwu.edu/people/califfc" target="_blank">Contact</a> &middot; <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a> &middot; Free to use for educational purposes</p>
+</footer>
+
+<script>
+  (function () {
+    var dropdowns = document.querySelectorAll('.nav-dropdown');
+    dropdowns.forEach(function (dropdown) {
+      var toggle = dropdown.querySelector('.nav-dropdown-toggle');
+      toggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        var isOpen = !dropdown.classList.contains('open');
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        if (isOpen) {
+          dropdown.classList.add('open');
+          toggle.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        document.activeElement.blur();
+      }
+    });
+  })();
+</script>
+</body>
+</html>

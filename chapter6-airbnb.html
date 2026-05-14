@@ -163,7 +163,7 @@
     background: #222222; border: 1px solid rgba(255,56,92,0.25); border-radius: 4px;
     min-width: 220px; padding: 0.4rem 0; opacity: 0; visibility: hidden;
     transition: opacity 0.15s, visibility 0.15s, transform 0.15s;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4); z-index: 200;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4); z-index: 200; max-height: 70vh; overflow-y: auto;
   }
   .nav-dropdown:hover .nav-dropdown-menu,
   .nav-dropdown.open .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
@@ -198,6 +198,8 @@
         <a href="chapter5-waymo.html" role="menuitem"><span class="menu-num">05</span>Waymo</a>
         <a href="chapter6-airbnb.html" role="menuitem"><span class="menu-num">06</span>Airbnb</a>
         <a href="chapter7-epic.html" role="menuitem"><span class="menu-num">07</span>Epic</a>
+        <a href="chapter8-environment.html" role="menuitem"><span class="menu-num">08</span>AI &amp; Environment</a>
+        <a href="chapter9-ethics.html" role="menuitem"><span class="menu-num">09</span>AI Ethics &amp; Bias</a>
         <div class="menu-divider"></div>
         <div class="menu-divider-label">Labs</div>
         <a href="chapter1-everycure-lab.html" role="menuitem"><span class="menu-num">L1</span>EveryCure Lab</a>
@@ -293,14 +295,14 @@
   <h2 id="s1"><span class="section-num">1</span> Company Background</h2>
 
   <div class="stats-row">
-    <div class="stat-card"><div class="stat-num">2008</div><div class="stat-label">Founded in San Francisco</div></div>
+    <div class="stat-card"><div class="stat-num">2007</div><div class="stat-label">First listing in San Francisco</div></div>
     <div class="stat-card"><div class="stat-num">5M+</div><div class="stat-label">Hosts worldwide</div></div>
     <div class="stat-card"><div class="stat-num">8M+</div><div class="stat-label">Active listings</div></div>
     <div class="stat-card"><div class="stat-num">220+</div><div class="stat-label">Countries &amp; regions</div></div>
     <div class="stat-card"><div class="stat-num">2 sides</div><div class="stat-label">Guests &amp; hosts</div></div>
   </div>
 
-  <p>Airbnb was founded in 2008 by Brian Chesky, Joe Gebbia, and Nathan Blecharczyk. The timing was not a coincidence. The original pitch was absurdly simple &mdash; rent out an air mattress in your apartment during a design conference when hotels were sold out. But the company launched into the teeth of the 2008 financial crisis, and that context shaped everything about the business.</p>
+  <p>Airbnb&rsquo;s story begins in October 2007, when Brian Chesky and Joe Gebbia couldn&rsquo;t make rent on their San Francisco apartment. A design conference was coming to town and hotels were sold out, so they put an air mattress in their living room and offered it as a bed and breakfast to attendees. Nathan Blecharczyk joined as co-founder, and the company formally launched in 2008 &mdash; right into the teeth of the financial crisis. That timing shaped everything about the business: ordinary people needed extra income to hold onto their apartments, and Airbnb gave them a way to earn it.</p>
 
   <p>Millions of Americans were losing their jobs, their homes, or both. The idea that you could make rent by letting a stranger sleep in your spare room went from eccentric to urgent almost overnight. Early Airbnb hosts were not lifestyle entrepreneurs. Many of them were people trying to hold onto their apartments. The platform grew because the crisis made sharing space an economic necessity &mdash; and that origin story still matters, because the same economic dynamics that created Airbnb are now driving the backlash against it.</p>
 
@@ -1339,7 +1341,7 @@
     <div class="danger-text">In <strong>Mexico City</strong>, the city&rsquo;s Planning Institute estimates that roughly 100,000 people have left the city because they can no longer afford rent. In 2025, the city restricted Airbnb units to no more than 180 nights per year. In <strong>Barcelona</strong> &mdash; which received 26.1 million tourists in 2024, over 15 times its population &mdash; the city announced plans to close all 10,000 apartments licensed as short-term rentals by 2028. Protesters sprayed tourists with water pistols and set off firecrackers in widely covered demonstrations. In <strong>Spain</strong> nationally, the government ordered Airbnb to block more than 65,000 listings for rule violations in 2025, and later fined the company &euro;64 million. Prime Minister Pedro S&aacute;nchez declared that &ldquo;there are too many Airbnbs and not enough homes.&rdquo; <strong>EU-wide</strong> rules for short-term rental platforms take effect in May 2026, giving member states new tools to require registration, enforce limits, and collect data. In <strong>Venice</strong>, a &euro;5&ndash;&euro;10 entry fee now applies to day-trippers during peak season. In <strong>Berlin</strong>, more than 8,100 vacation apartments have been returned to the housing market since the city&rsquo;s regulations took effect. In <strong>New York City</strong>, it is now illegal to rent an entire apartment for fewer than 30 days unless the host is present. The pattern is global: London, Paris, Amsterdam, Vienna, Prague, Lisbon, Edinburgh, and dozens of other cities have all imposed or tightened restrictions. In June 2025, coordinated protests took place across Spain, Portugal, and Italy on the same weekend.</div>
   </div>
 
-  <p>There is a painful irony here worth naming. Airbnb was born in the 2008 financial crisis, when ordinary people needed extra income to hold onto their apartments. The platform grew because it helped people in economic distress. Two decades later, the same platform is being blamed for creating economic distress &mdash; pricing people out of the neighborhoods that Airbnb hosts originally needed help staying in. The company that began as a lifeline for renters is now, in many cities, seen as a threat to them.</p>
+  <p>There is a painful irony here worth naming. Airbnb was born in 2007 when two guys couldn&rsquo;t make rent and put an air mattress on their floor. The platform grew because it helped people in economic distress earn extra income to hold onto their apartments. Two decades later, the same platform is being blamed for creating economic distress &mdash; pricing people out of the neighborhoods that Airbnb hosts originally needed help staying in. The company that began as a lifeline for renters is now, in many cities, seen as a threat to them.</p>
 
   <p>Airbnb&rsquo;s leadership has pushed back on the framing. CEO Brian Chesky has argued publicly that in Barcelona, housing prices rose 60% over the past decade while Airbnb listings actually decreased, calling the platform a &ldquo;convenient scapegoat for a failed policy and deep, long-standing housing issues.&rdquo; Chesky points out that in Barcelona, around 70% of tourists are cruise ship passengers or hotel guests &mdash; not Airbnb users.</p>
 
@@ -1458,7 +1460,7 @@
   <h3>Discussion questions</h3>
   <p style="font-size:13px; color:#767676; margin-bottom:0.75rem;">These work well as written assignments or in-class discussion prompts. Questions 1, 3, and 6 tend to generate the most debate.</p>
   <ol class="discussion-list">
-    <li><strong>The origin story comes full circle.</strong> Airbnb was born in 2008 helping people keep their apartments during the financial crisis. Today, cities like Barcelona, New York, and Mexico City are banning or severely restricting short-term rentals because they blame platforms like Airbnb for displacing residents and driving up housing costs. How do you reconcile the company that started as a lifeline for renters with the company now accused of pricing people out of their homes?</li>
+    <li><strong>The origin story comes full circle.</strong> Airbnb was born in 2007 when two founders couldn&rsquo;t make rent and put an air mattress on their floor. Today, cities like Barcelona, New York, and Mexico City are banning or severely restricting short-term rentals because they blame platforms like Airbnb for displacing residents and driving up housing costs. How do you reconcile the company that started as a lifeline for renters with the company now accused of pricing people out of their homes?</li>
     <li><strong>Whose margin is Smart Pricing optimizing?</strong> When Smart Pricing suggests a lower price to a host during a quiet period, whose interests is that algorithm actually serving? Argue it through &mdash; is it the host&rsquo;s, Airbnb&rsquo;s, the guest&rsquo;s, or some combination? Would a host-first version of the algorithm look different?</li>
     <li><strong>Augmentation for whom?</strong> Smart Pricing is described as &ldquo;augmentation&rdquo; &mdash; the host always has the final say. But engaged hosts evaluate and sometimes override, while passive hosts almost always accept. If one group blindly follows the algorithm and the other doesn&rsquo;t, is it fair to call the same system &ldquo;augmentation&rdquo; for both? When does a suggestion become a decision in practice?</li>
     <li><strong>Interpretability vs. accuracy.</strong> Smart Pricing could have used pure ML and likely would have been somewhat more accurate than its hybrid approach. Instead, Airbnb chose a hybrid that gave up some raw accuracy in exchange for interpretability. Where is the line? Pick a business context where a manager should insist on interpretability even at a real cost to accuracy, and one where they shouldn&rsquo;t.</li>

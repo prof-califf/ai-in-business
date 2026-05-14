@@ -76,7 +76,7 @@
     visibility: hidden;
     transition: opacity 0.15s, visibility 0.15s, transform 0.15s;
     box-shadow: 0 8px 24px rgba(0,0,0,0.35);
-    z-index: 200;
+    z-index: 200; max-height: 70vh; overflow-y: auto;
   }
   .nav-dropdown:hover .nav-dropdown-menu,
   .nav-dropdown.open .nav-dropdown-menu {
@@ -301,6 +301,7 @@
         <a href="chapter6-airbnb.html" role="menuitem"><span class="menu-num">06</span>Airbnb</a>
         <a href="chapter7-epic.html" role="menuitem"><span class="menu-num">07</span>Epic</a>
         <a href="chapter8-environment.html" role="menuitem"><span class="menu-num">08</span>AI &amp; Environment</a>
+        <a href="chapter9-ethics.html" role="menuitem"><span class="menu-num">09</span>AI Ethics &amp; Bias</a>
         <div class="menu-divider"></div>
         <div class="menu-divider-label">Labs</div>
         <a href="chapter1-everycure-lab.html" role="menuitem"><span class="menu-num">L1</span>EveryCure Lab</a>
@@ -335,7 +336,7 @@
     <p class="hero-sub">A free, case-based digital textbook that teaches machine learning and AI through real companies and hands-on AI labs.</p>
     <p class="hero-tagline">Every chapter tackles a real company or a critical AI issue. Every lab puts you inside the AI that made it work.</p>
     <div class="hero-meta">
-      <div class="hero-meta-item"><div class="hero-meta-num">8</div><div class="hero-meta-label">Chapters</div></div>
+      <div class="hero-meta-item"><div class="hero-meta-num">9</div><div class="hero-meta-label">Chapters</div></div>
       <div class="hero-meta-item"><div class="hero-meta-num">7</div><div class="hero-meta-label">Labs</div></div>
       <div class="hero-meta-item"><div class="hero-meta-num">40+</div><div class="hero-meta-label">AI Concepts</div></div>
       <div class="hero-meta-item"><div class="hero-meta-num">Free</div><div class="hero-meta-label">Always</div></div>
@@ -796,6 +797,52 @@
             <li>Model usage scenarios &amp; comparisons</li>
             <li>Scale-up: individual to 800M users</li>
             <li>Real-world benchmarks (golf courses, flights, driving)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter 9: AI Ethics & Bias -->
+    <div class="chapter-card">
+      <div class="chapter-header" style="background: linear-gradient(135deg, #0f0720 0%, #3b1578 55%, #7c3aed 100%);">
+        <div class="chapter-header-left">
+          <div class="chapter-num" style="color: #c4b5fd;">Chapter 9 · AI Ethics · Algorithmic Bias · Fairness &amp; Accountability</div>
+          <h3>When Algorithms Discriminate:<br>AI Ethics, Bias, and the Fight for Fairness</h3>
+          <div class="chapter-company">Workday · Gender Shades · COMPAS · Floridi · EU AI Act · Algorithmic Justice League</div>
+        </div>
+        <div class="chapter-links">
+          <a href="chapter9-ethics.html" class="btn btn-white" style="color:#7c3aed;">Read Case &rarr;</a>
+        </div>
+      </div>
+      <div class="chapter-body">
+        <div class="chapter-body-col">
+          <h4>AI Concepts</h4>
+          <ul>
+            <li>Algorithmic bias &amp; proxy variables</li>
+            <li>Training data bias &amp; feedback loops</li>
+            <li>Benchmark dataset bias</li>
+            <li>Impossibility theorem of fairness</li>
+            <li>Predictive parity vs. error rate balance</li>
+            <li>Disparate impact theory</li>
+          </ul>
+        </div>
+        <div class="chapter-body-col">
+          <h4>Business Topics</h4>
+          <ul>
+            <li>Floridi&rsquo;s five principles for ethical AI</li>
+            <li>AI vendor liability (Mobley v. Workday)</li>
+            <li>Facial recognition &amp; wrongful arrest</li>
+            <li>The coded gaze &amp; algorithmic redlining</li>
+            <li>U.S. vs. EU AI policy landscape</li>
+          </ul>
+        </div>
+        <div class="chapter-body-col">
+          <h4>Discussion</h4>
+          <ul>
+            <li>Apply Floridi&rsquo;s framework to real cases</li>
+            <li>Vendor vs. employer accountability</li>
+            <li>Fairness definitions in tension</li>
+            <li>Self-regulation in a policy vacuum</li>
           </ul>
         </div>
       </div>

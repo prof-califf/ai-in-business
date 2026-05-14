@@ -125,7 +125,7 @@
   .nav-dropdown-toggle:hover, .nav-dropdown:hover .nav-dropdown-toggle, .nav-dropdown.open .nav-dropdown-toggle { color: #fff; }
   .nav-dropdown-toggle .caret { display: inline-block; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid currentColor; transition: transform 0.15s; }
   .nav-dropdown:hover .nav-dropdown-toggle .caret, .nav-dropdown.open .nav-dropdown-toggle .caret { transform: rotate(180deg); }
-  .nav-dropdown-menu { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(-4px); background: #1a0010; border: 1px solid rgba(205,0,59,0.2); border-radius: 4px; min-width: 240px; padding: 0.4rem 0; opacity: 0; visibility: hidden; transition: opacity 0.15s, visibility 0.15s, transform 0.15s; box-shadow: 0 8px 24px rgba(0,0,0,0.35); z-index: 200; }
+  .nav-dropdown-menu { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(-4px); background: #1a0010; border: 1px solid rgba(205,0,59,0.2); border-radius: 4px; min-width: 240px; padding: 0.4rem 0; opacity: 0; visibility: hidden; transition: opacity 0.15s, visibility 0.15s, transform 0.15s; box-shadow: 0 8px 24px rgba(0,0,0,0.35); z-index: 200; max-height: 70vh; overflow-y: auto; }
   .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown.open .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
   .nav-dropdown::after { content: ''; position: absolute; top: 100%; left: 0; right: 0; height: 12px; }
   .nav-dropdown-menu a { display: block; padding: 0.5rem 1rem; color: rgba(255,255,255,0.65); font-size: 13px; font-weight: 500; text-decoration: none; border-left: 2px solid transparent; transition: color 0.12s, background 0.12s, border-color 0.12s; }
@@ -153,6 +153,8 @@
         <a href="chapter5-waymo.html" role="menuitem"><span class="menu-num">05</span>Waymo</a>
         <a href="chapter6-airbnb.html" role="menuitem"><span class="menu-num">06</span>Airbnb</a>
         <a href="chapter7-epic.html" role="menuitem"><span class="menu-num">07</span>Epic</a>
+        <a href="chapter8-environment.html" role="menuitem"><span class="menu-num">08</span>AI &amp; Environment</a>
+        <a href="chapter9-ethics.html" role="menuitem"><span class="menu-num">09</span>AI Ethics &amp; Bias</a>
         <div class="menu-divider"></div>
         <div class="menu-divider-label">Labs</div>
         <a href="chapter1-everycure-lab.html" role="menuitem"><span class="menu-num">L1</span>EveryCure Lab</a>
