@@ -209,8 +209,8 @@
     <div class="cover-sub">A forty-five year arc &mdash; from a basement database to the Affordable Care Act to the most ambitious agentic AI deployment in American medicine</div>
     <div class="cover-meta">
       <span><strong>Level:</strong> Introductory undergraduate (200-level)</span>
-      <span><strong>Topics:</strong> Agentic AI, ambient AI, conversational AI, EHR history, human-in-the-loop, Agent Factory, Curiosity foundation models, data gravity, deskilling, world models, future of healthcare AI</span>
-      <span><strong>Concepts introduced:</strong> 16 key business AI terms</span>
+      <span><strong>Topics:</strong> Agentic AI, ambient AI, conversational AI, EHR history, human-in-the-loop, AI governance, three levels of AI, Agent Factory, Curiosity foundation models, data gravity, deskilling, world models, future of healthcare AI</span>
+      <span><strong>Concepts introduced:</strong> 18 key business AI terms</span>
     </div>
     <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
       <p style="font-size: 13px; color: #888; margin: 0;">
@@ -241,8 +241,9 @@
     <a href="#s11">11. The AI Factory at Epic</a>
     <a href="#s12">12. The human-in-the-loop question</a>
     <a href="#s13">13. The risks: alert fatigue, deskilling, and clinician resistance</a>
-    <a href="#s14">14. Beyond today: what comes next</a>
-    <a href="#s15">15. Key vocabulary &amp; discussion questions</a>
+    <a href="#s14">14. AI governance: who sets the rules for agents that act?</a>
+    <a href="#s15">15. Beyond today: what comes next</a>
+    <a href="#s16">16. Key vocabulary &amp; discussion questions</a>
   </div>
 
   <!-- SECTION 1 -->
@@ -448,6 +449,23 @@
     <div class="concept-def">Think about the difference between asking someone a question and giving someone a job. When you ask ChatGPT to write an email, it does one thing and gives you the result. That is standard AI. An agentic AI is different: you give it a <em>goal</em>, and it figures out the steps on its own. It plans what to do, uses whatever tools it needs (databases, scheduling systems, messaging apps), checks its own work, and adjusts if something does not go as expected. In healthcare, a standard AI writes a note when a doctor asks for one. An agentic AI might review a patient&rsquo;s chart on its own, notice that a diabetes screening was missed, draft a personalized message to the patient, suggest scheduling a follow-up appointment, notify the care coordinator, and flag the case for a nurse &mdash; all without anyone asking it to do any of those things individually. The key difference is that an agentic AI can handle a multi-step process on its own, not just respond to a single request.</div>
   </div>
 
+  <h3>Three levels of AI</h3>
+
+  <p>To make the differences concrete, it helps to think about AI in three levels &mdash; each one building on the last. These terms are still evolving across the industry, but the distinctions are useful for understanding where healthcare AI has been, where it is now, and where it is going.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Three levels of AI</div>
+    <div class="concept-def">
+      <strong>Level 1 &mdash; Large Language Models (LLMs):</strong> Text in, text out. You type a question, the AI generates an answer. It cannot look anything up, connect to other systems, or take action in the real world. When you ask ChatGPT or Claude a medical question, that is Level 1. It gives you its best answer based on what it learned during training &mdash; but it cannot check your actual medical record, look up your insurance policy, or schedule an appointment.<br><br>
+      <strong>Level 2 &mdash; AI with tools (you direct each step):</strong> The AI can connect to external systems &mdash; databases, calendars, spreadsheets &mdash; but <em>you</em> tell it exactly what to do at each step. You say &ldquo;pull up this patient&rsquo;s chart&rdquo; and then &ldquo;now check the insurance policy&rdquo; and then &ldquo;now write the appeal letter.&rdquo; The AI executes each instruction, but you are planning every move. DAX Copilot in its earliest form operated close to this level: it listened when you told it to listen, and produced a note when you asked for one.<br><br>
+      <strong>Level 3 &mdash; Agentic AI (you set the goal, the AI plans the steps):</strong> You describe what you want to accomplish, and the AI figures out <em>how</em>. You build a workflow &mdash; connecting the agent to the tools it needs, defining guardrails and approval checkpoints &mdash; and then give it a goal: &ldquo;fight this insurance denial.&rdquo; The AI decides on its own to read the denial letter, pull the patient&rsquo;s chart, check the policy criteria, and draft the appeal. Art, Penny, and Emmie operate at this level. Agent Factory lets hospitals build new Level 3 agents for their own workflows.<br><br>
+      <strong>The key question between Level 2 and Level 3 is: who decides the steps?</strong> At Level 2, you prompt each action. At Level 3, you describe the goal and the AI figures out how to get there. But agentic AI still needs a human to design the workflow &mdash; someone has to choose the tools, set the guardrails, define where a human must approve, and decide what the agent is and is not allowed to do. The AI runs the loop. A human designs it.
+    </div>
+  </div>
+
+  <p>Every AI system in Epic&rsquo;s history maps onto these levels. The early predictive models (sepsis scores, readmission risk) were sophisticated but narrow &mdash; closer to Level 1, producing a single output from a single input. DAX Copilot introduced tool use and began bridging Level 2. Art, Penny, and Emmie are Level 3: given a goal, they plan and execute multi-step workflows using whatever tools the system makes available to them. And Agent Factory is a platform for building <em>new</em> Level 3 agents. The trajectory is clear: each generation of Epic&rsquo;s AI moves up the levels, taking on more complex goals with more autonomy.</p>
+
   <p>This distinction matters a lot in healthcare, because the stakes of letting AI act on its own are higher here than in almost any other industry. Every previous chapter in this book looked at AI that makes predictions or recommendations. Uber&rsquo;s algorithm predicts demand and sets prices automatically. Spotify&rsquo;s system picks songs for your playlist. In those cases, the prediction and the action are tightly linked &mdash; the AI decides and acts in the same moment. Agentic AI is different because it can work toward a complex, multi-step goal that requires thinking, using tools, and adjusting along the way &mdash; not just producing a single answer.</p>
 
   <p>And that is exactly why the phrase <em>&ldquo;under human oversight&rdquo;</em> in Howard&rsquo;s statement is not just legal fine print. It is the central question of Epic&rsquo;s entire AI program. The AI is already capable enough to act on its own for many tasks. The real question is: how accurate does it need to be, and for which specific tasks, before it is safe to let it act without a human double-checking every single thing it does?</p>
@@ -612,7 +630,65 @@
   </div>
 
   <!-- SECTION 14 -->
-  <h2 id="s14"><span class="section-num">14</span> Beyond Today: What Comes Next in Healthcare AI</h2>
+  <h2 id="s14"><span class="section-num">14</span> AI Governance: Who Sets the Rules for Agents That Act?</h2>
+
+  <p>The previous two sections described <em>why</em> human oversight matters (the human-in-the-loop question) and <em>what can go wrong</em> when AI operates in healthcare (alert fatigue, deskilling, clinician resistance). This section answers the next question: <strong>how do you actually govern an AI agent?</strong> Not in theory, but in practice &mdash; what does an organization need to decide, document, and enforce before an agent like Art, Penny, or Emmie is allowed to touch a patient&rsquo;s care?</p>
+
+  <p>This question becomes urgent with Agent Factory. When Epic was the only one building agents, governance was centralized &mdash; Epic&rsquo;s own teams decided what each agent could do. But Agent Factory puts that power in the hands of thousands of health systems, each building agents for their own workflows. A rural hospital building an agent for discharge planning and an academic medical center building one for clinical trial matching face very different risks &mdash; but both need a structured way to think through the governance decisions before they deploy.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">AI governance</div>
+    <div class="concept-def">AI governance is the set of policies, processes, and oversight structures an organization puts in place to ensure its AI systems operate safely, fairly, transparently, and within defined boundaries. It is not just a technical question (&ldquo;does the model work?&rdquo;) &mdash; it is an organizational question (&ldquo;who decided the model should be used for this purpose, under what rules, with what oversight, and who is accountable when something goes wrong?&rdquo;). In healthcare, AI governance sits at the intersection of technology, clinical practice, legal liability, patient rights, and institutional trust. Every AI agent needs governance <em>before</em> it is deployed, not after something goes wrong.</div>
+  </div>
+
+  <h3>A governance framework for agentic AI</h3>
+
+  <p>There is no single industry-standard governance framework for agentic AI yet &mdash; the technology is moving faster than the policies. But the decisions every organization needs to make fall into five layers, drawing on principles from the <a href="https://www.nist.gov/artificial-intelligence/executive-order-safe-secure-and-trustworthy-artificial-intelligence" target="_blank" style="color:#cd003b;">NIST AI Risk Management Framework</a> and the <a href="https://artificialintelligenceact.eu/" target="_blank" style="color:#cd003b;">EU AI Act</a>, adapted here for agentic AI in healthcare. Think of these as the five questions you must answer before any AI agent goes live:</p>
+
+  <table class="factory-table">
+    <thead><tr><th style="width:25%;">Governance layer</th><th style="width:35%;">What it means</th><th style="width:40%;">Epic example</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>1. Purpose &amp; scope</strong></td>
+        <td>What is this agent allowed to do? What is explicitly <em>out of bounds</em>? Every agent needs a defined mission and clear boundaries &mdash; not just what it <em>can</em> do, but what it must <em>never</em> do.</td>
+        <td>Penny is allowed to draft insurance appeal letters and pull evidence from patient charts. Penny is <em>not</em> allowed to submit appeals without human review, alter clinical records, or make clinical recommendations. Those boundaries are defined before deployment, not discovered after an incident.</td>
+      </tr>
+      <tr>
+        <td><strong>2. Data access &amp; privacy</strong></td>
+        <td>What data can the agent access? Under what legal and ethical rules? How is patient privacy protected? This layer addresses HIPAA compliance, data minimization (only accessing what the agent actually needs), and consent.</td>
+        <td>Art can access the patient&rsquo;s full chart within Epic, but Cosmos data is anonymized before it is used for model training. Emmie can access <em>your</em> medical record to answer <em>your</em> questions through MyChart, but cannot access another patient&rsquo;s data. Agent Factory requires health systems to specify exactly which data sources each custom agent can reach.</td>
+      </tr>
+      <tr>
+        <td><strong>3. Human oversight design</strong></td>
+        <td>Where are the human checkpoints? Which decisions require human-in-the-loop approval, and which can operate human-on-the-loop? This is the most critical governance decision for any agentic AI, and it should be made task by task &mdash; not as a blanket policy.</td>
+        <td>Art&rsquo;s clinical notes require physician approval before entering the record (human-in-the-loop). Emmie&rsquo;s appointment scheduling reminders go out automatically (human-on-the-loop). Penny&rsquo;s appeal letters currently require human review, but routine billing corrections may eventually move to human-on-the-loop as accuracy is proven. Each task has its own oversight level.</td>
+      </tr>
+      <tr>
+        <td><strong>4. Testing, auditing &amp; accountability</strong></td>
+        <td>How do you prove the agent works correctly before and after deployment? Who reviews its outputs? Who is responsible when it makes a mistake? This layer includes validation studies, ongoing accuracy monitoring, audit trails, and clear lines of accountability.</td>
+        <td>Agent Factory logs every action every agent takes &mdash; every tool called, every decision made, fully traceable. Epic&rsquo;s Sepsis Model was validated across millions of patient encounters before deployment. When an AI-drafted note contains an error, the physician who approved it is clinically responsible &mdash; but the audit trail shows exactly what the AI produced and what the physician changed, which matters for legal and quality review.</td>
+      </tr>
+      <tr>
+        <td><strong>5. Monitoring &amp; sunset</strong></td>
+        <td>How do you track the agent&rsquo;s performance over time? What triggers a review or shutdown? AI systems can degrade as the data they encounter changes (&ldquo;model drift&rdquo;), or as the real world shifts in ways the training data did not anticipate. A governance framework must define when an agent gets retrained, reviewed, or turned off.</td>
+        <td>Epic&rsquo;s predictive models are continuously monitored against clinical outcomes. If a sepsis model&rsquo;s false-positive rate rises above a threshold at a specific hospital, it triggers a review. Alert fatigue is itself a monitoring signal: if clinicians start dismissing an agent&rsquo;s recommendations at high rates, that is evidence the agent needs recalibration &mdash; or retirement.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="insight-box">
+    <div class="insight-label">Why governance is an IS job</div>
+    <div class="insight-text">Notice that none of these five layers is purely technical. Purpose and scope is a business and clinical decision. Data access is legal and ethical. Human oversight design requires understanding both the technology and the clinical workflow. Testing and accountability cross technology, law, and organizational management. Monitoring requires data analysis and judgment. This is why AI governance is not something that can be handed entirely to engineers or entirely to lawyers. It requires people who understand the technology, the business process, the data, and the human stakes &mdash; which is exactly the intersection where information systems professionals work. As health systems use Agent Factory to build their own agents, the people who design and enforce governance frameworks will be among the most important roles in healthcare IT.</div>
+  </div>
+
+  <div class="danger-box">
+    <div class="danger-label">What happens without governance</div>
+    <div class="danger-text">Agent Factory makes it easy for health systems to build AI agents &mdash; which is powerful, but also risky. Without a governance framework, a hospital could build an agent that accesses more patient data than it needs, operates without adequate human oversight, has no audit trail, and has no defined process for what happens when it makes a mistake. The ease of building agents is a feature. The ease of building <em>ungoverned</em> agents is a risk. The governance framework is what turns a powerful tool into a responsible one.</div>
+  </div>
+
+  <!-- SECTION 15 -->
+  <h2 id="s15"><span class="section-num">15</span> Beyond Today: What Comes Next in Healthcare AI</h2>
 
   <p>The agentic AI Epic is deploying in 2024 and 2025 is closer to the beginning of a long arc than to its endpoint. Here is where the evidence and the trajectory of investment suggest healthcare AI is heading.</p>
 
@@ -634,31 +710,19 @@
 
   <h3>Medium term (2027&ndash;2032): Multimodal AI and continuous monitoring</h3>
 
-  <p>Epic&rsquo;s leadership has explicitly described a roadmap toward native multimodal AI capabilities &mdash; processing not just text but video, images, and genomic data. This opens the door to AI-assisted diagnostics that go beyond pattern-matching in text records. An AI agent that can analyze a dermatology photograph, a radiology scan, and the patient&rsquo;s full clinical history simultaneously &mdash; and surface a differential diagnosis for a physician to review &mdash; is within technical reach. Curiosity&rsquo;s foundation models, trained on 300 million patient trajectories, will provide the predictive backbone: what typically happens next for patients with this combination of findings, and what interventions have historically made a difference.</p>
+  <p>Epic&rsquo;s leadership has described a roadmap toward native multimodal AI &mdash; processing not just text but video, images, and genomic data. An AI agent that can analyze a dermatology photograph, a radiology scan, and a patient&rsquo;s full clinical history simultaneously is within technical reach. Curiosity&rsquo;s foundation models, trained on 300 million patient trajectories, will provide the predictive backbone. Meanwhile, researchers are working on <strong>world models</strong> for healthcare &mdash; AI systems that build an internal simulation of how a patient&rsquo;s body works and can &ldquo;imagine&rdquo; how different treatments would play out before a doctor ever tries them, like a flight simulator for medicine. A 2025 paper at NeurIPS proposed exactly this: world models that simulate &ldquo;what if?&rdquo; scenarios using datasets like Cosmos. The technology is not ready for clinical use today, but the direction is clear: the future of medical AI is not just predicting what <em>will</em> happen, but simulating what <em>could</em> happen under different choices.</p>
 
   <h3>Longer term (2032+): AI as a structural participant in care delivery</h3>
 
-  <p>The U.S. faces a projected shortage of 86,000 physicians by 2036. AI cannot fill that gap by being a better search engine. But AI agents that handle routine chronic disease monitoring, medication refill management, follow-up on stable conditions, and patient question triage &mdash; while escalating anything requiring physician judgment &mdash; could meaningfully extend the productive capacity of each physician. This is not a future in which AI replaces doctors. It is a future in which AI makes it possible to extend physician-level oversight to populations who currently have very limited access to it.</p>
-
-  <p>Research is already backing up this approach. A 2025 study from Mount Sinai hospital found that splitting clinical tasks among multiple specialized AI agents &mdash; each handling one area, managed by a central system &mdash; was up to <strong>65 times more efficient</strong> and much more accurate under heavy workloads than using a single, do-everything AI. This supports Epic&rsquo;s decision to build separate specialized agents (Art for doctors, Penny for billing, Emmie for patients) rather than one giant medical AI that tries to do everything. The future is not one super-intelligent medical AI. It is a team of specialized AI agents, each great at its specific job, working together with human oversight.</p>
-
-  <div class="future-box">
-    <div class="future-label">Longer-term projection (2032+)</div>
-    <div class="future-text"><strong>The AI primary care layer:</strong> In underserved communities, rural areas, and developing nations, physician access is already deeply constrained. AI agents trained on Cosmos-scale data and validated against millions of clinical outcomes could extend a meaningful layer of evidence-based care to populations that currently lack access to any specialist and see a primary care physician rarely if ever. This is healthcare AI&rsquo;s most ambitious potential contribution &mdash; not making existing care more efficient, but making care accessible where it currently does not exist.</div>
-  </div>
-
-  <div class="future-box">
-    <div class="future-label">On the horizon &mdash; world models in medicine</div>
-    <div class="future-text"><strong>From predicting the next event to simulating entire patient futures:</strong> Curiosity predicts the next likely medical event for a patient. But researchers are already working on something more ambitious: <strong>world models</strong> for healthcare &mdash; AI systems that build an internal simulation of how a patient&rsquo;s body works and can &ldquo;imagine&rdquo; how different treatments would play out before a doctor ever tries them. Think of it like a flight simulator, but for medicine: instead of crashing a real plane to learn what happens, you simulate thousands of scenarios and pick the one that works best. A 2025 paper presented at NeurIPS (a major AI research conference) proposed exactly this &mdash; world models that combine the predictive power of systems like Curiosity with the ability to simulate &ldquo;what if?&rdquo; scenarios: <em>What if we start this medication now? What if we wait three months? What if we try a different dose?</em> Epic&rsquo;s Cosmos data, with its 300 million patient trajectories, is precisely the kind of dataset these world models would need to learn from. The technology is not ready for clinical use today, but the direction is clear: the future of medical AI is not just predicting what <em>will</em> happen, but simulating what <em>could</em> happen under different choices.</div>
-  </div>
+  <p>The U.S. faces a projected shortage of 86,000 physicians by 2036. AI agents that handle routine chronic disease monitoring, medication management, and patient triage &mdash; while escalating anything requiring physician judgment &mdash; could extend the productive capacity of each physician to populations who currently have limited access. A 2025 Mount Sinai study found that splitting clinical tasks among multiple specialized AI agents was up to <strong>65 times more efficient</strong> than using a single do-everything AI, supporting Epic&rsquo;s decision to build separate specialized agents rather than one giant medical AI. In underserved communities, rural areas, and developing nations, AI agents trained on Cosmos-scale data could extend a meaningful layer of evidence-based care to populations that currently lack access to any specialist. This is healthcare AI&rsquo;s most ambitious potential contribution &mdash; not making existing care more efficient, but making care accessible where it currently does not exist.</p>
 
   <div class="danger-box">
     <div class="danger-label">The risks that accompany the progress</div>
     <div class="danger-text">Every step toward giving AI more independence in healthcare comes with real risks. <strong>AI bias</strong>: if the AI learned from data that underrepresents certain groups of people, it may make worse predictions for those groups. <strong>Errors at scale</strong>: a single bug in an algorithm running at 3,600 hospitals could affect millions of patients before anyone catches it. <strong>Regulations lagging behind</strong>: the FDA (the government agency that approves medical devices) is still figuring out how to regulate AI agents. <strong>Who is responsible?</strong>: when an AI agent causes harm, who gets blamed &mdash; the hospital, Epic, Microsoft, or the doctor who trusted the AI&rsquo;s output? These are not hypothetical questions. They are active legal and policy debates happening right now.</div>
   </div>
 
-  <!-- SECTION 15 -->
-  <h2 id="s15"><span class="section-num">15</span> Key Vocabulary &amp; Discussion Questions</h2>
+  <!-- SECTION 16 -->
+  <h2 id="s16"><span class="section-num">16</span> Key Vocabulary &amp; Discussion Questions</h2>
 
   <h3>Key vocabulary introduced in this chapter</h3>
   <div class="vocab-grid">
@@ -678,17 +742,20 @@
     <div class="vocab-card"><div class="vocab-term">Data gravity</div><div class="vocab-def">The idea that once enough data piles up in one place, everything else gets pulled toward it &mdash; Epic&rsquo;s decades of patient data force AI companies to build on Epic&rsquo;s platform rather than around it</div></div>
     <div class="vocab-card"><div class="vocab-term">Data moat</div><div class="vocab-def">A dataset so large and hard to replicate that it creates a lasting competitive advantage &mdash; Cosmos is arguably the most powerful data moat in healthcare</div></div>
     <div class="vocab-card"><div class="vocab-term">World model</div><div class="vocab-def">An AI system that builds an internal simulation of how something works and can &ldquo;imagine&rdquo; different scenarios before they happen &mdash; the emerging frontier of medical AI, where the goal is simulating patient futures rather than just predicting the next event</div></div>
+    <div class="vocab-card"><div class="vocab-term">AI governance</div><div class="vocab-def">The policies, processes, and oversight structures an organization uses to ensure AI systems operate safely, fairly, and within defined boundaries &mdash; covering purpose, data access, human oversight, auditing, and monitoring for every agent deployed</div></div>
+    <div class="vocab-card"><div class="vocab-term">Three levels of AI</div><div class="vocab-def">A framework for understanding AI capability: Level 1 (LLMs &mdash; text in, text out), Level 2 (AI with tools, human directs each step), and Level 3 (agentic AI &mdash; human sets the goal, AI plans and executes the steps within a designed workflow)</div></div>
   </div>
 
   <h3>Discussion questions</h3>
-  <p style="font-size:13px; color:#666; margin-bottom:0.75rem;">Six questions anchored in the themes of this chapter. These work equally well as written assignments or in-class discussion.</p>
+  <p style="font-size:13px; color:#666; margin-bottom:0.75rem;">Seven questions anchored in the themes of this chapter. These work equally well as written assignments or in-class discussion.</p>
   <ol class="discussion-list">
     <li><strong>The unintended consequence (Sections 3 &amp; 4).</strong> The HITECH Act and the Affordable Care Act drove the digitization of American healthcare and created the data foundation that now makes AI possible &mdash; but they also created the burnout crisis that AI is now trying to solve. Is this a story of good policy with unintended consequences, or a failure to think ahead? What would you have done differently in 2009? Does your answer change knowing that without those laws, the data for today&rsquo;s healthcare AI would not exist?</li>
     <li><strong>Whose problem is AI solving? (Sections 4, 7, 9).</strong> This chapter presents AI as a solution to clinician burnout. But hospitals also benefit when physicians see more patients per day. Epic earns revenue. Insurance companies may pay more claims when Penny helps hospitals fight more denials. Is Epic reducing burnout because it is the right thing to do &mdash; or because it is a smart business strategy that happens to benefit doctors? Can it be both? Does the motivation matter if the outcome is the same?</li>
     <li><strong>The gatekeeper question (Section 10).</strong> Epic controls the software, the data (Cosmos), and now its own AI models (Curiosity). It decides which third-party AI tools get access to patient data through App Orchard. Is this level of control good for patients because it maintains quality and safety standards, or is it bad for patients because it limits competition and innovation? Compare Epic&rsquo;s position to Apple&rsquo;s control of the App Store. What are the similarities? What is different when the product is healthcare instead of phones?</li>
+    <li><strong>Governing the agent you just read about (Section 14).</strong> Choose one of Epic&rsquo;s agents &mdash; Art, Penny, or Emmie &mdash; and walk through the five-layer governance framework from Section 14. For your chosen agent: What is its purpose and what should be explicitly out of bounds? What patient data should it access, and what should it never touch? Where should the human checkpoint sit? How would you audit its outputs? What would trigger a shutdown? Be specific &mdash; governance that says &ldquo;be careful&rdquo; is not governance.</li>
     <li><strong>The deskilling dilemma (Section 13).</strong> The Lancet colonoscopy study showed that doctors&rsquo; ability to detect cancer dropped after they got used to having AI help. If AI makes doctors better <em>with</em> AI but worse <em>without</em> it, is that a net positive or a net negative for patients? What if the AI is always available &mdash; does the deskilling risk still matter? Design a rule or practice that a hospital could adopt to prevent deskilling while still getting the benefits of AI assistance.</li>
-    <li><strong>The liability question (Section 14).</strong> An AI agent drafts a clinical note containing a dosage error. The physician reviews it, does not catch the mistake, and approves it. The patient is harmed. Who is responsible &mdash; the physician, the hospital, Epic, or Microsoft? Now change the scenario: the physician was reviewing 40 AI-generated notes that morning and had four minutes per note. Does that change your answer? Should it change how AI-generated clinical content is governed?</li>
-    <li><strong>Your career in the AI healthcare era (Section 14).</strong> The U.S. faces a shortage of 86,000 physicians by 2036, and AI agents will increasingly extend what each doctor can do. Pick a healthcare-adjacent career that interests you &mdash; hospital administration, health insurance, pharmaceuticals, public health, consulting, or health IT. Identify one specific task in that field where an AI agent is likely to be used within five years. Describe what the agent does, where the human checkpoint sits, and what skills would make you the person who works effectively <em>with</em> that agent &mdash; rather than the person whose job the agent replaced.</li>
+    <li><strong>The liability question (Section 15).</strong> An AI agent drafts a clinical note containing a dosage error. The physician reviews it, does not catch the mistake, and approves it. The patient is harmed. Who is responsible &mdash; the physician, the hospital, Epic, or Microsoft? Now change the scenario: the physician was reviewing 40 AI-generated notes that morning and had four minutes per note. Does that change your answer? Should it change how AI-generated clinical content is governed?</li>
+    <li><strong>Your career in the AI healthcare era (Section 15).</strong> The U.S. faces a shortage of 86,000 physicians by 2036, and AI agents will increasingly extend what each doctor can do. Pick a healthcare-adjacent career that interests you &mdash; hospital administration, health insurance, pharmaceuticals, public health, consulting, or health IT. Identify one specific task in that field where an AI agent is likely to be used within five years. Describe what the agent does, where the human checkpoint sits, and what skills would make you the person who works effectively <em>with</em> that agent &mdash; rather than the person whose job the agent replaced.</li>
   </ol>
 
   <hr>

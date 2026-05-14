@@ -93,8 +93,8 @@
   <div class="overview-grid">
     <a href="#step1" class="overview-card-link"><div class="overview-card"><div class="overview-icon">💬</div><div class="overview-label">Steps 1&ndash;2</div><div class="overview-val">Learn &amp; Build</div></div></a>
     <a href="#step3" class="overview-card-link"><div class="overview-card"><div class="overview-icon">💥</div><div class="overview-label">Steps 3&ndash;4</div><div class="overview-val">Test &amp; Expand</div></div></a>
-    <a href="#step5" class="overview-card-link"><div class="overview-card"><div class="overview-icon">⚖️</div><div class="overview-label">Steps 5&ndash;6</div><div class="overview-val">Evaluate &amp; Reflect</div></div></a>
-    <a href="#step7" class="overview-card-link"><div class="overview-card"><div class="overview-icon">🚀</div><div class="overview-label">Steps 7&ndash;8</div><div class="overview-val">Build Your Own &amp; Publish</div></div></a>
+    <a href="#step5" class="overview-card-link"><div class="overview-card"><div class="overview-icon">⚖️</div><div class="overview-label">Steps 5&ndash;7</div><div class="overview-val">Audit, Govern &amp; Reflect</div></div></a>
+    <a href="#step8" class="overview-card-link"><div class="overview-card"><div class="overview-icon">🚀</div><div class="overview-label">Steps 8&ndash;9</div><div class="overview-val">Build Your Own &amp; Publish</div></div></a>
   </div>
 
   <div class="scenario">
@@ -138,7 +138,7 @@
 
       <div class="reflection">
         <div class="reflection-label">Reflection</div>
-        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 8).</p>
+        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 9).</p>
         <div class="reflection-q">Think about a multi-step task you do regularly. How would a Level 2 agent handle it vs. a Level 3 agent? Where would you still want to stay in the loop?</div>
       </div>
     </div>
@@ -250,7 +250,7 @@ Appeal deadline: May 14, 2026</pre></div>
 
       <div class="reflection">
         <div class="reflection-label">Reflection</div>
-        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 8).</p>
+        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 9).</p>
         <div class="reflection-q">Check the logs. The AI Insurance Advocate decided which tools to call and in what order. Did it follow the workflow you expected, or did it do something different? Was that smart or a mistake?</div>
       </div>
     </div>
@@ -271,7 +271,7 @@ Appeal deadline: May 14, 2026</pre></div>
       <p><strong>Reactivate</strong> the Patient Chart before continuing.</p>
       <div class="reflection">
         <div class="reflection-label">Reflection</div>
-        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 8).</p>
+        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 9).</p>
         <div class="reflection-q">The agent didn&rsquo;t hallucinate because we told it not to. But not every AI system has that guardrail. Pick a high-stakes field outside healthcare. If someone deployed an agent without that instruction, what could go wrong and who gets harmed?</div>
       </div>
     </div>
@@ -322,7 +322,7 @@ Appeal deadline: May 2, 2026</pre></div>
 
       <div class="reflection">
         <div class="reflection-label">Reflection</div>
-        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 8).</p>
+        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 9).</p>
         <div class="reflection-q">The denial says James had no cardiac symptoms in the past 30 days. Look at his chart. Is the denial correct? What evidence would you cite? Did the AI Insurance Advocate find the same evidence you did?</div>
       </div>
     </div>
@@ -352,7 +352,7 @@ Appeal deadline: May 2, 2026</pre></div>
 
       <div class="reflection">
         <div class="reflection-label">Reflection</div>
-        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 8).</p>
+        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 9).</p>
         <div class="reflection-q">Did you find any errors, hallucinations, or missing information in the appeal letter? If the letter was 100% accurate, explain how you verified that &mdash; what did you check and against what? If your hospital processed 500 of these per month, is this kind of line-by-line audit realistic? What would you propose instead?</div>
       </div>
     </div>
@@ -360,7 +360,51 @@ Appeal deadline: May 2, 2026</pre></div>
 
   <!-- STEP 6 -->
   <div class="exercise" id="step6">
-    <div class="exercise-header"><div class="exercise-number">Step 6</div><div class="exercise-title">Should we be using AI agents for this?</div></div>
+    <div class="exercise-header"><div class="exercise-number">Step 6</div><div class="exercise-title">AI governance &mdash; evaluate the agent you just built</div></div>
+    <div class="exercise-body">
+      <p>You built a working AI agent. You tested it, broke it, and audited its output. Now your manager has one more question before she takes this to leadership: <em>&ldquo;If we actually deployed this, what governance would we need around it?&rdquo;</em></p>
+
+      <p>This is the question that separates a prototype from a production system. Building an AI agent is the easy part. Governing it &mdash; deciding what it is allowed to do, what data it can touch, where humans must intervene, how you prove it works, and what triggers a shutdown &mdash; is what makes it safe enough to use on real patients.</p>
+
+      <div class="concept">
+        <div class="concept-label">Five layers of AI governance</div>
+        <p>Every AI agent &mdash; whether it is Epic&rsquo;s Penny handling thousands of insurance appeals or the prototype you just built &mdash; needs governance across five layers. These are the five questions you must answer before any agent goes live:</p>
+        <p><strong>1. Purpose &amp; scope:</strong> What is this agent allowed to do? What is explicitly out of bounds?</p>
+        <p><strong>2. Data access &amp; privacy:</strong> What data can the agent access? Under what rules? How is sensitive information protected?</p>
+        <p><strong>3. Human oversight design:</strong> Where are the human checkpoints? Which outputs require human approval before taking effect?</p>
+        <p><strong>4. Testing, auditing &amp; accountability:</strong> How do you prove the agent works? Who reviews its outputs? Who is responsible when it makes a mistake?</p>
+        <p><strong>5. Monitoring &amp; sunset:</strong> How do you track performance over time? What triggers a review or shutdown?</p>
+      </div>
+
+      <h4>Apply the framework to the AI Insurance Advocate</h4>
+      <p>Walk through each layer for the agent you just built. Be specific &mdash; you have already seen this agent work, break, and make mistakes (or not). Use what you learned in Steps 2&ndash;5 to answer these:</p>
+
+      <p><strong>1. Purpose &amp; scope.</strong> The AI Insurance Advocate drafts appeal letters for denied insurance claims. But what should it <em>never</em> do? Should it be allowed to submit appeals without human review? Should it contact patients directly? Should it make clinical recommendations? Write two or three sentences defining the boundaries &mdash; what is in scope and what is explicitly off-limits.</p>
+
+      <p><strong>2. Data access &amp; privacy.</strong> Your agent accesses patient medical charts and insurance policy documents. In a real hospital, those charts contain deeply sensitive information protected by federal law (HIPAA). What data does the agent actually <em>need</em> to draft an appeal letter? Is there anything in a patient&rsquo;s chart the agent should not be allowed to see? How would you ensure the agent does not store or leak patient data?</p>
+
+      <p><strong>3. Human oversight design.</strong> Right now, the agent drafts a letter and a human reviews it before submission. But imagine your hospital processes 500 denials per month. Is it realistic for a human to carefully review every single letter? If not, what rules would you set? Would you let some categories of appeals go out with less review? Which ones, and why?</p>
+
+      <p><strong>4. Testing, auditing &amp; accountability.</strong> You audited the Maria Santos letter in Step 5. That is one letter. How would you audit the system at scale? What metrics would you track (accuracy rate, error types, appeal success rate)? If the agent produces a letter with a factual error and it gets submitted, who is accountable &mdash; the agent, the reviewer, the hospital, or the vendor?</p>
+
+      <p><strong>5. Monitoring &amp; sunset.</strong> Insurance companies change their policies. Medical guidelines evolve. New denial patterns emerge. How would you know if the agent&rsquo;s performance is degrading over time? What specific signal would tell you the agent needs to be retrained, reconfigured, or shut down?</p>
+
+      <div class="concept">
+        <div class="concept-label">Why this matters beyond healthcare</div>
+        <p>This governance framework applies to <em>any</em> agentic AI, not just healthcare. A customer service agent needs defined scope (what complaints can it resolve on its own?), data rules (can it access payment information?), human checkpoints (when does it escalate to a person?), auditing (how do you catch bias in its responses?), and monitoring (is customer satisfaction improving or declining?). The domain changes. The governance questions do not. If you can govern an AI agent in healthcare &mdash; the highest-stakes environment there is &mdash; you can govern one anywhere.</p>
+      </div>
+
+      <div class="reflection">
+        <div class="reflection-label">Reflection</div>
+        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 9).</p>
+        <div class="reflection-q">Write your governance brief for the AI Insurance Advocate: one to two sentences for each of the five layers, based on what you observed in Steps 2&ndash;5. Then answer: which layer would be the hardest to get right at scale, and why?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 7 -->
+  <div class="exercise" id="step7">
+    <div class="exercise-header"><div class="exercise-number">Step 7</div><div class="exercise-title">Should we be using AI agents for this?</div></div>
     <div class="exercise-body">
       <p>Your prototype works. But your manager does not just want a demo &mdash; she wants your recommendation. She asks: &ldquo;What should I tell leadership about the risks?&rdquo; Before you say &ldquo;yes, let&rsquo;s deploy this,&rdquo; think through the harder questions:</p>
       <ul>
@@ -372,15 +416,15 @@ Appeal deadline: May 2, 2026</pre></div>
       </ul>
       <div class="reflection">
         <div class="reflection-label">Reflection</div>
-        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 8).</p>
+        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 9).</p>
         <div class="reflection-q">Pick the concern that matters most. Argue whether benefits outweigh risks or vice versa, and propose one specific guardrail. Be specific &mdash; not &ldquo;they should be careful.&rdquo;</div>
       </div>
     </div>
   </div>
 
-  <!-- STEP 7 -->
-  <div class="exercise" id="step7">
-    <div class="exercise-header"><div class="exercise-number">Step 7</div><div class="exercise-title">Design and build your own agent</div></div>
+  <!-- STEP 8 -->
+  <div class="exercise" id="step8">
+    <div class="exercise-header"><div class="exercise-number">Step 8</div><div class="exercise-title">Design and build your own agent</div></div>
     <div class="exercise-body">
       <p>You have built an agent for your hospital. Now prove you understand the pattern well enough to apply it to a completely different problem.</p>
 
@@ -460,20 +504,26 @@ Only use facts from the tools. Do not make up events, times, or prices.</pre></d
           <div class="data-doc">
             <div class="data-doc-label">Code Tool 1 &mdash; Assignment</div>
             <div class="data-doc-title">Description: &ldquo;Call this tool to look up the project requirements and deadline.&rdquo;</div>
-<pre>return `MIS 432 — FINAL GROUP PROJECT
+<pre>return `MIS 432 — MILESTONE 3: AI PROTOTYPE + BUSINESS PLAN
 Due: June 5, 2026 (submit by 11:59pm)
-Deliverable: AI Prototype webpage on GitHub Pages
 
-Requirements:
-- Executive summary (250-400 words)
-- 4-5 analysis sections with evidence and reflection
-- Key takeaways section (3-5 insights)
-- Professional formatting with consistent design
-- Published live on GitHub Pages
-- Link added to LinkedIn Featured section
+Build an AI prototype and write a 5-page business plan explaining its value.
 
-Grading: Completeness (30%), Analysis quality (30%),
-Professional presentation (20%), Reflection depth (20%)`;</pre></div>
+Prototype: A working system (prediction, recommendation, scoring, classification,
+pricing, dashboard, etc.) built in Python/Pandas/NumPy. Define the business problem,
+describe your data, show the model producing an output, and explain the decision it
+supports. Follow the data -> model -> prediction -> decision -> value framework.
+
+Business Plan (5 pages): Walk through why this system matters. Who uses it? What
+decision does it support? How does it create value (save money, reduce risk, increase
+revenue, improve service, automate work)? Connect to a course topic (recommendation
+systems, forecasting, pricing, personalization, human-in-the-loop, etc.).
+
+Deliverables: Slides, code/notebook, 5-page business plan.
+Presentation: 15-20 min, Week 10. Show the system working. All members participate.
+
+Grading: Clear problem (20%), Realistic design + working prototype (30%),
+Business value explanation (30%), Presentation quality (20%)`;</pre></div>
           <div class="data-doc">
             <div class="data-doc-label">Code Tool 2 &mdash; Team Availability</div>
             <div class="data-doc-title">Description: &ldquo;Call this tool to check each team member&rsquo;s availability.&rdquo;</div>
@@ -497,19 +547,18 @@ Available consistently throughout.`;</pre></div>
 
 Completed:
 - Topic selected (Epic healthcare AI case)
-- GitHub repo created by Alex
+- Business problem defined (Milestone 1 done)
 - Outline drafted by Jordan (needs review)
 
 Not started:
-- Executive summary
-- Analysis sections (0 of 5 written)
-- Design/formatting of the webpage
-- Key takeaways
-- LinkedIn posting
+- Python prototype (no code written yet)
+- Business plan (0 of 5 pages written)
+- Slides for presentation
+- Data collection / simulation
 
 Notes: Jordan's outline is in Google Docs.
-Nobody has started writing sections yet.
-Alex knows GitHub but others need help publishing.`;</pre></div>
+Nobody has started the prototype or business plan yet.
+Alex has Python experience but others will need help.`;</pre></div>
           <div class="data-doc">
             <div class="data-doc-label">System prompt</div>
             <div class="data-doc-title">Paste this into the System Message field on the AI Agent node</div>
@@ -524,15 +573,15 @@ Only use facts from the tools. Do not make up team members, deadlines, or comple
 
       <div class="reflection">
         <div class="reflection-label">Reflection</div>
-        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 8).</p>
+        <p style="font-size:12px;color:#999;margin-bottom:0.4rem;font-style:italic;">Save your answer — you will include it in your portfolio website (Step 9).</p>
         <div class="reflection-q">Would you actually let this agent run unsupervised? What would it need to prove &mdash; and over how long &mdash; before you trusted it? How does your answer compare to how hospitals decide whether to trust agents like Epic&rsquo;s Penny from Chapter 7?</div>
       </div>
     </div>
   </div>
 
-  <!-- STEP 8 -->
-  <div class="exercise" id="step8">
-    <div class="exercise-header"><div class="exercise-number">Step 8</div><div class="exercise-title">Publish as a portfolio page</div></div>
+  <!-- STEP 9 -->
+  <div class="exercise" id="step9">
+    <div class="exercise-header"><div class="exercise-number">Step 9</div><div class="exercise-title">Publish as a portfolio page</div></div>
     <div class="exercise-body">
 
       <h4>Gather your artifacts</h4>
@@ -542,7 +591,7 @@ Only use facts from the tools. Do not make up team members, deadlines, or comple
         <li><strong>Take screenshots</strong> of both workflow canvases (showing all the nodes connected) and the agent logs</li>
         <li><strong>Copy the appeal letters</strong> the AI Insurance Advocate produced (Maria Santos and James Whitfield)</li>
         <li><strong>Copy the output</strong> your personal agent produced</li>
-        <li><strong>Your reflections</strong> from Steps 1&ndash;7</li>
+        <li><strong>Your reflections</strong> from Steps 1&ndash;8</li>
       </ul>
 
       <p><strong>Upload everything into the Claude chat</strong> along with the prompt below &mdash; the JSON files, the screenshots, and paste your reflections and outputs. Claude can read the JSON to understand exactly how your workflows are built and embed the screenshots directly into the HTML file. No separate image hosting needed.</p>
@@ -560,8 +609,9 @@ Sections:
 3. Breaking the Advocate — what happened when I removed a tool: [PASTE reflection]
 4. Second Patient — James Whitfield case and how the agent handled a missing policy: [PASTE appeal letter + reflection]
 5. Auditing the Output — my line-by-line verification of accuracy: [PASTE reflection]
-6. Should We Be Doing This? — ethics of AI agents in healthcare: [PASTE reflection]
-7. My Personal Agent — use the JSON file to describe the workflow, show the screenshot, include the output: [PASTE output + reflection]
+6. AI Governance — my five-layer governance evaluation of the Insurance Advocate (purpose and scope, data access, human oversight, auditing and accountability, monitoring and sunset): [PASTE reflection]
+7. Should We Be Doing This? — ethics of AI agents in healthcare: [PASTE reflection]
+8. My Personal Agent — use the JSON file to describe the workflow, show the screenshot, include the output: [PASTE output + reflection]
 
 Include:
 - Header: [YOUR NAME] | "Agentic AI Lab: From Healthcare Insurance Advocacy to Personal AI Agents"
