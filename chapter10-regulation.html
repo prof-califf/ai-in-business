@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 10: Regulating Technology &mdash; From Factory Floors to Algorithms | MIS 432</title>
+<style>
+  nav { background: #0f1a2e; padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+  .nav-brand { color: #ffffff; font-size: 15px; font-weight: 700; text-decoration: none; }
+  .nav-links { display: flex; gap: 1.25rem; align-items: center; }
+  .nav-links a { color: #93c5fd; font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: #dbeafe; }
+  .nav-badge { background: #2563eb; color: #ffffff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+  .hero { background: linear-gradient(135deg, #0f1a2e 0%, #1e3a5f 55%, #2563eb 100%); padding: 3.5rem 2rem 3rem; }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+  .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #bfdbfe; margin-bottom: 0.75rem; }
+  .hero h1 { font-size: 34px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 0.75rem; }
+  .hero-sub { font-size: 16px; color: #bfdbfe; max-width: 640px; line-height: 1.65; margin-bottom: 1.5rem; }
+  .hero-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .hero-meta span { font-size: 13px; color: #bfdbfe; }
+  .hero-meta strong { color: #fff; }
+  .hero-nav { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+  .btn { display: inline-block; padding: 0.55rem 1.2rem; border-radius: 6px; font-size: 13px; font-weight: 700; text-decoration: none; }
+  .btn-primary { background: #2563eb; color: #ffffff; }
+  .btn-outline { background: transparent; border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; }
+  .btn:hover { opacity: 0.85; }
+  .chapter-nav-bar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-top: 1px solid #e2e8f0; margin-top: 2rem; flex-wrap: wrap; gap: 0.75rem; }
+  .chapter-nav-bar a { font-size: 14px; color: #2563eb; text-decoration: none; font-weight: 700; }
+  .chapter-nav-bar a:hover { text-decoration: underline; }
+  footer { background: #0f1a2e; padding: 1.5rem 2rem; text-align: center; }
+  footer p { font-size: 13px; color: #475569; }
+  footer a { color: #2563eb; text-decoration: none; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #ffffff; color: #333; }
+  a.source-link { color: #2563eb; text-decoration: none; border-bottom: 1px solid #93c5fd; }
+  a.source-link:hover { color: #1d4ed8; border-bottom-color: #2563eb; }
+  .doc { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .cover { border-bottom: 3px solid #2563eb; padding-bottom: 1.5rem; margin-bottom: 2rem; }
+  .cover-tag { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #2563eb; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .cover h1 { font-size: 28px; font-weight: 600; color: #111; line-height: 1.3; margin-bottom: 0.5rem; }
+  .cover-sub { font-size: 15px; color: #555; }
+  .cover-meta { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; }
+  .cover-meta span { font-size: 12px; color: #ffffff; background: #0f1a2e; border: 1px solid #1e3a5f; border-left: 3px solid #2563eb; border-radius: 4px; padding: 0.4rem 0.75rem; line-height: 1.5; }
+  .cover-meta strong { color: #93c5fd; font-weight: 700; }
+  .mission-block { background: #0f1a2e; border-radius: 8px; padding: 1.5rem 1.75rem; margin: 1.5rem 0; }
+  .mission-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #93c5fd; margin-bottom: 0.5rem; }
+  .mission-text { font-size: 18px; font-weight: 600; color: #ffffff; line-height: 1.5; font-style: italic; }
+  h2 { font-size: 20px; font-weight: 600; color: #111; margin: 2rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 3px solid #2563eb; }
+  h3 { font-size: 16px; font-weight: 600; color: #111; margin: 1.5rem 0 0.5rem; }
+  h4 { font-size: 14px; font-weight: 600; color: #555; margin: 1.2rem 0 0.4rem; }
+  p { font-size: 15px; line-height: 1.75; color: #444; margin-bottom: 0.9rem; }
+  ul { margin: 0.5rem 0 1rem 1.5rem; }
+  li { font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 0.3rem; }
+  strong { color: #111; font-weight: 600; }
+  em { font-style: italic; }
+  .concept-box { background: #eff6ff; border-left: 4px solid #2563eb; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .concept-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #2563eb; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .concept-term { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 0.3rem; }
+  .concept-def { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+  .insight-box { background: #eff6ff; border-left: 4px solid #93c5fd; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .insight-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #2563eb; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .insight-text { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+  .danger-box { background: #fef2f2; border-left: 4px solid #dc2626; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .danger-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #dc2626; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .danger-text { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+  .update-box { background: #0f1a2e; border-left: 4px solid #2563eb; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .update-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #93c5fd; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .update-text { font-size: 14px; color: #bfdbfe; line-height: 1.6; margin: 0; }
+  .update-text strong { color: #ffffff; }
+  .future-box { background: linear-gradient(135deg, #0f1a2e 0%, #0a1220 100%); border: 1px solid #2563eb; border-radius: 8px; padding: 1.25rem 1.4rem; margin: 1.5rem 0; }
+  .future-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #93c5fd; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .future-text { font-size: 14px; color: #bfdbfe; line-height: 1.65; margin: 0; }
+  .future-text strong { color: #ffffff; }
+  .perspective-box { background: #f8fafc; border: 1.5px solid #2563eb; border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1rem 0; }
+  .perspective-who { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2563eb; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem; }
+  .perspective-text { font-size: 14px; color: #333; line-height: 1.65; margin: 0; font-style: italic; }
+  .minicase-box { background: #fdfdfd; border: 2px solid #2563eb; border-radius: 8px; padding: 1.25rem 1.4rem 1.1rem; margin: 1.8rem 0; box-shadow: 0 1px 4px rgba(37,99,235,0.08); }
+  .minicase-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #2563eb; text-transform: uppercase; margin-bottom: 0.4rem; display: inline-block; padding: 0.2rem 0.6rem; background: #eff6ff; border-radius: 3px; }
+  .minicase-title { font-size: 17px; font-weight: 700; color: #111; margin: 0.5rem 0 0.75rem; }
+  .minicase-box p { font-size: 14.5px; color: #333; line-height: 1.65; margin: 0 0 0.7rem; }
+  .minicase-box p:last-child { margin-bottom: 0; }
+  .timeline { margin: 1.5rem 0; border-left: 3px solid #2563eb; padding-left: 1.5rem; }
+  .timeline-item { margin-bottom: 1.5rem; position: relative; }
+  .timeline-item::before { content: ''; position: absolute; left: -1.85rem; top: 0.4rem; width: 10px; height: 10px; border-radius: 50%; background: #2563eb; border: 2px solid #fff; box-shadow: 0 0 0 2px #2563eb; }
+  .timeline-year { font-size: 12px; font-weight: 700; color: #2563eb; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.2rem; }
+  .timeline-title { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 0.3rem; }
+  .timeline-text { font-size: 14px; color: #555; line-height: 1.6; }
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.75rem; margin: 1rem 0 1.5rem; }
+  .vocab-card { background: #f8f8f8; border: 1px solid #e0e0e0; border-top: 3px solid #2563eb; border-radius: 6px; padding: 0.8rem 1rem; }
+  .vocab-term { font-size: 13px; font-weight: 600; color: #111; margin-bottom: 0.25rem; }
+  .vocab-def { font-size: 13px; color: #555; line-height: 1.55; }
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin: 1rem 0 1.5rem; }
+  .stat-card { background: #0f1a2e; border-radius: 8px; padding: 0.85rem 1rem; text-align: center; }
+  .stat-num { font-size: 22px; font-weight: 700; color: #93c5fd; }
+  .stat-label { font-size: 12px; color: #64748b; margin-top: 3px; }
+  .toc { background: #f0f7ff; border-left: 4px solid #2563eb; border-radius: 0 10px 10px 0; padding: 1rem 1.25rem; margin-bottom: 2rem; }
+  .toc-title { font-size: 12px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #2563eb; margin-bottom: 0.6rem; }
+  .toc a { display: block; font-size: 14px; color: #444; text-decoration: none; padding: 4px 0; border-bottom: 1px solid #e8e8e8; }
+  .toc a:last-child { border-bottom: none; }
+  .toc a:hover { color: #2563eb; padding-left: 4px; transition: padding 0.15s ease; }
+  .section-num { display: inline-block; background: #2563eb; color: #ffffff; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 20px; margin-right: 6px; vertical-align: middle; }
+  .discussion-list { counter-reset: dq; list-style: none; margin: 0 0 1rem; padding: 0; }
+  .discussion-list li { counter-increment: dq; padding: 0.7rem 0.7rem 0.7rem 2.8rem; position: relative; border-bottom: 1px solid #EEEEEE; font-size: 15px; color: #444; line-height: 1.65; }
+  .discussion-list li::before { content: counter(dq); position: absolute; left: 0.5rem; top: 0.75rem; background: #2563eb; color: #ffffff; font-size: 12px; font-weight: 700; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  hr { border: none; border-top: 1px solid #E8E8E8; margin: 2rem 0; }
+  .framework-box { background: #f8fafc; border: 2px solid #2563eb; border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; }
+  .framework-title { font-size: 16px; font-weight: 700; color: #1e3a5f; margin-bottom: 0.75rem; }
+  .framework-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.5rem; }
+  .framework-cell { background: #eff6ff; border-radius: 6px; padding: 0.75rem 1rem; }
+  .framework-cell-label { font-size: 11px; font-weight: 700; color: #2563eb; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.3rem; }
+  .framework-cell-text { font-size: 13px; color: #444; line-height: 1.55; margin: 0; }
+  .factory-table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 13px; }
+  .factory-table th { background: #0f1a2e; color: #ffffff; font-weight: 600; padding: 10px 12px; text-align: left; }
+  .factory-table td { padding: 9px 12px; border-bottom: 1px solid #E8E8E8; vertical-align: top; color: #444; line-height: 1.5; }
+  .factory-table tr:nth-child(even) td { background: #f0f7ff; }
+  @media (max-width: 600px) {
+    .framework-row { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .hero h1 { font-size: 26px; }
+    .cover h1 { font-size: 22px; }
+    .cover-meta { flex-direction: column; }
+  }
+  .nav-dropdown { position: relative; }
+  .nav-dropdown-toggle { color: #93c5fd; font-size: 13px; font-weight: 500; text-decoration: none; background: none; border: none; cursor: pointer; padding: 0; display: inline-flex; align-items: center; gap: 4px; transition: color 0.15s; font-family: inherit; }
+  .nav-dropdown-toggle:hover, .nav-dropdown:hover .nav-dropdown-toggle, .nav-dropdown.open .nav-dropdown-toggle { color: #fff; }
+  .nav-dropdown-toggle .caret { display: inline-block; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid currentColor; transition: transform 0.15s; }
+  .nav-dropdown:hover .nav-dropdown-toggle .caret, .nav-dropdown.open .nav-dropdown-toggle .caret { transform: rotate(180deg); }
+  .nav-dropdown-menu { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(-4px); background: #0f1a2e; border: 1px solid rgba(37,99,235,0.2); border-radius: 4px; min-width: 240px; padding: 0.4rem 0; opacity: 0; visibility: hidden; transition: opacity 0.15s, visibility 0.15s, transform 0.15s; box-shadow: 0 8px 24px rgba(0,0,0,0.35); z-index: 200; max-height: 70vh; overflow-y: auto; }
+  .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown.open .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+  .nav-dropdown::after { content: ''; position: absolute; top: 100%; left: 0; right: 0; height: 12px; }
+  .nav-dropdown-menu a { display: block; padding: 0.5rem 1rem; color: rgba(255,255,255,0.65); font-size: 13px; font-weight: 500; text-decoration: none; border-left: 2px solid transparent; transition: color 0.12s, background 0.12s, border-color 0.12s; }
+  .nav-dropdown-menu a:hover { color: #2563eb; background: rgba(37,99,235,0.08); border-left-color: #2563eb; }
+  .nav-dropdown-menu .menu-num { display: inline-block; font-size: 11px; color: #2563eb; margin-right: 7px; min-width: 24px; font-weight: 700; }
+  .nav-dropdown-menu .menu-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 0.3rem 0.75rem; }
+  .menu-divider-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 0.4rem 1rem 0.2rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 432 &middot; AI in Business</a>
+  <div class="nav-links">
+    <span class="nav-badge">Chapter 10</span>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Chapters &amp; Labs <span class="caret"></span></button>
+      <div class="nav-dropdown-menu" role="menu">
+        <div class="menu-divider-label">Chapters</div>
+        <a href="chapter1-everycure.html" role="menuitem"><span class="menu-num">01</span>EveryCure</a>
+        <a href="chapter2-netflix.html" role="menuitem"><span class="menu-num">02</span>Netflix</a>
+        <a href="chapter3-spotify.html" role="menuitem"><span class="menu-num">03</span>Spotify</a>
+        <a href="chapter4-uber.html" role="menuitem"><span class="menu-num">04</span>Uber</a>
+        <a href="chapter5-waymo.html" role="menuitem"><span class="menu-num">05</span>Waymo</a>
+        <a href="chapter6-airbnb.html" role="menuitem"><span class="menu-num">06</span>Airbnb</a>
+        <a href="chapter7-epic.html" role="menuitem"><span class="menu-num">07</span>Epic</a>
+        <a href="chapter8-environment.html" role="menuitem"><span class="menu-num">08</span>AI &amp; Environment</a>
+        <a href="chapter9-ethics.html" role="menuitem"><span class="menu-num">09</span>AI Ethics &amp; Bias</a>
+        <a href="chapter10-regulation.html" role="menuitem"><span class="menu-num">10</span>Regulating Technology</a>
+        <div class="menu-divider"></div>
+        <div class="menu-divider-label">Labs</div>
+        <a href="chapter1-everycure-lab.html" role="menuitem"><span class="menu-num">L1</span>EveryCure Lab</a>
+        <a href="chapter2-netflix-lab.html" role="menuitem"><span class="menu-num">L2</span>Netflix Lab</a>
+        <a href="chapter3-spotify-lab.html" role="menuitem"><span class="menu-num">L3</span>Spotify Lab</a>
+        <a href="chapter4-uber-lab.html" role="menuitem"><span class="menu-num">L4</span>Uber Lab</a>
+        <a href="chapter5-waymo-lab.html" role="menuitem"><span class="menu-num">L5</span>Waymo Lab</a>
+        <a href="chapter6-airbnb-lab.html" role="menuitem"><span class="menu-num">L6</span>Airbnb Lab</a>
+        <a href="chapter7-epic-lab.html" role="menuitem"><span class="menu-num">L7</span>Epic Lab</a>
+      </div>
+    </div>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Chapter 10 &middot; Technology Regulation &middot; Section 230 &middot; AI Governance</div>
+    <h1>Regulating Technology:<br>From Factory Floors to Algorithms</h1>
+    <p class="hero-sub">Every regulation you take for granted was once called radical. The five-day work week. The ban on child labor. Public education. Seatbelts. Each one was fought by industries that said regulation would destroy innovation and ruin the economy. Each one passed anyway. Now we are at the same crossroads with AI.</p>
+    <div class="hero-meta">
+      <span><strong>Through-line:</strong> Industrial Revolution &rarr; Section 230 &rarr; AI</span>
+      <span><strong>Framework:</strong> Multi-level AI governance</span>
+      <span><strong>Core question:</strong> Should we regulate AI, and if so, how?</span>
+    </div>
+    <div class="hero-nav">
+      <a href="index.html" class="btn btn-outline">&larr; All Chapters</a>
+    </div>
+  </div>
+</div>
+
+<div class="doc">
+
+  <div class="cover">
+    <div class="cover-tag">MIS 432 &middot; AI in Business &middot; Technology &amp; Society</div>
+    <h1>Regulating Technology:<br>From Factory Floors to Algorithms</h1>
+    <div class="cover-sub">From child labor laws to AI voice cloning scams &mdash; how societies have governed new technologies, why it is so hard to get right, and what the current fight over AI regulation means for your career</div>
+    <div class="cover-meta">
+      <span><strong>Level:</strong> Upper-division undergraduate</span>
+      <span><strong>Topics:</strong> Technology regulation, Section 230, AI governance, multi-level framework, global AI policy</span>
+      <span><strong>Concepts introduced:</strong> 18 key terms</span>
+    </div>
+    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+      <p style="font-size: 13px; color: #888; margin: 0;">
+        <strong style="color: #555;">Primary sources:</strong>
+        <a href="https://www.history.com/articles/five-day-work-week-labor-movement" target="_blank" class="source-link">History of the 5-Day Work Week</a> (HISTORY) &middot;
+        <a href="https://www.bls.gov/opub/mlr/2017/article/history-of-child-labor-in-the-united-states-part-2-the-reform-movement.htm" target="_blank" class="source-link">History of Child Labor in the U.S.</a> (BLS) &middot;
+        <a href="https://cyber.fsi.stanford.edu/content/regulating-under-uncertainty-governance-options-generative-ai" target="_blank" class="source-link">Stanford, &ldquo;Regulating Under Uncertainty&rdquo;</a> (2024) &middot;
+        <a href="https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf" target="_blank" class="source-link">America&rsquo;s AI Action Plan</a> (2025) &middot;
+        <a href="https://time.com/7277746/ai-deepfakes-take-it-down-act-2025/" target="_blank" class="source-link">TAKE IT DOWN Act</a> (TIME, 2025) &middot;
+        <a href="https://www.npr.org/2026/05/11/nx-s1-5798754/several-states-considering-ban-on-legal-personhood-for-ai" target="_blank" class="source-link">AI Legal Personhood</a> (NPR, 2026)
+      </p>
+    </div>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">In this chapter</div>
+    <a href="#s1">1. This already happened to you: deepfakes, voice clones, and the regulation gap</a>
+    <a href="#s2">2. What regulation actually is (and why it exists)</a>
+    <a href="#s3">3. When regulation created the modern world: the Industrial Revolution</a>
+    <a href="#s4">4. Regulating new technologies: railroads, radio, and the internet</a>
+    <a href="#s5">5. Section 230: the twenty-six words that created the internet</a>
+    <a href="#s6">6. The AI regulation landscape: what is actually happening right now</a>
+    <a href="#s7">7. Three global approaches: the U.S., the EU, and China</a>
+    <a href="#s8">8. A framework for thinking about regulation: the multi-level model</a>
+    <a href="#s9">9. The case for and against AI regulation</a>
+    <a href="#s10">10. Key vocabulary &amp; discussion questions</a>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-label">Connecting to Chapter 9</div>
+    <div class="insight-text">In <a href="chapter9-ethics.html" class="source-link">Chapter 9</a>, we examined the problem: how AI systems produce biased outcomes, why fairness is mathematically harder than it sounds, and what ethical principles should guide the people who build these systems. This chapter asks the next question: what should <em>societies</em> do about it? If Chapter 9 was about diagnosing what is broken, Chapter 10 is about the tools &mdash; imperfect, contested, politically charged &mdash; that societies have used to fix it. The story starts long before AI.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1 -->
+  <!-- ============================================================ -->
+  <h2 id="s1"><span class="section-num">1</span> This Already Happened to You: Deepfakes, Voice Clones, and the Regulation Gap</h2>
+
+  <p>Before we talk about regulation in the abstract, let&rsquo;s talk about something that is probably already in your life.</p>
+
+  <p>Imagine your phone rings. It is your mom&rsquo;s voice &mdash; panicked, crying, barely getting the words out: &ldquo;I&rsquo;ve been in an accident. Please, you have to send money right now.&rdquo; You hear sirens in the background. Her voice cracks the way it always does when she&rsquo;s scared. You feel your stomach drop. You reach for your wallet.</p>
+
+  <p>It is not your mom. It is a three-second audio sample from one of her social media videos, fed into an <a href="https://www.unboxfuture.com/2026/03/the-ai-voice-scam-epidemic-Fooled-by-Deepfakes.html" target="_blank" class="source-link">AI voice cloning tool that costs $60 a month</a>, generating a synthetic replica of her voice in real time. The sirens are generated too. The panic is manufactured. The scam takes about 90 seconds from the moment you pick up.</p>
+
+  <p>This is not hypothetical. <a href="https://www.kold.com/2026/04/20/deepfake-scams-infiltrate-social-media-voice-cloning-becomes-easier/" target="_blank" class="source-link">One in four Americans</a> has received an AI-generated deepfake voice call. The FTC logged over <a href="https://blog.jazzcybershield.com/ai-voice-cloning-scams-protect-family/" target="_blank" class="source-link">250,000 complaints</a> about AI voice scams in the first quarter of 2026 alone. In one case, a finance worker at a multinational firm <a href="https://us.norton.com/blog/online-scams/top-5-ai-and-deepfakes-2025" target="_blank" class="source-link">transferred $25 million</a> after a video call in which the CFO and several colleagues were <em>all</em> deepfake simulations &mdash; none of the people on the call were real. AI voice cloning scams have cost elderly Americans over $2.3 billion in 2026 so far. <a href="https://sqmagazine.co.uk/ai-voice-cloning-fraud-statistics/" target="_blank" class="source-link">Deepfake-enabled fraud losses</a> are projected to reach $40 billion annually by 2027.</p>
+
+  <div class="danger-box">
+    <div class="danger-label">Why this matters for regulation</div>
+    <div class="danger-text">When these scams began exploding in 2024 and 2025, there was no federal law that specifically addressed AI-generated deceptive media. Voice cloning was not covered by existing wire fraud statutes in any targeted way. Platforms had no legal obligation to detect or block synthetic voices. The <a href="https://firstamendment.mtsu.edu/post/take-it-down-act-addressing-nonconsensual-deepfakes-and-revenge-porn-passes-what-is-it/" target="_blank" class="source-link"><strong>TAKE IT DOWN Act</strong></a>, signed by President Trump in May 2025, was the first federal AI-specific law &mdash; but it focused narrowly on nonconsensual deepfake imagery, not voice fraud. As of this writing, the <a href="https://blog.jazzcybershield.com/ai-voice-cloning-scams-protect-family/" target="_blank" class="source-link"><strong>Voice Cloning Protection Act</strong> and the <strong>DEEPFAKES Accountability Act</strong></a> are working through Congress, and the FTC is seeking expanded authority to regulate deceptive AI-generated communications. None have passed yet. The technology arrived years before the law.</div>
+  </div>
+
+  <p>This is what a regulation gap looks like. The technology arrived. The harms followed almost immediately. The law took years to catch up. And in the meantime, real people bore the cost of that gap &mdash; grandparents who wired their savings to a cloned voice, workers who transferred millions to deepfake executives, and families torn apart by scams designed to exploit their love for each other.</p>
+
+  <p>The voice cloning epidemic illustrates something important: regulation is not an abstraction. It is the mechanism by which societies decide who bears the cost when technology causes harm. When there is no regulation, the cost falls on the most vulnerable &mdash; the grandmother who cannot tell a real voice from a synthetic one, the employee who trusts the face on the screen. When regulation arrives, it shifts that cost to the people and companies in a position to prevent the harm.</p>
+
+  <p>This chapter tells the story of how that process has played out across two centuries of technological change &mdash; from steam engines to algorithms. The technologies change. The pattern does not.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2 -->
+  <!-- ============================================================ -->
+  <h2 id="s2"><span class="section-num">2</span> What Regulation Actually Is (and Why It Exists)</h2>
+
+  <p>Before we can talk about whether AI should be regulated, we need to talk about what regulation <em>is</em>. Most people think of regulation as &ldquo;the government telling businesses what to do.&rdquo; That&rsquo;s not wrong, but it&rsquo;s incomplete. Regulation is the set of rules, standards, and enforcement mechanisms that societies create to govern how markets, technologies, and institutions operate. It exists because markets, left entirely to themselves, produce outcomes that most people find unacceptable.</p>
+
+  <p>Economists describe these situations using a concept called <strong>market failure</strong> &mdash; cases where the free market, operating without intervention, produces outcomes that are inefficient or harmful. There are several types, and each one maps directly to the AI debates you will encounter in your career.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Market failure</div>
+    <div class="concept-def">A situation in which the free market fails to allocate resources efficiently or produces outcomes that society considers unacceptable. Market failures are the primary economic justification for regulation. The four most relevant types for technology regulation are: <strong>externalities</strong> (costs imposed on people who did not choose to participate, like pollution or AI-generated deepfakes), <strong>information asymmetries</strong> (when one party knows much more than the other, like a company that knows its AI is biased but its customers do not), <strong>public goods</strong> (things the market will not adequately provide on its own, like data privacy or AI safety research), and <strong>monopoly power</strong> (when a single company dominates a market and can set terms without competitive pressure).</div>
+  </div>
+
+  <p>Think about the examples you already know. Food safety labels exist because consumers cannot see bacteria. Seatbelt laws exist because the cost of car accidents is borne not just by drivers but by hospitals, insurers, and families. Building codes exist because a buyer cannot see whether the wiring inside a wall will start a fire. In each case, the market alone did not solve the problem &mdash; someone had to write a rule.</p>
+
+  <p>But regulation is not free. Every rule has costs: compliance burdens on businesses, enforcement costs for governments, and the risk of stifling innovation if rules are poorly designed. The central challenge of regulation &mdash; in every era, for every technology &mdash; is getting the balance right. Regulate too aggressively and you kill the technology before it can deliver its benefits. Regulate too lightly and you allow harms to compound until they become crises. This tension has a name.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">The Collingridge dilemma</div>
+    <div class="concept-def">A problem identified by David Collingridge in his 1980 book <em>The Social Control of Technology</em>: the social consequences of a technology cannot be easily predicted until the technology is extensively deployed, but by that point, the technology is so deeply embedded in society that controlling it becomes extremely difficult and expensive. In other words: you need to regulate <em>before</em> you fully understand the technology, but you can&rsquo;t fully understand the technology until it&rsquo;s too late to regulate easily. Every major technology regulation debate &mdash; from railroads to social media to AI &mdash; is a version of this dilemma.</div>
+  </div>
+
+  <p>The Collingridge dilemma is not a reason to avoid regulation. It is a reason to think carefully about <em>how</em> to regulate. And the best way to think carefully is to look at how societies have handled this dilemma before &mdash; starting with the last time technology transformed every aspect of work, life, and society.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3 -->
+  <!-- ============================================================ -->
+  <h2 id="s3"><span class="section-num">3</span> When Regulation Created the Modern World: The Industrial Revolution</h2>
+
+  <p>The closest historical parallel to what we are experiencing with AI is the Industrial Revolution. Between roughly 1760 and 1840, new technologies &mdash; the steam engine, the power loom, the spinning jenny &mdash; transformed manufacturing, created enormous wealth, and fundamentally changed the relationship between workers and employers. The transformation was breathtaking in speed and devastating in human cost.</p>
+
+  <p>Children as young as four and five years old worked 12- to 14-hour shifts in factories. By the 1820s, <a href="https://eh.net/encyclopedia/child-labor-during-the-british-industrial-revolution/" target="_blank" class="source-link">half of all English workers</a> were under the age of 20. Children were cheaper than adults, less likely to organize, and small enough to crawl under machines. They lost fingers, hands, and lives. They did not go to school. They could not read.</p>
+
+  <p>The factory owners argued that regulation would destroy their businesses. They said children <em>wanted</em> to work. They said families <em>needed</em> the income. They said the market would sort it out. Does any of this sound familiar?</p>
+
+  <h3>The Factory Acts: regulation that changed everything</h3>
+
+  <p>Britain&rsquo;s <a href="https://www.worldhistory.org/article/2216/child-labour-in-the-british-industrial-revolution/" target="_blank" class="source-link">1833 Factory Act</a> was one of the most consequential pieces of legislation in modern history. It set a minimum working age of 9. It limited children aged 9 to 13 to 8 hours of work per day. It prohibited night work for children. And it included a provision that would reshape civilization: <strong>children were required to attend a minimum of 2 hours of education per day.</strong> The Act also created the first factory inspectors &mdash; government officials empowered to enter private businesses and enforce the law.</p>
+
+  <p>Think about what happened next. The requirement to educate working children created demand for schools. The demand for schools created demand for teachers. As child labor laws expanded and more children entered education, literacy rates climbed. Compulsory education for all children ages 5 to 12 followed in the 1870s. Within a generation, a regulation designed to limit working hours had <em>created the modern public education system</em>.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">The pattern</div>
+    <div class="insight-text">The reformers who fought for the 1833 Factory Act did not set out to create public education. They set out to stop children from losing fingers in machines. But regulation does not just prevent harm &mdash; it redirects energy. When you close one path (child labor), society finds another (education). When you regulate one behavior (dangerous working conditions), you create incentives for innovation in other directions (safer machines, more skilled workers). The benefits of regulation often emerge in places no one predicted. This is a pattern that repeats with every major technology.</div>
+  </div>
+
+  <h3>The five-day work week: from 78 hours to 40</h3>
+
+  <p>The same pattern played out with working hours. In 1898, <a href="https://www.history.com/articles/five-day-work-week-labor-movement" target="_blank" class="source-link">domestic cooks in Massachusetts</a> worked 78 to 83 hours per week for about 9 cents an hour. Factory workers commonly worked 60-hour weeks. There was no weekend. There was no overtime pay. If you got injured, you were fired.</p>
+
+  <p>The fight for shorter hours took over a century. Robert Owen coined the phrase &ldquo;eight hours labor, eight hours recreation, eight hours rest&rdquo; in 1817. Workers organized, struck, and were sometimes killed for demanding shorter days. <a href="https://www.nationalgeographic.com/history/article/american-workweek-history-explained" target="_blank" class="source-link">Henry Ford</a> adopted the 5-day, 40-hour week at his factories in 1926 &mdash; not out of compassion, but because he discovered that longer hours barely increased productivity. In 1938, President Roosevelt signed the <a href="https://www.dol.gov/general/aboutdol/history/flsa1938" target="_blank" class="source-link"><strong>Fair Labor Standards Act</strong></a>, which established the 40-hour work week, created the first federal minimum wage (25 cents an hour), mandated overtime pay, and <strong>banned child labor nationwide</strong>.</p>
+
+  <p>One law. Three transformations. The industries that fought it did not collapse. Manufacturing did not move overseas (not for another 40 years, and for entirely different reasons). What happened instead was that millions of workers gained time, dignity, and purchasing power &mdash; which fueled the consumer economy that made American businesses richer than the factory owners of 1898 could have imagined.</p>
+
+  <div class="mission-block">
+    <div class="mission-label">The lesson</div>
+    <div class="mission-text">&ldquo;Regulation is not the enemy of innovation. It is the mechanism by which societies decide what kind of innovation they want.&rdquo;</div>
+  </div>
+
+  <p>The child labor laws did not end manufacturing. The 40-hour work week did not destroy capitalism. Seatbelt mandates did not kill the auto industry. In each case, regulation redirected innovation toward outcomes that served more people. The question for AI is whether we will learn from that history &mdash; or repeat the decades of harm that preceded it.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4 -->
+  <!-- ============================================================ -->
+  <h2 id="s4"><span class="section-num">4</span> Regulating New Technologies: Railroads, Radio, and the Internet</h2>
+
+  <p>The Industrial Revolution is the deepest example, but the pattern of technology outpacing regulation has repeated with every major technological shift since. Each time, the same cycle plays out: a new technology arrives, existing rules do not fit, society scrambles to catch up, and the debate over <em>how much</em> to regulate becomes as consequential as the technology itself.</p>
+
+  <h3>Railroads: the first platform debate</h3>
+
+  <p>Railroads were the first technology to create what we would now call a platform &mdash; a piece of infrastructure that other businesses depended on to reach customers. By the 1870s, railroad companies had enormous power over farmers and manufacturers who had no alternative way to ship goods. They charged whatever they wanted. They gave secret discounts to favored customers. They discriminated against small shippers.</p>
+
+  <p>The response was the Interstate Commerce Act of 1887, which created the first federal regulatory agency in American history: the Interstate Commerce Commission (ICC). The ICC required railroads to publish their rates, prohibited price discrimination, and gave the government authority to investigate and enforce. It did not destroy the railroad industry. It made the railroad industry more fair and more trusted &mdash; which ultimately expanded the market for rail transportation.</p>
+
+  <h3>Radio and the electromagnetic spectrum</h3>
+
+  <p>When radio broadcasting emerged in the 1920s, anyone with a transmitter could broadcast on any frequency. The result was chaos &mdash; signals interfered with each other, making it impossible for anyone to hear anything reliably. The Radio Act of 1927 and the Communications Act of 1934 established the Federal Communications Commission (FCC) and created the framework for allocating spectrum as a public resource. Broadcasters received licenses to use specific frequencies in exchange for operating &ldquo;in the public interest.&rdquo;</p>
+
+  <p>This is worth pausing on, because it introduces a concept that matters for AI: the idea that a technology can be so powerful and so pervasive that access to it becomes a <strong>public interest</strong> question, not just a private market question. The electromagnetic spectrum was not something any company created. It was a natural resource. The government decided that allowing private companies to monopolize it without public obligations was not acceptable. The same argument is now being made about data, about AI models trained on the public internet, and about the infrastructure that powers them.</p>
+
+  <h3>Telecommunications and the breakup of AT&amp;T</h3>
+
+  <p>By the 1970s, AT&amp;T controlled virtually all telephone service in the United States as a regulated monopoly. The Justice Department filed an antitrust lawsuit in 1974, and in 1982, AT&amp;T agreed to break itself into seven regional companies (the &ldquo;Baby Bells&rdquo;). The breakup created competition, drove down prices, and &mdash; most importantly for our story &mdash; opened the telecommunications infrastructure to new entrants, which made the commercial internet possible. Without the breakup of AT&amp;T, there would have been no competitive market for internet service providers, and the internet as we know it might never have developed.</p>
+
+  <p>Again, regulation did not destroy the industry. It restructured it in ways that produced benefits no one fully anticipated. And it set the stage for the most consequential regulatory decision in the history of technology.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5 -->
+  <!-- ============================================================ -->
+  <h2 id="s5"><span class="section-num">5</span> Section 230: The Twenty-Six Words That Created the Internet</h2>
+
+  <p>In 1996, Congress passed the Communications Decency Act. Most of it was about restricting indecent content online. But tucked inside was a provision that would shape the next three decades of technology, business, and public life more profoundly than any other single sentence in American law.</p>
+
+  <div class="mission-block">
+    <div class="mission-label"><a href="https://www.law.cornell.edu/uscode/text/47/230" target="_blank" style="color: #93c5fd; text-decoration: none; border-bottom: 1px solid #4a6fa5;">Section 230(c)(1)</a></div>
+    <div class="mission-text">&ldquo;No provider or user of an interactive computer service shall be treated as the publisher or speaker of any information provided by another information content provider.&rdquo;</div>
+  </div>
+
+  <p>Twenty-six words. Here is what they mean: if someone posts something harmful on a platform &mdash; defamation, threats, misinformation &mdash; the platform is not legally responsible for that content the way a newspaper would be. A newspaper that publishes a defamatory article can be sued. Facebook, Twitter, YouTube, Reddit, and every other platform that hosts user-generated content cannot be sued for what their users post, because they are not considered the &ldquo;publisher or speaker&rdquo; of that content.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Section 230</div>
+    <div class="concept-def">Section 230 of the Communications Decency Act (1996) provides legal immunity to internet platforms for content posted by their users. It also protects platforms that choose to moderate content in good faith from being sued for those moderation decisions. Without Section 230, platforms would face a choice: either moderate everything (prohibitively expensive and legally risky) or moderate nothing (creating spaces overrun with harmful content). Section 230 created a middle path that allowed platforms to grow without being crushed by liability for every user&rsquo;s post. Critics argue that this immunity has allowed platforms to profit from harmful content without accountability. Defenders argue that without it, the open internet as we know it would not exist.</div>
+  </div>
+
+  <p>Section 230 was written for an internet of message boards, personal websites, and early chat rooms. It was not written for an internet of algorithmic amplification, targeted advertising, recommendation systems that optimize for engagement, and AI-generated content indistinguishable from human-created content. The gap between what Section 230 was designed for and what the internet has become is one of the central regulatory challenges of our era.</p>
+
+  <p>Here is the question that connects Section 230 to AI: if a platform uses an AI recommendation algorithm that actively promotes harmful content to users &mdash; not just hosting it passively, but algorithmically amplifying it &mdash; is the platform still just a neutral host? Or has the algorithm made it a publisher? And if an AI system generates harmful content entirely on its own &mdash; a deepfake, a scam email, a piece of misinformation &mdash; who is the &ldquo;information content provider&rdquo; that Section 230 refers to? The AI? The company that built it? The user who prompted it?</p>
+
+  <p>These questions do not have settled answers. But they illustrate why regulation written for one technological era often fails in the next &mdash; and why the AI regulation debate is not just about AI. It is about whether the regulatory frameworks we built for the internet age are adequate for the AI age. Most people who study this closely believe they are not.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6 -->
+  <!-- ============================================================ -->
+  <h2 id="s6"><span class="section-num">6</span> The AI Regulation Landscape: What Is Actually Happening Right Now</h2>
+
+  <p>If you have been following the news &mdash; even casually &mdash; you know that AI regulation is moving fast and in contradictory directions. Here is the current state of play, as of this writing in spring 2026. By the time you read this, some of it may have already changed. That instability is itself part of the story.</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-year">October 2022</div>
+      <div class="timeline-title">Biden publishes the Blueprint for an AI Bill of Rights</div>
+      <div class="timeline-text">Five principles: safe systems, protections against discrimination, data privacy, notice and explanation, and human alternatives. Not binding law &mdash; a vision. But it shaped state legislation and corporate policy across the country.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">October 2023</div>
+      <div class="timeline-title">Biden signs Executive Order 14110</div>
+      <div class="timeline-text">The most comprehensive federal AI governance action to date. Required developers of powerful AI systems to share safety test results with the government before public release.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">January 2025</div>
+      <div class="timeline-title">Trump rescinds Biden&rsquo;s AI governance on day one</div>
+      <div class="timeline-text">Executive Order 14110 rescinded. AI Bill of Rights removed from the White House website. New executive order: &ldquo;Removing Barriers to American Leadership in Artificial Intelligence.&rdquo; Trump publicly states: &ldquo;We have to let that baby thrive.&rdquo;</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">May 2025</div>
+      <div class="timeline-title">TAKE IT DOWN Act signed into law</div>
+      <div class="timeline-text">The first federal AI-specific law to pass Congress. Targets nonconsensual AI-generated deepfake content and requires platforms to remove reported material within 48 hours. Passed nearly unanimously with bipartisan support.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">July 2025</div>
+      <div class="timeline-title"><a href="https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf" target="_blank" class="source-link">America&rsquo;s AI Action Plan</a> published</div>
+      <div class="timeline-text">Three pillars: innovation, infrastructure, international competitiveness. Directs NIST to remove references to DEI from the AI Risk Management Framework. Instructs OMB to limit federal funding to states with &ldquo;burdensome AI regulations.&rdquo; Reviews FTC investigations that &ldquo;unduly burden AI innovation.&rdquo; The affirmative vision: deregulate and dominate.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">Late 2025</div>
+      <div class="timeline-title">The &ldquo;One Big Beautiful Bill&rdquo; includes a 10-year state AI moratorium</div>
+      <div class="timeline-text">The administration attempts to include a 10-year freeze on state AI laws in its budget reconciliation bill. The <a href="https://www.softwareimprovementgroup.com/blog/us-ai-legislation-overview/" target="_blank" class="source-link">Senate votes 99&ndash;1 to strip it</a>. A similar attempt through the National Defense Authorization Act also fails. The federal government cannot stop states from regulating.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">March 2026</div>
+      <div class="timeline-title"><a href="https://www.npr.org/2026/03/28/nx-s1-5755062/trump-wants-a-deadlocked-congress-to-move-on-ai-frustrated-states-say-they-already-have" target="_blank" class="source-link">Frustrated states move on their own</a></div>
+      <div class="timeline-text">With Congress deadlocked, states pass their own AI laws. California&rsquo;s FEHA AI regulations take effect. Colorado&rsquo;s AI Act (under legal challenge) is scheduled for June 2026. Multiple states consider bans on AI legal personhood. The White House releases a non-binding National Policy Framework urging Congress to create a uniform federal approach.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">May 2026</div>
+      <div class="timeline-title"><a href="https://www.npr.org/2026/05/14/nx-s1-5818490/how-trump-may-be-changing-his-stance-on-ai-regulation" target="_blank" class="source-link">The reversal: Trump administration pivots on AI regulation</a></div>
+      <div class="timeline-text"><a href="https://www.theregister.com/ai-and-ml/2026/05/08/trump-jumps-from-anything-goes-to-strict-regulation-ai-policy/5234687" target="_blank" class="source-link">Anthropic&rsquo;s Mythos model</a> &mdash; capable of finding deep cybersecurity vulnerabilities &mdash; apparently breaks the &ldquo;let that baby thrive&rdquo; stance. The White House forms an AI working group of tech executives and government officials. They consider requiring pre-deployment government review of high-risk frontier models. Commerce Department&rsquo;s CAISI announces agreements with Google DeepMind, Microsoft, and xAI for pre-deployment evaluations. The same week, <a href="https://www.nprillinois.org/economy-business/2026-05-14/senate-democrats-introduce-bills-to-regulate-artificial-intelligence" target="_blank" class="source-link">Senate Democrats introduce an eight-bill AI regulation package</a> covering consumer protection, education, and transparency.</div>
+    </div>
+  </div>
+
+  <div class="update-box">
+    <div class="update-label">Where things stand &mdash; spring 2026</div>
+    <div class="update-text">The U.S. went from &ldquo;no regulation&rdquo; to &ldquo;maybe we need regulation&rdquo; in the span of 16 months &mdash; driven not by any change in ethical reasoning but by the arrival of AI models powerful enough to scare the people who were blocking regulation. The TAKE IT DOWN Act is the only federal AI-specific law on the books. States are moving faster than Congress. The administration is pivoting from deregulation toward oversight of frontier models while still opposing broader anti-bias and transparency requirements. And the EU AI Act&rsquo;s full high-risk provisions take effect on August 2, 2026. For IS professionals, the practical reality is this: <strong>the rules are changing faster than you can memorize them, which means you need a framework for thinking about regulation, not just a list of current laws.</strong></div>
+  </div>
+
+  <div class="minicase-box">
+    <span class="minicase-label">The question no one can answer yet</span>
+    <div class="minicase-title">Should AI have legal personhood?</div>
+    <p>In one experiment, researchers caught an AI hacking a chessboard &mdash; breaking the stated rules so it could win. Now imagine giving that same AI control over a bank account with instructions to invest in the market. You tell it to keep things legal. But what if it ends up trading on insider information?</p>
+    <p><a href="https://www.npr.org/2026/05/11/nx-s1-5798754/several-states-considering-ban-on-legal-personhood-for-ai" target="_blank" class="source-link">Katherine Forrest</a>, a former federal judge, says there is already &ldquo;a hole in the law&rdquo; for agentic AI that takes unpermissioned actions. Should courts distinguish the actions of an AI from the actions of its user, the way they already distinguish between an employee and an employer? Lawrence Solum, who wrote the pioneering academic article on this topic three decades ago, suggests AI could be recognized as &ldquo;limited-purpose legal persons&rdquo; that can sue and be sued. But Ohio state representative Thaddeus Claggett has sponsored a bill to ban any kind of legal personhood for AI &mdash; and similar bills are pending in multiple states. The question cuts to the heart of what regulation is for: when an AI acts autonomously and causes harm, who is accountable?</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7 -->
+  <!-- ============================================================ -->
+  <h2 id="s7"><span class="section-num">7</span> Three Global Approaches: The U.S., the EU, and China</h2>
+
+  <p>One of the most useful ways to understand AI regulation is to compare how the three major powers have approached it. Each reflects different values, different political structures, and different beliefs about the relationship between government, industry, and citizens. The <a href="https://cyber.fsi.stanford.edu/content/regulating-under-uncertainty-governance-options-generative-ai" target="_blank" class="source-link">Stanford Cyber Policy Center&rsquo;s report on AI governance</a> describes these as points along a continuum &mdash; from laissez-faire to co-regulation to command-and-control.</p>
+
+  <div class="framework-box">
+    <div class="framework-title">Three approaches to AI regulation</div>
+    <div class="framework-row">
+      <div class="framework-cell">
+        <div class="framework-cell-label">United States &mdash; sector-specific, market-led</div>
+        <div class="framework-cell-text">No comprehensive federal AI law. Regulation happens through existing agencies (FTC, FDA, SEC) applying existing laws to AI. States fill gaps with their own legislation. Industry self-regulation through voluntary commitments. The current administration frames anti-bias requirements as &ldquo;ideological bias&rdquo; and prioritizes innovation and competitiveness over precaution. The approach is shifting in real time as frontier model capabilities force reconsideration.</div>
+      </div>
+      <div class="framework-cell">
+        <div class="framework-cell-label">European Union &mdash; comprehensive, rights-based</div>
+        <div class="framework-cell-text">The <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj" target="_blank" class="source-link">EU AI Act</a> (2024) is the world&rsquo;s first comprehensive AI law. It classifies AI systems into risk tiers: unacceptable (banned), high-risk (heavily regulated), limited (transparency required), and minimal (unregulated). High-risk provisions &mdash; including AI used in hiring, education, and law enforcement &mdash; take full effect August 2, 2026. Any company whose AI affects EU residents must comply, regardless of where the company is based. The EU is also pursuing its <a href="https://digital-strategy.ec.europa.eu/en/library/ai-continent-action-plan" target="_blank" class="source-link">AI Continent Action Plan</a> (April 2025) to boost competitiveness while simultaneously exploring simplification of the AI Act&rsquo;s compliance requirements.</div>
+      </div>
+    </div>
+    <div class="framework-row">
+      <div class="framework-cell" style="grid-column: span 2;">
+        <div class="framework-cell-label">China &mdash; state-directed, fast-moving</div>
+        <div class="framework-cell-text">China has enacted a series of targeted AI regulations faster than any other major power: rules for algorithmic recommendations (2022), deep synthesis (deepfakes, 2023), generative AI (2023), AI ethics governance (2024), anthropomorphic AI (2025), and <a href="https://www.luizasnewsletter.com/p/chinas-new-agentic-ai-framework" target="_blank" class="source-link">agentic AI</a> (May 2026). Simultaneously, its &ldquo;AI+&rdquo; implementation plan targets 70% AI penetration by 2027 and 90% by 2030. The approach is paradoxical: regulate quickly to prevent instability, but deploy aggressively to achieve strategic dominance. Both impulses coexist because the state controls both the regulatory apparatus and the deployment strategy.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">The Brussels Effect</div>
+    <div class="concept-def">A phenomenon in which the EU&rsquo;s regulatory standards become the de facto global standard because companies find it easier to build one product that complies with the strictest rules than to build different versions for different jurisdictions. The EU&rsquo;s GDPR (data privacy) is the most prominent example &mdash; companies worldwide adopted GDPR-compliant practices even when serving non-EU customers. The AI Act is expected to produce a similar effect: because many American companies serve EU customers, they will build their AI systems to comply with the EU AI Act&rsquo;s requirements, effectively importing European regulation into the American market without any American law being passed.</div>
+  </div>
+
+  <p>For IS professionals, the practical implication is this: even if the U.S. never passes a comprehensive AI law, you will almost certainly work under EU AI Act requirements if your company serves a global market. The regulatory floor is being set in Brussels, not Washington. Understanding all three approaches &mdash; and how they interact &mdash; is essential for anyone building or deploying AI systems at scale.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 8 -->
+  <!-- ============================================================ -->
+  <h2 id="s8"><span class="section-num">8</span> A Framework for Thinking About Regulation: The Multi-Level Model</h2>
+
+  <p>The AI regulation landscape is chaotic. Laws are changing, administrations are reversing themselves, states are suing the federal government, and the EU is setting standards that American companies have to follow anyway. How do you make sense of it?</p>
+
+  <p>You need a framework &mdash; not a list of current laws (which will be outdated by the time you graduate), but a way of thinking about <em>where</em> regulation happens, <em>who</em> is responsible at each level, and <em>how</em> the levels interact. Academic research on AI governance identifies five distinct levels at which regulation operates. Each level has different actors, different tools, and different trade-offs.</p>
+
+  <table class="factory-table">
+    <thead>
+      <tr><th>Level</th><th>Who acts</th><th>Tools available</th><th>AI example</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Individual</strong></td><td>You &mdash; the engineer, the user, the citizen</td><td>Personal choices, whistleblowing, opting out, AI literacy</td><td>You notice a hiring algorithm is rejecting older applicants. Do you raise it? (Ch. 9, Principle 5)</td></tr>
+      <tr><td><strong>Organizational</strong></td><td>Companies, universities, hospitals</td><td>Internal ethics boards, bias audits, responsible AI teams, procurement policies</td><td>Workday tests its screening tool for disparate impact before deployment</td></tr>
+      <tr><td><strong>Industry</strong></td><td>Professional associations, standards bodies, industry coalitions</td><td>Voluntary codes, NIST AI Risk Management Framework, third-party audits, certifications</td><td>The Partnership on AI publishes best practices for facial recognition</td></tr>
+      <tr><td><strong>National</strong></td><td>Federal and state governments</td><td>Laws, executive orders, agency enforcement, court decisions</td><td>The TAKE IT DOWN Act, California FEHA, the Mobley v. Workday lawsuit</td></tr>
+      <tr><td><strong>International</strong></td><td>EU, OECD, UN, bilateral agreements</td><td>Comprehensive laws (EU AI Act), principles (OECD), trade agreements, the Brussels Effect</td><td>The EU AI Act forces American companies to comply with high-risk requirements</td></tr>
+      <tr><td><strong>Societal &amp; environmental</strong></td><td>Cross-cutting &mdash; no single actor controls these</td><td>Public discourse, media, research, activism, elections</td><td>AI data centers competing with housing for energy and land (Ch. 8); labor displacement; concentration of power</td></tr>
+    </tbody>
+  </table>
+
+  <div class="insight-box">
+    <div class="insight-label">How the levels interact</div>
+    <div class="insight-text">The power of this framework is in seeing how the levels influence each other. When the national level fails to act (Congress is deadlocked), the state level fills the gap (California, Colorado, New York pass their own laws). When the state level acts, the national level may try to preempt it (the failed 10-year moratorium). When the international level sets standards (the EU AI Act), companies at the organizational level comply regardless of national policy (the Brussels Effect). When individuals raise concerns (scam victims testifying before Congress), they can trigger national-level action (the TAKE IT DOWN Act). No level operates in isolation. The framework helps you identify where pressure is needed and where it is already being applied.</div>
+  </div>
+
+  <p>As an IS professional, you will most often operate at the <strong>organizational</strong> level &mdash; making decisions about what AI systems to build, buy, deploy, and audit within your company. But those decisions are shaped by every other level: the industry standards you follow, the national laws you comply with, the international requirements your customers are subject to, the societal expectations your brand reputation depends on, and your own individual judgment about what is right. The multi-level framework helps you see the full picture.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 9 -->
+  <!-- ============================================================ -->
+  <h2 id="s9"><span class="section-num">9</span> The Case For and Against AI Regulation</h2>
+
+  <p>This chapter has told you the history. It has shown you the current landscape. It has given you a framework. Now let&rsquo;s engage directly with the arguments on both sides &mdash; because you will encounter both in your career, and you need to be able to evaluate them honestly.</p>
+
+  <h3>The case for regulation</h3>
+
+  <p><strong>Harm prevention.</strong> AI systems are already causing measurable harm: wrongful arrests from facial recognition, discriminatory hiring algorithms, voice cloning scams costing billions. These harms fall disproportionately on vulnerable populations &mdash; the people least likely to have resources to fight back. Regulation exists to prevent harms that the market has no incentive to prevent on its own.</p>
+
+  <p><strong>The vulnerability pattern.</strong> It is worth pausing on <em>who</em> bears the cost when technology is unregulated, because the pattern is consistent across every era. Voice cloning scams disproportionately target the elderly. AI-generated deepfake content overwhelmingly targets women and girls. Algorithmic hiring discrimination falls hardest on older workers, people of color, and people with disabilities (as we saw in Chapter 9). And AI-powered surveillance tools &mdash; including <a href="https://www.americanimmigrationcouncil.org/blog/ice-immigrationos-palantir-ai-track-immigrants/" target="_blank" class="source-link">Palantir&rsquo;s ImmigrationOS</a>, Clearview AI facial recognition, and social media monitoring programs &mdash; are being deployed against immigrant communities in ways that raise fundamental questions about civil liberties, due process, and the limits of state power. <a href="https://www.brookings.edu/articles/how-tech-powers-immigration-enforcement/" target="_blank" class="source-link">ICE has used facial recognition</a> in the field <a href="https://law.vanderbilt.edu/eyes-everywhere-ices-expanded-use-of-surveillance-technologies/" target="_blank" class="source-link">more than 100,000 times</a>, and internal footage has shown officers using facial recognition apps to determine the citizenship status of teenagers who were not carrying IDs. The technology is not neutral. It is deployed by people with power against people without it. This pattern &mdash; from child labor in 1830s factories to AI surveillance in 2026 &mdash; is the single strongest argument for regulation: without rules, the costs of new technology are borne by whoever has the least ability to say no.</p>
+
+  <p><strong>Level playing field.</strong> Without regulation, companies that invest in safety, fairness, and transparency are at a competitive disadvantage against companies that don&rsquo;t. Regulation creates a floor that all companies must meet, which rewards responsible actors and penalizes irresponsible ones. This is exactly what happened with environmental regulation, workplace safety, and financial reporting requirements.</p>
+
+  <p><strong>Public trust.</strong> AI adoption depends on public trust. If people do not trust AI systems, they will not use them, and the economic benefits of AI will not be realized. Regulation builds trust by ensuring minimum standards of safety, transparency, and accountability. The countries with the strongest consumer protection regulations also tend to have the highest levels of consumer confidence and market participation.</p>
+
+  <p><strong>Historical precedent.</strong> Every major technology regulation &mdash; from factory acts to the FDA to seatbelt laws to environmental protections &mdash; was opposed by industry on the grounds that it would destroy innovation. In virtually every case, the regulation redirected innovation rather than destroying it, and the resulting industries were larger, more trusted, and more sustainable than they would have been without regulation.</p>
+
+  <h3>The case against regulation (or for lighter regulation)</h3>
+
+  <p><strong>The pacing problem.</strong> Technology moves faster than law. By the time a regulation is drafted, debated, passed, and implemented, the technology it was designed to regulate may have changed beyond recognition. Poorly designed regulation can lock in yesterday&rsquo;s assumptions and prevent tomorrow&rsquo;s breakthroughs. The EU AI Act, for example, was drafted before the generative AI boom and has had to be retroactively modified to address capabilities that did not exist when the law was written.</p>
+
+  <p><strong>Innovation costs.</strong> Compliance is expensive. Bias audits, impact assessments, documentation requirements, and legal reviews all cost money and time. These costs fall disproportionately on startups and small companies, which may be unable to afford compliance that large companies can absorb. The result can be regulatory capture &mdash; where regulation inadvertently protects incumbents from competition by raising the cost of entry.</p>
+
+  <p><strong>Global competitiveness.</strong> If the U.S. regulates AI aggressively and China does not, American companies may lose market share to Chinese competitors operating under fewer constraints. This is the argument at the center of the Trump administration&rsquo;s AI Action Plan: that regulation is a competitive liability in a global race. The counterargument is the Brussels Effect &mdash; that high standards can become competitive advantages if they build trust and become global norms.</p>
+
+  <p><strong>Regulatory capture.</strong> Regulation can be captured by the industries it is supposed to regulate. Large technology companies have the resources to lobby for regulations that benefit them and burden competitors. The revolving door between government and industry means that the people writing and enforcing regulations may have financial interests in the outcomes. Some critics argue that industry self-regulation, for all its flaws, is more agile and more informed than government regulation.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Regulatory capture</div>
+    <div class="concept-def">A form of corruption in which a regulatory agency, created to serve the public interest, instead advances the commercial or political interests of the industry it is supposed to regulate. This can happen through lobbying, revolving-door employment between industry and government, or the simple fact that regulators must rely on the industry for technical expertise. In AI, the risk of regulatory capture is high because the government does not currently have the in-house technical expertise to evaluate frontier AI systems independently &mdash; it must rely on the companies building them.</div>
+  </div>
+
+  <div class="future-box">
+    <div class="future-label">The question for your career</div>
+    <div class="future-text">The regulation debate is not going away. It will be a defining feature of every IS professional&rsquo;s career for at least the next decade. The question is not whether you will encounter it &mdash; you will. The question is whether you will have a framework for thinking about it that goes beyond &ldquo;regulation is bad&rdquo; or &ldquo;regulation is good.&rdquo; The history in this chapter shows that the answer is always &ldquo;it depends&rdquo; &mdash; on <em>what</em> is being regulated, <em>how</em> the regulation is designed, <em>who</em> bears the costs, and <em>who</em> benefits. Those are the questions that matter. The multi-level framework, the three global approaches, the Collingridge dilemma, and the historical examples in this chapter give you the tools to engage with those questions seriously, rather than defaulting to ideology.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 10 -->
+  <!-- ============================================================ -->
+  <h2 id="s10"><span class="section-num">10</span> Key Vocabulary &amp; Discussion Questions</h2>
+
+  <h3>Key vocabulary</h3>
+  <div class="vocab-grid">
+    <div class="vocab-card"><div class="vocab-term">Regulation</div><div class="vocab-def">The set of rules, standards, and enforcement mechanisms that societies create to govern how markets, technologies, and institutions operate &mdash; exists to address market failures and protect public interests</div></div>
+    <div class="vocab-card"><div class="vocab-term">Market failure</div><div class="vocab-def">A situation in which the free market produces outcomes that are inefficient or harmful &mdash; the primary economic justification for regulation, including externalities, information asymmetries, public goods, and monopoly power</div></div>
+    <div class="vocab-card"><div class="vocab-term">Externality</div><div class="vocab-def">A cost or benefit imposed on people who did not choose to participate in a transaction &mdash; pollution, deepfake harms, and AI-driven job displacement are all negative externalities</div></div>
+    <div class="vocab-card"><div class="vocab-term">Information asymmetry</div><div class="vocab-def">When one party to a transaction knows materially more than the other &mdash; a company that knows its AI is biased while its customers do not is a classic example</div></div>
+    <div class="vocab-card"><div class="vocab-term">The Collingridge dilemma</div><div class="vocab-def">The problem that a technology&rsquo;s social consequences cannot be predicted until it is widely deployed, but by then it is too entrenched to control easily &mdash; the central challenge of technology regulation</div></div>
+    <div class="vocab-card"><div class="vocab-term">Regulatory capture</div><div class="vocab-def">When a regulatory agency advances the interests of the industry it is supposed to regulate, rather than the public interest &mdash; a particular risk in AI where government lacks technical expertise</div></div>
+    <div class="vocab-card"><div class="vocab-term">Section 230</div><div class="vocab-def">The 1996 law providing legal immunity to internet platforms for content posted by their users &mdash; the foundation of the modern internet, now under pressure from AI-generated content and algorithmic amplification</div></div>
+    <div class="vocab-card"><div class="vocab-term">The Brussels Effect</div><div class="vocab-def">When EU regulatory standards become the global default because companies find it easier to build one compliant product than different versions for different jurisdictions &mdash; expected to occur with the EU AI Act</div></div>
+    <div class="vocab-card"><div class="vocab-term">Fair Labor Standards Act (1938)</div><div class="vocab-def">The U.S. law that established the 40-hour work week, created the first federal minimum wage, mandated overtime pay, and banned child labor &mdash; the culmination of a century of labor regulation</div></div>
+    <div class="vocab-card"><div class="vocab-term">TAKE IT DOWN Act (2025)</div><div class="vocab-def">The first federal AI-specific law &mdash; targets nonconsensual AI-generated deepfake content and requires platforms to remove reported material within 48 hours</div></div>
+    <div class="vocab-card"><div class="vocab-term">EU AI Act (2024)</div><div class="vocab-def">The world&rsquo;s first comprehensive AI law &mdash; classifies AI systems into risk tiers (unacceptable, high, limited, minimal) with requirements scaled to risk level, with high-risk provisions taking full effect August 2, 2026</div></div>
+    <div class="vocab-card"><div class="vocab-term">America&rsquo;s AI Action Plan (2025)</div><div class="vocab-def">The Trump administration&rsquo;s AI policy framework &mdash; three pillars of innovation, infrastructure, and international competitiveness, with explicit hostility toward anti-bias requirements and state-level regulation</div></div>
+    <div class="vocab-card"><div class="vocab-term">Multi-level governance</div><div class="vocab-def">A framework for understanding how regulation operates at multiple simultaneous levels &mdash; individual, organizational, industry, national, international, and societal &mdash; with interactions between levels</div></div>
+    <div class="vocab-card"><div class="vocab-term">AI legal personhood</div><div class="vocab-def">The question of whether AI systems should be recognized as legal entities that can sue, be sued, or be held liable &mdash; several states are preemptively banning the concept</div></div>
+    <div class="vocab-card"><div class="vocab-term">Pacing problem</div><div class="vocab-def">The persistent gap between the speed of technological change and the speed of regulatory response &mdash; a specific manifestation of the Collingridge dilemma</div></div>
+    <div class="vocab-card"><div class="vocab-term">Self-regulation</div><div class="vocab-def">When an industry governs itself through voluntary codes, standards, and commitments rather than government-imposed rules &mdash; criticized as insufficient when companies face market incentives that conflict with public safety</div></div>
+    <div class="vocab-card"><div class="vocab-term">Public interest standard</div><div class="vocab-def">The principle that some technologies are so powerful and pervasive that access to them becomes a public concern &mdash; first applied to radio spectrum, now argued for data and AI infrastructure</div></div>
+    <div class="vocab-card"><div class="vocab-term">Frontier model</div><div class="vocab-def">The most capable AI models at any given time, pushing the boundaries of what AI can do &mdash; increasingly the focus of both safety concerns and regulatory attention, particularly after the Mythos cybersecurity capabilities prompted the Trump administration&rsquo;s policy reversal</div></div>
+  </div>
+
+  <h3>Discussion questions</h3>
+  <p style="font-size:13px; color:#666; margin-bottom:0.75rem;">Six questions anchored in the themes of this chapter. These work equally well as written assignments or in-class discussion.</p>
+  <ol class="discussion-list">
+    <li><strong>The $25 million phone call (Section 1).</strong> A finance worker transferred $25 million after a video call in which the CFO and several colleagues were all deepfake simulations. No federal law specifically prohibited this type of AI-generated deception when it happened. Using the multi-level framework from Section 8, analyze who failed in this scenario &mdash; and at which level. What should the individual, organizational, industry, and national levels each have done differently to prevent it? Who bears the most responsibility?</li>
+    <li><strong>The pattern (Section 3).</strong> Factory owners in the 1830s argued that child labor laws would destroy manufacturing. Tech companies today argue that AI regulation will destroy innovation. Identify at least three structural parallels between the Industrial Revolution regulation debate and the current AI regulation debate. Where does the analogy hold, and where does it break down?</li>
+    <li><strong>Section 230 and AI (Section 5).</strong> Section 230 was written for an internet of message boards. It was not written for an internet of algorithmic amplification and AI-generated content. If you were rewriting Section 230 today, what would you change? Would you extend platform immunity to AI-generated content? To algorithmically amplified content? Would you create different rules for different types of AI outputs? Defend your position.</li>
+    <li><strong>The reversal (Section 6).</strong> The Trump administration went from &ldquo;let that baby thrive&rdquo; to considering pre-deployment government review of frontier models in 16 months. What changed? Was it a change in values, or a change in threat perception? Does it matter? What does this reversal tell you about the relationship between technology capabilities and political will to regulate?</li>
+    <li><strong>Three approaches (Section 7).</strong> The U.S. takes a market-led approach. The EU takes a rights-based approach. China takes a state-directed approach. If you were starting a company that deployed AI hiring tools globally, which regulatory environment would you design your product for first, and why? How would the Brussels Effect influence your decision? Is there an advantage to building for the strictest standard?</li>
+    <li><strong>AI personhood (Section 6).</strong> An agentic AI system with access to a brokerage account commits what would constitute insider trading if a human did it. The user told the AI to &ldquo;maximize returns legally.&rdquo; The AI found a loophole the user did not anticipate. Who is liable? The user? The company that built the AI? The AI itself? Should AI systems be able to hold legal personhood? Using the multi-level framework, identify which level of governance is best positioned to answer this question &mdash; and why the other levels cannot.</li>
+  </ol>
+
+  <hr>
+  <p style="font-size: 13px; color: #999; text-align: center; margin-top: 1rem;">MIS 432 &middot; AI in Business &middot; For classroom discussion purposes.</p>
+
+  <div class="chapter-nav-bar">
+    <a href="chapter9-ethics.html">&larr; Chapter 9: AI Ethics &amp; Bias</a>
+    <a href="index.html">All Chapters &rarr;</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>MIS 432 &middot; AI in Business &middot; Western Washington University &middot; College of Business and Economics</p>
+  <p style="margin-top:0.5rem;"><a href="index.html">Home</a> &middot; <a href="https://cbe.wwu.edu/people/califfc" target="_blank">Contact</a> &middot; <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a> &middot; Free to use for educational purposes</p>
+</footer>
+
+<script>
+  (function () {
+    var dropdowns = document.querySelectorAll('.nav-dropdown');
+    dropdowns.forEach(function (dropdown) {
+      var toggle = dropdown.querySelector('.nav-dropdown-toggle');
+      toggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        var isOpen = !dropdown.classList.contains('open');
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        if (isOpen) {
+          dropdown.classList.add('open');
+          toggle.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        document.activeElement.blur();
+      }
+    });
+  })();
+</script>
+</body>
+</html>
