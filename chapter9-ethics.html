@@ -150,6 +150,7 @@
         <a href="chapter7-epic.html" role="menuitem"><span class="menu-num">07</span>Epic</a>
         <a href="chapter8-environment.html" role="menuitem"><span class="menu-num">08</span>AI &amp; Environment</a>
         <a href="chapter9-ethics.html" role="menuitem"><span class="menu-num">09</span>AI Ethics &amp; Bias</a>
+        <a href="chapter10-regulation.html" role="menuitem"><span class="menu-num">10</span>Regulating Technology</a>
         <div class="menu-divider"></div>
         <div class="menu-divider-label">Labs</div>
         <a href="chapter1-everycure-lab.html" role="menuitem"><span class="menu-num">L1</span>EveryCure Lab</a>
@@ -250,14 +251,14 @@
 
   <p>The case is still ongoing as of this writing. But regardless of how it is ultimately decided, <em>Mobley v. Workday</em> has already changed the landscape. It established that AI vendors &mdash; not just employers &mdash; can face direct liability for discriminatory outcomes. It demonstrated that the speed of automated rejection itself can serve as evidence of algorithmic decision-making. And it raised a question that every information systems professional will have to answer in their career: when you build or deploy a system that makes decisions about people, who is accountable for what the system does?</p>
 
-  <p>But to really understand how we got here &mdash; how we arrived at a moment where a company can face a nationwide lawsuit over the decisions its algorithm makes &mdash; we need to go back much further than 2023. Because bias in information systems did not start with artificial intelligence. It didn&rsquo;t even start with computers.</p>
+  <p>Mobley&rsquo;s case raises an obvious question: how did we get here? How did we arrive at a moment where a company can face a nationwide lawsuit over the decisions its algorithm makes? To answer that, we need to go back much further than 2023 &mdash; because bias in information systems did not start with artificial intelligence. It didn&rsquo;t even start with computers. It started with maps.</p>
 
   <!-- ============================================================ -->
   <!-- SECTION 2 -->
   <!-- ============================================================ -->
   <h2 id="s2"><span class="section-num">2</span> Bias Before the Algorithm: Redlining, Credit Scoring, and the Coded Gaze</h2>
 
-  <p>Here is something that might surprise you: algorithmic bias is not a new problem. It is an old problem wearing new clothes. Discrimination has been embedded in information systems for as long as institutions have used data to make decisions about people. The technology changes. The pattern doesn&rsquo;t.</p>
+  <p>Algorithmic bias is not a new problem. It is an old problem wearing new clothes. Discrimination has been embedded in information systems for as long as institutions have used data to make decisions about people &mdash; and every time, the people building those systems insisted the technology was neutral. The technology changes. The pattern doesn&rsquo;t.</p>
 
   <h3>Redlining: drawing discrimination on a map</h3>
 
@@ -363,9 +364,7 @@
   <!-- ============================================================ -->
   <h2 id="s5"><span class="section-num">5</span> How Algorithmic Bias Actually Works</h2>
 
-  <p>To really understand Mobley v. Workday &mdash; and every other AI discrimination case you will encounter in your career &mdash; you need to understand the mechanics. How does an algorithm become biased? It is not because someone writes code that says &ldquo;reject Black applicants&rdquo; or &ldquo;screen out people over 40.&rdquo; It is far more subtle than that, and far more dangerous <em>precisely because</em> it is subtle.</p>
-
-  <p>There are three primary mechanisms, and they tend to operate simultaneously.</p>
+  <p>At this point you might be wondering: <em>how</em> does this actually happen? How does an algorithm &mdash; a piece of math, running on a server &mdash; end up discriminating against people? It is not because someone writes code that says &ldquo;reject Black applicants&rdquo; or &ldquo;screen out people over 40.&rdquo; That would be easy to find and easy to fix. The real mechanisms are far more subtle, and far more dangerous <em>precisely because</em> they are subtle. There are three, and they tend to operate simultaneously.</p>
 
   <h3>Mechanism 1: Biased training data</h3>
 
@@ -409,9 +408,9 @@
     <div class="concept-def">A cycle in which an algorithm&rsquo;s outputs become part of the data used to train future versions of the algorithm, causing initial biases to compound over time. Feedback loops are especially dangerous because they can make biased systems appear <em>more accurate</em> over time &mdash; the model&rsquo;s predictions match the data increasingly well, because the data is increasingly shaped by the model&rsquo;s prior predictions. The system looks like it is working. It is working &mdash; at reproducing inequality.</div>
   </div>
 
-  <p>These three mechanisms &mdash; biased training data, proxy variables, and feedback loops &mdash; do not operate in isolation. In most real-world AI systems, all three are at work simultaneously. The Workday system Mobley is suing likely learned from biased historical hiring decisions, used features that correlate with age and race, and updated its models based on the screening decisions it had already made. Untangling which mechanism caused which harm is one of the central challenges of the litigation.</p>
+  <p>These three mechanisms &mdash; biased training data, proxy variables, and feedback loops &mdash; do not operate in isolation. In the Workday system Mobley is suing, all three are likely at work: historical hiring decisions shaped the training data, features like graduation year and college name serve as proxies for age and race, and the model updates itself based on its own prior screening decisions. Untangling which mechanism caused which harm is one of the central challenges of the litigation.</p>
 
-  <p>But here is the truly hard part. Even if you understand these mechanisms, even if you test for bias and find it, fixing the problem is not straightforward. Because fairness itself &mdash; as a mathematical concept &mdash; turns out to be more complicated than it sounds.</p>
+  <p>But here is the truly hard part &mdash; the thing that separates AI ethics from ordinary engineering problems. Even if you understand all three mechanisms, even if you test for bias and find it, even if you want desperately to fix it &mdash; the fix is not straightforward. Because fairness itself, as a mathematical concept, turns out to be far more complicated than anyone expected.</p>
 
   <!-- ============================================================ -->
   <!-- SECTION 6 -->
@@ -554,7 +553,7 @@
     <div class="insight-text">Floridi&rsquo;s five principles are not just academic theory. They are the foundation of most real-world AI governance documents &mdash; including the EU AI Act, the OECD AI Principles (adopted by 46 countries), and the ethics codes of companies like Google, Microsoft, and IBM. When you encounter an AI ethics problem in your career, this is the vocabulary the industry uses. And the five principles give you a practical checklist: Is this system doing good? Is it avoiding harm? Do humans retain control? Is it fair? Can anyone explain it and take responsibility? If the answer to any of those questions is &ldquo;no&rdquo; &mdash; or &ldquo;I don&rsquo;t know&rdquo; &mdash; you have identified the ethical problem.</div>
   </div>
 
-  <p>These five principles give you a way to <em>think</em> about AI ethics. But thinking alone does not protect people from discrimination. Policy does &mdash; or at least, it is supposed to. The next section maps the chaotic, fast-moving, and deeply political landscape of AI regulation in the United States and beyond.</p>
+  <p>Floridi&rsquo;s five principles give you a way to <em>think</em> about AI ethics. But here is the uncomfortable reality: thinking clearly does not, by itself, protect anyone from discrimination. For that, you need policy &mdash; rules with teeth, enforced by institutions with authority. And in the United States right now, that infrastructure is shockingly thin.</p>
 
   <!-- ============================================================ -->
   <!-- SECTION 8 -->
@@ -611,18 +610,16 @@
     <div class="update-text">The U.S. has <strong>no comprehensive federal AI law</strong>. The Biden-era governance framework has been dismantled. The Trump administration is actively trying to block states from filling the gap. Meanwhile, states are moving ahead anyway. The EU AI Act is the most comprehensive regime globally. For IS professionals, the practical implication is this: <strong>the rules depend on where you are, who you serve, and which level of government is acting</strong> &mdash; a deeply unstable situation for anyone building systems meant to operate at scale.</div>
   </div>
 
-  <p>So: no comprehensive federal law. A fractured patchwork of state and local regulation. An administration that views anti-bias requirements as obstacles to innovation. An EU framework that may become the de facto global standard. And underneath all of it, millions of people being evaluated, scored, and sorted by AI systems every day. Which brings us back to where we started &mdash; and to the question that matters most for your career.</p>
+  <p>So: no comprehensive federal law. A fractured patchwork of state and local regulation. An administration that views anti-bias requirements as obstacles to innovation. An EU framework that may become the de facto global standard. And underneath all of it, millions of people being evaluated, scored, and sorted by AI systems every day &mdash; people like Derek Mobley, who started this chapter with 100 rejected applications and a rejection email timestamped 1:50 a.m. What should someone in your position do about all of this?</p>
 
   <!-- ============================================================ -->
   <!-- SECTION 9 -->
   <!-- ============================================================ -->
   <h2 id="s9"><span class="section-num">9</span> Return to Workday: What Should IS Professionals Do?</h2>
 
-  <p>We began this chapter with Derek Mobley and 100 rejected applications. Since then, we have traveled from 1930s redlining maps to 2018 facial recognition research to 2026 courtrooms and legislative chambers. We have looked at the mechanics of how algorithms become biased, confronted the mathematical impossibility of a single definition of fairness, introduced Floridi&rsquo;s five principles for ethical AI, and mapped the chaotic policy landscape governing AI.</p>
+  <p>We have covered a lot of ground in this chapter &mdash; from 1930s redlining to 2026 courtrooms, from the mathematics of fairness to the politics of regulation. All of it leads to the same question: what should you actually <em>do</em> when you are the person in the room building, buying, or deploying these systems?</p>
 
-  <p>Now the question is the one that matters most for you as a future IS professional: what should you actually <em>do</em>?</p>
-
-  <p>There is no single answer. But there are principles that hold regardless of which ethical framework you apply, which administration is in office, or which state you work in.</p>
+  <p>There is no single answer. But there are principles that hold regardless of which administration is in office, which state you work in, or which ethical framework you apply.</p>
 
   <h3>Principle 1: You are responsible for what your systems do.</h3>
 
