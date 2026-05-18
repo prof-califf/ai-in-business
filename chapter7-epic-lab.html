@@ -80,6 +80,15 @@
   .loop-line { border-left: 2px solid #e8b0c0; margin-left: 1.75rem; height: 6px; }
   .footer-nav { display: flex; justify-content: space-between; padding: 1.5rem 0; border-top: 1px solid #e2e8f0; margin-top: 3rem; }
   .footer-nav a { font-size: 14px; color: #cd003b; text-decoration: none; font-weight: 700; }
+  sup.fn { font-size: 10px; font-weight: 700; color: #cd003b; text-decoration: none; cursor: pointer; }
+  sup.fn a { color: #cd003b; text-decoration: none; }
+  sup.fn a:hover { text-decoration: underline; }
+  .sources { background: #f8f8f8; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.25rem 1.5rem; margin-bottom: 3rem; }
+  .sources h3 { font-size: 14px; font-weight: 700; color: #222; margin-bottom: 0.75rem; }
+  .sources ol { margin: 0 0 0 1.25rem; font-size: 12px; color: #555; }
+  .sources li { margin-bottom: 0.5rem; line-height: 1.55; }
+  .sources li a { color: #cd003b; text-decoration: none; }
+  .sources li a:hover { text-decoration: underline; }
   footer { background: #1a0010; padding: 1.5rem 2rem; text-align: center; }
   footer p { font-size: 13px; color: #8a4055; }
   footer a { color: #cd003b; text-decoration: none; }
@@ -142,8 +151,8 @@
 
   <div class="scenario">
     <h2 style="font-size:18px;font-weight:700;color:#222;margin-bottom:1rem;">The setup</h2>
-    <p>You are a health systems data analyst at Swedish Medical Center, part of the Providence health system in Seattle. You majored in MIS and took an AI in Business class. Your manager, the VP of Revenue Cycle, pulls you aside after a meeting:</p>
-    <p style="background:#fff;border-left:3px solid #cd003b;padding:0.75rem 1rem;border-radius:0 6px 6px 0;font-style:italic;color:#444;">&ldquo;Hey &mdash; you took that AI class, right? Have you heard of agentic AI? We have a real problem. Insurance companies deny about 17% of our claims, and it&rsquo;s getting worse &mdash; denials are up 16% since 2018. Here&rsquo;s the thing though: <strong>when people actually appeal, 57% of denials get overturned.</strong> More than half! But almost nobody appeals &mdash; fewer than 1% of patients challenge their denials. It&rsquo;s not because the denials are right. It&rsquo;s because nobody has the time. Each appeal takes our team 45 minutes to research and write. We just can&rsquo;t fight them all. I want to know if we can build an AI agent that drafts these appeals for us &mdash; so we can fight on behalf of more patients. Can you build me a proof-of-concept?&rdquo;</p>
+    <p>You are a healthcare systems analyst at Swedish Medical Center, part of the Providence health system in Seattle. You majored in MIS and took an AI in Business class. Your manager, the VP of Revenue Cycle, pulls you aside after a meeting:</p>
+    <p style="background:#fff;border-left:3px solid #cd003b;padding:0.75rem 1rem;border-radius:0 6px 6px 0;font-style:italic;color:#444;">&ldquo;Hey &mdash; you took that AI class, right? Have you heard of agentic AI? We have a real problem. Insurance companies deny about 17% of our claims,<sup class="fn"><a href="#fn1">1</a></sup> and it&rsquo;s getting worse &mdash; denials are up 16% since 2018.<sup class="fn"><a href="#fn2">2</a></sup> Here&rsquo;s the thing though: <strong>when people actually appeal, 57% of denials get overturned.</strong><sup class="fn"><a href="#fn1">1</a></sup> More than half! But almost nobody appeals &mdash; fewer than 1% of patients challenge their denials.<sup class="fn"><a href="#fn3">3</a></sup> It&rsquo;s not because the denials are right. It&rsquo;s because nobody has the time. Each appeal takes our team 45 minutes to research and write.<sup class="fn"><a href="#fn4">4</a></sup> We just can&rsquo;t fight them all. I want to know if we can build an AI agent that drafts these appeals for us &mdash; so we can fight on behalf of more patients. Can you build me a proof-of-concept?&rdquo;</p>
     <p><strong>Your deliverable:</strong> A working prototype of an AI agent that reads an insurance denial, pulls evidence from the patient&rsquo;s medical chart, and drafts an appeal letter for human review before submission.</p>
   </div>
 
@@ -151,7 +160,7 @@
   <div class="exercise" id="step1">
     <div class="exercise-header"><div class="exercise-number">Step 1</div><div class="exercise-title">Research: What is agentic AI and how is it different?</div></div>
     <div class="exercise-body">
-      <p>Your manager asked you to &ldquo;figure out what agentic AI is.&rdquo; Before you build anything, you need to understand what makes an agent different from the AI tools you already use. Let&rsquo;s start with a simple test.</p>
+      <p>Before you build anything, you need to understand what you&rsquo;re building. Your manager said &ldquo;figure out what agentic AI is&rdquo; &mdash; so let&rsquo;s start with a quick experiment that shows why the AI tools you already know how to use aren&rsquo;t enough for this problem.</p>
 
       <h4>Try it</h4>
       <p>Open ChatGPT and Claude. Type the same prompt into each:</p>
@@ -191,7 +200,7 @@
   <div class="exercise" id="step2">
     <div class="exercise-header"><div class="exercise-number">Step 2</div><div class="exercise-title">Build the AI Insurance Advocate in n8n</div></div>
     <div class="exercise-body">
-      <p>You are building the <strong>AI Insurance Advocate</strong> &mdash; four components that map to the agent loop:</p>
+      <p>Now it&rsquo;s time to build the AI Insurance Advocate. You are going to create a working AI agent that can read a denial letter, pull a patient&rsquo;s medical chart, look up the insurance policy, and draft an appeal &mdash; all on its own. Four components, and they map directly to the agent loop you just learned:</p>
       <div style="background:#f8f8f8;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;margin:0.75rem 0;font-size:14px;display:grid;grid-template-columns:auto 1fr;gap:0.4rem 1rem;">
         <div style="font-weight:700;color:#cd003b;">Chat Trigger</div><div>How the denial enters &mdash; what the agent <strong>observes</strong></div>
         <div style="font-weight:700;color:#cd003b;">AI Agent + Claude</div><div>The brain &mdash; <strong>thinks</strong> and <strong>checks</strong></div>
@@ -303,7 +312,8 @@ Appeal deadline: May 14, 2026</pre></div>
   <div class="exercise" id="step3">
     <div class="exercise-header"><div class="exercise-number">Step 3</div><div class="exercise-title">Break the AI insurance advocate</div></div>
     <div class="exercise-body">
-      <p>Your prototype works &mdash; but before you show it to your manager, you need to test what happens when things go wrong. A good analyst does not just show that something works. They show where it breaks, and whether it fails safely. Let&rsquo;s find out.</p>
+      <p>Nice &mdash; you have a working agent. It read the denial, pulled the chart, checked the policy, and drafted a real appeal letter. But before you show this to your manager, you need to answer the question she&rsquo;s definitely going to ask: <em>&ldquo;What happens when something goes wrong?&rdquo;</em></p>
+      <p>A good analyst doesn&rsquo;t just show that something works. They show where it breaks, and whether it fails safely. Let&rsquo;s find out.</p>
       <p><strong>Deactivate</strong> the Patient Chart tool (right-click the node &rarr; Deactivate). Run the same denial letter again.</p>
       <p>The AI Insurance Advocate will <strong>not</strong> fabricate details &mdash; because we told it not to. Instead it falls back to asking <em>you</em> for the information, just like Claude did in Step 1. <strong>Without tools, the AI Insurance Advocate drops from Level 3 to Level 2.</strong></p>
       <div class="concept">
@@ -324,8 +334,8 @@ Appeal deadline: May 14, 2026</pre></div>
   <div class="exercise" id="step4">
     <div class="exercise-header"><div class="exercise-number">Step 4</div><div class="exercise-title">Second patient &mdash; can the advocate handle more than one case?</div></div>
     <div class="exercise-body">
-      <p>Your manager is impressed with the Maria Santos prototype, but she has a question: &ldquo;This is great for one patient. But we process hundreds of denials a month. Does the workflow hold up with a completely different case &mdash; different patient, different condition, different denial reason?&rdquo;</p>
-      <p>In a real hospital, the Patient Chart tool would connect to the EHR and pull <em>any</em> patient&rsquo;s records automatically. Let&rsquo;s simulate that by adding a second patient to the tool.</p>
+      <p>OK, so the agent works <em>and</em> it fails gracefully when you break it. Your manager is impressed &mdash; but she has a follow-up: <em>&ldquo;This is great for one patient. But we process hundreds of denials a month. Does the workflow hold up with a completely different case &mdash; different patient, different condition, different denial reason?&rdquo;</em></p>
+      <p>Good question. In a real hospital, the Patient Chart tool would connect to the EHR and pull <em>any</em> patient&rsquo;s records automatically. Let&rsquo;s simulate that by adding a second patient to the tool.</p>
       <p>Go back to the AI Insurance Advocate you just built and double-click the <strong>Patient Chart</strong> node. Add this record <strong>below</strong> Maria&rsquo;s data (put a line of dashes between them):</p>
 
       <div class="data-doc">
@@ -375,8 +385,8 @@ Appeal deadline: May 2, 2026</pre></div>
   <div class="exercise" id="step5">
     <div class="exercise-header"><div class="exercise-number">Step 5</div><div class="exercise-title">Audit the output &mdash; is the AI Insurance Advocate actually right?</div></div>
     <div class="exercise-body">
-      <p>Your manager watched the demo and she&rsquo;s impressed. The appeal letters look professional, the agent calls the right tools, and the whole thing runs in under a minute. But she has one more question before she takes this to leadership: <em>&ldquo;How do we know the output is actually accurate?&rdquo;</em></p>
-      <p>This is the part of working with AI that separates someone who can build a cool demo from someone who can put a system into production. Generative AI is good at producing things that <em>look</em> right &mdash; professional formatting, confident tone, specific-sounding details. But looking right and <em>being</em> right are not the same thing. As an IS professional, your job is not just to build the system. It is to understand how it works well enough to know when it is wrong, explain why it is wrong, and fix it.</p>
+      <p>At this point you&rsquo;ve built the agent, broken it, and tested it on two completely different patients. The appeal letters look professional, the agent calls the right tools, and the whole thing runs in under a minute. Your manager is ready to take this to leadership &mdash; but she has one more question: <em>&ldquo;How do we know the output is actually accurate?&rdquo;</em></p>
+      <p>This is where the real work starts. Generative AI is <em>really</em> good at producing things that look right &mdash; professional formatting, confident tone, specific-sounding details. But looking right and being right are not the same thing. Your job as an IS professional isn&rsquo;t just to build the system. It&rsquo;s to understand how it works well enough to know when it&rsquo;s wrong, explain why, and fix it.</p>
 
       <h4>Line-by-line audit</h4>
       <p>Go back to the Maria Santos appeal letter the AI Insurance Advocate produced in Step 2. Read it line by line and check every factual claim against the source documents:</p>
@@ -405,9 +415,9 @@ Appeal deadline: May 2, 2026</pre></div>
   <div class="exercise" id="step6">
     <div class="exercise-header"><div class="exercise-number">Step 6</div><div class="exercise-title">AI governance &mdash; evaluate the agent you just built</div></div>
     <div class="exercise-body">
-      <p>You built a working AI agent. You tested it, broke it, and audited its output. Now your manager has one more question before she takes this to leadership: <em>&ldquo;If we actually deployed this, what governance would we need around it?&rdquo;</em></p>
+      <p>So far you&rsquo;ve built the agent, broken it on purpose, tested it on a second patient, and audited its output line by line. You know it works, you know where it struggles, and you can verify its accuracy. Now your manager has the big-picture question: <em>&ldquo;If we actually deployed this, what governance would we need around it?&rdquo;</em></p>
 
-      <p>This is the question that separates a prototype from a production system. Building an AI agent is the easy part. Governing it &mdash; deciding what it is allowed to do, what data it can touch, where humans must intervene, how you prove it works, and what triggers a shutdown &mdash; is what makes it safe enough to use on real patients.</p>
+      <p>This is the question that separates a prototype from a production system. Building an AI agent is the easy part. Governing it &mdash; deciding what it&rsquo;s allowed to do, what data it can touch, where humans must intervene, how you prove it works, and what triggers a shutdown &mdash; is what makes it safe enough to use on real patients.</p>
 
       <div class="concept">
         <div class="concept-label">Five layers of AI governance</div>
@@ -449,7 +459,8 @@ Appeal deadline: May 2, 2026</pre></div>
   <div class="exercise" id="step7">
     <div class="exercise-header"><div class="exercise-number">Step 7</div><div class="exercise-title">Should we be using AI agents for this?</div></div>
     <div class="exercise-body">
-      <p>Your prototype works. But your manager does not just want a demo &mdash; she wants your recommendation. She asks: &ldquo;What should I tell leadership about the risks?&rdquo; Before you say &ldquo;yes, let&rsquo;s deploy this,&rdquo; think through the harder questions:</p>
+      <p>You&rsquo;ve built it, tested it, audited it, and written the governance framework. The prototype works and you know how to make it safe. But your manager doesn&rsquo;t just want a demo &mdash; she wants your honest recommendation. She asks: <em>&ldquo;What should I tell leadership about the risks?&rdquo;</em></p>
+      <p>Before you say &ldquo;yes, let&rsquo;s deploy this,&rdquo; step back and think through the harder questions that nobody asks during the demo:</p>
       <ul>
         <li><strong>AI arms race:</strong> Hospitals use AI to fight denials; insurers use AI to <em>make</em> denials. Does the overarching healthcare system improve for patients, or just get faster at being broken?</li>
         <li><strong>Jobs:</strong> 15-person appeals team becomes 5 people reviewing AI output. Augmentation or replacement?</li>
@@ -469,7 +480,7 @@ Appeal deadline: May 2, 2026</pre></div>
   <div class="exercise" id="step8">
     <div class="exercise-header"><div class="exercise-number">Step 8</div><div class="exercise-title">Design and build your own agent</div></div>
     <div class="exercise-body">
-      <p>You have built an agent for your hospital. Now prove you understand the pattern well enough to apply it to a completely different problem.</p>
+      <p>You just spent seven steps building, breaking, auditing, governing, and debating an AI agent for healthcare. Now it&rsquo;s time to prove you understand the pattern well enough to apply it to something completely different &mdash; something from your own life.</p>
 
       <h4>Choose one:</h4>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin:1rem 0;">
@@ -627,8 +638,8 @@ Only use facts from the tools. Do not make up team members, deadlines, or comple
     <div class="exercise-header"><div class="exercise-number">Step 9</div><div class="exercise-title">Publish as a portfolio page</div></div>
     <div class="exercise-body">
 
-      <h4>Gather your artifacts</h4>
-      <p>Before you build the portfolio page, collect these from your lab work:</p>
+      <h4>Almost done &mdash; time to show your work</h4>
+      <p>You&rsquo;ve built two working AI agents, tested their limits, audited their output, designed a governance framework, and wrestled with the ethics. That&rsquo;s a lot of work &mdash; now let&rsquo;s turn it into something you can actually show people. Before you build the portfolio page, collect these from your lab work:</p>
       <ul>
         <li><strong>Export your n8n workflows as JSON files:</strong> In n8n, click the three dots (&hellip;) at the top of each workflow &rarr; &ldquo;Download&rdquo; &rarr; save the .json file. Do this for both the AI Insurance Advocate and your personal agent.</li>
         <li><strong>Take screenshots</strong> of both workflow canvases (showing all the nodes connected) and the agent logs</li>
@@ -692,7 +703,7 @@ This should look like something I would link on LinkedIn and show to a hiring ma
 
       <div class="concept" style="background:#fdf0f5;border-left-color:#e8197d;">
         <div class="concept-label" style="color:#e8197d;">The big picture</div>
-        <p>Over this quarter you built seven lab projects &mdash; each one a GitHub Pages site exploring how a real company uses AI. Right now those projects are scattered across separate repos. This bonus step pulls them together into <strong>one portfolio page</strong> that tells the full story of what you learned.</p>
+        <p>You just published your Epic lab &mdash; but that&rsquo;s only one of seven projects you&rsquo;ve built this quarter. Right now those projects are scattered across separate GitHub repos. This bonus step pulls them all together into <strong>one portfolio page</strong> that tells the full story of what you learned.</p>
         <p>Think of it as the front door to your work &mdash; a single link you can put on LinkedIn, a r&eacute;sum&eacute;, or share with a hiring manager.</p>
       </div>
 
@@ -816,6 +827,16 @@ This should look like it belongs on the same site as https://prof-califf.github.
 
       <p><strong>Submit to Canvas:</strong> Your portfolio GitHub Pages URL &mdash; <code>https://yourusername.github.io/ai-in-business-portfolio</code></p>
     </div>
+  </div>
+
+  <div class="sources" id="sources">
+    <h3>Sources</h3>
+    <ol>
+      <li id="fn1">Medicare Advantage Denies 17 Percent of Initial Claims; Most Denials Are Reversed, But Provider Payouts Dip 7 Percent. <em>Health Affairs</em>, June 2025. Study of medical claims data covering 30% of the MA market in 2019 found claim denial rates of 17% and that 57% of all claim denials were ultimately overturned. <a href="https://www.healthaffairs.org/doi/10.1377/hlthaff.2024.01485" target="_blank">healthaffairs.org</a></li>
+      <li id="fn2">How Insurance Claim Denials Harm Patients&rsquo; Health, Finances. <em>The American Journal of Managed Care</em> (AJMC), May 2025, citing Arif Nathoo, CEO and cofounder of Komodo Health: &ldquo;claim denials have increased 16% from 2018 to 2024.&rdquo; <a href="https://www.ajmc.com/view/how-insurance-claim-denials-harm-patients-health-finances" target="_blank">ajmc.com</a></li>
+      <li id="fn3">Claims Denials and Appeals in ACA Marketplace Plans. Kaiser Family Foundation (KFF), March 2026. &ldquo;Consumers rarely appeal denied claims (fewer than 1% of denied claims were appealed).&rdquo; <a href="https://www.kff.org/patient-consumer-protections/claims-denials-and-appeals-in-aca-marketplace-plans-in-2024/" target="_blank">kff.org</a></li>
+      <li id="fn4">Industry estimates for denied claim rework time range from 25&ndash;45 minutes per claim, with complex appeals taking 50&ndash;70 minutes. Sources: Azalea Health (2026), citing industry benchmarks; TextExpander (2026), citing MGMA data. <a href="https://azaleahealth.com/blog/best-practices-to-reduce-claim-denials/" target="_blank">azaleahealth.com</a></li>
+    </ol>
   </div>
 
   <div class="footer-nav">
