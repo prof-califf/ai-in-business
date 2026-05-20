@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 11: AI and the Future of Work &mdash; What Is Actually Happening | MIS 432</title>
+<style>
+  nav { background: #0f0720; padding: 0.85rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+  .nav-brand { color: #ffffff; font-size: 15px; font-weight: 700; text-decoration: none; }
+  .nav-links { display: flex; gap: 1.25rem; align-items: center; }
+  .nav-links a { color: #c4b5fd; font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: #e0d4ff; }
+  .nav-badge { background: #7c3aed; color: #ffffff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+  .hero { background: linear-gradient(135deg, #0f0720 0%, #3b1578 55%, #7c3aed 100%); padding: 3.5rem 2rem 3rem; }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+  .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #e8dff5; margin-bottom: 0.75rem; }
+  .hero h1 { font-size: 34px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 0.75rem; }
+  .hero-sub { font-size: 16px; color: #e8dff5; max-width: 640px; line-height: 1.65; margin-bottom: 1.5rem; }
+  .hero-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .hero-meta span { font-size: 13px; color: #e8dff5; }
+  .hero-meta strong { color: #fff; }
+  .hero-nav { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+  .btn { display: inline-block; padding: 0.55rem 1.2rem; border-radius: 6px; font-size: 13px; font-weight: 700; text-decoration: none; }
+  .btn-primary { background: #7c3aed; color: #ffffff; }
+  .btn-outline { background: transparent; border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; }
+  .btn:hover { opacity: 0.85; }
+  .chapter-nav-bar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-top: 1px solid #e2e8f0; margin-top: 2rem; flex-wrap: wrap; gap: 0.75rem; }
+  .chapter-nav-bar a { font-size: 14px; color: #7c3aed; text-decoration: none; font-weight: 700; }
+  .chapter-nav-bar a:hover { text-decoration: underline; }
+  footer { background: #0f0720; padding: 1.5rem 2rem; text-align: center; }
+  footer p { font-size: 13px; color: #6b5b8a; }
+  footer a { color: #7c3aed; text-decoration: none; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #ffffff; color: #333; }
+  a.source-link { color: #7c3aed; text-decoration: none; border-bottom: 1px solid #c4b5fd; }
+  a.source-link:hover { color: #5b21b6; border-bottom-color: #7c3aed; }
+  .doc { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .cover { border-bottom: 3px solid #7c3aed; padding-bottom: 1.5rem; margin-bottom: 2rem; }
+  .cover-tag { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #7c3aed; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .cover h1 { font-size: 28px; font-weight: 600; color: #111; line-height: 1.3; margin-bottom: 0.5rem; }
+  .cover-sub { font-size: 15px; color: #555; }
+  .cover-meta { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; }
+  .cover-meta span { font-size: 12px; color: #ffffff; background: #0f0720; border: 1px solid #3b1578; border-left: 3px solid #7c3aed; border-radius: 4px; padding: 0.4rem 0.75rem; line-height: 1.5; }
+  .cover-meta strong { color: #c4b5fd; font-weight: 700; }
+  .mission-block { background: #0f0720; border-radius: 8px; padding: 1.5rem 1.75rem; margin: 1.5rem 0; }
+  .mission-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #c4b5fd; margin-bottom: 0.5rem; }
+  .mission-text { font-size: 18px; font-weight: 600; color: #ffffff; line-height: 1.5; font-style: italic; }
+  h2 { font-size: 20px; font-weight: 600; color: #111; margin: 2rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 3px solid #7c3aed; }
+  h3 { font-size: 16px; font-weight: 600; color: #111; margin: 1.5rem 0 0.5rem; }
+  h4 { font-size: 14px; font-weight: 600; color: #555; margin: 1.2rem 0 0.4rem; }
+  p { font-size: 15px; line-height: 1.75; color: #444; margin-bottom: 0.9rem; }
+  ul { margin: 0.5rem 0 1rem 1.5rem; }
+  li { font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 0.3rem; }
+  strong { color: #111; font-weight: 600; }
+  em { font-style: italic; }
+  .concept-box { background: #f3f0ff; border-left: 4px solid #7c3aed; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .concept-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #7c3aed; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .concept-term { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 0.3rem; }
+  .concept-def { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+  .insight-box { background: #f3f0ff; border-left: 4px solid #c4b5fd; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .insight-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #7c3aed; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .insight-text { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+  .danger-box { background: #fef2f2; border-left: 4px solid #dc2626; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .danger-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #dc2626; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .danger-text { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+  .update-box { background: #0f0720; border-left: 4px solid #7c3aed; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .update-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #c4b5fd; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .update-text { font-size: 14px; color: #e8dff5; line-height: 1.6; margin: 0; }
+  .update-text strong { color: #ffffff; }
+  .future-box { background: linear-gradient(135deg, #0f0720 0%, #080412 100%); border: 1px solid #7c3aed; border-radius: 8px; padding: 1.25rem 1.4rem; margin: 1.5rem 0; }
+  .future-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #c4b5fd; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .future-text { font-size: 14px; color: #e8dff5; line-height: 1.65; margin: 0; }
+  .future-text strong { color: #ffffff; }
+  .perspective-box { background: #faf9fe; border: 1.5px solid #7c3aed; border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1rem 0; }
+  .perspective-who { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #7c3aed; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem; }
+  .perspective-text { font-size: 14px; color: #333; line-height: 1.65; margin: 0; font-style: italic; }
+  .minicase-box { background: #fdfdfd; border: 2px solid #7c3aed; border-radius: 8px; padding: 1.25rem 1.4rem 1.1rem; margin: 1.8rem 0; box-shadow: 0 1px 4px rgba(124,58,237,0.08); }
+  .minicase-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #7c3aed; text-transform: uppercase; margin-bottom: 0.4rem; display: inline-block; padding: 0.2rem 0.6rem; background: #f3f0ff; border-radius: 3px; }
+  .minicase-title { font-size: 17px; font-weight: 700; color: #111; margin: 0.5rem 0 0.75rem; }
+  .minicase-box p { font-size: 14.5px; color: #333; line-height: 1.65; margin: 0 0 0.7rem; }
+  .minicase-box p:last-child { margin-bottom: 0; }
+  .timeline { margin: 1.5rem 0; border-left: 3px solid #7c3aed; padding-left: 1.5rem; }
+  .timeline-item { margin-bottom: 1.5rem; position: relative; }
+  .timeline-item::before { content: ''; position: absolute; left: -1.85rem; top: 0.4rem; width: 10px; height: 10px; border-radius: 50%; background: #7c3aed; border: 2px solid #fff; box-shadow: 0 0 0 2px #7c3aed; }
+  .timeline-year { font-size: 12px; font-weight: 700; color: #7c3aed; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.2rem; }
+  .timeline-title { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 0.3rem; }
+  .timeline-text { font-size: 14px; color: #555; line-height: 1.6; }
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.75rem; margin: 1rem 0 1.5rem; }
+  .vocab-card { background: #f8f8f8; border: 1px solid #e0e0e0; border-top: 3px solid #7c3aed; border-radius: 6px; padding: 0.8rem 1rem; }
+  .vocab-term { font-size: 13px; font-weight: 600; color: #111; margin-bottom: 0.25rem; }
+  .vocab-def { font-size: 13px; color: #555; line-height: 1.55; }
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin: 1rem 0 1.5rem; }
+  .stat-card { background: #0f0720; border-radius: 8px; padding: 0.85rem 1rem; text-align: center; }
+  .stat-num { font-size: 22px; font-weight: 700; color: #c4b5fd; }
+  .stat-label { font-size: 12px; color: #9b8abf; margin-top: 3px; }
+  .toc { background: #f8f6ff; border-left: 4px solid #7c3aed; border-radius: 0 10px 10px 0; padding: 1rem 1.25rem; margin-bottom: 2rem; }
+  .toc-title { font-size: 12px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #7c3aed; margin-bottom: 0.6rem; }
+  .toc a { display: block; font-size: 14px; color: #444; text-decoration: none; padding: 4px 0; border-bottom: 1px solid #e8e8e8; }
+  .toc a:last-child { border-bottom: none; }
+  .toc a:hover { color: #7c3aed; padding-left: 4px; transition: padding 0.15s ease; }
+  .section-num { display: inline-block; background: #7c3aed; color: #ffffff; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 20px; margin-right: 6px; vertical-align: middle; }
+  .discussion-list { counter-reset: dq; list-style: none; margin: 0 0 1rem; padding: 0; }
+  .discussion-list li { counter-increment: dq; padding: 0.7rem 0.7rem 0.7rem 2.8rem; position: relative; border-bottom: 1px solid #EEEEEE; font-size: 15px; color: #444; line-height: 1.65; }
+  .discussion-list li::before { content: counter(dq); position: absolute; left: 0.5rem; top: 0.75rem; background: #7c3aed; color: #ffffff; font-size: 12px; font-weight: 700; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  hr { border: none; border-top: 1px solid #E8E8E8; margin: 2rem 0; }
+  .framework-box { background: #faf9fe; border: 2px solid #7c3aed; border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; }
+  .framework-title { font-size: 16px; font-weight: 700; color: #3b1578; margin-bottom: 0.75rem; }
+  .framework-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.5rem; }
+  .framework-cell { background: #f3f0ff; border-radius: 6px; padding: 0.75rem 1rem; }
+  .framework-cell-label { font-size: 11px; font-weight: 700; color: #7c3aed; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.3rem; }
+  .framework-cell-text { font-size: 13px; color: #444; line-height: 1.55; margin: 0; }
+  @media (max-width: 600px) {
+    .framework-row { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .hero h1 { font-size: 26px; }
+    .cover h1 { font-size: 22px; }
+    .cover-meta { flex-direction: column; }
+  }
+  .nav-dropdown { position: relative; }
+  .nav-dropdown-toggle { color: #c4b5fd; font-size: 13px; font-weight: 500; text-decoration: none; background: none; border: none; cursor: pointer; padding: 0; display: inline-flex; align-items: center; gap: 4px; transition: color 0.15s; font-family: inherit; }
+  .nav-dropdown-toggle:hover, .nav-dropdown:hover .nav-dropdown-toggle, .nav-dropdown.open .nav-dropdown-toggle { color: #fff; }
+  .nav-dropdown-toggle .caret { display: inline-block; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid currentColor; transition: transform 0.15s; }
+  .nav-dropdown:hover .nav-dropdown-toggle .caret, .nav-dropdown.open .nav-dropdown-toggle .caret { transform: rotate(180deg); }
+  .nav-dropdown-menu { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(-4px); background: #0f0720; border: 1px solid rgba(124,58,237,0.2); border-radius: 4px; min-width: 240px; padding: 0.4rem 0; opacity: 0; visibility: hidden; transition: opacity 0.15s, visibility 0.15s, transform 0.15s; box-shadow: 0 8px 24px rgba(0,0,0,0.35); z-index: 200; max-height: 70vh; overflow-y: auto; }
+  .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown.open .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+  .nav-dropdown::after { content: ''; position: absolute; top: 100%; left: 0; right: 0; height: 12px; }
+  .nav-dropdown-menu a { display: block; padding: 0.5rem 1rem; color: rgba(255,255,255,0.65); font-size: 13px; font-weight: 500; text-decoration: none; border-left: 2px solid transparent; transition: color 0.12s, background 0.12s, border-color 0.12s; }
+  .nav-dropdown-menu a:hover { color: #7c3aed; background: rgba(124,58,237,0.08); border-left-color: #7c3aed; }
+  .nav-dropdown-menu .menu-num { display: inline-block; font-size: 11px; color: #7c3aed; margin-right: 7px; min-width: 24px; font-weight: 700; }
+  .nav-dropdown-menu .menu-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 0.3rem 0.75rem; }
+  .menu-divider-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 0.4rem 1rem 0.2rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 432 &middot; AI in Business</a>
+  <div class="nav-links">
+    <span class="nav-badge">Chapter 11</span>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Chapters &amp; Labs <span class="caret"></span></button>
+      <div class="nav-dropdown-menu" role="menu">
+        <div class="menu-divider-label">Chapters</div>
+        <a href="chapter1-everycure.html" role="menuitem"><span class="menu-num">01</span>EveryCure</a>
+        <a href="chapter2-netflix.html" role="menuitem"><span class="menu-num">02</span>Netflix</a>
+        <a href="chapter3-spotify.html" role="menuitem"><span class="menu-num">03</span>Spotify</a>
+        <a href="chapter4-uber.html" role="menuitem"><span class="menu-num">04</span>Uber</a>
+        <a href="chapter5-waymo.html" role="menuitem"><span class="menu-num">05</span>Waymo</a>
+        <a href="chapter6-airbnb.html" role="menuitem"><span class="menu-num">06</span>Airbnb</a>
+        <a href="chapter7-epic.html" role="menuitem"><span class="menu-num">07</span>Epic</a>
+        <a href="chapter8-environment.html" role="menuitem"><span class="menu-num">08</span>AI &amp; Environment</a>
+        <a href="chapter9-ethics.html" role="menuitem"><span class="menu-num">09</span>AI Ethics &amp; Bias</a>
+        <a href="chapter10-regulation.html" role="menuitem"><span class="menu-num">10</span>Regulating Technology</a>
+        <a href="chapter11-work.html" role="menuitem"><span class="menu-num">11</span>AI &amp; Future of Work</a>
+        <div class="menu-divider"></div>
+        <div class="menu-divider-label">Labs</div>
+        <a href="chapter1-everycure-lab.html" role="menuitem"><span class="menu-num">L1</span>EveryCure Lab</a>
+        <a href="chapter2-netflix-lab.html" role="menuitem"><span class="menu-num">L2</span>Netflix Lab</a>
+        <a href="chapter3-spotify-lab.html" role="menuitem"><span class="menu-num">L3</span>Spotify Lab</a>
+        <a href="chapter4-uber-lab.html" role="menuitem"><span class="menu-num">L4</span>Uber Lab</a>
+        <a href="chapter5-waymo-lab.html" role="menuitem"><span class="menu-num">L5</span>Waymo Lab</a>
+        <a href="chapter6-airbnb-lab.html" role="menuitem"><span class="menu-num">L6</span>Airbnb Lab</a>
+        <a href="chapter7-epic-lab.html" role="menuitem"><span class="menu-num">L7</span>Epic Lab</a>
+      </div>
+    </div>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Chapter 11 &middot; Labor Economics &middot; AI Adoption &middot; Workforce Transformation</div>
+    <h1>AI and the Future of Work:<br>What Is Actually Happening</h1>
+    <p class="hero-sub">Twelve people are running a company from a Slack channel. Graduates are booing tech CEOs at commencement. Employment for young software developers has fallen 20% since 2022 &mdash; but economists cannot agree on whether AI caused it. Companies predicted 84% would have AI at scale by now; 5% actually do. The fear is everywhere. The evidence is contradictory. The truth is more complicated than anyone on our feeds is telling us.</p>
+    <div class="hero-meta">
+      <span><strong>Anchor data:</strong> Yale Budget Lab AI Labor Tracker (2026)</span>
+      <span><strong>Industry:</strong> Cross-sector / Labor economics</span>
+      <span><strong>Core concept:</strong> Task automation, augmentation, and the productivity gap</span>
+    </div>
+    <div class="hero-nav">
+      <a href="index.html" class="btn btn-outline">&larr; All Chapters</a>
+    </div>
+  </div>
+</div>
+
+<div class="doc">
+
+  <div class="cover">
+    <div class="cover-tag">MIS 432 &middot; AI in Business &middot; Economics &amp; Strategy</div>
+    <h1>AI and the Future of Work:<br>What Is Actually Happening</h1>
+    <div class="cover-sub">Everyone has a prediction about AI and jobs. The truth is more complicated than any of them. Here is what the data actually shows, where the real pain is already landing, why organizations are struggling to adopt AI, and what it means for your career.</div>
+    <div class="cover-meta">
+      <span><strong>Level:</strong> Upper-division undergraduate</span>
+      <span><strong>Topics:</strong> AI labor market impact, task automation, enterprise adoption, productivity, workforce transformation</span>
+      <span><strong>Concepts introduced:</strong> 18 key terms</span>
+    </div>
+    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+      <p style="font-size: 13px; color: #888; margin: 0;">
+        <strong style="color: #555;">Primary sources:</strong>
+        <a href="https://budgetlab.yale.edu/research/tracking-impact-ai-labor-market" target="_blank" class="source-link">Yale Budget Lab, &ldquo;Tracking the Impact of AI on the Labor Market&rdquo;</a> (2026) &middot;
+        <a href="https://digitaleconomy.stanford.edu/publication/canaries-in-the-coal-mine-six-facts-about-the-recent-employment-effects-of-artificial-intelligence/" target="_blank" class="source-link">Brynjolfsson et al., &ldquo;Canaries in the Coal Mine&rdquo;</a> (Stanford, 2025) &middot;
+        <a href="https://news.gallup.com/poll/708224/gen-adoption-steady-skepticism-climbs.aspx" target="_blank" class="source-link">Gallup/Walton Foundation, &ldquo;Gen Z AI Adoption &amp; Sentiment&rdquo;</a> (2026) &middot;
+        <a href="https://www.monster.com/career-advice/research/graduate-ai-readiness" target="_blank" class="source-link">Monster, &ldquo;2026 Graduate AI Readiness Report&rdquo;</a> &middot;
+        <a href="https://cdn.openai.com/pdf/the-ai-jobs-transition-framework_report.pdf" target="_blank" class="source-link">OpenAI, &ldquo;The AI Jobs Transition Framework&rdquo;</a> (2026) &middot;
+        <a href="https://cursor.com/blog/better-models-ambitious-work" target="_blank" class="source-link">Cursor &amp; Sarkar, &ldquo;Better Models, More Ambitious Work&rdquo;</a> (2026) &middot;
+        <a href="https://geekway.substack.com/" target="_blank" class="source-link">McAfee, &ldquo;The Geek Way&rdquo; newsletter</a> (2026) &middot;
+        <a href="https://aleximas.substack.com/p/what-will-be-scarce" target="_blank" class="source-link">Imas, &ldquo;What Will Be Scarce&rdquo;</a> (2026) &middot;
+        <a href="https://arxiv.org/abs/2605.03512" target="_blank" class="source-link">Chalkidis &amp; S&oslash;gaard, &ldquo;Brainrot&rdquo;</a> (2025)
+      </p>
+    </div>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">In this chapter</div>
+    <a href="#s1">1. What our feeds are telling us &mdash; and what the data says</a>
+    <a href="#s2">2. The gap: why organizations are failing to adopt AI</a>
+    <a href="#s3">3. What the data actually shows: the Yale Budget Lab tracker</a>
+    <a href="#s4">4. How AI changes work: tasks, not jobs</a>
+    <a href="#s5">5. Who benefits, who gets left behind, and what you lose along the way</a>
+    <a href="#s6">6. What will be scarce: the post-commodity economy</a>
+    <a href="#s7">7. What the forecasters actually predict</a>
+    <a href="#s8">8. What this means for your career</a>
+    <a href="#s9">9. Key vocabulary &amp; discussion questions</a>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-label">The goal of this chapter</div>
+    <div class="insight-text">This chapter will walk through the evidence on AI and work honestly, including where the real pain is already landing. But it will also ask what we can do &mdash; not just as individuals adapting to a new technology, but as citizens who can demand regulation, support labor protections, insist on human-centered design, and hold the people building these systems accountable for the consequences. The goal is not to accept what is happening. It is to understand it well enough to shape it.</div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-label">Connecting to Chapters 9 &amp; 10</div>
+    <div class="insight-text"><a href="https://prof-califf.github.io/ai-in-business/chapter9-ethics.html" target="_blank" class="source-link">Chapter 9</a> examined how AI systems can discriminate &mdash; from biased hiring algorithms to facial recognition failures to mortgage underwriting that penalizes Black applicants. <a href="https://prof-califf.github.io/ai-in-business/chapter10-regulation.html" target="_blank" class="source-link">Chapter 10</a> asked how societies regulate technology &mdash; and found that the regulatory infrastructure is full of gaps. This chapter turns to the question that comes next: <strong>what is AI actually doing to work and the economy?</strong> How fast is it changing things? For whom? And what can we do about it? The answers turn out to be more complicated &mdash; and more uncertain &mdash; than the headlines suggest.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1 -->
+  <!-- ============================================================ -->
+  <h2 id="s1"><span class="section-num">1</span> What Our Feeds Are Telling Us &mdash; and What the Data Says</h2>
+
+  <p>If you are a college student in 2026, the relationship with AI and work probably looks something like this: our TikTok feeds are full of people saying their jobs are being eliminated, tech workers describing layoffs at Meta and Google and Amazon, and career coaches warning us to &ldquo;pivot now or get left behind.&rdquo; The Palantir CEO says AI will &ldquo;destroy humanities jobs.&rdquo; The Anthropic CEO says it could eliminate half of all entry-level white-collar jobs. A viral post about a twelve-person company that runs entirely on AI agents gets millions of views. In the comments: &ldquo;We&rsquo;re cooked.&rdquo;</p>
+
+  <p>The anxiety is not irrational, and it is not small. A <a href="https://news.gallup.com/poll/708224/gen-adoption-steady-skepticism-climbs.aspx" target="_blank" class="source-link">2026 Gallup survey</a> of more than 1,500 people aged 14 to 29 found that the most common emotions Gen Z associates with AI are anger and anxiety &mdash; not excitement, not hopefulness. Thirty-one percent said AI makes them angry, up nine points from 2025. Only 22% said it makes them excited, down fourteen points. A <a href="https://www.monster.com/career-advice/research/graduate-ai-readiness" target="_blank" class="source-link">Monster survey</a> found that 89% of the class of 2026 worries AI could replace entry-level jobs, up from 64% just one year earlier. Some Gen Z workers have started <a href="https://fortune.com/2026/04/08/gen-z-workers-sabotage-ai-rollout-backlash/" target="_blank" class="source-link">actively sabotaging their companies&rsquo; AI rollouts</a> out of fear for their jobs. Thirty percent of those who admitted to sabotage cited fear of obsolescence as the reason.</p>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">89%</div><div class="stat-label">Class of 2026 worried AI will replace entry-level jobs</div></div>
+    <div class="stat-card"><div class="stat-num">31%</div><div class="stat-label">Gen Z who say AI makes them angry (up 9 pts)</div></div>
+    <div class="stat-card"><div class="stat-num">22%</div><div class="stat-label">Gen Z who say AI makes them excited (down 14 pts)</div></div>
+  </div>
+
+  <p>And then there is graduation season 2026. When former Google CEO Eric Schmidt told 10,000 University of Arizona graduates that AI &ldquo;will touch every profession, every classroom, every hospital, every laboratory,&rdquo; the crowd <a href="https://fortune.com/2026/05/20/the-sound-of-graduating-from-college-in-the-ai-summer-of-2026-boo/" target="_blank" class="source-link">booed him</a>. When real estate executive Gloria Caulfield told University of Central Florida graduates that AI was &ldquo;the next industrial revolution,&rdquo; they booed her too. One student yelled, &ldquo;AI sucks.&rdquo; Caulfield turned around and asked, &ldquo;What happened?&rdquo; As one <a href="https://thenextweb.com/news/gen-z-commencement-boos-ai-redundancy-cohort" target="_blank" class="source-link">analysis</a> put it: the graduates were not booing the technology. They were booing the speech that announced their redundancy.</p>
+
+  <p>The anger has context. This is a generation that grew up as the test subjects of the last wave of technology products &mdash; teenagers whose attention was monetized by social media algorithms optimized for engagement, not well-being. A California jury <a href="https://fortune.com/2026/05/19/college-students-booing-commencement-speakers-ai-cheating-cognitive-dissonance/" target="_blank" class="source-link">found Meta liable</a> for injuring a young woman&rsquo;s mental health by design just weeks before these commencement speeches. The former surgeon general called for warning labels on social media while these students were still in high school. They watched the promises &mdash; &ldquo;connecting the world,&rdquo; &ldquo;organizing the world&rsquo;s information&rdquo; &mdash; and then lived through the consequences. Now many of them are graduating into a housing market where median home prices have outpaced wages for over a decade, carrying student debt that previous generations did not face at this scale, and being told by the same industry that profited from their adolescence that AI will be &ldquo;a net positive&rdquo; for their careers. When Jensen Huang told Carnegie Mellon graduates that &ldquo;the answer is not to fear the future,&rdquo; he drew no boos &mdash; but he was speaking to engineering students with some of the highest starting salaries in the country. The students booing Schmidt and Caulfield did not have that luxury.</p>
+
+  <p>The boos are not technophobia. They are the sound of a generation that has learned, from direct experience, to distrust the people who build technologies first and worry about the consequences later. As Chapters 8, 9, and 10 of this textbook have shown, that distrust is well-founded: AI&rsquo;s environmental costs are real (Chapter 8), its capacity to discriminate is documented (Chapter 9), and the regulatory systems meant to protect people from these harms are full of gaps (Chapter 10). The question is not whether the anger is justified. It is whether the people and institutions with the power to shape this transition &mdash; the executives, the legislators, the universities &mdash; are taking it seriously enough to act.</p>
+
+  <p>That fear is understandable. Powerful people are building systems that could automate significant parts of the work you are training for, and they are saying so publicly. When the CEO of Anthropic tells you that AI could eliminate half of all entry-level white-collar jobs, that is not a conspiracy theory on a message board. It is a prediction from someone who builds the technology. You would be foolish <em>not</em> to take it seriously.</p>
+
+  <p>But taking it seriously means looking at what is actually happening &mdash; not just what people say might happen. And when you look at the data, the picture is more complicated than either the doomers or the optimists want you to believe. The <a href="https://budgetlab.yale.edu/research/tracking-impact-ai-labor-market" target="_blank" class="source-link">Yale Budget Lab</a> &mdash; a nonpartisan research center at Yale University &mdash; has been tracking AI&rsquo;s impact on the U.S. labor market using monthly data from the Bureau of Labor Statistics. Their finding, as of spring 2026: measures of AI exposure, automation, and augmentation show <em>no detectable relationship</em> to changes in employment or unemployment. The aggregate data does not yet show AI-driven job loss at scale.</p>
+
+  <p>That does not mean it will never happen. It does not mean people are not already hurting in specific industries (they are &mdash; we will get to that). And it does not mean the fear is wrong. It means the reality is more complicated than any headline or 60-second video can capture. This chapter is going to walk through that reality honestly &mdash; the good, the bad, and the genuinely uncertain. But first, let us look at what is happening at the frontier of AI and work, because it helps explain why the fear and the data seem so far apart.</p>
+
+  <h3>Twelve people and a Slack channel</h3>
+
+  <p>In early 2026, Stripe co-founder Patrick Collison described something that sounded like science fiction. A team of twelve people was running a company called <a href="https://tempo.xyz/" target="_blank" class="source-link">Tempo</a> &mdash; a blockchain-based payments startup &mdash; almost entirely through a single Slack channel. They had put an AI inside a harness, connected it to their entire software infrastructure, and then put <em>that</em> inside Slack. Anyone on the team could type a message describing work that needed to be done &mdash; read these Google Docs, turn them into tasks, write the code, deploy it, test the deployment &mdash; and the AI would do it. All from a single Slack message.</p>
+
+  <div class="perspective-box">
+    <div class="perspective-who">&#x1F4AC; &nbsp; Patrick Collison, co-founder of Stripe, describing Tempo</div>
+    <div class="perspective-text">&ldquo;It&rsquo;s extremely trippy watching a whole organization &mdash; I mean, a small organization, but an organization &mdash; of people do everything in a single Slack channel.&rdquo;</div>
+  </div>
+
+  <p>Sam Altman, the CEO of OpenAI, was on stage with Collison. His response was revealing: even he did not fully trust that AI could do what it was already doing. &ldquo;I myself still find myself not trusting quite enough that it&rsquo;s going to be possible,&rdquo; he said. Then he added something important: &ldquo;The advantage that these smaller companies have is, it&rsquo;s just the AIs. They don&rsquo;t have to figure out the interface with all the people.&rdquo;</p>
+
+  <p>That last sentence matters. The technology is moving incredibly fast. The organizations trying to use it are not. Twelve people can run a company from a Slack channel. A 50,000-person company cannot &mdash; not yet, and maybe not for a long time. That gap between what AI <em>can</em> do and what companies are <em>actually doing</em> with it is the central story of AI and work in 2026. And it is why the fear on our feeds and the absence of evidence in the data can both be true at the same time: we are watching the potential arrive in real time while the impact lags behind. The question no one can answer yet is how long that lag will last.</p>
+
+  <div class="mission-block">
+    <div class="mission-label">The central question</div>
+    <div class="mission-text">&ldquo;AI is clearly powerful enough to transform work. The data says it hasn&rsquo;t happened yet. What is actually going on &mdash; and what should you do about it?&rdquo;</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2 -->
+  <!-- ============================================================ -->
+  <h2 id="s2"><span class="section-num">2</span> The Gap: Why Organizations Are Failing to Adopt AI</h2>
+
+  <p>In early 2026, UBS &mdash; one of the world&rsquo;s largest investment banks &mdash; published research on enterprise AI adoption that contained a striking finding. They asked companies whether they had achieved &ldquo;scaled deployment&rdquo; of AI &mdash; meaning AI was embedded in their core workflows, not just running as a pilot project. Then they compared the answers to what those same companies had predicted twelve months earlier.</p>
+
+  <p>The gap was enormous.</p>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">84%</div><div class="stat-label">Expected scaled deployment within 12 months</div></div>
+    <div class="stat-card"><div class="stat-num">5%</div><div class="stat-label">Actually achieved it</div></div>
+    <div class="stat-card"><div class="stat-num">19%</div><div class="stat-label">At scaled deployment total (as of March 2026)</div></div>
+    <div class="stat-card"><div class="stat-num">9 pts</div><div class="stat-label">Progress in two full years</div></div>
+  </div>
+
+  <p>Read those numbers again. Eighty-four percent of companies said they would be running AI at scale within a year. Five percent actually got there. The gap between intention and execution is not closing. It is widening.</p>
+
+  <p>Why? The UBS survey identified six bottlenecks, and the most important one surprised a lot of people: it was not a technology problem.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">The adoption gap</div>
+    <div class="concept-def">The persistent difference between how quickly AI technology improves and how quickly organizations successfully deploy it. AI capabilities are advancing at an unprecedented pace, but organizational adoption is constrained by unclear ROI, integration complexity, talent shortages, data quality, regulatory uncertainty, and institutional inertia. The adoption gap is not a technology failure. It is an organizational one &mdash; and historically, the organizational challenges of new technologies take far longer to solve than the technical ones.</div>
+  </div>
+
+  <p>The number-one obstacle, cited by 53% of companies, was <strong>unclear return on investment</strong>. More than half of companies could not clearly quantify what they were getting from their AI investments. The second was compliance and regulatory issues (48%). The third was integration complexity (45%) &mdash; and this number was <em>rising</em>, not falling, because companies were discovering that connecting AI to their existing systems was harder than they expected. Talent shortages (42%) and data quality problems (42%) rounded out the list.</p>
+
+  <p>Notice what is <em>not</em> on the list: &ldquo;AI is not good enough.&rdquo; The technology is not the bottleneck. The bottleneck is everything around it &mdash; the organizational structures, the data infrastructure, the measurement systems, and the human decisions about how to use the technology. This pattern is not new. It has happened with every major technology in modern history.</p>
+
+  <div class="minicase-box">
+    <span class="minicase-label">Historical parallel</span>
+    <div class="minicase-title">The electricity gap</div>
+    <p>When electric motors replaced steam engines in factories in the early 1900s, the technology was clearly superior. But it took <em>thirty years</em> for productivity gains to show up in the economic data. Why? Because factories had been designed around steam: a single massive engine in the basement powering everything through belts and shafts. To get the benefit of electric motors, you did not just swap the engine. You had to redesign the entire factory &mdash; new layouts, new workflows, new skills, new management practices. The technology arrived in a decade. The organizational transformation took a generation.</p>
+    <p>Economists Paul David and later Erik Brynjolfsson called this the <strong>productivity paradox</strong>: the lag between when a transformative technology appears and when its benefits show up in economic statistics. AI in 2026 is in the early stages of the same pattern.</p>
+  </div>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Productivity paradox</div>
+    <div class="concept-def">The observation that transformative technologies often fail to produce measurable productivity gains for years or even decades after their introduction. First identified by economist Robert Solow in 1987 (&ldquo;You can see the computer age everywhere but in the productivity statistics&rdquo;), the paradox reflects the time required for organizations, institutions, and workers to reorganize around a new technology. The technology itself is the easy part. Redesigning workflows, retraining workers, rebuilding data infrastructure, and changing management practices are the hard parts &mdash; and the slow parts.</div>
+  </div>
+
+  <p>The productivity paradox does not mean AI will not transform work. It means the transformation is slower, messier, and more uneven than the technology headlines suggest. And right now, the economic data is showing exactly that.</p>
+
+  <p>There is also a simpler reason to be skeptical of the most dramatic predictions: most technology initiatives fail. This is not a new phenomenon. The <a href="https://www.standishgroup.com/sample_research_files/CHAOSReport2020.pdf" target="_blank" class="source-link">Standish Group&rsquo;s analysis</a> of 50,000 technology projects found that 66% ended in partial or total failure. <a href="https://www.bcg.com/publications/2020/increasing-odds-of-success-in-digital-transformation" target="_blank" class="source-link">BCG estimated</a> that 70% of digital transformation efforts fall short of their targets. Only 2.5% of companies in one <a href="https://www.pwc.com/gx/en/actuarial-insurance-services/assets/survey-report-pwc-insurance.pdf" target="_blank" class="source-link">PwC study</a> successfully completed <em>all</em> of their projects. And AI is proving to be even harder than average: a <a href="https://sloanreview.mit.edu/projects/the-genai-divide-state-of-ai-in-business-2025/" target="_blank" class="source-link">2025 MIT Sloan report</a> found that 95% of enterprise generative AI pilot projects failed to show measurable financial returns within six months. Eighty-eight percent of AI pilots never reached production at all.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">What this means for the AI-and-jobs debate</div>
+    <div class="insight-text">When you hear that AI will automate 30% or 50% or 80% of jobs, remember that those predictions assume companies will <em>successfully deploy</em> AI at scale. History says most of them will not. The technology may be capable of transforming work, but capability and deployment are very different things. Many of the AI initiatives announced with great fanfare in 2024 and 2025 will quietly be abandoned, scaled back, or absorbed into existing workflows with minimal impact. That does not mean AI will never matter. It means the most extreme predictions require an execution success rate that has no precedent in the history of enterprise technology. For the workers worried about being replaced, this is actually relevant: the gap between what AI <em>can</em> do and what companies <em>will actually manage to do with it</em> is, historically, enormous.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3 -->
+  <!-- ============================================================ -->
+  <h2 id="s3"><span class="section-num">3</span> What the Data Actually Shows: The Yale Budget Lab Tracker</h2>
+
+  <p>If you read the news, you would think AI is already reshaping the labor market. Mass layoffs. Entire industries automated. Knowledge workers replaced overnight. The headlines are dramatic. But we mentioned in Section 1 that the aggregate data tells a different story. Let us look at it more carefully.</p>
+
+  <p>The <a href="https://budgetlab.yale.edu/research/tracking-impact-ai-labor-market" target="_blank" class="source-link">Yale Budget Lab</a> has been tracking AI&rsquo;s impact on the U.S. labor market using monthly data from the Bureau of Labor Statistics. Their analysis is the most rigorous ongoing effort to answer a simple question: is AI actually changing employment patterns? As of their April 2026 update, the answer is striking.</p>
+
+  <div class="update-box">
+    <div class="update-label">Yale Budget Lab &mdash; key finding</div>
+    <div class="update-text">&ldquo;Currently, measures of exposure, automation, and augmentation show <strong>no sign of being related to changes in employment or unemployment.</strong>&rdquo;</div>
+  </div>
+
+  <p>That finding is worth sitting with. The most rigorous aggregate study of AI&rsquo;s labor market impact does not find an effect &mdash; not a small one, not a complicated one. But that is not the entire story. Another study, looking at the same economy through a different lens, finds something very different.</p>
+
+  <p>The Yale team measures this in several ways. They track the <strong>occupational mix</strong> &mdash; the distribution of workers across different types of jobs. If AI were eliminating certain kinds of work, you would expect the mix to shift: fewer people in highly exposed occupations, more people in less exposed ones. The mix is shifting slightly faster than it has historically, but the acceleration predates generative AI and has not become more pronounced since ChatGPT launched. They also look at whether workers in AI-exposed occupations are experiencing higher unemployment. They are not.</p>
+
+  <p>The researchers use data from both OpenAI and Anthropic to identify which jobs are most &ldquo;exposed&rdquo; to AI. OpenAI&rsquo;s measure is forward-looking: which tasks <em>could</em> AI perform? Anthropic&rsquo;s is present-focused: which tasks <em>is</em> AI actually performing, based on how people use Claude? Neither measure shows any relationship to employment changes.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">What this does and does not mean</div>
+    <div class="insight-text">The Yale data does <em>not</em> mean AI will never affect the labor market. It means that at the <em>aggregate</em> level &mdash; looking at the whole U.S. economy &mdash; there is no detectable shift yet. The researchers are explicit about this: &ldquo;Our analysis is not predictive of the future.&rdquo;</div>
+  </div>
+
+  <h3>The Stanford study: a very different picture for young workers</h3>
+
+  <p>A <a href="https://digitaleconomy.stanford.edu/publication/canaries-in-the-coal-mine-six-facts-about-the-recent-employment-effects-of-artificial-intelligence/" target="_blank" class="source-link">2025 study from Stanford&rsquo;s Digital Economy Lab</a>, led by economist Erik Brynjolfsson and using payroll data from ADP covering millions of actual workers, found something the Yale aggregate data misses. Early-career workers aged 22 to 25 in the most AI-exposed occupations &mdash; software development, customer service, marketing, junior accounting &mdash; experienced a <strong>16% relative decline in employment</strong> since late 2022, even after controlling for other factors. Employment among software developers aged 22 to 25 specifically fell nearly 20% from its late-2022 peak.</p>
+
+  <p>But here is the crucial detail: <em>older workers in the same occupations saw their employment hold steady or grow</em>. Workers aged 30 and over in the highest AI-exposure categories saw employment increase 6&ndash;12% over the same period. And workers in less AI-exposed fields &mdash; healthcare aides, maintenance workers, tradespeople &mdash; saw employment grow regardless of age.</p>
+
+  <h3>The counterargument: was it AI, or was it interest rates?</h3>
+
+  <p>The Brynjolfsson study is influential, but it is not uncontested. Economists at the <a href="https://agglomerations.eig.org/p/looking-for-the-ladder" target="_blank" class="source-link">Economic Innovation Group</a> published a detailed rebuttal arguing that the employment decline Brynjolfsson found is better explained by something else entirely: the sharpest interest rate hiking cycle in forty years. The Federal Reserve raised rates aggressively throughout 2022 and 2023, and rate hikes hit the tech sector &mdash; and young workers within it &mdash; disproportionately hard. The EIG economists point out a timing problem: nearly half of the employment decline Brynjolfsson documents had already happened by June 2023, just six months after ChatGPT launched. At that point, fewer than 10% of large businesses were even <em>planning</em> to use AI. Is it plausible that companies overhauled their entire hiring practices based on a chatbot that still hallucinated constantly? Or is it more likely that the tech layoffs of 2022&ndash;2023 &mdash; driven by rising interest rates, falling valuations, and the post-pandemic hiring hangover &mdash; hit young workers first because they always do?</p>
+
+  <p>The EIG team is not saying AI will never displace workers. They are saying: be careful about attributing a decline to AI when a massive macroeconomic shock was happening at the same time. Brynjolfsson and his co-authors acknowledge the uncertainty too &mdash; they deliberately titled their paper with a question mark and wrote it in a &ldquo;just the facts&rdquo; tone. As Brynjolfsson told <a href="https://bigthink.com/business/are-young-workers-canaries-in-the-ai-coal-mine/" target="_blank" class="source-link">Big Think</a>: &ldquo;We&rsquo;re not sure yet, but we do see early evidence.&rdquo;</p>
+
+  <div class="danger-box">
+    <div class="danger-label">Why aggregate data can still miss real pain</div>
+    <div class="danger-text">Regardless of whether the cause is AI, interest rates, or both, the pain is real for the people experiencing it. A <a href="https://www.bloomberg.com/news/articles/2026-05-15/us-is-starting-to-see-heavy-job-losses-in-roles-exposed-to-ai" target="_blank" class="source-link">May 2026 Bloomberg analysis</a> of Bureau of Labor Statistics data found that a group of 18 AI-exposed occupations, accounting for about 10 million jobs, saw a 0.2% employment drop while overall employment grew 0.8%. Entry-level tech hiring at the 15 largest firms fell 25% in a single year. Software development job postings on Indeed have dropped 53% since late 2022. Whether AI caused these declines or merely coincided with them, the graduates walking into this job market are facing a real contraction &mdash; and telling them &ldquo;the aggregate data looks fine&rdquo; does not help them pay rent.</div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-label">Two things are true</div>
+    <div class="insight-text">There is no evidence of mass, economy-wide AI-driven unemployment. There <em>is</em> evidence of significant pain among young workers in specific occupations &mdash; though researchers disagree about how much of that pain is caused by AI versus other economic forces. The Brynjolfsson team titled their paper &ldquo;Canaries in the Coal Mine&rdquo; for a reason: canaries die before the miners do. The entry-level effects may be the leading edge of a larger AI-driven transformation, or they may be mostly a macroeconomic hangover that happened to coincide with AI&rsquo;s arrival. The honest answer is that the evidence does not yet settle the question. That uncertainty demands attention, not dismissal.</div>
+  </div>
+
+  <p>A separate analysis reinforces this complexity. A <a href="https://cepr.org/voxeu/columns/differences-ai-adoption-europe-and-us-explanations-and-implications-productivity" target="_blank" class="source-link">2026 study by Bick et al.</a>, published through CEPR and the St. Louis Fed, surveyed workers across the U.S. and six European countries and combined their findings with firm-level data from 32 European countries. Their conclusion: industries with higher AI adoption rates experienced statistically significant faster productivity growth between 2019 and 2025 &mdash; but there was no clear evidence that those same industries employed fewer workers. A <a href="https://cepr.org/voxeu/columns/how-ai-affecting-productivity-and-jobs-europe" target="_blank" class="source-link">companion study of over 12,000 European firms</a> by Aldasoro et al. found the same pattern: AI adoption increased labor productivity by about 4% on average, with no evidence of employment declines. More AI. More productivity. No job losses &mdash; at least not yet, and at least not at the industry level where these studies can measure.</p>
+
+  <p>So how do we square this with the twelve-person team running a company from a Slack channel? How do we make sense of a technology that is clearly powerful &mdash; powerful enough to write code, process claims, draft legal briefs, analyze medical images &mdash; but is not yet showing up in the macroeconomic data?</p>
+
+  <p>The answer lies in understanding how AI actually changes work. It does not replace jobs wholesale. It automates tasks within jobs. And that distinction turns out to change everything.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4 -->
+  <!-- ============================================================ -->
+  <h2 id="s4"><span class="section-num">4</span> How AI Changes Work: Tasks, Not Jobs</h2>
+
+  <p>The single most important idea in the economics of AI and work is this: <strong>AI automates tasks, not jobs.</strong> A &ldquo;job&rdquo; is a bundle of tasks &mdash; some that AI can perform, some it cannot, and some where AI makes the human better at the task without replacing them. Understanding this distinction is the difference between panicking about mass unemployment and thinking clearly about what is actually happening.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Task-based framework</div>
+    <div class="concept-def">An approach to analyzing automation that breaks &ldquo;jobs&rdquo; into their component tasks and evaluates which tasks can be automated, which can be augmented by AI, and which still require human performance. Developed by economists Daron Acemoglu and Pascual Restrepo, this framework replaced the older binary question (&ldquo;will AI take my job?&rdquo;) with a more useful one: &ldquo;which parts of my job will AI change, and how?&rdquo;</div>
+  </div>
+
+  <p>OpenAI published a <a href="https://cdn.openai.com/pdf/the-ai-jobs-transition-framework_report.pdf" target="_blank" class="source-link">framework</a> in 2026 that categorizes nearly 1,000 U.S. occupations into four buckets based on this task-level analysis: jobs at high risk of full automation, jobs that will be deeply reorganized (many tasks automated but the job itself persists in a different form), jobs where employment will actually <em>grow</em> because of AI, and jobs that AI will barely touch.</p>
+
+  <p>Their analysis also breaks down <em>why</em> a job still needs a human. Is it because the work is mostly physical (and humanoid robots are not ready yet)? Because regulations require human involvement? Or because the job is fundamentally about human relationships &mdash; the teacher-student bond, the nurse-patient connection, the trust between a therapist and their client?</p>
+
+  <div class="framework-box">
+    <div class="framework-title">Three ways AI changes a task</div>
+    <div class="framework-row">
+      <div class="framework-cell">
+        <div class="framework-cell-label">Automation</div>
+        <div class="framework-cell-text">The AI performs the task instead of the human. The human is removed from that step entirely. Example: an AI system that automatically processes and classifies insurance claims without human review.</div>
+      </div>
+      <div class="framework-cell">
+        <div class="framework-cell-label">Augmentation</div>
+        <div class="framework-cell-text">The AI makes the human better at the task, but the human still performs it. The human&rsquo;s judgment, creativity, or relationship remains essential. Example: a doctor using AI to analyze medical images, but making the diagnosis themselves.</div>
+      </div>
+    </div>
+    <div class="framework-row">
+      <div class="framework-cell">
+        <div class="framework-cell-label">New task creation</div>
+        <div class="framework-cell-text">AI creates entirely new tasks that did not exist before. Someone has to design, train, monitor, audit, and govern AI systems. These are new categories of work. Example: the bias auditing industry (Chapter 9) barely existed before 2023.</div>
+      </div>
+      <div class="framework-cell">
+        <div class="framework-cell-label">Why this matters</div>
+        <div class="framework-cell-text">Whether AI produces mass unemployment or broad-based prosperity depends on the balance between these three forces. If automation dominates, employment falls. If augmentation and new task creation keep pace, they can absorb the displaced workers. History suggests the balance eventually tips toward new tasks &mdash; but the transition is painful.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Augmentation vs. automation</div>
+    <div class="concept-def">The distinction between AI replacing human work (automation) and AI enhancing human capability (augmentation). Anthropic&rsquo;s usage data from Claude shows that current AI use leans more toward automation than augmentation &mdash; but both are happening simultaneously, often within the same job. A lawyer might use AI to automate document review (automation) while using it to brainstorm legal strategies (augmentation). The same technology, in the same job, can do both.</div>
+  </div>
+
+  <h3>Where AI is doing real good</h3>
+
+  <p>The debate about AI and work often gets stuck on one question &mdash; who loses their job? &mdash; and never gets to another one: who gets access to something they never had before? If AI is only discussed as a threat to workers, the conversation misses the people it is actually helping. And those people are often the ones with the least power.</p>
+
+  <div class="minicase-box">
+    <span class="minicase-label">Value in context</span>
+    <div class="minicase-title">Three cases where AI is expanding access, not just cutting costs</div>
+    <p><strong>Healthcare for rare diseases.</strong> In Chapter 1, you read about <a href="https://prof-califf.github.io/ai-in-business/chapter1-everycure.html" target="_blank" class="source-link">EveryCure</a> &mdash; a nonprofit using AI to identify existing drugs that might treat diseases so rare that no pharmaceutical company will invest in developing a cure for them. There is no profit motive. There is no workforce being displaced. There is a person with a disease that affects 200 people on Earth, and an AI system scanning millions of research papers to find a treatment that already exists but no human had the time to connect to their condition. That is not a productivity story. It is a survival story.</p>
+    <p><strong>Language access.</strong> Twenty-five million people in the United States have limited English proficiency. When they show up at a hospital, a courthouse, or a school, the language barrier is not an inconvenience &mdash; it is a threat to their health, their legal rights, and their children&rsquo;s education. Professional interpreter services exist but are expensive, scarce, and unavailable at 2 a.m. in a rural emergency room. AI-powered translation is not perfect, and the risks of mistranslation in medical settings are real. But for a Haitian Creole speaker in a small-town ER with no interpreter on staff, an AI that can translate discharge instructions into their language is not replacing a worker. It is filling a gap that was never filled in the first place. Organizations like <a href="https://tarjimly.org/" target="_blank" class="source-link">Tarjimly</a> are using AI to provide free translation for refugees and immigrants, with all profits reinvested in serving the most vulnerable.</p>
+    <p><strong>Small businesses competing with giants.</strong> Before AI, producing a professional marketing campaign, analyzing customer data, or providing 24/7 customer service required a team that only large companies could afford. A two-person bakery could not compete with a national chain on customer engagement, financial analysis, or market research. AI tools are changing that equation &mdash; not by eliminating workers at the bakery, but by giving the bakery capabilities it never had. The baker is not losing a job to AI. The baker is gaining a marketing department, an accountant, and a customer service team that cost close to zero. This does not mean every small business will thrive. But it means the advantages of scale that large corporations have enjoyed for decades are, in some areas, shrinking.</p>
+    <p>None of these cases erase the legitimate concerns about job displacement, deskilling, or inequality. They exist alongside those concerns. The point is not that AI is good or bad. It is that the same technology that threatens some people&rsquo;s livelihoods is expanding other people&rsquo;s access to healthcare, language, and economic opportunity. Any honest conversation about AI and work has to hold both of those realities at the same time.</p>
+  </div>
+
+  <p>Cursor &mdash; an AI-powered coding tool &mdash; published <a href="https://cursor.com/blog/better-models-ambitious-work" target="_blank" class="source-link">research</a> with economist Suproteem Sarkar that illustrates this dynamic in real time. As AI models improved, developers did not just use AI more. They used it to do <em>more complex work</em>. The simple tasks got automated. But the humans did not stop working. They moved up the complexity ladder &mdash; tackling problems they never would have attempted before because the AI handled the routine work underneath.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">The Jevons paradox in action</div>
+    <div class="insight-text">In the 19th century, economist William Stanley Jevons observed that when steam engines became more efficient, coal consumption <em>increased</em>, not decreased. Better technology made each unit of coal more productive, which made coal-powered work cheaper, which created demand for <em>more</em> coal-powered work. The same dynamic may be at play with AI: when AI makes certain tasks cheaper and faster, organizations do not just do the same amount of work with fewer people. They do <em>more work</em>. Andy Hall, a political scientist at Stanford, reports that his research lab has gone from completing one or two major projects at a time to running half a dozen simultaneously &mdash; work that &ldquo;would have been completely unthinkable&rdquo; a year ago. He calls it 10xing or even 100xing productivity. But no one got fired. They just did more.</div>
+  </div>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Jevons paradox (applied to AI)</div>
+    <div class="concept-def">The observation that when a technology makes a resource more efficient to use, total consumption of that resource often <em>increases</em> rather than decreases. Applied to AI: when the cost of cognitive work collapses (writing, analysis, coding, research), organizations do not simply do the same amount of work more cheaply. They do dramatically more work &mdash; more analysis, more personalization, more experiments, more products, more markets served. This expanded demand can pull humans along with it, creating new roles even as old tasks are automated. The question is whether the expansion of demand will be large enough, and fast enough, to absorb the workers displaced by automation.</div>
+  </div>
+
+  <div class="minicase-box">
+    <span class="minicase-label">Example</span>
+    <div class="minicase-title">AI and radiology: the Jevons paradox in healthcare</div>
+    <p>When AI-assisted imaging tools arrived in radiology, many predicted that radiologists would be replaced. Instead, something closer to the opposite happened. AI made diagnostic screening faster and more affordable. Doctors responded by ordering <em>more</em> scans, screening for more conditions, and extending imaging to populations that previously could not access it. AI did not replace radiologists &mdash; it made radiology so efficient that demand exploded. The same pattern has appeared in accounting (spreadsheet software was supposed to eliminate accountants; the number of accounting professionals <em>grew</em> in the decades after its introduction), in banking (ATMs were supposed to eliminate tellers; banks used the cost savings to open more branches, initially increasing teller employment), and in legal work (document review AI was supposed to eliminate paralegals; some firms now review ten times more documents per case than they did before). In each case, automation made the work cheaper, which made more of it economically viable, which created more total demand.</p>
+  </div>
+
+  <div class="danger-box">
+    <div class="danger-label">The Jevons paradox has limits</div>
+    <div class="danger-text">The Jevons paradox is not a guarantee that AI will create more jobs than it destroys. It describes a real economic mechanism &mdash; falling costs unlock latent demand &mdash; but the mechanism depends on whether that latent demand actually exists. ATMs did eventually reduce teller employment in the long run. Accounting software eliminated bookkeeping jobs even as the broader accounting industry grew &mdash; the growth went to higher-skilled CPAs, not to the entry-level workers displaced by the software. The key question for the AI era is whether cheaper legal memos, financial models, and consulting decks will unlock dormant demand at scale &mdash; or whether most of that demand was already being served, and AI is simply doing the same work with fewer people. The honest answer is: no one knows yet. The Jevons paradox is a reason for cautious optimism, not for complacency.</div>
+  </div>
+
+  <h3>The jobs AI is creating</h3>
+
+  <p>There is one more piece of the picture worth examining: AI is also creating new categories of work that did not exist three years ago. AI-related job postings are up 134% above 2020 levels. These roles are not hypothetical. They are already being hired for.</p>
+
+  <div class="minicase-box">
+    <span class="minicase-label">New roles</span>
+    <div class="minicase-title">Jobs that did not exist in 2023</div>
+    <p><strong>AI Agent Architect.</strong> Designs how multi-agent AI systems are structured &mdash; which agents exist, how they communicate, what happens when one fails, where humans review the output. Salary range in 2026: $260,000&ndash;$420,000. Deloitte, Salesforce, and Anthropic are all hiring for this role.</p>
+    <p><strong>AI Ethics Specialist / Bias Auditor.</strong> Develops frameworks to ensure AI systems operate responsibly, monitors for discriminatory outcomes, and establishes accountability mechanisms. This role barely existed before the cases in Chapter 9 &mdash; Gender Shades, COMPAS, Mobley v. Workday &mdash; forced the industry to take bias seriously. NYC Local Law 144 now <em>requires</em> independent bias audits, creating demand by law.</p>
+    <p><strong>AI Governance and Compliance.</strong> Every regulation discussed in Chapter 10 creates jobs for the people who ensure companies comply with it. This is covered in detail in Section 8 of this chapter &mdash; it is one of the fastest-growing and most accessible career paths emerging from the AI transition, and it does not require a computer science degree.</p>
+    <p><strong>AI Trainer / Annotator.</strong> Provides the human feedback that shapes how AI models behave. Over 400,000 of these positions exist globally in 2025, mostly in data labeling for large language models and autonomous systems.</p>
+    <p><strong>AI Operations Engineer.</strong> Deploys, monitors, and debugs AI systems in production environments. MLOps engineer hiring spiked 28% in the first quarter of 2025 alone.</p>
+    <p>These roles share a common feature: they exist because AI systems need humans to build them, govern them, audit them, and fix them when they break. The technology does not run itself. It creates an ecosystem of new work around it. Whether that ecosystem grows fast enough to absorb the workers displaced from other roles is the open question &mdash; and the answer will depend as much on policy and institutional design as on the technology itself.</p>
+  </div>
+
+  <p>This does not mean no one will lose their job to AI. It means the process is more gradual, more complex, and more amenable to policy intervention than the &ldquo;robots are coming for your job&rdquo; narrative suggests. But it also means the benefits are unevenly distributed &mdash; and some people are being left behind.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5 -->
+  <!-- ============================================================ -->
+  <h2 id="s5"><span class="section-num">5</span> Who Benefits, Who Gets Left Behind, and What You Lose Along the Way</h2>
+
+  <p>If AI is making some workers dramatically more productive, the obvious question is: which workers? And what happens to everyone else?</p>
+
+  <p>The data on AI adoption reveals a stark divide. U.S. workers spend 5.2% of their work hours using AI. In Germany, France, and Italy, the figure is less than one-third of that. Within the U.S., adoption is concentrated in specific sectors &mdash; coding, customer support, and search are far ahead &mdash; and in specific types of companies: tech, legal, and healthcare firms lead, while manufacturing and retail lag behind.</p>
+
+  <p>A report from Andreessen Horowitz found that 29% of the Fortune 500 are now paying customers of a leading AI startup. That is remarkable speed for enterprise technology. But it also means 71% are not. And even among the 29%, most are still in early deployment, not scaled integration.</p>
+
+  <p>Researchers found that about half the AI adoption gap between the U.S. and Europe can be explained by demographics: American workers are on average younger and more educated, and younger, more educated workers adopt AI faster. But the other half comes down to management practices. Companies with better management &mdash; more structured decision-making, clearer performance metrics, more willingness to experiment &mdash; adopt AI faster, regardless of country.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Skill-biased technological change</div>
+    <div class="concept-def">The tendency of new technologies to increase demand for skilled workers while reducing demand for less-skilled workers, thereby widening wage inequality. AI fits this pattern in the short run: workers who can use AI tools effectively become more productive and more valuable, while those who cannot risk falling further behind. However, AI may also partially reverse this pattern by giving less-skilled workers access to capabilities that were previously reserved for experts &mdash; enabling a customer service representative to draft responses at the quality of a trained writer, or a junior developer to produce code at a senior level.</div>
+  </div>
+
+  <div class="danger-box">
+    <div class="danger-label">The inequality risk</div>
+    <div class="danger-text">If AI adoption is concentrated in wealthy countries, large companies, and educated workers, the technology could widen every inequality it touches: between countries (the U.S. pulls further ahead of Europe), between firms (Fortune 500 companies automate while small businesses cannot), and between workers (college-educated professionals become more productive while lower-skilled workers are displaced from routine tasks without gaining access to AI-augmented ones). This is not inevitable, but it is the default trajectory if adoption follows existing lines of advantage.</div>
+  </div>
+
+  <div class="minicase-box">
+    <span class="minicase-label">The entry-level problem</span>
+    <div class="minicase-title">The people with the most to fear are the ones just starting out</div>
+    <p>The Brynjolfsson data from Section 3 tells a clear story about <em>who</em> is being affected: young workers in AI-exposed occupations. Anthropic CEO Dario Amodei has said publicly that AI could eliminate up to half of all entry-level white-collar jobs. More than 60% of entry-level software jobs now require 3+ years of experience &mdash; a requirement that makes no sense unless employers expect AI to handle the work that junior employees used to learn on. Undergraduate computer science enrollment dropped 11% between 2024 and 2025 as students responded to a shrinking job market.</p>
+    <p>This is where the job loss problem and the deskilling problem intersect. Entry-level jobs are not just jobs. They are <strong>training grounds</strong>. They are where people learn to write professionally, handle clients, debug code, manage projects, and develop judgment. If companies automate entry-level work because AI can do it cheaper, they save money today &mdash; but they destroy the pipeline that produces experienced workers tomorrow. Andrew McAfee, an MIT economist, has <a href="https://fortune.com/2026/05/01/automating-gen-z-entry-level-jobs-could-backfire-mit-ai-researcher-andrew-mcafee-talent-pipelines-at-risk/" target="_blank" class="source-link">warned</a> that this could backfire badly: cutting entry-level roles risks undermining both cost efficiency and long-term workforce development.</p>
+    <p>If you are anxious about this, your anxiety is rational. The question is what to do with it &mdash; and the answer is not to sabotage AI rollouts or pretend the technology does not exist. It is to understand what is actually happening, develop skills that remain valuable, and advocate for policies that protect the people most at risk. That is what the rest of this chapter is for.</p>
+  </div>
+
+  <h3>The deskilling risk: what you lose when you offload your thinking</h3>
+
+  <p>There is a second way AI can hurt workers that has nothing to do with layoffs. It is not about whether AI takes your job. It is about what AI does to your ability to <em>do</em> your job.</p>
+
+  <p>In Chapter 9, we introduced the <a href="https://arxiv.org/abs/2605.03512" target="_blank" class="source-link">Chalkidis and S&oslash;gaard paper</a> that surveyed approximately 18,000 AI safety papers and found virtually zero research on deskilling &mdash; the atrophy of cognitive skills that occurs when people offload thinking to AI. This is not just an ethics concern. It is an economic one. If AI makes workers more productive <em>while simultaneously eroding the skills those workers need to function without AI</em>, the productivity gains may be more fragile than they appear.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Cognitive offloading</div>
+    <div class="concept-def">The process of transferring a cognitive task from your brain to an external tool. Some cognitive offloading is beneficial and frees up mental capacity for higher-order work (using a calculator for arithmetic, using GPS for navigation). But deskilling occurs when the offloaded task was the one building the skill in the first place. A junior developer who uses AI to write all their code may never develop the debugging instincts that make a senior developer valuable. A student who uses AI to draft every essay may never learn to structure an argument. The tool makes you faster today at the cost of making you less capable tomorrow.</div>
+  </div>
+
+  <p>Think about what this means for the task-based framework from Section 4. If AI augments a worker by handling routine tasks so they can focus on complex ones, that is genuinely beneficial &mdash; <em>as long as the worker retains the underlying skill</em>. But if the worker has offloaded so much cognitive work that they can no longer evaluate whether the AI&rsquo;s output is correct, the augmentation has quietly become a dependency. The human in the loop has become a human rubber-stamping the machine.</p>
+
+  <p>This connects directly to the Cursor research from Section 4: as AI models improved, developers moved to more complex work. That is the optimistic story. The deskilling question asks: can they move <em>back</em> if they need to? Can the developer who has spent two years letting AI write their boilerplate code still debug a production outage at 3 a.m. when the AI is down? If not, the productivity gain is real but precarious.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">The skill floor</div>
+    <div class="insight-text">Deskilling does not mean AI makes workers incompetent. It means AI may lower the <strong>skill floor</strong> &mdash; the minimum level of capability a worker maintains when the AI is unavailable. In a world where AI is always available, a low skill floor does not matter. In a world where AI systems occasionally fail, get regulated, or lose access to data, the skill floor determines whether an organization can function. The question is not just &ldquo;how productive are we with AI?&rdquo; It is also &ldquo;how productive are we without it?&rdquo;</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6 -->
+  <!-- ============================================================ -->
+  <h2 id="s6"><span class="section-num">6</span> What Will Be Scarce: The Post-Commodity Economy</h2>
+
+  <p>If AI can eventually produce most goods and services more cheaply than humans can, what happens to the economy? Economist Alex Imas asks a question that reframes the entire debate: as AI makes everything abundant, <em>what becomes scarce?</em></p>
+
+  <p>His answer is surprising and optimistic: human involvement itself.</p>
+
+  <p>Imas argues that people do not just want more stuff. They want things that are not commodities &mdash; things whose value comes partly from the fact that a human being made them. A thoughtfully prepared meal. A live performance. A house redecorated by a person with a rising reputation. A guided tour from someone who knows the neighborhood. These are not luxuries. They are things whose value is <em>inseparable from the human who provided them</em>.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">The relational economy</div>
+    <div class="concept-def">Economist Alex Imas&rsquo;s term for the sector of the economy where the value of a good or service is inseparable from the human who provides it. In a post-commodity economy where AI can produce most standardized goods and services, Imas predicts that the &ldquo;relational sector&rdquo; &mdash; work defined by human relationships, status, exclusivity, craftsmanship, and personal connection &mdash; will grow dramatically. The durable jobs of the future, in this view, are not about monitoring AI systems. They are about providing things that AI cannot make cheap: human presence, human judgment, human care.</div>
+  </div>
+
+  <div class="perspective-box">
+    <div class="perspective-who">&#x1F4CA; &nbsp; Alex Imas, economist</div>
+    <div class="perspective-text">&ldquo;You don&rsquo;t need to be Picasso. You need to be the person whose involvement makes the product feel like it was made for someone, by someone.&rdquo;</div>
+  </div>
+
+  <p>Imas builds a formal economic model of this transition. In his model, after AI automates most production, the &ldquo;relational sector&rdquo; explodes in size &mdash; absorbing much of the displaced labor. The logic echoes a pattern from Chapter 10: when the British Factory Acts ended child labor, the energy did not disappear. It was redirected into education, which created an entirely new sector of the economy. When AI automates the commodity economy, the energy may be redirected into the relational economy.</p>
+
+  <p>This is an optimistic vision, and it comes with important caveats. First, none of this happens automatically. The transition from commodity to relational work requires new skills, new institutions, and &mdash; critically &mdash; policies that help people who lose commodity jobs gain access to relational ones. Without that, the transition period could be brutal for millions of workers. Second, not everyone finds this vision reassuring. If you spent four years and $100,000 getting a degree in finance or marketing, being told that the durable jobs of the future involve &ldquo;providing things that feel made for someone, by someone&rdquo; may feel like a bait-and-switch. The relational economy may be real, but the jobs within it often pay less, offer fewer benefits, and provide less stability than the white-collar career paths they are supposed to replace. A guided tour and a hand-crafted meal are lovely, but they are not a 401(k). Third, the historical parallel is not as clean as it looks. When the Factory Acts ended child labor, the children did not find new jobs. They went to school &mdash; because someone built a public education system to absorb them. The transition required massive public investment and institutional innovation. There is no equivalent institution being built right now for workers displaced by AI.</p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7 (was 8) -->
+  <!-- ============================================================ -->
+  <h2 id="s7"><span class="section-num">7</span> What the Forecasters Actually Predict</h2>
+
+  <p>Given all this uncertainty, what do the people who study this for a living actually think is going to happen? In 2026, a team including Philip Tetlock &mdash; one of the world&rsquo;s foremost experts on prediction &mdash; published results of a large survey of economists, AI experts, professional forecasters, and the general public about AI&rsquo;s impact through 2050.</p>
+
+  <p>The results were more measured than most headlines would have you believe &mdash; and they cut in both directions.</p>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">~4%</div><div class="stat-label">Predicted annual GDP growth with powerful AI (vs. ~2.5% today)</div></div>
+    <div class="stat-card"><div class="stat-num">+78M</div><div class="stat-label">Net new jobs globally by 2030 (WEF projection)</div></div>
+    <div class="stat-card"><div class="stat-num">~10M</div><div class="stat-label">U.S. jobs lost attributable to AI by 2050 (Tetlock survey)</div></div>
+    <div class="stat-card"><div class="stat-num">500K</div><div class="stat-label">New U.S. jobs needed just for AI power infrastructure by 2030</div></div>
+  </div>
+
+  <p>The positive predictions are real. The World Economic Forum projects that AI will create 170 million new roles globally by 2030, even as it displaces 92 million &mdash; a net gain of 78 million jobs. Goldman Sachs estimates that in occupations where AI <em>augments</em> workers rather than replacing them, employment is already rising. They also project that roughly 500,000 net new jobs will be needed in the U.S. alone just to build and power the data centers that AI runs on &mdash; electricians, HVAC contractors, construction workers, engineers. Data center construction jobs have already increased by 216,000 since 2022. These are not knowledge-worker jobs. They are skilled trades, and they are growing because of AI, not despite it.</p>
+
+  <p>And here is something that connects directly to Chapter 8: AI&rsquo;s enormous appetite for electricity may be accelerating the transition to renewable energy. The <a href="https://www.iea.org/reports/energy-and-ai/energy-supply-for-ai" target="_blank" class="source-link">International Energy Agency</a> reports that renewable energy production for data centers is growing at 22% per year and is expected to meet nearly half of the growth in data center electricity demand by 2030. Tech companies have signed dozens of large-scale solar and wind contracts since 2025, each adding over 100 megawatts of capacity. Microsoft&rsquo;s data center in Wyoming runs entirely on wind. Google purchases wind power for its data centers in Belgium. Dominion Energy in Virginia &mdash; the state with the densest data center concentration in the world &mdash; is planning 21 gigawatts of new renewable generation by 2039. <a href="https://www2.deloitte.com/us/en/pages/energy-and-resources/articles/renewable-energy-outlook.htm" target="_blank" class="source-link">Deloitte estimates</a> that data centers will drive approximately 44 gigawatts of additional electricity demand by 2030 &mdash; and renewables are in a race to fill that gap, with advantages in cost, speed of deployment, and modularity. The jobs that come with this &mdash; solar installers, wind turbine technicians, battery storage engineers, grid modernization workers &mdash; are among the fastest-growing occupations in the U.S. economy, and AI is one of the reasons why.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">The Chapter 8 connection</div>
+    <div class="insight-text">Chapter 8 documented AI&rsquo;s environmental costs &mdash; the water, the energy, the carbon. Those costs are real. But AI&rsquo;s energy hunger is also creating an economic incentive for renewable buildout that did not exist at this scale before. That does not cancel out the environmental concerns. It means the story is more complicated than &ldquo;AI is bad for the planet&rdquo; or &ldquo;AI will save the planet.&rdquo; Both forces are real. Which one wins depends on policy, investment, and whether the renewable buildout is fast enough to keep pace with demand &mdash; which, as of 2026, it is not.</div>
+  </div>
+
+  <p>The negative predictions are also real. The median expert in the Tetlock survey predicts the share of American adults who are working or looking for work will fall from 62% today to about 55% by 2050. Roughly half of that decline &mdash; about 10 million lost jobs &mdash; would be attributable to AI. Goldman Sachs found that in occupations where AI <em>substitutes</em> for workers, jobs are already being lost. And the Congruence Foundation warns that even the net-positive projections &ldquo;mask a critical underlying risk&rdquo;: the new jobs may require entirely different skills than the ones being eliminated, and without massive retraining investment, displaced workers may never reach them.</p>
+
+  <p>The honest picture is that both forces are operating simultaneously. AI is creating jobs <em>and</em> displacing them. The question is not which one is happening. Both are. The question is which one dominates, how fast, and for whom. Economists Chad Jones and Christopher Tonetti offer one reason to think the transformation will be slower than the most dramatic predictions suggest: the economy has <strong>weak links</strong>.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Weak links</div>
+    <div class="concept-def">Tasks in the economy that cannot yet be automated and that constrain overall productivity growth, even when most other tasks have been automated. Jones and Tonetti show that when the production process requires many different types of tasks, and those tasks are not easily substitutable for each other, the slowest-improving tasks determine the pace of overall growth. This is why hyper-powerful AI does not necessarily produce hyper-fast economic growth: the economy is only as fast as its slowest essential task.</div>
+  </div>
+
+  <p>Political scientist Andy Hall stresses a different kind of uncertainty: the political kind. If AI produces what he calls <strong>jobless prosperity</strong> &mdash; an economy that grows even as jobs decline &mdash; the political consequences are impossible to predict from historical experience. We have seen recessions (jobs fall, economy shrinks). We have seen booms (jobs and economy grow together). We have very little experience with an economy where output rises while employment falls. The politics of that world are genuinely unprecedented.</p>
+
+  <div class="concept-box">
+    <div class="concept-label">Key concept</div>
+    <div class="concept-term">Jobless prosperity</div>
+    <div class="concept-def">A hypothetical economic scenario in which GDP grows while employment declines, driven by AI automation. Unlike a recession (where both output and employment fall), jobless prosperity creates a new kind of political problem: the economy is objectively producing more, but fewer people are participating in that production. The question becomes one of distribution: who captures the gains from AI-driven growth? Without new institutions or policies, the benefits flow to the owners of AI systems and capital, while displaced workers experience declining opportunity.</div>
+  </div>
+
+  <div class="update-box">
+    <div class="update-label">The honest answer</div>
+    <div class="update-text">No one knows exactly what AI will do to the labor market. The most careful researchers &mdash; the ones with the best track records &mdash; say the effects will be <strong>substantial but not unprecedented, gradual but not slow enough to ignore, and deeply uncertain in both timing and distribution</strong>. Anyone who tells you AI will definitely destroy millions of jobs, or definitely won&rsquo;t, is selling you a prediction their own evidence does not support.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 9 -->
+  <!-- ============================================================ -->
+  <h2 id="s8"><span class="section-num">8</span> What This Means for Your Career</h2>
+
+  <p>You are entering the workforce at a moment of genuine uncertainty. The technology is powerful and improving fast. The organizational and economic effects are lagging behind. No one can tell you with confidence which jobs will exist in ten years and which will not. But the evidence in this chapter points to several things that are likely to be true regardless of how the uncertainty resolves.</p>
+
+  <h3>First, about the fear.</h3>
+
+  <p>If you feel anxious about AI and your career, this chapter is not going to tell you to stop. The anxiety is a rational response to a real situation. Powerful people are building systems that could automate significant parts of the work you are training for, and those people are moving faster than the institutions that are supposed to protect you. The Gallup data shows that anger about AI is rising, and that anger is not irrational either. It reflects a legitimate concern that the benefits of AI will flow to shareholders and executives while the costs fall on the people entering the workforce. That concern is supported by historical patterns (Chapter 10) and by the inequality data in this chapter. Do not let anyone dismiss your fear as ignorance or resistance to change. It is not. It is a reasonable response to uncertainty, and the people who tell you to &ldquo;just learn to prompt&rdquo; are offering a bumper sticker, not an answer.</p>
+
+  <p>That said, the evidence in this chapter also suggests that the situation is more complicated than any single narrative captures. The data does not yet show mass displacement. The Jevons paradox is real. New task creation is real. The relational economy is a plausible path. None of these are guarantees &mdash; they are reasons to take the fear seriously <em>and</em> to act on it, rather than feel stuck between outrage and helplessness. Here is what the evidence suggests you should actually do.</p>
+
+  <h3>1. Understand how AI works &mdash; not just how to use it.</h3>
+
+  <p>The Cursor research shows that workers who use AI to tackle more ambitious problems &mdash; not just to do the same work faster &mdash; are the ones capturing the most value. But using AI effectively is only half the point. Understanding what it actually is, how it has been used in the past, and how it is being used right now matters just as much. This entire textbook has been building that understanding &mdash; from recommendation systems (Chapters 2 and 3) to autonomous vehicles (Chapter 5) to clinical decision support (Chapter 7) to discriminatory hiring algorithms (Chapter 9). That knowledge is not just career capital. It is civic power. Advocating for environmental regulation (Chapter 8), pushing back against biased systems (Chapter 9), or demanding that legislators close the regulatory gaps (Chapter 10) all require knowing what you are talking about. The people building these systems have deep technical knowledge. The people affected by them often do not. Closing that gap &mdash; understanding AI well enough to use it, evaluate it, and argue about it &mdash; is one of the most valuable things this course can give you. Knowledge is leverage.</p>
+
+  <h3>2. Do not forget the human skills &mdash; they are not &ldquo;soft&rdquo; anymore.</h3>
+
+  <p>Judgement. Empathy. Critical thinking. The ability to sit in a room with someone who is angry and understand why, and know what to say, and know when to say nothing. We have spent decades calling these &ldquo;soft skills&rdquo; &mdash; as though they were lesser, optional, the thing you mention at the end of a job description after the real requirements. <a href="https://theslowai.substack.com/p/stop-calling-them-soft-skills-human-skills-ai" target="_blank" class="source-link">That framing is doing active damage.</a> The term originated in a 1972 U.S. Army training conference, where &ldquo;hard&rdquo; meant interaction with machines and &ldquo;soft&rdquo; meant interaction with people. The distinction was never about difficulty or value. It was about metal versus flesh. Somewhere along the way, &ldquo;soft&rdquo; became &ldquo;lesser&rdquo; &mdash; and the skills we dismissed are now the only ones AI cannot do.</p>
+
+  <p>The <a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/in-full/3-skills-outlook/" target="_blank" class="source-link">World Economic Forum</a> assessed nearly 2,900 skills for their capacity to be replaced by generative AI. Skills rooted in human interaction &mdash; empathy, active listening, contextual interpretation &mdash; showed <em>zero</em> substitution potential. AI generates fluent text but does not exercise judgement. It produces empathic-sounding sentences but does not feel the cost of care. It can summarize a meeting but cannot read the room. These are not soft skills. They are <strong>human skills</strong> &mdash; and in an economy where AI handles everything else, they are the hard ones. Eight of the top ten most requested skills in U.S. job postings are already what the industry calls &ldquo;durable&rdquo; human skills: communication, leadership, critical thinking, collaboration. The students who invest in developing these &mdash; through difficult conversations, team projects, clinical work, teaching, conflict resolution &mdash; are building the capabilities that will matter most in a world where AI can write the memo but cannot decide whether it should be sent.</p>
+
+  <h3>3. Protect your skill floor.</h3>
+
+  <p>There is a difference between using AI as a tool and using it as a crutch. The deskilling research from Section 5 suggests that the professionals who will be most resilient in ten years are the ones who can work with AI <em>and</em> function without it. That might mean occasionally doing the routine work yourself so you retain the ability, or writing a first draft before asking AI to improve it, or debugging code by hand even when the AI could do it faster. It is not about refusing to use the technology. It is about making sure the technology does not quietly replace the skills you are still building.</p>
+
+  <h3>4. Think in tasks, not jobs.</h3>
+
+  <p>When evaluating a career path, the more useful question is not &ldquo;will this job be automated?&rdquo; but &ldquo;which tasks in this job are likely to be automated, which will be augmented, and which require human judgment, relationships, or physical presence?&rdquo; Jobs with a high proportion of relational and judgment tasks &mdash; teaching, healthcare, skilled trades, creative leadership &mdash; tend to be the most durable. But even within highly automated fields, the person who can orchestrate AI systems effectively will remain valuable. Consider a career in management information systems: AI may eventually write much of the code, generate documentation, and automate testing. But requirements gathering &mdash; sitting down with the people who will actually use a system, understanding what they need, navigating the politics of competing priorities, and translating messy human problems into structured specifications &mdash; is fundamentally a conversation between people. The more AI handles the technical execution, the more valuable the person who figures out what to build in the first place becomes.</p>
+
+  <h3>5. The organizational skills matter as much as the technical ones.</h3>
+
+  <p>At the end of the day, AI is a people issue. The adoption gap from Section 2 is not a technology problem. It is an organizational one &mdash; and organizations are made of people. The companies that succeed with AI are not the ones with the best models. They are the ones with the clearest goals, the best-managed workflows, and the willingness to let their people experiment. Every bottleneck in the UBS survey &mdash; unclear ROI, integration complexity, talent shortages, data quality &mdash; is a human problem, not a technical one. The ability to help an organization figure out how to actually use AI &mdash; not just buy it, but integrate it, measure it, and improve it &mdash; requires understanding people as much as understanding technology. That is a genuinely scarce combination right now.</p>
+
+  <h3>6. Pay attention to who gets left behind.</h3>
+
+  <p>The benefits and costs of AI are both landing unevenly, but not in the simple patterns you might expect. Younger workers are adopting AI faster <em>and</em> getting displaced faster &mdash; the Brynjolfsson data from Section 3 showed that workers aged 22&ndash;25 in AI-exposed occupations saw a 16% employment decline while workers over 30 in the same fields saw employment grow. Small companies face disadvantages in building custom AI infrastructure but advantages in adopting off-the-shelf tools quickly &mdash; the baker from Section 4 who gains a marketing department for close to zero is real, but so is the mid-size firm that cannot afford to hire an AI team. Less-educated workers face displacement from routine tasks without always gaining access to AI-augmented ones. And the gap between the U.S. and Europe, documented in Section 5, means the transition is hitting different countries at very different speeds. The pattern from Chapter 9&rsquo;s redlining case and Chapter 10&rsquo;s child labor history holds: without deliberate intervention, new technologies tend to amplify existing inequalities. But the specific shape of AI&rsquo;s inequality is messier and less predictable than previous waves, which makes thoughtful policy &mdash; not just broad predictions &mdash; essential.</p>
+
+  <h3>7. AI governance is becoming a career, not just a conversation.</h3>
+
+  <p>Every chapter in this textbook has built toward the same conclusion: AI is powerful, and the systems meant to govern it are not keeping up. Chapter 8 documented the environmental costs no one is fully accounting for. Chapter 9 showed that bias testing lags behind deployment. Chapter 10 revealed that the regulatory infrastructure is full of gaps. Those gaps are not just policy problems. They are job openings. The EU AI Act reaches full enforcement for high-risk systems in August 2026, and every company serving European customers must comply &mdash; regardless of where it is based. Forrester predicts that 60% of Fortune 100 companies will appoint a head of AI governance by the end of 2026. LinkedIn already shows over 1,400 open AI governance roles in the U.S., spanning AI Compliance Manager, AI Risk Officer, AI Auditor, and Chief AI Ethics Officer. Many of these positions draw on legal, policy, risk management, and compliance backgrounds &mdash; not computer science. If you studied business, law, public policy, or ethics, this is an entire career category that did not exist three years ago. And here is the thing about governance: it grows in direct proportion to the technology it governs. Every new AI capability creates new risks. Every new risk creates new rules. Every new rule creates new jobs for the people who ensure compliance. Unlike the jobs AI threatens, the jobs AI governance creates cannot be automated &mdash; because the whole point is human judgment about what machines should and should not be allowed to do.</p>
+
+  <h3>And one more thing: individual adaptation is not enough.</h3>
+
+  <p>The seven principles above are about what you can do on your own. But the biggest changes will not come from individual career strategy. They will come from what people do together. The students booing at graduation are onto something: they are not just expressing frustration. They are signaling that a generation expects accountability from the people building these systems. That expectation needs to go beyond commencement speeches and into the places where decisions are actually made.</p>
+
+  <p>That means supporting regulation that requires companies to prove their AI systems are safe for workers <em>before</em> deploying them, not after. It means advocating for labor protections &mdash; through unions, through professional organizations, through the political process &mdash; that ensure the gains from AI-driven productivity are shared with the people doing the work, not just the people owning the systems. It means demanding that AI deployments keep humans in the loop in meaningful ways, not as rubber stamps but as genuine decision-makers. It means pushing for transparency about how companies are using AI, who is being displaced, and what support is being provided. And it means voting for representatives who take these issues seriously enough to act on them &mdash; not representatives who give speeches about innovation while doing nothing to protect the workers innovation is displacing.</p>
+
+  <p>Throughout this textbook, we have seen what happens when powerful technologies are deployed without adequate oversight: discriminatory hiring algorithms (Chapter 9), unaccounted environmental costs (Chapter 8), regulatory systems full of gaps (Chapter 10). In every case, the technology moved faster than the institutions meant to govern it. The consistent lesson is that technology is not destiny. It is a set of choices made by people &mdash; and those choices can be influenced, constrained, and redirected by other people who organize, speak up, and refuse to accept that &ldquo;move fast and break things&rdquo; is an acceptable approach to other people&rsquo;s livelihoods. The goal is not to stop AI. It is to make sure these systems are built around people, not the other way around.</p>
+
+  <div class="future-box">
+    <div class="future-label">The bigger picture</div>
+    <div class="future-text">The story of AI and work is still being written. The data says the transformation has not arrived yet &mdash; but that is exactly what the data said about electricity in 1910, about computers in 1990, and about the internet in 2000. In each case, the transformation came. It was slower than the optimists predicted and faster than the skeptics expected. It created enormous wealth and enormous disruption simultaneously. And the people who navigated it best were not the ones who predicted the future correctly. They were the ones who <strong>stayed adaptable, kept learning, and paid attention to the evidence instead of the headlines.</strong> That is the skill this chapter is trying to give you. Not a prediction. A disposition.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 10 -->
+  <!-- ============================================================ -->
+  <h2 id="s9"><span class="section-num">9</span> Key Vocabulary &amp; Discussion Questions</h2>
+
+  <h3>Key vocabulary</h3>
+  <div class="vocab-grid">
+    <div class="vocab-card"><div class="vocab-term">Adoption gap</div><div class="vocab-def">The persistent difference between AI capability and organizational deployment &mdash; technology improves far faster than the institutions trying to use it</div></div>
+    <div class="vocab-card"><div class="vocab-term">Productivity paradox</div><div class="vocab-def">The lag between a transformative technology&rsquo;s arrival and its appearance in economic statistics &mdash; first identified by Robert Solow, now recurring with AI</div></div>
+    <div class="vocab-card"><div class="vocab-term">Task-based framework</div><div class="vocab-def">The approach of analyzing automation at the task level rather than the job level &mdash; asking which tasks AI changes, not which jobs it eliminates</div></div>
+    <div class="vocab-card"><div class="vocab-term">Automation</div><div class="vocab-def">AI performing a task instead of the human, removing the human from that step entirely</div></div>
+    <div class="vocab-card"><div class="vocab-term">Augmentation</div><div class="vocab-def">AI making the human better at a task without replacing them &mdash; the human&rsquo;s judgment remains essential</div></div>
+    <div class="vocab-card"><div class="vocab-term">Cognitive offloading</div><div class="vocab-def">Transferring a cognitive task from your brain to an external tool &mdash; beneficial when it frees capacity, harmful when it erodes the skill being offloaded</div></div>
+    <div class="vocab-card"><div class="vocab-term">Deskilling</div><div class="vocab-def">The atrophy of human skills that occurs when AI offloads the tasks that build those skills in the first place</div></div>
+    <div class="vocab-card"><div class="vocab-term">Skill floor</div><div class="vocab-def">The minimum level of capability a worker retains when AI is unavailable &mdash; a measure of resilience rather than peak performance</div></div>
+    <div class="vocab-card"><div class="vocab-term">Skill-biased technological change</div><div class="vocab-def">The tendency of new technologies to increase demand for skilled workers while reducing demand for less-skilled workers, widening inequality</div></div>
+    <div class="vocab-card"><div class="vocab-term">Relational economy</div><div class="vocab-def">The sector of the economy where value is inseparable from the human providing it &mdash; predicted to grow as AI commoditizes standardized production</div></div>
+    <div class="vocab-card"><div class="vocab-term">Jobless prosperity</div><div class="vocab-def">A hypothetical scenario where economic output grows while employment declines &mdash; posing unprecedented political and distributional challenges</div></div>
+    <div class="vocab-card"><div class="vocab-term">Weak links</div><div class="vocab-def">Tasks in the economy that cannot yet be automated and that constrain overall growth, regardless of how fast everything else accelerates</div></div>
+    <div class="vocab-card"><div class="vocab-term">Jevons paradox</div><div class="vocab-def">The observation that increased efficiency in using a resource often leads to <em>greater</em> total consumption of it &mdash; when AI makes work cheaper, organizations may do more work, not less</div></div>
+    <div class="vocab-card"><div class="vocab-term">AI exposure</div><div class="vocab-def">The degree to which an occupation&rsquo;s tasks could be performed or assisted by AI &mdash; measured by both OpenAI (forward-looking) and Anthropic (usage-based)</div></div>
+    <div class="vocab-card"><div class="vocab-term">Occupational mix</div><div class="vocab-def">The distribution of workers across different types of jobs &mdash; tracked by the Yale Budget Lab to detect whether AI is shifting employment patterns</div></div>
+    <div class="vocab-card"><div class="vocab-term">Bottom-up innovation</div><div class="vocab-def">An approach to AI adoption where frontline workers use AI to redesign their own workflows, rather than waiting for top-down directives from leadership</div></div>
+    <div class="vocab-card"><div class="vocab-term">Scaled deployment</div><div class="vocab-def">AI embedded in an organization&rsquo;s core workflows at production scale &mdash; as opposed to pilot projects or experiments, achieved by only 19% of companies as of early 2026</div></div>
+    <div class="vocab-card"><div class="vocab-term">New task creation</div><div class="vocab-def">The process by which technological change creates entirely new categories of work that did not exist before &mdash; historically the primary mechanism by which displaced workers are reabsorbed into the economy</div></div>
+    <div class="vocab-card"><div class="vocab-term">FOBO (Fear of Becoming Obsolete)</div><div class="vocab-def">The anxiety that AI will make your skills, your job, or your career path irrelevant &mdash; widespread among Gen Z workers and graduates entering the workforce in 2026, with 89% of the class of 2026 expressing concern about AI replacing entry-level roles</div></div>
+  </div>
+
+  <h3>Discussion questions</h3>
+  <p style="font-size:13px; color:#666; margin-bottom:0.75rem;">Six questions anchored in the themes of this chapter. These work equally well as written assignments or in-class discussion.</p>
+  <ol class="discussion-list">
+    <li><strong>The Slack channel company (Section 1).</strong> Twelve people ran a company from a single Slack channel using AI agents. Sam Altman said the advantage of small companies is that &ldquo;it&rsquo;s just the AIs &mdash; they don&rsquo;t have to figure out the interface with all the people.&rdquo; What does he mean by that? What specific organizational challenges would a 10,000-person company face in trying to replicate what Tempo did? Use the adoption gap concept from Section 2 to frame your answer.</li>
+    <li><strong>The 84%-to-5% gap (Section 2).</strong> Eighty-four percent of companies expected to achieve scaled AI deployment within a year. Five percent did. The top barrier was unclear ROI, not inadequate technology. Imagine you are advising the CEO of a mid-size insurance company who is frustrated that their AI pilots have not scaled. Using the productivity paradox and the electricity analogy, explain what is probably going wrong and what they should do differently.</li>
+    <li><strong>Tasks, not jobs (Section 4).</strong> Choose a job you are interested in pursuing after graduation. Break it into 8&ndash;10 specific tasks. For each task, classify it as likely to be automated, augmented, or unchanged by AI. Which tasks require human judgment, physical presence, or relationships? Based on your analysis, how do you think this job will change in the next ten years &mdash; and what should you do to prepare?</li>
+    <li><strong>The deskilling dilemma (Section 5).</strong> The Cursor research shows that as AI models improve, developers do more complex work. But the deskilling argument suggests they may also lose foundational skills. Is this a real problem or a false alarm? Consider: did calculators &ldquo;deskill&rdquo; mathematicians? Did GPS &ldquo;deskill&rdquo; navigators? Where does the AI case differ from these earlier examples, if at all?</li>
+    <li><strong>Who gets left behind (Section 5).</strong> U.S. workers use AI at more than three times the rate of European workers. Within the U.S., adoption is concentrated in younger, more educated workers and in certain sectors. Using the concepts of skill-biased technological change and the relational economy, analyze who is most at risk of being left behind by AI &mdash; and propose one policy intervention that could help. Draw on the regulatory tools from Chapter 10.</li>
+    <li><strong>The career question (Section 8).</strong> Andy Hall says he is &ldquo;100xing&rdquo; the productivity of his research lab. The Yale Budget Lab says there is no detectable impact on employment yet. These are not contradictory &mdash; but they create genuine uncertainty for someone planning a career. You are writing a letter to yourself that you will open in 2036. Based on what you have learned in this chapter, what career advice would you give your future self? What would you tell yourself to do now? What would you tell yourself to watch for?</li>
+  </ol>
+
+  <hr>
+  <p style="font-size: 13px; color: #999; text-align: center; margin-top: 1rem;">MIS 432 &middot; AI in Business &middot; For classroom discussion purposes.</p>
+
+  <div class="chapter-nav-bar">
+    <a href="chapter10-regulation.html">&larr; Chapter 10: Regulating Technology</a>
+    <a href="index.html">All Chapters &rarr;</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>MIS 432 &middot; AI in Business &middot; Western Washington University &middot; College of Business and Economics</p>
+  <p style="margin-top:0.5rem;"><a href="index.html">Home</a> &middot; <a href="https://cbe.wwu.edu/people/califfc" target="_blank">Contact</a> &middot; <a href="https://cbe.wwu.edu/dsci/management-information-systems" target="_blank">MIS @ WWU</a> &middot; Free to use for educational purposes</p>
+</footer>
+
+<script>
+  (function () {
+    var dropdowns = document.querySelectorAll('.nav-dropdown');
+    dropdowns.forEach(function (dropdown) {
+      var toggle = dropdown.querySelector('.nav-dropdown-toggle');
+      toggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        var isOpen = !dropdown.classList.contains('open');
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        if (isOpen) {
+          dropdown.classList.add('open');
+          toggle.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        dropdowns.forEach(function (d) {
+          d.classList.remove('open');
+          d.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+        document.activeElement.blur();
+      }
+    });
+  })();
+</script>
+</body>
+</html>
