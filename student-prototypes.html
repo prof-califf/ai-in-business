@@ -433,13 +433,11 @@
 <script>
   // Shuffle tool cards on every page load so no project appears "first"
   const grid = document.getElementById('tools-grid');
-  const cards = Array.from(grid.children).filter(el => el.classList.contains('tool-card'));
+  const cards = Array.from(grid.querySelectorAll('.tool-card'));
   for (let i = cards.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    grid.appendChild(cards[j]);
-    cards[j] = cards[i];
+    [cards[i], cards[j]] = [cards[j], cards[i]];
   }
-  // Re-append remaining cards to finalize shuffle
   cards.forEach(card => grid.appendChild(card));
 </script>
 
