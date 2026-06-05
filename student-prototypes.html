@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Prototypes — MIS 432 | Western Washington University</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0e0e0d;
+    --off-black: #1a1a18;
+    --magenta: #e8197d;
+    --magenta-dark: #c0146a;
+    --white: #ffffff;
+    --off-white: #f6f4f1;
+    --text-dark: #0e0e0d;
+    --text-muted: #3a3a38;
+    --text-light: #6b6b68;
+    --border: #e0ddd8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Space Grotesk', sans-serif; background: var(--white); color: var(--text-dark); }
+
+  /* NAV */
+  nav {
+    background: var(--black);
+    padding: 0.85rem 2rem;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-brand { color: var(--magenta); font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.08em; text-decoration: none; text-transform: uppercase; }
+  .nav-brand span { color: rgba(255,255,255,0.25); font-weight: 400; }
+  .nav-links { display: flex; gap: 1.75rem; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.5); font-family: 'Space Grotesk', sans-serif; font-size: 13px; text-decoration: none; font-weight: 500; transition: color 0.15s; letter-spacing: 0.02em; }
+  .nav-links a:hover { color: var(--magenta); }
+  .nav-links a.active { color: var(--magenta); font-weight: 600; }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    background: var(--black);
+    padding: 3.5rem 2rem 3rem;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(232,25,125,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,25,125,0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 5px;
+    background: var(--magenta);
+  }
+  .hero-inner { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; }
+  .hero-stamp {
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 0.3rem 0.9rem; margin-bottom: 2rem;
+  }
+  .hero h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 72px; font-weight: 700; color: #fff;
+    line-height: 0.95; margin-bottom: 1.25rem;
+    letter-spacing: -0.01em; text-transform: uppercase;
+  }
+  .hero h1 .line2 { display: block; color: var(--magenta); }
+  .hero-sub { font-family: 'Space Grotesk', sans-serif; font-size: 17px; color: rgba(255,255,255,0.75); font-weight: 300; max-width: 560px; margin: 0 auto 0.85rem; line-height: 1.65; letter-spacing: 0.01em; }
+  .hero-tagline { font-family: 'Space Grotesk', sans-serif; font-size: 17px; color: rgba(255,255,255,0.6); font-style: italic; margin-bottom: 3rem; }
+
+  .hero-meta { display: flex; justify-content: center; gap: 0; flex-wrap: wrap; border: 1px solid rgba(232,25,125,0.3); max-width: 420px; margin: 0 auto; }
+  .hero-meta-item { flex: 1; min-width: 100px; padding: 1rem; text-align: center; border-right: 1px solid rgba(232,25,125,0.2); background: rgba(232,25,125,0.05); }
+  .hero-meta-item:last-child { border-right: none; }
+  .hero-meta-num { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; color: var(--magenta); letter-spacing: 0.02em; }
+  .hero-meta-label { font-family: 'Space Grotesk', sans-serif; font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
+
+  /* INTRO */
+  .intro { background: var(--white); padding: 4.5rem 2rem; border-bottom: 1px solid var(--border); }
+  .intro-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .intro h2 { font-family: 'Oswald', sans-serif; font-size: 42px; font-weight: 700; color: var(--text-dark); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.02em; }
+  .intro p { font-size: 15px; color: var(--text-muted); line-height: 1.8; margin-bottom: 0.9rem; font-weight: 400; }
+  .intro-features { display: flex; flex-direction: column; gap: 0.75rem; }
+  .feature-item { display: flex; align-items: flex-start; gap: 0.85rem; background: var(--off-white); border: 1px solid var(--border); border-left: 4px solid var(--magenta); padding: 0.85rem 1rem; }
+  .feature-icon { font-size: 17px; flex-shrink: 0; margin-top: 1px; }
+  .feature-text strong { font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600; color: var(--text-dark); display: block; margin-bottom: 2px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .feature-text span { font-size: 13px; color: var(--text-muted); line-height: 1.5; font-weight: 400; }
+
+  /* SECTION LABELS */
+  .section-label { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--magenta); margin-bottom: 0.35rem; }
+  .section-title { font-family: 'Oswald', sans-serif; font-size: 42px; font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.02em; }
+  .section-sub { font-size: 15px; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.7; font-weight: 400; max-width: 640px; }
+
+  /* TOOLS SECTION */
+  .tools { background: var(--off-white); padding: 4.5rem 2rem; }
+  .tools-inner { max-width: 960px; margin: 0 auto; }
+  .tools-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  @media(max-width:760px){ .tools-grid { grid-template-columns: 1fr; } }
+
+  /* TOOL CARDS */
+  .tool-card { overflow: hidden; border: 1px solid var(--border); box-shadow: 0 2px 16px rgba(0,0,0,0.07); transition: box-shadow 0.2s; display: flex; flex-direction: column; }
+  .tool-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+  .tool-header { padding: 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .tool-header-left { flex: 1; }
+  .tool-label { font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.3rem; opacity: 0.9; }
+  .tool-header h3 { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 0.3rem; line-height: 1.25; text-transform: uppercase; letter-spacing: 0.02em; }
+  .tool-tagline { font-family: 'Space Grotesk', sans-serif; font-size: 13px; opacity: 0.6; color: #fff; font-weight: 400; line-height: 1.5; }
+  .tool-links { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: flex-start; }
+  .btn { display: inline-block; padding: 0.5rem 1.1rem; font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; text-decoration: none; transition: opacity 0.15s; letter-spacing: 0.06em; text-transform: uppercase; }
+  .btn:hover { opacity: 0.82; }
+  .btn-white { background: #fff; }
+  .btn-outline { background: transparent; border: 1.5px solid rgba(255,255,255,0.5); color: #fff; }
+  .tool-body { background: var(--white); padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 1rem; border-top: 1px solid var(--border); flex: 1; }
+  .tool-body-col h4 { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.5rem; }
+  .tool-body-col ul { list-style: none; padding: 0; }
+  .tool-body-col li { font-size: 13px; color: var(--text-muted); padding: 3px 0; padding-left: 1rem; position: relative; font-weight: 400; }
+  .tool-body-col li::before { content: "→"; position: absolute; left: 0; color: var(--magenta); font-size: 11px; }
+
+  /* Tool brand colors */
+  .recsync-header  { background: linear-gradient(135deg, #003f87, #1a6bc4); }
+  .recsync-label   { color: #7ec8e3; }
+  .castwise-header { background: linear-gradient(135deg, #1b4332, #40916c); }
+  .castwise-label  { color: #95d5b2; }
+  .pacific-header  { background: linear-gradient(135deg, #3d0c11, #8b2500); }
+  .pacific-label   { color: #e8a87c; }
+  .elcomal-header  { background: linear-gradient(135deg, #b7410e, #d4740e); }
+  .elcomal-label   { color: #fdd49e; }
+  .dod-header      { background: linear-gradient(135deg, #1b1b2f, #162447); }
+  .dod-label       { color: #a3bded; }
+  .studynet-header { background: linear-gradient(135deg, #533483, #7b2ff7); }
+  .studynet-label  { color: #c4b5fd; }
+  .gotapple-header { background: linear-gradient(135deg, #163d0e, #2d6e1f); }
+  .gotapple-label  { color: #a8d9a0; }
+
+  /* Coming soon badge */
+  .coming-soon-badge {
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 0.25rem 0.7rem;
+  }
+
+  /* FOOTER */
+  footer { background: var(--black); padding: 2rem; text-align: center; border-top: 5px solid var(--magenta); }
+  footer p { font-size: 13px; color: rgba(255,255,255,0.28); font-family: 'Space Grotesk', sans-serif; }
+  footer a { color: var(--magenta); text-decoration: none; }
+  footer a:hover { color: #fff; }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 48px; }
+    .intro-inner { grid-template-columns: 1fr; }
+    .tool-header { flex-direction: column; }
+    .hero-meta-item { min-width: 90px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">MIS 432 <span>·</span> AI in Business</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="student-prototypes.html" class="active">Student Prototypes</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-stamp">MIS 432 · Spring 2026</div>
+    <h1>Student<span class="line2">Prototypes</span></h1>
+    <p class="hero-sub">MIS 432 students spent the quarter studying how real companies use AI. Then they built their own — functional prototypes that trace the full AI value chain from data to business decision. No prior coding experience. All built with Claude.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><div class="hero-meta-num">7</div><div class="hero-meta-label">Prototypes</div></div>
+      <div class="hero-meta-item"><div class="hero-meta-num">7</div><div class="hero-meta-label">Industries</div></div>
+      <div class="hero-meta-item"><div class="hero-meta-num">100%</div><div class="hero-meta-label">Student-Built</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="tools" id="tools">
+  <div class="tools-inner">
+    <div class="section-label">Spring 2026</div>
+    <div class="section-title">The Prototypes</div>
+    <p class="section-sub">Each team identified a real business problem, chose the right AI approach, and built a working proof of concept. These aren't polished apps — they're demonstrations of how AI creates value in a specific context, made real enough to click through, test, and critique.</p>
+
+    <div class="tools-grid" id="tools-grid">
+
+    <!-- RecSync -->
+    <div class="tool-card">
+      <div class="tool-header recsync-header">
+        <div class="tool-header-left">
+          <div class="tool-label recsync-label">Campus Fitness · Recommendation System</div>
+          <h3>RecSync</h3>
+          <div class="tool-tagline">Crowd forecasting and personalized scheduling for WWU's Recreation Center</div>
+        </div>
+        <div class="tool-links">
+          <a href="https://caelynswift.github.io/recsync-wwu/" class="btn btn-white" style="color:#003f87;" target="_blank">Launch Prototype →</a>
+        </div>
+      </div>
+      <div class="tool-body">
+        <div class="tool-body-col">
+          <h4>What It Does</h4>
+          <ul>
+            <li>Hourly congestion scores for every day of the week</li>
+            <li>Personalized time-slot recommendations based on schedule, equipment, and crowd tolerance</li>
+            <li>Workout partner matching with compatibility scoring</li>
+          </ul>
+        </div>
+        <div class="tool-body-col">
+          <h4>AI Concepts Applied</h4>
+          <ul>
+            <li>Recommendation engine with multi-factor scoring</li>
+            <li>Congestion forecasting from synthetic visit data</li>
+            <li>Preference-based matching algorithm</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- CastWise -->
+    <div class="tool-card">
+      <div class="tool-header castwise-header">
+        <div class="tool-header-left">
+          <div class="tool-label castwise-label">Outdoor Recreation · Smart Recommendations</div>
+          <h3>CastWise</h3>
+          <div class="tool-tagline">Fish smarter, not harder — AI-powered fishing recommendations</div>
+        </div>
+        <div class="tool-links">
+          <a href="https://eduardoc03.github.io/CastWise/" class="btn btn-white" style="color:#1b4332;" target="_blank">Launch Prototype →</a>
+        </div>
+      </div>
+      <div class="tool-body">
+        <div class="tool-body-col">
+          <h4>What It Does</h4>
+          <ul>
+            <li>Recommends optimal fishing conditions and locations</li>
+            <li>Factors in weather, season, and user preferences</li>
+            <li>Personalized guidance for different skill levels</li>
+          </ul>
+        </div>
+        <div class="tool-body-col">
+          <h4>AI Concepts Applied</h4>
+          <ul>
+            <li>Recommendation system with contextual inputs</li>
+            <li>Multi-variable scoring and ranking</li>
+            <li>User preference modeling</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pacific Spirits Co -->
+    <div class="tool-card">
+      <div class="tool-header pacific-header">
+        <div class="tool-header-left">
+          <div class="tool-label pacific-label">Beverage Industry · Procurement & Inventory</div>
+          <h3>Pacific Spirits Co.</h3>
+          <div class="tool-tagline">Procurement suite for inventory management, vendor analysis, and purchase orders</div>
+        </div>
+        <div class="tool-links">
+          <a href="https://pacific-spirits-procure.lovable.app/inventory" class="btn btn-white" style="color:#3d0c11;" target="_blank">Launch Prototype →</a>
+        </div>
+      </div>
+      <div class="tool-body">
+        <div class="tool-body-col">
+          <h4>What It Does</h4>
+          <ul>
+            <li>Tracks inventory levels across a spirits catalog</li>
+            <li>Analyzes vendor performance and reliability</li>
+            <li>Generates and manages purchase orders</li>
+          </ul>
+        </div>
+        <div class="tool-body-col">
+          <h4>AI Concepts Applied</h4>
+          <ul>
+            <li>Inventory optimization and replenishment logic</li>
+            <li>Supplier scoring and evaluation</li>
+            <li>Data-driven procurement decisions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- El Comal -->
+    <div class="tool-card">
+      <div class="tool-header elcomal-header">
+        <div class="tool-header-left">
+          <div class="tool-label elcomal-label">Restaurant Operations · Demand Forecasting</div>
+          <h3>El Comal — Demand &amp; Inventory Intelligence</h3>
+          <div class="tool-tagline">Turns two years of POS data into demand predictions, ingredient requirements, and reorder recommendations</div>
+        </div>
+        <div class="tool-links">
+          <a href="https://jonathanly843.github.io/Restaurant_Inventory_Forecasting_PrototypeElComal/" class="btn btn-white" style="color:#b7410e;" target="_blank">Launch Prototype →</a>
+        </div>
+      </div>
+      <div class="tool-body">
+        <div class="tool-body-col">
+          <h4>What It Does</h4>
+          <ul>
+            <li>Forecasts daily customer demand by menu item</li>
+            <li>Projects ingredient burn-down and stock-out dates</li>
+            <li>Smart reorder recommendations with lead-time and MOQ awareness</li>
+          </ul>
+        </div>
+        <div class="tool-body-col">
+          <h4>AI Concepts Applied</h4>
+          <ul>
+            <li>Time-series demand forecasting</li>
+            <li>Inventory burn-down modeling</li>
+            <li>Recipe-level ingredient aggregation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- DoD Bid/No-Bid Engine -->
+    <div class="tool-card">
+      <div class="tool-header dod-header">
+        <div class="tool-header-left">
+          <div class="tool-label dod-label">Defense Contracting · Decision Support</div>
+          <h3>DoD Bid/No-Bid Engine</h3>
+          <div class="tool-tagline">AI-powered decision support for evaluating Department of Defense contract opportunities</div>
+        </div>
+        <div class="tool-links">
+          <a href="https://dod-bid-no-bid-engine-hf5hxeqts3tqpgpxx7hgph.streamlit.app/" class="btn btn-white" style="color:#1b1b2f;" target="_blank">Launch Prototype →</a>
+        </div>
+      </div>
+      <div class="tool-body">
+        <div class="tool-body-col">
+          <h4>What It Does</h4>
+          <ul>
+            <li>Evaluates DoD contract opportunities against company capabilities</li>
+            <li>Scores bid viability across multiple risk and fit dimensions</li>
+            <li>Provides structured bid/no-bid recommendations</li>
+          </ul>
+        </div>
+        <div class="tool-body-col">
+          <h4>AI Concepts Applied</h4>
+          <ul>
+            <li>Multi-criteria decision analysis</li>
+            <li>Risk scoring and threshold modeling</li>
+            <li>Classification with explainable outputs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- StudyNet -->
+    <div class="tool-card">
+      <div class="tool-header studynet-header">
+        <div class="tool-header-left">
+          <div class="tool-label studynet-label">Education · Knowledge Graph & Matching</div>
+          <h3>StudyNet</h3>
+          <div class="tool-tagline">Find your study people — course-aware partner matching with knowledge graph explainability</div>
+        </div>
+        <div class="tool-links">
+          <a href="https://jaytea704.github.io/StudyNet/" class="btn btn-white" style="color:#533483;" target="_blank">Launch Prototype →</a>
+        </div>
+      </div>
+      <div class="tool-body">
+        <div class="tool-body-col">
+          <h4>What It Does</h4>
+          <ul>
+            <li>Matches students by shared courses, availability, and study style</li>
+            <li>Weighted compatibility scoring (courses 45%, availability 30%, style 15%, goals 10%)</li>
+            <li>Knowledge graph visualization showing why each match works</li>
+          </ul>
+        </div>
+        <div class="tool-body-col">
+          <h4>AI Concepts Applied</h4>
+          <ul>
+            <li>Knowledge graphs for relationship modeling</li>
+            <li>Multi-factor matching and ranking</li>
+            <li>Explainable AI — traceable match reasoning</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- GotApple -->
+    <div class="tool-card">
+      <div class="tool-header gotapple-header">
+        <div class="tool-header-left">
+          <div class="tool-label gotapple-label">Agriculture · Farm Management & AI Advisory</div>
+          <h3>GotApple</h3>
+          <div class="tool-tagline">Farm management platform for Washington State apple operations — yield dashboards, variety profiles, and an AI advisor</div>
+        </div>
+        <div class="tool-links">
+          <a href="https://owenwilliams27.github.io/GotApple/" class="btn btn-white" style="color:#163d0e;" target="_blank">Launch Prototype →</a>
+        </div>
+      </div>
+      <div class="tool-body">
+        <div class="tool-body-col">
+          <h4>What It Does</h4>
+          <ul>
+            <li>Season performance dashboard with yield and revenue metrics</li>
+            <li>Growing profiles for top Washington apple varieties</li>
+            <li>AI-powered farm advisor with personalized recommendations from farm report data</li>
+          </ul>
+        </div>
+        <div class="tool-body-col">
+          <h4>AI Concepts Applied</h4>
+          <ul>
+            <li>AI advisory system with contextual farm data</li>
+            <li>Yield analysis and benchmarking</li>
+            <li>Best-practice recommendation engine</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    </div><!-- end tools-grid -->
+  </div>
+</div>
+
+<footer>
+  <p>MIS 432 · AI in Business · <a href="https://www.wwu.edu">Western Washington University</a> · <a href="https://cbe.wwu.edu/dsci/management-information-systems">College of Business and Economics</a></p>
+  <p style="margin-top:0.5rem;"><a href="index.html">← Back to Textbook</a></p>
+</footer>
+
+<script>
+  // Shuffle tool cards on every page load so no project appears "first"
+  const grid = document.getElementById('tools-grid');
+  const cards = Array.from(grid.children).filter(el => el.classList.contains('tool-card'));
+  for (let i = cards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    grid.appendChild(cards[j]);
+    cards[j] = cards[i];
+  }
+  // Re-append remaining cards to finalize shuffle
+  cards.forEach(card => grid.appendChild(card));
+</script>
+
+</body>
+</html>
