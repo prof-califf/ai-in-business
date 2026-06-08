@@ -55,6 +55,10 @@
   .insight-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #d97706; text-transform: uppercase; margin-bottom: 0.3rem; }
   .insight-text { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
 
+  .danger-box { background: #fff5f5; border-left: 4px solid #c53030; border-radius: 0 6px 6px 0; padding: 0.9rem 1.1rem; margin: 1.2rem 0; }
+  .danger-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #c53030; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .danger-text { font-size: 14px; color: #444; line-height: 1.6; margin: 0; }
+
   .pipeline-row { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin: 1rem 0 1.5rem; }
   .pipe-step { background: #fff5f5; border: 1px solid #fc8181; border-radius: 6px; padding: 0.5rem 0.9rem; font-size: 13px; font-weight: 700; color: #c53030; }
   .pipe-arrow { font-size: 14px; color: #a0aec0; }
@@ -326,7 +330,8 @@
     <a href="#s8">8. The Short Game: A Proof of Concept</a>
     <a href="#s9">9. Scaling Experimentation: Explore and Exploit</a>
     <a href="#s10">10. The AI Factory: From Data to Value</a>
-    <a href="#s11">11. Summary Table &amp; Discussion Questions</a>
+    <a href="#s11">11. The Other Side: What Optimization Leaves Out</a>
+    <a href="#s12">12. Summary Table &amp; Discussion Questions</a>
   </div>
 
   <h2 id="s1"><span class="section-num">1</span> Company Background</h2>
@@ -497,7 +502,42 @@
     <div class="insight-text">Competitive advantage often comes not from a single model, but from a system that continuously learns and improves decisions. Data is constantly collected, experiments continuously generate new insights, and decisions are updated based on evidence. This is the AI Factory in action — and it is why Netflix's artwork system gets better over time while a single static algorithm would not.</div>
   </div>
 
-  <h2 id="s11"><span class="section-num">11</span> Summary Table &amp; Discussion Questions</h2>
+  <!-- ============================================================ -->
+  <!-- SECTION 11 - RESPONSIBLE AI -->
+  <!-- ============================================================ -->
+  <h2 id="s11"><span class="section-num">11</span> The Other Side: What Optimization Leaves Out</h2>
+
+  <p>Netflix&rsquo;s artwork system is an elegant piece of engineering. It solves a real problem, it measurably improves the user experience, and it generates business value that compounds over time. But every AI system optimizes for something &mdash; and what it optimizes for determines what it ignores. Before we leave this case, it is worth asking: what is Netflix&rsquo;s system optimizing for, and what falls outside the frame?</p>
+
+  <h3>Engagement is not a neutral metric</h3>
+
+  <p>The artwork system optimizes for <strong>engagement</strong> &mdash; clicks, viewing time, content discovery, session length. Netflix has every reason to maximize these metrics: they correlate with subscriber retention, which is the company&rsquo;s financial lifeblood. But &ldquo;engagement&rdquo; is not the same thing as &ldquo;satisfaction,&rdquo; and it is certainly not the same thing as &ldquo;well-being.&rdquo; A user who watches four hours of television because the platform kept surfacing irresistible thumbnails is highly engaged. Whether that person is better off for the experience is a different question &mdash; one the algorithm is not designed to ask.</p>
+
+  <p>This is not unique to Netflix. Every platform that optimizes for engagement &mdash; YouTube, TikTok, Instagram, Spotify &mdash; faces the same structural tension: the metric that drives revenue (time spent) is not necessarily the metric that serves users best. Netflix has been more restrained than some platforms (it does not sell advertising in most markets, and it added a &ldquo;Are You Still Watching?&rdquo; prompt that voluntarily interrupts engagement). But the underlying incentive is the same: <strong>the system is designed to keep you watching, and it gets better at that goal every day.</strong></p>
+
+  <div class="danger-box">
+    <div class="danger-label">The attention economy</div>
+    <div class="danger-text">Netflix CEO Reed Hastings once said the company&rsquo;s biggest competitor was sleep. He was being candid about what engagement optimization actually means: the system competes for a finite resource &mdash; your attention &mdash; and it has no built-in mechanism for deciding when you have had enough. The AI Factory&rsquo;s feedback loop makes this more powerful over time, not less. Every viewing session generates data that makes the next recommendation more precisely calibrated to what will keep you watching. The question is not whether the system works. It is whether &ldquo;working&rdquo; and &ldquo;serving the user well&rdquo; are always the same thing.</div>
+  </div>
+
+  <h3>Personalization and the filter bubble</h3>
+
+  <p>The artwork system shows different users different images for the same title. The recommendation engine shows different users different titles entirely. At its best, this personalization helps people find content they would genuinely enjoy but would never have discovered on their own. At its worst, it creates what researcher Eli Pariser called a <strong>filter bubble</strong> &mdash; an information environment so precisely tailored to your existing preferences that you never encounter anything that challenges, surprises, or broadens you.</p>
+
+  <p>Netflix&rsquo;s internal research suggests its system does promote discovery &mdash; users watch more diverse content than they would if left to browse on their own. But the system defines &ldquo;diverse&rdquo; relative to its own optimization target. A documentary about climate change and a true-crime series are both &ldquo;new genres&rdquo; for a comedy viewer, but they serve very different functions in a person&rsquo;s media diet. The algorithm does not distinguish between them. It shows you whatever you are most likely to click.</p>
+
+  <h3>Experimentation without consent</h3>
+
+  <p>Netflix runs thousands of A/B tests per year on its users. Most users do not know this is happening. The tests are not disclosed individually, and there is no mechanism for a user to opt out of experimentation while remaining on the platform. Netflix&rsquo;s position &mdash; shared by most large tech platforms &mdash; is that these experiments fall within the scope of normal product improvement and are covered by the terms of service users agree to when they sign up.</p>
+
+  <p>That position is legally defensible. Whether it is ethically sufficient is a separate question. In 2014, Facebook faced significant backlash after publishing a study showing it had manipulated users&rsquo; News Feeds to test whether emotional content affected mood &mdash; an experiment conducted without informed consent. Netflix&rsquo;s experiments are less emotionally charged (artwork selection is low-stakes compared to emotional manipulation), but the principle is similar: <strong>a company is running behavioral experiments on hundreds of millions of people who do not know they are subjects.</strong> The line between &ldquo;product improvement&rdquo; and &ldquo;experimentation on humans&rdquo; is not as clear as the terms of service suggest.</p>
+
+  <div class="insight-box">
+    <div class="insight-label">The pattern across this textbook</div>
+    <div class="insight-text">Every chapter in this course follows the same arc: a company builds a powerful AI system, and it works. The harder question &mdash; and the one this course keeps returning to &mdash; is <em>who</em> it works for, <em>what</em> it optimizes for, and whether the people affected by the system had any say in those choices. Netflix&rsquo;s artwork system is a small-stakes example of a pattern that becomes much higher-stakes in later chapters: Uber&rsquo;s pricing algorithms (Chapter 4), Waymo&rsquo;s safety decisions (Chapter 5), Airbnb&rsquo;s impact on housing markets (Chapter 6), and Epic&rsquo;s clinical AI (Chapter 7). The question is always the same. The stakes keep rising.</div>
+  </div>
+
+  <h2 id="s12"><span class="section-num">12</span> Summary Table &amp; Discussion Questions</h2>
 
   <h3>AI Factory model: Netflix mapped</h3>
   <table class="factory-table">
@@ -533,6 +573,7 @@
     <li><strong>The prediction-decision gap:</strong> A model predicts that Image B will get more clicks than Image A. Walk through all the reasons you might still not switch to Image B. What additional information would you want?</li>
     <li><strong>Automation vs. augmentation:</strong> Netflix automated artwork selection — humans no longer approve each image. Is this appropriate? What could go wrong, and how would you design a safeguard?</li>
     <li><strong>Experimentation ethics:</strong> Netflix experiments on users continuously without their explicit awareness. Given what we know about AI ethics and decision-making, is this acceptable? Where do you draw the line between acceptable testing and manipulation?</li>
+    <li><strong>Optimizing for whom? (Section 11).</strong> Netflix&rsquo;s artwork system optimizes for engagement &mdash; clicks, viewing time, session length. But engagement is not the same as satisfaction, and satisfaction is not the same as well-being. Imagine you are a product manager at Netflix and your team proposes a new feature that increases average viewing time by 12% but user-reported satisfaction stays flat. Do you ship it? What additional information would you want before deciding &mdash; and who, if anyone, should have veto power over an engagement-maximizing feature that users did not ask for?</li>
     <li><strong>Walk the AI Factory:</strong> Using Netflix's artwork system, identify which step in the AI Factory you think creates the most value. Defend your answer with specific evidence from the case.</li>
     <li><strong>Explore vs. exploit:</strong> Netflix must balance showing proven artwork (exploit) vs. testing new options (explore). How would you design the policy for when to explore vs. exploit? What variables would inform that decision?</li>
     <li><strong>Connection to EveryCure:</strong> Both EveryCure and Netflix use the AI Factory pattern. What is fundamentally different about the human-in-the-loop design in each case? Why do you think Netflix automates but EveryCure does not?</li>
