@@ -271,7 +271,7 @@
     <div class="cover-meta">
       <span><strong>Level:</strong> Upper-division undergraduate</span>
       <span><strong>Topics:</strong> Inference vs. training, carbon accounting (Scope 1/2/3), lifecycle assessment, energy externalities</span>
-      <span><strong>Concepts introduced:</strong> 15 key terms</span>
+      <span><strong>Concepts introduced:</strong> 16 key terms</span>
     </div>
     <p style="font-size:13px; color:#6b7280; margin-top:1rem;">
       <strong>Primary source:</strong> This chapter draws on
@@ -281,8 +281,9 @@
       <a href="https://www.cbsnews.com/news/how-ai-driven-data-center-boom-leading-to-skyrocketing-energy-bills/" target="_blank">CBS News (energy bills)</a>,
       <a href="https://www.cbsnews.com/news/big-techs-big-bet-on-nuclear-power-to-fuel-artificial-intelligence/" target="_blank">CBS News (nuclear)</a>, and
       <a href="https://www.npr.org/2026/03/07/nx-s1-5727698/ai-and-power-generation" target="_blank">NPR (off-grid power)</a>, and
-      <a href="https://www.npr.org/2026/05/19/nx-s1-5734480/renewable-energy-utah" target="_blank">NPR (Utah renewables)</a>.
-      Academic sources: <a href="https://arxiv.org/abs/2304.03271" target="_blank">Li et al.</a> (arXiv:2304.03271), <a href="https://arxiv.org/abs/2311.16863" target="_blank">Luccioni et al.</a> (arXiv:2311.16863), <a href="https://www.iea.org/reports/electricity-2024" target="_blank">IEA Electricity 2024&ndash;2025</a>.
+      <a href="https://www.npr.org/2026/05/19/nx-s1-5734480/renewable-energy-utah" target="_blank">NPR (Utah renewables)</a>, and the
+      <a href="https://www.technologyreview.com/2025/05/20/1116327/ai-energy-usage-climate-footprint-big-tech/" target="_blank"><em>MIT Technology Review</em> &ldquo;Power Hungry&rdquo; investigation</a> (May 2025) into AI&rsquo;s per-query energy footprint.
+      Academic sources: <a href="https://arxiv.org/abs/2304.03271" target="_blank">Li et al.</a> (arXiv:2304.03271), <a href="https://arxiv.org/abs/2311.16863" target="_blank">Luccioni et al.</a> (arXiv:2311.16863), <a href="https://www.iea.org/reports/electricity-2024" target="_blank">IEA Electricity 2024&ndash;2025</a>, and projections from <a href="https://eta.lbl.gov/publications/2024-united-states-data-center-energy" target="_blank">Lawrence Berkeley National Laboratory</a> (Dec. 2024).
     </p>
   </div>
 
@@ -324,6 +325,7 @@
     <div class="stat-card"><div class="stat-num">10&times;</div><div class="stat-label">More electricity per ChatGPT query vs. a Google search</div></div>
     <div class="stat-card"><div class="stat-num">267%</div><div class="stat-label">Energy bill increase for Americans near data centers</div></div>
     <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">Independent lifecycle assessments of any frontier AI model</div></div>
+    <div class="stat-card"><div class="stat-num">4.4&rarr;12%</div><div class="stat-label">Projected US electricity going to data centers, 2024&ndash;2028</div></div>
   </div>
 
   <!-- ═══════════════════════════ PART I: THE PROBLEM ═══════════════════════════ -->
@@ -399,6 +401,11 @@
 
   <p>Every time someone asks ChatGPT to write a poem, draft a cover letter, summarize a meeting, or generate an image, the meter runs. One query uses a tiny amount of water and energy. But when hundreds of millions of people do it every day, those tiny amounts add up fast. The IEA (International Energy Agency) flagged data-center electricity as one of the fastest-growing energy demands on Earth this decade.</p>
 
+  <div class="insight-box">
+    <div class="insight-label">What a Single Query Actually Costs</div>
+    <div class="insight-text">Because the big closed models won&rsquo;t share their numbers, the clearest per-query picture comes from independently measuring open-source models. A May 2025 <em>MIT Technology Review</em> investigation did exactly that, working with the University of Michigan&rsquo;s ML.Energy team and researchers at Hugging Face. Their finding that matters most: the type of task drives the cost far more than the number of queries. A short answer from a small text model is almost nothing &mdash; about the energy to ride a few feet on an e-bike. A large text model can use roughly 50&times; more. An image is in the same ballpark as a large text query. But a single five-second AI video uses <strong>more than 700&times; the energy of a high-quality image</strong> &mdash; equivalent to riding about 38 miles on an e-bike, or running a microwave for over an hour. The investigation also confirmed that <strong>roughly 80&ndash;90% of AI&rsquo;s computing energy goes to inference, not training</strong> &mdash; which is exactly why the bill never stops.</div>
+  </div>
+
   <p>Here&rsquo;s the math:</p>
 
   <div class="insight-box">
@@ -457,6 +464,12 @@
   </div>
 
   <p>Some researchers &mdash; like Alexandra Sasha Luccioni, Emma Strubell, and Pengfei Li &mdash; have done partial assessments of smaller or older models. But for the big models that are actually driving the current building boom (GPT-4, Claude, Gemini), the companies have either partially cooperated or declined to participate in independent assessments.</p>
+
+  <p>This isn&rsquo;t a hypothetical reluctance &mdash; it shows up the moment anyone asks for real numbers. When the <em>MIT Technology Review</em> team asked OpenAI, Google, and Microsoft for the energy required to run a single query on their leading models, OpenAI declined to provide figures, Microsoft declined to share how its efficiency research actually translates into its data centers, and Google declined to give inference numbers for Gemini. The researchers leading the effort to measure AI&rsquo;s footprint describe the closed models the same way:</p>
+
+  <div class="callout-quote">&ldquo;The closed AI model providers are serving up a total black box.&rdquo; &mdash; Boris Gamazaychikov, Head of AI Sustainability, Salesforce, quoted in <em>MIT Technology Review</em></div>
+
+  <p>This is the disclosure gap stated plainly. The companies that hold the real per-query energy, water, and carbon data view it as a trade secret &mdash; and possibly as a PR liability &mdash; so they have little incentive to release it. Without that disclosure, it isn&rsquo;t just that we lack good estimates; we have very little to work from at all. Every figure in this chapter, and every figure a critic or a defender of AI cites, is an estimate built on the small slice of data that happens to be public.</p>
 
   <div class="insight-box">
     <div class="insight-label">Why This Matters for Business</div>
@@ -1225,6 +1238,11 @@
     </div>
   </div>
 
+  <div class="insight-box">
+    <div class="insight-label">Why Right-Sizing Is About to Matter More</div>
+    <div class="insight-text">The newest &ldquo;reasoning&rdquo; models work through a problem step by step before answering &mdash; which produces better results on hard tasks, but at a steep energy cost. The <em>MIT Technology Review</em> investigation found that reasoning models can use <strong>up to 43&times; more energy on a simple problem</strong> than a standard model would. So pointing a reasoning model at a routine task isn&rsquo;t a rounding error &mdash; it&rsquo;s a 43&times; one. And because labs are now building reasoning capabilities into their models by default, the &ldquo;use the right tool for the job&rdquo; decision is becoming more consequential, not less. Right-sizing is quietly turning into one of the highest-leverage environmental choices a business actually controls.</div>
+  </div>
+
   <!-- ═══════════════════════════ VENDOR MEETING ═══════════════════════════ -->
 
   <h2 id="s-vendor"><span class="section-num">10</span> What to Ask in a Vendor Meeting</h2>
@@ -1295,6 +1313,8 @@
 
   <p>Everything in this chapter describes a technology and an industry that is less than a decade old and scaling faster than any infrastructure buildout in history. The solutions we covered &mdash; wave-powered floating data centers, nuclear restarts, small modular reactors, off-grid renewable microgrids &mdash; did not exist as serious commercial propositions two years ago. Some will fail. Others will reshape the energy landscape.</p>
 
+  <p>Just how fast is this moving? A December 2024 projection from Lawrence Berkeley National Laboratory &mdash; a Department of Energy lab &mdash; estimated that the share of US electricity going to data centers could <strong>triple between 2024 and 2028, from 4.4% to as much as 12%</strong>. By 2028, AI-specific computing alone could draw enough electricity to equal the annual usage of <strong>22% of US households</strong>. The report was blunt that AI, and the energy-hungry hardware built to run it, is the main reason data-center demand started climbing after holding nearly flat for more than a decade. That trajectory is why nearly every researcher who measures this says the same thing: today&rsquo;s AI footprint is very likely the <em>smallest</em> it will ever be. The numbers in this chapter are a floor, not a ceiling.</p>
+
   <div class="insight-box">
     <div class="insight-label">AI as a catalyst for clean energy</div>
     <div class="insight-text">There is a genuine possibility that AI&rsquo;s energy appetite becomes the forcing function that accelerates renewable energy adoption. The <a href="https://www.iea.org/reports/energy-and-ai/executive-summary" target="_blank">IEA&rsquo;s 2025 <em>Energy and AI</em> report</a> projects that <strong>half of global data center demand growth will be met by renewables</strong> by 2035, supported by storage and grid improvements. Data centers now account for <a href="https://press.spglobal.com/2025-12-09-S-P-Global-Energy-Releases-Key-Clean-Energy-Trends-for-2026-as-AI-Growth-and-Geopolitical-Shifts-Reshape-Global-Energy-Markets" target="_blank">43% of all corporate clean energy procurement</a>. AI itself is also being used to optimize grids, forecast renewable generation, and reduce energy waste &mdash; the IEA estimates that AI-based fault detection can reduce grid outage durations by 30&ndash;50%. The irony would be remarkable: the technology creating the energy problem could become the technology that solves it.</div>
@@ -1329,6 +1349,7 @@
     <div class="vocab-card"><div class="vocab-term">Small modular reactor (SMR)</div><div class="vocab-def">A nuclear reactor designed to be smaller, factory-built, and deployable in modular configurations. Proposed as carbon-free baseload power for data centers, but not yet commercially operational.</div></div>
     <div class="vocab-card"><div class="vocab-term">Power Purchase Agreement (PPA)</div><div class="vocab-def">A long-term contract where a company commits to buying electricity from a specific power source &mdash; such as a wind farm or nuclear plant &mdash; often at a fixed price. Used by tech companies to claim renewable energy use.</div></div>
     <div class="vocab-card"><div class="vocab-term">Per-query disclosure</div><div class="vocab-def">The idea that AI companies should report the energy, water, and carbon cost of each query, broken down by region and model size. Currently proposed in the U.S. AI Environmental Impacts Act and UK AI (Regulation) Bill.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Reasoning model</div><div class="vocab-def">A model that works through a problem in explicit step-by-step stages before answering. This improves quality on hard tasks but is far more energy-intensive &mdash; measured at up to 43&times; the energy of a standard model on a simple problem &mdash; which is why matching the model to the task matters.</div></div>
     <div class="vocab-card"><div class="vocab-term">Right-sizing</div><div class="vocab-def">Matching the AI model&rsquo;s capability to the task&rsquo;s actual requirements. Using a small model for routine tasks and reserving large models for complex reasoning reduces both cost and environmental impact.</div></div>
     <div class="vocab-card"><div class="vocab-term">Energy Efficiency Directive (EED)</div><div class="vocab-def">An EU law requiring large data centers (500+ kW) to report their energy use, water footprint, and renewable energy percentage every year. Currently the most comprehensive mandatory environmental reporting rule for AI infrastructure anywhere in the world.</div></div>
     <div class="vocab-card"><div class="vocab-term">Renewable Energy Certificate (REC)</div><div class="vocab-def">A tradable certificate representing one megawatt-hour of renewable electricity generated. Companies can buy RECs to claim renewable energy use without physically receiving clean power &mdash; an accounting distinction that matters for evaluating vendor sustainability claims.</div></div>
