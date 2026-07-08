@@ -448,14 +448,14 @@
 
   <div class="insight-box">
     <div class="insight-label">Inference at Scale</div>
-    <div class="insight-text">ChatGPT has roughly <strong>800 million weekly users</strong>. Picture each one asking the model ten short text questions a day for a year. At OpenAI&rsquo;s own published figure of ~0.3 mL of water per query, that is approximately <strong>880 million liters of water a year</strong>. Researchers estimate the true figure is 5&ndash;50&times; higher once off-site cooling for electricity generation is included, yielding a range of <strong>4.4 to 44 billion liters per year</strong> &mdash; from one product alone.</div>
+    <div class="insight-text">ChatGPT has roughly <strong>900 million weekly users</strong>. Picture each one asking the model ten short text questions a day for a year. At OpenAI&rsquo;s own published figure of ~0.3 mL of water per query, that is approximately <strong>985 million liters of water a year</strong>. Researchers estimate the true figure is 5&ndash;50&times; higher once off-site cooling for electricity generation is included, yielding a range of <strong>4.9 to 49 billion liters per year</strong> &mdash; from one product alone.</div>
   </div>
 
   <p>The almond comparison works if you only look at training. It falls apart the moment you factor in inference at scale. Training happens once. Inference happens every second of every day, and the companies are building more capacity as fast as they can. Anthropic&rsquo;s April 2026 multi-gigawatt compute deal with Google and Broadcom &mdash; scheduled to start in 2027 &mdash; is pre-committing infrastructure for demand that hasn&rsquo;t even arrived yet.</p>
 
   <h3>The same math works for carbon</h3>
 
-  <p>Take ChatGPT&rsquo;s 800 million weekly users again. Imagine each one generates a single AI image, just once. One AI image takes up to about 11.5 watt-hours of electricity at the high end &mdash; roughly what it takes to charge your phone &mdash; though smaller, newer image models can use a fraction of that. Using the high-end figure, multiply by 800 million people and you get <strong>9.2 gigawatt-hours</strong> of electricity for one round of images. At global average grid emissions (~400g of CO&#8322; per kWh), that&rsquo;s roughly <strong>3,700 tonnes of CO&#8322;</strong> &mdash; the same as about 800 cars driving for a full year. For one round of pictures.</p>
+  <p>Take ChatGPT&rsquo;s 900 million weekly users again. Imagine each one generates a single AI image, just once. One AI image takes up to about 11.5 watt-hours of electricity at the high end &mdash; roughly what it takes to charge your phone &mdash; though smaller, newer image models can use a fraction of that. Using the high-end figure, multiply by 900 million people and you get <strong>10.35 gigawatt-hours</strong> of electricity for one round of images. At global average grid emissions (~400g of CO&#8322; per kWh), that&rsquo;s roughly <strong>4,140 tonnes of CO&#8322;</strong> &mdash; the same as about 900 cars driving for a full year. For one round of pictures.</p>
 
   <p>So if the real cost is this large, why don&rsquo;t the companies&rsquo; sustainability reports say so? Because of how carbon accounting works &mdash; and what it lets you leave out.</p>
 
@@ -751,7 +751,7 @@
         <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Grid carbon intensity:</strong> ~400g CO&#8322;/kWh global average. Source: <a href="https://www.iea.org/reports/electricity-2025/emissions" target="_blank" style="color:#94c8a8;">IEA Electricity 2025</a>.</p>
         <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Model size multipliers:</strong> Estimated. Small models use roughly 0.3&times; the compute of a mid-tier model; large frontier models use roughly 3&times;. No standardized per-query benchmarks exist &mdash; this is itself part of the disclosure problem. Note: these tiers reflect model <em>size</em>, not <em>reasoning depth</em>. Reasoning models, now on by default in many tools, can use far more &mdash; up to ~43&times; on a simple task &mdash; so this calculator is conservative for that kind of usage.</p>
         <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Comparisons:</strong> Household water ~1,140 liters/day US average (<a href="https://www.usgs.gov/mission-areas/water-resources/science/water-use-united-states" target="_blank" style="color:#94c8a8;">USGS</a>). Car emissions ~404g CO&#8322;/mile (<a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle" target="_blank" style="color:#94c8a8;">EPA</a>). Smartphone charge ~12 Wh. Standard water bottle = 500 mL. US average electricity rate ~$0.18/kWh (<a href="https://www.eia.gov/electricity/monthly/epm_table_5_6_a.html" target="_blank" style="color:#94c8a8;">EIA</a>).</p>
-        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Breathing benchmark:</strong> A resting adult exhales ~200g of CO&#8322; per hour (~3.3g/min), produced by normal metabolic respiration. Source: <a href="https://pubmed.ncbi.nlm.nih.gov/18472399/" target="_blank" style="color:#94c8a8;">Torranin et al., respiratory physiology literature</a>. Used to give students a body-scale reference for small carbon numbers.</p>
+        <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Tree absorption benchmark:</strong> A mature tree absorbs roughly ~22 kg (48 lbs) of CO&#8322; per year (~60.3g/day) &mdash; a widely-cited average traced to sources like the USDA Forest Service and European Environment Agency, though actual sequestration varies a lot by species, age, and climate (estimates in the literature range from ~10&ndash;40 kg/year). Used to give students a concrete, actionable-feeling reference for small carbon numbers &mdash; &ldquo;X days for a tree to undo this&rdquo; rather than &ldquo;X minutes of something you&rsquo;d do anyway,&rdquo; which risks making the number feel like it doesn&rsquo;t matter.</p>
         <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Golf course benchmark:</strong> A typical US 18-hole golf course uses ~312,000 gallons/day (~1,181,000 liters/day). Source: <a href="https://www.usga.org/content/dam/usga/pdf/Water%20Resource%20Center/how-much-water-does-golf-use.pdf" target="_blank" style="color:#94c8a8;">USGA &ldquo;How Much Water Does Golf Use&rdquo;</a>; confirmed by <a href="https://www.gcsaa.org/docs/default-source/Environment/phase-2-water-use-survey-full-report.pdf" target="_blank" style="color:#94c8a8;">GCSAA Phase II Water Use report</a>.</p>
         <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">Flight benchmark:</strong> A round-trip passenger flight from New York to Los Angeles is ~4,900 miles. At ~0.41 lbs CO&#8322; per passenger-mile (<a href="https://css.umich.edu/publications/factsheets/sustainability-indicators/carbon-footprint-factsheet" target="_blank" style="color:#94c8a8;">U. of Michigan CSS</a>), that&rsquo;s ~2,010 lbs &rarr; ~912 kg, rounded to <strong style="color:#e8f5ee;">~900 kg (0.9 tonnes) per passenger per round trip</strong>. For context, that&rsquo;s roughly half the weight of a small car in CO&#8322;, produced by one seat on one flight.</p>
         <p style="margin:0 0 8px; color:#c8ddd0;"><strong style="color:#e8f5ee;">TikTok benchmark:</strong> Based on <a href="https://fortune.com/2024/12/13/tiktok-carbon-footprint-emissions-doomscrolling-greece-greenly/" target="_blank" style="color:#94c8a8;">Greenly&rsquo;s estimate</a> of ~50 million tonnes CO&#8322;/year for ~1 billion users averaging ~92 videos/day (~46 minutes). Per video: ~1.49g CO&#8322;, ~3.7 Wh. Per hour: ~120 videos &times; 3.7 Wh = <strong style="color:#e8f5ee;">~444 Wh/hour</strong>. For comparison, 20 minutes of TikTok scrolling (~40 videos) produces roughly the same carbon as generating 13 AI images on a medium model.</p>
@@ -909,6 +909,12 @@
         if (h < 1) return Math.round(h * 60) + ' min';
         return fmt(h) + ' hours';
       }
+      function fmtTreeTime(g) {
+        var days = g / 60.3; // ~22 kg CO2/year absorbed by a mature tree (widely-cited average, e.g. USDA/Arbor Day/EEA) = ~60.3g/day
+        if (days < 1) return Math.round(days * 24) + ' hours';
+        if (days < 30) return fmt(days) + ' days';
+        return fmt(days / 30) + ' months';
+      }
       var techItems = [
         { icon: '\uD83C\uDFB5', title: 'TikTok scrolling', value: fmtHours(fp.energy / 444), color: '#d4870e' },
         { icon: '\uD83C\uDFA5', title: 'Netflix streaming', value: fmtHours(fp.carbon / 55), color: '#d4870e' },
@@ -918,7 +924,7 @@
       var envItems = [
         { icon: '\uD83D\uDCA7', title: 'Water consumed', value: fmt(fp.wLow) + '&ndash;' + fmt(fp.wHigh) + ' L', sub: '\u2248 ' + fmt(userWaterMid / 0.5) + ' water bottles (500mL)', color: '#94c8a8' },
         { icon: '\u26A1', title: 'Electricity used', value: fmt(fp.energy) + ' Wh', sub: '\u2248 $' + (fp.energy / 1000 * 0.18).toFixed(2) + ' at US avg rate ($0.18/kWh)', color: '#94c8a8' },
-        { icon: '\uD83C\uDF2B\uFE0F', title: 'CO\u2082 emitted', value: fmt(fp.carbon) + 'g', sub: '\u2248 ' + Math.round(fp.carbon / 3.3) + ' min of you just breathing', color: '#94c8a8' }
+        { icon: '\uD83C\uDF33', title: 'CO\u2082 emitted', value: fmt(fp.carbon) + 'g', sub: '\u2248 ' + fmtTreeTime(fp.carbon) + ' for a tree to re-absorb this much CO\u2082', color: '#94c8a8' }
       ];
       var everydayItems = [
         { icon: '\uD83D\uDE97', title: '= driving a car', value: fmt(fp.carbon / 404) + ' miles', color: '#8bb8d0' },
@@ -952,7 +958,7 @@
           + 'Carbon: ' + fmt(fp.energy) + ' Wh &divide; 1,000 &times; 400g/kWh = <strong style="color:#e8f5ee;">' + fmt(fp.carbon) + 'g CO\u2082</strong>. '
           + 'Water (midpoint): <strong style="color:#e8f5ee;">' + fmt(wMid) + ' liters</strong> (\u2248 ' + fmt(wMid / 0.5) + ' water bottles at 500mL). '
           + 'Electricity cost: ' + fmt(fp.energy) + ' Wh &divide; 1,000 &times; $0.18/kWh = <strong style="color:#e8f5ee;">$' + (fp.energy / 1000 * 0.18).toFixed(2) + '</strong>. '
-          + 'Breathing: ' + fmt(fp.carbon) + 'g &divide; 3.3g/min = <strong style="color:#e8f5ee;">' + Math.round(fp.carbon / 3.3) + ' minutes</strong> (~200g CO\u2082/hr exhaled at rest).'
+          + 'Tree absorption: ' + fmt(fp.carbon) + 'g &divide; 60.3g/day = <strong style="color:#e8f5ee;">' + fmtTreeTime(fp.carbon) + '</strong> for a mature tree to absorb the same amount (~22 kg CO\u2082/year per tree, widely-cited average).'
           + '<br><br><strong style="color:#d4870e;">Technology comparisons:</strong> '
           + 'TikTok: ' + fmt(fp.energy) + ' Wh &divide; 444 Wh/hr = <strong style="color:#e8f5ee;">' + fmt(fp.energy / 444) + ' hours</strong> (1 hr &asymp; 120 videos &times; 3.7 Wh; avg user watches ~46 min/day, ~92 videos). '
           + 'Netflix: ' + fmt(fp.carbon) + 'g CO\u2082 &divide; 55g/hr = <strong style="color:#e8f5ee;">' + fmt(fp.carbon / 55) + ' hours</strong>. '
